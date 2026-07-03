@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- License changed from MIT to Apache-2.0 (patent grant; provenance kept in
+  NOTICE). v0.2 work begins: harder worlds (dense clutter, moving
+  obstacles) with baseline measurements before any model changes.
+
 ## 0.1.0 — 2026-07-04
 
 The port: the validated world-model stack from

@@ -117,4 +117,4 @@ Grew out of [nanodrone-ai](https://github.com/csinghans/nanodrone-ai) — a
 30-lesson bilingual course that ends where this repo begins. 繁體中文的入門
 導讀請從課程的[從這裡開始](https://github.com/csinghans/nanodrone-ai/blob/main/docs/zh-TW/START-HERE.md)出發。
 
-MIT licensed.
+Licensed under [Apache-2.0](LICENSE) (see [NOTICE](NOTICE) for provenance).
