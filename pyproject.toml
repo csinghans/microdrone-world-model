@@ -11,7 +11,16 @@ requires-python = ">=3.10"
 dependencies = []
 
 [tool.setuptools]
-packages = ["world_model", "planner", "sim", "datasets", "eval", "scripts"]
+packages = [
+    "world_model",
+    "planner",
+    "sim",
+    "datasets",
+    "eval",
+    "scripts",
+    "skills",
+    "skills.gap_flight",
+]
 
 [tool.black]
 line-length = 88
