@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- **G1 (motion-aware labels + hard-mix data, world model retrained):**
+  per-world AUC@32 classic/dense/moving = 0.86/0.82/0.88 — the oracle fix
+  lands (moving is now *detectable*: moving@0.8 wm crash 83 % → 47 %, and
+  the privileged-direction reactive with the motion-taught danger-now head
+  drops to 3 % at moving@1.2). But the recalibrated probabilities broke the
+  hand MPC's fixed margins on classic/dense (sweep 30/33/23/3/17 %,
+  dense up to 90 %) — the third measured instance of the same refrain: a
+  better detector is not a better flight through hand-tuned margins. Dense
+  remains a memory problem, as pre-registered. Consequences: step ② (GRU)
+  attacks dense/FOV; step ③ (policy retrain on the new model) is now
+  *required*, not optional — the decision layer must re-fit the new
+  probability landscape.
+
 - License changed from MIT to Apache-2.0 (patent grant; provenance kept in
   NOTICE).
 - v0.2 opens with harder worlds: `spawn_dense_pillars` (5-7 pillars, two
