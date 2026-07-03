@@ -32,11 +32,13 @@ import torch
 import torch.nn as nn
 
 from datasets.intervention_labels import HORIZONS, counterfactual_labels, window_valid
+from datasets.metric_labels import polar_occupancy
 from planner.action_set import A_NORM, ACTION_NAMES, ACTION_VECS, FORWARD
 from sim.envs import CTRL_HZ
 from sim.scenarios import DANGER_R, FOV_HALF_DEG, RADII
 from world_model.collision_head import CollisionHeads, DangerNowHead
 from world_model.encoder import Encoder
+from world_model.grounding import GroundingHead
 from world_model.losses import augment_torch, ema_update, roc_auc, variance_guard
 from world_model.predictor import MultiPredictor
 from world_model.temporal import K_WIN, TemporalEncoder
@@ -45,6 +47,8 @@ LAMBDA_VAR = 1.0  # anti-collapse (VICReg-style variance hinge)
 LAMBDA_COL = 1.0  # executed-action collision-head weight (real flown future)
 LAMBDA_CF = 1.0  # counterfactual collision weight (the ranking supervision)
 LAMBDA_NOW = 0.5  # danger-now head weight (the reactive baseline signal)
+LAMBDA_GND = 0.5  # metric grounding aux weight (train-only head; part of the
+# M1 knob definition — changing it is a new knob, not a tweak)
 GAP8_BUDGET_KB = 512
 MODEL = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -190,6 +194,7 @@ def train(
     seed: int = 0,
     robust: bool = False,
     temporal: bool = False,
+    ground: bool = False,
 ) -> tuple:
     """Train the nano world model on a sequence-format dataset dict and return
     (checkpoint dict, metrics dict). `robust=True` adds appearance
@@ -198,7 +203,10 @@ def train(
     over the last K_WIN frame latents and feeds its state to the predictor
     and every head — memory inside the model (v3 checkpoints); the JEPA
     target stays frame-level, so the memory must earn its keep by predicting
-    plain future frames better."""
+    plain future frames better. `ground=True` adds the v0.5 metric-grounding
+    auxiliary: a train-only head regressing the FOV-honest polar occupancy
+    grid from the frame latent (privileged labels = the perfect-4D-GS upper
+    bound); the head is dropped at deploy, so the flight budget is unmoved."""
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
@@ -230,6 +238,13 @@ def train(
     now_all = torch.tensor(
         (data["dists"].reshape(R * L) < DANGER_R).astype(np.float32)
     ).to(device)
+    gnd = (
+        torch.tensor(polar_occupancy(data).reshape(R * L, -1).astype(np.float32)).to(
+            device
+        )
+        if ground
+        else None
+    )
     tr_frames = np.array([r * L + t for r in tr_rolls for t in range(L)])
     c_all = torch.tensor(tr_frames).to(device)
     # frames where the *visible* candidate labels disagree carry the ranking
@@ -255,6 +270,7 @@ def train(
     cheads = CollisionHeads().to(device)
     nhead = DangerNowHead().to(device)
     tgru = TemporalEncoder().to(device) if temporal else None
+    ghead = GroundingHead().to(device) if ground else None
 
     k_offs = torch.arange(K_WIN - 1, -1, -1, device=device)
 
@@ -283,6 +299,9 @@ def train(
         + list(nhead.parameters())
         + (list(tgru.parameters()) if temporal else [])
     )
+    n_deploy = sum(p.numel() for p in params)  # the flight stack, aux excluded
+    if ground:
+        params = params + list(ghead.parameters())
     opt = torch.optim.Adam(params, lr=1e-3)
     bce = nn.BCEWithLogitsLoss()
     bce_none = nn.BCEWithLogitsLoss(reduction="none")
@@ -323,12 +342,16 @@ def train(
             # danger-now stays frame-level: it is the honest REACTIVE baseline,
             # and a baseline that borrows the memory stops being one
             now_loss = bce(nhead(z_c_last), now_all[cb])
+            # metric grounding is frame-level too: "where is stuff NOW" — the
+            # predictor is what carries it forward, not the head
+            gnd_loss = bce(ghead(z_c_last), gnd[cb]) if ground else 0.0
             (
                 pred_loss
                 + LAMBDA_VAR * var_loss
                 + LAMBDA_COL * col_loss
                 + LAMBDA_CF * cf_loss
                 + LAMBDA_NOW * now_loss
+                + LAMBDA_GND * gnd_loss
             ).backward()
             opt.step()
             ema_update(tgt, enc)
@@ -370,15 +393,20 @@ def train(
         dtype=np.float32,
     )
     with torch.no_grad():
-        now_scores = (
-            torch.cat(
-                [
-                    torch.sigmoid(nhead(state_at(now_idx[i : i + 512], False)[1]))
-                    for i in range(0, len(now_idx), 512)
-                ]
+        z_lasts = torch.cat(
+            [
+                state_at(now_idx[i : i + 512], False)[1]
+                for i in range(0, len(now_idx), 512)
+            ]
+        )
+        now_scores = torch.sigmoid(nhead(z_lasts)).cpu().numpy()
+        gnd_auc = (
+            roc_auc(
+                torch.sigmoid(ghead(z_lasts)).cpu().numpy().ravel(),
+                gnd[now_idx].cpu().numpy().ravel(),
             )
-            .cpu()
-            .numpy()
+            if ground
+            else None
         )
     now_auc = roc_auc(now_scores, now_lbl)
     side, n_side = veer_ranking(data, va_rolls, enc, pred, cheads, device, tgru=tgru)
@@ -389,13 +417,13 @@ def train(
         )
         print("[INFO] veer-ranking widened to all rollouts (val had too few frames)")
 
-    n_params = sum(p.numel() for p in params)
     ckpt = {
         "encoder": enc.state_dict(),
         "predictor": pred.state_dict(),
         "collision_heads": cheads.state_dict(),
         "now_head": nhead.state_dict(),
         **({"temporal": tgru.state_dict()} if temporal else {}),
+        **({"grounding": ghead.state_dict()} if ground else {}),
         "meta": {
             "version": 3 if temporal else 2,
             "D": int(z_t.shape[1]),
@@ -416,7 +444,18 @@ def train(
         "now_auc": now_auc,
         "side": side,
         "n_side": n_side,
-        "int8_kb": n_params / 1024,  # weights only; the eval reports the full budget
+        # deploy weights only (the eval reports the full budget); the grounding
+        # aux head is train-only and priced separately so the 512 KB line is
+        # honest about what actually flies
+        "int8_kb": n_deploy / 1024,
+        **(
+            {
+                "gnd_auc": gnd_auc,
+                "aux_kb": sum(p.numel() for p in ghead.parameters()) / 1024,
+            }
+            if ground
+            else {}
+        ),
         "n_train": len(tr),
         "n_val": len(va),
     }

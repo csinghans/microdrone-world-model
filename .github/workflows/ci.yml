@@ -39,6 +39,8 @@ jobs:
         run: |
           python -m planner.action_set
           python -m datasets.intervention_labels
+          python -m datasets.metric_labels
+          python -m world_model.grounding
           python -m world_model.encoder
           python -m world_model.predictor
           python -m world_model.collision_head
@@ -76,6 +78,7 @@ jobs:
           pip install --no-deps git+https://github.com/utiasDSL/gym-pybullet-drones.git
           pip install -e .
       - run: python -m scripts.train --selftest
+      - run: python -m scripts.train --selftest --ground
       - run: python -m planner.learned_policy
       - run: python -m scripts.demo --selftest
       - run: python -m eval.eval_latency_budget --selftest
