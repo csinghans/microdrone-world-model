@@ -54,4 +54,14 @@ Config: {"worlds": ["classic", "dense", "moving", "gap"], "x_progress": true, "e
 **Gate verdict: guard_regression**
 
 ### Researcher notes
-(unattended run)
+Both targets passed with room to spare (92 %/83 % vs bars 85/70; transit
+rate 98 %, margin 0.04 -> 0.25 m): the K1 hypothesis is fully confirmed —
+one diet share of the fence let the crit-ring gradient teach the transit.
+The bill: guard:sweep@2.0 regressed to 13 % (bar 10 %, held at n=60) — the
+familiar refrain, a quarter of the diet went to the fence and fast-solo
+exposure paid. K2 (gap x2) and K3 (narrow emphasis) both address gap-side
+weaknesses that do not exist; the actual deficit is not on the schedule.
+Deviating per the charter: KD1 = identical mixture, 1.5x budget (450k) —
+if the regression is dilution of per-world gradient steps, restoring the
+step count without touching the mixture should close it. Single knob:
+timesteps.
