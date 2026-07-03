@@ -68,6 +68,10 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   never clobber real checkpoints.
 - Long runs go in background queues with `*-DONE` echo markers; deviation
   knob JSONs must live at a persistent path (not a sandboxed tmp dir).
+- Never judge a run by `... | tail -N` + `&&`: a pipe masks the exit code,
+  and stderr (unbuffered) lands *before* block-buffered stdout, so the
+  traceback is exactly what tail cuts off. Capture the full log to a file
+  and `echo EXIT=$?` — a green-looking tail hid a failed smoke once.
 - Current champions: general = `output/ppo_wm_policy_edge_hard_xp.zip`
   (hard worlds + odometry pin + edge diet); gap-flight =
   `experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip`.
