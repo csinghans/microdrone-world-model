@@ -56,6 +56,7 @@ def _policies(enc, pred, cheads, nhead, meta):
         ("learned", False, False, False, False, False),
         ("learned-hard", False, False, False, True, False),
         ("learned-hard-xp", False, False, False, True, True),
+        ("learned-hard-xp-eb", False, True, False, True, True),
         ("learned-rnn", True, False, False, False, False),
         ("learned-rnn-edge", True, True, False, False, False),
         ("learned-rnn-curr", True, False, True, False, False),
@@ -109,6 +110,7 @@ COLORS = {
     "learned-rnn-curr": "tab:brown",
     "learned-hard": "tab:cyan",
     "learned-hard-xp": "tab:olive",
+    "learned-hard-xp-eb": "tab:pink",
 }
 LABELS = {
     "reactive": "reactive",
@@ -116,6 +118,7 @@ LABELS = {
     "learned": "learned (stacked memory)",
     "learned-hard": "learned (stacked, hard-world diet)",
     "learned-hard-xp": "learned (hard diet + odometry pin)",
+    "learned-hard-xp-eb": "learned (hard + pin + edge-biased speeds)",
     "learned-rnn": "learned (LSTM memory)",
     "learned-rnn-edge": "learned (LSTM, edge-biased speeds)",
     "learned-rnn-curr": "learned (LSTM, mixed-diet curriculum)",

@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased (v0.3 campaign: the dense hole)
+
+- **H1 (the odometry map pin):** one knob on top of the v0.2 champion —
+  each observation step carries the drone's own corridor progress
+  (x/GOAL_X, pure odometry), the anchor that lets the stacked history be
+  spatially registered. Result: **dense 37 % → 17 %** @0.8 and
+  **50 % → 33 %** @1.2 (both pre-registered targets beaten), moving@0.8
+  33 % → 13 % (clearance 0.61 m), home sweep a perfect 0/0/0/0/10 %,
+  cluttered 0 %, fast single-pillar 8 % → 2 %. The bill, confirmed real at
+  n=60 (18 % vs 38 %): **moving@1.2 regressed** — the pin buys a spatial
+  prior that a fast crosser violates. Same refrain as every diet knob:
+  patch the band you point at, watch the hole move — but this trade closes
+  four cells and opens one.
+
 ## 0.2.0 — 2026-07-04
 
 Harder worlds, attacked on all three axes — each gate measured, two wins
