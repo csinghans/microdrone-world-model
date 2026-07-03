@@ -1,7 +1,7 @@
 {
  "skill": "gap-flight",
  "skill_version": "1",
- "status": "running",
+ "status": "passed",
  "targets_frozen": [
   {
    "cell": "gap@1.0",
@@ -382,6 +382,192 @@
    },
    "git": {
     "commit": "aad2f63"
+   }
+  },
+  {
+   "id": "KD1",
+   "kind": "policy",
+   "desc": "K1 mixture, 1.5x budget (dilution fix)",
+   "hypothesis": "sweep@2.0 regression is per-world gradient dilution; more steps, same mixture",
+   "config": {
+    "worlds": [
+     "classic",
+     "dense",
+     "moving",
+     "gap"
+    ],
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 450000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
+    "sha256": "d5a50b85946d687c"
+   },
+   "cells": {
+    "gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.13333333333333333,
+     "reached": 1.0,
+     "success": 0.8666666666666667,
+     "clearance_mean": 0.3858473397382451,
+     "custom": {
+      "transited": 0.95,
+      "gap_margin": 0.2404539902183221
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 10000,
+      "crash": 0.13333333333333333,
+      "reached": 1.0,
+      "success": 0.8666666666666667,
+      "clearance_mean": 0.3858473397382451,
+      "custom": {
+       "transited": 0.95,
+       "gap_margin": 0.2404539902183221
+      }
+     }
+    },
+    "gap@1.5": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.1,
+     "reached": 1.0,
+     "success": 0.9,
+     "clearance_mean": 0.3533856888900319,
+     "custom": {
+      "transited": 1.0,
+      "gap_margin": 0.2141349852467314
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.5454334167712076,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.0,
+      "reached": 1.0,
+      "success": 0.0,
+      "clearance_mean": 0.5454334167712076,
+      "custom": {}
+     }
+    },
+    "guard:sweep@1.0": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.623560535372814,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.0,
+      "reached": 1.0,
+      "success": 0.0,
+      "clearance_mean": 0.623560535372814,
+      "custom": {}
+     }
+    },
+    "guard:sweep@1.5": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.620982872499648,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.0,
+      "reached": 1.0,
+      "success": 0.0,
+      "clearance_mean": 0.620982872499648,
+      "custom": {}
+     }
+    },
+    "guard:sweep@2.0": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.1,
+     "reached": 0.9833333333333333,
+     "success": 0.0,
+     "clearance_mean": 0.5039322634679515,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.1,
+      "reached": 0.9833333333333333,
+      "success": 0.0,
+      "clearance_mean": 0.5039322634679515,
+      "custom": {}
+     }
+    }
+   },
+   "gate": {
+    "verdict": "passed",
+    "criteria": [
+     {
+      "name": "gap@1.0 success>=0.85",
+      "kind": "target",
+      "measured": 0.8666666666666667,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "gap@1.5 success>=0.7",
+      "kind": "target",
+      "measured": 0.9,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@1.0 crash<=0.05",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@1.5 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.1,
+      "pass": true,
+      "rechecked": true
+     }
+    ],
+    "guards_ok": true
+   },
+   "timing": {
+    "started": "2026-07-03 10:52 UTC",
+    "ended": "2026-07-03 11:16 UTC"
+   },
+   "git": {
+    "commit": "be5a8af"
    }
   }
  ]

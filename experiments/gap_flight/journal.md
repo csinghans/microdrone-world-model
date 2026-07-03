@@ -88,4 +88,26 @@ Config: {"worlds": ["classic", "dense", "moving", "gap"], "x_progress": true, "e
 **Gate verdict: passed**
 
 ### Researcher notes
-(unattended run)
+The dilution hypothesis held: identical mixture at 1.5x budget closed the
+fast-solo regression (13 % -> 10 %, on the bar, held at n=60) while the gap
+wins stayed (87 %/90 %, transit 95 %/100 %, margin ~0.22 m). Campaign
+passed at knob 3 of 4. One harness error occurred before this run (a
+deviation-spec path landed in a sandboxed tmp dir) — fixed and re-launched
+per the charter; no measurement was retried.
+
+## Campaign summary — gap-flight v1: PASSED
+
+| gate | gap@1.0 | gap@1.5 | worst guard | verdict |
+|---|---|---|---|---|
+| K0 zero-shot champion | 27 % | 23 % | all green | honest failure (as pre-registered) |
+| K1 gap joins the diet | 92 % | 83 % | sweep@2.0 13 % FAIL | targets smashed, one guard paid |
+| KD1 deviation: 1.5x budget | **87 %** | **90 %** | sweep@2.0 10 % PASS | **passed** |
+
+Arc: the champion charges the fence blind (warn rings saturate in-gap; the
+crit heads had never steered this geometry) -> one diet share of the fence
+teaches the transit -> the diet's bill lands on fast-solo exposure -> more
+steps, same mixture, pays it. The loop exercised every clause it was built
+with: pre-registered bars, n=60 rechecks (7 of them), guards, a scheduled-
+knob skip with written rationale, a deviation knob, and a harness-error
+recovery. Champion artifact: artifacts/ppo_gap_flight_KD1.zip.
+
