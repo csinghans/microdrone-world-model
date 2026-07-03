@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (v0.4: the research loop becomes a program)
+## 0.4.0 — 2026-07-04 (the research loop becomes a program)
 
 - **First autonomous campaign: gap-flight, PASSED (knob 3 of 4).**
   K0 zero-shot champion: 27 % success — the pre-registered honest failure
