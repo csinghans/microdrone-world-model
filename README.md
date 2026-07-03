@@ -4,13 +4,13 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-🚧 **Status: v0.1 — port complete, benchmark reproduction running.** The
-validated baseline below shipped as
+**Status: v0.1.0 — ported and reproduced.** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
-this repo re-homes it as a clean research package. The full pipeline already
-runs here (the demo reproduces the course's numbers exactly from the same
-checkpoint); the from-scratch benchmark reproduction is queued and the table
-below flips to ✅ per row as it lands.
+this repo re-homes it as a clean research package and re-ran the entire
+pipeline from scratch — twice — to separate what reproduces from what
+varies with the training draw. See the two-tier benchmark below: the
+*mechanisms* reproduce every time; the *point numbers* carry honest
+run-to-run ranges.
 
 ## Why this exists
 
@@ -60,17 +60,33 @@ python -m scripts.evaluate --seeds 60                # 7. every policy, same cou
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
 
-## The validated baseline (measured in simulation; reproduction in this layout in progress)
+## The benchmark, two tiers (course draw + two fresh from-scratch draws here)
 
-| claim | number | reproduced here |
-|---|---|---|
-| collision prediction, 4 horizons (83–667 ms) | AUC ~**0.96** | ⏳ |
-| "which way to dodge is safer" ranking | **1.00** (chance 0.5) | ⏳ |
-| demo course: trigger lead over reactive | **~500 ms** earlier | ✅ (same checkpoint) |
-| learned policy, 0.8–1.6 m/s sweep | **0 %** crashes (150 courses) | ⏳ |
-| reactive baseline at the same speeds | up to **60 %** crashes | ⏳ |
-| whole stack (weights + activations + workspace) | **137.3 KB** < 512 KB, ~8 ms/decision | ✅ |
-| sim-to-real gap priced → bought back | AUC 0.96 → 0.82 → **0.92** | ⏳ |
+**Tier 1 — mechanisms: reproduced on every draw.**
+
+| claim | course | draw 1 | draw 2 |
+|---|---|---|---|
+| "which way to dodge is safer" (veer-ranking, chance 0.5) | **1.00** | **1.00** | **1.00** |
+| whole stack: weights + activations + workspace | **137.3 KB**, ~8 ms/decision | 137.3 KB | 137.3 KB |
+| reactive collapses with speed (crash @1.6 m/s) | 60 % | 63 % | 57 % |
+| the world model holds at speed (crash @1.6 m/s) | 10 % | 20 % | 10 % |
+| anticipation triggers earlier (mean lead, cluttered) | +243 ms | — | +193 ms |
+| false evasions on clear courses | 0 % | 0 % | 0 % |
+| robust retrain never hurts the shifted AUC | ✔ | ✔ | ✔ |
+
+**Tier 2 — point numbers: honest run-to-run ranges.**
+
+| quantity | course draw | fresh draws here | note |
+|---|---|---|---|
+| collision AUC @667 ms (val split) | 0.96 | 0.92 / 0.85 (0.89–0.93 on held-out sets) | tracks the training draw and the val split |
+| hand-MPC cluttered crash tail | 16 % | 10 % / 9 % | the FOV/memory limit, always present |
+| learned policy, 0.8–1.6 m/s sweep | **0 % everywhere** | 0–30 % per band | the all-zero result came from a strong-model draw; policy quality tracks world-model quality |
+| priced appearance gap (clean → shifted AUC) | 0.96 → 0.82 | ≤ 0.02 drop | gap size tracks how appearance-overfit the clean model is; the buy-back direction held everywhere |
+
+The split is the point: **claims about mechanisms survive retraining;
+claims about the third decimal do not.** Single-draw numbers (including the
+course's) should be read with that in mind — this repo publishes both tiers
+so nobody has to take a best run's word for it.
 
 Also inherited and kept honest: the four-run memory-architecture study
 (stacked vs LSTM vs edge-biased diet vs curriculum — the stack never lost

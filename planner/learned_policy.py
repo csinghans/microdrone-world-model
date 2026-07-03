@@ -315,12 +315,13 @@ def train(
             ent_coef=0.01,
             n_steps=n_steps,
             policy_kwargs=dict(lstm_hidden_size=lstm_size),
+            seed=seed0,
             verbose=0,
         )
     else:
         from stable_baselines3 import PPO
 
-        model = PPO("MlpPolicy", env, ent_coef=0.01, verbose=0)
+        model = PPO("MlpPolicy", env, ent_coef=0.01, seed=seed0, verbose=0)
     model.learn(total_timesteps=timesteps)
     out = out or zip_path(recurrent, randomize, edge_bias)
     os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -351,6 +352,7 @@ def train_curriculum(
         ent_coef=0.01,
         n_steps=n_steps,
         policy_kwargs=dict(lstm_hidden_size=lstm_size),
+        seed=seed0,
         verbose=0,
     )
     done = 0
