@@ -48,13 +48,21 @@ from sim.envs import (
     make_ctrl,
     make_env,
 )
-from sim.scenarios import DANGER_R, nearest_planar, spawn_pillars
+from sim.scenarios import (
+    DANGER_R,
+    MovingCrosser,
+    nearest_planar,
+    spawn_dense_pillars,
+    spawn_pillars,
+)
 
 OUT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     "output",
     "wm_dataset.npz",
 )
+MAX_PIL = 8  # meta arrays hold up to this many pillars (NaN-padded)
+WORLD_IDS = {"classic": 0, "dense": 1, "moving": 2}
 
 
 def _schedule(rng, length: int, passive: bool):
@@ -74,18 +82,30 @@ def _schedule(rng, length: int, passive: bool):
     return ids, seg
 
 
-def gen(n_rollouts: int, length: int, seed: int = 0, randomize: bool = False) -> dict:
+def gen(
+    n_rollouts: int,
+    length: int,
+    seed: int = 0,
+    randomize: bool = False,
+    worlds: tuple = ("classic",),
+) -> dict:
     """Fly `n_rollouts` fresh intervention trials and return the raw sequences:
     frames (uint8), held commands, nearest-pillar distances, drone positions,
-    plus per-rollout metadata (pillar layout, per-step segment ids, in-path
-    flag).
+    plus per-rollout metadata (initial pillar layout, per-pillar planar
+    velocity, world id, per-step segment ids, in-path flag).
+
+    `worlds` cycles per rollout across scene kinds: "classic" (2-3 pillars),
+    "dense" (5-7, two in-path) and "moving" (an aimed crosser + clutter).
+    Moving scenes advance every control step; `dists` always scores against
+    the *current* geometry, and `pillars` + `pillar_vel` store the initial
+    positions + velocities so the label oracle can extrapolate pil(t)
+    analytically.
 
     `randomize=True` randomizes the *plant* as well as the scene: random
     pillar shape/colour, 0-2 control steps of command latency, and ±8 %
     per-step actuation noise on the executed command. The RECORDED action
     stays the clean commanded one — the model conditions on intent, reality
-    wobbles, and the labels come from where the drone really went — which is
-    precisely the robustness a deployed controller needs."""
+    wobbles, and the labels come from where the drone really went."""
     env = make_env()
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
     rng = np.random.default_rng(seed)
@@ -97,16 +117,30 @@ def gen(n_rollouts: int, length: int, seed: int = 0, randomize: bool = False) ->
     seg = np.zeros((R, L), dtype=np.int16)
     dists = np.zeros((R, L), dtype=np.float32)
     pos = np.zeros((R, L, 3), dtype=np.float32)
-    pillars_meta = np.full((R, 3, 2), np.nan, dtype=np.float32)
+    pillars_meta = np.full((R, MAX_PIL, 2), np.nan, dtype=np.float32)
+    pillar_vel = np.zeros((R, MAX_PIL, 2), dtype=np.float32)
+    world_id = np.zeros(R, dtype=np.int16)
     in_path = np.zeros(R, dtype=bool)
     speed = np.zeros(R, dtype=np.float32)
 
     for r in range(R):
         obs, _ = env.reset(seed=int(rng.integers(2**31 - 1)))
         cmd.reset(START)
-        in_path[r] = r % 2 == 0
+        world = worlds[r % len(worlds)]
+        world_id[r] = WORLD_IDS[world]
+        in_path[r] = True if world != "classic" else (r % 2 == 0)
         speed[r] = rng.uniform(*SPEED_RANGE)
-        pillars = spawn_pillars(env, rng, in_path=bool(in_path[r]), randomize=randomize)
+        mover = None
+        if world == "dense":
+            pillars = spawn_dense_pillars(env, rng)
+        elif world == "moving":
+            mover = MovingCrosser(env, rng, cruise=0.8 * float(speed[r]))
+            pillars = mover.positions()
+            pillar_vel[r, : len(pillars)] = mover.velocities()
+        else:
+            pillars = spawn_pillars(
+                env, rng, in_path=bool(in_path[r]), randomize=randomize
+            )
         pillars_meta[r, : len(pillars)] = pillars
         act_id[r], seg[r] = _schedule(rng, L, passive=(r % 3 == 2))
         lat = int(rng.integers(0, 3)) if randomize else 0
@@ -115,7 +149,8 @@ def gen(n_rollouts: int, length: int, seed: int = 0, randomize: bool = False) ->
         for t in range(L):
             frames[r, t] = grab_frame(env)
             pos[r, t] = state[0:3]
-            dists[r, t] = nearest_planar(state[0:2], pillars)
+            cur = mover.positions() if mover else pillars
+            dists[r, t] = nearest_planar(state[0:2], cur)
             actions[r, t] = speed[r] * ACTION_VECS[act_id[r, t]]  # the intent
             # ... while the *executed* command may lag and wobble (randomize)
             v_exec = speed[r] * ACTION_VECS[act_id[r, max(t - lat, 0)]]
@@ -123,10 +158,12 @@ def gen(n_rollouts: int, length: int, seed: int = 0, randomize: bool = False) ->
                 v_exec = v_exec * (1.0 + rng.normal(0.0, 0.08, size=4))
             obs, _, _, _, _ = env.step(cmd.rpm(state, v_exec).reshape(1, 4))
             state = obs[0]
+            if mover:
+                mover.step()
         held = sorted({ACTION_NAMES[i] for i in act_id[r][seg[r] > 0]})
         print(
-            f"  rollout {r + 1}/{R} ({'in-path' if in_path[r] else 'clear'}, "
-            f"{speed[r]:.2f}x, "
+            f"  rollout {r + 1}/{R} ({world}, "
+            f"{'in-path' if in_path[r] else 'clear'}, {speed[r]:.2f}x, "
             f"{'passive' if seg[r].max() == 0 else '+'.join(held)})"
         )
 
@@ -139,6 +176,8 @@ def gen(n_rollouts: int, length: int, seed: int = 0, randomize: bool = False) ->
         "dists": dists,
         "pos": pos,
         "pillars": pillars_meta,
+        "pillar_vel": pillar_vel,
+        "world_id": world_id,
         "in_path": in_path,
         "speed": speed,
         "randomized": np.uint8(randomize),
@@ -176,13 +215,22 @@ def main() -> None:
     ap.add_argument("--len", dest="length", type=int, default=120)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--randomize", action="store_true")
+    ap.add_argument(
+        "--worlds",
+        choices=("classic", "hard"),
+        default="classic",
+        help="'hard' cycles classic/dense/moving rollouts (the v0.2 mix)",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
-    n_roll, length = (10, 100) if args.selftest else (args.rollouts, args.length)
+    n_roll, length = (12, 100) if args.selftest else (args.rollouts, args.length)
+    worlds = ("classic", "dense", "moving") if args.worlds == "hard" else ("classic",)
+    if args.selftest:
+        worlds = ("classic", "dense", "moving")  # smoke every scene kind
 
-    tag = " (randomized)" if args.randomize else ""
+    tag = (" (randomized)" if args.randomize else "") + f" [{args.worlds}]"
     print(f"[INFO] flying {n_roll} intervention rollouts x {length} steps{tag} ...")
-    data = gen(n_roll, length, seed=args.seed, randomize=args.randomize)
+    data = gen(n_roll, length, seed=args.seed, randomize=args.randomize, worlds=worlds)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     np.savez_compressed(OUT, **data)
 
@@ -215,6 +263,16 @@ def main() -> None:
         for k, (n, p) in rates.items():
             assert n > 0, f"no valid windows at k={k}"
             assert 0.03 < p < 0.97, f"labels too imbalanced at k={k} ({p:.2f})"
+        # the v0.2 mix: every scene kind present, movers carry real velocity
+        assert set(data["world_id"]) == {0, 1, 2}, "world mix incomplete"
+        mv = data["world_id"] == 2
+        assert np.abs(data["pillar_vel"][mv]).max() > 0.15, "crosser velocity missing"
+        assert (
+            np.abs(data["pillar_vel"][~mv]).max() == 0.0
+        ), "static worlds must not move"
+        dn = data["world_id"] == 1
+        n_dense = (~np.isnan(data["pillars"][dn][:, :, 0])).sum(axis=1)
+        assert n_dense.min() >= 5, "dense rollouts thinner than promised"
 
 
 if __name__ == "__main__":

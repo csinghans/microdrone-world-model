@@ -48,10 +48,16 @@ def train_world_model(args) -> None:
     torch.save(ckpt, out)
     auc_str = "/".join(f"{a:.2f}" for a in m["auc"])
     h_str = "/".join(str(k) for k in HORIZONS)
+    by_world = m.get("auc_by_world") or {}
+    world_str = (
+        " | AUC@32 by world: " + " ".join(f"{k}={v:.2f}" for k, v in by_world.items())
+        if by_world
+        else ""
+    )
     print(
         f"WORLD-MODEL OK: {m['n_train']} train seqs, "
         f"latent MSE@32={m['mse'][-1]:.3f} (no-op {m['noop'][-1]:.3f}), "
-        f"AUC@{h_str}={auc_str}, now-AUC={m['now_auc']:.2f}, "
+        f"AUC@{h_str}={auc_str}{world_str}, now-AUC={m['now_auc']:.2f}, "
         f"veer-ranking={m['side']:.2f} (n={m['n_side']}), "
         f"int8 weights={m['int8_kb']:.1f} KB (<{GAP8_BUDGET_KB} fits), saved {out}"
     )

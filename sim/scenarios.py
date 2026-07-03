@@ -170,6 +170,11 @@ class MovingCrosser:
     def positions(self):
         return [(self.x, self.y)] + list(self.static)
 
+    def velocities(self):
+        """Planar velocity per pillar (crosser first, statics zero) — what a
+        motion-aware label oracle needs to extrapolate the future."""
+        return [(0.0, self.vy)] + [(0.0, 0.0)] * len(self.static)
+
 
 def selftest() -> None:
     rng = np.random.default_rng(7)

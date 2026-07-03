@@ -73,25 +73,32 @@ def _index_samples(data: dict) -> tuple:
 
 
 def _split_rollouts(data: dict, rng: np.random.Generator) -> tuple:
-    """Rollout-level split, stratified over (in-path x passive) so val always
-    holds every scenario kind — in particular a passive in-path pass, the one
-    that guarantees danger-now positives."""
+    """Rollout-level split, stratified over (world x in-path x passive) so
+    val always holds every scenario kind — in particular a passive in-path
+    pass (danger-now positives) and, in v0.2 datasets, every world."""
     R = data["frames"].shape[0]
+    worlds = (
+        np.asarray(data["world_id"])
+        if "world_id" in data
+        else np.zeros(R, dtype=np.int16)
+    )
     tr, va = [], []
-    for flag_ip in (True, False):
-        for flag_passive in (True, False):
-            rolls = [
-                r
-                for r in range(R)
-                if bool(data["in_path"][r]) == flag_ip
-                and (int(data["seg"][r].max()) == 0) == flag_passive
-            ]
-            if not rolls:
-                continue
-            rng.shuffle(rolls)
-            n_val = max(1, round(0.2 * len(rolls)))
-            va += rolls[:n_val]
-            tr += rolls[n_val:]
+    for w in sorted({int(x) for x in worlds}):
+        for flag_ip in (True, False):
+            for flag_passive in (True, False):
+                rolls = [
+                    r
+                    for r in range(R)
+                    if int(worlds[r]) == w
+                    and bool(data["in_path"][r]) == flag_ip
+                    and (int(data["seg"][r].max()) == 0) == flag_passive
+                ]
+                if not rolls:
+                    continue
+                rng.shuffle(rolls)
+                n_val = max(1, round(0.2 * len(rolls)))
+                va += rolls[:n_val]
+                tr += rolls[n_val:]
     return sorted(tr), sorted(va)
 
 
@@ -105,29 +112,32 @@ def veer_ranking(data: dict, rolls, enc, pred, cheads, device) -> tuple:
     radius and the other would stay clear (by a >0.12 m margin), *and* the
     threatening pillar sits inside the camera FOV. The model is correct when
     it ranks the truly-safer veer as safer. Chance = 0.5."""
-    taus = (np.arange(HORIZONS[-1] + 1) / CTRL_HZ)[:, None]  # (k+1, 1)
+    tau1 = np.arange(HORIZONS[-1] + 1) / CTRL_HZ  # (k+1,)
     i_l, i_r = ACTION_NAMES.index("veer_left"), ACTION_NAMES.index("veer_right")
     cos_fov = np.cos(np.radians(FOV_HALF_DEG))
     frames, gt_left_safer, svs = [], [], []
     L = data["frames"].shape[1]
+    all_vel = data["pillar_vel"] if "pillar_vel" in data else None
     for r in rolls:
         pil = data["pillars"][r]
-        pil = pil[~np.isnan(pil[:, 0])]
+        mask = ~np.isnan(pil[:, 0])
+        pil = pil[mask]
         if not len(pil):
             continue
+        vp = np.asarray(all_vel[r])[mask] if all_vel is not None else np.zeros_like(pil)
         sv = float(data["speed"][r])  # judge each rollout at its own pace
         for t in range(L):
             if data["act_id"][r, t] != FORWARD:
                 continue
             p0 = data["pos"][r, t, :2]
+            pil_at = pil + (t / CTRL_HZ) * vp  # where the pillars are NOW
             d_v, q_v = [], []
             for i in (i_l, i_r):
-                dmat = np.linalg.norm(
-                    (p0 + taus * sv * ACTION_VECS[i][:2])[:, None, :] - pil[None],
-                    axis=2,
-                )
+                rel_v = sv * ACTION_VECS[i][:2] - vp  # (P, 2) relative motion
+                diff = (p0 - pil_at)[None, :, :] + tau1[:, None, None] * rel_v[None]
+                dmat = np.linalg.norm(diff, axis=2)  # (k+1, P)
                 d_v.append(float(dmat.min()))
-                q_v.append(pil[dmat.min(axis=0).argmin()])
+                q_v.append(pil_at[dmat.min(axis=0).argmin()])
             d_l, d_r = d_v
             if not (
                 abs(d_l - d_r) > 0.12 and min(d_l, d_r) < DANGER_R <= max(d_l, d_r)
@@ -283,6 +293,17 @@ def train(
         )  # predictor does nothing
         scores = torch.sigmoid(cheads(z_hat)).cpu().numpy()[:, :, 0]  # warn ring
     auc_h = [roc_auc(scores[:, i], c_h[va][:, i, 0]) for i in range(len(HORIZONS))]
+    # v0.2: the slice that matters — AUC@32 per world kind, when worlds exist
+    auc_by_world = {}
+    if "world_id" in data:
+        names = {0: "classic", 1: "dense", 2: "moving"}
+        sw = np.asarray(data["world_id"])[idx[va][:, 0]]
+        for w in sorted({int(x) for x in sw}):
+            m = sw == w
+            if int(m.sum()) >= 20:
+                auc_by_world[names.get(w, str(w))] = roc_auc(
+                    scores[m][:, -1], c_h[va][m][:, -1, 0]
+                )
     # danger-now needs no held future window, so score it on *every* val frame
     now_idx = torch.tensor([r * L + t for r in va_rolls for t in range(L)]).to(device)
     now_lbl = np.array(
@@ -331,6 +352,7 @@ def train(
         "mse": mse_h,
         "noop": noop_h,
         "auc": auc_h,
+        "auc_by_world": auc_by_world,
         "now_auc": now_auc,
         "side": side,
         "n_side": n_side,
