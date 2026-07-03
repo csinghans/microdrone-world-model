@@ -111,6 +111,7 @@ def train_policy(args) -> None:
         + ("+ randomized" if args.randomize else "clean")
         + (" + edge-bias" if args.edge_bias else "")
         + (" + hard worlds" if hard else "")
+        + (" + x-progress" if args.x_progress else "")
     )
     print(f"[INFO] PPO over world-model outputs ({tag}), {args.timesteps} steps")
     train_ppo(
@@ -119,13 +120,14 @@ def train_policy(args) -> None:
         randomize=args.randomize,
         edge_bias=args.edge_bias,
         hard=hard,
+        x_progress=args.x_progress,
         n_steps=args.n_steps,
         lstm_size=args.lstm_size,
     )
-    print(
-        f"[INFO] saved "
-        f"{zip_path(args.recurrent, args.randomize, args.edge_bias, hard=hard)}"
+    saved = zip_path(
+        args.recurrent, args.randomize, args.edge_bias, hard=hard, xp=args.x_progress
     )
+    print(f"[INFO] saved {saved}")
 
 
 def main() -> None:
@@ -145,6 +147,7 @@ def main() -> None:
     ap.add_argument("--n-steps", type=int, default=256)
     ap.add_argument("--lstm-size", type=int, default=64)
     ap.add_argument("--worlds", choices=("classic", "hard"), default="classic")
+    ap.add_argument("--x-progress", action="store_true")  # odometry map pin in obs
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 

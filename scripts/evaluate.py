@@ -35,16 +35,17 @@ def compare(n_seeds: int, seed0: int = 1000) -> dict:
         "reactive": lambda s: ReactivePolicy(enc, nhead),
         "wm-mpc": lambda s: WMPolicy(enc, pred, cheads, meta, speed=s),
     }
-    for name, rec, rnd, edge, curr, hard in (
-        ("learned", False, False, False, False, False),
-        ("learned-hard", False, False, False, False, True),
-        ("learned-rnn", True, False, False, False, False),
-        ("learned-rnn-edge", True, False, True, False, False),
-        ("learned-rnn-curr", True, False, False, True, False),
-        ("learned-rand", False, True, False, False, False),
-        ("learned-rnn-rand", True, True, False, False, False),
+    for name, rec, rnd, edge, curr, hard, xp in (
+        ("learned", False, False, False, False, False, False),
+        ("learned-hard", False, False, False, False, True, False),
+        ("learned-hard-xp", False, False, False, False, True, True),
+        ("learned-rnn", True, False, False, False, False, False),
+        ("learned-rnn-edge", True, False, True, False, False, False),
+        ("learned-rnn-curr", True, False, False, True, False, False),
+        ("learned-rand", False, True, False, False, False, False),
+        ("learned-rnn-rand", True, True, False, False, False, False),
     ):
-        path = zip_path(rec, rnd, edge, curr, hard)
+        path = zip_path(rec, rnd, edge, curr, hard, xp)
         if os.path.exists(path):
             model = load_policy(path)
             mk[name] = lambda s, m=model: LearnedPolicy(

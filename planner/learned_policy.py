@@ -70,6 +70,7 @@ def zip_path(
     edge: bool = False,
     curr: bool = False,
     hard: bool = False,
+    xp: bool = False,
 ) -> str:
     suffix = (
         ("_recurrent" if recurrent else "")
@@ -77,6 +78,7 @@ def zip_path(
         + ("_edge" if edge else "")
         + ("_curr" if curr else "")
         + ("_hard" if hard else "")
+        + ("_xp" if xp else "")
     )
     return os.path.join(_ROOT, "output", f"ppo_wm_policy{suffix}.zip")
 
@@ -94,7 +96,16 @@ class ObsBuilder:
     policy — its LSTM is the memory). Shared verbatim by the training env and
     the deployed LearnedPolicy, so train and fly see the same thing."""
 
-    def __init__(self, enc, pred, cheads, meta, speed: float, history: int = HISTORY):
+    def __init__(
+        self,
+        enc,
+        pred,
+        cheads,
+        meta,
+        speed: float,
+        history: int = HISTORY,
+        x_progress: bool = False,
+    ):
         self.enc, self.pred, self.cheads = enc, pred, cheads
         self.ids = _menu(meta)
         vecs = float(speed) * np.array(meta["action_vecs"], dtype=np.float32)
@@ -102,7 +113,12 @@ class ObsBuilder:
         self.cands = torch.tensor(vecs[self.ids] / a_norm)
         self.speed = float(speed)
         self.n_act = len(self.ids)
-        self.per_step = self.n_act * 8 + 2 + self.n_act  # probs + y,speed + prev
+        # x_progress: the map pin. The stacked history is only a *map* if its
+        # snapshots can be spatially registered — own corridor progress (pure
+        # odometry, the drone's knowledge of itself) is the anchor that lets
+        # "danger seen 0.8 s ago" mean "danger BEHIND me" vs "danger ahead".
+        self.x_progress = bool(x_progress)
+        self.per_step = self.n_act * 8 + 2 + self.n_act + (1 if x_progress else 0)
         self.history = int(history)
         self.hist = deque(maxlen=self.history)
         self.h_gru = None  # model-side memory state (v3 checkpoints)
@@ -114,7 +130,9 @@ class ObsBuilder:
         for _ in range(self.history):
             self.hist.append(np.zeros(self.per_step, dtype=np.float32))
 
-    def push(self, frame: np.ndarray, y: float, prev_menu_idx: int) -> np.ndarray:
+    def push(
+        self, frame: np.ndarray, y: float, prev_menu_idx: int, x: float = 0.0
+    ) -> np.ndarray:
         with torch.no_grad():
             z = self.enc(_frame_tensor(frame))
             cond = z
@@ -129,12 +147,11 @@ class ObsBuilder:
             p = torch.sigmoid(self.cheads(z_hat)).numpy()  # (n_act, H, 2)
         prev = np.zeros(self.n_act, dtype=np.float32)
         prev[prev_menu_idx] = 1.0
+        own = [y / 2.5, self.speed / SPEED_RANGE[1]]
+        if self.x_progress:
+            own.append(x / GOAL_X)  # corridor progress: the map pin
         step = np.concatenate(
-            [
-                p.reshape(-1),
-                np.array([y / 2.5, self.speed / SPEED_RANGE[1]], dtype=np.float32),
-                prev,
-            ]
+            [p.reshape(-1), np.array(own, dtype=np.float32), prev]
         ).astype(np.float32)
         self.hist.append(step)
         return np.concatenate(self.hist)
@@ -157,6 +174,7 @@ class WMPolicyEnv(gym.Env):
         randomize: bool = False,
         edge_bias: bool = False,
         worlds: tuple = ("classic",),
+        x_progress: bool = False,
     ):
         super().__init__()
         self.env = make_env()
@@ -166,10 +184,17 @@ class WMPolicyEnv(gym.Env):
         self.randomize = bool(randomize)
         self.edge_p = EDGE_P if edge_bias else 0.0
         self.worlds = tuple(worlds)
+        self.x_progress = bool(x_progress)
         self._ep = 0
         self.mover = None
         probe = ObsBuilder(
-            self.enc, self.pred, self.cheads, self.meta, 1.0, history=self.history
+            self.enc,
+            self.pred,
+            self.cheads,
+            self.meta,
+            1.0,
+            history=self.history,
+            x_progress=self.x_progress,
         )
         self.obs_dim = probe.per_step * self.history
         self.observation_space = gym.spaces.Box(
@@ -202,6 +227,7 @@ class WMPolicyEnv(gym.Env):
         if self.edge_p > 0.0 and self.rng.random() < self.edge_p:
             band = EDGE_RANGE
         speed = float(self.rng.uniform(*band))
+        self._speed = speed
         world = self.worlds[self._ep % len(self.worlds)]
         self._ep += 1
         self.mover = None
@@ -219,7 +245,13 @@ class WMPolicyEnv(gym.Env):
                 randomize=self.randomize,
             )
         self.ob = ObsBuilder(
-            self.enc, self.pred, self.cheads, self.meta, speed, history=self.history
+            self.enc,
+            self.pred,
+            self.cheads,
+            self.meta,
+            speed,
+            history=self.history,
+            x_progress=self.x_progress,
         )
         self.vecs = speed * ACTION_VECS
         self.lat = int(self.rng.integers(0, 3)) if self.randomize else 0
@@ -227,7 +259,12 @@ class WMPolicyEnv(gym.Env):
         self.state = obs[0]
         self.prev_x = float(self.state[0])
         self.decisions = 0
-        return self.ob.push(self._frame(), float(self.state[1]), 0), {}
+        return (
+            self.ob.push(
+                self._frame(), float(self.state[1]), 0, x=float(self.state[0])
+            ),
+            {},
+        )
 
     def step(self, action: int):
         a_id = self.ob.ids[int(action)]
@@ -261,7 +298,7 @@ class WMPolicyEnv(gym.Env):
         elif abs(y) > 2.4 or self.decisions >= self.max_decisions:
             truncated = True
 
-        next_obs = self.ob.push(self._frame(), y, int(action))
+        next_obs = self.ob.push(self._frame(), y, int(action), x=x)
         return next_obs, float(reward), terminated, truncated, {}
 
     def close(self):
@@ -278,9 +315,17 @@ class LearnedPolicy:
     def __init__(self, model, enc, pred, cheads, meta, speed: float = 1.0):
         self.model = model
         self.recurrent = model.__class__.__name__ == "RecurrentPPO"
-        probe = ObsBuilder(enc, pred, cheads, meta, speed, history=1)
-        history = int(model.observation_space.shape[0]) // probe.per_step
-        self.ob = ObsBuilder(enc, pred, cheads, meta, speed, history=history)
+        obs_dim = int(model.observation_space.shape[0])
+        per = ObsBuilder(enc, pred, cheads, meta, speed, history=1).per_step
+        if obs_dim % per == 0:  # legacy layout (no map pin)
+            history, xp = obs_dim // per, False
+        elif obs_dim % (per + 1) == 0:  # x-progress layout
+            history, xp = obs_dim // (per + 1), True
+        else:
+            raise SystemExit(f"unrecognized policy obs dim {obs_dim}")
+        self.ob = ObsBuilder(
+            enc, pred, cheads, meta, speed, history=history, x_progress=xp
+        )
         self.i_fwd = self.ob.ids.index(FORWARD)
         self.prev = self.i_fwd
         self.lstm_state = None
@@ -294,7 +339,7 @@ class LearnedPolicy:
         self.first = True
 
     def decide(self, frame: np.ndarray, state: np.ndarray) -> int:
-        obs = self.ob.push(frame, float(state[1]), self.prev)
+        obs = self.ob.push(frame, float(state[1]), self.prev, x=float(state[0]))
         if self.recurrent:
             action, self.lstm_state = self.model.predict(
                 obs,
@@ -326,6 +371,7 @@ def train(
     randomize: bool = False,
     edge_bias: bool = False,
     hard: bool = False,
+    x_progress: bool = False,
     out: str = None,
     n_steps: int = 256,
     lstm_size: int = 64,
@@ -341,6 +387,7 @@ def train(
             randomize=randomize,
             edge_bias=edge_bias,
             worlds=worlds,
+            x_progress=x_progress,
         ),
         n_envs=1,
     )
@@ -365,7 +412,7 @@ def train(
 
         model = PPO("MlpPolicy", env, ent_coef=0.01, seed=seed0, verbose=0)
     model.learn(total_timesteps=timesteps)
-    out = out or zip_path(recurrent, randomize, edge_bias, hard=hard)
+    out = out or zip_path(recurrent, randomize, edge_bias, hard=hard, xp=x_progress)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     model.save(out)
     env.close()
