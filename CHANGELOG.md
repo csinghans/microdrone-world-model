@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- **G2 (model-side GRU), honest negative result:** the first smoke caught a
+  real bug (memory silently replacing the residual base — fixed: memory
+  conditions, the residual stays frame-based, and the fix proves itself at
+  scale with true long-horizon gain, MSE@32 1.31 vs no-op 1.94). But the
+  pre-registered criterion failed: per-world AUC@32 went classic 0.86→0.95,
+  dense 0.82→**0.74**, moving 0.88→**0.84** — the memory helped exactly
+  where memory was not the constraint and hurt both hard slices; veer 0.80.
+  Same verdict as the policy-side LSTM chapters, one level down: at this
+  budget and data scale, elegance hasn't paid its way. The v3 code path
+  stays (measured infrastructure, +24 KB, budget 161.7 KB); the deployed
+  model for step ③ is G1's static motion-taught checkpoint, chosen by
+  measurement.
+
 - **G1 (motion-aware labels + hard-mix data, world model retrained):**
   per-world AUC@32 classic/dense/moving = 0.86/0.82/0.88 — the oracle fix
   lands (moving is now *detectable*: moving@0.8 wm crash 83 % → 47 %, and

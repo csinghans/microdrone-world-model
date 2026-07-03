@@ -52,13 +52,14 @@ def _policies(enc, pred, cheads, nhead, meta):
     }
     from planner.learned_policy import LearnedPolicy, load_policy, zip_path
 
-    for name, rec, edge, curr in (
-        ("learned", False, False, False),
-        ("learned-rnn", True, False, False),
-        ("learned-rnn-edge", True, True, False),
-        ("learned-rnn-curr", True, False, True),
+    for name, rec, edge, curr, hard in (
+        ("learned", False, False, False, False),
+        ("learned-hard", False, False, False, True),
+        ("learned-rnn", True, False, False, False),
+        ("learned-rnn-edge", True, True, False, False),
+        ("learned-rnn-curr", True, False, True, False),
     ):
-        path = zip_path(recurrent=rec, edge=edge, curr=curr)
+        path = zip_path(recurrent=rec, edge=edge, curr=curr, hard=hard)
         if os.path.exists(path):
             model = load_policy(path)
             mk[name] = lambda s, m=model: LearnedPolicy(
@@ -105,11 +106,13 @@ COLORS = {
     "learned-rnn": "tab:purple",
     "learned-rnn-edge": "tab:red",
     "learned-rnn-curr": "tab:brown",
+    "learned-hard": "tab:cyan",
 }
 LABELS = {
     "reactive": "reactive",
     "wm": "wm (hand MPC)",
     "learned": "learned (stacked memory)",
+    "learned-hard": "learned (stacked, hard-world diet)",
     "learned-rnn": "learned (LSTM memory)",
     "learned-rnn-edge": "learned (LSTM, edge-biased speeds)",
     "learned-rnn-curr": "learned (LSTM, mixed-diet curriculum)",

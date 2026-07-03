@@ -103,12 +103,13 @@ def _policies(enc, pred, cheads, nhead, meta):
     }
     from planner.learned_policy import LearnedPolicy, load_policy, zip_path
 
-    path = zip_path()
-    if os.path.exists(path):
-        model = load_policy(path)
-        mk["learned"] = lambda s, m=model: LearnedPolicy(
-            m, enc, pred, cheads, meta, speed=s
-        )
+    for name, hard in (("learned", False), ("learned-hard", True)):
+        path = zip_path(hard=hard)
+        if os.path.exists(path):
+            model = load_policy(path)
+            mk[name] = lambda s, m=model: LearnedPolicy(
+                m, enc, pred, cheads, meta, speed=s
+            )
     return mk
 
 

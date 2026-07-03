@@ -105,10 +105,12 @@ def train_policy(args) -> None:
         train_curriculum(args.timesteps, n_steps=args.n_steps, lstm_size=args.lstm_size)
         print(f"[INFO] saved {zip_path(recurrent=True, curr=True)}")
         return
+    hard = args.worlds == "hard"
     tag = (
         ("recurrent " if args.recurrent else "stacked ")
         + ("+ randomized" if args.randomize else "clean")
         + (" + edge-bias" if args.edge_bias else "")
+        + (" + hard worlds" if hard else "")
     )
     print(f"[INFO] PPO over world-model outputs ({tag}), {args.timesteps} steps")
     train_ppo(
@@ -116,10 +118,14 @@ def train_policy(args) -> None:
         recurrent=args.recurrent,
         randomize=args.randomize,
         edge_bias=args.edge_bias,
+        hard=hard,
         n_steps=args.n_steps,
         lstm_size=args.lstm_size,
     )
-    print(f"[INFO] saved {zip_path(args.recurrent, args.randomize, args.edge_bias)}")
+    print(
+        f"[INFO] saved "
+        f"{zip_path(args.recurrent, args.randomize, args.edge_bias, hard=hard)}"
+    )
 
 
 def main() -> None:
@@ -138,6 +144,7 @@ def main() -> None:
     ap.add_argument("--randomize", action="store_true")
     ap.add_argument("--n-steps", type=int, default=256)
     ap.add_argument("--lstm-size", type=int, default=64)
+    ap.add_argument("--worlds", choices=("classic", "hard"), default="classic")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 

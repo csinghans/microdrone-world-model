@@ -41,7 +41,15 @@ from planner.action_set import ACTION_VECS, FORWARD, SPEED_RANGE
 from planner.latent_mpc import DECIDE_EVERY, _frame_tensor
 from sim.domain_randomization import jitter
 from sim.envs import VelCommander, grab_frame, make_ctrl, make_env
-from sim.scenarios import COLLISION_R, GOAL_X, TMAX, nearest_planar, spawn_pillars
+from sim.scenarios import (
+    COLLISION_R,
+    GOAL_X,
+    TMAX,
+    MovingCrosser,
+    nearest_planar,
+    spawn_dense_pillars,
+    spawn_pillars,
+)
 from world_model.training import load_model
 
 HISTORY = 12  # stacked-memory depth (~1 s @ 12 Hz); recurrent uses 1 + LSTM
@@ -61,12 +69,14 @@ def zip_path(
     randomize: bool = False,
     edge: bool = False,
     curr: bool = False,
+    hard: bool = False,
 ) -> str:
     suffix = (
         ("_recurrent" if recurrent else "")
         + ("_rand" if randomize else "")
         + ("_edge" if edge else "")
         + ("_curr" if curr else "")
+        + ("_hard" if hard else "")
     )
     return os.path.join(_ROOT, "output", f"ppo_wm_policy{suffix}.zip")
 
@@ -146,6 +156,7 @@ class WMPolicyEnv(gym.Env):
         history: int = HISTORY,
         randomize: bool = False,
         edge_bias: bool = False,
+        worlds: tuple = ("classic",),
     ):
         super().__init__()
         self.env = make_env()
@@ -154,6 +165,9 @@ class WMPolicyEnv(gym.Env):
         self.history = int(history)
         self.randomize = bool(randomize)
         self.edge_p = EDGE_P if edge_bias else 0.0
+        self.worlds = tuple(worlds)
+        self._ep = 0
+        self.mover = None
         probe = ObsBuilder(
             self.enc, self.pred, self.cheads, self.meta, 1.0, history=self.history
         )
@@ -184,17 +198,26 @@ class WMPolicyEnv(gym.Env):
         self.cmd = VelCommander(make_ctrl(), self.env.CTRL_TIMESTEP)
         self.cmd.reset(obs[0][0:3])
         rng = np.random.default_rng(scenario)
-        # mostly threatened, some clear — the distribution the tail lives in
-        self.pillars = spawn_pillars(
-            self.env,
-            rng,
-            in_path=bool(self.rng.random() < 0.8),
-            randomize=self.randomize,
-        )
         band = SPEED_RANGE
         if self.edge_p > 0.0 and self.rng.random() < self.edge_p:
             band = EDGE_RANGE
         speed = float(self.rng.uniform(*band))
+        world = self.worlds[self._ep % len(self.worlds)]
+        self._ep += 1
+        self.mover = None
+        if world == "dense":
+            self.pillars = spawn_dense_pillars(self.env, rng)
+        elif world == "moving":
+            self.mover = MovingCrosser(self.env, rng, cruise=0.8 * speed)
+            self.pillars = self.mover.positions()
+        else:
+            # mostly threatened, some clear — the distribution the tail lives in
+            self.pillars = spawn_pillars(
+                self.env,
+                rng,
+                in_path=bool(self.rng.random() < 0.8),
+                randomize=self.randomize,
+            )
         self.ob = ObsBuilder(
             self.enc, self.pred, self.cheads, self.meta, speed, history=self.history
         )
@@ -217,9 +240,12 @@ class WMPolicyEnv(gym.Env):
             rpm = self.cmd.rpm(self.state, v)
             obs, _, _, _, _ = self.env.step(rpm.reshape(1, 4))
             self.state = obs[0]
+            if self.mover is not None:
+                self.mover.step()
         self.decisions += 1
         x, y = float(self.state[0]), float(self.state[1])
-        d = nearest_planar(self.state[0:2], self.pillars)
+        cur = self.mover.positions() if self.mover is not None else self.pillars
+        d = nearest_planar(self.state[0:2], cur)
 
         # progress, small time cost, crash, goal — and deliberately no
         # danger-shaping term (that is what we learn)
@@ -299,6 +325,7 @@ def train(
     recurrent: bool = False,
     randomize: bool = False,
     edge_bias: bool = False,
+    hard: bool = False,
     out: str = None,
     n_steps: int = 256,
     lstm_size: int = 64,
@@ -306,9 +333,14 @@ def train(
     from stable_baselines3.common.env_util import make_vec_env
 
     history = 1 if recurrent else HISTORY
+    worlds = ("classic", "dense", "moving") if hard else ("classic",)
     env = make_vec_env(
         lambda: WMPolicyEnv(
-            seed0=seed0, history=history, randomize=randomize, edge_bias=edge_bias
+            seed0=seed0,
+            history=history,
+            randomize=randomize,
+            edge_bias=edge_bias,
+            worlds=worlds,
         ),
         n_envs=1,
     )
@@ -333,7 +365,7 @@ def train(
 
         model = PPO("MlpPolicy", env, ent_coef=0.01, seed=seed0, verbose=0)
     model.learn(total_timesteps=timesteps)
-    out = out or zip_path(recurrent, randomize, edge_bias)
+    out = out or zip_path(recurrent, randomize, edge_bias, hard=hard)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     model.save(out)
     env.close()
