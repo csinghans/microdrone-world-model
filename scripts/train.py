@@ -21,7 +21,7 @@ import torch
 from datasets.generate_rollouts import OUT as DATA
 from datasets.generate_rollouts import gen
 from datasets.intervention_labels import HORIZONS
-from world_model.training import GAP8_BUDGET_KB, MODEL, train
+from world_model.training import GAP8_BUDGET_KB, MODEL, MODEL_GRU, train
 
 
 def _load_or_make(selftest: bool) -> dict:
@@ -37,13 +37,20 @@ def _load_or_make(selftest: bool) -> dict:
 def train_world_model(args) -> None:
     epochs = 60 if args.selftest else args.epochs
     data = _load_or_make(args.selftest)
-    ckpt, m = train(data, epochs=epochs, batch=args.batch, robust=args.robust)
+    ckpt, m = train(
+        data,
+        epochs=epochs,
+        batch=args.batch,
+        robust=args.robust,
+        temporal=args.temporal,
+    )
 
     # a selftest must not clobber a real trained checkpoint with its toy one
-    # (and a robust experiment gets its own file — see eval_robustness)
-    out = MODEL.replace(".pth", "_selftest.pth") if args.selftest else MODEL
+    # (robust and temporal experiments get their own files)
+    base = MODEL_GRU if args.temporal else MODEL
+    out = base.replace(".pth", "_selftest.pth") if args.selftest else base
     if args.robust and not args.selftest:
-        out = MODEL.replace(".pth", "_robust.pth")
+        out = base.replace(".pth", "_robust.pth")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     torch.save(ckpt, out)
     auc_str = "/".join(f"{a:.2f}" for a in m["auc"])
@@ -110,6 +117,7 @@ def main() -> None:
     ap.add_argument("--epochs", type=int, default=80)
     ap.add_argument("--batch", type=int, default=64)
     ap.add_argument("--robust", action="store_true")
+    ap.add_argument("--temporal", action="store_true")  # model-side GRU (v3)
     # policy knobs
     ap.add_argument("--timesteps", type=int, default=300_000)
     ap.add_argument("--recurrent", action="store_true")

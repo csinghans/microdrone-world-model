@@ -90,19 +90,30 @@ class WMPolicy:
         h_w = list(W_HORIZON)[: len(meta["horizons"])]
         self.h_w = torch.tensor(h_w, dtype=torch.float32)
         self.hold, self.evade = 0, FORWARD
+        self.h = None  # model-side memory state (v3 checkpoints)
 
     def begin(self, pillars) -> None:
         del pillars  # vision only — the whole point
         self.hold, self.evade = 0, FORWARD
+        self.h = None
+
+    def _state(self, frame: np.ndarray) -> torch.Tensor:
+        """Encoder (+ one GRU step when the model carries memory). Runs every
+        decision — including during holds — so the memory never skips frames."""
+        z = self.enc(_frame_tensor(frame))
+        tem = getattr(self.enc, "temporal", None)
+        if tem is not None:
+            z, self.h = tem.step(z, self.h)
+        return z
 
     def decide(self, frame: np.ndarray, state: np.ndarray) -> int:
         # `state` supplies the drone's OWN odometry (y, for the centering
         # prior) — its knowledge of itself, never of the pillars
-        if self.hold > 0:  # fly the chosen maneuver through
-            self.hold -= DECIDE_EVERY
-            return self.evade
         with torch.no_grad():
-            z = self.enc(_frame_tensor(frame))  # encoder runs ONCE
+            z = self._state(frame)  # encoder runs ONCE per frame
+            if self.hold > 0:  # fly the chosen maneuver through
+                self.hold -= DECIDE_EVERY
+                return self.evade
             z_hat = self.pred(z.expand(len(self.cands), -1), self.cands)
             p = torch.sigmoid(self.cheads(z_hat))  # (n_cands, horizons, 2 rings)
         warn = p[:, :, 0] @ self.h_w  # urgency-weighted "close soon"
@@ -138,17 +149,23 @@ class ReactivePolicy:
         self.pillars = []
         self.hold = 0
         self.evade = FORWARD
+        self.h = None
 
     def begin(self, pillars) -> None:
         self.pillars = [np.array(q) for q in pillars]
         self.hold, self.evade = 0, FORWARD
+        self.h = None
 
     def decide(self, frame: np.ndarray, state: np.ndarray) -> int:
-        if self.hold > 0:
-            self.hold -= DECIDE_EVERY
-            return self.evade
         with torch.no_grad():
-            p_now = float(torch.sigmoid(self.nhead(self.enc(_frame_tensor(frame)))))
+            z = self.enc(_frame_tensor(frame))
+            tem = getattr(self.enc, "temporal", None)
+            if tem is not None:
+                z, self.h = tem.step(z, self.h)
+            if self.hold > 0:
+                self.hold -= DECIDE_EVERY
+                return self.evade
+            p_now = float(torch.sigmoid(self.nhead(z)))
         if p_now > THETA_NOW:
             q = min(self.pillars, key=lambda q: np.linalg.norm(state[0:2] - q))
             away_left = state[1] > q[1]  # privileged direction (see class note)

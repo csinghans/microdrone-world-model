@@ -95,16 +95,21 @@ class ObsBuilder:
         self.per_step = self.n_act * 8 + 2 + self.n_act  # probs + y,speed + prev
         self.history = int(history)
         self.hist = deque(maxlen=self.history)
+        self.h_gru = None  # model-side memory state (v3 checkpoints)
         self.reset()
 
     def reset(self) -> None:
         self.hist.clear()
+        self.h_gru = None
         for _ in range(self.history):
             self.hist.append(np.zeros(self.per_step, dtype=np.float32))
 
     def push(self, frame: np.ndarray, y: float, prev_menu_idx: int) -> np.ndarray:
         with torch.no_grad():
             z = self.enc(_frame_tensor(frame))
+            tem = getattr(self.enc, "temporal", None)
+            if tem is not None:
+                z, self.h_gru = tem.step(z, self.h_gru)
             z_hat = self.pred(z.expand(len(self.cands), -1), self.cands)
             p = torch.sigmoid(self.cheads(z_hat)).numpy()  # (n_act, H, 2)
         prev = np.zeros(self.n_act, dtype=np.float32)

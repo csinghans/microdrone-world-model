@@ -53,6 +53,11 @@ def onboard_budget(enc, pred, cheads, nhead) -> dict:
         if isinstance(m, nn.Linear)
     )
 
+    tem = getattr(enc, "temporal", None)
+    if tem is not None:  # one GRU step per frame: three gates, two matmuls each
+        d_in, d_h = tem.gru.input_size, tem.gru.hidden_size
+        macs_enc += 3 * (d_in * d_h + d_h * d_h)
+
     macs_lin = sum(
         m.in_features * m.out_features
         for mod in (pred, cheads, nhead)

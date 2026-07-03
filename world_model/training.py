@@ -39,6 +39,7 @@ from world_model.collision_head import CollisionHeads, DangerNowHead
 from world_model.encoder import Encoder
 from world_model.losses import augment_torch, ema_update, roc_auc, variance_guard
 from world_model.predictor import MultiPredictor
+from world_model.temporal import K_WIN, TemporalEncoder
 
 LAMBDA_VAR = 1.0  # anti-collapse (VICReg-style variance hinge)
 LAMBDA_COL = 1.0  # executed-action collision-head weight (real flown future)
@@ -50,6 +51,7 @@ MODEL = os.path.join(
     "output",
     "world_model.pth",
 )
+MODEL_GRU = MODEL.replace(".pth", "_gru.pth")
 
 
 def _index_samples(data: dict) -> tuple:
@@ -102,7 +104,7 @@ def _split_rollouts(data: dict, rng: np.random.Generator) -> tuple:
     return sorted(tr), sorted(va)
 
 
-def veer_ranking(data: dict, rolls, enc, pred, cheads, device) -> tuple:
+def veer_ranking(data: dict, rolls, enc, pred, cheads, device, tgru=None) -> tuple:
     """The action-conditioning acceptance check, scored against a *geometric*
     ground truth. On held-out cruise frames, roll each veer command forward
     kinematically for the longest horizon and measure the true minimum
@@ -146,18 +148,31 @@ def veer_ranking(data: dict, rolls, enc, pred, cheads, device) -> tuple:
             rel = (q_v[0] if d_l < d_r else q_v[1]) - p0  # the threatening pillar
             if rel[0] <= float(np.linalg.norm(rel)) * cos_fov:
                 continue  # threat outside the camera FOV: unanswerable from vision
-            frames.append(data["frames"][r, t])
+            if tgru is None:
+                frames.append(data["frames"][r, t])
+            else:  # the memory model judges from its K-frame window
+                ws = [
+                    data["frames"][r, max(t - K_WIN + 1 + j, 0)] for j in range(K_WIN)
+                ]
+                frames.append(np.stack(ws))
             gt_left_safer.append(d_l > d_r)
             svs.append(sv)
     if not frames:
         return float("nan"), 0
     x = torch.tensor(np.array(frames), dtype=torch.float32, device=device)
-    x = x.permute(0, 3, 1, 2) / 255.0
+    if tgru is None:
+        x = x.permute(0, 3, 1, 2) / 255.0
+    else:
+        n_probe = x.shape[0]
+        x = x.reshape(-1, *x.shape[2:]).permute(0, 3, 1, 2) / 255.0
     sv_col = np.array(svs, dtype=np.float32)[:, None]
     a_l = torch.tensor(sv_col * ACTION_VECS[i_l] / A_NORM, device=device)
     a_r = torch.tensor(sv_col * ACTION_VECS[i_r] / A_NORM, device=device)
     with torch.no_grad():
-        z = enc(x)
+        if tgru is None:
+            z = enc(x)
+        else:
+            z = tgru(enc(x).reshape(n_probe, K_WIN, -1))
         p_l = torch.sigmoid(cheads(pred(z, a_l))[:, -1, 0])  # warn ring @ 667 ms
         p_r = torch.sigmoid(cheads(pred(z, a_r))[:, -1, 0])
     gt = torch.tensor(np.array(gt_left_safer), device=device)
@@ -166,12 +181,21 @@ def veer_ranking(data: dict, rolls, enc, pred, cheads, device) -> tuple:
 
 
 def train(
-    data: dict, epochs: int = 80, batch: int = 64, seed: int = 0, robust: bool = False
+    data: dict,
+    epochs: int = 80,
+    batch: int = 64,
+    seed: int = 0,
+    robust: bool = False,
+    temporal: bool = False,
 ) -> tuple:
     """Train the nano world model on a sequence-format dataset dict and return
     (checkpoint dict, metrics dict). `robust=True` adds appearance
     augmentation to the online encoder's frames (pair it with a `--randomize`
-    dataset to close the priced sim-to-real gap)."""
+    dataset to close the priced sim-to-real gap). `temporal=True` puts a GRU
+    over the last K_WIN frame latents and feeds its state to the predictor
+    and every head — memory inside the model (v3 checkpoints); the JEPA
+    target stays frame-level, so the memory must earn its keep by predicting
+    plain future frames better."""
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
@@ -227,12 +251,34 @@ def train(
     pred = MultiPredictor().to(device)
     cheads = CollisionHeads().to(device)
     nhead = DangerNowHead().to(device)
+    tgru = TemporalEncoder().to(device) if temporal else None
+
+    k_offs = torch.arange(K_WIN - 1, -1, -1, device=device)
+
+    def state_at(flat_idx, aug: bool):
+        """Frames -> the model's decision state. Static: z_t. Temporal: the
+        GRU over the last K_WIN frame latents, windows clamped at the
+        rollout start (early frames repeat the first). Returns (state,
+        z_last) — z_last feeds the variance guard and the no-op baseline,
+        which stay frame-level by design."""
+        if not temporal:
+            x = frames_at(flat_idx)
+            z = enc(augment_torch(x) if aug else x)
+            return z, z
+        start = (flat_idx // L) * L
+        win = torch.maximum(
+            flat_idx.unsqueeze(1) - k_offs.unsqueeze(0), start.unsqueeze(1)
+        )
+        x = frames_at(win.reshape(-1))
+        z = enc(augment_torch(x) if aug else x).reshape(len(flat_idx), K_WIN, -1)
+        return tgru(z), z[:, -1]
 
     params = (
         list(enc.parameters())
         + list(pred.parameters())
         + list(cheads.parameters())
         + list(nhead.parameters())
+        + (list(tgru.parameters()) if temporal else [])
     )
     opt = torch.optim.Adam(params, lr=1e-3)
     bce = nn.BCEWithLogitsLoss()
@@ -244,16 +290,14 @@ def train(
         for i in range(0, len(order), batch):
             b = torch.tensor(order[i : i + batch]).to(device)
             opt.zero_grad()
-            z_t = enc(
-                augment_torch(frames_at(base[b])) if robust else frames_at(base[b])
-            )
-            z_hat = pred(z_t, acts[base[b]])  # (B,H,D)
+            h_t, z_last = state_at(base[b], robust)
+            z_hat = pred(h_t, acts[base[b]])  # (B,H,D)
             with torch.no_grad():
                 z_tgt = torch.stack(
                     [tgt(frames_at(base[b] + k)) for k in offs], dim=1
                 )  # (B,H,D)
             pred_loss = ((z_hat - z_tgt) ** 2).mean()
-            var_loss = variance_guard(z_t)
+            var_loss = variance_guard(z_last)
             col_loss = bce(cheads(z_hat), c_h_t[b])
             # counterfactual batch: half random frames, half decision-relevant
             half = max(1, len(b) // 2)
@@ -263,7 +307,7 @@ def train(
                     c_hard[torch.randint(len(c_hard), (half,), device=device)],
                 ]
             )
-            z_c = enc(augment_torch(frames_at(cb)) if robust else frames_at(cb))
+            z_c, _ = state_at(cb, robust)
             z_cf = pred(z_c.repeat_interleave(n_a, dim=0), cands.repeat(len(z_c), 1))
             w = vis[cb].reshape(-1, 1, 1)  # unanswerable (frame, cand): no loss
             cf_loss = (
@@ -282,15 +326,17 @@ def train(
 
     # -- validation metrics (rollout-level split, so these are honest) --------
     enc.eval(), pred.eval(), cheads.eval(), nhead.eval()
+    if temporal:
+        tgru.eval()
     vb = torch.tensor(va).to(device)
     with torch.no_grad():
-        z_t = enc(frames_at(base[vb]))
+        z_t, z_val_last = state_at(base[vb], False)
         z_hat = pred(z_t, acts[base[vb]])
         z_tgt = torch.stack([tgt(frames_at(base[vb] + k)) for k in offs], dim=1)
         mse_h = ((z_hat - z_tgt) ** 2).mean(dim=(0, 2)).cpu().numpy()
         noop_h = (
-            ((z_t.unsqueeze(1) - z_tgt) ** 2).mean(dim=(0, 2)).cpu().numpy()
-        )  # predictor does nothing
+            ((z_val_last.unsqueeze(1) - z_tgt) ** 2).mean(dim=(0, 2)).cpu().numpy()
+        )  # predictor does nothing: "the future frame looks like this frame"
         scores = torch.sigmoid(cheads(z_hat)).cpu().numpy()[:, :, 0]  # warn ring
     auc_h = [roc_auc(scores[:, i], c_h[va][:, i, 0]) for i in range(len(HORIZONS))]
     # v0.2: the slice that matters — AUC@32 per world kind, when worlds exist
@@ -314,7 +360,7 @@ def train(
         now_scores = (
             torch.cat(
                 [
-                    torch.sigmoid(nhead(enc(frames_at(now_idx[i : i + 512]))))
+                    torch.sigmoid(nhead(state_at(now_idx[i : i + 512], False)[0]))
                     for i in range(0, len(now_idx), 512)
                 ]
             )
@@ -322,11 +368,11 @@ def train(
             .numpy()
         )
     now_auc = roc_auc(now_scores, now_lbl)
-    side, n_side = veer_ranking(data, va_rolls, enc, pred, cheads, device)
+    side, n_side = veer_ranking(data, va_rolls, enc, pred, cheads, device, tgru=tgru)
     if n_side < 20:  # tiny val sets may lack decision-relevant geometry; the
         # probe never trains on labels, so widening it stays meaningful
         side, n_side = veer_ranking(
-            data, range(data["frames"].shape[0]), enc, pred, cheads, device
+            data, range(data["frames"].shape[0]), enc, pred, cheads, device, tgru=tgru
         )
         print("[INFO] veer-ranking widened to all rollouts (val had too few frames)")
 
@@ -336,8 +382,9 @@ def train(
         "predictor": pred.state_dict(),
         "collision_heads": cheads.state_dict(),
         "now_head": nhead.state_dict(),
+        **({"temporal": tgru.state_dict()} if temporal else {}),
         "meta": {
-            "version": 2,
+            "version": 3 if temporal else 2,
             "D": int(z_t.shape[1]),
             "A": int(acts.shape[1]),
             "horizons": [int(k) for k in HORIZONS],
@@ -365,17 +412,25 @@ def train(
 
 def load_model(path: str = MODEL, device: str = "cpu"):
     """Rebuild the trained nets from a checkpoint. Returns
-    (encoder, predictor, collision_heads, now_head, meta), all in eval mode."""
+    (encoder, predictor, collision_heads, now_head, meta), all in eval mode.
+    v3 (temporal) checkpoints attach the GRU as `encoder.temporal` — every
+    consumer keeps its signature, and stateful policies check for it."""
     ckpt = torch.load(path, map_location=device, weights_only=True)
     meta = ckpt["meta"]
-    if meta.get("version") != 2:
-        raise SystemExit(f"{path} is not a v2 checkpoint; re-train first.")
+    if meta.get("version") not in (2, 3):
+        raise SystemExit(f"{path} is not a v2/v3 checkpoint; re-train first.")
     enc, pred = Encoder().to(device), MultiPredictor().to(device)
     cheads, nhead = CollisionHeads().to(device), DangerNowHead().to(device)
     enc.load_state_dict(ckpt["encoder"])
     pred.load_state_dict(ckpt["predictor"])
     cheads.load_state_dict(ckpt["collision_heads"])
     nhead.load_state_dict(ckpt["now_head"])
-    for m in (enc, pred, cheads, nhead):
+    mods = [enc, pred, cheads, nhead]
+    if "temporal" in ckpt:
+        tgru = TemporalEncoder().to(device)
+        tgru.load_state_dict(ckpt["temporal"])
+        enc.temporal = tgru  # registered submodule: budgets count it too
+        mods.append(tgru)
+    for m in mods:
         m.eval()
     return enc, pred, cheads, nhead, meta
