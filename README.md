@@ -60,6 +60,27 @@ python -m scripts.evaluate --seeds 60                # 7. every policy, same cou
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
 
+## Flight skills: the autonomous research loop
+
+New capabilities are **plugins** under `skills/` — each declares its own
+scenarios, pre-registered targets, regression guards and an ordered knob
+schedule — and one command runs the whole research loop (train → fly →
+gate → next knob) until the targets pass or the budget runs out:
+
+```bash
+python -m scripts.research skills/gap_flight     # the full campaign
+python -m scripts.research status skills/gap_flight
+```
+
+Every gate appends its numbers to `experiments/<skill>/journal.md`, updates
+`results.json`, rechecks borderline cells at n=60 on fresh seeds, and
+commits — the same measured discipline the repo's own campaigns were run
+with, encoded. Agent-driven research uses the step mode plus the
+`/research` command (`.claude/commands/research.md`): the runner stays
+deterministic; the judgment between gates is the researcher's job. First
+skill in the catalog: **gap-flight** (transit a 0.55-0.85 m opening in a
+fence — the two-ring collision head's real exam).
+
 ## The benchmark, two tiers (course draw + two fresh from-scratch draws here)
 
 **Tier 1 — mechanisms: reproduced on every draw.**

@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased (v0.4: the research loop becomes a program)
+
+- **Scenario registry** (`sim/scenario_registry.py`): worlds register once
+  (builtins keep ids 0/1/2 forever; datasets self-describe via a
+  `world_names` array), replacing five hardcoded dispatch sites. The
+  refactor is regression-proven: the dataset selftest's numbers are
+  bit-identical before and after.
+- **Flight-skill plugins** (`skills/`): a skill declares scenarios, frozen
+  targets + guards, a knob schedule, and a trajectory-level success
+  predicate. First skill: **gap-flight**.
+- **The autonomous gate runner** (`scripts/research.py`) + the `/research`
+  command: one command per campaign; per-gate journal/results/commit; the
+  borderline-recheck rule built in. The discipline that produced
+  v0.2/v0.3 (single knob, pre-registered bars, honest negatives) is now
+  executable.
+
 ## 0.3.0 — 2026-07-04 (the dense hole, closed by a map pin and a diet)
 
 - **H1 (the odometry map pin):** one knob on top of the v0.2 champion —

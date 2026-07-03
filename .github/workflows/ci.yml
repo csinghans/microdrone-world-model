@@ -45,6 +45,9 @@ jobs:
           python -m world_model.losses
           python -m sim.domain_randomization
           python -m planner.safety_filter
+          python -m sim.scenario_registry
+          python -m skills.base
+          python -m skills.gap_flight.skill
       - name: Sim-in-the-loop selftests (headless)
         run: |
           python -m sim.envs
@@ -76,6 +79,8 @@ jobs:
       - run: python -m planner.learned_policy
       - run: python -m scripts.demo --selftest
       - run: python -m eval.eval_latency_budget --selftest
+      - run: python -m eval.episode
+      - run: python -m scripts.research --selftest
 
 # weekly training smoke
 # (kept as a separate trigger block so a fork can delete it in one place)
