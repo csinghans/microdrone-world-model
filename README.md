@@ -104,8 +104,12 @@ anywhere; re-weighting moves the hole; ordering isn't consolidation).
   cluttered **0 %**, best-or-tied everywhere). Dense clutter remains the
   stated open frontier (~37-50 %) — the FOV/memory hole survives. Full gate
   numbers in the CHANGELOG.
-- **v0.3 — metric grounding**: offline 4D-GS supervision so latents decode
-  to collision-checkable distances.
+- **v0.3 — the dense hole** *(done)*: an odometry "map pin" (own corridor
+  progress in each observation step — the anchor that turns a stacked
+  history into a registrable map) plus the edge-biased diet: dense
+  37-50 % → **17-27 %**, moving 13/**7 %**, home sweep 0/0/0/0/3 %. One
+  scalar and a diet beat architecture, again. Metric grounding (offline
+  4D-GS) moves to v0.5.
 - **v0.4 — hardware bridge**: Tello (off-board, honest about it) →
   Crazyflie + AI-deck (GAP8, truly on-board). See [hardware/](hardware/).
 

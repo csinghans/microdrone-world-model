@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (v0.3 campaign: the dense hole)
+## 0.3.0 — 2026-07-04 (the dense hole, closed by a map pin and a diet)
 
 - **H1 (the odometry map pin):** one knob on top of the v0.2 champion —
   each observation step carries the drone's own corridor progress
@@ -13,6 +13,17 @@
   prior that a fast crosser violates. Same refrain as every diet knob:
   patch the band you point at, watch the hole move — but this trade closes
   four cells and opens one.
+- **H2 (the pin + the edge diet — the champion):** one more knob,
+  `--edge-bias` on top of H1, so training sees more fast episodes including
+  fast crossers. The moved hole closes: **moving@1.2 37 % → 7 %**
+  (clearance 0.72 m) — and nothing else pays: dense 17 % / **27 %** (the
+  @1.2 cell improved again), moving@0.8 13 %, home sweep 0/0/0/0/**3 %**,
+  cluttered 3 %, fast 3-8 % (two seed-sets disagree within noise).
+  `hard + x-progress + edge-bias` is the v0.3 champion, best-or-near-best
+  in every measured cell.
+- **The campaign, one line:** v0.2's open frontier (dense 37-50 %) ends at
+  **17-27 %**, with moving at 13/7 % — closed by one odometry scalar and a
+  data diet, not by architecture. Third confirmation of the house refrain.
 
 ## 0.2.0 — 2026-07-04
 
