@@ -145,6 +145,12 @@ demos carry a geofence, manual override, emergency land, low-battery
 behaviour, log replay, and a field-test checklist —
 [docs/safety.md](docs/safety.md).
 
+## Writing
+
+Long-form articles (English + 繁體中文), every number traceable to a
+script here: [writing/](writing/) — starting with
+[*Why micro-drones need tiny world models*](writing/01-why-tiny-world-models/en.md).
+
 ## Origins
 
 Grew out of [nanodrone-ai](https://github.com/csinghans/nanodrone-ai) — a
