@@ -41,15 +41,9 @@ from planner.action_set import ACTION_VECS, FORWARD, SPEED_RANGE
 from planner.latent_mpc import DECIDE_EVERY, _frame_tensor
 from sim.domain_randomization import jitter
 from sim.envs import VelCommander, grab_frame, make_ctrl, make_env
-from sim.scenarios import (
-    COLLISION_R,
-    GOAL_X,
-    TMAX,
-    MovingCrosser,
-    nearest_planar,
-    spawn_dense_pillars,
-    spawn_pillars,
-)
+from sim.scenario_registry import get as get_scenario
+from sim.scenario_registry import resolve_worlds
+from sim.scenarios import COLLISION_R, GOAL_X, TMAX, nearest_planar
 from world_model.training import load_model
 
 HISTORY = 12  # stacked-memory depth (~1 s @ 12 Hz); recurrent uses 1 + LSTM
@@ -183,10 +177,10 @@ class WMPolicyEnv(gym.Env):
         self.history = int(history)
         self.randomize = bool(randomize)
         self.edge_p = EDGE_P if edge_bias else 0.0
-        self.worlds = tuple(worlds)
+        self.worlds = resolve_worlds(worlds)
         self.x_progress = bool(x_progress)
         self._ep = 0
-        self.mover = None
+        self.scenario = None
         probe = ObsBuilder(
             self.enc,
             self.pred,
@@ -230,20 +224,21 @@ class WMPolicyEnv(gym.Env):
         self._speed = speed
         world = self.worlds[self._ep % len(self.worlds)]
         self._ep += 1
-        self.mover = None
-        if world == "dense":
-            self.pillars = spawn_dense_pillars(self.env, rng)
-        elif world == "moving":
-            self.mover = MovingCrosser(self.env, rng, cruise=0.8 * speed)
-            self.pillars = self.mover.positions()
-        else:
+        spec = get_scenario(world)
+        if world == "classic":
             # mostly threatened, some clear — the distribution the tail lives in
-            self.pillars = spawn_pillars(
+            self.scenario = spec.spawn(
                 self.env,
                 rng,
-                in_path=bool(self.rng.random() < 0.8),
+                speed=speed,
                 randomize=self.randomize,
+                in_path=bool(self.rng.random() < 0.8),
             )
+        else:
+            self.scenario = spec.spawn(
+                self.env, rng, speed=speed, randomize=self.randomize
+            )
+        self.pillars = self.scenario.positions()
         self.ob = ObsBuilder(
             self.enc,
             self.pred,
@@ -277,12 +272,10 @@ class WMPolicyEnv(gym.Env):
             rpm = self.cmd.rpm(self.state, v)
             obs, _, _, _, _ = self.env.step(rpm.reshape(1, 4))
             self.state = obs[0]
-            if self.mover is not None:
-                self.mover.step()
+            self.scenario.step()  # static worlds: no-op
         self.decisions += 1
         x, y = float(self.state[0]), float(self.state[1])
-        cur = self.mover.positions() if self.mover is not None else self.pillars
-        d = nearest_planar(self.state[0:2], cur)
+        d = nearest_planar(self.state[0:2], self.scenario.positions())
 
         # progress, small time cost, crash, goal — and deliberately no
         # danger-shaping term (that is what we learn)
@@ -372,6 +365,7 @@ def train(
     edge_bias: bool = False,
     hard: bool = False,
     x_progress: bool = False,
+    worlds: tuple | None = None,
     out: str = None,
     n_steps: int = 256,
     lstm_size: int = 64,
@@ -379,7 +373,15 @@ def train(
     from stable_baselines3.common.env_util import make_vec_env
 
     history = 1 if recurrent else HISTORY
-    worlds = ("classic", "dense", "moving") if hard else ("classic",)
+    if worlds is not None:
+        assert not hard, "pass either worlds= or hard=, not both"
+        worlds = resolve_worlds(worlds)
+        assert out is not None or set(worlds) <= {"classic", "dense", "moving"}, (
+            "custom worlds need an explicit out= (the research runner path) — "
+            "zip_path suffixes only encode the builtin presets"
+        )
+    else:
+        worlds = ("classic", "dense", "moving") if hard else ("classic",)
     env = make_vec_env(
         lambda: WMPolicyEnv(
             seed0=seed0,

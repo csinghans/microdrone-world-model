@@ -146,7 +146,11 @@ def main() -> None:
     ap.add_argument("--randomize", action="store_true")
     ap.add_argument("--n-steps", type=int, default=256)
     ap.add_argument("--lstm-size", type=int, default=64)
-    ap.add_argument("--worlds", choices=("classic", "hard"), default="classic")
+    ap.add_argument(
+        "--worlds",
+        default="classic",
+        help="'classic' | 'hard' | comma-list of registered worlds",
+    )
     ap.add_argument("--x-progress", action="store_true")  # odometry map pin in obs
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
