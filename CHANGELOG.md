@@ -1,6 +1,23 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 — 2026-07-04
+
+Harder worlds, attacked on all three axes — each gate measured, two wins
+and one honest negative:
+
+- **G3 (policy axis — the win):** the stacked PPO retrained on the
+  hard-world diet (same 300 k budget, G1's static motion-taught model,
+  chosen by measurement) is best-or-tied in every cell: moving@0.8 crash
+  **83 % → 33 %** vs the v0.2 baseline (clearance 0.39 m, best), moving@1.2
+  **40 % → 20 %** (best vision-only), dense 37/50 % (best, still the open
+  frontier), cluttered **0 %** (beats even the privileged-direction
+  reactive's 2 %), fast single-pillar 8 %. Home-turf cost: a few points in
+  the sweep mid-band (0/3/7/10/13 %), endpoint improved (23 → 13 %).
+- Remaining open, stated plainly: **dense clutter** (best ≈ 37-50 % — the
+  FOV/memory hole survives both the GRU and the diet; v0.3 material) and
+  the hand MPC's fixed margins (broken by every model recalibration —
+  three strikes; the learned policy is the answer, and now it is measured
+  as such).
 
 - **G2 (model-side GRU), honest negative result:** the first smoke caught a
   real bug (memory silently replacing the residual base — fixed: memory

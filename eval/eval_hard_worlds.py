@@ -144,7 +144,7 @@ def main() -> None:
     print(
         f"HARD-WORLDS OK: {n} seeds/world/speed, crash (mean clearance) — "
         + "; ".join(lines)
-        + " — the v0.2 baseline, measured before any model change"
+        + " — the hard-worlds scoreboard"
     )
 
 

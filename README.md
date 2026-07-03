@@ -96,11 +96,14 @@ anywhere; re-weighting moves the hole; ordering isn't consolidation).
 
 - **v0.1 — the port**: clean package, claims reproduced (two-tier table
   above). *(done)*
-- **v0.2 — harder worlds & the model axis** *(in progress)*: dense clutter
-  and an aimed moving crosser are in (`eval_hard_worlds`), and the zero-shot
-  baseline is measured: the static-world stack crashes 30-83 % there
-  (details in the CHANGELOG). Next: model-side memory (GRU over latents)
-  and motion-aware labels, judged against exactly those numbers.
+- **v0.2 — harder worlds, three axes** *(done)*: dense clutter + an aimed
+  moving crosser, attacked with motion-aware labels (the oracle stops lying
+  about motion — a crossing pillar is now detectable), a model-side GRU
+  (honest negative: it helped exactly where memory was not the constraint),
+  and a hard-diet policy retrain (the win: moving crash 83 % → **33 %**,
+  cluttered **0 %**, best-or-tied everywhere). Dense clutter remains the
+  stated open frontier (~37-50 %) — the FOV/memory hole survives. Full gate
+  numbers in the CHANGELOG.
 - **v0.3 — metric grounding**: offline 4D-GS supervision so latents decode
   to collision-checkable distances.
 - **v0.4 — hardware bridge**: Tello (off-board, honest about it) →
