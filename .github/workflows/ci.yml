@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint (ruff + black)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff black
+      - run: ruff check .
+      - run: black --check .
+
+  selftests:
+    name: Module selftests (fast, torch + headless sim)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps (CPU torch + headless pybullet)
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy matplotlib pybullet gymnasium stable-baselines3 sb3-contrib \
+                      scipy control transforms3d pillow
+          pip install --no-deps git+https://github.com/utiasDSL/gym-pybullet-drones.git
+          pip install -e .
+      - name: Pure-math selftests
+        run: |
+          python -m planner.action_set
+          python -m datasets.intervention_labels
+          python -m world_model.encoder
+          python -m world_model.predictor
+          python -m world_model.collision_head
+          python -m world_model.losses
+          python -m sim.domain_randomization
+          python -m planner.safety_filter
+      - name: Sim-in-the-loop selftests (headless)
+        run: |
+          python -m sim.envs
+          python -m sim.scenarios
+          python -m eval.eval_reactive_vs_wm --selftest
+          python -m planner.latent_mpc
+          python -m datasets.generate_rollouts --selftest
+
+  train-smoke:
+    # The full training selftests (world model + all policy flavours) take
+    # ~30-60 min on a CI runner, so they run nightly/manually, not per-push.
+    name: Training smoke (manual / weekly)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy matplotlib pybullet gymnasium stable-baselines3 sb3-contrib \
+                      scipy control transforms3d pillow
+          pip install --no-deps git+https://github.com/utiasDSL/gym-pybullet-drones.git
+          pip install -e .
+      - run: python -m scripts.train --selftest
+      - run: python -m planner.learned_policy
+      - run: python -m scripts.demo --selftest
+      - run: python -m eval.eval_latency_budget --selftest
+
+# weekly training smoke
+# (kept as a separate trigger block so a fork can delete it in one place)

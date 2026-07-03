@@ -1,0 +1,11 @@
+output/
+__pycache__/
+*.pyc
+*.pth
+*.npz
+*.zip
+*.png
+!docs/**/*.png
+site/
+.ruff_cache/
+*.egg-info/

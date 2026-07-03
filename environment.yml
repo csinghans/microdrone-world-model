@@ -1,0 +1,25 @@
+name: microdrone-wm
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - matplotlib
+  - pybullet
+  - gymnasium
+  - pytorch
+  - stable-baselines3
+  - sb3-contrib          # RecurrentPPO (the LSTM policy flavour)
+  # gym-pybullet-drones runtime deps (installed --no-deps below)
+  - scipy
+  - control
+  - transforms3d
+  - pillow
+  - pip
+  - pip:
+      - --no-deps
+      - git+https://github.com/utiasDSL/gym-pybullet-drones.git
+# Setup:
+#   conda env create -f environment.yml
+#   conda activate microdrone-wm
+#   pip install -e .        # makes world_model/planner/sim/datasets/eval importable
