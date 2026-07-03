@@ -94,9 +94,13 @@ anywhere; re-weighting moves the hole; ordering isn't consolidation).
 
 ## Roadmap
 
-- **v0.1 — the port**: clean package, every claim reproduced. *(now)*
-- **v0.2 — harder worlds & the model axis**: dense clutter, moving
-  obstacles; model-side memory (GRU over latents).
+- **v0.1 — the port**: clean package, claims reproduced (two-tier table
+  above). *(done)*
+- **v0.2 — harder worlds & the model axis** *(in progress)*: dense clutter
+  and an aimed moving crosser are in (`eval_hard_worlds`), and the zero-shot
+  baseline is measured: the static-world stack crashes 30-83 % there
+  (details in the CHANGELOG). Next: model-side memory (GRU over latents)
+  and motion-aware labels, judged against exactly those numbers.
 - **v0.3 — metric grounding**: offline 4D-GS supervision so latents decode
   to collision-checkable distances.
 - **v0.4 — hardware bridge**: Tello (off-board, honest about it) →

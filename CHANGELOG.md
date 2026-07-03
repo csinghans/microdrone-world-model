@@ -3,8 +3,27 @@
 ## Unreleased
 
 - License changed from MIT to Apache-2.0 (patent grant; provenance kept in
-  NOTICE). v0.2 work begins: harder worlds (dense clutter, moving
-  obstacles) with baseline measurements before any model changes.
+  NOTICE).
+- v0.2 opens with harder worlds: `spawn_dense_pillars` (5-7 pillars, two
+  forced in-path) and `MovingCrosser` (a pillar crossing the corridor, its
+  speed *aimed* at the encounter — an unaimed crosser misses on most seeds
+  and measures nothing), plus `eval_hard_worlds`.
+- **v0.2 baseline, measured before any model change** (30 seeds/cell,
+  crash rate, zero-shot static-trained stack):
+
+  | world @ cruise | reactive | hand MPC | learned |
+  |---|---|---|---|
+  | dense @ 0.8 m/s | 30 % | 50 % | 33 % |
+  | dense @ 1.2 m/s | 70 % | 63 % | 50 % |
+  | moving @ 0.8 m/s | 83 % | 83 % | 77 % |
+  | moving @ 1.2 m/s | 37 % | 33 % | 40 % |
+
+  Verdicts the v0.2 model work must answer: the home-turf crown does not
+  transfer (the learned policy's 0 % becomes 33-77 %); nobody handles an
+  aimed crosser at matched speed (the static-future assumption fails all
+  three policies, including the privileged-direction baseline); and at
+  1.2 m/s the moving world *inverts* — outrunning the crosser beats
+  dodging it, an emergent "speed as evasion" the labels never taught.
 
 ## 0.1.0 — 2026-07-04
 
