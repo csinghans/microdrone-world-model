@@ -2,6 +2,17 @@
 
 ## Unreleased (v0.4: the research loop becomes a program)
 
+- **First autonomous campaign: gap-flight, PASSED (knob 3 of 4).**
+  K0 zero-shot champion: 27 % success — the pre-registered honest failure
+  (it charges the fence; warn rings saturate in-gap and the crit heads had
+  never steered the geometry). K1 (one diet share of the fence): targets
+  smashed (92 %/83 %) but fast-solo guard broke (13 %). KD1 (deviation with
+  written rationale — same mixture, 1.5x budget): **87 %/90 % success,
+  transit 95-100 %, ~0.22 m margin, all guards green**. The loop exercised
+  every clause it was built with: frozen bars, seven n=60 rechecks, a
+  scheduled-knob skip, a deviation knob, and a harness-error recovery.
+  Full numbers: experiments/gap_flight/journal.md.
+
 - **Scenario registry** (`sim/scenario_registry.py`): worlds register once
   (builtins keep ids 0/1/2 forever; datasets self-describe via a
   `world_names` array), replacing five hardcoded dispatch sites. The

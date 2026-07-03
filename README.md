@@ -79,7 +79,9 @@ with, encoded. Agent-driven research uses the step mode plus the
 `/research` command (`.claude/commands/research.md`): the runner stays
 deterministic; the judgment between gates is the researcher's job. First
 skill in the catalog: **gap-flight** (transit a 0.55-0.85 m opening in a
-fence — the two-ring collision head's real exam).
+fence — the two-ring collision head's real exam), and its first campaign
+already ran itself to a pass: zero-shot 27 % → 87-90 % success with all
+guards green, in three gates (`experiments/gap_flight/journal.md`).
 
 ## The benchmark, two tiers (course draw + two fresh from-scratch draws here)
 
