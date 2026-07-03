@@ -9,3 +9,5 @@ __pycache__/
 site/
 .ruff_cache/
 *.egg-info/
+experiments/*/artifacts/
+experiments/*_selftest/
