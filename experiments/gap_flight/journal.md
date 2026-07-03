@@ -65,3 +65,27 @@ Deviating per the charter: KD1 = identical mixture, 1.5x budget (450k) —
 if the regression is dilution of per-world gradient steps, restoring the
 step count without touching the mixture should close it. Single knob:
 timesteps.
+
+## KD1 — K1 mixture, 1.5x budget (dilution fix) (2026-07-03 11:16 UTC)
+Hypothesis: sweep@2.0 regression is per-world gradient dilution; more steps, same mixture
+Config: {"worlds": ["classic", "dense", "moving", "gap"], "x_progress": true, "edge_bias": true, "timesteps": 450000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| gap@1.0 | 30 | 13% | 87% | 0.39 | transited=0.95 gap_margin=0.24 |
+| gap@1.5 | 30 | 10% | 90% | 0.35 | transited=1.00 gap_margin=0.21 |
+| guard:cluttered | 60 | 0% | 0% | 0.55 |  |
+| guard:sweep@1.0 | 30 | 0% | 0% | 0.62 |  |
+| guard:sweep@1.5 | 30 | 0% | 0% | 0.62 |  |
+| guard:sweep@2.0 | 30 | 10% | 0% | 0.50 |  |
+- gap@1.0 success>=0.85: 0.87 PASS (rechecked)
+- gap@1.5 success>=0.7: 0.90 PASS
+- guard:cluttered crash<=0.05: 0.00 PASS (rechecked)
+- guard:sweep@1.0 crash<=0.05: 0.00 PASS (rechecked)
+- guard:sweep@1.5 crash<=0.1: 0.00 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.10 PASS (rechecked)
+
+**Gate verdict: passed**
+
+### Researcher notes
+(unattended run)
