@@ -1,0 +1,202 @@
+{
+ "skill": "gap-flight",
+ "skill_version": "1",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.85
+  },
+  {
+   "cell": "gap@1.5",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@1.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@1.5",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K0",
+   "kind": "zero_shot",
+   "desc": "the v0.3 champion, zero-shot on the gap",
+   "hypothesis": "expected honest failure: it was never asked to fly toward saturated warn rings",
+   "config": {
+    "policy_path": "output/ppo_wm_policy_edge_hard_xp.zip"
+   },
+   "artifacts": {
+    "policy_zip": "output/ppo_wm_policy_edge_hard_xp.zip",
+    "sha256": "54ef8dcc5501de93"
+   },
+   "cells": {
+    "gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.6333333333333333,
+     "reached": 1.0,
+     "success": 0.26666666666666666,
+     "clearance_mean": 0.1784464265646348,
+     "custom": {
+      "transited": 0.36666666666666664,
+      "gap_margin": 0.03935035701553742
+     }
+    },
+    "gap@1.5": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.6333333333333333,
+     "reached": 0.9666666666666667,
+     "success": 0.23333333333333334,
+     "clearance_mean": 0.1960294577386971,
+     "custom": {
+      "transited": 0.4,
+      "gap_margin": 0.05911623251780774
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.03333333333333333,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.54272717305865,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.03333333333333333,
+      "reached": 1.0,
+      "success": 0.0,
+      "clearance_mean": 0.54272717305865,
+      "custom": {}
+     }
+    },
+    "guard:sweep@1.0": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.6771005512807494,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.0,
+      "reached": 1.0,
+      "success": 0.0,
+      "clearance_mean": 0.6771005512807494,
+      "custom": {}
+     }
+    },
+    "guard:sweep@1.5": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.6755945517862045,
+     "custom": {}
+    },
+    "guard:sweep@2.0": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.016666666666666666,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.6528210470423564,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.016666666666666666,
+      "reached": 1.0,
+      "success": 0.0,
+      "clearance_mean": 0.6528210470423564,
+      "custom": {}
+     }
+    }
+   },
+   "gate": {
+    "verdict": "continue",
+    "criteria": [
+     {
+      "name": "gap@1.0 success>=0.85",
+      "kind": "target",
+      "measured": 0.26666666666666666,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "gap@1.5 success>=0.7",
+      "kind": "target",
+      "measured": 0.23333333333333334,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.03333333333333333,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@1.0 crash<=0.05",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@1.5 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.016666666666666666,
+      "pass": true,
+      "rechecked": true
+     }
+    ],
+    "guards_ok": true
+   },
+   "timing": {
+    "started": "2026-07-03 10:33 UTC",
+    "ended": "2026-07-03 10:34 UTC"
+   },
+   "git": {
+    "commit": "6340582"
+   }
+  }
+ ]
+}

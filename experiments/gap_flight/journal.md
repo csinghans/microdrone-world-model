@@ -21,4 +21,13 @@ Config: output/ppo_wm_policy_edge_hard_xp.zip
 **Gate verdict: continue**
 
 ### Researcher notes
-(unattended run)
+The pre-registered failure arrived, but with a more interesting shape than
+predicted: no hover-collapse (reached 100 % in both cells — the KR-shaping
+trigger is NOT met). The champion *charges* the fence: 63 % of runs clip a
+pillar on the way through, and the 37 % that find the opening scrape it
+with a 0.04 m margin — consistent with warn-ring saturation drowning the
+gap's location while the crit heads (which do see it) never learned to
+steer this geometry. Guards all green: the failure is specific to the new
+skill, not a regression. This is a data problem, exactly what K1 tests:
+put the fence in the training diet and let the crit-ring gradient teach
+the transit. Proceeding to K1 as scheduled.
