@@ -351,7 +351,11 @@ def train(
     # v0.2: the slice that matters — AUC@32 per world kind, when worlds exist
     auc_by_world = {}
     if "world_id" in data:
-        names = {0: "classic", 1: "dense", 2: "moving"}
+        if "world_names" in data:  # self-describing dataset (v0.4+)
+            wn = [str(x) for x in np.asarray(data["world_names"])]
+            names = dict(enumerate(wn))
+        else:  # legacy npz
+            names = {0: "classic", 1: "dense", 2: "moving"}
         sw = np.asarray(data["world_id"])[idx[va][:, 0]]
         for w in sorted({int(x) for x in sw}):
             m = sw == w

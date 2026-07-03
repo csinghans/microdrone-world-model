@@ -48,13 +48,9 @@ from sim.envs import (
     make_ctrl,
     make_env,
 )
-from sim.scenarios import (
-    DANGER_R,
-    MovingCrosser,
-    nearest_planar,
-    spawn_dense_pillars,
-    spawn_pillars,
-)
+from sim.scenario_registry import get as get_scenario
+from sim.scenario_registry import resolve_worlds, world_names_array
+from sim.scenarios import DANGER_R, nearest_planar
 
 OUT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -62,6 +58,7 @@ OUT = os.path.join(
     "wm_dataset.npz",
 )
 MAX_PIL = 8  # meta arrays hold up to this many pillars (NaN-padded)
+# Back-compat re-export; the registry is the source of truth for ids.
 WORLD_IDS = {"classic": 0, "dense": 1, "moving": 2}
 
 
@@ -127,20 +124,19 @@ def gen(
         obs, _ = env.reset(seed=int(rng.integers(2**31 - 1)))
         cmd.reset(START)
         world = worlds[r % len(worlds)]
-        world_id[r] = WORLD_IDS[world]
+        spec = get_scenario(world)
+        world_id[r] = spec.world_id
         in_path[r] = True if world != "classic" else (r % 2 == 0)
         speed[r] = rng.uniform(*SPEED_RANGE)
-        mover = None
-        if world == "dense":
-            pillars = spawn_dense_pillars(env, rng)
-        elif world == "moving":
-            mover = MovingCrosser(env, rng, cruise=0.8 * float(speed[r]))
-            pillars = mover.positions()
-            pillar_vel[r, : len(pillars)] = mover.velocities()
-        else:
-            pillars = spawn_pillars(
-                env, rng, in_path=bool(in_path[r]), randomize=randomize
-            )
+        scenario = spec.spawn(
+            env,
+            rng,
+            speed=float(speed[r]),
+            randomize=randomize,
+            in_path=bool(in_path[r]),
+        )
+        pillars = scenario.positions()
+        pillar_vel[r, : len(pillars)] = scenario.velocities()
         pillars_meta[r, : len(pillars)] = pillars
         act_id[r], seg[r] = _schedule(rng, L, passive=(r % 3 == 2))
         lat = int(rng.integers(0, 3)) if randomize else 0
@@ -149,8 +145,7 @@ def gen(
         for t in range(L):
             frames[r, t] = grab_frame(env)
             pos[r, t] = state[0:3]
-            cur = mover.positions() if mover else pillars
-            dists[r, t] = nearest_planar(state[0:2], cur)
+            dists[r, t] = nearest_planar(state[0:2], scenario.positions())
             actions[r, t] = speed[r] * ACTION_VECS[act_id[r, t]]  # the intent
             # ... while the *executed* command may lag and wobble (randomize)
             v_exec = speed[r] * ACTION_VECS[act_id[r, max(t - lat, 0)]]
@@ -158,8 +153,7 @@ def gen(
                 v_exec = v_exec * (1.0 + rng.normal(0.0, 0.08, size=4))
             obs, _, _, _, _ = env.step(cmd.rpm(state, v_exec).reshape(1, 4))
             state = obs[0]
-            if mover:
-                mover.step()
+            scenario.step()  # static worlds: no-op
         held = sorted({ACTION_NAMES[i] for i in act_id[r][seg[r] > 0]})
         print(
             f"  rollout {r + 1}/{R} ({world}, "
@@ -184,6 +178,7 @@ def gen(
         "horizons": np.array(HORIZONS, dtype=np.int16),
         "a_norm": A_NORM,
         "danger_r": np.float32(DANGER_R),
+        "world_names": world_names_array(),  # self-describing world ids
     }
 
 
@@ -217,14 +212,13 @@ def main() -> None:
     ap.add_argument("--randomize", action="store_true")
     ap.add_argument(
         "--worlds",
-        choices=("classic", "hard"),
         default="classic",
-        help="'hard' cycles classic/dense/moving rollouts (the v0.2 mix)",
+        help="'classic' | 'hard' | comma-list of registered worlds",
     )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     n_roll, length = (12, 100) if args.selftest else (args.rollouts, args.length)
-    worlds = ("classic", "dense", "moving") if args.worlds == "hard" else ("classic",)
+    worlds = resolve_worlds(args.worlds)
     if args.selftest:
         worlds = ("classic", "dense", "moving")  # smoke every scene kind
 
