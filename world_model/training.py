@@ -171,10 +171,13 @@ def veer_ranking(data: dict, rolls, enc, pred, cheads, device, tgru=None) -> tup
     with torch.no_grad():
         if tgru is None:
             z = enc(x)
+            zb = z
         else:
-            z = tgru(enc(x).reshape(n_probe, K_WIN, -1))
-        p_l = torch.sigmoid(cheads(pred(z, a_l))[:, -1, 0])  # warn ring @ 667 ms
-        p_r = torch.sigmoid(cheads(pred(z, a_r))[:, -1, 0])
+            z_seq = enc(x).reshape(n_probe, K_WIN, -1)
+            z = tgru(z_seq)
+            zb = z_seq[:, -1]  # residual base: the current frame
+        p_l = torch.sigmoid(cheads(pred(z, a_l, base=zb))[:, -1, 0])  # warn @667ms
+        p_r = torch.sigmoid(cheads(pred(z, a_r, base=zb))[:, -1, 0])
     gt = torch.tensor(np.array(gt_left_safer), device=device)
     correct = torch.where(gt, p_l < p_r, p_r < p_l)
     return float(correct.float().mean()), len(frames)
@@ -291,7 +294,7 @@ def train(
             b = torch.tensor(order[i : i + batch]).to(device)
             opt.zero_grad()
             h_t, z_last = state_at(base[b], robust)
-            z_hat = pred(h_t, acts[base[b]])  # (B,H,D)
+            z_hat = pred(h_t, acts[base[b]], base=z_last)  # (B,H,D)
             with torch.no_grad():
                 z_tgt = torch.stack(
                     [tgt(frames_at(base[b] + k)) for k in offs], dim=1
@@ -307,13 +310,19 @@ def train(
                     c_hard[torch.randint(len(c_hard), (half,), device=device)],
                 ]
             )
-            z_c, _ = state_at(cb, robust)
-            z_cf = pred(z_c.repeat_interleave(n_a, dim=0), cands.repeat(len(z_c), 1))
+            z_c, z_c_last = state_at(cb, robust)
+            z_cf = pred(
+                z_c.repeat_interleave(n_a, dim=0),
+                cands.repeat(len(z_c), 1),
+                base=z_c_last.repeat_interleave(n_a, dim=0),
+            )
             w = vis[cb].reshape(-1, 1, 1)  # unanswerable (frame, cand): no loss
             cf_loss = (
                 bce_none(cheads(z_cf), cf[cb].reshape(-1, n_h, n_r)) * w
             ).sum() / (w.sum() * n_h * n_r + 1e-6)
-            now_loss = bce(nhead(z_c), now_all[cb])
+            # danger-now stays frame-level: it is the honest REACTIVE baseline,
+            # and a baseline that borrows the memory stops being one
+            now_loss = bce(nhead(z_c_last), now_all[cb])
             (
                 pred_loss
                 + LAMBDA_VAR * var_loss
@@ -331,7 +340,7 @@ def train(
     vb = torch.tensor(va).to(device)
     with torch.no_grad():
         z_t, z_val_last = state_at(base[vb], False)
-        z_hat = pred(z_t, acts[base[vb]])
+        z_hat = pred(z_t, acts[base[vb]], base=z_val_last)
         z_tgt = torch.stack([tgt(frames_at(base[vb] + k)) for k in offs], dim=1)
         mse_h = ((z_hat - z_tgt) ** 2).mean(dim=(0, 2)).cpu().numpy()
         noop_h = (
@@ -360,7 +369,7 @@ def train(
         now_scores = (
             torch.cat(
                 [
-                    torch.sigmoid(nhead(state_at(now_idx[i : i + 512], False)[0]))
+                    torch.sigmoid(nhead(state_at(now_idx[i : i + 512], False)[1]))
                     for i in range(0, len(now_idx), 512)
                 ]
             )

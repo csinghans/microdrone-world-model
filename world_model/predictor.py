@@ -27,9 +27,14 @@ class MultiPredictor(nn.Module):
         self.trunk = nn.Sequential(nn.Linear(d + a, h), nn.ReLU())
         self.heads = nn.ModuleList(nn.Linear(h, d) for _ in horizons)
 
-    def forward(self, z, a):  # z: (B,D)  a: (B,A)
+    def forward(self, z, a, base=None):  # z: (B,D)  a: (B,A)
+        # `z` conditions the forecast (frame latent, or the GRU memory state
+        # h_t for v3 models); `base` is where the residual starts — the
+        # CURRENT frame latent, so "nothing changes" stays the free baseline
+        # even when the conditioning carries memory. Default: base = z (v2).
+        base = z if base is None else base
         feat = self.trunk(torch.cat([z, a], dim=1))
-        return torch.stack([z + head(feat) for head in self.heads], dim=1)  # (B,H,D)
+        return torch.stack([base + head(feat) for head in self.heads], dim=1)
 
 
 def selftest() -> None:

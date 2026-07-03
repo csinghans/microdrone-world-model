@@ -107,10 +107,15 @@ class ObsBuilder:
     def push(self, frame: np.ndarray, y: float, prev_menu_idx: int) -> np.ndarray:
         with torch.no_grad():
             z = self.enc(_frame_tensor(frame))
+            cond = z
             tem = getattr(self.enc, "temporal", None)
             if tem is not None:
-                z, self.h_gru = tem.step(z, self.h_gru)
-            z_hat = self.pred(z.expand(len(self.cands), -1), self.cands)
+                cond, self.h_gru = tem.step(z, self.h_gru)
+            z_hat = self.pred(
+                cond.expand(len(self.cands), -1),
+                self.cands,
+                base=z.expand(len(self.cands), -1),
+            )
             p = torch.sigmoid(self.cheads(z_hat)).numpy()  # (n_act, H, 2)
         prev = np.zeros(self.n_act, dtype=np.float32)
         prev[prev_menu_idx] = 1.0
