@@ -131,3 +131,39 @@ Borderline: winning delta within ±0.02 → seed-1 repeat, judge on the
 mean. Command: `scripts.train --epochs 80 --ground --ground-lambda 0.1
 --out experiments/grounding_mechanism/artifacts/wm_n1_l01.pth` on the
 unchanged M1 draw.
+
+### N1 — λ=0.1 — **FAILED** (2026-07-05)
+
+Probe: `eval_wm_checkpoint --ckpt .../wm_n1_l01.pth` (train print and
+probe agree; landscape in `n1_landscape.json`).
+
+| bar | measured | verdict |
+|---|---|---|
+| target dense AUC@32 ≥ 0.7811 | **0.4705** | **FAIL** (0.31 from bar — not borderline) |
+| guard dense slice ≥ 0.7211 | 0.4705 | **FAIL** |
+| guard classic ≥ 0.8089 / moving ≥ 0.8090 | 0.8984 / 0.8189 | pass |
+| guard now-AUC ≥ 0.6919; budget | 0.8354; 81.3 KB | pass |
+| guard landscape \|ECE − 0.0702\| < 0.0523 | 0.1209 → 0.0507 | pass (barely) |
+| manipulation gnd-AUC ≥ 0.70 | 0.90 | pass |
+
+The failure shape was not on the menu: everything global is healthy
+(overall AUC@32 0.8177, veer widened 0.9286, MSE@32 1.152 < no-op 2.114)
+and the **dense slice alone collapsed below chance** — on the same val
+rollouts where the same-draw control scored 0.7511 and the λ=0.5 arms
+scored 0.8175/0.9948. λ is measured as *not a smooth dial*: 0.5 buys
+detection and loses flights; 0.1 loses the detection outright.
+
+Per the frozen schedule, N2 runs only on an N1 pass → **N2 does not
+run**. N3's precondition requires an N2 failure → **N3 stays closed**.
+
+**Deviation N1b — written before it runs, gate verdict unaffected.**
+Rationale: four same-draw trainings have now produced dense AUC@32 of
+0.7511 / 0.8175 / 0.9948 / 0.4705 — a 0.53-wide spread on the slice
+every campaign verdict cares about. N1b repeats the λ=0.1 knob at
+seed 1 *as a characterization run, not a gate retry*: N1's FAIL stands
+as recorded regardless of N1b's number. What N1b decides is the
+finding's wording — "λ=0.1 collapses dense" (if it repeats low) vs
+"single-seed dense AUC at this scale is dominated by training noise"
+(if it lands high) — two very different lessons for every future
+campaign's bar design. Command: same knob, `--seed 1`, out
+`wm_n1_l01_s1.pth`.
