@@ -1,0 +1,95 @@
+{
+ "zip": "experiments/metric_grounding/artifacts/ppo_m2_ground.zip",
+ "cells": {
+  "dense@0.8": {
+   "n": 30,
+   "seed0": 7000,
+   "crash": 0.36666666666666664,
+   "reached": 1.0,
+   "success": 0.6333333333333333,
+   "clearance_mean": 0.29700386636882187,
+   "custom": {}
+  },
+  "dense@1.2": {
+   "n": 30,
+   "seed0": 7000,
+   "crash": 0.26666666666666666,
+   "reached": 1.0,
+   "success": 0.7333333333333333,
+   "clearance_mean": 0.34706170354689525,
+   "custom": {}
+  },
+  "moving@0.8": {
+   "n": 30,
+   "seed0": 7000,
+   "crash": 0.13333333333333333,
+   "reached": 1.0,
+   "success": 0.8666666666666667,
+   "clearance_mean": 0.6414891326816209,
+   "custom": {}
+  },
+  "moving@1.2": {
+   "n": 30,
+   "seed0": 7000,
+   "crash": 0.06666666666666667,
+   "reached": 1.0,
+   "success": 0.9333333333333333,
+   "clearance_mean": 0.60437847228955,
+   "custom": {}
+  },
+  "cluttered": {
+   "n": 60,
+   "seed0": 1000,
+   "crash": 0.016666666666666666,
+   "reached": 1.0,
+   "success": 0.9833333333333333,
+   "clearance_mean": 0.5790304347630024,
+   "custom": {}
+  },
+  "sweep@0.8": {
+   "n": 30,
+   "seed0": 3000,
+   "crash": 0.0,
+   "reached": 1.0,
+   "success": 1.0,
+   "clearance_mean": 0.7315881775261764,
+   "custom": {}
+  },
+  "sweep@1.0": {
+   "n": 30,
+   "seed0": 3000,
+   "crash": 0.0,
+   "reached": 1.0,
+   "success": 1.0,
+   "clearance_mean": 0.8092960978253178,
+   "custom": {}
+  },
+  "sweep@1.2": {
+   "n": 30,
+   "seed0": 3000,
+   "crash": 0.0,
+   "reached": 1.0,
+   "success": 1.0,
+   "clearance_mean": 0.7450540405149382,
+   "custom": {}
+  },
+  "sweep@1.4": {
+   "n": 30,
+   "seed0": 3000,
+   "crash": 0.0,
+   "reached": 1.0,
+   "success": 1.0,
+   "clearance_mean": 0.7509462862737565,
+   "custom": {}
+  },
+  "sweep@1.6": {
+   "n": 30,
+   "seed0": 3000,
+   "crash": 0.0,
+   "reached": 1.0,
+   "success": 1.0,
+   "clearance_mean": 0.7699273564433236,
+   "custom": {}
+  }
+ }
+}

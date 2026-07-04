@@ -1,0 +1,14 @@
+{
+ "zip": "experiments/metric_grounding/artifacts/ppo_m2_ground.zip",
+ "cells": {
+  "dense@1.2": {
+   "n": 60,
+   "seed0": 8000,
+   "crash": 0.48333333333333334,
+   "reached": 1.0,
+   "success": 0.5166666666666667,
+   "clearance_mean": 0.27329293629265083,
+   "custom": {}
+  }
+ }
+}

@@ -133,8 +133,19 @@ anywhere; re-weighting moves the hole; ordering isn't consolidation).
   37-50 % → **17-27 %**, moving 13/**7 %**, home sweep 0/0/0/0/3 %. One
   scalar and a diet beat architecture, again. Metric grounding (offline
   4D-GS) moves to v0.5.
-- **v0.4 — hardware bridge**: Tello (off-board, honest about it) →
-  Crazyflie + AI-deck (GAP8, truly on-board). See [hardware/](hardware/).
+- **v0.4 — the research loop becomes a program** *(done)*: scenario
+  registry, flight-skill plugins, the autonomous gate runner + `/research`
+  charter — and the first self-run campaign (gap-flight: 27 % → 87-90 %
+  with guards green).
+- **v0.5 — metric grounding, a split verdict** *(done, honestly)*: a
+  train-only polar-occupancy aux (the offline-4D-GS perfect-reconstruction
+  upper bound, zero deploy cost) buys **+0.07..+0.24 dense AUC** and lifts
+  every model-layer metric — and the policy retrained on it flies dense
+  **worse** (17 % → 37 % @0.8). The fourth confirmation of the house
+  refrain, now through a full policy retrain: a better detector is not a
+  better flight. Full gates: `experiments/metric_grounding/journal.md`.
+- **v0.6 — hardware bridge (parked)**: Tello (off-board, honest about it)
+  → Crazyflie + AI-deck (GAP8, truly on-board). See [hardware/](hardware/).
 
 ## Safety boundary
 

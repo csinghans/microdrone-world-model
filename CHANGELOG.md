@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased — the metric-grounding split verdict (v0.5 candidate)
+
+- **M1 (model axis): PASSED.** A train-only grounding aux — a 5×3
+  FOV-honest polar occupancy grid read off the privileged layout, i.e.
+  the *perfect-reconstruction upper bound* of an offline 4D-GS pipeline —
+  against a same-draw control at 96-rollout hard-mix scale: dense AUC@32
+  0.7511 → 0.8175/0.9948 (seed 0/1; the pre-registered borderline rule
+  fired and the two-seed mean 0.9062 clears the bar by +0.105), every
+  slice up, now-AUC +0.13, veer doubled, deploy budget unmoved (the aux
+  head is dropped at deploy; +1.0 KB train-only).
+- **M2 (policy axis): FAILED.** The unchanged champion recipe retrained
+  on the grounded model flies dense *worse*: 17 % → **36.7 %** @0.8,
+  27 % → **48.3 %** @1.2 (n=60 fresh-seed recheck; the n=30 read of
+  26.7 % was a friendly seed set), moving@0.8 guard broke at n=60
+  (23.3 % vs ≤18 %); home turf spotless (sweep 0 % everywhere,
+  cluttered 0 %). Fourth and sharpest confirmation of the refrain:
+  **a better detector is not a better flight — even through a full
+  policy retrain.** The champion stack stays G1 + edge_hard_xp.
+- New gate probes, both in CI: `eval/eval_wm_checkpoint.py` (4-decimal
+  model-axis probe; selftest asserts probe == training val exactly) and
+  `eval/eval_policy_cells.py` (one zip × a pre-registered JSON cell
+  list, flown by the research runner's own `run_cell`).
+- Training smoke asserts recalibrated to what smoke scale can promise —
+  the shipped v0.4.0 static smoke failed its old MSE bars
+  deterministically (val Δ at 20 classic rollouts is draw-dominated);
+  the latent-regression claim moved to the full-scale gates, where the
+  M1 control re-verified it (MSE@32 1.304 < no-op 1.733).
+- `scripts.train` grows `--ground`, `--out`, `--seed`; `writing/` opens
+  with the first bilingual article (why micro-drones need tiny world
+  models); FUNDING.yml (by Hans).
+
 ## 0.4.0 — 2026-07-04 (the research loop becomes a program)
 
 - **First autonomous campaign: gap-flight, PASSED (knob 3 of 4).**

@@ -185,3 +185,60 @@ probe `python -m eval.eval_policy_cells` (which reuses
   `train(300000, hard=True, x_progress=True, edge_bias=True,
   out="experiments/metric_grounding/artifacts/ppo_m2_ground.zip")`,
   seed0 default (0).
+
+### M2 — grounded model under the champion recipe — **FAILED** (2026-07-05)
+
+Raw records: `m2_results.json` (main run) + `m2_recheck_*.json` (the
+seven ±0.08 borderline cells at n=60, fresh seed0s, per the frozen rule).
+Champion baselines in parentheses are the v0.3 stack's recorded numbers.
+
+| cell | bar | n=30 (seed0) | n=60 recheck (fresh) | verdict |
+|---|---|---|---|---|
+| dense@0.8 (target) | ≤ 12 % | **36.7 %** | — (0.247 from bar, no recheck) | **FAIL** (champion 17 %) |
+| dense@1.2 (target) | ≤ 20 % | 26.7 % | **48.3 %** | **FAIL** (champion 27 %) |
+| moving@0.8 (guard) | ≤ 18 % | 13.3 % | **23.3 %** | **FAIL** (champion 13 %) |
+| moving@1.2 (guard) | ≤ 12 % | 6.7 % | 3.3 % | pass |
+| cluttered (guard) | ≤ 5 % | 1.7 % | 0.0 % | pass |
+| sweep@0.8/1.0/1.2 (guards) | ≤ 5 % | 0/0/0 % | 0/0/0 % | pass |
+| sweep@1.4/1.6 (guards) | ≤ 10 % | 0/0 % | — (outside band) | pass |
+
+Both targets failed by wide margins and one guard broke at the n=60
+recheck. Two-tier note, loud: dense@1.2 read 26.7 % on one seed set and
+48.3 % on another (n=60) — dense cells are strongly seed-set sensitive,
+which is exactly why the recheck rule exists; even the friendly draw
+fails the bar, so the verdict does not hinge on it. Home turf is
+spotless (sweep 0 % everywhere, cluttered 0 %): the grounded stack did
+not forget how to fly — it specifically did not get *better where the
+model got better*.
+
+**The finding (the campaign's real product):** M1 measured the grounded
+model as strictly better at detection — dense AUC@32 +0.07..+0.24,
+every slice up, now-AUC +0.13, veer doubled. M2 measures the policy
+trained on that model as strictly *worse where it counts* — dense
+flight 17 % → 37 % @0.8, 27 % → 48 % @1.2 (n=60), moving@0.8
+13 % → 23 %. The fourth, sharpest confirmation of the house refrain:
+**a better detector is not a better flight — and this time a full
+policy retrain sat between the two and still couldn't cash the gain.**
+Mechanism hypothesis (recorded for a future campaign, not asserted):
+AUC is a *ranking* statistic, but the policy's observations are the
+heads' raw probabilities — grounding visibly recalibrated the
+probability landscape (now-AUC +0.13 with the same architecture), and
+the PPO recipe tuned on the old landscape's shapes may sit in a
+different optimum on the new one. Testing that (e.g. λ sweep,
+grounding-through-the-predictor, longer policy budgets) is new-campaign
+material with fresh pre-registration, not a deviation of this one.
+
+**Campaign verdict: CLOSED — split result, honestly labelled.**
+M1 PASSED (metric grounding buys real detection, at zero deploy cost);
+M2 FAILED (it buys negative flight, through the unchanged champion
+recipe). The pre-registered knob budget (M1, reserve M1b, M2) is spent:
+M1b's precondition (an M1 convergence-signature failure) never fired,
+and no deviation is being written — both targets missed by 25+ points,
+which is a real negative, not a dilution artifact (the KD1 precedent
+rescued a guard-only near-miss, not a target gap this wide). The
+champion stack remains `world_model_g1.pth` (== `output/world_model.pth`,
+restored) + `ppo_wm_policy_edge_hard_xp.zip`. The 4D-GS/metric-grounding
+road at this model scale is now *priced*: its perfect-reconstruction
+upper bound improves what the drone knows and, per this recipe, worsens
+what the drone does. Anyone resuming this road starts from that number,
+not from hope.
