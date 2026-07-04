@@ -47,6 +47,7 @@ def train_world_model(args) -> None:
         data,
         epochs=epochs,
         batch=args.batch,
+        seed=args.seed,
         robust=args.robust,
         temporal=args.temporal,
         ground=args.ground,
@@ -154,6 +155,7 @@ def main() -> None:
     ap.add_argument("--temporal", action="store_true")  # model-side GRU (v3)
     ap.add_argument("--ground", action="store_true")  # v0.5 metric-grounding aux
     ap.add_argument("--out", default=None, help="world-model save path override")
+    ap.add_argument("--seed", type=int, default=0)  # borderline reruns use seed+1
     # policy knobs
     ap.add_argument("--timesteps", type=int, default=300_000)
     ap.add_argument("--recurrent", action="store_true")
