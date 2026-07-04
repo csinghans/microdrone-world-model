@@ -24,3 +24,29 @@ Config: experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip
 
 ### Researcher notes
 (unattended run)
+
+## K1 — moving_gap joins the gap champion's diet, at KD1's budget (2026-07-04 23:28 UTC)
+Hypothesis: five worlds dilute harder than the four that already needed 1.5x (the KD1 lesson) — schedule 450k from the start
+Config: {"worlds": ["classic", "dense", "moving", "gap", "moving_gap"], "x_progress": true, "edge_bias": true, "timesteps": 450000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| mgap@1.0 | 30 | 17% | 83% | 0.30 | transited=1.00 gap_margin=0.16 |
+| mgap@1.5 | 30 | 17% | 83% | 0.35 | transited=1.00 gap_margin=0.21 |
+| guard:gap@1.0 | 30 | 0% | 100% | 0.43 | transited=1.00 gap_margin=0.27 |
+| guard:cluttered | 60 | 10% | 90% | 0.41 |  |
+| guard:sweep@1.0 | 30 | 3% | 97% | 0.43 |  |
+| guard:sweep@1.5 | 30 | 8% | 92% | 0.36 |  |
+| guard:sweep@2.0 | 30 | 27% | 70% | 0.29 |  |
+- mgap@1.0 success>=0.75: 0.83 PASS
+- mgap@1.5 success>=0.6: 0.83 PASS
+- guard:gap@1.0 success>=0.75: 1.00 PASS
+- guard:cluttered crash<=0.05: 0.10 FAIL (rechecked)
+- guard:sweep@1.0 crash<=0.05: 0.03 PASS (rechecked)
+- guard:sweep@1.5 crash<=0.1: 0.08 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.27 FAIL
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
