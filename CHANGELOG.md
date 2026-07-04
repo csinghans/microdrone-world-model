@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — the metric-grounding split verdict (v0.5 candidate)
+## 0.5.0 — 2026-07-05 (the metric-grounding split verdict)
 
 - **M1 (model axis): PASSED.** A train-only grounding aux — a 5×3
   FOV-honest polar occupancy grid read off the privileged layout, i.e.
