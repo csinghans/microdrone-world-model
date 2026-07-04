@@ -59,6 +59,7 @@ jobs:
           python -m planner.latent_mpc
           python -m datasets.generate_rollouts --selftest
           python -m eval.eval_wm_checkpoint --selftest
+          python -m eval.eval_head_calibration --selftest
 
   train-smoke:
     # The full training selftests (world model + all policy flavours) take

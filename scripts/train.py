@@ -51,6 +51,7 @@ def train_world_model(args) -> None:
         robust=args.robust,
         temporal=args.temporal,
         ground=args.ground,
+        ground_lambda=args.ground_lambda,
     )
 
     # a selftest must not clobber a real trained checkpoint with its toy one
@@ -154,6 +155,7 @@ def main() -> None:
     ap.add_argument("--robust", action="store_true")
     ap.add_argument("--temporal", action="store_true")  # model-side GRU (v3)
     ap.add_argument("--ground", action="store_true")  # v0.5 metric-grounding aux
+    ap.add_argument("--ground-lambda", type=float, default=0.5)  # the N-knob
     ap.add_argument("--out", default=None, help="world-model save path override")
     ap.add_argument("--seed", type=int, default=0)  # borderline reruns use seed+1
     # policy knobs

@@ -195,6 +195,7 @@ def train(
     robust: bool = False,
     temporal: bool = False,
     ground: bool = False,
+    ground_lambda: float = LAMBDA_GND,
 ) -> tuple:
     """Train the nano world model on a sequence-format dataset dict and return
     (checkpoint dict, metrics dict). `robust=True` adds appearance
@@ -351,7 +352,7 @@ def train(
                 + LAMBDA_COL * col_loss
                 + LAMBDA_CF * cf_loss
                 + LAMBDA_NOW * now_loss
-                + LAMBDA_GND * gnd_loss
+                + ground_lambda * gnd_loss
             ).backward()
             opt.step()
             ema_update(tgt, enc)
