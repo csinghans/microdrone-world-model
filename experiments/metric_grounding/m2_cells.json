@@ -1,0 +1,12 @@
+[
+  {"id": "dense@0.8", "world": "dense", "speed": 1.0, "n": 30, "seed0": 7000},
+  {"id": "dense@1.2", "world": "dense", "speed": 1.5, "n": 30, "seed0": 7000},
+  {"id": "moving@0.8", "world": "moving", "speed": 1.0, "n": 30, "seed0": 7000, "role": "guard"},
+  {"id": "moving@1.2", "world": "moving", "speed": 1.5, "n": 30, "seed0": 7000, "role": "guard"},
+  {"id": "cluttered", "world": null, "speed": 1.0, "n": 60, "seed0": 1000, "kwargs": {"in_path": true}, "role": "guard"},
+  {"id": "sweep@0.8", "world": null, "speed": 1.0, "n": 30, "seed0": 3000, "kwargs": {"in_path": true, "solo": true}, "role": "guard"},
+  {"id": "sweep@1.0", "world": null, "speed": 1.25, "n": 30, "seed0": 3000, "kwargs": {"in_path": true, "solo": true}, "role": "guard"},
+  {"id": "sweep@1.2", "world": null, "speed": 1.5, "n": 30, "seed0": 3000, "kwargs": {"in_path": true, "solo": true}, "role": "guard"},
+  {"id": "sweep@1.4", "world": null, "speed": 1.75, "n": 30, "seed0": 3000, "kwargs": {"in_path": true, "solo": true}, "role": "guard"},
+  {"id": "sweep@1.6", "world": null, "speed": 2.0, "n": 30, "seed0": 3000, "kwargs": {"in_path": true, "solo": true}, "role": "guard"}
+]

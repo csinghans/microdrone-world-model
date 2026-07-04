@@ -50,6 +50,7 @@ jobs:
           python -m sim.scenario_registry
           python -m skills.base
           python -m skills.gap_flight.skill
+          python -m eval.eval_policy_cells --selftest
       - name: Sim-in-the-loop selftests (headless)
         run: |
           python -m sim.envs

@@ -154,3 +154,34 @@ nothing. Whether it buys *flights* is M2's question.
 `wm_m1_ground.pth` (the s0 arm) — the original pre-registered arm; s1
 exists only as the borderline confirmation. The stronger-looking s1 is
 deliberately not selected.
+
+### M2 cell spec — pinned before any M2 number exists (2026-07-05)
+
+The pre-registration named the bars but not the measurement mechanics;
+they are pinned here, *before* the policy trains, to match exactly how
+the champion baselines were measured (same worlds, speed factors, seed0s):
+`experiments/metric_grounding/m2_cells.json`, flown by the new generic
+probe `python -m eval.eval_policy_cells` (which reuses
+`scripts.research.run_cell` — the same machinery as skill campaigns).
+
+- speed units are cruise *factors* (×0.8 m/s): dense/moving cells at
+  factors 1.0/1.5 = 0.8/1.2 m/s, seed0 7000, n=30 (the
+  `eval_hard_worlds` convention); cluttered = classic in-path at factor
+  1.0, seed0 1000, n=60 (the gap-flight guard convention); sweep =
+  single-pillar solo in-path at factors 1.0/1.25/1.5/1.75/2.0 =
+  0.8–1.6 m/s cruise, seed0 3000, n=30 (the `eval_speed_sweep`
+  convention).
+- the pre-registered "fast single-pillar ≤ 10 %" bar and the
+  "sweep@1.6 ≤ 10 %" bar refer to the same cell (factor 2.0 solo) —
+  historical records listed it under both names; it is measured once
+  and judged once, at ≤ 10 %.
+- model swap protocol: `output/world_model.pth` (== `world_model_g1.pth`,
+  verified by `cmp`) is replaced by `wm_m1_ground.pth` for the whole M2
+  train+eval, then restored to the G1 champion afterwards — the resting
+  state of the repo stays the v0.3 champion stack until a promotion
+  decision. `ppo_m2_ground.zip` therefore only flies correctly with the
+  grounded checkpoint at the default model path.
+- training command (the single knob — model swap only, recipe unchanged):
+  `train(300000, hard=True, x_progress=True, edge_bias=True,
+  out="experiments/metric_grounding/artifacts/ppo_m2_ground.zip")`,
+  seed0 default (0).
