@@ -117,6 +117,10 @@ anywhere; re-weighting moves the hole; ordering isn't consolidation).
 
 ## Roadmap
 
+The living roadmap — open items, the mechanism map of the dense
+frontier, instrument notes, and the hardware unfreeze criteria — lives
+in [docs/ROADMAP.md](docs/ROADMAP.md). The shipped arc:
+
 - **v0.1 — the port**: clean package, claims reproduced (two-tier table
   above). *(done)*
 - **v0.2 — harder worlds, three axes** *(done)*: dense clutter + an aimed
