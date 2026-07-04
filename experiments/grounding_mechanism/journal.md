@@ -85,3 +85,49 @@ Budget: D0 + N1 (one WM train) + N2 (one policy train + cells + rechecks)
 ## Gates
 
 (appended per gate; numbers only from rerunnable commands)
+
+### D0 — the landscape diagnostic — story selected: **miscalibration** (2026-07-05)
+
+`python -m eval.eval_head_calibration --ckpt-a output/world_model_g1.pth
+--ckpt-b experiments/metric_grounding/artifacts/wm_m1_ground.pth
+--out experiments/grounding_mechanism/d0_landscape.json` (M1 draw,
+seed-0 val rollouts; full table in the json).
+
+| dense, k=32 | champion | grounded s0 | ratio | frozen rule | verdict |
+|---|---|---|---|---|---|
+| contrast (warn) | 0.1482 | 0.1446 | 0.98× | < 0.7× ? | not supported |
+| saturation (warn) | 0.605 | 0.540 | 0.89× | > 1.5× ? | not supported |
+| **ECE (warn)** | **0.0702** | **0.1225** | **1.75×** | > 1.5× ? | **SUPPORTED** |
+| mean P (warn) | 0.679 | 0.742 | +0.063 | — | context |
+
+Corroboration outside dense: moving warn ECE 0.1345 → 0.2012 (1.50×),
+moving crit 0.0541 → 0.0864 (1.60×), mean P inflated on every warn
+slice (+0.02..+0.07). Counter-evidence honestly noted: dense *crit* ECE
+improved (0.0841 → 0.0676) — the critical ring got better-calibrated
+while the warn ring drifted; saturation *dropped* everywhere (the
+surfaces got richer, not flatter).
+
+**Reading (per the pre-registered rules, no post-hoc story):** the
+miscalibration story is selected — grounding made the warn surface
+systematically *over-report* danger (better ordered, numerically
+inflated). A policy consuming raw probabilities sees a world that cries
+wolf; in dense (mean warn P 0.74) the usable range above the inflated
+floor is thin. λ knob (N1) first; N3 (predictor-side grounding) is now
+a *plausible* reserve per the rules.
+
+**N1 bars — frozen now, before N1 trains.** The landscape guard metric
+is the biggest separator: **dense warn ECE** (champion 0.0702,
+grounded-s0 0.1225, gap 0.0523).
+
+| kind | bar |
+|---|---|
+| target | dense AUC@32 ≥ control (0.7511) + 0.03 → **≥ 0.7811** |
+| guard | every world-slice AUC@32 ≥ control − 0.03 (classic ≥ 0.8089, dense ≥ 0.7211, moving ≥ 0.8090) |
+| guard | now-AUC ≥ 0.6919; deploy int8 identical (81.3 KB) |
+| guard | landscape: N1 dense warn ECE strictly closer to 0.0702 than 0.1225 is → \|ECE − 0.0702\| < 0.0523 |
+| manipulation | gnd-AUC ≥ 0.70 |
+
+Borderline: winning delta within ±0.02 → seed-1 repeat, judge on the
+mean. Command: `scripts.train --epochs 80 --ground --ground-lambda 0.1
+--out experiments/grounding_mechanism/artifacts/wm_n1_l01.pth` on the
+unchanged M1 draw.
