@@ -71,3 +71,56 @@ recorded, not retried into passing.
 ## Gates
 
 (appended per gate; numbers only from rerunnable commands)
+
+### C0 — fit + verify — **FAILED**; campaign CLOSED (2026-07-05)
+
+Fitted temperatures (warn/crit per horizon), both arms:
+
+| arm | k4 | k8 | k16 | k32 |
+|---|---|---|---|---|
+| grounded-s0 | 0.84/0.92 | 0.81/0.85 | 0.77/0.92 | 0.88/0.84 |
+| champion G1 | 0.90/0.84 | 0.88/0.89 | 0.83/0.95 | 0.85/0.83 |
+
+**Every T is below 1** — the masked-BCE fit wants both models *sharper*
+on the natural frame distribution, not cooler. Two pre-registered
+readings resolve immediately:
+
+- the c_hard-oversampling origin story is **refuted**: neither model is
+  globally hot (if anything, both are slightly under-confident);
+- the early-exit clause anticipated T≈1 ("temperature cannot express
+  D0's inflation"); the measured T<1 is the same conclusion, stronger —
+  the fit actively moves *away* from what D0's dense-warn finding needs.
+
+Bars:
+
+| bar | measured | verdict |
+|---|---|---|
+| target: cal-grounded dense warn ECE ≤ 0.09 | **0.1318** (uncal 0.1225 — got *worse*) | **FAIL** |
+| guard: per-world AUC unchanged | 0.9148/0.8175/0.8872 — identical | pass (by construction, verified) |
+| guard: no slice ECE worsens > 0.01 | dense crit +0.0130 | **FAIL** (classic/moving all improved) |
+
+The failure pattern is the refined finding: global sharpening improved
+the four cold slices (classic/moving, both rings) and worsened both
+dense rings — the hot slice got hotter. **D0's warn inflation is
+context-conditional, not a global logit scale**: the grounded (and to a
+lesser degree the champion) heads over-report specifically in dense
+geometry while sitting under-confident overall. One scalar per
+(horizon, ring) cannot express that; fixing it is retraining-class work
+(conditional recalibration needs a world label the flying drone doesn't
+have; representational fixes reopen the model axis).
+
+Per the frozen schedule, C1 and C2 do not run. Campaign cost: minutes —
+the gate ordering (deterministic knob before the 2.5 h flight gate) did
+its job.
+
+## Campaign verdict: CLOSED (2026-07-05)
+
+The cheap route to cashing grounding's detection win is measured dead:
+temperature recalibration cannot even move the broken metric in the
+right direction, because the miscalibration lives in the *conditioning*,
+not the scale. Across three campaigns the grounding arc now reads:
+detection win (M1) → flight loss (M2) → mechanism candidate measured
+(D0: conditional warn inflation) → cheapest fix falsified (C0). The
+champion stack (G1 + edge_hard_xp) stands. Remaining honest options are
+all retraining-class and belong to future pre-registrations; the dense
+17-27 % floor keeps its crown as the open frontier.

@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased — the calibration falsification (head_calibration campaign, closed)
+
+- **C0: FAILED — and the failure sharpened the mechanism.** Temperature
+  recalibration (`eval/calibrate_heads.py`, in CI: one T per
+  horizon×ring fitted on the train rollouts' FOV-masked oracle labels,
+  baked into the head weights so AUC is invariant *by construction*)
+  fitted **T < 1 on every head of both models** — the natural-
+  distribution fit wants the heads *sharper*, refuting the c_hard-
+  oversampling origin story — and made the target metric worse
+  (calibrated-grounded dense warn ECE 0.1225 → 0.1318) while improving
+  every non-dense slice. D0's warn inflation is therefore
+  **context-conditional, not a global logit scale**: the heads
+  over-report specifically in dense geometry while sitting slightly
+  under-confident overall. One scalar cannot express that; every
+  remaining fix is retraining-class. C1/C2 stayed closed per the frozen
+  schedule — the deterministic knob failed before the 2.5 h flight gate
+  spent anything.
+- The grounding arc, complete: detection win (M1) → flight loss (M2) →
+  mechanism candidate (D0) → cheapest fix falsified (C0). The champion
+  stack stands; dense 17-27 % keeps its crown as the open frontier.
+
 ## Unreleased — the mechanism hunt (grounding_mechanism campaign, closed)
 
 - **D0, the product:** the v0.5 flight loss has a measured mechanism
