@@ -167,3 +167,44 @@ finding's wording — "λ=0.1 collapses dense" (if it repeats low) vs
 (if it lands high) — two very different lessons for every future
 campaign's bar design. Command: same knob, `--seed 1`, out
 `wm_n1_l01_s1.pth`.
+
+### N1b — the characterization run — verdict: **the instrument, not the knob** (2026-07-05)
+
+Same knob (λ=0.1), seed 1: dense AUC@32 = **0.9504** (probe, its own
+seed-1 val split; classic 0.8968, moving 0.8355, now-AUC 0.7967, veer
+widened 0.9683, gnd-AUC 0.82, MSE@32 2.628 < no-op 4.403 — everything
+healthy). Seed 0 read 0.4705 on the same knob.
+
+Per the pre-written wording rule, the finding is the second one:
+**single-seed dense AUC at this scale is dominated by training noise.**
+Five same-draw trainings now span dense AUC@32 = 0.4705 .. 0.9948
+(control 0.7511; λ0.5 0.8175/0.9948; λ0.1 0.4705/0.9504) — a ~0.5-wide
+lottery. The val slice holds only ~5-6 dense rollouts; per-world AUC on
+it is rollout-correlated and tiny-n. The model-layer instrument lacks
+the resolution to gate λ variants at all.
+
+## Campaign verdict: CLOSED (2026-07-05)
+
+- **D0 (the product):** the M2 flight loss has a measured mechanism
+  candidate — grounding at λ=0.5 leaves ranking and richness intact and
+  *mis-calibrates the warn ring upward* (dense warn ECE 1.75×, mean P
+  inflated on every warn slice): the policy's observation currency was
+  debased even as its ordering improved. Measured on frozen
+  checkpoints — no training noise in this claim.
+- **N1: FAILED as gated** (seed-0 dense 0.4705 vs bar 0.7811). N1b
+  reframes the failure: the gate was honest, but the *instrument* it
+  used (single-seed per-world val AUC) cannot resolve the question.
+  N2/N3 stay closed per the frozen schedule.
+- **The lesson that outlives the campaign:** dense-slice model-layer
+  AUC is a weak instrument (~0.5 seed spread); flight gates (n=30/60
+  crash rates with recheck) and frozen-checkpoint landscape probes are
+  the reliable ones. Future model-axis campaigns must gate on ≥3-seed
+  means, bigger stratified val slices, or skip straight to flight.
+  (Retroactive humility: M1's two-seed mean passed its bar by +0.105 —
+  comfortably beyond this noise, and M2's flight verdict never depended
+  on the model-layer number. The M-campaign's conclusions stand.)
+- λ remains unmeasurable as a dial at current resolution; the
+  miscalibration mechanism (D0) is the actionable thread — a future
+  campaign could attack *calibration directly* (e.g. temperature/Platt
+  recalibration of the heads, measured at the flight gate), which costs
+  no retraining at all.

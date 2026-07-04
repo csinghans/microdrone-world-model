@@ -1,5 +1,31 @@
 # Changelog
 
+## Unreleased — the mechanism hunt (grounding_mechanism campaign, closed)
+
+- **D0, the product:** the v0.5 flight loss has a measured mechanism
+  candidate. The new landscape probe (`eval/eval_head_calibration.py`,
+  in CI) compared the champion and grounded checkpoints on identical
+  held-out frames: grounding left candidate contrast and richness intact
+  (saturation *dropped*) and **mis-calibrated the warn ring upward** —
+  dense warn ECE 0.0702 → 0.1225 (1.75×), warn mean P inflated on every
+  world. Better ordered, numerically crying wolf: exactly the surface a
+  raw-probability policy would misread. Measured on frozen checkpoints;
+  no training noise in the claim.
+- **N1 (λ=0.1): FAILED as gated** — and N1b (a pre-rationaled seed-1
+  characterization run, gate verdict unaffected) reframed the failure:
+  same knob, dense AUC@32 0.4705 (seed 0) vs 0.9504 (seed 1). Five
+  same-draw trainings span dense 0.47..0.99 — **single-seed per-world
+  val AUC is a weak instrument** (~5-6 dense val rollouts), too noisy to
+  gate λ variants. Future model-axis gates need ≥3-seed means, bigger
+  stratified val slices, or flight gates directly. (M1's two-seed mean
+  cleared its bar by +0.105 — beyond this noise; M2's flight verdict
+  never leaned on the model-layer number. v0.5's conclusions stand.)
+- N2/N3 stayed closed per the frozen schedule. The actionable thread
+  left open: attack *calibration directly* (temperature/Platt on the
+  heads, zero retraining, judged at the flight gate).
+- `scripts.train` grows `--ground-lambda`; second bilingual article
+  (why predicting pixels is the wrong target) in `writing/`.
+
 ## 0.5.0 — 2026-07-05 (the metric-grounding split verdict)
 
 - **M1 (model axis): PASSED.** A train-only grounding aux — a 5×3
