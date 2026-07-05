@@ -154,6 +154,30 @@ class ObsBuilder:
         return np.concatenate(self.hist)
 
 
+def gate_bonus_hits(prev_xy, xy, fences, spent, pillar_r) -> list:
+    """Fence indices newly threaded on the segment prev_xy -> xy.
+
+    Mirrors the slalom exam predicate EXACTLY (same half-band
+    (w + 2*pillar_r)/2, same linear interpolation of y at the plane,
+    same first-crossing-only semantics): a training-time gate reward
+    must pay for precisely what the exam metric counts as "through the
+    gap", or shaping teaches a different task than the one judged.
+    Any first crossing of a plane — inside or outside the gap — spends
+    that fence (`spent` is mutated), so a detour can never bank the
+    bonus by circling back."""
+    (x0, y0), (x1, y1) = prev_xy, xy
+    hits = []
+    for i, (fx, yc, w) in enumerate(fences):
+        if i in spent or not (x0 < fx <= x1):
+            continue
+        spent.add(i)
+        f = (fx - x0) / max(x1 - x0, 1e-9)
+        y = y0 + f * (y1 - y0)
+        if abs(y - yc) < (w + 2.0 * pillar_r) / 2.0:
+            hits.append(i)
+    return hits
+
+
 class WMPolicyEnv(gym.Env):
     """Gymnasium wrapper around the project's own closed-loop harness: the sim
     steps at 48 Hz under the PID VelCommander, the agent decides at 12 Hz, and
@@ -172,8 +196,13 @@ class WMPolicyEnv(gym.Env):
         edge_bias: bool = False,
         worlds: tuple = ("classic",),
         x_progress: bool = False,
+        gate_bonus: float = 0.0,
     ):
         super().__init__()
+        # per-gate task-structure reward (chain-learning campaign). 0.0 keeps
+        # every existing recipe bit-identical; > 0 pays `gate_bonus` once per
+        # fence threaded, judged by the SAME predicate as the slalom exam.
+        self.gate_bonus = float(gate_bonus)
         self.env = make_env()
         # lazy import (planner <-> eval would cycle at module level); on a
         # fresh checkout / CI runner there is no output/world_model.pth, and
@@ -247,6 +276,15 @@ class WMPolicyEnv(gym.Env):
                 self.env, rng, speed=speed, randomize=self.randomize
             )
         self.pillars = self.scenario.positions()
+        self._fences, self._spent = (), set()
+        if self.gate_bonus:
+            # lazy import (planner <-> skills would cycle at module level);
+            # only fence-carrying worlds (the slaloms) ever pay the bonus
+            from skills.gap_flight.skill import PILLAR_R
+
+            self._pillar_r = PILLAR_R
+            meta = getattr(self.scenario, "meta", None) or {}
+            self._fences = tuple(meta.get("fences", ()))
         self.ob = ObsBuilder(
             self.enc,
             self.pred,
@@ -261,6 +299,7 @@ class WMPolicyEnv(gym.Env):
         self.pending = [FORWARD] * max(self.lat, 1)
         self.state = obs[0]
         self.prev_x = float(self.state[0])
+        self.prev_y = float(self.state[1])
         self.decisions = 0
         return (
             self.ob.push(
@@ -288,7 +327,17 @@ class WMPolicyEnv(gym.Env):
         # progress, small time cost, crash, goal — and deliberately no
         # danger-shaping term (that is what we learn)
         reward = 25.0 * (x - self.prev_x) - 0.02
+        if self._fences:
+            hits = gate_bonus_hits(
+                (self.prev_x, self.prev_y),
+                (x, y),
+                self._fences,
+                self._spent,
+                self._pillar_r,
+            )
+            reward += self.gate_bonus * len(hits)
         self.prev_x = x
+        self.prev_y = y
         terminated, truncated = False, False
         if d < COLLISION_R:
             reward -= 30.0
@@ -377,6 +426,7 @@ def train(
     out: str = None,
     n_steps: int = 256,
     lstm_size: int = 64,
+    gate_bonus: float = 0.0,
 ):
     from stable_baselines3.common.env_util import make_vec_env
 
@@ -398,6 +448,7 @@ def train(
             edge_bias=edge_bias,
             worlds=worlds,
             x_progress=x_progress,
+            gate_bonus=gate_bonus,
         ),
         n_envs=1,
     )

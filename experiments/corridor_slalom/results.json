@@ -1,7 +1,7 @@
 {
  "skill": "corridor-slalom",
  "skill_version": "1",
- "status": "running",
+ "status": "budget_exhausted",
  "targets_frozen": [
   {
    "cell": "slalom2@1.0",
@@ -584,6 +584,187 @@
    },
    "git": {
     "commit": "7816881"
+   }
+  },
+  {
+   "id": "K3",
+   "kind": "policy",
+   "desc": "double slalom share",
+   "hypothesis": "played only if K2 trends right but undershoots: rhythm needs reps, not new variables",
+   "config": {
+    "worlds": [
+     "classic",
+     "classic",
+     "dense",
+     "moving",
+     "gap",
+     "moving_gap",
+     "solo",
+     "slalom3",
+     "slalom3"
+    ],
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 900000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/corridor_slalom/artifacts/ppo_corridor_slalom_K3.zip",
+    "sha256": "ffbe535b2267f52f"
+   },
+   "cells": {
+    "slalom2@1.0": {
+     "n": 30,
+     "seed0": 21000,
+     "crash": 0.7,
+     "reached": 1.0,
+     "success": 0.03333333333333333,
+     "clearance_mean": 0.14146920779480956,
+     "custom": {
+      "weaved": 0.03333333333333333,
+      "weave_frac": 0.5833333333333334,
+      "chain_break_at": 0.8666666666666667
+     }
+    },
+    "slalom3@1.0": {
+     "n": 30,
+     "seed0": 21000,
+     "crash": 0.6666666666666666,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.1784616307740456,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.6777777777777778,
+      "chain_break_at": 1.0666666666666667
+     }
+    },
+    "slalom3@1.5": {
+     "n": 30,
+     "seed0": 21000,
+     "crash": 0.6,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.1874669284804561,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.6444444444444444,
+      "chain_break_at": 1.0
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.03333333333333333,
+     "reached": 1.0,
+     "success": 0.9666666666666667,
+     "clearance_mean": 0.4440683397153525,
+     "custom": {
+      "transited": 1.0,
+      "gap_margin": 0.2745206316034445
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.4666666666666667,
+     "reached": 1.0,
+     "success": 0.5333333333333333,
+     "clearance_mean": 0.23785533894105743,
+     "custom": {
+      "transited": 0.7333333333333333,
+      "gap_margin": 0.1080636033629571
+     }
+    },
+    "guard:cluttered": {
+     "n": 120,
+     "seed0": 1000,
+     "crash": 0.008333333333333333,
+     "reached": 1.0,
+     "success": 0.9916666666666667,
+     "clearance_mean": 0.5012519767015148,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.0,
+      "reached": 1.0,
+      "success": 1.0,
+      "clearance_mean": 0.5189338931642343,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 1.0,
+     "clearance_mean": 0.5110719655419549,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "slalom2@1.0 success>=0.7",
+      "kind": "target",
+      "measured": 0.03333333333333333,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "slalom3@1.0 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "slalom3@1.5 success>=0.4",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.9666666666666667,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.5333333333333333,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.008333333333333333,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-05 11:49 UTC",
+    "ended": "2026-07-05 12:37 UTC"
+   },
+   "git": {
+    "commit": "89073cb"
    }
   }
  ]

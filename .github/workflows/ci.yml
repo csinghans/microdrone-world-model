@@ -55,6 +55,7 @@ jobs:
           python -m skills.opening_door.skill
           python -m skills.corridor_slalom.skill
           python -m skills.corridor_slalom_v2.skill
+          python -m skills.chain_learning.skill
           python -m eval.eval_arena_ceiling --selftest
           python -m eval.eval_policy_cells --selftest
           python -m eval.calibrate_heads --selftest
