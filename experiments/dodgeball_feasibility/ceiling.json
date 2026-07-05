@@ -1,0 +1,30 @@
+{
+ "n": 30,
+ "seed0": 31000,
+ "grid": [
+  {
+   "ball_speed": 0.6,
+   "ceiling": 0.9,
+   "crash": 0.0,
+   "disp_x_mean": 1.0134555414605253
+  },
+  {
+   "ball_speed": 1.0,
+   "ceiling": 0.8,
+   "crash": 0.0,
+   "disp_x_mean": 1.3712708005773533
+  },
+  {
+   "ball_speed": 1.4,
+   "ceiling": 0.8,
+   "crash": 0.0,
+   "disp_x_mean": 1.371993939240012
+  },
+  {
+   "ball_speed": 1.8,
+   "ceiling": 0.8,
+   "crash": 0.03333333333333333,
+   "disp_x_mean": 1.3393831823224671
+  }
+ ]
+}

@@ -60,3 +60,36 @@ A high ceiling with a later learned-policy failure is therefore an
 honest split verdict (perception or learning), not a design bug — the
 slalom-v1 mistake ("could not separate arena from policy") upgraded to
 a three-way separation, stated before any number exists.
+
+## The ceiling table (2026-07-06, n=30/cell, seed0 31000 — `ceiling.json`)
+
+| ball_speed | oracle ceiling | crash | disp_x mean |
+|---|---|---|---|
+| 0.6 m/s | **0.90** | 0.00 | 1.01 m |
+| 1.0 m/s | **0.80** | 0.00 | 1.37 m |
+| 1.4 m/s | **0.80** | 0.00 | 1.37 m |
+| 1.8 m/s | **0.80** | 0.03 | 1.34 m |
+
+## Verdict, per the frozen rules
+
+**The arena wall is removed at every speed on the grid.** All four
+cells clear the 0.55 selection floor, so all four carry campaign bars
+by the frozen formula: dodge@v0.6 ≥ **0.65**, dodge@v1.0/v1.4/v1.8 ≥
+**0.55**. No cell is demoted to measured-only.
+
+The ceiling's *shape* is the diagnosis the probe was designed to give:
+flat 0.80 from 1.0 to 1.8 m/s with crash ≈ 0 throughout — the oracle
+almost never gets hit; it *runs out of box*. Mean drift 1.34-1.37 m
+against the 1.9 m budget, and the ~20 % failures are seeds whose
+side/aim draws force full-width dodges three times. Warning time
+(3.7 s at 0.6 m/s down to 1.2 s at 1.8) barely moves the number: with
+privileged geometry, even 1.2 s is enough to sidestep — **the binding
+constraint of this body is the drift arithmetic, exactly as derived in
+the pre-registration, not reaction speed.** (First crashes appear only
+at 1.8 m/s: 3 %.)
+
+What this hands the campaign: bars priced at every speed, and a clean
+attribution ladder — a learned policy that fails these cells now fails
+on wall 2 (perception: single-frame heads never trained on radial
+closure) or wall 3 (learning), never the arena. The campaign
+pre-registration lives in `experiments/dodgeball/journal.md`.
