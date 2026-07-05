@@ -30,13 +30,12 @@ replacement-style recheck re-rolling an opening-door PASS into the one
 bad block in ten). The opening-door K3 title question now has a
 legitimate path: a fresh pre-registered promotion gate at pooled n ≥ 200.
 
-### corridor-slalom (sustained weaving)
-Offset pillars forcing alternating dodges (left-right-left) — probes
-whether evasion *chains* or each dodge resets the next one's setup.
-Static scenario (no aiming math), `new_skill --kind static` covers most
-of it. *Hypothesis:* the general champion chains 2 but not 4; an
-edge-diet share fixes rhythm at speed. *Done:* success-vs-pillar-count
-curve, per the standard bars.
+### corridor-slalom (sustained weaving) — IN FLIGHT 2026-07-05
+Campaign running (`skills/corridor_slalom`): sealed alternating gates
+with a numerically-asserted no-straight-line theorem (the soul-assert
+caught the first geometry overlapping into a straight solution). Curve
+axis adjusted to N ∈ {2, 3} by lateral-authority math; `chain_break_at`
+prints where the chain snaps.
 
 ### ~~duel timelines (tooling, no training)~~ — DONE 2026-07-05
 Consumed: `eval_duel_plots --timelines` renders, per duel cell, an
@@ -64,12 +63,6 @@ grounding λ ∈ {0.1, 0.5} × 3 seeds each (six trainings, ~3 h) and
 publish the *distribution* — the first properly-powered model-layer
 comparison here. *Done:* per-λ mean±spread vs the control draw, and a
 verdict on whether λ has any resolvable model-layer effect at all.
-
-### sweep@2.0 noise characterization (cheap, high leverage)
-The fast-solo cell bounced 27/22/8/17/17 across knobs. Fly ONE fixed
-policy on it 10×60 seeds (pure eval, ~1 h) and publish its sampling
-distribution. Every future bar on this cell inherits your error bars.
-*Done:* a short journal + a recommended (n, bar-margin) pair.
 
 ## ★★★ deep water
 
