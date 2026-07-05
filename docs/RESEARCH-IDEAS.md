@@ -40,13 +40,27 @@ that prices an arena's physical ceiling BEFORE freezing bars (the
 arena-side twin of the instrument lesson). The chaining question stays
 open — see slalom v2 below.
 
-### slalom v2, feasibility-first (the reopened chaining question)
-Before any bar exists: fly a hand-scripted optimal weave (open-loop
-oracle path) across candidate (dx, speed, off) grids to establish each
-arena's physical ceiling; freeze the campaign's geometry where the
-ceiling sits ≥90 %, THEN re-ask whether learned evasion chains. Reuses
-the v1 scenario verbatim with recalibrated constants. *Done:* the
-ceiling table + a campaign whose bars sit under a proven ceiling.
+### ~~slalom v2, feasibility-first~~ — CLOSED 2026-07-05, honest negative (structural)
+The probe worked exactly as designed (`experiments/slalom_feasibility/`:
+oracle ceiling 0.97 at v1's own spacing — v1's cruise verdict
+re-attributed to capability, its speed bars to the arena), and the v2
+campaign then failed its one priced target three ways
+(`experiments/corridor_slalom_v2/`): fixed-spacing and budget
+hypotheses both refuted, per-gate competence every time, full chains
+~never. **Left standing: the observation-bottleneck hypothesis** — gate
+period 0.875 s > the k=32 horizon (0.67 s); the camera sees gate k+1,
+the collision-probability observation cannot represent it. See the
+horizon campaign below.
+
+### the horizon campaign (chaining, attacked at the architecture) ★★★
+Test the bottleneck hypothesis the slalom arc left standing: extend the
+world model's horizons (k = 48/64 ≈ 1.0/1.33 s — new heads, retrained
+model, budget re-priced) and/or widen the policy observation with
+latent features alongside the probabilities. Pre-stated falsifiable
+signature: horizon extension must move `chain_break_at` on the
+0.97-ceiling arena BEFORE it moves anything else. Model-axis: gate at
+flight cells (the model-layer instrument lesson applies); reuse the
+slalom-v2 skill verbatim as the exam.
 
 ### ~~duel timelines (tooling, no training)~~ — DONE 2026-07-05
 Consumed: `eval_duel_plots --timelines` renders, per duel cell, an
