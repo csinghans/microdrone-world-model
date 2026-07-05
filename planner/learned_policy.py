@@ -44,7 +44,6 @@ from sim.envs import VelCommander, grab_frame, make_ctrl, make_env
 from sim.scenario_registry import get as get_scenario
 from sim.scenario_registry import resolve_worlds
 from sim.scenarios import COLLISION_R, GOAL_X, TMAX, nearest_planar
-from world_model.training import load_model
 
 HISTORY = 12  # stacked-memory depth (~1 s @ 12 Hz); recurrent uses 1 + LSTM
 # edge_bias: uniform sampling starves the envelope edge twice over — the top
@@ -172,7 +171,12 @@ class WMPolicyEnv(gym.Env):
     ):
         super().__init__()
         self.env = make_env()
-        self.enc, self.pred, self.cheads, self.nhead, self.meta = load_model()
+        # lazy import (planner <-> eval would cycle at module level); on a
+        # fresh checkout / CI runner there is no output/world_model.pth, and
+        # the self-contained rule is load_or_train, not FileNotFoundError
+        from eval.eval_closed_loop import load_or_train
+
+        self.enc, self.pred, self.cheads, self.nhead, self.meta = load_or_train()
         self.rng = np.random.default_rng(seed0)
         self.history = int(history)
         self.randomize = bool(randomize)

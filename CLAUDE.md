@@ -72,6 +72,10 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   and stderr (unbuffered) lands *before* block-buffered stdout, so the
   traceback is exactly what tail cuts off. Capture the full log to a file
   and `echo EXIT=$?` — a green-looking tail hid a failed smoke once.
+- CI runners have NO local artifacts (output/ is git-ignored): every
+  selftest must be self-contained via `load_or_train` / a dry-scoped
+  stand-in, never a bare `load_model()`/champion-zip read. Two weekly-job
+  steps sat broken-from-birth this way — the job had never actually run.
 - Current champions: general = `output/ppo_wm_policy_edge_hard_xp.zip`
   (hard worlds + odometry pin + edge diet); gap-flight =
   `experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip`.

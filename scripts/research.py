@@ -76,6 +76,18 @@ def train_knob(skill, knob, exp_dir: str, dry: bool) -> str:
     """Produce (or locate) the policy artifact for a knob."""
     if knob.kind == "zero_shot":
         path = os.path.join(ROOT, knob.policy_path)
+        if dry and not os.path.exists(path):
+            # CI runners have no real champions (output/ is git-ignored) and
+            # a dry gate judges plumbing, not skill — train a tiny stand-in
+            # into the *_selftest dir so real artifacts are never touched.
+            # Real campaigns keep the hard assert below: a missing champion
+            # must fail loudly, never silently substitute.
+            from planner.learned_policy import train
+
+            path = os.path.join(exp_dir, "artifacts", "ppo_dry_standin.zip")
+            if not os.path.exists(path):
+                train(1024, out=path)
+            return path
         assert os.path.exists(path), f"zero-shot policy missing: {path}"
         return path
     if knob.kind == "world_model":
