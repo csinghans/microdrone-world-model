@@ -93,13 +93,27 @@ def _fence_ys(yc: float, w: float) -> list:
     return ys
 
 
-def spawn_slalom(env, rng, *, speed=1.0, randomize=False, in_path=True, n_fences=3):
+def spawn_slalom(
+    env,
+    rng,
+    *,
+    speed=1.0,
+    randomize=False,
+    in_path=True,
+    n_fences=3,
+    dx=None,
+    x0=None,
+):
     """N sequential fences, gaps alternating sides. meta carries the
-    fence list [(x, yc, w), ...] the weave predicate needs."""
+    fence list [(x, yc, w), ...] the weave predicate needs. `dx`/`x0`
+    override the v1 bands for the feasibility probe (defaults keep v1
+    semantics bit-for-bit — the skill's frozen cells never pass them)."""
     del speed, randomize, in_path
     side = 1.0 if rng.random() < 0.5 else -1.0
-    dx = float(rng.uniform(*DX_RANGE))
-    x0 = 0.9 if n_fences >= 3 else 1.1
+    dx = float(rng.uniform(*DX_RANGE)) if dx is None else float(dx)
+    if x0 is None:
+        x0 = 0.9 if n_fences >= 3 else 1.1
+    x0 = float(x0)
     fences, pillars = [], []
     for i in range(n_fences):
         x = x0 + i * dx
