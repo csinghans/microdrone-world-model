@@ -46,3 +46,27 @@ Config: builtin:wm_mpc
 
 ### Researcher notes
 (unattended run)
+
+## K2 — the moving-gap v2 champion — does WHERE-timing buy WHEN-timing? (2026-07-05 06:43 UTC)
+Hypothesis: the duel's headline: it aims at where a gap will be; waiting for a gap to exist was never in its diet — expect best-of-zero-shot but under bar
+Config: experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| odoor@1.0 | 30 | 40% | 60% | 0.27 | threaded=0.60 pinched=0.40 froze=0.00 door_margin=0.18 wait_time=0.66 |
+| odoor@1.5 | 30 | 67% | 33% | 0.20 | threaded=0.33 pinched=0.67 froze=0.00 door_margin=0.08 wait_time=0.20 |
+| guard:gap@1.0 | 30 | 10% | 90% | 0.41 | transited=0.90 gap_margin=0.24 |
+| guard:mgap@1.0 | 30 | 15% | 85% | 0.32 | transited=0.98 gap_margin=0.17 |
+| guard:cluttered | 60 | 5% | 95% | 0.38 |  |
+| guard:sweep@2.0 | 60 | 0% | 100% | 0.54 |  |
+- odoor@1.0 success>=0.6: 0.60 PASS (rechecked)
+- odoor@1.5 success>=0.5: 0.33 FAIL
+- guard:gap@1.0 success>=0.75: 0.90 PASS
+- guard:mgap@1.0 success>=0.7: 0.85 PASS (rechecked)
+- guard:cluttered crash<=0.05: 0.05 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.00 PASS
+
+**Gate verdict: continue**
+
+### Researcher notes
+(unattended run)

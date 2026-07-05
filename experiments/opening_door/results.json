@@ -215,6 +215,148 @@
    "git": {
     "commit": "ddde82e"
    }
+  },
+  {
+   "id": "K1",
+   "kind": "zero_shot",
+   "desc": "the hand latent-MPC",
+   "hypothesis": "0.7 s of anticipation sometimes covers the wait window: expect partial success at short waits, collapse at long ones",
+   "config": {
+    "policy_path": "builtin:wm_mpc"
+   },
+   "artifacts": {
+    "policy": "builtin:wm_mpc",
+    "sha256": null
+   },
+   "cells": {
+    "odoor@1.0": {
+     "n": 30,
+     "seed0": 9950,
+     "crash": 0.6,
+     "reached": 1.0,
+     "success": 0.4,
+     "clearance_mean": 0.16207337609889957,
+     "custom": {
+      "threaded": 0.4,
+      "pinched": 0.6,
+      "froze": 0.0,
+      "door_margin": 0.06904183561237677,
+      "wait_time": 0.30541534061397907
+     }
+    },
+    "odoor@1.5": {
+     "n": 30,
+     "seed0": 9950,
+     "crash": 1.0,
+     "reached": 0.8333333333333334,
+     "success": 0.0,
+     "clearance_mean": 0.09574784846255004,
+     "custom": {
+      "threaded": 0.0,
+      "pinched": 1.0,
+      "froze": 0.0,
+      "door_margin": 0.0,
+      "wait_time": 0.0
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.6,
+     "reached": 1.0,
+     "success": 0.4,
+     "clearance_mean": 0.1915402075485481,
+     "custom": {
+      "transited": 0.8666666666666667,
+      "gap_margin": 0.14694244381969662
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.5666666666666667,
+     "reached": 1.0,
+     "success": 0.43333333333333335,
+     "clearance_mean": 0.211732587907594,
+     "custom": {
+      "transited": 0.8333333333333334,
+      "gap_margin": 0.14276189837477501
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.36666666666666664,
+     "reached": 1.0,
+     "success": 0.6333333333333333,
+     "clearance_mean": 0.3601239451705777,
+     "custom": {}
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.2,
+     "reached": 1.0,
+     "success": 0.8,
+     "clearance_mean": 0.507211743016174,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "odoor@1.0 success>=0.6",
+      "kind": "target",
+      "measured": 0.4,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "odoor@1.5 success>=0.5",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.4,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.43333333333333335,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.36666666666666664,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.2,
+      "pass": false,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-05 06:42 UTC",
+    "ended": "2026-07-05 06:42 UTC"
+   },
+   "git": {
+    "commit": "e2fd7a1"
+   }
   }
  ]
 }
