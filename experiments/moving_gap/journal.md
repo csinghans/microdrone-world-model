@@ -76,3 +76,29 @@ Config: {"worlds": ["classic", "dense", "moving", "gap", "moving_gap", "moving_g
 
 ### Researcher notes
 (unattended run)
+
+## K3 — K2's mixture at 600k (2026-07-05 00:24 UTC)
+Hypothesis: budget knob: if the double share trends right but undershoots, buy convergence, not new variables
+Config: {"worlds": ["classic", "dense", "moving", "gap", "moving_gap", "moving_gap"], "x_progress": true, "edge_bias": true, "timesteps": 600000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| mgap@1.0 | 30 | 18% | 82% | 0.31 | transited=0.98 gap_margin=0.16 |
+| mgap@1.5 | 30 | 3% | 97% | 0.38 | transited=1.00 gap_margin=0.22 |
+| guard:gap@1.0 | 30 | 3% | 97% | 0.41 | transited=1.00 gap_margin=0.24 |
+| guard:cluttered | 60 | 13% | 87% | 0.35 |  |
+| guard:sweep@1.0 | 30 | 17% | 83% | 0.34 |  |
+| guard:sweep@1.5 | 30 | 8% | 92% | 0.42 |  |
+| guard:sweep@2.0 | 30 | 8% | 88% | 0.42 |  |
+- mgap@1.0 success>=0.75: 0.82 PASS (rechecked)
+- mgap@1.5 success>=0.6: 0.97 PASS
+- guard:gap@1.0 success>=0.75: 0.97 PASS
+- guard:cluttered crash<=0.05: 0.13 FAIL
+- guard:sweep@1.0 crash<=0.05: 0.17 FAIL (rechecked)
+- guard:sweep@1.5 crash<=0.1: 0.08 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.08 PASS (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
