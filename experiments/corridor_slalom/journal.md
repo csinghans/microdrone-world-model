@@ -24,3 +24,29 @@ Config: output/ppo_wm_policy_edge_hard_xp.zip
 
 ### Researcher notes
 (unattended run)
+
+## K1 — the moving-gap v2 champion — its home skill, chained (2026-07-05 11:03 UTC)
+Hypothesis: each fence alone is a solved problem; the second direction reversal is the new thing — expect best zero-shot, degrading on slalom3's third gate
+Config: experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom2@1.0 | 30 | 93% | 7% | 0.11 | weaved=0.07 weave_frac=0.70 chain_break_at=1.30 |
+| slalom3@1.0 | 30 | 97% | 0% | 0.09 | weaved=0.00 weave_frac=0.63 chain_break_at=1.00 |
+| slalom3@1.5 | 30 | 100% | 0% | 0.08 | weaved=0.00 weave_frac=0.72 chain_break_at=1.47 |
+| guard:gap@1.0 | 30 | 10% | 90% | 0.41 | transited=0.90 gap_margin=0.24 |
+| guard:mgap@1.0 | 90 | 19% | 81% | 0.31 | transited=0.98 gap_margin=0.17 |
+| guard:cluttered | 120 | 3% | 97% | 0.38 |  |
+| guard:sweep@2.0 | 60 | 0% | 100% | 0.54 |  |
+- slalom2@1.0 success>=0.7: 0.07 FAIL
+- slalom3@1.0 success>=0.55: 0.00 FAIL
+- slalom3@1.5 success>=0.4: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.90 PASS
+- guard:mgap@1.0 success>=0.7: 0.81 PASS (rechecked)
+- guard:cluttered crash<=0.05: 0.03 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.00 PASS
+
+**Gate verdict: continue**
+
+### Researcher notes
+(unattended run)

@@ -1,0 +1,229 @@
+{
+ "skill": "corridor-slalom",
+ "skill_version": "1",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "slalom2@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "slalom3@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "slalom3@1.5",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.4
+  },
+  {
+   "cell": "guard:gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "guard:mgap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K0",
+   "kind": "zero_shot",
+   "desc": "the general champion on the slalom",
+   "hypothesis": "trained to dodge PAST things, never to re-enter for a next gate: expect slalom2 marginal, slalom3 snapping at gate 1-2, or a detour caught by `weaved`",
+   "config": {
+    "policy_path": "output/ppo_wm_policy_edge_hard_xp.zip"
+   },
+   "artifacts": {
+    "policy_zip": "output/ppo_wm_policy_edge_hard_xp.zip",
+    "sha256": "54ef8dcc5501de93"
+   },
+   "cells": {
+    "slalom2@1.0": {
+     "n": 30,
+     "seed0": 21000,
+     "crash": 0.7,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.1781589822698477,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.5,
+      "chain_break_at": 0.5666666666666667
+     }
+    },
+    "slalom3@1.0": {
+     "n": 30,
+     "seed0": 21000,
+     "crash": 0.7666666666666667,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.13386831794747064,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.7333333333333336,
+      "chain_break_at": 1.5333333333333334
+     }
+    },
+    "slalom3@1.5": {
+     "n": 30,
+     "seed0": 21000,
+     "crash": 0.9,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.11362837936669351,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.6222222222222221,
+      "chain_break_at": 1.2
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.6333333333333333,
+     "reached": 1.0,
+     "success": 0.26666666666666666,
+     "clearance_mean": 0.1784464265646348,
+     "custom": {
+      "transited": 0.36666666666666664,
+      "gap_margin": 0.03935035701553742
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.6666666666666666,
+     "reached": 1.0,
+     "success": 0.23333333333333334,
+     "clearance_mean": 0.18507461183501175,
+     "custom": {
+      "transited": 0.3,
+      "gap_margin": 0.055107586426557824
+     }
+    },
+    "guard:cluttered": {
+     "n": 120,
+     "seed0": 1000,
+     "crash": 0.03333333333333333,
+     "reached": 1.0,
+     "success": 0.9666666666666667,
+     "clearance_mean": 0.5426054171457046,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.03333333333333333,
+      "reached": 1.0,
+      "success": 0.9666666666666667,
+      "clearance_mean": 0.54272717305865,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:sweep@2.0": {
+     "n": 120,
+     "seed0": 3000,
+     "crash": 0.041666666666666664,
+     "reached": 1.0,
+     "success": 0.9583333333333334,
+     "clearance_mean": 0.6423618176887606,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.016666666666666666,
+      "reached": 1.0,
+      "success": 0.9833333333333333,
+      "clearance_mean": 0.6528210470423564,
+      "custom": {}
+     },
+     "pooled": true
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "slalom2@1.0 success>=0.7",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "slalom3@1.0 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "slalom3@1.5 success>=0.4",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.26666666666666666,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.23333333333333334,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.03333333333333333,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.041666666666666664,
+      "pass": true,
+      "rechecked": true
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-05 11:02 UTC",
+    "ended": "2026-07-05 11:02 UTC"
+   },
+   "git": {
+    "commit": "3ff0f45"
+   }
+  }
+ ]
+}
