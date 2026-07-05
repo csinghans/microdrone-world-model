@@ -46,3 +46,27 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## K2 — same mixture at 1350k (2026-07-05 15:06 UTC)
+Hypothesis: reserve: v1 never tried the budget dial here (it doubled share and broke a guard) — buy convergence, not new variables
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap", "solo", "slalom3_fixed"], "x_progress": true, "edge_bias": true, "timesteps": 1350000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom3@1.0 | 30 | 90% | 0% | 0.13 | weaved=0.00 weave_frac=0.82 chain_break_at=2.03 |
+| diag:slalom2@1.0 | 30 | 77% | 20% | 0.16 | weaved=0.20 weave_frac=0.85 chain_break_at=1.70 |
+| diag:slalom3@1.25 | 30 | 87% | 7% | 0.14 | weaved=0.07 weave_frac=0.72 chain_break_at=1.53 |
+| guard:gap@1.0 | 30 | 7% | 93% | 0.42 | transited=1.00 gap_margin=0.25 |
+| guard:mgap@1.0 | 30 | 40% | 60% | 0.27 | transited=0.97 gap_margin=0.11 |
+| guard:cluttered | 120 | 7% | 93% | 0.37 |  |
+| guard:sweep@2.0 | 120 | 13% | 86% | 0.40 |  |
+- slalom3@1.0 success>=0.7: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.93 PASS
+- guard:mgap@1.0 success>=0.7: 0.60 FAIL
+- guard:cluttered crash<=0.05: 0.07 FAIL (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.13 FAIL (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)

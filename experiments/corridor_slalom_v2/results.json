@@ -188,6 +188,182 @@
    "git": {
     "commit": "46888e6"
    }
+  },
+  {
+   "id": "K1",
+   "kind": "policy",
+   "desc": "fresh training on the FIXED spacing (v2-combination diet, 900k)",
+   "hypothesis": "a fixed dx is a learnable rhythm; whether it closes 97-vs-10 is the whole question",
+   "config": {
+    "worlds": [
+     "classic",
+     "classic",
+     "dense",
+     "moving",
+     "gap",
+     "moving_gap",
+     "solo",
+     "slalom3_fixed"
+    ],
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 900000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/corridor_slalom_v2/artifacts/ppo_corridor_slalom_v2_K1.zip",
+    "sha256": "3764b9cc359a652e"
+   },
+   "cells": {
+    "slalom3@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.9666666666666667,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.1072884523719833,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.7222222222222221,
+      "chain_break_at": 1.3333333333333333
+     }
+    },
+    "diag:slalom2@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.8,
+     "reached": 1.0,
+     "success": 0.13333333333333333,
+     "clearance_mean": 0.16027301989875894,
+     "custom": {
+      "weaved": 0.13333333333333333,
+      "weave_frac": 0.85,
+      "chain_break_at": 1.6333333333333333
+     }
+    },
+    "diag:slalom3@1.25": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.9333333333333333,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.08946422716946388,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.7333333333333332,
+      "chain_break_at": 1.6
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.06666666666666667,
+     "reached": 1.0,
+     "success": 0.8666666666666667,
+     "clearance_mean": 0.40932866887920166,
+     "custom": {
+      "transited": 0.8666666666666667,
+      "gap_margin": 0.24121200313803934
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.43333333333333335,
+     "reached": 1.0,
+     "success": 0.5666666666666667,
+     "clearance_mean": 0.2481378767048489,
+     "custom": {
+      "transited": 0.8,
+      "gap_margin": 0.11631654536265357
+     }
+    },
+    "guard:cluttered": {
+     "n": 120,
+     "seed0": 1000,
+     "crash": 0.025,
+     "reached": 1.0,
+     "success": 0.975,
+     "clearance_mean": 0.42926861692341944,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.016666666666666666,
+      "reached": 1.0,
+      "success": 0.9833333333333333,
+      "clearance_mean": 0.44670086133298936,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:sweep@2.0": {
+     "n": 120,
+     "seed0": 3000,
+     "crash": 0.06666666666666667,
+     "reached": 0.9916666666666667,
+     "success": 0.9333333333333333,
+     "clearance_mean": 0.4864402147534348,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.08333333333333333,
+      "reached": 1.0,
+      "success": 0.9166666666666666,
+      "clearance_mean": 0.4796520291680203,
+      "custom": {}
+     },
+     "pooled": true
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "slalom3@1.0 success>=0.7",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.8666666666666667,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.5666666666666667,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.025,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.06666666666666667,
+      "pass": true,
+      "rechecked": true
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-05 13:03 UTC",
+    "ended": "2026-07-05 13:51 UTC"
+   },
+   "git": {
+    "commit": "4ead021"
+   }
   }
  ]
 }
