@@ -75,6 +75,10 @@ def _write_results(exp_dir: str, results: dict) -> None:
 def train_knob(skill, knob, exp_dir: str, dry: bool) -> str:
     """Produce (or locate) the policy artifact for a knob."""
     if knob.kind == "zero_shot":
+        if knob.policy_path.startswith("builtin:"):
+            # not a zip: a named baseline (the duel skills bench the
+            # reactive / hand-MPC contenders on the same cells and seeds)
+            return knob.policy_path
         path = os.path.join(ROOT, knob.policy_path)
         if dry and not os.path.exists(path):
             # CI runners have no real champions (output/ is git-ignored) and
@@ -112,6 +116,18 @@ def _policy_factory(zip_path: str):
     from planner.learned_policy import LearnedPolicy, load_policy
 
     enc, pred, cheads, nhead, meta = load_or_train(device="cpu")
+    if zip_path == "builtin:reactive":
+        # the privileged-direction danger-now baseline: it can only lose
+        # on timing (run_scenario_episode live-refreshes its .pillars)
+        from planner.latent_mpc import ReactivePolicy
+
+        return lambda speed: ReactivePolicy(enc, nhead)
+    if zip_path == "builtin:wm_mpc":
+        from planner.latent_mpc import WMPolicy
+
+        return lambda speed: WMPolicy(enc, pred, cheads, meta, speed=speed)
+    if zip_path.startswith("builtin:"):
+        raise SystemExit(f"unknown builtin policy: {zip_path}")
     model = load_policy(zip_path)
     return lambda speed: LearnedPolicy(model, enc, pred, cheads, meta, speed=speed)
 
@@ -267,10 +283,14 @@ def run_knob(skill, knob, exp_dir: str, dry: bool, no_commit: bool) -> dict:
         "desc": knob.desc,
         "hypothesis": knob.hypothesis,
         "config": knob.train_kwargs or {"policy_path": knob.policy_path},
-        "artifacts": {
-            "policy_zip": os.path.relpath(zip_path, ROOT),
-            "sha256": _sha256(zip_path),
-        },
+        "artifacts": (
+            {"policy": zip_path, "sha256": None}  # builtin baseline, no file
+            if zip_path.startswith("builtin:")
+            else {
+                "policy_zip": os.path.relpath(zip_path, ROOT),
+                "sha256": _sha256(zip_path),
+            }
+        ),
         "cells": cells,
         "gate": gate,
         "timing": {"started": started, "ended": _now()},
