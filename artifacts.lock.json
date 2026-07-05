@@ -1,0 +1,30 @@
+{
+ "release": "champions-2026-07",
+ "note": "measured champions a fresh clone needs to run real campaigns; sha256 cross-checked against the campaigns' results.json records at upload time",
+ "artifacts": [
+  {
+   "name": "world_model.pth",
+   "dest": "output/world_model.pth",
+   "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+   "what": "the G1 world model (v0.2 champion; == world_model_g1.pth, cmp-verified)"
+  },
+  {
+   "name": "ppo_wm_policy_edge_hard_xp.zip",
+   "dest": "output/ppo_wm_policy_edge_hard_xp.zip",
+   "sha256": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+   "what": "the general champion policy (v0.3: hard worlds + odometry pin + edge diet)"
+  },
+  {
+   "name": "ppo_gap_flight_KD1.zip",
+   "dest": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
+   "sha256": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+   "what": "the gap-flight skill champion (87-90 % transit)"
+  },
+  {
+   "name": "ppo_moving_gap_v2_K3.zip",
+   "dest": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+   "sha256": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+   "what": "the moving-gap v2 champion (also threads the closing door zero-shot)"
+  }
+ ]
+}
