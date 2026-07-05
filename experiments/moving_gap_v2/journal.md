@@ -50,3 +50,29 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## K2 — an explicit solo world on the KD1 chassis (2026-07-05 03:11 UTC)
+Hypothesis: the bleeding cell is fast+solo geometry; edge-bias already over-samples fast, so a solo world aims it at the wound
+Config: {"worlds": ["classic", "dense", "moving", "gap", "moving_gap", "solo"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| mgap@1.0 | 30 | 47% | 53% | 0.25 | transited=0.80 gap_margin=0.11 |
+| mgap@1.5 | 30 | 10% | 90% | 0.34 | transited=0.97 gap_margin=0.20 |
+| guard:gap@1.0 | 30 | 10% | 90% | 0.40 | transited=0.90 gap_margin=0.25 |
+| guard:cluttered | 60 | 0% | 100% | 0.54 |  |
+| guard:sweep@1.0 | 30 | 0% | 98% | 0.64 |  |
+| guard:sweep@1.5 | 30 | 2% | 98% | 0.50 |  |
+| guard:sweep@2.0 | 60 | 3% | 95% | 0.45 |  |
+- mgap@1.0 success>=0.75: 0.53 FAIL
+- mgap@1.5 success>=0.6: 0.90 PASS
+- guard:gap@1.0 success>=0.75: 0.90 PASS
+- guard:cluttered crash<=0.05: 0.00 PASS (rechecked)
+- guard:sweep@1.0 crash<=0.05: 0.00 PASS (rechecked)
+- guard:sweep@1.5 crash<=0.1: 0.02 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.03 PASS (rechecked)
+
+**Gate verdict: continue**
+
+### Researcher notes
+(unattended run)
