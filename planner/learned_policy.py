@@ -111,7 +111,11 @@ class ObsBuilder:
         # odometry, the drone's knowledge of itself) is the anchor that lets
         # "danger seen 0.8 s ago" mean "danger BEHIND me" vs "danger ahead".
         self.x_progress = bool(x_progress)
-        self.per_step = self.n_act * 8 + 2 + self.n_act + (1 if x_progress else 0)
+        # collision probabilities per candidate: one per (horizon, ring),
+        # sized from the LOADED model's meta — 8 for the classic 4x2 stack,
+        # more for horizon-extended variants; old zips keep their layout
+        n_probs = len(meta["horizons"]) * len(meta["radii"])
+        self.per_step = self.n_act * n_probs + 2 + self.n_act + (1 if x_progress else 0)
         self.history = int(history)
         self.hist = deque(maxlen=self.history)
         self.h_gru = None  # model-side memory state (v3 checkpoints)

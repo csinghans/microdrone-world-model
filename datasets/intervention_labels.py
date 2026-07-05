@@ -21,13 +21,22 @@ rather than trained on — grading a model on questions it cannot see would
 only teach noise.
 """
 
+import os
+
 import numpy as np
 
 from planner.action_set import ACTION_VECS
 from sim.envs import CTRL_HZ
 from sim.scenarios import FOV_HALF_DEG, RADII
 
-HORIZONS = (4, 8, 16, 32)  # label horizons in control steps (~83..667 ms @ 48 Hz)
+# Label horizons in control steps (~83..667 ms @ 48 Hz). WM_HORIZONS is a
+# research-harness override for horizon-extension campaigns (a process-wide
+# switch: data generation, training, heads and eval must all run under the
+# SAME value — checkpoints carry meta["horizons"] as the ground truth, and
+# loading a checkpoint under a mismatched switch fails loudly at state-dict
+# time, which is the desired behaviour). Campaign journals must record it.
+HORIZONS = tuple(int(x) for x in os.environ.get("WM_HORIZONS", "4,8,16,32").split(","))
+assert all(b > a > 0 for a, b in zip(HORIZONS, HORIZONS[1:])), "must increase"
 H_MAX = HORIZONS[-1]
 
 
