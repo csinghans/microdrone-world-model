@@ -102,3 +102,37 @@ Config: {"worlds": ["classic", "dense", "moving", "gap", "moving_gap", "moving_g
 
 ### Researcher notes
 (unattended run)
+
+## Researcher notes — post-run analysis of K0-K3 (2026-07-05)
+
+Four knobs, four target-passes, zero clean gates — every failure is a
+**classic-based home-turf guard**, which is the dilution signature: the
+champion's 4-world diet gave classic 25 % of episodes; K1's five worlds
+give it 20 %, K2/K3's six give ~17 %.
+
+- **K0 surprise, worth recording:** the pre-registered "honest failure"
+  was mild (mgap@1.0 67 % vs bar 75; @1.5 *passed* at 87 %). The
+  static-future assumption costs less than the crosser world suggested,
+  because the policy re-decides every 5 steps and the fence keeps
+  sliding into view — partial tracking for free. The gap that remains
+  is at low speed (longer approach = more displacement), exactly where
+  the timing story predicts it.
+- **The budget dial is measured, again:** K2→K3 (+150 k, same mixture)
+  healed every failing guard monotonically (cluttered 22→13,
+  sweep@1.0 27→17, sweep@2.0 22→8) while targets held. Same phenomenon
+  KD1 rescued in the gap-flight campaign.
+- **K1's mixture had the best guard profile** (cluttered 10 %, sweep
+  3/8/27 with the 27 un-rechecked and bouncing 10/27/22/8 across
+  knobs): the double mgap share (K2/K3) bought target margin the bars
+  don't need, at home-turf cost.
+
+### Deviation KD1 — pre-registered before launch
+
+K1's five-world mixture at **900 k** (2× K1): the proven budget dial on
+the mildest-damage mixture, no new variables. Expected: targets hold
+(83/83 at 450 k), cluttered 10→≤5 and the noisy sweep@2.0 settle with
+2× convergence, per the measured K2→K3 budget response. If KD1 still
+breaks a home-turf guard, the honest conclusion is that a 5-world diet
+cannot pay the classic tax at reasonable budgets, and the next
+pre-registration should attack the *mixture shape* (e.g. classic×2)
+instead of the budget.
