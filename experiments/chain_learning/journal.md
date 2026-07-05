@@ -107,3 +107,27 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## K2 — graded diet: slalom2_fixed added to the v2-K1 recipe (2026-07-05 23:09 UTC)
+Hypothesis: 2-gate chains succeed often enough to reinforce; the reversal should transfer (share confound stated in the pre-registration)
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap", "solo", "slalom2_fixed", "slalom3_fixed"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom3@1.0 | 30 | 93% | 0% | 0.10 | weaved=0.00 weave_frac=0.80 chain_break_at=1.97 |
+| diag:slalom2@1.0 | 30 | 87% | 10% | 0.16 | weaved=0.10 weave_frac=0.80 chain_break_at=1.60 |
+| diag:slalom3@1.25 | 30 | 93% | 0% | 0.11 | weaved=0.00 weave_frac=0.80 chain_break_at=1.90 |
+| guard:gap@1.0 | 30 | 10% | 83% | 0.38 | transited=0.83 gap_margin=0.21 |
+| guard:mgap@1.0 | 90 | 27% | 72% | 0.29 | transited=0.94 gap_margin=0.14 |
+| guard:cluttered | 120 | 5% | 95% | 0.39 |  |
+| guard:sweep@2.0 | 120 | 10% | 89% | 0.40 |  |
+- slalom3@1.0 success>=0.7: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.83 PASS
+- guard:mgap@1.0 success>=0.7: 0.72 PASS (rechecked)
+- guard:cluttered crash<=0.05: 0.05 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.10 PASS (rechecked)
+
+**Gate verdict: continue**
+
+### Researcher notes
+(unattended run)

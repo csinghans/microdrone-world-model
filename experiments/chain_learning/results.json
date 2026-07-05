@@ -1,0 +1,229 @@
+{
+ "skill": "chain-learning",
+ "skill_version": "1",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "slalom3@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "guard:mgap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K1",
+   "kind": "policy",
+   "desc": "per-gate task reward (gate_bonus=8.0) on the v2-K1 recipe",
+   "hypothesis": "if distal credit is the wall, proximal gate pay concentrates advantage on rare chains and chain_break_at moves first",
+   "config": {
+    "worlds": [
+     "classic",
+     "classic",
+     "dense",
+     "moving",
+     "gap",
+     "moving_gap",
+     "solo",
+     "slalom3_fixed"
+    ],
+    "gate_bonus": 8.0,
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 900000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/chain_learning/artifacts/ppo_chain_learning_K1.zip",
+    "sha256": "1e2141b48e5e3daa"
+   },
+   "cells": {
+    "slalom3@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.7,
+     "reached": 1.0,
+     "success": 0.06666666666666667,
+     "clearance_mean": 0.1494415876665322,
+     "custom": {
+      "weaved": 0.06666666666666667,
+      "weave_frac": 0.7777777777777778,
+      "chain_break_at": 1.7333333333333334
+     }
+    },
+    "diag:slalom2@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.7666666666666667,
+     "reached": 1.0,
+     "success": 0.13333333333333333,
+     "clearance_mean": 0.16144496578604944,
+     "custom": {
+      "weaved": 0.13333333333333333,
+      "weave_frac": 0.75,
+      "chain_break_at": 1.5
+     }
+    },
+    "diag:slalom3@1.25": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.8333333333333334,
+     "reached": 1.0,
+     "success": 0.03333333333333333,
+     "clearance_mean": 0.13267187269730843,
+     "custom": {
+      "weaved": 0.03333333333333333,
+      "weave_frac": 0.7222222222222222,
+      "chain_break_at": 1.4666666666666666
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.06666666666666667,
+     "reached": 1.0,
+     "success": 0.9333333333333333,
+     "clearance_mean": 0.4359088239277442,
+     "custom": {
+      "transited": 0.9333333333333333,
+      "gap_margin": 0.26446866869577
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 90,
+     "seed0": 9500,
+     "crash": 0.32222222222222224,
+     "reached": 1.0,
+     "success": 0.6666666666666666,
+     "clearance_mean": 0.2542878065449497,
+     "custom": {
+      "transited": 0.9111111111111111,
+      "gap_margin": 0.1049409603183552
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 10500,
+      "crash": 0.31666666666666665,
+      "reached": 1.0,
+      "success": 0.6666666666666666,
+      "clearance_mean": 0.25051714467865255,
+      "custom": {
+       "transited": 0.9,
+       "gap_margin": 0.10292050821470444
+      }
+     },
+     "pooled": true
+    },
+    "guard:cluttered": {
+     "n": 120,
+     "seed0": 1000,
+     "crash": 0.025,
+     "reached": 1.0,
+     "success": 0.975,
+     "clearance_mean": 0.5165547466044006,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.0,
+      "reached": 1.0,
+      "success": 1.0,
+      "clearance_mean": 0.5415936956809887,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:sweep@2.0": {
+     "n": 120,
+     "seed0": 3000,
+     "crash": 0.03333333333333333,
+     "reached": 1.0,
+     "success": 0.9666666666666667,
+     "clearance_mean": 0.5287310708037065,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.016666666666666666,
+      "reached": 1.0,
+      "success": 0.9833333333333333,
+      "clearance_mean": 0.53498046765726,
+      "custom": {}
+     },
+     "pooled": true
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "slalom3@1.0 success>=0.7",
+      "kind": "target",
+      "measured": 0.06666666666666667,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.9333333333333333,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.6666666666666666,
+      "pass": false,
+      "rechecked": true
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.025,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.03333333333333333,
+      "pass": true,
+      "rechecked": true
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-05 21:26 UTC",
+    "ended": "2026-07-05 22:17 UTC"
+   },
+   "git": {
+    "commit": "30fab85"
+   }
+  }
+ ]
+}
