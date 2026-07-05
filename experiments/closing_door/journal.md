@@ -46,3 +46,27 @@ Config: builtin:wm_mpc
 
 ### Researcher notes
 (unattended run)
+
+## K2 — the general champion (edge_hard_xp), zero-shot (2026-07-05 05:11 UTC)
+Hypothesis: never dieted on fences; expected to hard-charge like gap K0
+Config: output/ppo_wm_policy_edge_hard_xp.zip
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| door@1.0 | 30 | 23% | 10% | 0.33 | threaded=0.10 pinched=0.23 froze=0.00 door_margin=0.01 |
+| door@1.5 | 30 | 20% | 0% | 0.29 | threaded=0.00 pinched=0.20 froze=0.00 door_margin=0.00 |
+| guard:gap@1.0 | 30 | 63% | 27% | 0.18 | transited=0.37 gap_margin=0.04 |
+| guard:mgap@1.0 | 30 | 67% | 23% | 0.19 | transited=0.30 gap_margin=0.06 |
+| guard:cluttered | 60 | 3% | 97% | 0.54 |  |
+| guard:sweep@2.0 | 60 | 2% | 98% | 0.65 |  |
+- door@1.0 success>=0.7: 0.10 FAIL
+- door@1.5 success>=0.55: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.27 FAIL
+- guard:mgap@1.0 success>=0.7: 0.23 FAIL
+- guard:cluttered crash<=0.05: 0.03 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.02 PASS (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
