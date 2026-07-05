@@ -60,6 +60,13 @@ def main() -> None:
     ap.add_argument("--only", default=None, help="run a single cell id")
     ap.add_argument("--n", type=int, default=None, help="override n (rechecks)")
     ap.add_argument("--seed0", type=int, default=None, help="override seed0")
+    ap.add_argument(
+        "--skill",
+        default=None,
+        help="judge with this skill's success/metrics instead of the "
+        "reached-and-clean shim (registers its worlds too) — promotion "
+        "gates need the skill's own trajectory-level verdicts",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
@@ -98,6 +105,11 @@ def main() -> None:
     from scripts.research import _policy_factory, run_cell
     from sim.envs import make_env
 
+    judge = SHIM
+    if args.skill:
+        from skills.base import load_skill
+
+        judge = load_skill(args.skill)  # registers its worlds as a side effect
     cells = load_cells(args.cells)
     if args.only:
         cells = [c for c in cells if c.id == args.only]
@@ -107,7 +119,7 @@ def main() -> None:
     env = make_env()
     results = {}
     for cell in cells:
-        r = run_cell(factory, cell, SHIM, env, n=args.n, seed0=args.seed0)
+        r = run_cell(factory, cell, judge, env, n=args.n, seed0=args.seed0)
         results[cell.id] = r
         print(
             f"  {cell.id}: crash {r['crash']:.3f}  success {r['success']:.3f}  "

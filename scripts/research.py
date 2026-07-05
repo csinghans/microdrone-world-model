@@ -9,10 +9,12 @@
 Encodes the house discipline: one knob per run; pre-registered criteria are
 immutable (the skill file froze them); guards protect everything the
 champion already does; any cell landing within ±recheck_margin of its bar
-is re-measured at recheck_n on fresh seeds; negative results are recorded,
-never retried into passing. Every gate appends a mechanical block to
-experiments/<skill>/journal.md, updates results.json, and (unless
---no-commit) commits exactly the experiments/<skill>/ paths.
+gets a fresh recheck_n block POOLED with the original (judged at combined
+n — replacement would re-roll the die; see experiments/sweep2_noise);
+negative results are recorded, never retried into passing. Every gate
+appends a mechanical block to experiments/<skill>/journal.md, updates
+results.json, and (unless --no-commit) commits the experiments/<skill>/
+paths.
 
 Exit codes: 0 = all targets met · 10 = gate recorded, campaign continues ·
 2 = harness error.
@@ -170,7 +172,12 @@ def run_cell(factory, cell, skill, env, n=None, seed0=None) -> dict:
 
 
 def evaluate_gate(skill, cells_results: dict, factory, env, dry: bool) -> dict:
-    """Apply criteria; auto-recheck any cell within ±recheck_margin of a bar."""
+    """Apply criteria; any cell within ±recheck_margin of a bar gets a fresh
+    recheck_n block whose result is **pooled** with the original (judged at
+    combined n). Pooling, never replacement: on a binomial cell a
+    replacement recheck just re-rolls the die — measured the hard way in
+    experiments/sweep2_noise (a passing 6.7 % first read was replaced by
+    the one 13.3 % block in ten). Semantics changed 2026-07-05, prospective."""
     verdicts, rechecked = [], set()
     for cr in skill.criteria:
         res = cells_results[cr.cell]
@@ -182,10 +189,16 @@ def evaluate_gate(skill, cells_results: dict, factory, env, dry: bool) -> dict:
             cell = next(c for c in skill.cells if c.id == cr.cell)
             n2 = 3 if dry else skill.recheck_n
             re = run_cell(factory, cell, skill, env, n=n2, seed0=cell.seed0 + 1000)
-            res["recheck"] = re
+            res["recheck"] = re  # the fresh block, kept for the record
+            n1, tot = res["n"], res["n"] + re["n"]
             for key in ("crash", "reached", "success", "clearance_mean"):
-                res[key] = re[key]
-            res["custom"] = re["custom"]
+                res[key] = (res[key] * n1 + re[key] * re["n"]) / tot
+            res["custom"] = {
+                k: (res["custom"].get(k, 0.0) * n1 + v * re["n"]) / tot
+                for k, v in re["custom"].items()
+            }
+            res["n"] = tot
+            res["pooled"] = True
             rechecked.add(cr.cell)
             measured = res["custom"].get(cr.metric, res.get(cr.metric))
         verdicts.append(

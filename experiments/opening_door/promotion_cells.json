@@ -1,0 +1,8 @@
+[
+  {"id": "odoor@1.0", "world": "opening_door", "speed": 1.0, "n": 200, "seed0": 20000},
+  {"id": "odoor@1.5", "world": "opening_door", "speed": 1.5, "n": 200, "seed0": 20000},
+  {"id": "guard:gap@1.0", "world": "gap", "speed": 1.0, "n": 200, "seed0": 20000, "role": "guard"},
+  {"id": "guard:mgap@1.0", "world": "moving_gap", "speed": 1.0, "n": 200, "seed0": 20000, "role": "guard"},
+  {"id": "guard:cluttered", "world": null, "speed": 1.0, "n": 200, "seed0": 20000, "kwargs": {"in_path": true}, "role": "guard"},
+  {"id": "guard:sweep@2.0", "world": null, "speed": 2.0, "n": 200, "seed0": 20000, "kwargs": {"in_path": true, "solo": true}, "role": "guard"}
+]

@@ -26,10 +26,16 @@ Alphabetical-ish, grouped by layer. Every term links to a live example.
   improve; **guards** are regression bars on everything the champion
   already does. *Guards are sacred: a win that breaks a guard is a hole
   that moved* (see the moved-hole refrain below).
-- **recheck** — any cell landing within ±0.08 of its bar is automatically
-  re-measured at n=60 on fresh seeds. This rule has flipped verdicts
+- **recheck** — any cell landing within ±0.08 of its bar automatically
+  gets a fresh n=60 block **pooled** with the original (judged at
+  combined n). Pooling, never replacement — the calibration study
+  ([sweep2_noise](../experiments/sweep2_noise/journal.md)) caught a
+  replacement-style recheck re-rolling a passing read into the one bad
+  block in ten. The rule has also flipped verdicts the right way
   ([26.7 % → 48.3 %](../experiments/metric_grounding/journal.md)); a
-  bar without a recheck rule is softer than it looks.
+  bar without a recheck rule is softer than it looks. (Pooling
+  semantics are prospective from 2026-07-05; older journals record the
+  replacement-era numbers.)
 - **soul-assert** — the one synthetic-path selftest check that encodes
   what a skill is *about* (gap: through=success/around=fail; moving-gap:
   now=success/was=fail; door: on-time=success/late=fail). If you can't

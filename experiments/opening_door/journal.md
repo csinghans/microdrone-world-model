@@ -137,3 +137,31 @@ scaffolded by `new_skill`; operator mode executed K0-K2 and the
 authorized K3 with fixed-format reports and stopped at exactly the two
 designed seams (training-knob authorization, harness error). The lane
 works.
+
+## Promotion gate — pre-registered before it flies (2026-07-05)
+
+Authorized by the maintainer following the sweep2_noise calibration.
+One shot, no retries: the K3 artifact
+(`artifacts/ppo_opening_door_K3.zip`, sha 1cfdcebac9a325d7) flies every
+v1 cell at **n=200** (CI half-width ≈ ±3.2 pt at p≈0.06 — inside the
+inheritance table's resolution) on the fresh, never-used seed block
+20000, judged with the skill's own predicates
+(`eval_policy_cells --skill opening-door`). Bars are v1's, verbatim:
+
+| cell | bar |
+|---|---|
+| odoor@1.0 success | ≥ 0.60 |
+| odoor@1.5 success | ≥ 0.50 |
+| guard:gap@1.0 success | ≥ 0.75 |
+| guard:mgap@1.0 success | ≥ 0.70 |
+| guard:cluttered crash | ≤ 0.05 |
+| guard:sweep@2.0 crash | ≤ 0.10 |
+
+All six pass → K3 is the opening-door champion. Any bar fails → the
+title stays open and THIS measurement is final (no further shots at
+n=200; a failed promotion is an honest negative like any other). The
+campaign's original gate verdict remains on the record either way —
+this gate exists because a strictly stronger instrument became
+available, not because we disliked the old verdict.
+
+(appended when the numbers land)
