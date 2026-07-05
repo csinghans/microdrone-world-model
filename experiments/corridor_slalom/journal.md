@@ -50,3 +50,29 @@ Config: experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip
 
 ### Researcher notes
 (unattended run)
+
+## K2 — slalom3 joins the v2-combination diet (2026-07-05 11:49 UTC)
+Hypothesis: the chain becomes a trained behaviour (single variable: the new world in the proven chassis)
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap", "solo", "slalom3"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom2@1.0 | 30 | 90% | 10% | 0.14 | weaved=0.10 weave_frac=0.85 chain_break_at=1.43 |
+| slalom3@1.0 | 30 | 90% | 3% | 0.12 | weaved=0.03 weave_frac=0.82 chain_break_at=2.17 |
+| slalom3@1.5 | 30 | 100% | 0% | 0.11 | weaved=0.00 weave_frac=0.73 chain_break_at=1.53 |
+| guard:gap@1.0 | 30 | 3% | 93% | 0.43 | transited=0.93 gap_margin=0.26 |
+| guard:mgap@1.0 | 30 | 17% | 83% | 0.30 | transited=0.93 gap_margin=0.16 |
+| guard:cluttered | 120 | 2% | 98% | 0.42 |  |
+| guard:sweep@2.0 | 60 | 0% | 100% | 0.61 |  |
+- slalom2@1.0 success>=0.7: 0.10 FAIL
+- slalom3@1.0 success>=0.55: 0.03 FAIL
+- slalom3@1.5 success>=0.4: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.93 PASS
+- guard:mgap@1.0 success>=0.7: 0.83 PASS
+- guard:cluttered crash<=0.05: 0.02 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.00 PASS
+
+**Gate verdict: continue**
+
+### Researcher notes
+(unattended run)
