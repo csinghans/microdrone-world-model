@@ -1,0 +1,230 @@
+{
+ "skill": "moving-gap-v2",
+ "skill_version": "2",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "mgap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "mgap@1.5",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.6
+  },
+  {
+   "cell": "guard:gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@1.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@1.5",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K0",
+   "kind": "zero_shot",
+   "desc": "the v1 best (KD1), re-measured on v2's cells",
+   "hypothesis": "one measurement basis for the whole campaign; expected: targets pass, sweep@2.0 lands near its confirmed 17 %",
+   "config": {
+    "policy_path": "experiments/moving_gap/artifacts/ppo_moving_gap_KD1.zip"
+   },
+   "artifacts": {
+    "policy_zip": "experiments/moving_gap/artifacts/ppo_moving_gap_KD1.zip",
+    "sha256": "4a120de4c75be031"
+   },
+   "cells": {
+    "mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.2,
+     "reached": 1.0,
+     "success": 0.8,
+     "clearance_mean": 0.3404875445572622,
+     "custom": {
+      "transited": 0.9666666666666667,
+      "gap_margin": 0.17988946915112358
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 10500,
+      "crash": 0.2,
+      "reached": 1.0,
+      "success": 0.8,
+      "clearance_mean": 0.3404875445572622,
+      "custom": {
+       "transited": 0.9666666666666667,
+       "gap_margin": 0.17988946915112358
+      }
+     }
+    },
+    "mgap@1.5": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.2,
+     "reached": 1.0,
+     "success": 0.8,
+     "clearance_mean": 0.34600192070724584,
+     "custom": {
+      "transited": 0.9666666666666667,
+      "gap_margin": 0.1874942618598477
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 1.0,
+     "clearance_mean": 0.41616568722440517,
+     "custom": {
+      "transited": 1.0,
+      "gap_margin": 0.2444817565506438
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.0,
+     "reached": 0.9833333333333333,
+     "success": 0.9833333333333333,
+     "clearance_mean": 0.4315465230036038,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.0,
+      "reached": 0.9833333333333333,
+      "success": 0.9833333333333333,
+      "clearance_mean": 0.4315465230036038,
+      "custom": {}
+     }
+    },
+    "guard:sweep@1.0": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.03333333333333333,
+     "reached": 1.0,
+     "success": 0.9666666666666667,
+     "clearance_mean": 0.42902104601573043,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.03333333333333333,
+      "reached": 1.0,
+      "success": 0.9666666666666667,
+      "clearance_mean": 0.42902104601573043,
+      "custom": {}
+     }
+    },
+    "guard:sweep@1.5": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 1.0,
+     "clearance_mean": 0.3872020393234993,
+     "custom": {}
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.21666666666666667,
+     "reached": 0.95,
+     "success": 0.7333333333333333,
+     "clearance_mean": 0.3226485915220742,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "mgap@1.0 success>=0.75",
+      "kind": "target",
+      "measured": 0.8,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "mgap@1.5 success>=0.6",
+      "kind": "target",
+      "measured": 0.8,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 1.0,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@1.0 crash<=0.05",
+      "kind": "guard",
+      "measured": 0.03333333333333333,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@1.5 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.21666666666666667,
+      "pass": false,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-05 01:40 UTC",
+    "ended": "2026-07-05 01:41 UTC"
+   },
+   "git": {
+    "commit": "51dfe14"
+   }
+  }
+ ]
+}

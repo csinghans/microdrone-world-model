@@ -24,3 +24,29 @@ Config: experiments/moving_gap/artifacts/ppo_moving_gap_KD1.zip
 
 ### Researcher notes
 (unattended run)
+
+## K1 — classic x2 on the KD1 chassis (2026-07-05 02:26 UTC)
+Hypothesis: share starvation: classic fell from the champion diet's 25 % to 20 %; restoring it to 33 % should heal its fast band with it
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| mgap@1.0 | 30 | 33% | 67% | 0.26 | transited=0.90 gap_margin=0.12 |
+| mgap@1.5 | 30 | 23% | 77% | 0.31 | transited=0.93 gap_margin=0.15 |
+| guard:gap@1.0 | 30 | 7% | 93% | 0.43 | transited=0.93 gap_margin=0.27 |
+| guard:cluttered | 60 | 2% | 98% | 0.44 |  |
+| guard:sweep@1.0 | 30 | 0% | 100% | 0.46 |  |
+| guard:sweep@1.5 | 30 | 0% | 100% | 0.49 |  |
+| guard:sweep@2.0 | 60 | 0% | 100% | 0.38 |  |
+- mgap@1.0 success>=0.75: 0.67 FAIL
+- mgap@1.5 success>=0.6: 0.77 PASS
+- guard:gap@1.0 success>=0.75: 0.93 PASS
+- guard:cluttered crash<=0.05: 0.02 PASS (rechecked)
+- guard:sweep@1.0 crash<=0.05: 0.00 PASS (rechecked)
+- guard:sweep@1.5 crash<=0.1: 0.00 PASS
+- guard:sweep@2.0 crash<=0.1: 0.00 PASS (rechecked)
+
+**Gate verdict: continue**
+
+### Researcher notes
+(unattended run)
