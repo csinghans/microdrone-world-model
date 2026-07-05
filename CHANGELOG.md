@@ -23,6 +23,18 @@
   the negatives, the dense frontier's measured "not-this" map, the
   instrument discipline, and v0.6 hardware behind explicit unfreeze
   criteria.
+- **The weekly train-smoke ran for the first time ever** (manual
+  dispatch) and paid for itself three times: the recalibrated model
+  smokes passed on CI, and three born-broken steps surfaced and got
+  honest fixes — `WMPolicyEnv` now rides `load_or_train` (artifact-less
+  runners), the research runner grew a *dry-only* zero-shot stand-in
+  (real campaigns still fail loudly on a missing champion), and the
+  demo's anticipating seat now belongs to the measured champion stack
+  (the hand MPC it used to assert had been broken by G1's recalibration
+  since v0.2 — the story asserts were silently red on every machine).
+  Auto-trained stand-ins are provenance-stamped
+  (`meta["autotrained_tiny"]`) so behavioral selftests can scope
+  themselves to wiring, honestly. Weekly job: green.
 
 ## Unreleased — the calibration falsification (head_calibration campaign, closed)
 
