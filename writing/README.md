@@ -7,7 +7,7 @@ number in every article traces to a rerunnable script in this repo.
 |---|---|---|---|---|
 | 1 | Why micro-drones need tiny world models | [en](01-why-tiny-world-models/en.md) | [繁中](01-why-tiny-world-models/zh-TW.md) | published in-repo |
 | 2 | Why predicting pixels is the wrong target | [en](02-why-predicting-pixels-is-wrong/en.md) | [繁中](02-why-predicting-pixels-is-wrong/zh-TW.md) | published in-repo |
-| 3 | Reactive vs proactive: the speed cliff, measured | — | — | planned |
+| 3 | Reactive vs proactive: the speed cliff, measured | [en](03-the-speed-cliff-measured/en.md) | [繁中](03-the-speed-cliff-measured/zh-TW.md) | published in-repo |
 | 4 | Building an action-conditioned latent world model | — | — | planned |
 | 5 | Evaluate by crash rate, not loss | — | — | planned |
 | 6 | From sim toward Crazyflie: the embedded budget | — | — | planned |
