@@ -70,3 +70,42 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## Researcher notes — campaign close: the bottleneck is structural (2026-07-05)
+
+**No knob passed the one priced target** (slalom3@1.0: 0/0/0 % across
+K0/K1/K2 against a 0.70 bar on a 0.97-ceiling arena). The hypotheses
+died informatively:
+
+- K1 (fixed spacing, fresh 900 k) came out WORSE than v1's mixed-dx
+  artifact (chain_break 1.33 vs 2.10) and broke the mgap guard — the
+  "fixed dx is a learnable rhythm" story is refuted, not undertrained.
+- K2 (1350 k) restored K0-level penetration (break 2.03, diag slalom2
+  20 %) and still completed nothing, breaking two guards — the budget
+  dial refuted here too (and the moving-gap dilution tax, seventh
+  sighting).
+- Across v1+v2: six trained attempts, per-gate competence every time
+  (weave_frac 0.72-0.85), full-chain success ~never (0-3 % on slalom3).
+
+**The structural hypothesis this leaves standing (recorded, not
+asserted):** at dx = 0.70 and cruise, the gate period is 0.875 s — but
+the world model's longest forecast horizon is k=32 ≈ 0.67 s. While
+committing to gate k, gate k+1 sits BEYOND every collision head's
+horizon; the camera sees its pillars, the encoder embeds them, and the
+policy's observation bottleneck (collision probabilities only — 8
+numbers per candidate) throws that visibility away. The oracle chains
+because it knows the ladder; the policy cannot chain because its
+observation cannot represent "the door after this one". If true, no
+diet or budget can fix chaining — only longer-horizon heads (k=48/64)
+or a richer observation (latent features alongside the probabilities)
+can, and both are model-axis, retraining-class, new-campaign material.
+Falsifiable signature pre-stated for that future campaign: horizon
+extension should move chain_break_at specifically, before it moves
+anything else.
+
+**Verdict: CLOSED, honest negative — and the chaining question is now
+priced all the way down:** the arena is flyable (0.97 oracle), the
+policies are per-gate competent (0.85 frac), and the missing piece is
+architectural, not experiential. Sixth+seventh guard-dilution sightings
+recorded. The catalog's first capability that the collision-probability
+bottleneck structurally cannot support.
