@@ -314,6 +314,42 @@ class _Forward:
         return FORWARD
 
 
+class _quiet:
+    """FD-level stdout silencer: pybullet's C-side chatter (build-time
+    banner at import, URDF dumps at env creation) prints straight to
+    fd 1 and would corrupt --json output otherwise."""
+
+    def __enter__(self):
+        sys.stdout.flush()  # legit prior output goes out before the swap
+        self._saved = os.dup(1)
+        self._null = os.open(os.devnull, os.O_WRONLY)
+        os.dup2(self._null, 1)
+        return self
+
+    def __exit__(self, *exc):
+        # flush BEFORE restoring: chatter buffered during the quiet window
+        # must drain to devnull, not to the restored real stdout
+        sys.stdout.flush()
+        os.dup2(self._saved, 1)
+        os.close(self._saved)
+        os.close(self._null)
+        return False
+
+
+_HUSH: _quiet | None = None  # active whole-process hush in --json mode
+
+
+def _print_unhushed(text: str) -> None:
+    """Restore fd 1 (if hushed) and emit machine-readable output — the
+    guarantee --json consumers rely on: stdout is ONE parseable object."""
+    global _HUSH
+    if _HUSH is not None:
+        _HUSH.__exit__(None, None, None)
+        _HUSH = None
+    sys.stdout.flush()
+    print(text)
+
+
 def doctor(skill, as_json: bool) -> int:
     """Preflight for newcomers and operator-mode agents: everything a
     campaign needs, checked in seconds — before hours burn. Exit 0 when
@@ -334,31 +370,36 @@ def doctor(skill, as_json: bool) -> int:
     )
 
     # every unique world spawns and flies one episode with a dumb policy
-    env, ep_secs = make_env(), []
-    for cell in {c.world: c for c in skill.cells}.values():
-        t0 = time.time()
-        try:
-            if cell.world is None:
-                from eval.eval_closed_loop import run_episode
+    # (fd-silenced: pybullet's URDF chatter would corrupt --json output)
+    ep_secs = []
+    with _quiet():
+        env = make_env()
+        for cell in {c.world: c for c in skill.cells}.values():
+            t0 = time.time()
+            try:
+                if cell.world is None:
+                    from eval.eval_closed_loop import run_episode
 
-                run_episode(
-                    env, _Forward(), cell.seed0, speed=cell.speed, **cell.kwargs
+                    run_episode(
+                        env, _Forward(), cell.seed0, speed=cell.speed, **cell.kwargs
+                    )
+                else:
+                    run_scenario_episode(
+                        env, _Forward(), cell.seed0, cell.world, cell.speed
+                    )
+                ep_secs.append(time.time() - t0)
+                checks.append(
+                    (
+                        f"world '{cell.world or 'classic'}' flies",
+                        "pass",
+                        f"1 episode in {ep_secs[-1]:.1f}s",
+                    )
                 )
-            else:
-                run_scenario_episode(
-                    env, _Forward(), cell.seed0, cell.world, cell.speed
+            except Exception as e:  # noqa: BLE001 — the report IS the product
+                checks.append(
+                    (f"world '{cell.world or 'classic'}' flies", "fail", str(e))
                 )
-            ep_secs.append(time.time() - t0)
-            checks.append(
-                (
-                    f"world '{cell.world or 'classic'}' flies",
-                    "pass",
-                    f"1 episode in {ep_secs[-1]:.1f}s",
-                )
-            )
-        except Exception as e:  # noqa: BLE001 — the report IS the product
-            checks.append((f"world '{cell.world or 'classic'}' flies", "fail", str(e)))
-    env.close()
+        env.close()
 
     # zero-shot artifacts exist (builtins are always available)
     for k in skill.knobs:
@@ -434,19 +475,16 @@ def doctor(skill, as_json: bool) -> int:
 
     ok = all(s != "fail" for _n, s, _d in checks)
     if as_json:
-        print(
-            json.dumps(
-                {
-                    "skill": skill.name,
-                    "ok": ok,
-                    "checks": [
-                        {"name": n, "status": s, "detail": d} for n, s, d in checks
-                    ],
-                    "estimate": est,
-                },
-                indent=1,
-            )
+        payload = json.dumps(
+            {
+                "skill": skill.name,
+                "ok": ok,
+                "checks": [{"name": n, "status": s, "detail": d} for n, s, d in checks],
+                "estimate": est,
+            },
+            indent=1,
         )
+        _print_unhushed(payload)
     else:
         mark = {"pass": "ok  ", "warn": "WARN", "fail": "FAIL"}
         for n, s, d in checks:
@@ -478,6 +516,11 @@ def main() -> None:
     if args.cmd not in ("run", "step", "status", "doctor"):  # bare `research skills/x`
         args.cmd, args.skill = "run", args.cmd
 
+    global _HUSH
+    if args.json:  # imports below chatter on fd 1 (pybullet's banner)
+        _HUSH = _quiet()
+        _HUSH.__enter__()
+
     from skills.base import Knob, load_skill
 
     skill = load_skill(args.skill)
@@ -500,7 +543,7 @@ def main() -> None:
         if results["status"] in ("passed", "budget_exhausted"):
             nxt = None
         if args.json:
-            print(
+            _print_unhushed(
                 json.dumps(
                     {
                         "skill": results["skill"],

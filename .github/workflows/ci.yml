@@ -55,6 +55,8 @@ jobs:
           python -m eval.eval_policy_cells --selftest
           python -m eval.calibrate_heads --selftest
           python -m eval.eval_duel_plots --selftest
+          python -m scripts.new_skill --selftest
+          python -m scripts.fetch_champions --selftest
       - name: Sim-in-the-loop selftests (headless)
         run: |
           python -m sim.envs
@@ -65,6 +67,10 @@ jobs:
           python -m datasets.generate_rollouts --selftest
           python -m eval.eval_wm_checkpoint --selftest
           python -m eval.eval_head_calibration --selftest
+          # the newcomer path, end to end: fetch the pinned champions
+          # (sha256-verified from the release), then a real preflight
+          python -m scripts.fetch_champions
+          python -m scripts.research doctor skills/gap_flight --json
 
   train-smoke:
     # The full training selftests (world model + all policy flavours) take

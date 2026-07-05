@@ -43,9 +43,16 @@ camera frame ──> Encoder (bearing-aware, 64-d latent)
 
 ## Quickstart
 
+**New here?** The verified one-hour path — environment, your first
+measurement, your first campaign — is
+[docs/ONBOARDING.md](docs/ONBOARDING.md)（繁體中文導覽：
+[docs/START-HERE.zh-TW.md](docs/START-HERE.zh-TW.md)）. Graded
+starter ideas: [docs/RESEARCH-IDEAS.md](docs/RESEARCH-IDEAS.md).
+
 ```bash
 conda env create -f environment.yml
 conda activate microdrone-wm
+pip install --no-deps git+https://github.com/utiasDSL/gym-pybullet-drones.git
 pip install -e .
 
 python -m datasets.generate_rollouts --rollouts 64   # 1. fly the data
@@ -75,7 +82,8 @@ python -m scripts.research status skills/gap_flight
 Every gate appends its numbers to `experiments/<skill>/journal.md`, updates
 `results.json`, rechecks borderline cells at n=60 on fresh seeds, and
 commits — the same measured discipline the repo's own campaigns were run
-with, encoded. Agent-driven research uses the step mode plus the
+with, encoded. (The vocabulary — knobs, gates, bars, guards, draws — is
+defined with live examples in [docs/GLOSSARY.md](docs/GLOSSARY.md).) Agent-driven research uses the step mode plus the
 `/research` command (`.claude/commands/research.md`): the runner stays
 deterministic; the judgment between gates is the researcher's job. First
 skill in the catalog: **gap-flight** (transit a 0.55-0.85 m opening in a
