@@ -19,14 +19,16 @@ guard, 13 % vs ≤10 % at n=60). Two exported findings: froze = 0 across
 sweep@2.0 characterization below is now the **prerequisite** for ever
 adjudicating that guard again.
 
-### sweep@2.0 noise characterization (cheap, high leverage — DO THIS NEXT)
-*(promoted from ★★, now a prerequisite)* The fast-solo cell has read
-27/22/8/17/0/13 % across two campaigns and six contexts; budget is
-measured non-monotone on it, mixture shape can hold it at 0 % but every
-new timing world re-taxes it. Fly ONE fixed policy on it 10×60 seeds
-(pure eval, ~1 h) and publish its sampling distribution. Every future
-bar on this cell inherits your error bars. *Done:* a short journal + a
-recommended (n, bar-margin) pair.
+### ~~sweep@2.0 noise characterization~~ — DONE 2026-07-05
+Consumed (`experiments/sweep2_noise/journal.md`): the cell is **honest
+binomial** (dispersion 1.12, bootstrap p 0.25) — its historical chaos
+was plain sampling noise at inadequate n (±8.3 pt at n=30, ±5.9 at
+n=60). Inheritance: the per-n CI table; bars on this cell judged at
+pooled n ≥ 200 or with explicit margins; and a pending protocol
+proposal — **rechecks should pool, not replace** (the study caught the
+replacement-style recheck re-rolling an opening-door PASS into the one
+bad block in ten). The opening-door K3 title question now has a
+legitimate path: a fresh pre-registered promotion gate at pooled n ≥ 200.
 
 ### corridor-slalom (sustained weaving)
 Offset pillars forcing alternating dodges (left-right-left) — probes
