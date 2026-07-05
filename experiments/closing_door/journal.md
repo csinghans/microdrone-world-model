@@ -94,3 +94,49 @@ Config: experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip
 
 ### Researcher notes
 (unattended run)
+
+## Researcher notes — the duel verdict (2026-07-05)
+
+**PASSED at K3, zero-shot — K4 (training) never needed to run.** The
+moving-gap v2 champion cleared every bar on an aperture it never
+trained on: door 93 % / 87 % threaded, all guards green (fast-solo 0 %
+at n=60). The v2 broad diet bought out-of-distribution *timing*
+generalization — a shrinking door is neither a static gap nor a sliding
+one, and the policy threads it anyway. The closing-door catalog entry's
+champion is therefore a cross-skill zip: `ppo_moving_gap_v2_K3.zip`.
+
+**The duel table (the campaign's product):**
+
+| contender | door@1.0 threaded | door@1.5 threaded | signature |
+|---|---|---|---|
+| K0 reactive (privileged) | 83 % | **40 %** (60 % pinched) | fine at cruise, dies with speed — the distance-budget cliff, live (also 48 % crash on fast-solo) |
+| K1 hand latent-MPC | 33 % | 17 % (63-80 % pinched) | charges and gets crushed everywhere (broken-margins era, measured again) |
+| K2 general champion | 10 % | 0 % | **detours around the fence** (reaches without threading) — no door concept in its diet |
+| K3 mgap v2 champion | **93 %** | **87 %** | commits earliest on the overlay; threads with 0.17-0.18 m margin |
+
+**Pre-registered hypothesis audit (two wrong, one half-wrong, one
+right — recorded, not buried):**
+
+- "reactive freezes or gets pinched" — HALF WRONG: it never froze
+  (froze = 0.00 in every cell for every contender; the fence never
+  froze anyone). At cruise it *threaded 83 %* — with privileged
+  direction and a still-open ~0.8 m aperture, wiggling through
+  reactively works. The separation is at **speed**, exactly where the
+  distance-budget physics says it must be.
+- "hand MPC declines at the saturated warn wall" — WRONG: it committed
+  and got pinched (63-80 %). The gap-flight K0 signature did not
+  transfer to this model+margin combination.
+- "general champion hard-charges" — WRONG: it goes *around* (its
+  home-turf evasion generalizes to treating the whole fence as one
+  obstacle). `transited` catches the detour honestly: reached ≠ success.
+- "mgap champion best zero-shot" — RIGHT, and stronger than predicted:
+  it didn't just lead the duel, it cleared the whole gate.
+
+**One instrument note:** the `froze` metric never fired — worth keeping
+(its zero is informative: this arena punishes commitment errors, not
+hesitation), but future duel arenas that want to price hesitation need
+a scenario where waiting is tempting (e.g. an *opening* door).
+
+Figures: `duel_outcomes.png` (the four-bar verdict), 
+`duel_trajectories.png` (same seed 9800, all four paths; K3 commits
+earliest — anticipation visible to the naked eye).

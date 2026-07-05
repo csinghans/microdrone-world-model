@@ -1,7 +1,7 @@
 {
  "skill": "closing-door",
  "skill_version": "1",
- "status": "running",
+ "status": "passed",
  "targets_frozen": [
   {
    "cell": "door@1.0",
@@ -524,6 +524,167 @@
    },
    "git": {
     "commit": "24685ed"
+   }
+  },
+  {
+   "id": "K3",
+   "kind": "zero_shot",
+   "desc": "the moving-gap v2 champion, zero-shot",
+   "hypothesis": "the best predictive contender on paper: gap-trained and motion-trained \u2014 but it has never seen an aperture *shrink*",
+   "config": {
+    "policy_path": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip"
+   },
+   "artifacts": {
+    "policy_zip": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+    "sha256": "57bf831633ff7eac"
+   },
+   "cells": {
+    "door@1.0": {
+     "n": 30,
+     "seed0": 9800,
+     "crash": 0.06666666666666667,
+     "reached": 1.0,
+     "success": 0.9333333333333333,
+     "clearance_mean": 0.32459633486404266,
+     "custom": {
+      "threaded": 0.9333333333333333,
+      "pinched": 0.06666666666666667,
+      "froze": 0.0,
+      "door_margin": 0.17001361184475366
+     }
+    },
+    "door@1.5": {
+     "n": 30,
+     "seed0": 9800,
+     "crash": 0.13333333333333333,
+     "reached": 1.0,
+     "success": 0.8666666666666667,
+     "clearance_mean": 0.3379967128742533,
+     "custom": {
+      "threaded": 0.8666666666666667,
+      "pinched": 0.13333333333333333,
+      "froze": 0.0,
+      "door_margin": 0.18268694077673092
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.1,
+     "reached": 1.0,
+     "success": 0.9,
+     "clearance_mean": 0.40505043806923646,
+     "custom": {
+      "transited": 0.9,
+      "gap_margin": 0.24048228426724588
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.15,
+     "reached": 1.0,
+     "success": 0.85,
+     "clearance_mean": 0.3153213117168117,
+     "custom": {
+      "transited": 0.9833333333333333,
+      "gap_margin": 0.1731209729934751
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 10500,
+      "crash": 0.15,
+      "reached": 1.0,
+      "success": 0.85,
+      "clearance_mean": 0.3153213117168117,
+      "custom": {
+       "transited": 0.9833333333333333,
+       "gap_margin": 0.1731209729934751
+      }
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.05,
+     "reached": 1.0,
+     "success": 0.95,
+     "clearance_mean": 0.3824897537175035,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.05,
+      "reached": 1.0,
+      "success": 0.95,
+      "clearance_mean": 0.3824897537175035,
+      "custom": {}
+     }
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 1.0,
+     "clearance_mean": 0.5422226547261626,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "passed",
+    "criteria": [
+     {
+      "name": "door@1.0 success>=0.7",
+      "kind": "target",
+      "measured": 0.9333333333333333,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "door@1.5 success>=0.55",
+      "kind": "target",
+      "measured": 0.8666666666666667,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.9,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.85,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.05,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": true
+   },
+   "timing": {
+    "started": "2026-07-05 05:11 UTC",
+    "ended": "2026-07-05 05:12 UTC"
+   },
+   "git": {
+    "commit": "45b7ed4"
    }
   }
  ]
