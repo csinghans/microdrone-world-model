@@ -94,3 +94,46 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## Researcher notes — campaign close: capability yes, promotion no (2026-07-05)
+
+**The capability is real and the instrument saw it form.** `wait_time`
+climbed the anticipation spectrum exactly as designed — reactive 0.07 s
+(charges the shut door, 83-100 % pinched), hand MPC 0.31 s, the mgap
+champion 0.66 s (and a zero-shot PASS of the @1.0 bar at its n=60
+recheck: WHERE-timing partially buys WHEN-timing — better than the
+frozen hypothesis predicted), and K3's trained policy 0.76/0.57 s with
+**both targets passing (70 % / 60 %)**: PPO discovered hold-then-thread,
+confirming K3's hypothesis.
+
+**No promotion**: guard:sweep@2.0 confirmed 13 % vs ≤10 % at n=60 —
+the perennial cell, whose measured history now reads 27/22/8/17/0/13
+across two campaigns and six contexts. v1 proved budget does not
+control it (non-monotone); v2 proved mixture *shape* can hold it at
+0 % — and this campaign shows each newly added timing world re-taxes it
+a few points. A further deviation here, before that cell's sampling
+distribution is characterized, would be fishing. The backlog's
+"sweep@2.0 noise characterization" (docs/RESEARCH-IDEAS.md) is hereby
+promoted from a ★★ idea to the *prerequisite* for ever adjudicating
+this guard again.
+
+**Two findings beyond the bars:**
+
+- **froze = 0.00 in every cell of every knob — in BOTH door arenas.**
+  Eight arena-cells of evidence that freezing is not a natural failure
+  mode of this action set: policies charge, they do not hesitate. The
+  hesitation-vs-commitment axis is real, but its failure mass sits
+  entirely on the commitment side.
+- **The harness class caught mid-campaign is fixed at the schema layer:**
+  K3's first launch died on a diet world (`solo`) registered only by
+  another skill's module — exit 1, gate unrecorded, textbook harness
+  error (rerun unchanged after the tool fix). `_validate` now resolves
+  every knob's diet worlds at load; closing-door's identical latent
+  mine (its never-played K4) was defused by the same commit.
+
+**Dogfood verdict (this campaign doubled as the onboarding stack's
+first live exercise):** idea consumed from the backlog as written;
+scaffolded by `new_skill`; operator mode executed K0-K2 and the
+authorized K3 with fixed-format reports and stopped at exactly the two
+designed seams (training-knob authorization, harness error). The lane
+works.
