@@ -76,3 +76,29 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## K3 — double slalom share (2026-07-05 12:37 UTC)
+Hypothesis: played only if K2 trends right but undershoots: rhythm needs reps, not new variables
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap", "solo", "slalom3", "slalom3"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom2@1.0 | 30 | 70% | 3% | 0.14 | weaved=0.03 weave_frac=0.58 chain_break_at=0.87 |
+| slalom3@1.0 | 30 | 67% | 0% | 0.18 | weaved=0.00 weave_frac=0.68 chain_break_at=1.07 |
+| slalom3@1.5 | 30 | 60% | 0% | 0.19 | weaved=0.00 weave_frac=0.64 chain_break_at=1.00 |
+| guard:gap@1.0 | 30 | 3% | 97% | 0.44 | transited=1.00 gap_margin=0.27 |
+| guard:mgap@1.0 | 30 | 47% | 53% | 0.24 | transited=0.73 gap_margin=0.11 |
+| guard:cluttered | 120 | 1% | 99% | 0.50 |  |
+| guard:sweep@2.0 | 60 | 0% | 100% | 0.51 |  |
+- slalom2@1.0 success>=0.7: 0.03 FAIL
+- slalom3@1.0 success>=0.55: 0.00 FAIL
+- slalom3@1.5 success>=0.4: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.97 PASS
+- guard:mgap@1.0 success>=0.7: 0.53 FAIL
+- guard:cluttered crash<=0.05: 0.01 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.00 PASS
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
