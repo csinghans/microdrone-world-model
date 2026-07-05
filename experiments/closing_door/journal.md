@@ -140,3 +140,11 @@ a scenario where waiting is tempting (e.g. an *opening* door).
 Figures: `duel_outcomes.png` (the four-bar verdict), 
 `duel_trajectories.png` (same seed 9800, all four paths; K3 commits
 earliest — anticipation visible to the naked eye).
+
+### Addendum (2026-07-05): per-seed timelines
+
+`duel_timeline_door_10.png` / `duel_timeline_door_15.png` (from the new
+`eval_duel_plots --timelines`): the outcome grid shows which courses
+kill whom; the crossing-time strip shows each contender's commit-time
+distribution. Note: timelines re-fly the cells for per-episode data —
+they are a diagnostic view, not the gate record.

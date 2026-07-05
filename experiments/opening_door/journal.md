@@ -195,3 +195,12 @@ protocol upgraded (pooling) → one pre-registered shot at n=200 →
 promoted. No verdict was overwritten anywhere; each layer of evidence
 stayed on the record. This is what "the instrument is part of the
 experiment" means in practice.
+
+### Addendum (2026-07-05): per-seed timelines
+
+`duel_timeline_odoor_10.png` / `duel_timeline_odoor_15.png` (from the
+new `eval_duel_plots --timelines`): K3's commit-time distribution sits
+visibly right of K0's — the wait is a rightward shift you can see, and
+later commits run greener. Hard-course clustering (seeds ~14-17 kill
+every contender) is legible in the grid. Timelines re-fly the cells for
+per-episode data — a diagnostic view, not the gate record.

@@ -38,12 +38,14 @@ of it. *Hypothesis:* the general champion chains 2 but not 4; an
 edge-diet share fixes rhythm at speed. *Done:* success-vs-pillar-count
 curve, per the standard bars.
 
-### duel timelines (tooling, no training)
-Extend `eval/eval_duel_plots.py` with a per-seed outcome timeline
-(which seeds pinched vs froze, at what crossing time) — makes duel
-tables debuggable at a glance. Pure matplotlib; selftest pattern
-already in the file. *Done:* one new figure + selftest + used in the
-next duel campaign's journal.
+### ~~duel timelines (tooling, no training)~~ — DONE 2026-07-05
+Consumed: `eval_duel_plots --timelines` renders, per duel cell, an
+outcome grid (which courses kill whom) + a crossing-time strip (when
+each contender commits, coloured by how it ended). Applied to BOTH door
+campaigns' journals; in the opening-door figures, K3's wait is a
+visible rightward shift and hard-course clustering (seeds ~14-17) is
+legible. Renderer is pure and selftested; timelines re-fly cells for
+per-episode data (diagnostic view, not the gate record).
 
 ## ★★ real campaigns
 
