@@ -162,3 +162,39 @@ Config: {"worlds": ["classic", "dense", "moving", "gap", "moving_gap"], "x_progr
 
 ### Researcher notes
 (unattended run)
+
+### Researcher notes — KD1 verdict and campaign close (2026-07-05)
+
+KD1 confirmed the dilution story for four of the five failing cells —
+cluttered 10-22 % → **0 %**, sweep@1.0 27→3 %, sweep@1.5 healed, the
+old skill intact at 100 % — and the targets held (mgap 80/80, transit
+97 %). One guard survived every knob: **sweep@2.0 at 17 %, confirmed at
+n=60** (bar ≤ 10 %).
+
+The decisive observation: across 450k/450k/600k/900k the fast-solo cell
+read 27/22/8/17 — **non-monotone**. The budget dial demonstrably does
+not control this cell, so a further budget deviation would have no
+measured basis (fishing). Per the rule pre-written in KD1's own
+rationale, the campaign closes here.
+
+## Campaign verdict: CLOSED — guard_regression, capability demonstrated, champion NOT promoted (2026-07-05)
+
+- **The capability is real**: every trained knob passed both timing
+  targets; the best gate (K3) flew the sliding gap at 82/97 % with
+  98-100 % transit; even the zero-shot champion tracked the fence
+  partially for free (re-deciding every 5 steps), failing only at low
+  speed where the approach is long — the timing story's exact
+  prediction.
+- **The price never cleared**: teaching the slide costs a fast-solo
+  regression (17 % vs ≤ 10 % at n=60) that neither share re-weighting
+  nor 2x budget removed. The house refrain, fifth sighting: patch the
+  band you point at, watch the hole move — this time from clutter to
+  speed.
+- **No promotion**: guards are sacred; the gap-flight champion keeps
+  its title, and `ppo_mgap_KD1` stays in artifacts as the measured
+  best-so-far.
+- **Next (a fresh pre-registration, not a deviation)**: attack the
+  *mixture shape* — an explicit fast-solo share (or classic x2) in the
+  diet, as skill v2 with its own frozen bars; and raise n on the
+  sweep@2.0 cell at bar-design time (its 27/22/8/17/17 trajectory says
+  n=30 first reads are nearly uninformative there).
