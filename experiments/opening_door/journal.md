@@ -165,3 +165,33 @@ this gate exists because a strictly stronger instrument became
 available, not because we disliked the old verdict.
 
 (appended when the numbers land)
+
+### Promotion gate verdict — ALL SIX PASS; K3 is the opening-door champion (2026-07-05)
+
+`promotion_results.json`, n=200 per cell, seed block 20000, the skill's
+own predicates:
+
+| cell | bar | measured (n=200) | verdict |
+|---|---|---|---|
+| odoor@1.0 success | ≥ 0.60 | **0.710** | PASS |
+| odoor@1.5 success | ≥ 0.50 | **0.740** | PASS |
+| guard:gap@1.0 success | ≥ 0.75 | 0.865 | PASS |
+| guard:mgap@1.0 success | ≥ 0.70 | 0.820 | PASS |
+| guard:cluttered crash | ≤ 0.05 | 0.015 | PASS |
+| guard:sweep@2.0 crash | ≤ 0.10 | **0.050** | PASS |
+
+The fast-solo cell reads 5.0 % at n=200 — in independent agreement with
+the calibration study's pooled 5.67 % [3.8, 7.5] on different seed
+blocks. Two high-n instruments, one answer: the campaign's 13 % was the
+unlucky block, exactly as the calibration said. The title:
+**`artifacts/ppo_opening_door_K3.zip` is the opening-door champion**
+(flies with the G1 world model), and the catalog's hesitation arena is
+settled the way its commitment twin was — by measurement at the
+resolution the question deserved.
+
+Arc of the title, for the record: campaign gate FAILED as written
+(replacement-era recheck, n=60) → calibration study priced the cell →
+protocol upgraded (pooling) → one pre-registered shot at n=200 →
+promoted. No verdict was overwritten anywhere; each layer of evidence
+stayed on the record. This is what "the instrument is part of the
+experiment" means in practice.

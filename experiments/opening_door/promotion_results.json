@@ -1,0 +1,77 @@
+{
+ "zip": "experiments/opening_door/artifacts/ppo_opening_door_K3.zip",
+ "cells": {
+  "odoor@1.0": {
+   "n": 200,
+   "seed0": 20000,
+   "crash": 0.275,
+   "reached": 1.0,
+   "success": 0.71,
+   "clearance_mean": 0.34153617011971404,
+   "custom": {
+    "threaded": 0.71,
+    "pinched": 0.275,
+    "froze": 0.0,
+    "door_margin": 0.22898445992559302,
+    "wait_time": 0.7554080003428717
+   }
+  },
+  "odoor@1.5": {
+   "n": 200,
+   "seed0": 20000,
+   "crash": 0.26,
+   "reached": 0.995,
+   "success": 0.74,
+   "clearance_mean": 0.3331966481420912,
+   "custom": {
+    "threaded": 0.74,
+    "pinched": 0.26,
+    "froze": 0.0,
+    "door_margin": 0.2038923702426987,
+    "wait_time": 0.7130139712703698
+   }
+  },
+  "guard:gap@1.0": {
+   "n": 200,
+   "seed0": 20000,
+   "crash": 0.12,
+   "reached": 1.0,
+   "success": 0.865,
+   "clearance_mean": 0.3869757954042614,
+   "custom": {
+    "transited": 0.885,
+    "gap_margin": 0.23063442577206106
+   }
+  },
+  "guard:mgap@1.0": {
+   "n": 200,
+   "seed0": 20000,
+   "crash": 0.18,
+   "reached": 1.0,
+   "success": 0.82,
+   "clearance_mean": 0.30357610903430293,
+   "custom": {
+    "transited": 0.925,
+    "gap_margin": 0.15886191228485658
+   }
+  },
+  "guard:cluttered": {
+   "n": 200,
+   "seed0": 20000,
+   "crash": 0.015,
+   "reached": 1.0,
+   "success": 0.985,
+   "clearance_mean": 0.5178226836190436,
+   "custom": {}
+  },
+  "guard:sweep@2.0": {
+   "n": 200,
+   "seed0": 20000,
+   "crash": 0.05,
+   "reached": 0.975,
+   "success": 0.945,
+   "clearance_mean": 0.5749210577034574,
+   "custom": {}
+  }
+ }
+}
