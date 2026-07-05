@@ -18,13 +18,18 @@ no numbers that a script cannot reproduce.
 
 Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
-## In flight
+## Recently closed
 
 - **moving-gap** (`skills/moving_gap`): the second skill campaign —
   transit a *sliding* fence's gap, success judged at the crossing
-  instant. Composes the two measured capabilities (crit-ring transit +
-  motion anticipation) into one decision: aim at the future opening.
-  Runs autonomously via `python -m scripts.research run skills/moving_gap`.
+  instant. Ran autonomously K0→KD1. Verdict: **capability yes,
+  promotion no** — timing targets passed at every trained knob (best
+  82/97 %, transit 98-100 %), but teaching the slide cost a fast-solo
+  regression (sweep@2.0 17 % vs ≤ 10 % at n=60) that neither share
+  re-weighting nor 2× budget removed (non-monotone budget response —
+  further budget knobs would be fishing). Fifth sighting of the
+  moved-hole refrain. Next attack: mixture shape, as skill v2 with
+  fresh bars. Full arc: `experiments/moving_gap/journal.md`.
 
 ## Open, in order of pull
 

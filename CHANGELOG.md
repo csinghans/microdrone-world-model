@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased — the second skill campaign (moving-gap, closed: capability yes, promotion no)
+
+- **moving-gap** (`skills/moving_gap`): transit a *sliding* fence's gap,
+  success judged at the crossing instant — the first skill whose success
+  predicate is a statement about time, and the first with a cross-skill
+  regression guard (the specialist must keep static gap ≥ 75 %). The
+  autonomous runner took it K0→K3 unattended, then a pre-rationaled
+  KD1 (K1's mixture, 900 k) closed the arc: **targets passed at every
+  trained knob** (best gate 82/97 % success, 98-100 % transit; even the
+  zero-shot gap champion partially tracks a sliding fence for free by
+  re-deciding every 5 steps, failing only at low speed — the timing
+  story's exact prediction), and the dilution tax healed everywhere
+  except one cell: **sweep@2.0 confirmed 17 % at n=60** (bar ≤ 10 %),
+  with a *non-monotone* budget response (27/22/8/17 across 450-900 k) —
+  so the campaign closed rather than fish with more budget. Fifth
+  sighting of the refrain: the hole moved, this time from clutter to
+  speed. No promotion; the mixture-shape attack (explicit fast-solo
+  share) is future skill-v2 material with fresh bars and more n on the
+  noisy fast cell.
+- `docs/ROADMAP.md`: the living roadmap — shipped verdicts including
+  the negatives, the dense frontier's measured "not-this" map, the
+  instrument discipline, and v0.6 hardware behind explicit unfreeze
+  criteria.
+
 ## Unreleased — the calibration falsification (head_calibration campaign, closed)
 
 - **C0: FAILED — and the failure sharpened the mechanism.** Temperature
