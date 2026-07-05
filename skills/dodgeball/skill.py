@@ -51,10 +51,15 @@ short of GOAL_X so fleeing forward also ends the episode early and
 fails the steps==TMAX clause.
 """
 
+from functools import partial
+
 import numpy as np
 
 from sim.envs import CTRL_HZ
 from sim.scenarios import TMAX, _pillar_body
+from skills.base import Criterion, EvalCell, Knob, Skill
+from skills.gap_flight.skill import spawn_gap
+from skills.moving_gap.skill import spawn_moving_gap
 
 N_BALLS = 3
 T_ARR = (4.0, 5.2, 6.4)  # seconds; jittered ±ARR_JITTER per seed
@@ -192,6 +197,94 @@ def dodge_success(ep: dict) -> bool:
     return bool(ep["reached"] and not ep["crashed"])
 
 
+# bars are the feasibility probe's frozen formula applied to its table
+# (experiments/dodgeball_feasibility/ceiling.json: 0.90/0.80/0.80/0.80,
+# every cell over the 0.55 floor -> bar = ceiling - 0.25). The selftest
+# re-derives them from the committed json so the pre-registration and
+# the code cannot drift apart.
+_GENERAL = "output/ppo_wm_policy_edge_hard_xp.zip"
+_DODGE_WORLDS = ("dodgeball_v06", "dodgeball_v10", "dodgeball_v14", "dodgeball_v18")
+_CHASSIS = dict(x_progress=True, edge_bias=True, timesteps=900_000)
+
+SKILL = Skill(
+    name="dodgeball",
+    version="1",
+    scenarios={
+        "dodgeball_v06": partial(spawn_dodgeball, ball_speed=0.6),
+        "dodgeball_v10": partial(spawn_dodgeball, ball_speed=1.0),
+        "dodgeball_v14": partial(spawn_dodgeball, ball_speed=1.4),
+        "dodgeball_v18": partial(spawn_dodgeball, ball_speed=1.8),
+        "gap": spawn_gap,
+        "moving_gap": spawn_moving_gap,
+    },
+    cells=(
+        EvalCell("dodge@v0.6", "dodgeball_v06", 1.0, 30, 23000),
+        EvalCell("dodge@v1.0", "dodgeball_v10", 1.0, 30, 23000),
+        EvalCell("dodge@v1.4", "dodgeball_v14", 1.0, 30, 23000),
+        EvalCell("dodge@v1.8", "dodgeball_v18", 1.0, 30, 23000),
+        EvalCell("guard:gap@1.0", "gap", 1.0, 30, 9000, {}, "guard"),
+        EvalCell("guard:mgap@1.0", "moving_gap", 1.0, 30, 9500, {}, "guard"),
+        EvalCell("guard:cluttered", None, 1.0, 60, 1000, {"in_path": True}, "guard"),
+        EvalCell(
+            "guard:sweep@2.0",
+            None,
+            2.0,
+            60,
+            3000,
+            {"in_path": True, "solo": True},
+            "guard",
+        ),
+    ),
+    criteria=(
+        Criterion("dodge@v0.6", "success", ">=", 0.65, "target"),
+        Criterion("dodge@v1.0", "success", ">=", 0.55, "target"),
+        Criterion("dodge@v1.4", "success", ">=", 0.55, "target"),
+        Criterion("dodge@v1.8", "success", ">=", 0.55, "target"),
+        Criterion("guard:gap@1.0", "success", ">=", 0.75, "guard"),
+        Criterion("guard:mgap@1.0", "success", ">=", 0.70, "guard"),
+        Criterion("guard:cluttered", "crash", "<=", 0.05, "guard"),
+        Criterion("guard:sweep@2.0", "crash", "<=", 0.10, "guard"),
+    ),
+    knobs=(
+        Knob(
+            "K0",
+            "zero_shot",
+            "the general champion, zero-shot on a task it was never asked",
+            "structural 0, pre-registered: its repertoire never hovers "
+            "(every command advances >= 0.3 m/s), so it exits the box by "
+            "construction — the flee/crash split is the diagnostic",
+            policy_path=_GENERAL,
+        ),
+        Knob(
+            "K1",
+            "policy",
+            "pure dodgeball diet + station reward (the science knob)",
+            "does the observation carry a dodgeable warning at all? The "
+            "heads are single-frame (motion-blind); the 12-step stacked "
+            "history watching the probability ramp is the only mechanism. "
+            "Transit guards are expected structural failures for this zip "
+            "(promotion impossible by design; the dodge cells are the point)",
+            train_kwargs=dict(worlds=_DODGE_WORLDS, **_CHASSIS),
+        ),
+        Knob(
+            "K2",
+            "policy",
+            "mixed diet: transit worlds + all four ball speeds",
+            "CONDITIONAL — played only if K1 reads success >= 0.30 on any "
+            "priced cell (else it stays sheathed and the campaign closes "
+            "on the perception verdict). The promotion knob: guards regain "
+            "meaning; dilution risk on 7 worlds is on the record",
+            train_kwargs=dict(
+                worlds=("classic", "gap", "moving_gap") + _DODGE_WORLDS, **_CHASSIS
+            ),
+        ),
+    ),
+    max_knobs=4,  # one deviation slot, charter rationale required
+    success=dodge_success,
+    episode_metrics=dodge_metrics,
+)
+
+
 def selftest() -> None:
     # same-seed spawns reproduce the whole schedule (registry convention)
     a = DodgeballRange(None, np.random.default_rng(7), ball_speed=1.0)
@@ -241,6 +334,45 @@ def selftest() -> None:
     assert dodge_success(guard_ep) and dodge_metrics(guard_ep) == {}
     # dispatch-key hygiene: none of the other skills' keys appear in meta
     assert not {"vy", "x_gap", "fences", "w0", "rate"} & set(sc.meta)
+    # the SKILL loads, registers its worlds, and its bars are EXACTLY the
+    # frozen formula applied to the committed probe table (no drift between
+    # pre-registration and code)
+    import json
+    import os
+
+    from skills.base import load_skill
+
+    # compare against the canonical module's objects (under `-m` this file
+    # is `__main__`, a second copy — identity must be checked in one module)
+    from skills.dodgeball import skill as canon
+
+    s = load_skill("dodgeball")
+    assert s.success is canon.dodge_success
+    assert s.episode_metrics is canon.dodge_metrics
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    with open(
+        os.path.join(root, "experiments", "dodgeball_feasibility", "ceiling.json")
+    ) as f:
+        grid = {row["ball_speed"]: row["ceiling"] for row in json.load(f)["grid"]}
+    bars = {c.cell: c.bar for c in s.criteria if c.kind == "target"}
+    for v, cell in (
+        (0.6, "dodge@v0.6"),
+        (1.0, "dodge@v1.0"),
+        (1.4, "dodge@v1.4"),
+        (1.8, "dodge@v1.8"),
+    ):
+        assert grid[v] >= 0.55, "priced cells only"
+        assert abs(bars[cell] - (grid[v] - 0.25)) < 1e-9, (cell, grid[v])
+    from sim.scenario_registry import get
+
+    sc5 = get("dodgeball_v14").spawn(None, np.random.default_rng(9))
+    sc6 = get("dodgeball_v14").spawn(None, np.random.default_rng(9))
+    assert sc5.meta == sc6.meta and sc5._launch_k == sc6._launch_k
+    assert sc5.v == 1.4, "ball_speed is baked into the variant, not cell speed"
+    k0, k1, k2 = s.knobs
+    assert k0.policy_path == _GENERAL
+    assert set(k1.train_kwargs["worlds"]) == set(_DODGE_WORLDS), "pure diet"
+    assert set(k2.train_kwargs["worlds"]) > set(_DODGE_WORLDS), "mixed diet"
     print(
         f"DODGEBALL OK: schedule pre-drawn & reproducible, arrivals equalized "
         f"across speeds (T_ARR={T_ARR}), head-on launch/re-park with stable "

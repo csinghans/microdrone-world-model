@@ -87,6 +87,19 @@ per-episode data (diagnostic view, not the gate record).
 
 ## ★★ real campaigns
 
+### dodgeball — station defense (a NEW task family) — campaign pre-registered 2026-07-06
+The catalog's first non-transit arena: hover at a station, dodge balls
+thrown head-on. The feasibility probe already priced the arena
+(`experiments/dodgeball_feasibility/`: flyable at every speed, the
+body's drift arithmetic binds — no strafe, no backward). The live
+question is perception: the single-frame model is motion-blind, so the
+policy's stacked history watching the probability ramp is the only
+mechanism. Campaign pre-registered in `experiments/dodgeball/journal.md`
+(K0 structural / K1 science / K2 conditional promotion); if refuted,
+Tier-2 (strafe surgery, model-side motion) is priced there. *Done:* the
+campaign closes with any verdict — support, partial, or an honest
+perception negative.
+
 ### dense-speedrun (attack the known frontier, honestly)
 Fly the dense world at factors 1.5-2.0. The dense floor (17-27 % at
 cruise band) is the repo's stated open frontier and it has *survived*

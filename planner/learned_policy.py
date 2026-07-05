@@ -276,6 +276,7 @@ class WMPolicyEnv(gym.Env):
                 self.env, rng, speed=speed, randomize=self.randomize
             )
         self.pillars = self.scenario.positions()
+        meta = getattr(self.scenario, "meta", None) or {}
         self._fences, self._spent = (), set()
         if self.gate_bonus:
             # lazy import (planner <-> skills would cycle at module level);
@@ -283,8 +284,17 @@ class WMPolicyEnv(gym.Env):
             from skills.gap_flight.skill import PILLAR_R
 
             self._pillar_r = PILLAR_R
-            meta = getattr(self.scenario, "meta", None) or {}
             self._fences = tuple(meta.get("fences", ()))
+        # station mode is carried by the WORLD, not a constructor knob:
+        # ball-carrying worlds flip the episode's objective to survival
+        # (the dodgeball campaign); every other world keeps the transit
+        # reward bit-for-bit
+        self._station = None
+        if "balls" in meta:
+            from skills.dodgeball.skill import BOX_BACK  # lazy, as above
+
+            (sx, sy), (bx, by) = meta["station"], meta["box"]
+            self._station = (sx, sy, bx, by, BOX_BACK)
         self.ob = ObsBuilder(
             self.enc,
             self.pred,
@@ -312,6 +322,7 @@ class WMPolicyEnv(gym.Env):
         a_id = self.ob.ids[int(action)]
         self.pending.append(a_id)
         a_exec = self.pending.pop(0) if self.lat else self.pending.pop()
+        d_min = np.inf
         for _ in range(DECIDE_EVERY):  # the PID flies 4 control steps per decision
             v = self.vecs[a_exec]
             if self.randomize:  # actuation wobbles; the intent stays clean
@@ -320,28 +331,52 @@ class WMPolicyEnv(gym.Env):
             obs, _, _, _, _ = self.env.step(rpm.reshape(1, 4))
             self.state = obs[0]
             self.scenario.step()  # static worlds: no-op
+            if self._station:
+                # balls close at up to ~3.4 m/s relative: a per-decision
+                # (12 Hz) check can tunnel through the 0.22 m ring that the
+                # 48 Hz exam enforces — train on the exam's collision rule
+                d_min = min(
+                    d_min, nearest_planar(self.state[0:2], self.scenario.positions())
+                )
         self.decisions += 1
         x, y = float(self.state[0]), float(self.state[1])
-        d = nearest_planar(self.state[0:2], self.scenario.positions())
+        d = (
+            d_min
+            if self._station
+            else nearest_planar(self.state[0:2], self.scenario.positions())
+        )
 
-        # progress, small time cost, crash, goal — and deliberately no
-        # danger-shaping term (that is what we learn)
-        reward = 25.0 * (x - self.prev_x) - 0.02
-        if self._fences:
-            hits = gate_bonus_hits(
-                (self.prev_x, self.prev_y),
-                (x, y),
-                self._fences,
-                self._spent,
-                self._pillar_r,
-            )
-            reward += self.gate_bonus * len(hits)
+        if self._station:
+            reward = -0.02  # no progress term: the goal is time, not distance
+        else:
+            # progress, small time cost, crash, goal — and deliberately no
+            # danger-shaping term (that is what we learn)
+            reward = 25.0 * (x - self.prev_x) - 0.02
+            if self._fences:
+                hits = gate_bonus_hits(
+                    (self.prev_x, self.prev_y),
+                    (x, y),
+                    self._fences,
+                    self._spent,
+                    self._pillar_r,
+                )
+                reward += self.gate_bonus * len(hits)
         self.prev_x = x
         self.prev_y = y
         terminated, truncated = False, False
         if d < COLLISION_R:
             reward -= 30.0
             terminated = True
+        elif self._station:
+            sx, sy, bx, by, back = self._station
+            if x > sx + bx or x < sx - back or abs(y - sy) > by:
+                truncated = True  # busted the box: forfeits the survival bonus
+            elif self.decisions >= self.max_decisions:
+                # survival IS the goal — same bonus, and `terminated`, not
+                # `truncated`: SB3 bootstraps gamma*V(s) onto truncations,
+                # which would double-pay imagined future exactly here
+                reward += 50.0
+                terminated = True
         elif x >= GOAL_X:
             reward += 50.0
             terminated = True
