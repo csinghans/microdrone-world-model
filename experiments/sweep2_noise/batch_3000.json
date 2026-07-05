@@ -1,0 +1,14 @@
+{
+ "zip": "experiments/opening_door/artifacts/ppo_opening_door_K3.zip",
+ "cells": {
+  "sweep@1.6": {
+   "n": 60,
+   "seed0": 3000,
+   "crash": 0.06666666666666667,
+   "reached": 0.9666666666666667,
+   "success": 0.9166666666666666,
+   "clearance_mean": 0.5619583697866323,
+   "custom": {}
+  }
+ }
+}
