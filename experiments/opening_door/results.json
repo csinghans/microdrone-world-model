@@ -357,6 +357,184 @@
    "git": {
     "commit": "e2fd7a1"
    }
+  },
+  {
+   "id": "K2",
+   "kind": "zero_shot",
+   "desc": "the moving-gap v2 champion \u2014 does WHERE-timing buy WHEN-timing?",
+   "hypothesis": "the duel's headline: it aims at where a gap will be; waiting for a gap to exist was never in its diet \u2014 expect best-of-zero-shot but under bar",
+   "config": {
+    "policy_path": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip"
+   },
+   "artifacts": {
+    "policy_zip": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+    "sha256": "57bf831633ff7eac"
+   },
+   "cells": {
+    "odoor@1.0": {
+     "n": 30,
+     "seed0": 9950,
+     "crash": 0.4,
+     "reached": 1.0,
+     "success": 0.6,
+     "clearance_mean": 0.2690981068010393,
+     "custom": {
+      "threaded": 0.6,
+      "pinched": 0.4,
+      "froze": 0.0,
+      "door_margin": 0.18016633257826975,
+      "wait_time": 0.6630370864047189
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 10950,
+      "crash": 0.4,
+      "reached": 1.0,
+      "success": 0.6,
+      "clearance_mean": 0.2690981068010393,
+      "custom": {
+       "threaded": 0.6,
+       "pinched": 0.4,
+       "froze": 0.0,
+       "door_margin": 0.18016633257826975,
+       "wait_time": 0.6630370864047189
+      }
+     }
+    },
+    "odoor@1.5": {
+     "n": 30,
+     "seed0": 9950,
+     "crash": 0.6666666666666666,
+     "reached": 0.9666666666666667,
+     "success": 0.3333333333333333,
+     "clearance_mean": 0.2033561598337447,
+     "custom": {
+      "threaded": 0.3333333333333333,
+      "pinched": 0.6666666666666666,
+      "froze": 0.0,
+      "door_margin": 0.08278466507735148,
+      "wait_time": 0.20473798601393967
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.1,
+     "reached": 1.0,
+     "success": 0.9,
+     "clearance_mean": 0.40505043806923646,
+     "custom": {
+      "transited": 0.9,
+      "gap_margin": 0.24048228426724588
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.15,
+     "reached": 1.0,
+     "success": 0.85,
+     "clearance_mean": 0.3153213117168117,
+     "custom": {
+      "transited": 0.9833333333333333,
+      "gap_margin": 0.1731209729934751
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 10500,
+      "crash": 0.15,
+      "reached": 1.0,
+      "success": 0.85,
+      "clearance_mean": 0.3153213117168117,
+      "custom": {
+       "transited": 0.9833333333333333,
+       "gap_margin": 0.1731209729934751
+      }
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.05,
+     "reached": 1.0,
+     "success": 0.95,
+     "clearance_mean": 0.3824897537175035,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.05,
+      "reached": 1.0,
+      "success": 0.95,
+      "clearance_mean": 0.3824897537175035,
+      "custom": {}
+     }
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 1.0,
+     "clearance_mean": 0.5422226547261626,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "continue",
+    "criteria": [
+     {
+      "name": "odoor@1.0 success>=0.6",
+      "kind": "target",
+      "measured": 0.6,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "odoor@1.5 success>=0.5",
+      "kind": "target",
+      "measured": 0.3333333333333333,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.9,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.85,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.05,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": true
+   },
+   "timing": {
+    "started": "2026-07-05 06:42 UTC",
+    "ended": "2026-07-05 06:43 UTC"
+   },
+   "git": {
+    "commit": "1b0cc6f"
+   }
   }
  ]
 }

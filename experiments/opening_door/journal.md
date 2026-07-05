@@ -70,3 +70,27 @@ Config: experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip
 
 ### Researcher notes
 (unattended run)
+
+## K3 — door_open joins the v2-combination diet (2026-07-05 07:33 UTC)
+Hypothesis: PPO must discover hold-then-thread (hover is in the action set; it has just never been the winning move at a fence)
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap", "solo", "opening_door"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| odoor@1.0 | 30 | 30% | 70% | 0.32 | threaded=0.70 pinched=0.30 froze=0.00 door_margin=0.21 wait_time=0.76 |
+| odoor@1.5 | 30 | 40% | 60% | 0.28 | threaded=0.60 pinched=0.40 froze=0.00 door_margin=0.15 wait_time=0.57 |
+| guard:gap@1.0 | 30 | 7% | 93% | 0.42 | transited=0.93 gap_margin=0.26 |
+| guard:mgap@1.0 | 30 | 28% | 72% | 0.29 | transited=0.93 gap_margin=0.15 |
+| guard:cluttered | 60 | 0% | 100% | 0.53 |  |
+| guard:sweep@2.0 | 60 | 13% | 87% | 0.52 |  |
+- odoor@1.0 success>=0.6: 0.70 PASS
+- odoor@1.5 success>=0.5: 0.60 PASS
+- guard:gap@1.0 success>=0.75: 0.93 PASS
+- guard:mgap@1.0 success>=0.7: 0.72 PASS (rechecked)
+- guard:cluttered crash<=0.05: 0.00 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.13 FAIL (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
