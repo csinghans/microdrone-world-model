@@ -1,0 +1,220 @@
+{
+ "skill": "opening-door",
+ "skill_version": "1",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "odoor@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.6
+  },
+  {
+   "cell": "odoor@1.5",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.5
+  },
+  {
+   "cell": "guard:gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "guard:mgap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K0",
+   "kind": "zero_shot",
+   "desc": "the reactive baseline on a door that isn't open yet",
+   "hypothesis": "reaction has no concept of 'soon': expect pinched (charges the slit) or froze (dodges along the wall all episode)",
+   "config": {
+    "policy_path": "builtin:reactive"
+   },
+   "artifacts": {
+    "policy": "builtin:reactive",
+    "sha256": null
+   },
+   "cells": {
+    "odoor@1.0": {
+     "n": 30,
+     "seed0": 9950,
+     "crash": 0.8333333333333334,
+     "reached": 1.0,
+     "success": 0.16666666666666666,
+     "clearance_mean": 0.14855941625901095,
+     "custom": {
+      "threaded": 0.16666666666666666,
+      "pinched": 0.8333333333333334,
+      "froze": 0.0,
+      "door_margin": 0.017710762831941677,
+      "wait_time": 0.0695801288957376
+     }
+    },
+    "odoor@1.5": {
+     "n": 30,
+     "seed0": 9950,
+     "crash": 1.0,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.06556160772634237,
+     "custom": {
+      "threaded": 0.0,
+      "pinched": 1.0,
+      "froze": 0.0,
+      "door_margin": 0.0,
+      "wait_time": 0.0
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.16666666666666666,
+     "reached": 1.0,
+     "success": 0.8333333333333334,
+     "clearance_mean": 0.3093537768705014,
+     "custom": {
+      "transited": 1.0,
+      "gap_margin": 0.19212028481392102
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 10000,
+      "crash": 0.16666666666666666,
+      "reached": 1.0,
+      "success": 0.8333333333333334,
+      "clearance_mean": 0.3093537768705014,
+      "custom": {
+       "transited": 1.0,
+       "gap_margin": 0.19212028481392102
+      }
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.23333333333333334,
+     "reached": 1.0,
+     "success": 0.75,
+     "clearance_mean": 0.3223123837147457,
+     "custom": {
+      "transited": 0.9166666666666666,
+      "gap_margin": 0.22216552537786602
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 10500,
+      "crash": 0.23333333333333334,
+      "reached": 1.0,
+      "success": 0.75,
+      "clearance_mean": 0.3223123837147457,
+      "custom": {
+       "transited": 0.9166666666666666,
+       "gap_margin": 0.22216552537786602
+      }
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.03333333333333333,
+     "reached": 1.0,
+     "success": 0.9666666666666667,
+     "clearance_mean": 0.5185154995666194,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.03333333333333333,
+      "reached": 1.0,
+      "success": 0.9666666666666667,
+      "clearance_mean": 0.5185154995666194,
+      "custom": {}
+     }
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.48333333333333334,
+     "reached": 1.0,
+     "success": 0.5166666666666667,
+     "clearance_mean": 0.2261758859647901,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "odoor@1.0 success>=0.6",
+      "kind": "target",
+      "measured": 0.16666666666666666,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "odoor@1.5 success>=0.5",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.8333333333333334,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.75,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.03333333333333333,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.48333333333333334,
+      "pass": false,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-05 06:41 UTC",
+    "ended": "2026-07-05 06:42 UTC"
+   },
+   "git": {
+    "commit": "ddde82e"
+   }
+  }
+ ]
+}

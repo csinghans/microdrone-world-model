@@ -22,3 +22,27 @@ Config: builtin:reactive
 
 ### Researcher notes
 (unattended run)
+
+## K1 — the hand latent-MPC (2026-07-05 06:42 UTC)
+Hypothesis: 0.7 s of anticipation sometimes covers the wait window: expect partial success at short waits, collapse at long ones
+Config: builtin:wm_mpc
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| odoor@1.0 | 30 | 60% | 40% | 0.16 | threaded=0.40 pinched=0.60 froze=0.00 door_margin=0.07 wait_time=0.31 |
+| odoor@1.5 | 30 | 100% | 0% | 0.10 | threaded=0.00 pinched=1.00 froze=0.00 door_margin=0.00 wait_time=0.00 |
+| guard:gap@1.0 | 30 | 60% | 40% | 0.19 | transited=0.87 gap_margin=0.15 |
+| guard:mgap@1.0 | 30 | 57% | 43% | 0.21 | transited=0.83 gap_margin=0.14 |
+| guard:cluttered | 60 | 37% | 63% | 0.36 |  |
+| guard:sweep@2.0 | 60 | 20% | 80% | 0.51 |  |
+- odoor@1.0 success>=0.6: 0.40 FAIL
+- odoor@1.5 success>=0.5: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.40 FAIL
+- guard:mgap@1.0 success>=0.7: 0.43 FAIL
+- guard:cluttered crash<=0.05: 0.37 FAIL
+- guard:sweep@2.0 crash<=0.1: 0.20 FAIL
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
