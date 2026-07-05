@@ -96,13 +96,44 @@ def _validate(skill: Skill) -> None:
 
 def load_skill(arg: str) -> Skill:
     """Accepts 'skills/gap_flight', 'gap-flight' or 'gap_flight'; imports the
-    skill module, registers its scenarios, validates the schema."""
+    skill module, registers its scenarios, validates the schema. Errors are
+    wrapped for newcomers — the raw traceback is chained underneath."""
     mod_name = arg.strip().strip("/").split("/")[-1].replace("-", "_")
-    module = importlib.import_module(f"skills.{mod_name}.skill")
-    skill: Skill = module.SKILL
+    try:
+        module = importlib.import_module(f"skills.{mod_name}.skill")
+    except ModuleNotFoundError as e:
+        import os
+
+        skills_dir = os.path.dirname(os.path.abspath(__file__))
+        have = sorted(
+            d
+            for d in os.listdir(skills_dir)
+            if os.path.isdir(os.path.join(skills_dir, d)) and not d.startswith("_")
+        )
+        raise SystemExit(
+            f"[skill not found] '{arg}' -> no module skills.{mod_name}.skill\n"
+            f"  available skills: {', '.join(have)}\n"
+            f"  scaffold a new one: python -m scripts.new_skill {mod_name}\n"
+            f"  docs: docs/ONBOARDING.md  (import error: {e})"
+        ) from e
+    try:
+        skill: Skill = module.SKILL
+    except AttributeError as e:
+        raise SystemExit(
+            f"[skill malformed] skills/{mod_name}/skill.py has no SKILL export — "
+            f"every skill module must define `SKILL = Skill(...)`. "
+            f"See docs/ONBOARDING.md and skills/gap_flight/skill.py. ({e})"
+        ) from e
     for name, spawn in skill.scenarios.items():
         scenario_registry.register(name, spawn)
-    _validate(skill)
+    try:
+        _validate(skill)
+    except AssertionError as e:
+        raise SystemExit(
+            f"[skill invalid] {mod_name}: {e}\n"
+            f"  schema reference: skills/base.py docstring; worked example: "
+            f"skills/gap_flight/skill.py; glossary: docs/GLOSSARY.md"
+        ) from e
     return skill
 
 

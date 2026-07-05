@@ -66,7 +66,7 @@ notes`. Exit codes: 0 = targets met, 10 = continue, 2 = harness error.
 ## 6. Stop conditions and the final summary
 
 Stop when: all targets pass · max_knobs exhausted · two consecutive harness
-errors. Then write the campaign summary at the top of the journal (arc,
+errors. Then append the campaign summary at the end of the journal (arc,
 final table vs frozen bars, honest residuals), propose a CHANGELOG entry,
 and report to the user with the numbers table. **Do not tag a release** —
 that is the user's call.
