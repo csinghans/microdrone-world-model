@@ -88,6 +88,56 @@ And the honesty tier, as always: the cliff *mechanism* reproduces on
 every retraining draw; the exact crash percentages wobble (57–63 % at
 the reactive end). Ranges are published, single draws aren't headlines.
 
+## The same cliff, staged as a door
+
+The speed sweep varies *your* speed. To show the unit mismatch is about
+time itself — not about flying fast — we built the cliff a second body:
+a fence with one gap whose edge pillars **converge** at 0.25–0.45 m/s.
+The aperture is aimed to be comfortably flyable for an on-time arrival
+and to shut completely within the episode, and success is judged
+against the aperture **as it is at the crossing instant**. A policy
+that reads *current geometry* sees an open door and commits; the
+geometry it committed to is stale by mid-transit.
+
+Four contenders flew identical courses on identical seeds — the full
+spectrum from pure reaction to the strongest predictive stack we have:
+
+| contender | door @ cruise | door @ 1.5× | how it loses |
+|---|---|---|---|
+| reactive (privileged direction) | 83 % | **40 %** | commits on stale width; 60 % pinched mid-transit |
+| hand-tuned latent MPC | 33 % | 17 % | fixed margins charge and get crushed |
+| general champion (no fence in its diet) | 10 % | 0 % | detours around the whole fence — reached, never threaded |
+| moving-gap champion (time-trained) | **93 %** | **87 %** | it doesn't — commits earliest, threads with margin |
+
+Three readings worth the table:
+
+1. **The reactive row is the sweep's cliff, relocated.** At cruise, a
+   still-open ~0.8 m door is passable by reacting — 83 %. At 1.5×
+   cruise the same policy gets pinched 60 % of the time: not because it
+   is slower to *see*, but because the width it saw no longer exists by
+   the time it is between the pillars. Distance-denominated decisions
+   go stale in proportion to speed × closure rate — the cliff, in a
+   second currency.
+2. **There is more than one way to lose to time.** The hand MPC's fixed
+   margins commit-and-die; the fence-naive champion treats the whole
+   wall as one obstacle and detours (our trajectory-level `transited`
+   check catches reached-without-threading honestly). Losing to time is
+   the *family* of failures; late reaction is just its loudest member.
+3. **The winner never trained on this door.** The moving-gap champion —
+   trained on static gaps and *sliding* gaps — threads a *shrinking*
+   one at 93/87 %, zero-shot, guards green. Policies whose training is
+   denominated in time generalize across kinds of motion; that is the
+   dividend the unit change pays.
+
+One number that surprised us into a design note: **nobody froze** — the
+freeze-at-the-wall outcome we pre-registered never occurred for any
+contender. This arena prices commitment errors, not hesitation; pricing
+hesitation would need an *opening* door. (Both figures — the four-bar
+outcome chart and the same-seed trajectory overlay where the champion
+visibly commits earliest — live in
+[`experiments/closing_door/`](../../experiments/closing_door/) with the
+full gate-by-gate journal.)
+
 ## What the anticipation actually costs
 
 The entire proactive overhead — encoder shared anyway, so: the
