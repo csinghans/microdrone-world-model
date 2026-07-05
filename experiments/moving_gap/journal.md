@@ -136,3 +136,29 @@ breaks a home-turf guard, the honest conclusion is that a 5-world diet
 cannot pay the classic tax at reasonable budgets, and the next
 pre-registration should attack the *mixture shape* (e.g. classic×2)
 instead of the budget.
+
+## KD1 — K1's five-world mixture at 900k (2x) — the proven budget dial, no new variables (2026-07-05 01:11 UTC)
+Hypothesis: the home-turf guard failures are dilution; K2->K3 measured monotone healing with budget (+150k: cluttered 22->13, sweep@1.0 27->17, sweep@2.0 22->8) while targets held
+Config: {"worlds": ["classic", "dense", "moving", "gap", "moving_gap"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| mgap@1.0 | 30 | 20% | 80% | 0.34 | transited=0.97 gap_margin=0.18 |
+| mgap@1.5 | 30 | 20% | 80% | 0.35 | transited=0.97 gap_margin=0.19 |
+| guard:gap@1.0 | 30 | 0% | 100% | 0.42 | transited=1.00 gap_margin=0.24 |
+| guard:cluttered | 60 | 0% | 98% | 0.43 |  |
+| guard:sweep@1.0 | 30 | 3% | 97% | 0.43 |  |
+| guard:sweep@1.5 | 30 | 0% | 100% | 0.39 |  |
+| guard:sweep@2.0 | 30 | 17% | 83% | 0.33 |  |
+- mgap@1.0 success>=0.75: 0.80 PASS (rechecked)
+- mgap@1.5 success>=0.6: 0.80 PASS
+- guard:gap@1.0 success>=0.75: 1.00 PASS
+- guard:cluttered crash<=0.05: 0.00 PASS (rechecked)
+- guard:sweep@1.0 crash<=0.05: 0.03 PASS (rechecked)
+- guard:sweep@1.5 crash<=0.1: 0.00 PASS
+- guard:sweep@2.0 crash<=0.1: 0.17 FAIL (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
