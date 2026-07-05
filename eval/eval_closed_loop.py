@@ -106,12 +106,16 @@ def run_episode(
 
 def load_or_train(device: str = "cpu"):
     """No checkpoint -> train a tiny one right here (slower but
-    self-contained), so every eval runs on its own."""
+    self-contained), so every eval runs on its own. The stand-in is
+    provenance-stamped (`meta["autotrained_tiny"]`) so behavioral
+    selftests can honestly scope themselves to wiring — a 12-rollout
+    model's flight quality is a coin flip, not a claim."""
     if not os.path.exists(MODEL):
         print(f"[INFO] no model at {MODEL}; training a tiny one first ...")
         from datasets.generate_rollouts import gen
 
         ckpt, _ = train(gen(12, 100), epochs=40)
+        ckpt["meta"]["autotrained_tiny"] = True
         os.makedirs(os.path.dirname(MODEL), exist_ok=True)
         torch.save(ckpt, MODEL)
     return load_model(MODEL, device=device)

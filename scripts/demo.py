@@ -78,6 +78,18 @@ def main() -> None:
         f"(no privileged look-ahead in control)"
     )
     if args.selftest:
+        if meta.get("autotrained_tiny"):
+            # artifact-less runner: load_or_train built a 12-rollout stand-in,
+            # and the anticipation story is a claim about a *real* checkpoint
+            # (judged at the gates). A smoke can only assert the wiring.
+            for ep in (reactive, wm):
+                assert {"trigger", "min_clear", "crashed", "reached"} <= set(ep)
+            assert isinstance(lead, int), "lead not computed"
+            print(
+                "DEMO OK (wiring only): auto-trained tiny checkpoint — the "
+                "anticipation-story asserts need a real model"
+            )
+            return
         assert wm["trigger"] >= 0, "wm never deviated from cruise"
         assert reactive["trigger"] >= 0, "reactive never triggered"
         assert lead > 0, "wm did not trigger earlier than reactive"
