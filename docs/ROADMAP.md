@@ -20,6 +20,13 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
+- **closing-door (the duel): PASSED at K3, zero-shot.** The third
+  skill is a benchmark first: a converging aperture judged at the
+  crossing instant, four contenders on identical seeds. The reactive
+  baseline lives at cruise and dies at speed (83 % → 40 %); the
+  moving-gap v2 champion threads a door it never trained on (93/87 %,
+  all guards green) — no training knob needed, the catalog's first
+  cross-skill champion. Figures in `experiments/closing_door/`.
 - **moving-gap, v1 → v2: PASSED.** The sliding-fence skill (success
   judged at the crossing instant). v1 ran K0→KD1 autonomously and
   closed "capability yes, promotion no": targets passed everywhere,

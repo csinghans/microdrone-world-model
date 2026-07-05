@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased — the closing-door duel (third skill; the benchmark that is also a capability)
+
+- **closing-door PASSED at K3, zero-shot** (`skills/closing_door`,
+  figures + gate-by-gate numbers in `experiments/closing_door/`): the
+  reactive-vs-predictive duel arena — the gap fence's edge pillars
+  converge at 0.25-0.45 m/s, the aperture is aimed to be flyable at an
+  on-time arrival and fully shut within the episode, and success is
+  judged **at the crossing instant**. Four contenders flew the same
+  cells and seeds (the runner grew a `builtin:` route for the non-zip
+  baselines): the privileged reactive threads 83 % at cruise and
+  collapses to 40 % at speed — the distance-budget cliff, live; the
+  hand latent-MPC commits-and-dies (63-80 % pinched); the general
+  champion detours around the whole fence (`transited` catches
+  reached-without-threading); and **the moving-gap v2 champion clears
+  every bar on an aperture it never trained on** (93/87 % threaded,
+  all guards green) — the broad v2 diet bought out-of-distribution
+  timing generalization, so the training knob never ran and the door's
+  champion is a cross-skill zip. Hypothesis audit recorded honestly:
+  two wrong, one half-wrong, one right; nobody froze (an *opening*
+  door would price hesitation — future-arena note).
+  `eval/eval_duel_plots.py` renders the outcome bars + a same-seed
+  trajectory overlay where the champion's earliest commit makes
+  anticipation visible to the naked eye. Catalog: 3/3 skills passed.
+
 ## Unreleased — moving-gap v2: PASSED (the diet's shape closes what budget couldn't)
 
 - **moving-gap-v2 PASSED at K3** (`skills/moving_gap_v2`,
