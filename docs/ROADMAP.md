@@ -20,16 +20,19 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
-- **moving-gap** (`skills/moving_gap`): the second skill campaign —
-  transit a *sliding* fence's gap, success judged at the crossing
-  instant. Ran autonomously K0→KD1. Verdict: **capability yes,
-  promotion no** — timing targets passed at every trained knob (best
-  82/97 %, transit 98-100 %), but teaching the slide cost a fast-solo
-  regression (sweep@2.0 17 % vs ≤ 10 % at n=60) that neither share
-  re-weighting nor 2× budget removed (non-monotone budget response —
-  further budget knobs would be fishing). Fifth sighting of the
-  moved-hole refrain. Next attack: mixture shape, as skill v2 with
-  fresh bars. Full arc: `experiments/moving_gap/journal.md`.
+- **moving-gap, v1 → v2: PASSED.** The sliding-fence skill (success
+  judged at the crossing instant). v1 ran K0→KD1 autonomously and
+  closed "capability yes, promotion no": targets passed everywhere,
+  but a fast-solo guard (17 % vs ≤10 %, n=60) resisted both share
+  re-weighting and 2× budget (non-monotone response — more budget
+  would have been fishing). v2 attacked the **mixture shape** as v1's
+  verdict prescribed: classic×2 healed all guards but starved the
+  skill; an explicit solo world did the same, worse; their
+  **combination passed all seven bars** (mgap 85/93 %, old skill 90 %,
+  fast-solo cell 0 % at n=60). Champion:
+  `experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip` —
+  flies with the G1 world model. Catalog: 2/2 skills passed through
+  the autonomous runner. Full arcs: `experiments/moving_gap*/journal.md`.
 
 ## Open, in order of pull
 

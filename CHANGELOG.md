@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased — moving-gap v2: PASSED (the diet's shape closes what budget couldn't)
+
+- **moving-gap-v2 PASSED at K3** (`skills/moving_gap_v2`,
+  `experiments/moving_gap_v2/journal.md`): the mixture-shape campaign
+  v1's verdict called for. Both hypotheses proved half right — classic×2
+  healed every home-turf guard and starved the skill (mgap@1.0 67 %);
+  an explicit solo world healed every guard and starved it worse
+  (53 %); their **combination passed all seven bars at once**: mgap
+  **85 %** (n=60 recheck) / 93 %, static gap 90 %, cluttered at-bar
+  5 %, sweeps 0/0/0 — with v1's killer cell, fast-solo sweep@2.0, at
+  **0 % (n=60, clearance 0.54 m)** from a confirmed 17 %. The
+  pre-registered dilution risk (mgap at ~14 % of episodes) never
+  materialized. Sixth sighting of the house refrain, with the
+  constructive corollary: budget alone failed (v1), each shape alone
+  failed, **shape across both axes closed the hole**. The skill catalog
+  stands at 2/2 campaigns passed through the autonomous runner (one
+  researcher deviation each); the general champion is explicitly
+  untouched — dense/moving cells were never measured here.
+
 ## Unreleased — the second skill campaign (moving-gap, closed: capability yes, promotion no)
 
 - **moving-gap** (`skills/moving_gap`): transit a *sliding* fence's gap,
