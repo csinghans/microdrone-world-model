@@ -52,15 +52,29 @@ period 0.875 s > the k=32 horizon (0.67 s); the camera sees gate k+1,
 the collision-probability observation cannot represent it. See the
 horizon campaign below.
 
-### the horizon campaign (chaining, attacked at the architecture) ★★★
-Test the bottleneck hypothesis the slalom arc left standing: extend the
-world model's horizons (k = 48/64 ≈ 1.0/1.33 s — new heads, retrained
-model, budget re-priced) and/or widen the policy observation with
-latent features alongside the probabilities. Pre-stated falsifiable
-signature: horizon extension must move `chain_break_at` on the
-0.97-ceiling arena BEFORE it moves anything else. Model-axis: gate at
-flight cells (the model-layer instrument lesson applies); reuse the
-slalom-v2 skill verbatim as the exam.
+### ~~the horizon campaign~~ — CLOSED 2026-07-06, hypothesis REFUTED
+The signature fired on the refutation branch
+(`experiments/horizon/journal.md`): a k=48 stack (1.0 s > the 0.875 s
+gate period, observation widened to 10 probs/candidate) left
+chain_break_at inside the k=32 baseline band with success ~0.
+**Observability was not the wall.** The slalom arc is now fully priced:
+arena flyable (0.97), per-gate competence learnable, and the chain
+survives diet, budget, fixed rhythm AND observation horizon. Live
+suspects moved off the model axis entirely — see below.
+
+### the chain-learning campaign (RL-side, a new axis) ★★★
+The slalom arc's four eliminations point at the learning algorithm:
+**credit assignment** (success is distal — nothing rewards threading
+gate k *in a way that sets up* gate k+1), **exploration** (the joint
+maneuver may never be sampled), or **reward structure** (progress+crash
+shaping is indifferent to setup positioning). Candidate knobs, one per
+gate: per-gate shaped reward (a bonus per gate threaded — violates the
+no-hand-tuned-danger-weights rule's spirit? argue it in the
+pre-registration: gates are task structure, not danger weights),
+curriculum from slalom1→2→3, and longer n_steps/GAE horizon in PPO.
+Exam: the slalom-v2 skill verbatim, again. Warning inherited from the
+whole arc: pre-register the falsifiable signature per knob before
+launch.
 
 ### ~~duel timelines (tooling, no training)~~ — DONE 2026-07-05
 Consumed: `eval_duel_plots --timelines` renders, per duel cell, an
