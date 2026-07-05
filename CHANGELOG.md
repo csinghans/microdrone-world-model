@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased — the friendly research environment, exercised to a crown
+
+- **Onboarding stack** (docs + tools + charter, all verified on a fresh
+  env AND on CI's artifact-less runners): ONBOARDING/GLOSSARY/
+  RESEARCH-IDEAS/START-HERE.zh-TW/CONTRIBUTING; `research doctor` (the
+  preflight with a cost estimate) and `status --json` (one parseable
+  object, next-knob hint); `scripts/new_skill` (conventions pre-filled,
+  green as generated); the champions release + `fetch_champions`
+  (sha256-pinned); the operator charter — a prescriptive lane for
+  weaker agents with fixed-format gate reports and hard boundaries.
+- **opening-door** (fourth skill, consumed straight from the backlog by
+  the new stack, operator-mode executed): capability at K3 (71/74 % at
+  n=200, wait_time 0.76 s — PPO discovered hold-then-thread; the mgap
+  champion cleared @1.0 zero-shot), plus two exported findings
+  (froze=0 across both door arenas; the WHERE→WHEN generalization).
+- **sweep2_noise calibration**: the thrice-litigated fast-solo cell is
+  honest binomial (dispersion 1.12); its historical 27/22/8/17/0/13 was
+  sampling noise at inadequate n — and the study caught the
+  replacement-era recheck re-rolling a passing read into the one bad
+  block in ten. **Protocol upgraded: rechecks pool, never replace**
+  (prospective; older journals keep their era's numbers).
+- **The promotion-gate pattern**: when a strictly stronger instrument
+  appears, the legitimate path is one pre-registered high-n shot — not
+  a verdict rewrite. opening-door K3 passed all six bars at n=200
+  (fast-solo 5.0 %, independently confirming the calibration's 5.7 %)
+  and is the opening-door champion. Catalog: 4/4 skills crowned.
+- Schema hardening: knob training diets' worlds are validated at load
+  (a diet referencing another skill's world crashed a campaign
+  mid-launch once — the whole class now dies with a friendly message);
+  `eval_policy_cells --skill` judges with a skill's own predicates.
+
 ## Unreleased — the closing-door duel (third skill; the benchmark that is also a capability)
 
 - **closing-door PASSED at K3, zero-shot** (`skills/closing_door`,

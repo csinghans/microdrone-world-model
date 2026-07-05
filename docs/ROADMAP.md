@@ -20,6 +20,18 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
+- **opening-door (price hesitation): champion promoted at n=200.** The
+  fourth skill and the onboarding stack's first live exercise (backlog
+  idea → `new_skill` scaffold → operator-mode campaign). Its title arc
+  is the repo's measurement discipline in miniature: campaign gate
+  failed as written (a replacement-era recheck drew the one bad seed
+  block in ten) → the `sweep2_noise` calibration priced the cell as
+  honest binomial → rechecks now **pool, never replace** → one
+  pre-registered n=200 shot passed all six bars (fast-solo 5.0 %,
+  independently confirming the calibration's 5.7 %). Also exported:
+  `wait_time` climbs the anticipation spectrum (0.07→0.76 s), and
+  froze=0 across both door arenas — this action set fails by
+  commitment, never hesitation. Catalog: 4/4 skills with champions.
 - **closing-door (the duel): PASSED at K3, zero-shot.** The third
   skill is a benchmark first: a converging aperture judged at the
   crossing instant, four contenders on identical seeds. The reactive
