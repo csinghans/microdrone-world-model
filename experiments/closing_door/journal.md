@@ -70,3 +70,27 @@ Config: output/ppo_wm_policy_edge_hard_xp.zip
 
 ### Researcher notes
 (unattended run)
+
+## K3 — the moving-gap v2 champion, zero-shot (2026-07-05 05:12 UTC)
+Hypothesis: the best predictive contender on paper: gap-trained and motion-trained — but it has never seen an aperture *shrink*
+Config: experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| door@1.0 | 30 | 7% | 93% | 0.32 | threaded=0.93 pinched=0.07 froze=0.00 door_margin=0.17 |
+| door@1.5 | 30 | 13% | 87% | 0.34 | threaded=0.87 pinched=0.13 froze=0.00 door_margin=0.18 |
+| guard:gap@1.0 | 30 | 10% | 90% | 0.41 | transited=0.90 gap_margin=0.24 |
+| guard:mgap@1.0 | 30 | 15% | 85% | 0.32 | transited=0.98 gap_margin=0.17 |
+| guard:cluttered | 60 | 5% | 95% | 0.38 |  |
+| guard:sweep@2.0 | 60 | 0% | 100% | 0.54 |  |
+- door@1.0 success>=0.7: 0.93 PASS
+- door@1.5 success>=0.55: 0.87 PASS
+- guard:gap@1.0 success>=0.75: 0.90 PASS
+- guard:mgap@1.0 success>=0.7: 0.85 PASS (rechecked)
+- guard:cluttered crash<=0.05: 0.05 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.00 PASS
+
+**Gate verdict: passed**
+
+### Researcher notes
+(unattended run)

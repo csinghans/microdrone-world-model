@@ -367,6 +367,164 @@
    "git": {
     "commit": "2aae3b6"
    }
+  },
+  {
+   "id": "K2",
+   "kind": "zero_shot",
+   "desc": "the general champion (edge_hard_xp), zero-shot",
+   "hypothesis": "never dieted on fences; expected to hard-charge like gap K0",
+   "config": {
+    "policy_path": "output/ppo_wm_policy_edge_hard_xp.zip"
+   },
+   "artifacts": {
+    "policy_zip": "output/ppo_wm_policy_edge_hard_xp.zip",
+    "sha256": "54ef8dcc5501de93"
+   },
+   "cells": {
+    "door@1.0": {
+     "n": 30,
+     "seed0": 9800,
+     "crash": 0.23333333333333334,
+     "reached": 1.0,
+     "success": 0.1,
+     "clearance_mean": 0.3307176172999719,
+     "custom": {
+      "threaded": 0.1,
+      "pinched": 0.23333333333333334,
+      "froze": 0.0,
+      "door_margin": 0.013984134427705899
+     }
+    },
+    "door@1.5": {
+     "n": 30,
+     "seed0": 9800,
+     "crash": 0.2,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.29124636466509746,
+     "custom": {
+      "threaded": 0.0,
+      "pinched": 0.2,
+      "froze": 0.0,
+      "door_margin": 0.0
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.6333333333333333,
+     "reached": 1.0,
+     "success": 0.26666666666666666,
+     "clearance_mean": 0.1784464265646348,
+     "custom": {
+      "transited": 0.36666666666666664,
+      "gap_margin": 0.03935035701553742
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.6666666666666666,
+     "reached": 1.0,
+     "success": 0.23333333333333334,
+     "clearance_mean": 0.18507461183501175,
+     "custom": {
+      "transited": 0.3,
+      "gap_margin": 0.055107586426557824
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.03333333333333333,
+     "reached": 1.0,
+     "success": 0.9666666666666667,
+     "clearance_mean": 0.54272717305865,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.03333333333333333,
+      "reached": 1.0,
+      "success": 0.9666666666666667,
+      "clearance_mean": 0.54272717305865,
+      "custom": {}
+     }
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.016666666666666666,
+     "reached": 1.0,
+     "success": 0.9833333333333333,
+     "clearance_mean": 0.6528210470423564,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.016666666666666666,
+      "reached": 1.0,
+      "success": 0.9833333333333333,
+      "clearance_mean": 0.6528210470423564,
+      "custom": {}
+     }
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "door@1.0 success>=0.7",
+      "kind": "target",
+      "measured": 0.1,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "door@1.5 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.26666666666666666,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.23333333333333334,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.03333333333333333,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.016666666666666666,
+      "pass": true,
+      "rechecked": true
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-05 05:10 UTC",
+    "ended": "2026-07-05 05:11 UTC"
+   },
+   "git": {
+    "commit": "24685ed"
+   }
   }
  ]
 }
