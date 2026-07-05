@@ -9,18 +9,24 @@ as first campaigns.
 
 ## ★ good first campaigns
 
-### opening-door (price hesitation)
-The closing-door duel measured that **nobody froze** — that arena
-prices commitment errors only. The mirror scenario prices hesitation:
-the fence's gap starts too narrow to fly and *opens* at 0.25-0.45 m/s;
-an over-cautious policy wastes the episode waiting (or detours), an
-over-eager one clips the still-narrow edges. Reuse `ClosingDoorFence`
-almost verbatim (negative rate + start-narrow aiming), the
-threaded/pinched/froze metrics (froze finally gets to fire), and the
-duel knob pattern (`builtin:` contenders + the mgap champion).
-*Cost:* zero-shot knobs are minutes; one training knob if no contender
-clears. *Done:* the four-contender table + figures, and an answer to
-"does the timing skill generalize to waiting?"
+### ~~opening-door (price hesitation)~~ — DONE 2026-07-05
+Consumed as written (`skills/opening_door`,
+`experiments/opening_door/journal.md`): capability yes (70/60 % with
+visible waiting — PPO discovered hold-then-thread; the mgap champion
+even cleared @1.0 zero-shot), promotion no (the perennial fast-solo
+guard, 13 % vs ≤10 % at n=60). Two exported findings: froze = 0 across
+*both* door arenas (policies charge, they don't hesitate), and the
+sweep@2.0 characterization below is now the **prerequisite** for ever
+adjudicating that guard again.
+
+### sweep@2.0 noise characterization (cheap, high leverage — DO THIS NEXT)
+*(promoted from ★★, now a prerequisite)* The fast-solo cell has read
+27/22/8/17/0/13 % across two campaigns and six contexts; budget is
+measured non-monotone on it, mixture shape can hold it at 0 % but every
+new timing world re-taxes it. Fly ONE fixed policy on it 10×60 seeds
+(pure eval, ~1 h) and publish its sampling distribution. Every future
+bar on this cell inherits your error bars. *Done:* a short journal + a
+recommended (n, bar-margin) pair.
 
 ### corridor-slalom (sustained weaving)
 Offset pillars forcing alternating dodges (left-right-left) — probes
