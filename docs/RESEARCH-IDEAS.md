@@ -30,12 +30,23 @@ replacement-style recheck re-rolling an opening-door PASS into the one
 bad block in ten). The opening-door K3 title question now has a
 legitimate path: a fresh pre-registered promotion gate at pooled n ≥ 200.
 
-### corridor-slalom (sustained weaving) — IN FLIGHT 2026-07-05
-Campaign running (`skills/corridor_slalom`): sealed alternating gates
-with a numerically-asserted no-straight-line theorem (the soul-assert
-caught the first geometry overlapping into a straight solution). Curve
-axis adjusted to N ∈ {2, 3} by lateral-authority math; `chain_break_at`
-prints where the chain snaps.
+### ~~corridor-slalom (sustained weaving)~~ — CLOSED 2026-07-05, honest negative
+No knob passed any target (best 10 % vs a 70 % bar): **the first
+reversal is the wall** — the mgap champion dies at gate two zero-shot,
+training pushes penetration (chain_break 2.17, weave_frac 0.85) but
+joint success stays ≤10 %, and the double-share knob broke the mgap
+guard. Exported lesson: pre-register a **scripted feasibility probe**
+that prices an arena's physical ceiling BEFORE freezing bars (the
+arena-side twin of the instrument lesson). The chaining question stays
+open — see slalom v2 below.
+
+### slalom v2, feasibility-first (the reopened chaining question)
+Before any bar exists: fly a hand-scripted optimal weave (open-loop
+oracle path) across candidate (dx, speed, off) grids to establish each
+arena's physical ceiling; freeze the campaign's geometry where the
+ceiling sits ≥90 %, THEN re-ask whether learned evasion chains. Reuses
+the v1 scenario verbatim with recalibrated constants. *Done:* the
+ceiling table + a campaign whose bars sit under a proven ceiling.
 
 ### ~~duel timelines (tooling, no training)~~ — DONE 2026-07-05
 Consumed: `eval_duel_plots --timelines` renders, per duel cell, an
