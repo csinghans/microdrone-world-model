@@ -102,3 +102,38 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## Researcher notes — the campaign verdict (2026-07-05)
+
+**PASSED at K3 — the moving-gap catalog entry has its champion:**
+`artifacts/ppo_moving_gap_v2_K3.zip` (classic×2 + solo + the five-world
+KD1 chassis, 900 k). All seven criteria green, including the cell that
+closed v1: **sweep@2.0 at 0 % (n=60)**, clearance 0.54 m — from v1's
+confirmed 17 %.
+
+The instructive part is that *both* shape hypotheses were half right:
+
+- K1 (classic×2) healed every guard — and starved the skill
+  (mgap@1.0 67 %). K2 (solo world) healed every guard — and starved it
+  worse (53 %). Each fix alone pays for home turf with the very
+  training share the new skill needed.
+- K3's combination passed everything at once, and its pre-registered
+  risk (mgap diluted to ~14 % of episodes) did not materialize —
+  mgap@1.0 read 73 % at n=30 and **85 % at the n=60 recheck**, well
+  clear of the 75 % bar. A broader base diet apparently costs the
+  timing skill less than either narrow supplement did; why is not
+  measured here and stays a hypothesis.
+- v1's KD1 re-measured as K0 reproduced its close-out signature
+  (fast-solo guard regression) on v2's n=60 cell — the two campaigns
+  agree across the version boundary.
+
+Sixth sighting of the refrain, now with the constructive corollary:
+the hole moves when you patch one band — and it *closes* when the diet
+is broad enough to hold every band at once. Budget alone couldn't do
+it (v1); shape alone couldn't either (K1/K2); shape × both axes did.
+
+**Catalog promotion:** moving-gap joins gap-flight as a passed skill
+(2/2 campaigns to a green gate via the autonomous runner + one
+researcher deviation each). The *general* champion is untouched — this
+campaign never measured dense/moving cells, so no claim crosses that
+line without its own line-up eval.
