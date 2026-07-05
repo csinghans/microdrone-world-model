@@ -57,6 +57,7 @@ jobs:
         run: |
           python -m sim.envs
           python -m sim.scenarios
+          python -m skills.moving_gap_v2.skill
           python -m eval.eval_reactive_vs_wm --selftest
           python -m planner.latent_mpc
           python -m datasets.generate_rollouts --selftest
