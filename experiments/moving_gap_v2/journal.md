@@ -76,3 +76,29 @@ Config: {"worlds": ["classic", "dense", "moving", "gap", "moving_gap", "solo"], 
 
 ### Researcher notes
 (unattended run)
+
+## K3 — classic x2 + solo (the combination) (2026-07-05 03:58 UTC)
+Hypothesis: played only if K1/K2 each move the fast cell without clearing it; the mgap-share dilution risk is priced by v1's target headroom
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap", "solo"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| mgap@1.0 | 30 | 15% | 85% | 0.32 | transited=0.98 gap_margin=0.17 |
+| mgap@1.5 | 30 | 7% | 93% | 0.35 | transited=1.00 gap_margin=0.20 |
+| guard:gap@1.0 | 30 | 10% | 90% | 0.41 | transited=0.90 gap_margin=0.24 |
+| guard:cluttered | 60 | 5% | 95% | 0.38 |  |
+| guard:sweep@1.0 | 30 | 0% | 100% | 0.38 |  |
+| guard:sweep@1.5 | 30 | 0% | 100% | 0.46 |  |
+| guard:sweep@2.0 | 60 | 0% | 100% | 0.54 |  |
+- mgap@1.0 success>=0.75: 0.85 PASS (rechecked)
+- mgap@1.5 success>=0.6: 0.93 PASS
+- guard:gap@1.0 success>=0.75: 0.90 PASS
+- guard:cluttered crash<=0.05: 0.05 PASS (rechecked)
+- guard:sweep@1.0 crash<=0.05: 0.00 PASS (rechecked)
+- guard:sweep@1.5 crash<=0.1: 0.00 PASS
+- guard:sweep@2.0 crash<=0.1: 0.00 PASS
+
+**Gate verdict: passed**
+
+### Researcher notes
+(unattended run)

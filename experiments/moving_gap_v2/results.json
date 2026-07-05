@@ -411,6 +411,201 @@
    "git": {
     "commit": "0bcbb69"
    }
+  },
+  {
+   "id": "K2",
+   "kind": "policy",
+   "desc": "an explicit solo world on the KD1 chassis",
+   "hypothesis": "the bleeding cell is fast+solo geometry; edge-bias already over-samples fast, so a solo world aims it at the wound",
+   "config": {
+    "worlds": [
+     "classic",
+     "dense",
+     "moving",
+     "gap",
+     "moving_gap",
+     "solo"
+    ],
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 900000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K2.zip",
+    "sha256": "61caa1fb86ed67ed"
+   },
+   "cells": {
+    "mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.4666666666666667,
+     "reached": 1.0,
+     "success": 0.5333333333333333,
+     "clearance_mean": 0.24650960770179822,
+     "custom": {
+      "transited": 0.8,
+      "gap_margin": 0.11123076257429416
+     }
+    },
+    "mgap@1.5": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.1,
+     "reached": 0.9666666666666667,
+     "success": 0.9,
+     "clearance_mean": 0.34065653997846307,
+     "custom": {
+      "transited": 0.9666666666666667,
+      "gap_margin": 0.19901822395647875
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.1,
+     "reached": 1.0,
+     "success": 0.9,
+     "clearance_mean": 0.40018045204370106,
+     "custom": {
+      "transited": 0.9,
+      "gap_margin": 0.24855597841726515
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 1.0,
+     "clearance_mean": 0.53586149922737,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.0,
+      "reached": 1.0,
+      "success": 1.0,
+      "clearance_mean": 0.53586149922737,
+      "custom": {}
+     }
+    },
+    "guard:sweep@1.0": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 0.9833333333333333,
+     "success": 0.9833333333333333,
+     "clearance_mean": 0.644706517003743,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.0,
+      "reached": 0.9833333333333333,
+      "success": 0.9833333333333333,
+      "clearance_mean": 0.644706517003743,
+      "custom": {}
+     }
+    },
+    "guard:sweep@1.5": {
+     "n": 30,
+     "seed0": 3000,
+     "crash": 0.016666666666666666,
+     "reached": 1.0,
+     "success": 0.9833333333333333,
+     "clearance_mean": 0.5037011383051586,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.016666666666666666,
+      "reached": 1.0,
+      "success": 0.9833333333333333,
+      "clearance_mean": 0.5037011383051586,
+      "custom": {}
+     }
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.03333333333333333,
+     "reached": 0.9833333333333333,
+     "success": 0.95,
+     "clearance_mean": 0.44505902526088936,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.03333333333333333,
+      "reached": 0.9833333333333333,
+      "success": 0.95,
+      "clearance_mean": 0.44505902526088936,
+      "custom": {}
+     }
+    }
+   },
+   "gate": {
+    "verdict": "continue",
+    "criteria": [
+     {
+      "name": "mgap@1.0 success>=0.75",
+      "kind": "target",
+      "measured": 0.5333333333333333,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "mgap@1.5 success>=0.6",
+      "kind": "target",
+      "measured": 0.9,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.9,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@1.0 crash<=0.05",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@1.5 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.016666666666666666,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.03333333333333333,
+      "pass": true,
+      "rechecked": true
+     }
+    ],
+    "guards_ok": true
+   },
+   "timing": {
+    "started": "2026-07-05 02:26 UTC",
+    "ended": "2026-07-05 03:11 UTC"
+   },
+   "git": {
+    "commit": "0a6413e"
+   }
   }
  ]
 }
