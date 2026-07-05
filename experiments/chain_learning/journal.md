@@ -83,3 +83,27 @@ fired on 3 decisions across 6 episodes — the env receives the fences
 from scenario meta, `gate_bonus_hits` pays on threading, and the reward
 sees it. Wiring proven before any training spend; the pure-function ↔
 exam-metric agreement is soul-asserted in the skill selftest (CI).
+
+## K1 — per-gate task reward (gate_bonus=8.0) on the v2-K1 recipe (2026-07-05 22:17 UTC)
+Hypothesis: if distal credit is the wall, proximal gate pay concentrates advantage on rare chains and chain_break_at moves first
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap", "solo", "slalom3_fixed"], "gate_bonus": 8.0, "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom3@1.0 | 30 | 70% | 7% | 0.15 | weaved=0.07 weave_frac=0.78 chain_break_at=1.73 |
+| diag:slalom2@1.0 | 30 | 77% | 13% | 0.16 | weaved=0.13 weave_frac=0.75 chain_break_at=1.50 |
+| diag:slalom3@1.25 | 30 | 83% | 3% | 0.13 | weaved=0.03 weave_frac=0.72 chain_break_at=1.47 |
+| guard:gap@1.0 | 30 | 7% | 93% | 0.44 | transited=0.93 gap_margin=0.26 |
+| guard:mgap@1.0 | 90 | 32% | 67% | 0.25 | transited=0.91 gap_margin=0.10 |
+| guard:cluttered | 120 | 2% | 98% | 0.52 |  |
+| guard:sweep@2.0 | 120 | 3% | 97% | 0.53 |  |
+- slalom3@1.0 success>=0.7: 0.07 FAIL
+- guard:gap@1.0 success>=0.75: 0.93 PASS
+- guard:mgap@1.0 success>=0.7: 0.67 FAIL (rechecked)
+- guard:cluttered crash<=0.05: 0.03 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.03 PASS (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
