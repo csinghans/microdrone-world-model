@@ -127,8 +127,9 @@ SKILL = Skill(
     version="1",
     scenarios={{
         "{mod}": spawn_{mod},
-        # TODO(researcher): re-register any other skill's worlds your
-        # guard cells reference (re-registering a name is safe)
+        # TODO(researcher): re-register any other skill's worlds that your
+        # guard cells OR your knobs' training diets reference — schema
+        # validation checks both (re-registering a name is safe)
     }},
     cells=(
         # targets: fresh seed0 series for a new family (gap=9000, moving=9500)

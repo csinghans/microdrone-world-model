@@ -56,6 +56,7 @@ from skills.moving_gap.skill import (
     mgap_success,
     spawn_moving_gap,
 )
+from skills.moving_gap_v2.skill import spawn_solo
 
 RATE_RANGE = (0.25, 0.45)  # total closure speed of the door (m/s)
 W_HIT_RANGE = (0.65, 0.95)  # aperture at the drone's expected arrival (m)
@@ -190,6 +191,7 @@ SKILL = Skill(
         "door": spawn_door,
         "gap": spawn_gap,
         "moving_gap": spawn_moving_gap,
+        "solo": spawn_solo,  # K4's diet trains on it (latent until validated)
     },
     cells=(
         EvalCell("door@1.0", "door", 1.0, 30, 9800),

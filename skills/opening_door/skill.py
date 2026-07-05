@@ -55,6 +55,7 @@ from skills.moving_gap.skill import (
     mgap_success,
     spawn_moving_gap,
 )
+from skills.moving_gap_v2.skill import spawn_solo
 
 W0 = 0.05  # aperture at spawn: shut for all practical purposes
 WAIT_RANGE = (0.3, 1.5)  # how long after nominal arrival the door turns flyable
@@ -206,6 +207,7 @@ SKILL = Skill(
         "opening_door": spawn_opening_door,
         "gap": spawn_gap,
         "moving_gap": spawn_moving_gap,
+        "solo": spawn_solo,  # K3's diet trains on it; diets need worlds too
     },
     cells=(
         EvalCell("odoor@1.0", "opening_door", 1.0, 30, 9950),

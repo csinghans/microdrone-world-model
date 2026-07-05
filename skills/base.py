@@ -91,6 +91,10 @@ def _validate(skill: Skill) -> None:
         assert k.kind in VALID_KNOB_KINDS, f"bad knob kind {k.kind}"
         if k.kind == "zero_shot":
             assert k.policy_path, "zero_shot knob needs policy_path"
+        # training diets reference worlds too — a knob must not discover a
+        # missing registration hours into a campaign (measured: it did once)
+        for w in (k.train_kwargs or {}).get("worlds", ()):
+            scenario_registry.get(w)
     assert skill.max_knobs >= 1 and callable(skill.success)
 
 
