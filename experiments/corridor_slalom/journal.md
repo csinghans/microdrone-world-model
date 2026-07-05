@@ -102,3 +102,40 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## Researcher notes — campaign close: an honest across-the-board negative (2026-07-05)
+
+**No knob passed any target** (best: K2's slalom2 at 10 % vs the 70 %
+bar). The question "does evasion chain?" got a sharp answer anyway:
+**not at this spacing — the first reversal is the wall.**
+
+- Zero-shot, the mgap champion (K1) threads gate 1 and dies at gate 2
+  (chain_break_at ≈ 1.0-1.3, weave_frac 0.63-0.72): the *reversal
+  itself* kills, not its repetition. My frozen hypothesis said the
+  third gate would be the new thing — wrong; the second was.
+- Training helps and saturates far under the bars: K2 pushes
+  penetration to chain_break_at 2.17 and weave_frac 0.85, yet joint
+  success stays ≤10 % with crash-dominated failures right after gate 1
+  — per-gate competence multiplied by a correlated transition failure.
+- K3 (double share) made everything worse AND broke the mgap guard
+  (53 % vs ≥70 %): the over-specialization/dilution tax, sixth sighting
+  of the family.
+- Guards elsewhere stayed green, and this was the **pooling protocol's
+  first production campaign**: cluttered and sweep@2.0 judged at pooled
+  n=120, mgap at n=90 — no re-rolled verdicts.
+
+**Design accountability, recorded:** the pre-registration's own math
+flagged the swing (0.56-0.74 m per 0.7-0.8 m of corridor) as
+edge-of-authority and bet that real dynamics would be kinder. The bet
+lost. What is measured is "beyond this recipe's reach", not "physically
+impossible" — the arena's ceiling was never probed, because no scripted
+optimal-path feasibility check was pre-registered. That is the lesson
+this campaign exports: **calibrate the exam before grading students** —
+future arena designs should pre-register a scripted/oracle feasibility
+probe that establishes the physical ceiling before any bar is frozen
+(the arena-side twin of the sweep2_noise instrument lesson).
+
+**Verdict: CLOSED, honest negative.** The chaining question stays open
+pending a slalom v2 with a feasibility-first design (probe the ceiling,
+set dx/speed so the ceiling sits ≥90 %, then re-ask). Seeded to the
+ideas ledger.
