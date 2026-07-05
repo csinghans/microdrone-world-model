@@ -10,16 +10,16 @@ dependencies:
   - pytorch
   - stable-baselines3
   - sb3-contrib          # RecurrentPPO (the LSTM policy flavour)
-  # gym-pybullet-drones runtime deps (installed --no-deps below)
+  # gym-pybullet-drones runtime deps (it is itself installed --no-deps, step 2)
   - scipy
   - control
   - transforms3d
   - pillow
   - pip
-  - pip:
-      - --no-deps
-      - git+https://github.com/utiasDSL/gym-pybullet-drones.git
-# Setup:
-#   conda env create -f environment.yml
-#   conda activate microdrone-wm
+# Setup — three commands, verified on a fresh env 2026-07-05. (The sim dep
+# used to live in a pip: block here, but conda's `pip -U -r` invocation
+# chokes on a global --no-deps line under some conda versions, so it is an
+# explicit step — same as CI does it.)
+#   conda env create -f environment.yml && conda activate microdrone-wm
+#   pip install --no-deps git+https://github.com/utiasDSL/gym-pybullet-drones.git
 #   pip install -e .        # makes world_model/planner/sim/datasets/eval importable

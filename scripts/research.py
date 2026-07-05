@@ -300,6 +300,166 @@ def run_knob(skill, knob, exp_dir: str, dry: bool, no_commit: bool) -> dict:
     return block
 
 
+class _Forward:
+    """The doctor's crash-test dummy: cruise straight, decide nothing.
+    It only has to prove a world spawns and an episode completes."""
+
+    def begin(self, pillars) -> None:
+        del pillars
+
+    def decide(self, frame, state) -> int:
+        del frame, state
+        from planner.action_set import FORWARD
+
+        return FORWARD
+
+
+def doctor(skill, as_json: bool) -> int:
+    """Preflight for newcomers and operator-mode agents: everything a
+    campaign needs, checked in seconds — before hours burn. Exit 0 when
+    every hard check passes (warnings allowed), 2 otherwise."""
+    import time
+
+    from eval.episode import run_scenario_episode
+    from sim.envs import make_env
+
+    checks: list = []  # (name, "pass"|"warn"|"fail", detail)
+    checks.append(
+        (
+            "skill schema",
+            "pass",
+            f"{skill.name} v{skill.version}: {len(skill.cells)} cells, "
+            f"{len(skill.knobs)} knobs (max {skill.max_knobs})",
+        )
+    )
+
+    # every unique world spawns and flies one episode with a dumb policy
+    env, ep_secs = make_env(), []
+    for cell in {c.world: c for c in skill.cells}.values():
+        t0 = time.time()
+        try:
+            if cell.world is None:
+                from eval.eval_closed_loop import run_episode
+
+                run_episode(
+                    env, _Forward(), cell.seed0, speed=cell.speed, **cell.kwargs
+                )
+            else:
+                run_scenario_episode(
+                    env, _Forward(), cell.seed0, cell.world, cell.speed
+                )
+            ep_secs.append(time.time() - t0)
+            checks.append(
+                (
+                    f"world '{cell.world or 'classic'}' flies",
+                    "pass",
+                    f"1 episode in {ep_secs[-1]:.1f}s",
+                )
+            )
+        except Exception as e:  # noqa: BLE001 — the report IS the product
+            checks.append((f"world '{cell.world or 'classic'}' flies", "fail", str(e)))
+    env.close()
+
+    # zero-shot artifacts exist (builtins are always available)
+    for k in skill.knobs:
+        if k.kind == "zero_shot" and not k.policy_path.startswith("builtin:"):
+            p = os.path.join(ROOT, k.policy_path)
+            if os.path.exists(p):
+                checks.append((f"{k.id} policy zip", "pass", k.policy_path))
+            else:
+                checks.append(
+                    (
+                        f"{k.id} policy zip",
+                        "fail",
+                        f"{k.policy_path} missing — run: python -m "
+                        f"scripts.fetch_champions",
+                    )
+                )
+
+    # the world model the policies ride
+    wm = os.path.join(ROOT, "output", "world_model.pth")
+    checks.append(
+        ("world model checkpoint", "pass" if os.path.exists(wm) else "warn")
+        + (
+            (wm,)
+            if os.path.exists(wm)
+            else (
+                "missing — evals auto-train a tiny stand-in (slow, weak); "
+                "run: python -m scripts.fetch_champions",
+            )
+        )
+    )
+
+    # convention lint: the fast-solo cell is noisy — n=60 is the paid-for lesson
+    for c in skill.cells:
+        if "sweep@2.0" in c.id and c.n_seeds < 60:
+            checks.append(
+                (
+                    f"{c.id} sample size",
+                    "warn",
+                    f"n={c.n_seeds} < 60 — this cell's n=30 reads bounced "
+                    f"27/22/8/17 across one campaign (see docs/GLOSSARY.md)",
+                )
+            )
+
+    # the runner makes path-scoped commits; a dirty tree muddies them
+    import subprocess
+
+    dirty = subprocess.run(
+        ["git", "status", "--porcelain"], capture_output=True, text=True, cwd=ROOT
+    ).stdout.strip()
+    checks.append(
+        ("git tree", "pass" if not dirty else "warn")
+        + (
+            ("clean",)
+            if not dirty
+            else (f"{len(dirty.splitlines())} uncommitted paths",)
+        )
+    )
+
+    # the bill, before it is paid
+    sec = sum(ep_secs) / max(len(ep_secs), 1)
+    eps_per_knob = sum(c.n_seeds for c in skill.cells)
+    est = {
+        "episodes_per_knob": eps_per_knob,
+        "est_minutes_per_eval_knob": round(eps_per_knob * sec / 60, 1),
+        "training_knobs": [
+            {"id": k.id, "timesteps": k.train_kwargs.get("timesteps")}
+            for k in skill.knobs
+            if k.kind == "policy"
+        ],
+        "note": "training adds ~30-60 min per 450k steps on Apple Silicon "
+        "(slower on CPU); rechecks add n=60 reruns per borderline cell",
+    }
+
+    ok = all(s != "fail" for _n, s, _d in checks)
+    if as_json:
+        print(
+            json.dumps(
+                {
+                    "skill": skill.name,
+                    "ok": ok,
+                    "checks": [
+                        {"name": n, "status": s, "detail": d} for n, s, d in checks
+                    ],
+                    "estimate": est,
+                },
+                indent=1,
+            )
+        )
+    else:
+        mark = {"pass": "ok  ", "warn": "WARN", "fail": "FAIL"}
+        for n, s, d in checks:
+            print(f"  [{mark[s]}] {n}: {d}")
+        print(
+            f"  estimate: ~{est['episodes_per_knob']} episodes/knob "
+            f"(~{est['est_minutes_per_eval_knob']} min eval) + "
+            f"{len(est['training_knobs'])} training knob(s); {est['note']}"
+        )
+        print(f"DOCTOR {'OK' if ok else 'FAIL'}: {skill.name}")
+    return 0 if ok else 2
+
+
 def main() -> None:
     argv = sys.argv[1:]
     if "--selftest" in argv:
@@ -313,8 +473,9 @@ def main() -> None:
     ap.add_argument("--from-knob", type=int, default=0)
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--no-commit", action="store_true")
+    ap.add_argument("--json", action="store_true", help="machine-readable output")
     args = ap.parse_args()
-    if args.cmd not in ("run", "step", "status"):  # bare `research skills/x`
+    if args.cmd not in ("run", "step", "status", "doctor"):  # bare `research skills/x`
         args.cmd, args.skill = "run", args.cmd
 
     from skills.base import Knob, load_skill
@@ -323,10 +484,42 @@ def main() -> None:
     exp_dir = _exp_dir(skill.name, args.dry)
     results = _load_results(exp_dir, skill)
 
+    if args.cmd == "doctor":
+        sys.exit(doctor(skill, args.json))
+
     if args.cmd == "status":
+        done = {kb["id"] for kb in results["knobs"]}
+        nxt = next(
+            (
+                {"index": i, "id": k.id}
+                for i, k in enumerate(skill.knobs[: skill.max_knobs])
+                if k.id not in done
+            ),
+            None,
+        )
+        if results["status"] in ("passed", "budget_exhausted"):
+            nxt = None
+        if args.json:
+            print(
+                json.dumps(
+                    {
+                        "skill": results["skill"],
+                        "status": results["status"],
+                        "knobs": [
+                            {"id": kb["id"], "verdict": kb["gate"]["verdict"]}
+                            for kb in results["knobs"]
+                        ],
+                        "next_knob": nxt,
+                    },
+                    indent=1,
+                )
+            )
+            sys.exit(0)
         print(json.dumps({k: results[k] for k in ("skill", "status")}, indent=1))
         for kb in results["knobs"]:
             print(f"  {kb['id']}: {kb['gate']['verdict']}")
+        if nxt:
+            print(f"  next: --knob {nxt['index']} ({nxt['id']})")
         sys.exit(0)
 
     if args.cmd == "step":
