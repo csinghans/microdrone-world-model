@@ -22,3 +22,27 @@ Config: experiments/corridor_slalom/artifacts/ppo_corridor_slalom_K2.zip
 
 ### Researcher notes
 (unattended run)
+
+## K1 — fresh training on the FIXED spacing (v2-combination diet, 900k) (2026-07-05 13:51 UTC)
+Hypothesis: a fixed dx is a learnable rhythm; whether it closes 97-vs-10 is the whole question
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap", "solo", "slalom3_fixed"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom3@1.0 | 30 | 97% | 0% | 0.11 | weaved=0.00 weave_frac=0.72 chain_break_at=1.33 |
+| diag:slalom2@1.0 | 30 | 80% | 13% | 0.16 | weaved=0.13 weave_frac=0.85 chain_break_at=1.63 |
+| diag:slalom3@1.25 | 30 | 93% | 0% | 0.09 | weaved=0.00 weave_frac=0.73 chain_break_at=1.60 |
+| guard:gap@1.0 | 30 | 7% | 87% | 0.41 | transited=0.87 gap_margin=0.24 |
+| guard:mgap@1.0 | 30 | 43% | 57% | 0.25 | transited=0.80 gap_margin=0.12 |
+| guard:cluttered | 120 | 2% | 98% | 0.43 |  |
+| guard:sweep@2.0 | 120 | 7% | 93% | 0.49 |  |
+- slalom3@1.0 success>=0.7: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.87 PASS
+- guard:mgap@1.0 success>=0.7: 0.57 FAIL
+- guard:cluttered crash<=0.05: 0.03 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.07 PASS (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
