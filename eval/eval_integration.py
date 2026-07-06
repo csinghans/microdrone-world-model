@@ -67,13 +67,30 @@ def _expert(zip_path: str, speed: float):
     return LearnedPolicy(_model(zip_path), enc, pred, cheads, meta, speed=speed)
 
 
-class PerStageExperts:
-    """PRIVILEGED ceiling probe: per-stage solo holders, stage-local x,
-    memory reset on entry. Reads the course composition — never a
-    contender, always labelled."""
+# the flight-plan hybrid (deployment-legal per the 2026-07-07 ruling:
+# course composition = legitimate mission information, like waypoints):
+# the course-FT generalist flies everything except slalom stages, which
+# the chain-distill clone flies
+HYBRID = {
+    "gap": "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip",
+    "moving_gap": "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip",
+    "door": "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip",
+    "opening_door": "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip",
+    "slalom3_fixed": "experiments/chain_distill/artifacts/ppo_chain_distill_BC.zip",
+}
 
-    def __init__(self, names, speed: float = 1.0, stage_len: float = STAGE_LEN):
-        self.pilots = [_expert(STAGE_EXPERT[n], speed) for n in names]
+
+class PerStageExperts:
+    """Per-stage experts keyed on the course composition. As the CEILING
+    probe (solo-holder map) it is a privileged instrument; as the HYBRID
+    (flight-plan map) it is a deployment-legal contender per the ruling
+    that mission plans know their waypoints."""
+
+    def __init__(
+        self, names, speed: float = 1.0, stage_len: float = STAGE_LEN, experts=None
+    ):
+        table = experts or STAGE_EXPERT
+        self.pilots = [_expert(table[n], speed) for n in names]
         self.L = float(stage_len)
         self._stage = 0
 
@@ -288,6 +305,8 @@ def make_factory(args):
         return lambda names: StageLocal(_expert(args.zip, 1.0), n_stages=K_STAGES)
     if args.contender == "ceiling":
         return lambda names: PerStageExperts(names, 1.0)
+    if args.contender == "hybrid":
+        return lambda names: PerStageExperts(names, 1.0, experts=HYBRID)
     raise SystemExit(f"unknown contender {args.contender!r} and no --zip given")
 
 
@@ -295,7 +314,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--suite", type=int, default=0)
     ap.add_argument("--seed0", type=int, default=SEED0)
-    ap.add_argument("--contender", default=None, choices=(None, "ceiling"))
+    ap.add_argument("--contender", default=None, choices=(None, "ceiling", "hybrid"))
     ap.add_argument("--zip", default=None)
     ap.add_argument("--video-seed", type=int, default=None)
     ap.add_argument("--out", default=None)
