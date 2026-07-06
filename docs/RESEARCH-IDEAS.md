@@ -33,15 +33,34 @@
   (88 vs 82, different seed set). Division of labor measured:
   **imitation buys the skill, on-policy RL buys the robustness**
   (`experiments/surpass_teacher/journal.md`).
-- **Remaining distillation candidates (fresh pre-registrations):**
-  **BC+FT-generalist** (apply the measured two-leg recipe to the
-  five-world pot — the fine-tune fixed exactly the guard that kept
-  the generalist's crown vacant; the first credible path to a
-  distilled champion), **OracleDodge distillation** (dodgeball fast
-  cells — BC val meters whether fast-ball information exists in the
-  obs at all, the question wm48-defense left open), **DAgger**
-  (its textbook case is now measured, but FT just fixed that same
-  case more cheaply — argue the mechanism difference before opening).
+- ~~BC+FT-generalist~~ CLOSED 2026-07-06, REFUTED — and the export is
+  **the fine-tune safety law, measured three ways** (+ a fourth from
+  dodge-distill K1): FT repairs exactly its own diet (surpass-teacher:
+  +29.5 single-world), corrodes everything outside it (bcft K1: sweep
+  98 % crash on untouched worlds), corrodes RL-unlearnable skills even
+  inside it (bcft K0: chain 93→0 with slalom IN the diet), and can be
+  biased by a strong-but-imperfect prior into a basin WORSE than
+  from-scratch (dodge-distill K1: fled the box under the same tick
+  economy K3 used to hold it). Safe iff the diet covers everything you
+  care about AND all of it is RL-learnable. Crown vacant, ninth
+  sitting (`experiments/bcft_generalist/journal.md`).
+- ~~OracleDodge distillation~~ CLOSED 2026-07-06, SUPPORT —
+  **dodge@v1.8 = 60 % over its bar, the catalog's only fast-cell
+  pass** (crash 80→23 vs RL). Representation verdict instrument-
+  audited: dodge-decision (non-hover) accuracy 0.898 at both fast
+  speeds — the information was in the observation all along; wm48's
+  range-quality suspect acquitted at this level. The curve INVERTS
+  (fast cells easiest for imitation: brief threats convert decision
+  accuracy directly; slow balls accumulate closed-loop drift)
+  (`experiments/dodge_distill/journal.md`).
+- **KL-anchored / short-dose fine-tuning ★★★** — now the sharpest
+  open tool question in the repo, with four erasure datapoints to
+  design against: can a conservatism constraint (KL-to-prior, tiny
+  LR, or 10-50k doses) buy repair without corrosion? Judge on the
+  bcft table (chain + guards) — the measured worst case.
+- **DAgger** (argue the mechanism difference from FT first: FT
+  re-optimizes the objective, DAgger re-anchors to the teacher — the
+  four erasure datapoints now make that argument FOR it).
 - ~~P3 — chain-algorithm campaign~~ RESHAPED by chain-distill: the
   chaining question is ANSWERED (imitation chains at 96.7 %); an
   RL-algorithm campaign against that wall is now academic. Reopen
