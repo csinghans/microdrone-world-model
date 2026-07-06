@@ -163,3 +163,17 @@ starts with the default expert flying the first ~6 decisions before
 the designated expert takes over (hover-start prefixes), so
 "gap world seen from a hover" is a training class, not a trap. The
 phase-1 meter must then replay the same closed-loop start.
+
+## dispatch-v3 pre-registration (2026-07-06, before any v3 number exists)
+
+One delta, dictated by v2's caught mechanism: **close the loop on both
+sides.** Collection — every training episode's first PREFIX=6 decisions
+are flown by the DEFAULT (hover-biased) expert before the designated
+expert takes over, so "this world seen from a hover-start" is a
+training view, not a trap; labels stay the world's true class
+throughout. Meter — phase 1 no longer grades expert-generated streams:
+**DispatchPolicy itself flies the validation episodes and its own
+trace is judged** (final class == truth, floor 0.85 on every world;
+escape latency and never-stable reported). Roster, hysteresis, default,
+union exam, crown/support/refuted all inherited frozen from v2. New
+seed series (80000+), versioned artifact (dispatch_classifier_v3.pth).

@@ -75,8 +75,9 @@ EXAM_CELLS = (
     ("gap-flight", "guard:cluttered"),
     ("gap-flight", "guard:sweep@2.0"),
 )
-CLF_PATH = "experiments/dispatch/artifacts/dispatch_classifier_v2.pth"
-SEED0 = 70000  # v2 collection series — virgin (v1 used 60000+)
+CLF_PATH = "experiments/dispatch/artifacts/dispatch_classifier_v3.pth"
+SEED0 = 80000  # v3 collection series — virgin (v1: 60000+, v2: 70000+)
+PREFIX = 6  # decisions flown by the DEFAULT expert before the handover
 
 
 class Hysteresis:
@@ -168,8 +169,10 @@ class DispatchPolicy:
 
 
 def collect_streams(world: str, cls: str, n_eps: int, seed0: int, speed=1.0):
-    """Fly the designated expert on its world; return per-episode obs
-    streams (the runtime distribution under correct dispatch)."""
+    """Fly the DEFAULT expert for the first PREFIX decisions, then the
+    designated expert (v3: the runtime distribution under dispatch —
+    "this world seen from a hover-start" is a training view, not a
+    trap). Returns per-episode obs streams."""
     from planner.action_set import ACTION_VECS
     from planner.latent_mpc import DECIDE_EVERY
     from planner.learned_policy import ObsBuilder
@@ -189,16 +192,22 @@ def collect_streams(world: str, cls: str, n_eps: int, seed0: int, speed=1.0):
         cmd.reset(state[0:3])
         scenario = spec.spawn(env, np.random.default_rng(seed), speed=speed)
         pilot = _expert(cls, speed)
+        starter = _expert(DEFAULT, speed)
         pilot.begin(scenario.positions())
+        starter.begin(scenario.positions())
         ob = ObsBuilder(enc, pred, cheads, meta, speed, x_progress=True)
         prev = 0
         a = ob.ids[prev]
         rows = []
+        decision = 0
         for t in range(TMAX):
             if t % DECIDE_EVERY == 0:
                 frame = grab_frame(env)
                 rows.append(ob.push(frame, float(state[1]), prev, x=float(state[0])))
-                a = pilot.decide(frame, state)
+                a_pilot = pilot.decide(frame, state)
+                a_start = starter.decide(frame, state)
+                a = a_start if decision < PREFIX else a_pilot
+                decision += 1
                 prev = ob.ids.index(a)
             rpm = cmd.rpm(state, float(speed) * ACTION_VECS[a])
             o, _, _, _, _ = env.step(rpm.reshape(1, 4))
@@ -212,8 +221,10 @@ def collect_streams(world: str, cls: str, n_eps: int, seed0: int, speed=1.0):
 
 
 def train_and_meter(n_train=40, n_val=15, epochs=25):
-    """Phase 1: fit the classifier; report per-world episode-level final
-    identification accuracy (the frozen floor) and identification latency."""
+    """Phase 1 (v3): fit on hover-start streams, then meter the TRUE
+    closed loop — DispatchPolicy itself flies the validation episodes
+    and its own trace is judged (the v2 lesson: a component whose
+    inputs are shaped by its outputs must be metered in its own loop)."""
     import torch
 
     from skills.base import load_skill
@@ -252,34 +263,38 @@ def train_and_meter(n_train=40, n_val=15, epochs=25):
     clf.eval()
     os.makedirs(os.path.dirname(CLF_PATH), exist_ok=True)
     torch.save(clf.state_dict(), CLF_PATH)
+    # closed-loop meter: the dispatcher itself flies fresh episodes; its
+    # own trace is the evidence (val streams above only sized the split)
+    from eval.episode import run_scenario_episode
+    from sim.envs import make_env
+
+    env = make_env()
     report = {}
-    for world, eps in val_eps.items():
+    for world in sorted(WORLD2CLASS):
         truth = WORLD2CLASS[world]
         finals, lats = [], []
-        for ep in eps:
-            with torch.no_grad():
-                preds = clf(torch.as_tensor(ep)).argmax(1).numpy()
-            h = Hysteresis()
-            picks = [h.update(CLASSES[p]) for p in preds]
-            finals.append(picks[-1] == truth)
+        for i in range(n_val):
+            pol = DispatchPolicy(1.0)
+            run_scenario_episode(env, pol, SEED0 + 500 + i, world, 1.0)
+            picks = pol.trace
+            finals.append(bool(picks) and picks[-1] == truth)
             stable = next(
                 (
-                    i
-                    for i in range(len(picks))
-                    if picks[i] == truth and all(p == truth for p in picks[i:])
+                    k
+                    for k in range(len(picks))
+                    if picks[k] == truth and all(p == truth for p in picks[k:])
                 ),
                 None,
             )
             lats.append(stable)
-        ok = [1 for x in lats if x is not None]
+        ok = [x for x in lats if x is not None]
         report[world] = {
             "final_acc": round(float(np.mean(finals)), 3),
-            "latency_median_decisions": (
-                float(np.median([x for x in lats if x is not None])) if ok else None
-            ),
-            "never_stable": len(eps) - len(ok),
+            "latency_median_decisions": (float(np.median(ok)) if ok else None),
+            "never_stable": n_val - len(ok),
         }
         print(f"[meter] {world}: {report[world]}")
+    env.close()
     with open("experiments/dispatch/phase1_meters.json", "w") as f:
         json.dump(report, f, indent=1)
     print(f"[phase1] saved experiments/dispatch/phase1_meters.json  clf={CLF_PATH}")
