@@ -131,3 +131,27 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## K3 — both: gate reward + graded diet (the interaction cell) (2026-07-06 00:02 UTC)
+Hypothesis: played unconditionally — the factorial is only complete with it; a K3-only win means the axes help jointly, not alone
+Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap", "solo", "slalom2_fixed", "slalom3_fixed"], "gate_bonus": 8.0, "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom3@1.0 | 30 | 97% | 0% | 0.11 | weaved=0.00 weave_frac=0.73 chain_break_at=1.80 |
+| diag:slalom2@1.0 | 30 | 67% | 20% | 0.19 | weaved=0.20 weave_frac=0.75 chain_break_at=1.50 |
+| diag:slalom3@1.25 | 30 | 97% | 0% | 0.10 | weaved=0.00 weave_frac=0.81 chain_break_at=2.00 |
+| guard:gap@1.0 | 30 | 10% | 83% | 0.40 | transited=0.87 gap_margin=0.24 |
+| guard:mgap@1.0 | 30 | 13% | 87% | 0.32 | transited=0.97 gap_margin=0.17 |
+| guard:cluttered | 120 | 4% | 96% | 0.42 |  |
+| guard:sweep@2.0 | 120 | 2% | 98% | 0.49 |  |
+- slalom3@1.0 success>=0.7: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.83 PASS
+- guard:mgap@1.0 success>=0.7: 0.87 PASS
+- guard:cluttered crash<=0.05: 0.04 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.02 PASS (rechecked)
+
+**Gate verdict: continue**
+
+### Researcher notes
+(unattended run)
