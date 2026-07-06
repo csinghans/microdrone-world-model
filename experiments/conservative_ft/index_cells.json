@@ -1,0 +1,5 @@
+[
+ {"id": "slalom3@1.0", "world": "slalom3_fixed", "speed": 1.0, "n": 30, "seed0": 22000},
+ {"id": "guard:gap@1.0", "world": "gap", "speed": 1.0, "n": 30, "seed0": 9000},
+ {"id": "guard:mgap@1.0", "world": "moving_gap", "speed": 1.0, "n": 30, "seed0": 9500}
+]
