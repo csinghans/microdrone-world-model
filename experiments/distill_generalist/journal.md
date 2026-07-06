@@ -23,3 +23,9 @@ Baseline: the chain-distill specialist (chain 96.7 %, gap 93 %, mgap
 erased minority behavior this same day (dodgeball-v2); supervised
 mixing has no reward war — whichever way the pot goes, the
 interference story sharpens.
+
+**Manipulation gate (2026-07-06): PASSED on every floor.** 46,708
+decisions from 869/870 teacher episodes. Pooled val top-1 **0.929**;
+per-world: classic 0.909, gap 0.912, moving_gap 0.882, slalom3_fixed
+0.970, solo 0.939 — all five over the 0.80 floor. One student fits
+five teachers in open loop; the exam decides the closed loop.
