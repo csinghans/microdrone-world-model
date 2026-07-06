@@ -87,13 +87,21 @@
   hover-lock at the meta-decision level): **a learned component whose
   inputs are shaped by its own outputs must be trained — and metered —
   in its own closed loop** (`experiments/dispatch/journal.md`).
-- **dispatch-v3: close the loop ★★** — one delta: collect classifier
-  streams under the RUNTIME distribution (every training episode
-  starts with ~6 default-expert decisions before the designated expert
-  takes over — "gap seen from a hover" becomes a training class, not a
-  trap), and the phase-1 meter replays the same closed-loop start.
-  Roster, hysteresis, union exam, crown all inherited frozen. The
-  new-skill extension protocol from v2 carries over unchanged.
+- ~~dispatch-v3 (close the loop)~~ CLOSED 2026-07-06 at its meter — and
+  it WORKED for its target: v2's hover-lock victims all freed (fence
+  family + slalom escape in 2 decisions inside the dispatcher's own
+  loop). The residue is one world and one sentence: classic reads
+  0.067 (14/15 never-stable) because **a static sparse scene viewed
+  from a stationary drone is a constant stream, and constant-over-
+  sparse IS dodgeball's pre-launch signature — world identity needs
+  probing motion** (`experiments/dispatch/journal.md`).
+- **dispatch-v4: the probe gait ★★** — one coherent delta: while the
+  hysteresis still sits at the default, the dispatcher flies "slow"
+  (0.3 m/s) instead of hovering; collection prefixes and the
+  closed-loop meter use the SAME gait. Cost priced up front: 6-8 probe
+  decisions = 0.15-0.2 m drift, harmless in every arena (station box
+  1.9 m, balls at 4 s, doors ~2 s+). Active perception, one line:
+  the dispatcher must move to see.
 - **DAgger** (argue the mechanism difference from FT first: FT
   re-optimizes the objective, DAgger re-anchors to the teacher — the
   four erasure datapoints now make that argument FOR it).
