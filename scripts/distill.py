@@ -378,6 +378,11 @@ def collect_hot(n_courses: int, seed0: int = 120000, k: int = 3):
         ob = ObsBuilder(enc, pred, cheads, meta, 1.0, x_progress=True)
         goal_x, tmax = k * STAGE_LEN, k * TMAX
         stage, prev, a = -1, 0, 0
+        ep_rows = []  # (vec, label, stage_idx)
+        clear_step: dict = {}
+        min_clear, crash_step = 9.0, None
+        from sim.scenarios import COLLISION_R, nearest_planar
+
         for t in range(tmax):
             if t % DECIDE_EVERY == 0:
                 x = float(state[0])
@@ -391,23 +396,41 @@ def collect_hot(n_courses: int, seed0: int = 120000, k: int = 3):
                 relay.pillars = [np.array(q) for q in scenario.positions()]
                 a = relay.decide(frame, state)
                 prev = ob.ids.index(a)
-                X.append(vec)
-                Y.append(prev)
-                T.append(names[stage])
+                ep_rows.append((vec, prev, stage))
             rpm = cmd.rpm(state, 1.0 * ACTION_VECS[a])
             o, _r, _te, _tr, _i = env.step(rpm.reshape(1, 4))
             state = o[0]
             scenario.step()
+            d = nearest_planar(state[0:2], scenario.positions())
+            if d < min_clear:
+                min_clear = d
+                if d < COLLISION_R and crash_step is None:
+                    crash_step = t
+            for kk in range(k):
+                if kk not in clear_step and float(state[0]) >= (kk + 1) * STAGE_LEN:
+                    clear_step[kk] = t
             if state[0] >= goal_x:
-                wins += 1
+                if crash_step is None:
+                    wins += 1
                 break
+        # cleared-segment filter: keep a stage's decisions only if that
+        # stage was cleared BEFORE any crash — weak teachers still yield
+        # clean demonstrations
+        keep = {
+            kk for kk, cs in clear_step.items() if crash_step is None or cs < crash_step
+        }
+        for vec, lab, st in ep_rows:
+            if st in keep:
+                X.append(vec)
+                Y.append(lab)
+                T.append(names[st])
         if (i + 1) % 25 == 0:
-            print(f"[hot] {i + 1}/{n_courses} courses, {len(X)} decisions")
+            print(f"[hot] {i + 1}/{n_courses} courses, {len(X)} kept decisions")
     env.close()
     rate = wins / n_courses
     print(
-        f"[hot] {len(X)} decisions from {n_courses} courses "
-        f"(relay reached {wins}/{n_courses} = {rate:.3f})"
+        f"[hot] {len(X)} KEPT decisions from {n_courses} courses "
+        f"(relay clean-course rate {wins}/{n_courses} = {rate:.3f})"
     )
     return (
         np.asarray(X, dtype=np.float32),

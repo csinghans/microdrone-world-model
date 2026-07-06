@@ -80,6 +80,12 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   (hard worlds + odometry pin + edge diet); gap-flight =
   `experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip`.
 
+- Scripted string replacement (`python - <<` + `str.replace`) fails
+  SILENTLY on zero matches — black reformatting invalidates pasted
+  old-strings. Use the Edit tool (loud no-match) for code surgery, and
+  grep-verify the landed change before running anything built on it
+  (measured: the hot-start v2 filter "shipped" in a journal while v1
+  code collected 66k unfiltered decisions, 2026-07-06).
 - `scripts.research run` plays the WHOLE knob schedule unconditionally: a
   knob whose pre-registration is CONDITIONAL (released only on an earlier
   knob's reading) must be arbitrated with `research step`, never `run`

@@ -75,3 +75,21 @@ ones. v2 stops fighting it:
 - Everything downstream unchanged and frozen: exam on the standard
   110000 seeds, n=30 graduation at ≥ 0.50, the deployment gate
   ≥ 0.70 @ n=100, videos of record on pass.
+
+### Harness correction (2026-07-06): the v2 filter never ran — recorded, refit
+
+The first "v2" collection ran V1 CODE: a silent zero-match string
+replacement left the cleared-segment filter out of the file (the
+pre-registration described v2; the machine executed v1). Caught by a
+contradiction audit — the relay "reached 400/400" while the same relay
+scored 15/30 on the ceiling (its wins counter ignored crashes), and a
+seed replay pinned it. Consequences, honestly:
+- The 66k-decision pot was UNFILTERED (contains demonstrations from
+  crashing courses); its student read 11/30 = 0.367 on the exam. That
+  reading is kept as the **accidental unfiltered ablation** — a
+  control arm v2 would never have bought on purpose.
+- The filter is now actually in the file (Edit-tool applied, verified
+  by grep — the silent-replace failure mode joins the pipe-masking
+  family in CLAUDE.md).
+- The TRUE v2 (filtered) collection + BC + exam now runs, same
+  pre-registration, seeds unchanged.
