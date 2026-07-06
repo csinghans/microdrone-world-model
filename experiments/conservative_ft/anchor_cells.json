@@ -1,0 +1,42 @@
+{
+ "zip": "experiments/conservative_ft/artifacts/ppo_anchor_k1.zip",
+ "cells": {
+  "slalom3@1.0": {
+   "n": 30,
+   "seed0": 22000,
+   "crash": 0.06666666666666667,
+   "reached": 1.0,
+   "success": 0.9333333333333333,
+   "clearance_mean": 0.2645344621286533,
+   "custom": {
+    "weaved": 0.9333333333333333,
+    "weave_frac": 0.9777777777777777,
+    "chain_break_at": 2.8666666666666667
+   }
+  },
+  "guard:gap@1.0": {
+   "n": 30,
+   "seed0": 9000,
+   "crash": 0.2,
+   "reached": 1.0,
+   "success": 0.8,
+   "clearance_mean": 0.3000012985597991,
+   "custom": {
+    "transited": 0.9333333333333333,
+    "gap_margin": 0.20251693744450516
+   }
+  },
+  "guard:mgap@1.0": {
+   "n": 30,
+   "seed0": 9500,
+   "crash": 0.5666666666666667,
+   "reached": 1.0,
+   "success": 0.43333333333333335,
+   "clearance_mean": 0.2007174101968592,
+   "custom": {
+    "transited": 0.7333333333333333,
+    "gap_margin": 0.10854092489949609
+   }
+  }
+ }
+}

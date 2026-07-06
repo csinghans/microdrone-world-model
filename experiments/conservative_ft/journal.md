@@ -71,3 +71,36 @@ copy), version-pinned with a loud-fail assert. Wiring smoke on the
 record: kl_coef=1e6 pins the policy (max action-prob shift 0.0145
 after 768 steps). K2 = BC2 + 450k anchored at kl_coef=1.0 (one value,
 no sweep), same recipe, same index cells, same graduation rule.
+
+## K2 — the anchor at 1.0: decoupling is REAL, the budget is not enough (2026-07-06)
+
+| cell | BC2 (prior) | K2 anchored FT | need |
+|---|---|---|---|
+| slalom3 chain | 93.3 % | **93.3 %** (chain 2.87, frac 0.98) | ≥ 0.70 ✓ |
+| gap | 70 % | **80 %** | ≥ 0.75 ✓ |
+| mgap | 43 % | 43.3 % | ≥ 0.70 ✗ |
+
+## Campaign verdict: the frozen rule fires REFUTED — with the interpretation amended by the data
+
+No configuration qualified (doses: corrosion outruns repair; anchor at
+1.0: mgap unrepaired), so the graduation shot never fires and the
+crown stays untaken — **but the refuted clause's mechanism sentence
+("conservatism cannot decouple repair from corrosion") is contradicted
+by K2's own row**: the anchor held the chain at zero corrosion
+(93.3 %, chain_break 2.87 — byte-level BC2 behavior) WHILE repairing
+gap past its bar (+10). Decoupling is real and measured. What actually
+binds: **mgap's repair lies outside the KL-ball that kl_coef = 1.0
+permits** — its closed-loop drift (the campaign-long deep sore) needs
+more policy movement than the anchor allows, and the dose curve shows
+unconstrained movement destroys the chain first. One value was
+pre-registered; dialing the coefficient now would be fishing. The
+honest close: conservatism works, its budget is a dial, and the dial
+is a NEW campaign (or the architecture road: per-world dispatch /
+ensembles — both in the ledger).
+
+**Standing export:** the anchored zip
+(`artifacts/ppo_anchor_k1.zip`) strictly dominates BC2 on the measured
+axes (93.3 / 80 / 43.3 vs 93.3 / 70 / 43) — the best five-world
+single-policy artifact in the catalog (cluttered/sweep unmeasured
+here; BC2 read 93/93). AnchoredPPO stays as standing machinery,
+version-pinned.
