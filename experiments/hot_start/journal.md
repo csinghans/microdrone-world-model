@@ -131,3 +131,20 @@ gate needs the CEILING raised first.
 This is the TDD loop functioning as designed: integration red →
 the failing units are now NAMED with numbers → unit campaigns → back
 to integration.
+
+### Step-1 pricing of the path: the odoor arena ceiling (2026-07-06)
+
+A privileged meta oracle (reads the door's true w(t) on its own clock;
+holds centered until the aperture admits, then charges) flies
+opening_door@1.0 at **27/30 = 0.900** — the unit champion (0.70-0.74)
+sits ~20 points below its arena ceiling. The weakest unit is
+improvable; the arena is not the cap.
+
+Updated gate arithmetic: 0.70 course rate needs ~0.89 per-stage
+conditional INCLUDING seams; with every stage type at ~0.90 the
+product is ~0.73 — the deployment gate is reachable, but only with
+near-ceiling units everywhere plus seam-hardening. Next campaign in
+the TDD loop (fresh pre-registration): **odoor-v2** — distill the
+0.90 meta oracle onto the vision observation (the standard oracle-BC
+move; the teacher now exists and is measured), then the seam-hardened
+door units, then re-integrate.
