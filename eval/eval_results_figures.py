@@ -232,7 +232,42 @@ def mgap_lines_figure():
     return fig
 
 
+# The climb to the deployment gate: every n=100 integration record, in
+# order. Sources: experiments/integration_v1 (clone), experiments/
+# integration_ft (anchored FT, hybrid, +hot specialist, +big pot).
+CLIMB = (
+    ("slalom clone\n(single BC)", 0.33),
+    ("anchored\ncourse-FT", 0.39),
+    ("flight-plan\nhybrid", 0.55),
+    ("+hot slalom\nspecialist", 0.62),
+    ("+big-pot\nspecialist", 0.72),
+)
+
+
+def integration_climb_figure():
+    fig, ax = plt.subplots(figsize=(7.5, 4))
+    xs = range(len(CLIMB))
+    cols = [GREY] * (len(CLIMB) - 1) + [GREEN]
+    ax.bar(xs, [c[1] for c in CLIMB], color=cols, zorder=2)
+    for x, (_l, v) in zip(xs, CLIMB):
+        ax.text(x, v + 0.015, f"{v:.2f}", ha="center", fontsize=10)
+    ax.axhline(0.70, color="black", linewidth=1.6)
+    ax.text(0.05, 0.715, "deployment gate 0.70 (n=100 random courses)", fontsize=8)
+    ax.set_xticks(list(xs))
+    ax.set_xticklabels([c[0] for c in CLIMB], fontsize=8)
+    ax.set_ylim(0, 0.85)
+    ax.set_ylabel("integration success (n=100)")
+    ax.set_title(
+        "The climb to the deployment gate — five lineups, each built from "
+        "the previous one's failure analysis",
+        fontsize=9,
+    )
+    fig.tight_layout()
+    return fig
+
+
 ARCS = {
+    "arc_integration_climb": integration_climb_figure,
     "arc_slalom_wall": slalom_wall_figure,
     "arc_finetune_safety": finetune_safety_figure,
     "arc_dodgeball_inversion": dodge_inversion_figure,

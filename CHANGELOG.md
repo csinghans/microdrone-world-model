@@ -1,5 +1,53 @@
 # Changelog
 
+## Unreleased — the imitation turn: five skills become one pilot, and the pilot passes its flight exam
+
+- **The slalom wall falls to imitation** (chain_distill →
+  distill_generalist): 25 RL sittings scored 0.00-0.067 on slalom3@1.0;
+  a behavior clone of the privileged weave oracle scored 0.967, and a
+  five-world "big pot" clone (one policy, all skills) holds 0.933. RL
+  learnability and skill difficulty are different axes — imitation
+  transfers what reward search cannot find.
+- **The fine-tune safety law** (conservative_ft, bcft_generalist,
+  chain_learning K-series; four datapoints): fine-tuning repairs skills
+  inside its training diet, corrodes skills outside it, and erases
+  RL-unlearnable skills even *inside* it (the chain died at every dose,
+  25k-450k). Only a KL anchor to the prior decouples repair from
+  corrosion (AnchoredPPO: vendored SB3 2.9.0 train() + kl·KL(prior‖π)).
+- **Two-leg recipe — BC then on-policy FT** (surpass_teacher, odoor_v2):
+  the clone buys skill shape, fine-tune buys timing. moving_gap
+  0.585→0.880 (ties its RL champion); opening_door 0.367→0.96 at n=100,
+  **surpassing its 0.90 teacher** — first surpass on the books.
+- **Dispatch arc closed as an honest negative** (dispatch v1-v5): world
+  classification from cheap onboard observation fails five ways
+  (family confusion, closed-loop self-feeding, stationary-observer
+  assumption, channel review, raw-latent noise). Cold-start world ID at
+  hover is an open problem; the machinery (planner/dispatch.py) stays.
+- **Flight TDD: the integration layer** (sim/composite.py,
+  eval/eval_integration.py, docs/TDD-FLIGHT.md): unit tests = skill
+  cells with frozen bars (already standing); integration = random
+  3-stage composite courses drawn from the five-skill pool; deployment
+  gate frozen at **≥0.70 success @ n=100** with videos of record
+  (FPV + god-view GIFs + stamp) regenerated on every passing suite.
+- **The climb to the gate** (integration_v1 → integration_ft): red
+  baseline 0.33 (best single artifact) → anchored course-FT 0.39 →
+  flight-plan hybrid 0.55 → +hot-start slalom specialist 0.62 →
+  +big-pot specialist (43,488 decisions, val 0.9634) = **0.72 — GATE
+  OPEN**. Winning lineup: gate-bonus course-FT generalist for four
+  stages + big-pot slalom specialist, joined by flight-plan handoffs
+  (per-stage dispatch on course composition — ruled deployment-legal,
+  like waypoints). Laws priced along the way: the seam tax (mid-flight
+  entry halves RL specialists), fidelity compounding (chain success ≈
+  per-decision fidelity^40), and the closed-loop law's third
+  application (hot-start collection must filter to cleared segments).
+- **Results made visible**: eval/eval_results_figures.py (gate charts
+  from every results.json + curated arc charts incl. the climb),
+  eval/eval_skill_gallery.py (trajectory portraits), README results
+  section, docs/media videos of record.
+- Protocol upgrades: graduation judged at pooled n≥60 (an n=30
+  friendly block promoted a 0.39 lineup once); conditional-knob
+  discipline extended to composite courses.
+
 ## Unreleased — the friendly research environment, exercised to a crown
 
 - **Onboarding stack** (docs + tools + charter, all verified on a fresh
