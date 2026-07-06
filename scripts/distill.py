@@ -1038,8 +1038,14 @@ def main() -> None:
     if args.finetune:
         from skills.base import load_skill
 
-        load_skill("corridor-slalom-v2")
-        load_skill("dodgeball")
+        for sk in (
+            "corridor-slalom-v2",
+            "dodgeball",
+            "moving-gap",
+            "closing-door",
+            "opening-door",
+        ):
+            load_skill(sk)  # any --world must be resolvable
         finetune(
             args.finetune,
             args.steps,
