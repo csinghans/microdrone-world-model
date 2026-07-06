@@ -188,6 +188,150 @@
    "git": {
     "commit": "7ab9eb1"
    }
+  },
+  {
+   "id": "K1",
+   "kind": "zero_shot",
+   "desc": "RESERVE: FT on the broken worlds only (gap,moving_gap)",
+   "hypothesis": "played ONLY if K0 loses the chain (< 0.70) while repairing a broken guard \u2014 the forgetting/repair trade-off, step-arbitrated; sheathed if K0 holds the chain",
+   "config": {
+    "policy_path": "experiments/bcft_generalist/artifacts/ppo_bcft_generalist_FT2.zip"
+   },
+   "artifacts": {
+    "policy_zip": "experiments/bcft_generalist/artifacts/ppo_bcft_generalist_FT2.zip",
+    "sha256": "3918ad7a22cbab92"
+   },
+   "cells": {
+    "slalom3@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.9666666666666667,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.1423030886015457,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.8777777777777779,
+      "chain_break_at": 2.2666666666666666
+     }
+    },
+    "diag:slalom2@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 1.0,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.13279155923024294,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.7833333333333333,
+      "chain_break_at": 1.5666666666666667
+     }
+    },
+    "diag:slalom3@1.25": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.9666666666666667,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.14361431684617118,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.8444444444444446,
+      "chain_break_at": 2.066666666666667
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.06666666666666667,
+     "reached": 1.0,
+     "success": 0.9333333333333333,
+     "clearance_mean": 0.389830996159667,
+     "custom": {
+      "transited": 1.0,
+      "gap_margin": 0.22530672466781468
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.1,
+     "reached": 1.0,
+     "success": 0.9,
+     "clearance_mean": 0.33698893019047743,
+     "custom": {
+      "transited": 1.0,
+      "gap_margin": 0.18845239292458216
+     }
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.6,
+     "reached": 1.0,
+     "success": 0.4,
+     "clearance_mean": 0.2028712625444605,
+     "custom": {}
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.9833333333333333,
+     "reached": 1.0,
+     "success": 0.016666666666666666,
+     "clearance_mean": 0.11230288090815711,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "slalom3@1.0 success>=0.7",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.9333333333333333,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.9,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.6,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.9833333333333333,
+      "pass": false,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-06 08:13 UTC",
+    "ended": "2026-07-06 08:15 UTC"
+   },
+   "git": {
+    "commit": "54ccbfe"
+   }
   }
  ]
 }

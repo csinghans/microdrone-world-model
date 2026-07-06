@@ -88,3 +88,36 @@ Config: experiments/bcft_generalist/artifacts/ppo_bcft_generalist_FT2.zip
 
 ### Researcher notes
 (unattended run)
+
+## Campaign verdict: REFUTED — and the fine-tune safety law is the export (2026-07-06)
+
+Both knobs lost the chain; the refuted branch fires with the two most
+instructive failure modes on record:
+
+| cell | BC2 | K0 (five-world FT) | K1 (gap+mgap-only FT) |
+|---|---|---|---|
+| slalom3 chain | 93.3 % | 0 % | **0 %** (frac 0.88 — the weave SHAPE survives, the precision does not) |
+| gap | 70 % | 96.7 % ✓ | 93.3 % ✓ |
+| mgap | 43 % | 90 % ✓ | 90 % ✓ |
+| cluttered | 93.3 % | 100 % ✓ | **40 %** |
+| sweep@2.0 | 93.3 % | 61.7 % | **1.7 %** (crash 98 %) |
+
+Composed with surpass-teacher (single-world FT: +29.5, no damage),
+today's three fine-tune measurements pin a law:
+
+**On-policy fine-tuning repairs exactly its own diet, corrodes
+everything outside it, and corrodes RL-unlearnable skills even INSIDE
+it.** K0 had slalom in the diet and still erased the chain — the
+progress-reward gradient on slalom worlds actively pulls away from
+chaining (re-optimization, not decay). K1 never showed the net a
+slalom episode and erased it anyway — shared weights carry the
+corrosion. FT is safe exactly when (a) the diet covers everything you
+care about AND (b) everything you care about is RL-learnable. The
+chain fails (b); no diet fixes that.
+
+The deviation slot stays sheathed: dose-response and KL-anchored FT
+are real candidates but need their own pre-registration (the latter
+was already named in surpass-teacher's journal as the registered
+follow-up). **The crown stays vacant a ninth time** — the catalog's
+honest state: specialists (chain-distill 96.7 %) and a
+generalist-without-crown (BC2), with composition still unpaid for.
