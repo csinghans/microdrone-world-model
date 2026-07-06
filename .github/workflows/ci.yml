@@ -59,6 +59,7 @@ jobs:
           python -m skills.dodgeball.skill
           python -m skills.dodgeball_v2.skill
           python -m skills.wm48_defense.skill
+          python -m skills.chain_distill.skill
           python -m eval.eval_arena_ceiling --selftest
           python -m eval.eval_dodge_ceiling --selftest
           python -m eval.eval_policy_cells --selftest
@@ -76,6 +77,7 @@ jobs:
           python -m datasets.generate_rollouts --selftest
           python -m eval.eval_wm_checkpoint --selftest
           python -m eval.eval_head_calibration --selftest
+          python -m scripts.distill --selftest
           # the newcomer path, end to end: fetch the pinned champions
           # (sha256-verified from the release), then a real preflight
           python -m scripts.fetch_champions

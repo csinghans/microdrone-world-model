@@ -2,22 +2,21 @@
 
 ## The queue (priority order, set 2026-07-06)
 
-- **P0 — in flight:** dodgeball-v2 K1 (the union cell) is training;
-  verdict + conditional-K2 arbitration + close.
-- **P1 — wm48-defense:** swap the WM48 artifact (1.0 s horizon, already
-  trained) under the dodgeball tick recipe and attack the measured
-  v1.4/v1.8 warning-time wall (0.7 + v·0.67 m, confirmed twice). The
-  H1 hand-queue pattern (swap → train → exam → restore); cheapest
-  priced win on the board. Risk on the record: the k=48 head is the
-  stack's blurriest (AUC 0.75).
-- **P2 — oracle distillation (a NEW method axis):** behavior-clone /
-  DAgger from the scripted oracles onto vision observations. Dual
-  payoff: dodgeball fast cells (OracleDodge survives 80-90 %) AND the
-  slalom chain (OracleWeave flies 97 % with the same action set — five
-  RL-side eliminations never touched imitation). Needs new machinery
-  (oracle-labelled datasets + supervised pretrain + optional RL
-  fine-tune), so it follows the cheap P1, but its reuse surface is
-  every skill with a scripted oracle.
+- ~~P0 — dodgeball-v2~~ CLOSED 2026-07-06, refuted (world-identifiability
+  diagnosis; see the entry below).
+- ~~P1 — wm48-defense~~ CLOSED 2026-07-06, refuted: v1.8 crash 80 % vs
+  77 % — 0.34 s of extra theoretical warning removed zero collisions,
+  and the slow cells regressed (weaker draw overall). Kinematics
+  exonerated by the oracle; **the fast-ball wall is signal quality at
+  range** (`experiments/wm48_defense/journal.md`). Sharper long-horizon
+  supervision = model-training class, fresh pre-registration if played.
+- **P2 — chain-distill (ACTIVE): oracle distillation, slalom first.**
+  Behavior-clone OracleWeave (97 % with the same action set) onto the
+  vision observation; five RL-side eliminations never touched
+  imitation, and BC's val accuracy doubles as an obs-sufficiency
+  meter — if supervised learning cannot even fit obs → teacher-action,
+  the observation provably lacks the information. K2 reserve: PPO
+  fine-tune on the BC init.
 - **P3 — chain-algorithm campaign** (below): only if P2 does not crack
   or reshape the chaining question first.
 - **P4 — the λ multi-seed replication** (below): the standing
