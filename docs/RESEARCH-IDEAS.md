@@ -276,6 +276,17 @@ outcome taxonomies. *Done:* a journal that sharpens the frontier's
 mechanism map even if no bar passes.
 
 ### the λ multi-seed replication (instrument discipline, practiced)
+
+**CLOSED 2026-07-07 — NOT RESOLVABLE, and the debt is paid.** Three
+arms × three seeds on one frozen draw: arm means separate by 0.112
+against a pooled within-arm sd of 0.189 (control alone spans
+0.75→1.00 on identical data). No λ effect readable at this power; the
+M1 model-axis PASS does not survive the powered control (retro-read
+recorded in `experiments/lambda_multiseed/journal.md`). Single-seed
+model-layer AUC is weather — now measured, not asserted. Optional
+escalation (unscheduled): n≥8/arm or a non-saturating probe slice to
+test the "λ0.5 stabilizes" hypothesis (its arm sd 0.036 vs 0.144).
+
 v0.5's N1 measured single-seed dense AUC as a ~0.5-wide lottery. Run
 grounding λ ∈ {0.1, 0.5} × 3 seeds each (six trainings, ~3 h) and
 publish the *distribution* — the first properly-powered model-layer
