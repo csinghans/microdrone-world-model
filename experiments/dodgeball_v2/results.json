@@ -1,0 +1,255 @@
+{
+ "skill": "dodgeball-v2",
+ "skill_version": "2",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "dodge@v0.6",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.65
+  },
+  {
+   "cell": "dodge@v1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "dodge@v1.4",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "dodge@v1.8",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "guard:gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "guard:mgap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K1",
+   "kind": "policy",
+   "desc": "the union cell: v1-K2's mixed diet + station_tick=0.6",
+   "hypothesis": "single delta vs K2 (the tick) and vs K3 (the mixing): per-world reward dispatch lets one policy learn both economies \u2014 transit pays progress, ball worlds pay the station",
+   "config": {
+    "worlds": [
+     "classic",
+     "gap",
+     "moving_gap",
+     "dodgeball_v06",
+     "dodgeball_v10",
+     "dodgeball_v14",
+     "dodgeball_v18"
+    ],
+    "station_tick": 0.6,
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 900000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/dodgeball_v2/artifacts/ppo_dodgeball_v2_K1.zip",
+    "sha256": "abaca50ffee7bb6a"
+   },
+   "cells": {
+    "dodge@v0.6": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.23333333333333334,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.30885907579533317,
+     "custom": {
+      "survived": 0.0,
+      "in_box": 0.0,
+      "disp_x": 3.0093456976905255,
+      "y_max": 0.8246667062364647
+     }
+    },
+    "dodge@v1.0": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.4,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.26632528249428306,
+     "custom": {
+      "survived": 0.0,
+      "in_box": 0.0,
+      "disp_x": 3.0078133828633082,
+      "y_max": 0.7636645375250364
+     }
+    },
+    "dodge@v1.4": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.3,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.25569400874328696,
+     "custom": {
+      "survived": 0.0,
+      "in_box": 0.0,
+      "disp_x": 3.0068454615856277,
+      "y_max": 0.7113480376876776
+     }
+    },
+    "dodge@v1.8": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.3,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.29015939945682906,
+     "custom": {
+      "survived": 0.0,
+      "in_box": 0.0,
+      "disp_x": 3.0075947344908784,
+      "y_max": 0.7845728724480724
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.1,
+     "reached": 1.0,
+     "success": 0.9,
+     "clearance_mean": 0.35211050836434504,
+     "custom": {}
+    },
+    "guard:mgap@1.0": {
+     "n": 90,
+     "seed0": 9500,
+     "crash": 0.3,
+     "reached": 1.0,
+     "success": 0.7,
+     "clearance_mean": 0.28146879315765194,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 10500,
+      "crash": 0.3,
+      "reached": 1.0,
+      "success": 0.7,
+      "clearance_mean": 0.27717513520087755,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.25,
+     "reached": 1.0,
+     "success": 0.75,
+     "clearance_mean": 0.3474079710279256,
+     "custom": {}
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.5833333333333334,
+     "reached": 1.0,
+     "success": 0.4166666666666667,
+     "clearance_mean": 0.19140890597916818,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "dodge@v0.6 success>=0.65",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.0 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.4 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.8 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.9,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.7,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.25,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.5833333333333334,
+      "pass": false,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-06 03:16 UTC",
+    "ended": "2026-07-06 04:10 UTC"
+   },
+   "git": {
+    "commit": "da5f313"
+   }
+  }
+ ]
+}

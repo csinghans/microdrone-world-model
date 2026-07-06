@@ -53,3 +53,38 @@ Config: {"worlds": ["classic", "gap", "moving_gap", "dodgeball_v06", "dodgeball_
 
 ### Researcher notes
 (unattended run)
+
+## Campaign verdict: REFUTED — and the diagnosis sharpened (2026-07-06)
+
+The frozen refuted branch fires cleanly: K1 fails **all four** dodge
+bars AND breaks guards, and K2's release condition (>= 1 dodge bar
+passed) never occurred — it stays sheathed, budget closes at 1/3.
+
+The failure's shape is the finding. On ball worlds the union policy
+does not "hold badly" — it **flies straight to GOAL_X every single
+episode** (disp_x 3.01 on all 120 dodge episodes, in_box 0, survived
+0): exactly v1-K2's flee signature, unchanged by the tick. And the
+tick made transit WORSE, not better: cluttered crash 25 % and
+sweep@2.0 crash **58 %** (v1-K2 without the tick: 2 % / 37 %).
+
+Researcher note — hypothesis, recorded not asserted: this reads as a
+**world-identifiability failure, not an incentive failure**. At t=0 a
+dodgeball episode is an empty corridor (balls launch at 4 s from a
+parking lot deliberately outside the FOV; the box has no visible
+marker) — indistinguishable from a clear transit start, and the
+12-step history is zeros. One network facing that ambiguity plays the
+majority-expected-value move: advance (transit pays ~140 vs the
+station's 54) — it exits the box inside ~2 s, the episode truncates
+BEFORE the first ball ever launches, and the station economy is never
+even sampled. The tick cannot fix what the observation cannot
+distinguish; v1-K3 only worked because a pure diet made every episode
+identifiably a station episode. A falsifiable sequel exists (make the
+station visible — an arena cue inside the FOV at t=0) but it is arena
+surgery and belongs to a fresh pre-registration, not this campaign's
+deviation slot: the sweep 58 % breakage says the union recipe is
+poisoning transit too, and one more knob here would be chasing two
+walls at once.
+
+Catalog standing: the guard-clean defender does NOT exist at this
+altitude; dodgeball's best remains the v1-K3 specialist (crown
+vacant). P1 (wm48-defense) proceeds on the PURE recipe accordingly.
