@@ -1,7 +1,7 @@
 {
  "skill": "dodgeball",
  "skill_version": "1",
- "status": "running",
+ "status": "budget_exhausted",
  "targets_frozen": [
   {
    "cell": "dodge@v0.6",
@@ -431,6 +431,203 @@
    },
    "git": {
     "commit": "3549b72"
+   }
+  },
+  {
+   "id": "K2",
+   "kind": "policy",
+   "desc": "mixed diet: transit worlds + all four ball speeds",
+   "hypothesis": "CONDITIONAL \u2014 played only if K1 reads success >= 0.30 on any priced cell (else it stays sheathed and the campaign closes on the perception verdict). The promotion knob: guards regain meaning; dilution risk on 7 worlds is on the record",
+   "config": {
+    "worlds": [
+     "classic",
+     "gap",
+     "moving_gap",
+     "dodgeball_v06",
+     "dodgeball_v10",
+     "dodgeball_v14",
+     "dodgeball_v18"
+    ],
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 900000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/dodgeball/artifacts/ppo_dodgeball_K2.zip",
+    "sha256": "1a78660aa3469c67"
+   },
+   "cells": {
+    "dodge@v0.6": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.36666666666666664,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.26358693852692927,
+     "custom": {
+      "survived": 0.0,
+      "in_box": 0.0,
+      "disp_x": 3.008202349995294,
+      "y_max": 0.4867945471889595
+     }
+    },
+    "dodge@v1.0": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.5333333333333333,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.2320977230052566,
+     "custom": {
+      "survived": 0.0,
+      "in_box": 0.0,
+      "disp_x": 3.008709920672796,
+      "y_max": 0.4482101531566196
+     }
+    },
+    "dodge@v1.4": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.7,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.21858282757073536,
+     "custom": {
+      "survived": 0.0,
+      "in_box": 0.0,
+      "disp_x": 3.0082861698937493,
+      "y_max": 0.37496548099102905
+     }
+    },
+    "dodge@v1.8": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.6333333333333333,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.21570166280042044,
+     "custom": {
+      "survived": 0.0,
+      "in_box": 0.0,
+      "disp_x": 3.0059186902645862,
+      "y_max": 0.3791539266636305
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.0,
+     "reached": 1.0,
+     "success": 1.0,
+     "clearance_mean": 0.4095974516538527,
+     "custom": {}
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.13333333333333333,
+     "reached": 1.0,
+     "success": 0.8666666666666667,
+     "clearance_mean": 0.3212447177694881,
+     "custom": {}
+    },
+    "guard:cluttered": {
+     "n": 120,
+     "seed0": 1000,
+     "crash": 0.016666666666666666,
+     "reached": 0.9916666666666667,
+     "success": 0.975,
+     "clearance_mean": 0.43529853326946827,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.016666666666666666,
+      "reached": 0.9833333333333333,
+      "success": 0.9666666666666667,
+      "clearance_mean": 0.4377487800621846,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.36666666666666664,
+     "reached": 0.9666666666666667,
+     "success": 0.6,
+     "clearance_mean": 0.2440789971661655,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "dodge@v0.6 success>=0.65",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.0 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.4 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.8 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 1.0,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.8666666666666667,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.016666666666666666,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.36666666666666664,
+      "pass": false,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-06 00:55 UTC",
+    "ended": "2026-07-06 01:50 UTC"
+   },
+   "git": {
+    "commit": "680f926"
    }
   }
  ]

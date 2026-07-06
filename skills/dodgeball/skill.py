@@ -278,6 +278,17 @@ SKILL = Skill(
                 worlds=("classic", "gap", "moving_gap") + _DODGE_WORLDS, **_CHASSIS
             ),
         ),
+        Knob(
+            "K3",
+            "policy",
+            "deviation: dense station tick (0.6/decision inside the box) "
+            "replacing the distal +50, on the K1 recipe",
+            "K1 proved the dodge; nothing paid holding ground — box exit "
+            "truncated at ~0 while proximity risked -30, so 'leave safely' "
+            "was the optimum we bought. Pay the station densely (90 ticks "
+            "~= +54, same scale, derived not tuned); rationale in journal",
+            train_kwargs=dict(worlds=_DODGE_WORLDS, station_tick=0.6, **_CHASSIS),
+        ),
     ),
     max_knobs=4,  # one deviation slot, charter rationale required
     success=dodge_success,
@@ -369,10 +380,13 @@ def selftest() -> None:
     sc6 = get("dodgeball_v14").spawn(None, np.random.default_rng(9))
     assert sc5.meta == sc6.meta and sc5._launch_k == sc6._launch_k
     assert sc5.v == 1.4, "ball_speed is baked into the variant, not cell speed"
-    k0, k1, k2 = s.knobs
+    k0, k1, k2, k3 = s.knobs
     assert k0.policy_path == _GENERAL
     assert set(k1.train_kwargs["worlds"]) == set(_DODGE_WORLDS), "pure diet"
     assert set(k2.train_kwargs["worlds"]) > set(_DODGE_WORLDS), "mixed diet"
+    # the deviation is K1's recipe + exactly one delta: the reward shape
+    d = dict(k3.train_kwargs)
+    assert d.pop("station_tick") == 0.6 and d == dict(k1.train_kwargs)
     print(
         f"DODGEBALL OK: schedule pre-drawn & reproducible, arrivals equalized "
         f"across speeds (T_ARR={T_ARR}), head-on launch/re-park with stable "

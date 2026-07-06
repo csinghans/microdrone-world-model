@@ -147,3 +147,63 @@ Config: {"worlds": ["classic", "gap", "moving_gap", "dodgeball_v06", "dodgeball_
 
 ### Researcher notes
 (unattended run)
+
+## Researcher notes — the three-wall story, and one protocol breach (2026-07-06)
+
+**Wall 2 falls: the probability ramp IS a dodgeable signal.** K1
+(pure diet) survived 100 / 93 / 60 / 43 % across ball speeds where K0
+crashed 50-77 % — vision-only, through a single-frame model that
+cannot represent motion, exactly via the mechanism the
+pre-registration named: the stacked history watching the collision
+probabilities ramp. The crash gradient itself carries the mechanism's
+signature: the heads answer "inside 0.7 m within k≤32 steps (0.67 s)",
+so a ball becomes *visible to the observation* at range
+0.7 + v·0.67 — a ~1.8 s warning at 0.6 m/s but only ~1.06 s at
+1.8 m/s, against a ~1.1 s dodge; K1's crash rates (0/7/40/57 %) track
+that arithmetic. The perception question this campaign was built to
+ask is answered YES at low speed and horizon-limited at high speed.
+
+**But no bar moved, because K1 dodges by yielding ground** (in_box =
+0.00 everywhere; drift 2.4 m, y_max 1.8-2.0). The objective taught it
+to: box exit truncates at ~0 total reward while staying near balls
+risks −30, and the +50 sits ninety decisions deep behind three forced
+dodges. "Leave safely" is the local optimum we paid for — a
+station-keeping echo of the distal-reward failure the chain-learning
+campaign documented on transit the same day.
+
+**K2 measured the other failure mode**: the mixed diet's transit
+majority re-taught "always advance" — survived 0 %, disp_x 3.01 (it
+flies straight to GOAL_X through the balls), y central; transit guards
+excellent (gap 100 %) except sweep@2.0 at 37 % crash, the dilution
+family's worst sighting yet.
+
+**Protocol breach, on the record**: K2's pre-registration made it
+CONDITIONAL on K1 reading success ≥ 0.30, which did not occur — K2
+should have stayed sheathed. It ran because the campaign was launched
+with `research run` (plays the whole schedule) instead of the
+step-wise arbitration the condition requires; the orchestrator (me)
+caught it only after the fact. The measurement itself is valid (frozen
+bars, standard harness) and is recorded above, but it carries no
+release-condition legitimacy. Lesson exported to CLAUDE.md:
+conditional knobs and `research run` are incompatible — arbitrate
+with `research step`.
+
+## K3 (deviation, slot 4 of max_knobs=4) — pre-registered before any number
+
+**Rationale (charter deviation clause).** K1 proved the dodge skill
+exists; what is missing is any incentive to hold ground. One knob,
+single delta vs K1: replace the distal terminal +50 with a **dense
+station tick** — `station_tick = 0.6` per decision while inside the
+box, nothing outside, terminal bonus removed (90 decisions ≈ +54,
+the same scale, derived not tuned). Box exit still truncates — which
+now costs the remaining stream instead of being neutral. Crash −30
+unchanged. Same legality argument as the chain-learning bonus: task
+structure (where the mission pays), not danger perception; training
+side only.
+
+**Frozen expectation:** support = success ≥ bar on ≥1 priced cell.
+Partial = in_box materially above 0 with survival retained (the
+incentive moves behavior but not far enough). Refuted = in_box ≈ 0
+again — then station-holding is not expressible at this reward
+altitude either, the campaign closes for real, and dodgeball-v2 (if
+ever) starts from a fresh pre-registration.

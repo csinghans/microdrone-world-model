@@ -197,8 +197,14 @@ class WMPolicyEnv(gym.Env):
         worlds: tuple = ("classic",),
         x_progress: bool = False,
         gate_bonus: float = 0.0,
+        station_tick: float = 0.0,
     ):
         super().__init__()
+        # station-mode reward shape (dodgeball K3 deviation): 0.0 keeps the
+        # distal +50 survival bonus (K1); > 0 replaces it with a dense
+        # per-decision tick paid only INSIDE the box — the mission pays
+        # where it is held, not at a distal finish line.
+        self.station_tick = float(station_tick)
         # per-gate task-structure reward (chain-learning campaign). 0.0 keeps
         # every existing recipe bit-identical; > 0 pays `gate_bonus` once per
         # fence threaded, judged by the SAME predicate as the slalom exam.
@@ -347,7 +353,12 @@ class WMPolicyEnv(gym.Env):
         )
 
         if self._station:
-            reward = -0.02  # no progress term: the goal is time, not distance
+            if self.station_tick > 0.0:
+                sx, sy, bx, by, back = self._station
+                inside = (sx - back <= x <= sx + bx) and abs(y - sy) <= by
+                reward = self.station_tick if inside else -0.02
+            else:
+                reward = -0.02  # no progress term: the goal is time, not distance
         else:
             # progress, small time cost, crash, goal — and deliberately no
             # danger-shaping term (that is what we learn)
@@ -372,10 +383,12 @@ class WMPolicyEnv(gym.Env):
             if x > sx + bx or x < sx - back or abs(y - sy) > by:
                 truncated = True  # busted the box: forfeits the survival bonus
             elif self.decisions >= self.max_decisions:
-                # survival IS the goal — same bonus, and `terminated`, not
-                # `truncated`: SB3 bootstraps gamma*V(s) onto truncations,
-                # which would double-pay imagined future exactly here
-                reward += 50.0
+                # survival IS the goal — `terminated`, not `truncated`: SB3
+                # bootstraps gamma*V(s) onto truncations, which would
+                # double-pay imagined future exactly here. The distal variant
+                # pays +50 now; the dense variant already paid its ticks.
+                if self.station_tick == 0.0:
+                    reward += 50.0
                 terminated = True
         elif x >= GOAL_X:
             reward += 50.0
@@ -462,6 +475,7 @@ def train(
     n_steps: int = 256,
     lstm_size: int = 64,
     gate_bonus: float = 0.0,
+    station_tick: float = 0.0,
 ):
     from stable_baselines3.common.env_util import make_vec_env
 
@@ -484,6 +498,7 @@ def train(
             worlds=worlds,
             x_progress=x_progress,
             gate_bonus=gate_bonus,
+            station_tick=station_tick,
         ),
         n_envs=1,
     )

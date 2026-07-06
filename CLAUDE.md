@@ -80,6 +80,11 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   (hard worlds + odometry pin + edge diet); gap-flight =
   `experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip`.
 
+- `scripts.research run` plays the WHOLE knob schedule unconditionally: a
+  knob whose pre-registration is CONDITIONAL (released only on an earlier
+  knob's reading) must be arbitrated with `research step`, never `run`
+  (measured: dodgeball K2 played against its own release condition, 2026-07-06).
+
 ## Relationship to nanodrone-ai
 
 This repo grew out of the nanodrone-ai course (Lesson 29) and inherits its
