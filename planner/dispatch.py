@@ -53,7 +53,7 @@ WORLD2CLASS = {
     "gap": "gap",
     "moving_gap": "mover",
     "door": "mover",
-    "odoor": "odoor",
+    "opening_door": "odoor",
     "slalom3_fixed": "slalom",
     "dodgeball_v06": "dodgeball",
     "dodgeball_v10": "dodgeball",
