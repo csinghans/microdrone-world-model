@@ -77,3 +77,27 @@ Two worlds failed, so the written remedy applies to each: gap share
 100→200 (new block seed0 46000) and moving_gap 200→400 (seed0 47000);
 everything else byte-identical. Recipe frozen in code as
 `GENERALIST2`; same manipulation floors.
+
+## K1 — RESERVE: re-BC with the failing world's share x2 (one delta) (2026-07-06 06:09 UTC)
+Hypothesis: played ONLY if K0 holds the chain (>= 0.70) with >= 1 guard broken (step-arbitrated); if the chain itself broke, the pot broke — close, do not re-mix
+Config: experiments/distill_generalist/artifacts/ppo_distill_generalist_BC2.zip
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom3@1.0 | 30 | 7% | 93% | 0.27 | weaved=0.93 weave_frac=0.98 chain_break_at=2.80 |
+| diag:slalom2@1.0 | 30 | 73% | 27% | 0.16 | weaved=0.27 weave_frac=0.73 chain_break_at=1.03 |
+| diag:slalom3@1.25 | 30 | 100% | 0% | 0.07 | weaved=0.00 weave_frac=0.82 chain_break_at=2.17 |
+| guard:gap@1.0 | 90 | 30% | 70% | 0.27 | transited=0.87 gap_margin=0.19 |
+| guard:mgap@1.0 | 30 | 57% | 43% | 0.20 | transited=0.77 gap_margin=0.13 |
+| guard:cluttered | 120 | 5% | 95% | 0.55 |  |
+| guard:sweep@2.0 | 120 | 3% | 97% | 0.64 |  |
+- slalom3@1.0 success>=0.7: 0.93 PASS
+- guard:gap@1.0 success>=0.75: 0.70 FAIL (rechecked)
+- guard:mgap@1.0 success>=0.7: 0.43 FAIL
+- guard:cluttered crash<=0.05: 0.05 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.03 PASS (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
