@@ -187,6 +187,44 @@ def _teacher_zip(zip_path: str, speed: float = 1.0):
     return LearnedPolicy(load_policy(zip_path), enc, pred, cheads, meta, speed=speed)
 
 
+class OracleDoorLive(OracleTrack):
+    """The door teacher, live-pillar edition of the 0.90 meta oracle:
+    measure the aperture from the innermost pillar pair, line up on its
+    centre, stage the approach by distance (forward -> slow -> hover),
+    and charge the moment the half-aperture admits the drone. No meta,
+    no privileged clock — everything from the runner's live `.pillars`
+    refresh, so it fits the standard collection protocol."""
+
+    NEED_HALF = 0.30  # half-aperture ~ COLLISION_R + margin
+    SLOW_AT = 1.0
+    HOLD_AT = 0.45
+
+    def decide(self, frame, state) -> int:
+        from eval.eval_arena_ceiling import DEADBAND, VEER_L, VEER_R
+        from planner.action_set import ACTION_NAMES, FORWARD
+
+        del frame
+        x, y = float(state[0]), float(state[1])
+        ahead = [p for p in self.pillars if float(p[0]) > x - 0.05]
+        if len(ahead) < 2:
+            return FORWARD
+        plane_x = min(float(p[0]) for p in ahead)
+        ys = sorted(float(p[1]) for p in ahead if float(p[0]) < plane_x + 0.3)
+        if len(ys) < 2:
+            return FORWARD
+        spacing, yc = max((b - a, (a + b) / 2.0) for a, b in zip(ys, ys[1:]))
+        half = (spacing - 0.36) / 2.0  # centre spacing -> half-aperture
+        err = yc - y
+        if abs(err) >= DEADBAND:
+            return VEER_L if err > 0 else VEER_R
+        dist = plane_x - x
+        if half >= self.NEED_HALF or dist > self.SLOW_AT:
+            return FORWARD
+        if dist > self.HOLD_AT:
+            return ACTION_NAMES.index("slow")
+        return ACTION_NAMES.index("hover")
+
+
 def _teacher_weave(speed, stack):
     from eval.eval_arena_ceiling import OracleWeave
 
@@ -264,6 +302,7 @@ TEACHERS = {
     "dodge10": _teacher_dodge(1.0),
     "dodge14": _teacher_dodge(1.4),
     "dodge18": _teacher_dodge(1.8),
+    "doorlive": lambda speed, stack: OracleDoorLive(),
 }
 
 # dodge-distill recipe (frozen at pre-registration): the four ball-speed
@@ -338,6 +377,99 @@ def collect(
     print(
         f"[collect] {len(X)} decisions from {n_episodes} episodes on {world} "
         f"(teacher={teacher}, reached {reached}/{n_episodes})"
+    )
+    return np.asarray(X, dtype=np.float32), np.asarray(Y, dtype=np.int64)
+
+
+class OracleDoorMeta:
+    """The 0.90 opening-door teacher (probed 27/30, seeds 123000): reads
+    the door's TRUE aperture from scenario meta on its own decision
+    clock — hold centered, stage the approach by distance, charge when
+    the half-aperture admits. Privileged by design (teachers are);
+    used ONLY by the odoor unit collection, which attaches the meta."""
+
+    NEED_HALF = 0.30
+    SLOW_AT = 1.0
+    HOLD_AT = 0.45
+
+    def __init__(self):
+        self.t = 0.0
+        self.meta = None
+
+    def begin(self, pillars) -> None:
+        self.t = 0.0
+
+    def decide(self, frame, state) -> int:
+        from eval.eval_arena_ceiling import DEADBAND, VEER_L, VEER_R
+        from planner.action_set import ACTION_NAMES, FORWARD
+        from planner.latent_mpc import DECIDE_EVERY
+        from sim.envs import CTRL_HZ
+        from skills.opening_door.skill import open_half_at
+
+        del frame
+        self.t += DECIDE_EVERY / CTRL_HZ
+        x, y = float(state[0]), float(state[1])
+        m = self.meta
+        err = m.get("yc", 0.0) - y
+        if abs(err) >= DEADBAND:
+            return VEER_L if err > 0 else VEER_R
+        half = open_half_at(m, self.t)
+        dist = m["x_gap"] - x
+        if half >= self.NEED_HALF or dist > self.SLOW_AT:
+            return FORWARD
+        if dist > self.HOLD_AT:
+            return ACTION_NAMES.index("slow")
+        return ACTION_NAMES.index("hover")
+
+
+def collect_odoor(n_episodes: int, seed0: int = 125000):
+    """odoor-v2 unit collection: the meta oracle (0.90) flies
+    opening_door@1.0; the student's obs is the standard exam-exact
+    stream. Native unit starts (this is a UNIT campaign)."""
+    from eval.eval_closed_loop import load_or_train
+    from planner.action_set import ACTION_VECS
+    from planner.latent_mpc import DECIDE_EVERY
+    from planner.learned_policy import ObsBuilder
+    from sim.envs import VelCommander, grab_frame, make_ctrl, make_env
+    from sim.scenario_registry import get as get_scenario
+    from sim.scenarios import GOAL_X, TMAX
+
+    enc, pred, cheads, _n, meta = load_or_train()
+    env = make_env()
+    X, Y, reached = [], [], 0
+    spec = get_scenario("opening_door")
+    for i in range(n_episodes):
+        seed = seed0 + i
+        obs0, _ = env.reset(seed=seed)
+        cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
+        state = obs0[0]
+        cmd.reset(state[0:3])
+        scenario = spec.spawn(env, np.random.default_rng(seed), speed=1.0)
+        pilot = OracleDoorMeta()
+        pilot.meta = scenario.meta
+        pilot.begin(None)
+        ob = ObsBuilder(enc, pred, cheads, meta, 1.0, x_progress=True)
+        prev = 0
+        a = ob.ids[prev]
+        for t in range(TMAX):
+            if t % DECIDE_EVERY == 0:
+                frame = grab_frame(env)
+                vec = ob.push(frame, float(state[1]), prev, x=float(state[0]))
+                a = pilot.decide(frame, state)
+                prev = ob.ids.index(a)
+                X.append(vec)
+                Y.append(prev)
+            rpm = cmd.rpm(state, 1.0 * ACTION_VECS[a])
+            o, _r, _te, _tr, _i = env.step(rpm.reshape(1, 4))
+            state = o[0]
+            scenario.step()
+            if state[0] >= GOAL_X:
+                reached += 1
+                break
+    env.close()
+    print(
+        f"[odoor] {len(X)} decisions from {n_episodes} episodes "
+        f"(teacher reached {reached}/{n_episodes})"
     )
     return np.asarray(X, dtype=np.float32), np.asarray(Y, dtype=np.int64)
 
@@ -717,6 +849,7 @@ def main() -> None:
     ap.add_argument("--probe-trackw", type=int, default=0, metavar="N")
     ap.add_argument("--hot-ceiling", type=int, default=0, metavar="N")
     ap.add_argument("--hot", type=int, default=0, metavar="N_COURSES")
+    ap.add_argument("--odoor", type=int, default=0, metavar="N_EPS")
     ap.add_argument("--probe-seed0", type=int, default=43900)
     ap.add_argument("--teacher", default="weave", choices=tuple(TEACHERS))
     ap.add_argument("--generalist", choices=("track", "mgap_champion"), default=None)
@@ -771,6 +904,16 @@ def main() -> None:
             110000,
             args.out,
         )
+        return
+
+    if args.odoor:
+        from skills.base import load_skill
+
+        load_skill("opening-door")
+        X, Y = collect_odoor(args.odoor)
+        out = args.out or "output/ppo_odoor_v2.zip"
+        acc, _ = bc_train(X, Y, out, epochs=args.epochs)
+        print(f"[odoor] manipulation meter: val_top1={acc:.3f} (floor 0.80)")
         return
 
     if args.hot:
