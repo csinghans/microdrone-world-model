@@ -92,3 +92,22 @@ confusable family into ONE 'fence' class flown by K3** and the roster
 falls to four visually-distinct classes (classic / fence / slalom /
 dodgeball) — no single-fence discrimination needed at all. Fresh
 pre-registration required; seeded in the ledger.
+
+## dispatch-v2 pre-registration (2026-07-06, before any v2 number exists)
+
+One design delta vs v1, dictated by v1's meter verdict: **the
+single-fence family collapses into one class** flown by mgap-v2 K3,
+which already holds every fence bar at gated readings (gap 0.90+ /
+mgap 0.85-0.93 / closing door 0.93 zero-shot / opening door ~0.70
+zero-shot). Roster: classic / fence / slalom / dodgeball — every
+remaining boundary is between visually distinct families. Everything
+else is IDENTICAL and stays frozen: hover-biased default, majority-of-5
+hysteresis, the same two phase-1 meters with the same 0.85 floor on
+every world, the same union exam with each cell's own skill bar, the
+same crown (8/8) / support (>= 6/8, no arena at zero) / refuted (any
+home cell 20+ points under its solo record). New collection series
+(seeds 70000+), classifier artifact versioned
+(dispatch_classifier_v2.pth). Known residual risk, named: the
+classic ↔ fence(sealed-opening-door) boundary — a wall of pillars is
+the one place the four families may still look alike; the meters
+gate it.

@@ -38,22 +38,23 @@ from functools import lru_cache
 
 import numpy as np
 
-CLASSES = ("classic", "gap", "mover", "odoor", "slalom", "dodgeball")
+# v2 roster (the v1 six-class config and its meter verdict are frozen in
+# the journal): the single-fence family was the measured confusable set,
+# and one artifact already holds every fence bar — so it becomes ONE class.
+CLASSES = ("classic", "fence", "slalom", "dodgeball")
 DEFAULT = "dodgeball"  # hover-biased: waiting is recoverable
 EXPERTS = {
     "classic": "output/ppo_wm_policy_edge_hard_xp.zip",
-    "gap": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
-    "mover": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
-    "odoor": "experiments/opening_door/artifacts/ppo_opening_door_K3.zip",
+    "fence": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
     "slalom": "experiments/chain_distill/artifacts/ppo_chain_distill_BC.zip",
     "dodgeball": "experiments/dodge_distill/artifacts/ppo_dodge_distill_BC.zip",
 }
 WORLD2CLASS = {
     "classic": "classic",
-    "gap": "gap",
-    "moving_gap": "mover",
-    "door": "mover",
-    "opening_door": "odoor",
+    "gap": "fence",
+    "moving_gap": "fence",
+    "door": "fence",
+    "opening_door": "fence",
     "slalom3_fixed": "slalom",
     "dodgeball_v06": "dodgeball",
     "dodgeball_v10": "dodgeball",
@@ -74,8 +75,8 @@ EXAM_CELLS = (
     ("gap-flight", "guard:cluttered"),
     ("gap-flight", "guard:sweep@2.0"),
 )
-CLF_PATH = "experiments/dispatch/artifacts/dispatch_classifier.pth"
-SEED0 = 60000  # collection series — virgin
+CLF_PATH = "experiments/dispatch/artifacts/dispatch_classifier_v2.pth"
+SEED0 = 70000  # v2 collection series — virgin (v1 used 60000+)
 
 
 class Hysteresis:
