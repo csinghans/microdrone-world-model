@@ -25,3 +25,31 @@ at 900k; escalations go to a fresh pre-registration.
 
 Cost: 1-2 x 900k (~1 h each on this machine) + exams; single knob at a
 time via `research step`.
+
+## K1 — the union cell: v1-K2's mixed diet + station_tick=0.6 (2026-07-06 04:10 UTC)
+Hypothesis: single delta vs K2 (the tick) and vs K3 (the mixing): per-world reward dispatch lets one policy learn both economies — transit pays progress, ball worlds pay the station
+Config: {"worlds": ["classic", "gap", "moving_gap", "dodgeball_v06", "dodgeball_v10", "dodgeball_v14", "dodgeball_v18"], "station_tick": 0.6, "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| dodge@v0.6 | 30 | 23% | 0% | 0.31 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.82 |
+| dodge@v1.0 | 30 | 40% | 0% | 0.27 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.76 |
+| dodge@v1.4 | 30 | 30% | 0% | 0.26 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.71 |
+| dodge@v1.8 | 30 | 30% | 0% | 0.29 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.78 |
+| guard:gap@1.0 | 30 | 10% | 90% | 0.35 |  |
+| guard:mgap@1.0 | 90 | 30% | 70% | 0.28 |  |
+| guard:cluttered | 60 | 25% | 75% | 0.35 |  |
+| guard:sweep@2.0 | 60 | 58% | 42% | 0.19 |  |
+- dodge@v0.6 success>=0.65: 0.00 FAIL
+- dodge@v1.0 success>=0.55: 0.00 FAIL
+- dodge@v1.4 success>=0.55: 0.00 FAIL
+- dodge@v1.8 success>=0.55: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.90 PASS
+- guard:mgap@1.0 success>=0.7: 0.70 PASS (rechecked)
+- guard:cluttered crash<=0.05: 0.25 FAIL
+- guard:sweep@2.0 crash<=0.1: 0.58 FAIL
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
