@@ -150,9 +150,13 @@ Current state: **GREEN — 72/100 (2026-07-07).** The winning entry is
 the flight-plan hybrid: a course-fine-tuned generalist flies four
 stage types (0.86-1.00 conditionals) and a big-pot slalom specialist
 (43k demonstrations, val 0.963 — the fidelity a 40-decision chain
-demands) flies the fifth, with mission-plan handoffs. The climb:
-0.33 → 0.39 → 0.55 → 0.62 → **0.72**. The videos of record, from
-passing seed 110004 (slalom → opening door → moving gap):
+demands) flies the fifth, with mission-plan handoffs. The climb, each
+step built from the previous lineup's failure histogram:
+
+![the climb to the deployment gate](docs/figures/arc_integration_climb.png)
+
+The videos of record, from passing seed 110004
+(slalom → opening door → moving gap):
 
 | drone FPV | simulator god view |
 |---|---|
