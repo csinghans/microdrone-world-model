@@ -19,15 +19,33 @@
   (`experiments/chain_distill/journal.md`). No promotion (moving
   guard 47 %); cruise specialist. Distillation machinery now standing:
   `scripts/distill.py`.
-- **Next candidates (fresh pre-registrations each):**
-  **distill-generalist** (multi-world oracle datasets → a guard-clean
-  clone), **DAgger-at-speed** (the 1.25× cell died 100 % — but its own
-  ceiling was priced 0.07, so re-probe first), **OracleDodge
-  distillation** (dodgeball fast cells — BC val accuracy directly
-  meters whether fast-ball information exists in the obs at all,
-  the question wm48-defense left open).
-- **P3 — chain-algorithm campaign** (below): only if P2 does not crack
-  or reshape the chaining question first.
+- ~~distill-generalist~~ CLOSED 2026-07-06, SUPPORT twice-confirmed:
+  the chain held the five-teacher pot at 93.3 % both knobs; crown one
+  world short (gap 70 % a recheck-margin under bar; mgap 43-50 % —
+  share measured to NOT be its lever). Supervised interference is a
+  localized tax where RL interference was a confiscation
+  (`experiments/distill_generalist/journal.md`).
+- ~~surpass-the-teacher~~ CLOSED 2026-07-06, SUPPORT: teacher 0.885 /
+  BC 0.585 / **BC+PPO-450k 0.880** at n=200 — the fine-tune repaired
+  the 30-point closed-loop drift tax (crash 41→11.5 %) and TIED the
+  teacher (no crossing; ~88-89 % may be the body's practical band
+  there — unpriced hypothesis). Context: beats the pure-RL champion
+  (88 vs 82, different seed set). Division of labor measured:
+  **imitation buys the skill, on-policy RL buys the robustness**
+  (`experiments/surpass_teacher/journal.md`).
+- **Remaining distillation candidates (fresh pre-registrations):**
+  **BC+FT-generalist** (apply the measured two-leg recipe to the
+  five-world pot — the fine-tune fixed exactly the guard that kept
+  the generalist's crown vacant; the first credible path to a
+  distilled champion), **OracleDodge distillation** (dodgeball fast
+  cells — BC val meters whether fast-ball information exists in the
+  obs at all, the question wm48-defense left open), **DAgger**
+  (its textbook case is now measured, but FT just fixed that same
+  case more cheaply — argue the mechanism difference before opening).
+- ~~P3 — chain-algorithm campaign~~ RESHAPED by chain-distill: the
+  chaining question is ANSWERED (imitation chains at 96.7 %); an
+  RL-algorithm campaign against that wall is now academic. Reopen
+  only with a question distillation cannot touch.
 - **P4 — the λ multi-seed replication** (below): the standing
   instrument-discipline debt; ~3 h, closes v0.5's open question.
 - **P5 — dense-speedrun** (below): frontier mapping; deliberately
