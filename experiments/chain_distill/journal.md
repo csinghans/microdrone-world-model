@@ -23,3 +23,10 @@ consolidated): chain_break_at 1.33-2.10, success 0-6.7 %, weave_frac
 chain-learning campaigns: support = chain_break_at ≥ 2.5, full =
 success ≥ 0.70, refuted = val ≥ 0.80 yet chain in band → the SIXTH
 elimination (open-loop imitation does not survive the closed loop).
+
+**Obs-sufficiency gate (2026-07-06): PASSED decisively.** 400/400
+oracle episodes reached; 24,705 decisions; BC val top-1 = **0.965**
+(train 0.982) against the 0.80 floor. Standing finding regardless of
+the exam: the vision observation CAN represent the chaining teacher's
+decision function in open loop — whatever fails from here fails in the
+closed loop, not in the representation. Exam launched.
