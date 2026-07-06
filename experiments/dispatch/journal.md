@@ -256,3 +256,22 @@ and encodes the SCENE (it is what the heads read); give the classifier
 the stacked z-stream instead of the probability stream. Experts and
 their observations stay untouched — only the dispatcher's tap point
 moves from "threat report" to "what the eye actually saw".
+
+## dispatch-v5 pre-registration (2026-07-06, before any v5 number exists)
+
+One delta from v4's verdict ("you cannot identify a world through a
+channel built to report only imminent danger"): **the classifier taps
+the encoder latent.** ObsBuilder now exposes `last_z` (write-only; the
+policy observation stays byte-identical — asserted by the standing
+skill selftests), and the classifier consumes the stacked 12 × 64-d
+z-stream instead of the probability summary. The latent is what the
+collision heads themselves read; it encodes the SCENE, not the threat.
+Experts, roster, probe gait, hysteresis, floors, closed-loop meter,
+union exam and crown all inherited frozen. Seeds 100000+, artifact
+dispatch_classifier_v5.pth.
+
+Named risk, up front: the latent was trained to serve collision
+prediction (JEPA + heads), not scene classification — if classic still
+fails at this tap, the residue escalates to the ENCODER (identity
+discarded before any downstream consumer), and the honest next stop is
+a richer encoder or a pixel-side tap, model-axis work.

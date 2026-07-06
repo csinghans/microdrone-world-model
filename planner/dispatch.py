@@ -75,8 +75,9 @@ EXAM_CELLS = (
     ("gap-flight", "guard:cluttered"),
     ("gap-flight", "guard:sweep@2.0"),
 )
-CLF_PATH = "experiments/dispatch/artifacts/dispatch_classifier_v4.pth"
-SEED0 = 90000  # v4 collection series — virgin (v1-v3: 60000/70000/80000)
+CLF_PATH = "experiments/dispatch/artifacts/dispatch_classifier_v5.pth"
+SEED0 = 100000  # v5 collection series — virgin (v1-v4: 60-90k blocks)
+Z_DIM = 64  # the encoder latent the classifier taps (asserted on first use)
 # v4: the probe gait. A FIXED window of forced "slow" — not "probe until
 # switched": the default class is a real class (dodgeball), so an
 # until-switched rule would probe forever exactly when the default is
@@ -141,7 +142,11 @@ class DispatchPolicy:
 
         enc, pred, cheads, meta = _stack()
         self.ob = ObsBuilder(enc, pred, cheads, meta, speed, x_progress=True)
-        self.clf = _mlp(self.ob.per_step * self.ob.history, len(CLASSES))
+        self._zbuf = deque(
+            [np.zeros(Z_DIM, dtype=np.float32)] * self.ob.history,
+            maxlen=self.ob.history,
+        )
+        self.clf = _mlp(Z_DIM * self.ob.history, len(CLASSES))
         self.clf.load_state_dict(torch.load(clf_path, weights_only=True))
         self.clf.eval()
         self.experts = {c: _expert(c, speed) for c in CLASSES}
@@ -153,6 +158,10 @@ class DispatchPolicy:
         for e in self.experts.values():
             e.begin(pillars)
         self.ob.reset()
+        self._zbuf = deque(
+            [np.zeros(Z_DIM, dtype=np.float32)] * self.ob.history,
+            maxlen=self.ob.history,
+        )
         self.hyst = Hysteresis()
         self.trace = []
         self._prev_menu = 0
@@ -162,7 +171,9 @@ class DispatchPolicy:
 
         from planner.action_set import ACTION_NAMES
 
-        vec = self.ob.push(frame, float(state[1]), self._prev_menu, x=float(state[0]))
+        self.ob.push(frame, float(state[1]), self._prev_menu, x=float(state[0]))
+        self._zbuf.append(self.ob.last_z.astype(np.float32))
+        vec = np.concatenate(self._zbuf)
         with torch.no_grad():
             logits = self.clf(torch.as_tensor(vec)[None])
         cls = self.hyst.update(CLASSES[int(logits.argmax())])
@@ -212,11 +223,17 @@ def collect_streams(world: str, cls: str, n_eps: int, seed0: int, speed=1.0):
         prev = 0
         a = ob.ids[prev]
         rows = []
+        zbuf = deque(
+            [np.zeros(Z_DIM, dtype=np.float32)] * ob.history, maxlen=ob.history
+        )
         decision = 0
         for t in range(TMAX):
             if t % DECIDE_EVERY == 0:
                 frame = grab_frame(env)
-                rows.append(ob.push(frame, float(state[1]), prev, x=float(state[0])))
+                ob.push(frame, float(state[1]), prev, x=float(state[0]))
+                assert ob.last_z.shape == (Z_DIM,)
+                zbuf.append(ob.last_z.astype(np.float32))
+                rows.append(np.concatenate(zbuf))
                 a_pilot = pilot.decide(frame, state)
                 a = slow if decision < PROBE_K else a_pilot
                 decision += 1

@@ -142,6 +142,10 @@ class ObsBuilder:
                 base=z.expand(len(self.cands), -1),
             )
             p = torch.sigmoid(self.cheads(z_hat)).numpy()  # (n_act, H, 2)
+        # write-only tap: the raw scene encoding, for consumers that need
+        # identity rather than threat (the dispatch classifier) — the policy
+        # observation below stays byte-identical
+        self.last_z = z.detach().squeeze(0).cpu().numpy()
         prev = np.zeros(self.n_act, dtype=np.float32)
         prev[prev_menu_idx] = 1.0
         own = [y / 2.5, self.speed / SPEED_RANGE[1]]
