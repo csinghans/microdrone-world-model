@@ -54,3 +54,51 @@ Config: experiments/chain_distill/artifacts/ppo_chain_distill_BC.zip
 
 ### Researcher notes
 (unattended run)
+
+## Campaign verdict: FULL SUPPORT — the sixth cut goes through (2026-07-06)
+
+The frozen signature's strongest branch fires: slalom3@1.0 success
+**96.7 %** (29/30) against the 0.70 bar — the first bar pass in seven
+sittings of this exam — with chain_break_at **2.90** (support
+threshold 2.5; five-elimination band 1.33-2.10) and weave_frac 0.99.
+The clone flies at its teacher's own priced ceiling (oracle 0.97) on
+courses it never saw (collection 40000+, exam 22000).
+
+| axis | five RL eliminations | the clone |
+|---|---|---|
+| slalom3@1.0 success | 0-6.7 % | **96.7 %** |
+| chain_break_at | 1.33-2.10 | **2.90** |
+
+**The mechanism story closes by construction + elimination.** The
+observation was sufficient all along (open-loop val 0.965); the body
+was sufficient all along (the teacher's 97 %); diet, budget, rhythm,
+horizon and reward shaping were each eliminated separately. What
+remained — and what imitation removes — is the LEARNER: on-policy RL
+never discovers/propagates the joint maneuver that supervised copying
+simply writes into the network. Closed-loop drift, the classic BC
+failure mode, did not materialize (2.9 gates of 3 chained).
+
+Honest bounds, recorded with the win:
+- **Cruise specialist.** diag:slalom3@1.25 = 0 % with crash 100 % —
+  the clone trained only at 1.0 and dies at speed (that cell's own
+  ceiling was priced 0.07, measured-only). No speed claim is made.
+- **The pre-registered guard expectation was WRONG, in both
+  directions.** Static guards did NOT structurally fail: gap 93 %
+  (bar 0.75 PASSED), cluttered 92 %. The weave repertoire generalizes
+  to static pillar avoidance. The moving guard failed as movers were
+  never seen (mgap 47 %), sweep@2.0 at 15 % — gate verdict
+  guard_regression, **no promotion, crown vacant**.
+- diag:slalom2@1.0 = 60 % (band 10-20 %): transfers down-chain to a
+  gate count and x0 it never trained on.
+- One n=30 reading; point numbers wobble — but 29/30 against a
+  five-attempt 0-6.7 % band is not wobble territory.
+
+K1 (fine-tune reserve) stays sheathed per its frozen condition — it
+existed for the drift case, and there was no drift to fix. The
+deviation slot is deliberately NOT spent chasing promotion: a
+guard-clean generalist clone is a new question (and this same day
+measured what naive mixing does to specialists). Seeds for the
+ledger: distill-generalist (multi-world oracle datasets), DAgger-at-
+speed (the 1.25 cell), and OracleDodge distillation (the dodgeball
+fast cells — BC val accuracy would directly meter whether the fast-
+ball information exists in the obs at all).

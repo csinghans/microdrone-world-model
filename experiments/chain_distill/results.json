@@ -1,0 +1,203 @@
+{
+ "skill": "chain-distill",
+ "skill_version": "1",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "slalom3@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "guard:mgap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K0",
+   "kind": "zero_shot",
+   "desc": "the BC clone of OracleWeave (97 % teacher), exam-naive seeds",
+   "hypothesis": "if the observation carries what chaining needs, the clone chains \u2014 chain_break_at moves first; BC val >= 0.80 is the pre-registered obs-sufficiency gate before this knob flies",
+   "config": {
+    "policy_path": "experiments/chain_distill/artifacts/ppo_chain_distill_BC.zip"
+   },
+   "artifacts": {
+    "policy_zip": "experiments/chain_distill/artifacts/ppo_chain_distill_BC.zip",
+    "sha256": "4caf6f9ff067a03e"
+   },
+   "cells": {
+    "slalom3@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.03333333333333333,
+     "reached": 1.0,
+     "success": 0.9666666666666667,
+     "clearance_mean": 0.27219300353175496,
+     "custom": {
+      "weaved": 0.9666666666666667,
+      "weave_frac": 0.9888888888888889,
+      "chain_break_at": 2.9
+     }
+    },
+    "diag:slalom2@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.4,
+     "reached": 1.0,
+     "success": 0.6,
+     "clearance_mean": 0.2099479778197727,
+     "custom": {
+      "weaved": 0.6,
+      "weave_frac": 0.9166666666666666,
+      "chain_break_at": 1.8333333333333333
+     }
+    },
+    "diag:slalom3@1.25": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 1.0,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.04613428796850374,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.6777777777777779,
+      "chain_break_at": 1.9333333333333333
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.06666666666666667,
+     "reached": 1.0,
+     "success": 0.9333333333333333,
+     "clearance_mean": 0.36907037824653083,
+     "custom": {
+      "transited": 1.0,
+      "gap_margin": 0.2533616689259239
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.5333333333333333,
+     "reached": 1.0,
+     "success": 0.4666666666666667,
+     "clearance_mean": 0.23160673648450916,
+     "custom": {
+      "transited": 0.9666666666666667,
+      "gap_margin": 0.1453226798217249
+     }
+    },
+    "guard:cluttered": {
+     "n": 120,
+     "seed0": 1000,
+     "crash": 0.15833333333333333,
+     "reached": 1.0,
+     "success": 0.8416666666666667,
+     "clearance_mean": 0.3885021041010738,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.23333333333333334,
+      "reached": 1.0,
+      "success": 0.7666666666666667,
+      "clearance_mean": 0.3556549384117764,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:sweep@2.0": {
+     "n": 120,
+     "seed0": 3000,
+     "crash": 0.11666666666666667,
+     "reached": 0.9416666666666667,
+     "success": 0.8833333333333333,
+     "clearance_mean": 0.49327237535474905,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.08333333333333333,
+      "reached": 0.95,
+      "success": 0.9166666666666666,
+      "clearance_mean": 0.5017555397291915,
+      "custom": {}
+     },
+     "pooled": true
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "slalom3@1.0 success>=0.7",
+      "kind": "target",
+      "measured": 0.9666666666666667,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.9333333333333333,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.4666666666666667,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.15833333333333333,
+      "pass": false,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.11666666666666667,
+      "pass": false,
+      "rechecked": true
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-06 05:14 UTC",
+    "ended": "2026-07-06 05:15 UTC"
+   },
+   "git": {
+    "commit": "2f10fe8"
+   }
+  }
+ ]
+}
