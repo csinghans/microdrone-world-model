@@ -63,3 +63,11 @@ Per the frozen rule, **K2 fires: the KL anchor gets built** —
 kl_coef · KL(π_prior ‖ π_θ) on rollout states, frozen prior copy,
 kl_coef = 1.0 (one value, no sweep), 450k, same recipe, same index
 cells, same graduation rule.
+
+**K2 machinery shipped (2026-07-06):** `AnchoredPPO` in
+`scripts/distill.py` — SB3 2.9.0's PPO.train vendored with exactly one
+addition (kl_coef · KL(π_prior ‖ π_θ) per minibatch, frozen prior
+copy), version-pinned with a loud-fail assert. Wiring smoke on the
+record: kl_coef=1e6 pins the policy (max action-prob shift 0.0145
+after 768 steps). K2 = BC2 + 450k anchored at kl_coef=1.0 (one value,
+no sweep), same recipe, same index cells, same graduation rule.

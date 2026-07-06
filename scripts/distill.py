@@ -279,12 +279,188 @@ def bc_train(X, Y, out: str, epochs: int = 40, lr: float = 3e-4, val_frac=0.1, W
     return acc, train_acc
 
 
+class AnchoredPPO:
+    """Deferred-import namespace: `make(env_or_zip)` returns a PPO subclass
+    instance with a KL anchor to a FROZEN copy of the loaded prior policy.
+
+    The `train()` body is a faithful copy of SB3 **2.9.0**'s PPO.train with
+    exactly ONE addition — `kl_coef * KL(pi_prior || pi_theta)` on each
+    minibatch, inserted after the standard loss assembly. The version is
+    pinned on purpose: the selftest asserts it, so an SB3 upgrade fails
+    loudly instead of silently drifting from the copied internals (the
+    checkpoint-meta-is-truth philosophy, applied to vendored code)."""
+
+    @staticmethod
+    def build():
+        import copy
+
+        import numpy as np
+        import stable_baselines3
+        import torch as th
+        from gymnasium import spaces
+        from stable_baselines3 import PPO
+        from stable_baselines3.common.utils import explained_variance
+        from torch.nn import functional as F
+
+        assert stable_baselines3.__version__ == "2.9.0", (
+            "AnchoredPPO.train is a vendored copy of SB3 2.9.0's — re-verify "
+            f"the copy against {stable_baselines3.__version__} before trusting it"
+        )
+
+        class _AnchoredPPO(PPO):
+            kl_coef = 0.0
+
+            def set_anchor(self, kl_coef: float) -> None:
+                self.kl_coef = float(kl_coef)
+                self.prior_policy = copy.deepcopy(self.policy)
+                self.prior_policy.set_training_mode(False)
+                for prm in self.prior_policy.parameters():
+                    prm.requires_grad_(False)
+
+            def train(self) -> None:
+                self.policy.set_training_mode(True)
+                self._update_learning_rate(self.policy.optimizer)
+                clip_range = self.clip_range(self._current_progress_remaining)
+                if self.clip_range_vf is not None:
+                    clip_range_vf = self.clip_range_vf(self._current_progress_remaining)
+
+                entropy_losses = []
+                pg_losses, value_losses = [], []
+                anchor_losses = []
+                clip_fractions = []
+
+                continue_training = True
+                for epoch in range(self.n_epochs):
+                    approx_kl_divs = []
+                    for rollout_data in self.rollout_buffer.get(self.batch_size):
+                        actions = rollout_data.actions
+                        if isinstance(self.action_space, spaces.Discrete):
+                            actions = rollout_data.actions.long().flatten()
+
+                        values, log_prob, entropy = self.policy.evaluate_actions(
+                            rollout_data.observations, actions
+                        )
+                        values = values.flatten()
+                        advantages = rollout_data.advantages
+                        if self.normalize_advantage and len(advantages) > 1:
+                            advantages = (advantages - advantages.mean()) / (
+                                advantages.std() + 1e-8
+                            )
+
+                        ratio = th.exp(log_prob - rollout_data.old_log_prob)
+                        policy_loss_1 = advantages * ratio
+                        policy_loss_2 = advantages * th.clamp(
+                            ratio, 1 - clip_range, 1 + clip_range
+                        )
+                        policy_loss = -th.min(policy_loss_1, policy_loss_2).mean()
+
+                        pg_losses.append(policy_loss.item())
+                        clip_fraction = th.mean(
+                            (th.abs(ratio - 1) > clip_range).float()
+                        ).item()
+                        clip_fractions.append(clip_fraction)
+
+                        if self.clip_range_vf is None:
+                            values_pred = values
+                        else:
+                            values_pred = rollout_data.old_values + th.clamp(
+                                values - rollout_data.old_values,
+                                -clip_range_vf,
+                                clip_range_vf,
+                            )
+                        value_loss = F.mse_loss(rollout_data.returns, values_pred)
+                        value_losses.append(value_loss.item())
+
+                        if entropy is None:
+                            entropy_loss = -th.mean(-log_prob)
+                        else:
+                            entropy_loss = -th.mean(entropy)
+                        entropy_losses.append(entropy_loss.item())
+
+                        loss = (
+                            policy_loss
+                            + self.ent_coef * entropy_loss
+                            + self.vf_coef * value_loss
+                        )
+
+                        # === the ONE addition: anchor to the frozen prior ===
+                        if self.kl_coef > 0.0:
+                            with th.no_grad():
+                                prior_dist = self.prior_policy.get_distribution(
+                                    rollout_data.observations
+                                ).distribution
+                            cur_dist = self.policy.get_distribution(
+                                rollout_data.observations
+                            ).distribution
+                            anchor = th.distributions.kl_divergence(
+                                prior_dist, cur_dist
+                            ).mean()
+                            anchor_losses.append(float(anchor.item()))
+                            loss = loss + self.kl_coef * anchor
+                        # =====================================================
+
+                        with th.no_grad():
+                            log_ratio = log_prob - rollout_data.old_log_prob
+                            approx_kl_div = (
+                                th.mean((th.exp(log_ratio) - 1) - log_ratio)
+                                .cpu()
+                                .numpy()
+                            )
+                            approx_kl_divs.append(approx_kl_div)
+
+                        if (
+                            self.target_kl is not None
+                            and approx_kl_div > 1.5 * self.target_kl
+                        ):
+                            continue_training = False
+                            if self.verbose >= 1:
+                                print(
+                                    f"Early stopping at step {epoch} due to "
+                                    f"reaching max kl: {approx_kl_div:.2f}"
+                                )
+                            break
+
+                        self.policy.optimizer.zero_grad()
+                        loss.backward()
+                        th.nn.utils.clip_grad_norm_(
+                            self.policy.parameters(), self.max_grad_norm
+                        )
+                        self.policy.optimizer.step()
+
+                    self._n_updates += 1
+                    if not continue_training:
+                        break
+
+                explained_var = explained_variance(
+                    self.rollout_buffer.values.flatten(),
+                    self.rollout_buffer.returns.flatten(),
+                )
+                self.logger.record("train/entropy_loss", np.mean(entropy_losses))
+                self.logger.record("train/policy_gradient_loss", np.mean(pg_losses))
+                self.logger.record("train/value_loss", np.mean(value_losses))
+                if anchor_losses:
+                    self.logger.record("train/anchor_kl", np.mean(anchor_losses))
+                self.logger.record("train/approx_kl", np.mean(approx_kl_divs))
+                self.logger.record("train/clip_fraction", np.mean(clip_fractions))
+                self.logger.record("train/loss", loss.item())
+                self.logger.record("train/explained_variance", explained_var)
+                self.logger.record(
+                    "train/n_updates", self._n_updates, exclude="tensorboard"
+                )
+                self.logger.record("train/clip_range", clip_range)
+                if self.clip_range_vf is not None:
+                    self.logger.record("train/clip_range_vf", clip_range_vf)
+
+        return _AnchoredPPO
+
+
 def finetune(
     bc_zip: str,
     steps: int,
     out: str,
     world: str = "slalom3_fixed",
     station_tick: float = 0.0,
+    anchor: float = 0.0,
 ):
     """PPO fine-tune from the BC init; `world` may be a comma-separated
     diet (round-robin, the training-env convention). station_tick passes
@@ -299,7 +475,10 @@ def finetune(
         lambda: WMPolicyEnv(worlds=diet, x_progress=True, station_tick=station_tick),
         n_envs=1,
     )
-    model = PPO.load(bc_zip, env=venv)
+    cls = AnchoredPPO.build() if anchor > 0.0 else PPO
+    model = cls.load(bc_zip, env=venv)
+    if anchor > 0.0:
+        model.set_anchor(anchor)
     model.learn(total_timesteps=steps)
     model.save(out)
     venv.close()
@@ -323,6 +502,7 @@ def main() -> None:
     ap.add_argument("--recipe2", action="store_true", help="K1 remedy recipe")
     ap.add_argument("--dodge", action="store_true", help="dodge-distill recipe")
     ap.add_argument("--ft-tick", type=float, default=0.0)
+    ap.add_argument("--anchor", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
@@ -439,6 +619,7 @@ def main() -> None:
             args.out or "output/ppo_distill_ft.zip",
             world=args.world,
             station_tick=args.ft_tick,
+            anchor=args.anchor,
         )
         return
     if args.collect:
