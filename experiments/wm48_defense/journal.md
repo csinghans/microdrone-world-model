@@ -28,3 +28,9 @@ promotion out of scope.
 **Swap executed (2026-07-06):** G1 sha256 `1fea88ad…149f80cf` ==
 artifacts.lock.json champion entry ✓; backup kept; WM48 in place
 (`7cc820856c4b77bb…`). K1 launched under it.
+
+Harness footnote: the first K1 launch tripped the DESIGNED loud-fail —
+`WM_HORIZONS` was not set, so `load_model` built a 4-head predictor
+against the 5-head checkpoint and refused at state-dict time (no
+measurement taken). Relaunched with `WM_HORIZONS=4,8,16,32,48`, as the
+H1 queue always ran. The swap protocol above now includes the switch.
