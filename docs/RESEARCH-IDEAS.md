@@ -103,11 +103,25 @@
   viewpoint motion. The observation bottleneck, one level up: you
   cannot identify a world through a channel built to report only
   imminent danger (`experiments/dispatch/journal.md`).
-- **dispatch-v5: tap the latent ★★** — one delta: the classifier reads
-  the encoder's 64-d z-stream (computed every decision anyway; it IS
-  the scene encoding the heads consume) instead of the probability
-  summary. Experts and their observations untouched; same roster,
-  gait, meters, floors, union exam, crown.
+- ~~dispatch-v5 (latent tap)~~ CLOSED 2026-07-06, refuted — the raw z
+  is a NOISIER substrate than the probability summary (classic 0.0,
+  slalom 0.067). The dispatch arc closes at five priced eliminations;
+  cold-start world ID is the recorded open problem — and the
+  integration layer reframed the battlefield (mid-course = moving-
+  viewpoint ID).
+- **THE INTEGRATION LAYER (flight TDD) is live** — `sim/composite.py`
+  + `eval/eval_integration.py` + `docs/TDD-FLIGHT.md`; deployment gate
+  ≥ 0.70 @ n=100 random 3-stage courses; baseline of record: slalom
+  clone **33/100** with the privileged specialist relay at only 13 % —
+  **the seam tax** (mid-flight entry states halve every expert's stage
+  rate; 57/67 failures at seams). Videos of record appear on first
+  pass (`experiments/integration_v1/journal.md`).
+- **hot-start distillation ★★ (the green road)** — make the seam a
+  training view: oracle-BC collection with randomized entry states
+  (residual velocity, y offset, no hover start), one clone per stage
+  type or one all-stage generalist (the clone recipe × five teachers).
+  Judge on the integration suite — the first campaign of the
+  red→unit→re-integrate loop.
 - **DAgger** (argue the mechanism difference from FT first: FT
   re-optimizes the objective, DAgger re-anchors to the teacher — the
   four erasure datapoints now make that argument FOR it).
