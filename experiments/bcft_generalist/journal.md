@@ -43,3 +43,24 @@ Config: experiments/bcft_generalist/artifacts/ppo_bcft_generalist_FT.zip
 
 ### Researcher notes
 (unattended run)
+
+### K0 researcher notes — the repair is total, and so is the erasure
+
+The pre-stated headline risk fired at full amplitude. What RL can
+learn, the fine-tune polished to near-perfection: gap 70→**96.7 %**
+(bar passed), mgap 43→**90 %** (bar passed), cluttered →100 %, crash
+0. What RL cannot learn, it destroyed: slalom3 93.3→**0 %**, crash
+100 %, chain_break_at 1.43 — the clone was ground back INSIDE the
+five-elimination band (1.33-2.10), weave_frac 0.60. sweep@2.0 broke
+too (93→62 %). The slalom arc's conclusion now has its converse,
+measured: **on-policy RL cannot discover the chain, and it cannot
+keep one it was handed** — the progress-reward gradient actively
+pulls the policy off the chaining basin and back to its own local
+optimum (penetrate, crash at gate ~1.4). Forgetting here is not decay;
+it is re-optimization toward the wrong attractor.
+
+### K1 activated per its frozen condition (chain lost, guards repaired)
+
+FT2 = BC2 + 450k on the two broken worlds ONLY ("gap,moving_gap") —
+slalom never enters the fine-tune env; what remains measured is
+cross-world collateral through the shared weights.

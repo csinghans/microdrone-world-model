@@ -1,0 +1,193 @@
+{
+ "skill": "bcft-generalist",
+ "skill_version": "1",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "slalom3@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "guard:mgap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K0",
+   "kind": "zero_shot",
+   "desc": "BC2 + PPO 450k on the uniform five-world diet (the crown shot)",
+   "hypothesis": "the measured two-leg recipe composed: imitation bought five skills, on-policy RL now repairs the closed-loop drift that share could not \u2014 while hopefully KEEPING the chain RL could never discover",
+   "config": {
+    "policy_path": "experiments/bcft_generalist/artifacts/ppo_bcft_generalist_FT.zip"
+   },
+   "artifacts": {
+    "policy_zip": "experiments/bcft_generalist/artifacts/ppo_bcft_generalist_FT.zip",
+    "sha256": "0b99f3465d76a136"
+   },
+   "cells": {
+    "slalom3@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 1.0,
+     "reached": 1.0,
+     "success": 0.0,
+     "clearance_mean": 0.09894055872312012,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.5999999999999999,
+      "chain_break_at": 1.4333333333333333
+     }
+    },
+    "diag:slalom2@1.0": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 0.5666666666666667,
+     "reached": 0.9666666666666667,
+     "success": 0.43333333333333335,
+     "clearance_mean": 0.1931115790916036,
+     "custom": {
+      "weaved": 0.43333333333333335,
+      "weave_frac": 0.7666666666666667,
+      "chain_break_at": 1.5333333333333334
+     }
+    },
+    "diag:slalom3@1.25": {
+     "n": 30,
+     "seed0": 22000,
+     "crash": 1.0,
+     "reached": 0.9333333333333333,
+     "success": 0.0,
+     "clearance_mean": 0.0848947108615435,
+     "custom": {
+      "weaved": 0.0,
+      "weave_frac": 0.6222222222222222,
+      "chain_break_at": 1.5666666666666667
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.03333333333333333,
+     "reached": 1.0,
+     "success": 0.9666666666666667,
+     "clearance_mean": 0.4172975403012326,
+     "custom": {
+      "transited": 1.0,
+      "gap_margin": 0.26506315050898566
+     }
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.1,
+     "reached": 1.0,
+     "success": 0.9,
+     "clearance_mean": 0.3394435734832572,
+     "custom": {
+      "transited": 1.0,
+      "gap_margin": 0.20056710446741863
+     }
+    },
+    "guard:cluttered": {
+     "n": 120,
+     "seed0": 1000,
+     "crash": 0.008333333333333333,
+     "reached": 1.0,
+     "success": 0.9916666666666667,
+     "clearance_mean": 0.42803556193505116,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.016666666666666666,
+      "reached": 1.0,
+      "success": 0.9833333333333333,
+      "clearance_mean": 0.42324545626118754,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.38333333333333336,
+     "reached": 1.0,
+     "success": 0.6166666666666667,
+     "clearance_mean": 0.2835750359097519,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "slalom3@1.0 success>=0.7",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.9666666666666667,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.9,
+      "pass": true,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.008333333333333333,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.38333333333333336,
+      "pass": false,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-06 07:22 UTC",
+    "ended": "2026-07-06 07:23 UTC"
+   },
+   "git": {
+    "commit": "7ab9eb1"
+   }
+  }
+ ]
+}
