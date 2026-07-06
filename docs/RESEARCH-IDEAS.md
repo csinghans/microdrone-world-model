@@ -116,12 +116,24 @@
   **the seam tax** (mid-flight entry states halve every expert's stage
   rate; 57/67 failures at seams). Videos of record appear on first
   pass (`experiments/integration_v1/journal.md`).
-- **hot-start distillation ★★ (the green road)** — make the seam a
-  training view: oracle-BC collection with randomized entry states
-  (residual velocity, y offset, no hover start), one clone per stage
-  type or one all-stage generalist (the clone recipe × five teachers).
-  Judge on the integration suite — the first campaign of the
-  red→unit→re-integrate loop.
+- ~~hot-start distillation~~ CLOSED 2026-07-06/07 (course-level BC buys
+  nothing: filtered 0.333 = unfiltered 0.367 = clone 0.330 — every BC
+  pays the closed-loop tax and students at best tie teachers, so the
+  0.50-0.56 relay capped the pot; `experiments/hot_start/journal.md`).
+- ~~odoor-v2/v3~~ CLOSED 2026-07-07, **FULL SUPPORT — the student
+  surpasses the teacher**: BC 0.367 → BC+FT **0.96 @ n=100** (teacher
+  ceiling 0.90, old champion 0.70-0.74). The weakest integration unit
+  is now the strongest; the two-leg ledger completes (mgap tie 0.880,
+  odoor surpass 0.960): imitation buys the skill shape, on-policy RL
+  buys the timing (`experiments/odoor_v2/journal.md`).
+- **integration-FT ★★★ (the gate shot)** — the two-leg recipe at
+  course level: WMPolicyEnv gains a course mode (goal/tmax from the
+  "stages" meta; per-stage obs reset + stage-local x, matching the
+  exam's StageLocal semantics), then FT a course-BC prior on random
+  composite courses — the diet IS the exam, squarely in FT's measured
+  safe zone. Unit inventory now supports it: native mean ≈ 0.92 →
+  product 0.77 > the 0.70 gate; the ONLY remaining deficit is the
+  seam tax (measured conditional 0.51 vs the 0.888 needed).
 - **DAgger** (argue the mechanism difference from FT first: FT
   re-optimizes the objective, DAgger re-anchors to the teacher — the
   four erasure datapoints now make that argument FOR it).
