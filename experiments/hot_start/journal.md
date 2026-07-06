@@ -37,3 +37,18 @@ repo gets its first videos of record. Refuted = ≤ the clone's 0.33
 band — seam robustness is not data-buyable at this altitude, and the
 residue escalates (recurrent students / seam-specific curricula),
 fresh pre-registration.
+
+## Phase 1 — both teacher floors fail; the campaign closes at its probes (2026-07-06)
+
+TrackW on door@1.0: **0.300** ✗; on odoor@1.0: **0.567** ✗ (floor
+0.80). The oracle relay's course ceiling: 0.400 < the 0.55 arena
+floor — the rule fires and hot-start-v1 closes. **Attribution,
+honestly: an instrument failure, not an arena verdict.** The unit
+arenas have learned holders at 0.93/0.70; my scripted teacher is the
+weak link — and its failure mode is legible: a width gate that HOLDS
+when the aperture is narrow is exactly backwards for a door that only
+ever closes (waiting guarantees timeout); it is directionally right
+but mediocre for the opening door. One teacher cannot serve both door
+physics. v2 (fresh pre-registration below after a design bench):
+closing → the plain tracker (commit early, ride the aim guarantee);
+opening → a tuned waiter.
