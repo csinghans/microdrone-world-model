@@ -207,3 +207,31 @@ incentive moves behavior but not far enough). Refuted = in_box ≈ 0
 again — then station-holding is not expressible at this reward
 altitude either, the campaign closes for real, and dodgeball-v2 (if
 ever) starts from a fresh pre-registration.
+
+## K3 — deviation: dense station tick (0.6/decision inside the box) replacing the distal +50, on the K1 recipe (2026-07-06 02:47 UTC)
+Hypothesis: K1 proved the dodge; nothing paid holding ground — box exit truncated at ~0 while proximity risked -30, so 'leave safely' was the optimum we bought. Pay the station densely (90 ticks ~= +54, same scale, derived not tuned); rationale in journal
+Config: {"worlds": ["dodgeball_v06", "dodgeball_v10", "dodgeball_v14", "dodgeball_v18"], "station_tick": 0.6, "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| dodge@v0.6 | 30 | 0% | 47% | 0.42 | survived=1.00 in_box=0.47 disp_x=1.40 y_max=1.24 |
+| dodge@v1.0 | 90 | 31% | 48% | 0.25 | survived=0.69 in_box=0.69 disp_x=1.21 y_max=1.12 |
+| dodge@v1.4 | 30 | 43% | 20% | 0.21 | survived=0.57 in_box=0.50 disp_x=1.34 y_max=1.19 |
+| dodge@v1.8 | 30 | 77% | 13% | 0.16 | survived=0.23 in_box=0.37 disp_x=1.42 y_max=1.22 |
+| guard:gap@1.0 | 30 | 37% | 0% | 1.05 |  |
+| guard:mgap@1.0 | 30 | 23% | 0% | 0.64 |  |
+| guard:cluttered | 120 | 8% | 0% | 1.32 |  |
+| guard:sweep@2.0 | 120 | 4% | 28% | 0.92 |  |
+- dodge@v0.6 success>=0.65: 0.47 FAIL
+- dodge@v1.0 success>=0.55: 0.48 FAIL (rechecked)
+- dodge@v1.4 success>=0.55: 0.20 FAIL
+- dodge@v1.8 success>=0.55: 0.13 FAIL
+- guard:gap@1.0 success>=0.75: 0.00 FAIL
+- guard:mgap@1.0 success>=0.7: 0.00 FAIL
+- guard:cluttered crash<=0.05: 0.07 FAIL (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.04 PASS (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
