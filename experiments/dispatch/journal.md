@@ -177,3 +177,34 @@ trace is judged** (final class == truth, floor 0.85 on every world;
 escape latency and never-stable reported). Roster, hysteresis, default,
 union exam, crown/support/refuted all inherited frozen from v2. New
 seed series (80000+), versioned artifact (dispatch_classifier_v3.pth).
+
+## v3 phase 1 — the hover-lock breaks for 9/10 worlds; classic exposes the residue (2026-07-06)
+
+| world | closed-loop final acc (floor 0.85) | latency | never-stable /15 |
+|---|---|---|---|
+| door / mgap / odoor | **1.00** ✓ | 2 | 0 |
+| gap / slalom | 0.933 ✓ | 2 | 1 |
+| dodgeball ×4 | 0.93-1.00 ✓ | 0 | 0-1 |
+| classic | **0.067 ✗** | 29 | **14** |
+
+Closing the loop did exactly what it was designed to do: the fence
+family and the slalom — v2's total hover-lock victims — now escape in
+TWO decisions inside the dispatcher's own loop. One world remains, and
+its failure is sharper than the last one: **classic's identity needs
+motion evidence a hovering observer never generates.** A static sparse
+pillar scene viewed from a stationary drone produces a constant
+stream, and "constant stream over a sparse scene" is exactly what
+dodgeball's pre-launch phase looks like — the two are genuinely
+ambiguous WITHOUT self-motion. Fence lines and slalom rows are
+distinctive as pure appearance; one scattered pillar is not.
+
+Per the inherited frozen floor (>= 0.85 on every world) the gate does
+not pass and v3 closes at the meter. The arc's residue is now a single
+crisp sentence: **perception of world identity requires probing
+motion.** v4 seed (one coherent delta, fresh pre-registration): the
+PROBE GAIT — while the hysteresis still sits at the default, the
+dispatcher flies "slow" (0.3 m/s) instead of the default expert's
+hover; collection prefixes and the closed-loop meter use the same
+gait. Cost analysis up front: 6-8 probe decisions = 0.15-0.2 m of
+drift — harmless in every arena (the station box holds 1.9 m; balls
+arrive at 4 s; doors close at ~2 s+).
