@@ -54,3 +54,41 @@ cascades poison the very skills dispatch was meant to preserve.
 Cost: phase 1 ~550 collection episodes + minutes of training; phase 2
 = 9 cells x n=30 with a 6-expert ensemble per decision (~6x compute
 per decision — wall-clock only; a deployment shares the encoder pass).
+
+## Phase 1 meters — the gate does not pass (2026-07-06)
+
+| world | final acc (floor 0.85) | latency (median dec.) | never-stable /15 |
+|---|---|---|---|
+| dodgeball ×4 | **1.00** ✓ | 0 | 0 |
+| gap | 0.933 ✓ | 3.5 | 1 |
+| classic | 0.867 ✓ | 4.0 | 2 |
+| door | 0.867 ✓ | 2.0 | 2 |
+| slalom | 0.867 ✓ | 2.0 | 2 |
+| moving_gap | **0.800 ✗** | 2.0 | 3 |
+| opening_door | **0.667 ✗** | 34.0 | 5 |
+
+Two worlds under the frozen floor → **phase 2 does not launch; the
+campaign closes at the meter**, per its own rule.
+
+The failure shapes are the finding:
+
+1. **opening_door's identity is temporally hidden.** It opens as a
+   near-sealed wall and only becomes distinctive once the door starts
+   moving — median stable-identification at decision 34 (~2.8 s), and
+   5/15 episodes never stabilize. A per-decision classifier with a
+   5-vote window cannot see "what this world is about to do".
+2. **The confusable set is the single-fence family** (gap / moving_gap
+   / opening_door) — the third independent sighting of that boundary
+   (the generalist pot paid its tax there; the K1 remedy failed there).
+3. Honest note: dodgeball's perfect 0-latency score is partly the
+   default's gift (the hover-biased default IS the dodgeball expert).
+
+**The v2 design writes itself, and it is cheaper, not more complex:**
+the mgap-v2 K3 artifact ALREADY holds, at gated readings, every
+single-fence bar in the union — gap 0.90-0.97 (bar 0.85), mgap
+0.85-0.93 (0.70), closing door 0.93 zero-shot (0.70), opening door
+~0.70 zero-shot (0.60, measured in the odoor campaign). **Merge the
+confusable family into ONE 'fence' class flown by K3** and the roster
+falls to four visually-distinct classes (classic / fence / slalom /
+dodgeball) — no single-fence discrimination needed at all. Fresh
+pre-registration required; seeded in the ledger.
