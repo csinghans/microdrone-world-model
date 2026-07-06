@@ -114,8 +114,9 @@ class PerStageExperts:
         if k != self._stage:
             self._stage = k
             self.pilots[k].begin([])
-            if self.names[k] == "slalom3_fixed" and k > 0:
-                self._settle = self.SETTLE_K  # entry brake
+            # entry brake removed: measured exactly null on the slalom
+            # conditional (v3, 0.645 == v2) — the failure is per-decision
+            # fidelity compounding over the chain, not the entry state
         s = np.array(state, dtype=float, copy=True)
         s[0] -= k * self.L
         a = self.pilots[k].decide(frame, s)  # keep the stack warm
