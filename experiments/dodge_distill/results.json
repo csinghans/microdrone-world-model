@@ -1,0 +1,273 @@
+{
+ "skill": "dodge-distill",
+ "skill_version": "1",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "dodge@v0.6",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.65
+  },
+  {
+   "cell": "dodge@v1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "dodge@v1.4",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "dodge@v1.8",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "guard:gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "guard:mgap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K0",
+   "kind": "zero_shot",
+   "desc": "the four-speed OracleDodge clone (pooled BC)",
+   "hypothesis": "per-speed val is the representation meter; the cells are the closed loop \u2014 the two layers separate wm48's live suspects",
+   "config": {
+    "policy_path": "experiments/dodge_distill/artifacts/ppo_dodge_distill_BC.zip"
+   },
+   "artifacts": {
+    "policy_zip": "experiments/dodge_distill/artifacts/ppo_dodge_distill_BC.zip",
+    "sha256": "8919bf76d27cf4d9"
+   },
+   "cells": {
+    "dodge@v0.6": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.5666666666666667,
+     "reached": 0.0,
+     "success": 0.3333333333333333,
+     "clearance_mean": 0.2631129340846967,
+     "custom": {
+      "survived": 0.43333333333333335,
+      "in_box": 0.9,
+      "disp_x": 0.7077081275054421,
+      "y_max": 0.670477578394494
+     }
+    },
+    "dodge@v1.0": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.16666666666666666,
+     "reached": 0.0,
+     "success": 0.36666666666666664,
+     "clearance_mean": 0.3184396415337825,
+     "custom": {
+      "survived": 0.8333333333333334,
+      "in_box": 0.5333333333333333,
+      "disp_x": 1.4097805201472318,
+      "y_max": 1.1271990080496883
+     }
+    },
+    "dodge@v1.4": {
+     "n": 90,
+     "seed0": 23000,
+     "crash": 0.16666666666666666,
+     "reached": 0.0,
+     "success": 0.6,
+     "clearance_mean": 0.33720252556337615,
+     "custom": {
+      "survived": 0.8333333333333334,
+      "in_box": 0.7444444444444445,
+      "disp_x": 1.391312639780461,
+      "y_max": 0.9040907340912682
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 24000,
+      "crash": 0.15,
+      "reached": 0.0,
+      "success": 0.65,
+      "clearance_mean": 0.348444932339759,
+      "custom": {
+       "survived": 0.85,
+       "in_box": 0.7666666666666667,
+       "disp_x": 1.4054601468590748,
+       "y_max": 0.8704669944108117
+      }
+     },
+     "pooled": true
+    },
+    "dodge@v1.8": {
+     "n": 90,
+     "seed0": 23000,
+     "crash": 0.23333333333333334,
+     "reached": 0.0,
+     "success": 0.4888888888888889,
+     "clearance_mean": 0.2917216518713839,
+     "custom": {
+      "survived": 0.7666666666666667,
+      "in_box": 0.6777777777777778,
+      "disp_x": 1.33065362766422,
+      "y_max": 0.9725048967294047
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 24000,
+      "crash": 0.23333333333333334,
+      "reached": 0.0,
+      "success": 0.43333333333333335,
+      "clearance_mean": 0.2934272753424434,
+      "custom": {
+       "survived": 0.7666666666666667,
+       "in_box": 0.6,
+       "disp_x": 1.353271725907886,
+       "y_max": 1.01189570176217
+      }
+     },
+     "pooled": true
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.06666666666666667,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 1.7442290481297775,
+     "custom": {}
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.6,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.3703954795519168,
+     "custom": {}
+    },
+    "guard:cluttered": {
+     "n": 120,
+     "seed0": 1000,
+     "crash": 0.0,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 1.6066195563496914,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.0,
+      "reached": 0.0,
+      "success": 0.0,
+      "clearance_mean": 1.6202795441187385,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.18333333333333332,
+     "reached": 0.016666666666666666,
+     "success": 0.016666666666666666,
+     "clearance_mean": 0.9979832854686869,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "dodge@v0.6 success>=0.65",
+      "kind": "target",
+      "measured": 0.3333333333333333,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.0 success>=0.55",
+      "kind": "target",
+      "measured": 0.36666666666666664,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.4 success>=0.55",
+      "kind": "target",
+      "measured": 0.6,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "dodge@v1.8 success>=0.55",
+      "kind": "target",
+      "measured": 0.4888888888888889,
+      "pass": false,
+      "rechecked": true
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.18333333333333332,
+      "pass": false,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-06 07:43 UTC",
+    "ended": "2026-07-06 07:47 UTC"
+   },
+   "git": {
+    "commit": "8d849f7"
+   }
+  }
+ ]
+}

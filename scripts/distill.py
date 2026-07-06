@@ -279,16 +279,26 @@ def bc_train(X, Y, out: str, epochs: int = 40, lr: float = 3e-4, val_frac=0.1, W
     return acc, train_acc
 
 
-def finetune(bc_zip: str, steps: int, out: str, world: str = "slalom3_fixed"):
+def finetune(
+    bc_zip: str,
+    steps: int,
+    out: str,
+    world: str = "slalom3_fixed",
+    station_tick: float = 0.0,
+):
     """PPO fine-tune from the BC init; `world` may be a comma-separated
-    diet (round-robin, the training-env convention)."""
+    diet (round-robin, the training-env convention). station_tick passes
+    through to the env for ball worlds (the measured-good station economy)."""
     from stable_baselines3 import PPO
     from stable_baselines3.common.env_util import make_vec_env
 
     from planner.learned_policy import WMPolicyEnv
 
     diet = tuple(world.split(","))
-    venv = make_vec_env(lambda: WMPolicyEnv(worlds=diet, x_progress=True), n_envs=1)
+    venv = make_vec_env(
+        lambda: WMPolicyEnv(worlds=diet, x_progress=True, station_tick=station_tick),
+        n_envs=1,
+    )
     model = PPO.load(bc_zip, env=venv)
     model.learn(total_timesteps=steps)
     model.save(out)
@@ -312,6 +322,7 @@ def main() -> None:
     ap.add_argument("--generalist", choices=("track", "mgap_champion"), default=None)
     ap.add_argument("--recipe2", action="store_true", help="K1 remedy recipe")
     ap.add_argument("--dodge", action="store_true", help="dodge-distill recipe")
+    ap.add_argument("--ft-tick", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
@@ -413,11 +424,13 @@ def main() -> None:
         from skills.base import load_skill
 
         load_skill("corridor-slalom-v2")
+        load_skill("dodgeball")
         finetune(
             args.finetune,
             args.steps,
             args.out or "output/ppo_distill_ft.zip",
             world=args.world,
+            station_tick=args.ft_tick,
         )
         return
     if args.collect:

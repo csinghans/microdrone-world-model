@@ -40,3 +40,27 @@ Config: experiments/dodge_distill/artifacts/ppo_dodge_distill_BC.zip
 
 ### Researcher notes
 (unattended run)
+
+### K0 verdict — SUPPORT fires on the fastest cell; the meter is clean
+
+**Instrument first:** the raw val meters (0.922-0.955) survive the
+hover-dominance audit — hover share is 70-71 % and the NON-hover
+(dodge-decision) accuracy reads **0.898 at both v1.4 and v1.8**
+(n≈1600 each, fresh seeds 55000+). The representation verdict stands:
+fast-ball information EXISTS in the G1 observation. wm48's "signal
+quality at range" suspect is acquitted at the representation level.
+
+**Closed loop:** the success curve is INVERTED vs every prior attempt
+— 33 / 37 / 50 / **60 %** across ball speeds, against RL-K3's
+47/60/20/13. **dodge@v1.8 = 60 % clears its 0.55 bar** — the exact
+cell the WM48 eye-swap could not move (13-17 %, crash 77-80 %) falls
+to imitation with crash 23 %. Mechanism reads clean: slow balls mean
+long threat windows and accumulated closed-loop drift (v0.6 crash
+57 % — the drift tax again); fast balls mean brief threats where the
+0.898 decision accuracy converts almost directly. Guards: structural
+fails as pre-registered (the clone never transits).
+
+**K1 fires per its frozen condition** (v1.4 fits at 0.944/0.898 and
+misses at 50 % < 0.55): station-tick FT 450k on the clone — the
+measured drift-repair leg on the measured-good station economy
+(tick 0.6, not the distal +50 that taught yielding).
