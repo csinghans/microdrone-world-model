@@ -93,3 +93,41 @@ seed replay pinned it. Consequences, honestly:
   family in CLAUDE.md).
 - The TRUE v2 (filtered) collection + BC + exam now runs, same
   pre-registration, seeds unchanged.
+
+## hot-start v2 verdict: the filter buys nothing — the ceiling is the wall (2026-07-06)
+
+| arm | integration n=30 |
+|---|---|
+| clone baseline (n=100 record) | 0.330 |
+| unfiltered pot (accidental ablation) | 0.367 |
+| **filtered pot (the true v2)** | **0.333** |
+| mixed-relay teacher (ceiling) | 0.500 |
+
+All three students sit in one noise band. Filtering dropped 30 % of
+the data (66k→46k kept) and moved nothing; the opening_door val floor
+also missed (0.781 < 0.80 — flagged; the weakest teacher is the
+weakest fit). The graduation rule (≥ 0.50) is not met; no n=100.
+
+**The honest mechanism story:** every BC in this repo pays a
+~25-35-point open-loop→closed-loop tax (val 0.87 → 0.33 here; val
+0.908 → 0.585 at surpass-teacher), and surpass-teacher measured that
+students at best TIE their teachers. The teacher pool's own course
+competence is 0.50-0.56 — **no amount of distillation from this relay
+reaches 0.70.** Hot-start data was necessary but not sufficient; the
+gate needs the CEILING raised first.
+
+**The path to 0.70, decomposed** (0.888 per-stage conditional needed;
+0.888³ ≈ 0.70):
+1. **The weakest unit IS the weakest link**: opening door's best
+   holder sits at 0.70 on its own unit bar — below the required
+   per-stage rate before any seam tax. A stronger odoor unit champion
+   is a prerequisite (unit-layer campaign).
+2. **Seam-hardened units**: per-stage hot-entry training (the unit
+   trained/distilled WITH mid-flight entry states) — unit-level
+   hot-start rather than course-level BC.
+3. Re-integrate hardened units (relay or dispatch) — only then is the
+   gate arithmetically reachable.
+
+This is the TDD loop functioning as designed: integration red →
+the failing units are now NAMED with numbers → unit campaigns → back
+to integration.
