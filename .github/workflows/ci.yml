@@ -61,6 +61,7 @@ jobs:
           python -m skills.wm48_defense.skill
           python -m skills.chain_distill.skill
           python -m skills.distill_generalist.skill
+          python -m skills.bcft_generalist.skill
           python -m eval.eval_arena_ceiling --selftest
           python -m eval.eval_dodge_ceiling --selftest
           python -m eval.eval_policy_cells --selftest

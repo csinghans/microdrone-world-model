@@ -254,13 +254,15 @@ def bc_train(X, Y, out: str, epochs: int = 40, lr: float = 3e-4, val_frac=0.1, W
 
 
 def finetune(bc_zip: str, steps: int, out: str, world: str = "slalom3_fixed"):
-    """PPO fine-tune from the BC init on a pure single-world diet."""
+    """PPO fine-tune from the BC init; `world` may be a comma-separated
+    diet (round-robin, the training-env convention)."""
     from stable_baselines3 import PPO
     from stable_baselines3.common.env_util import make_vec_env
 
     from planner.learned_policy import WMPolicyEnv
 
-    venv = make_vec_env(lambda: WMPolicyEnv(worlds=(world,), x_progress=True), n_envs=1)
+    diet = tuple(world.split(","))
+    venv = make_vec_env(lambda: WMPolicyEnv(worlds=diet, x_progress=True), n_envs=1)
     model = PPO.load(bc_zip, env=venv)
     model.learn(total_timesteps=steps)
     model.save(out)
