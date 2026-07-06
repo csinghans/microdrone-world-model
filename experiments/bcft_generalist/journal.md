@@ -64,3 +64,27 @@ it is re-optimization toward the wrong attractor.
 FT2 = BC2 + 450k on the two broken worlds ONLY ("gap,moving_gap") —
 slalom never enters the fine-tune env; what remains measured is
 cross-world collateral through the shared weights.
+
+## K1 — RESERVE: FT on the broken worlds only (gap,moving_gap) (2026-07-06 08:15 UTC)
+Hypothesis: played ONLY if K0 loses the chain (< 0.70) while repairing a broken guard — the forgetting/repair trade-off, step-arbitrated; sheathed if K0 holds the chain
+Config: experiments/bcft_generalist/artifacts/ppo_bcft_generalist_FT2.zip
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| slalom3@1.0 | 30 | 97% | 0% | 0.14 | weaved=0.00 weave_frac=0.88 chain_break_at=2.27 |
+| diag:slalom2@1.0 | 30 | 100% | 0% | 0.13 | weaved=0.00 weave_frac=0.78 chain_break_at=1.57 |
+| diag:slalom3@1.25 | 30 | 97% | 0% | 0.14 | weaved=0.00 weave_frac=0.84 chain_break_at=2.07 |
+| guard:gap@1.0 | 30 | 7% | 93% | 0.39 | transited=1.00 gap_margin=0.23 |
+| guard:mgap@1.0 | 30 | 10% | 90% | 0.34 | transited=1.00 gap_margin=0.19 |
+| guard:cluttered | 60 | 60% | 40% | 0.20 |  |
+| guard:sweep@2.0 | 60 | 98% | 2% | 0.11 |  |
+- slalom3@1.0 success>=0.7: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.93 PASS
+- guard:mgap@1.0 success>=0.7: 0.90 PASS
+- guard:cluttered crash<=0.05: 0.60 FAIL
+- guard:sweep@2.0 crash<=0.1: 0.98 FAIL
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
