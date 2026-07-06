@@ -63,3 +63,31 @@ full 360 steps — the most expensive cell type in the catalog); K1
 900k ≈ 4-6 h; K2 conditional. Runner starts only after the
 chain-learning campaign releases the machine (single-runner rule:
 gate commits must not race).
+
+## K0 — the general champion, zero-shot on a task it was never asked (2026-07-06 00:06 UTC)
+Hypothesis: structural 0, pre-registered: its repertoire never hovers (every command advances >= 0.3 m/s), so it exits the box by construction — the flee/crash split is the diagnostic
+Config: output/ppo_wm_policy_edge_hard_xp.zip
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| dodge@v0.6 | 30 | 50% | 0% | 0.23 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=1.20 |
+| dodge@v1.0 | 30 | 70% | 0% | 0.16 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=1.01 |
+| dodge@v1.4 | 30 | 70% | 0% | 0.18 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.92 |
+| dodge@v1.8 | 30 | 77% | 0% | 0.16 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.87 |
+| guard:gap@1.0 | 30 | 63% | 37% | 0.18 |  |
+| guard:mgap@1.0 | 30 | 67% | 33% | 0.19 |  |
+| guard:cluttered | 120 | 3% | 97% | 0.54 |  |
+| guard:sweep@2.0 | 120 | 4% | 96% | 0.64 |  |
+- dodge@v0.6 success>=0.65: 0.00 FAIL
+- dodge@v1.0 success>=0.55: 0.00 FAIL
+- dodge@v1.4 success>=0.55: 0.00 FAIL
+- dodge@v1.8 success>=0.55: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.37 FAIL
+- guard:mgap@1.0 success>=0.7: 0.33 FAIL
+- guard:cluttered crash<=0.05: 0.03 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.04 PASS (rechecked)
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
