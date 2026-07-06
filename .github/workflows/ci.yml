@@ -66,6 +66,7 @@ jobs:
           python -m eval.eval_arena_ceiling --selftest
           python -m eval.eval_dodge_ceiling --selftest
           python -m eval.eval_results_figures --selftest
+          python -m eval.eval_skill_gallery --selftest
           python -m eval.eval_policy_cells --selftest
           python -m eval.calibrate_heads --selftest
           python -m eval.eval_duel_plots --selftest

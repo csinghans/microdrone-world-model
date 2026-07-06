@@ -131,6 +131,14 @@ ties the teacher:
 
 ![surpass the teacher](docs/figures/arc_surpass_teacher.png)
 
+**And what the flights look like.** Per-arena champion trajectories on
+the exact exam seeds the gates graded (small multiples, each panel its
+own course; green/red = the skill's own predicate) live in the same
+folder — `traj_*.png` via `python -m eval.eval_skill_gallery`. The
+chain, visibly chained:
+
+![slalom clone trajectories](docs/figures/traj_slalom_clone.png)
+
 ## The benchmark, two tiers (course draw + two fresh from-scratch draws here)
 
 **Tier 1 — mechanisms: reproduced on every draw.**
