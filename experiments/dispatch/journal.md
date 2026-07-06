@@ -1,0 +1,56 @@
+# dispatch — one drone, six frozen experts, a classifier chooses
+
+## Pre-registration (2026-07-06, before any number exists)
+
+The measured background: merging skills into one net taxes or destroys
+them (RL confiscation, pot boundary tax, FT corrosion — all gated this
+week), and the identifiability failure is measured too (dodgeball-v2:
+an ambiguous opening makes one net play the majority move). Dispatch
+sidesteps both: **specialists stay frozen; a small classifier head over
+the same 12-decision observation stream picks who flies.**
+
+Frozen design (`planner/dispatch.py`, selftested): six classes/experts
+(classic=general champion, gap=KD1, mover=mgap-v2 K3 — it also owns
+closing-door, odoor=opening K3, slalom=the chain-distill clone,
+dodgeball=the dodge-distill clone); hysteresis = majority-of-5 with
+switch at >= 3/5; **default = the dodgeball expert (hover-biased)** —
+costs are asymmetric: waiting is recoverable, advancing out of a
+station box is not (the dodgeball-v2 lesson, designed against).
+Collection = each expert flying its own world (the runtime distribution
+under correct dispatch), seeds 60000+ (virgin).
+
+**Phase 1 — the meters (gate to phase 2):** per-world episode-level
+FINAL identification accuracy, floor **>= 0.85 on every world** (15 val
+episodes/world), plus identification latency (median decisions to
+stable-correct; reported, no bar). Below the floor on any world → the
+dispatch road closes at the meter (a representation verdict).
+
+**Phase 2 — the union exam:** the dispatcher flies, as ONE policy,
+every cell some catalog artifact holds solo — each judged by its OWN
+skill's predicates and frozen bar:
+
+| cell | bar | solo holder (record) |
+|---|---|---|
+| gap@1.0 | success >= 0.85 | KD1 (0.87-0.93) |
+| mgap@1.0 | >= 0.70 | mgap-v2 K3 (0.85-0.93) |
+| door@1.0 | >= 0.70 | K3 zero-shot (0.93) |
+| odoor@1.0 | >= 0.60 | opening K3 (0.70-0.74) |
+| slalom3@1.0 | >= 0.70 | chain-distill clone (0.967) |
+| dodge@v1.8 | >= 0.55 | dodge clone (0.60) |
+| guard:cluttered | crash <= 0.05 | general champion |
+| guard:sweep@2.0 | crash <= 0.10 | general champion |
+
+dodge@v1.0 flies as a measured DIAGNOSTIC (no artifact holds it — the
+dodgeball crown is vacant there; the dispatcher cannot create skill
+that does not exist).
+
+**Frozen signature. Crown** = 8/8 over their own bars — the catalog's
+first cross-arena title: one policy entry holding every bar any
+specialist holds. **Support** = >= 6/8 with no arena at zero — dispatch
+works, boundary costs visible and priced. **Refuted** = any home cell
+collapses by > 20 points against its solo record — misclassification
+cascades poison the very skills dispatch was meant to preserve.
+
+Cost: phase 1 ~550 collection episodes + minutes of training; phase 2
+= 9 cells x n=30 with a 6-expert ensemble per decision (~6x compute
+per decision — wall-clock only; a deployment shares the encoder pass).
