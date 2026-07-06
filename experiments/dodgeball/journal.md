@@ -119,3 +119,31 @@ Config: {"worlds": ["dodgeball_v06", "dodgeball_v10", "dodgeball_v14", "dodgebal
 
 ### Researcher notes
 (unattended run)
+
+## K2 — mixed diet: transit worlds + all four ball speeds (2026-07-06 01:50 UTC)
+Hypothesis: CONDITIONAL — played only if K1 reads success >= 0.30 on any priced cell (else it stays sheathed and the campaign closes on the perception verdict). The promotion knob: guards regain meaning; dilution risk on 7 worlds is on the record
+Config: {"worlds": ["classic", "gap", "moving_gap", "dodgeball_v06", "dodgeball_v10", "dodgeball_v14", "dodgeball_v18"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| dodge@v0.6 | 30 | 37% | 0% | 0.26 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.49 |
+| dodge@v1.0 | 30 | 53% | 0% | 0.23 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.45 |
+| dodge@v1.4 | 30 | 70% | 0% | 0.22 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.37 |
+| dodge@v1.8 | 30 | 63% | 0% | 0.22 | survived=0.00 in_box=0.00 disp_x=3.01 y_max=0.38 |
+| guard:gap@1.0 | 30 | 0% | 100% | 0.41 |  |
+| guard:mgap@1.0 | 30 | 13% | 87% | 0.32 |  |
+| guard:cluttered | 120 | 2% | 98% | 0.44 |  |
+| guard:sweep@2.0 | 60 | 37% | 60% | 0.24 |  |
+- dodge@v0.6 success>=0.65: 0.00 FAIL
+- dodge@v1.0 success>=0.55: 0.00 FAIL
+- dodge@v1.4 success>=0.55: 0.00 FAIL
+- dodge@v1.8 success>=0.55: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 1.00 PASS
+- guard:mgap@1.0 success>=0.7: 0.87 PASS
+- guard:cluttered crash<=0.05: 0.02 PASS (rechecked)
+- guard:sweep@2.0 crash<=0.1: 0.37 FAIL
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)

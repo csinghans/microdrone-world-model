@@ -248,6 +248,190 @@
    "git": {
     "commit": "d68386d"
    }
+  },
+  {
+   "id": "K1",
+   "kind": "policy",
+   "desc": "pure dodgeball diet + station reward (the science knob)",
+   "hypothesis": "does the observation carry a dodgeable warning at all? The heads are single-frame (motion-blind); the 12-step stacked history watching the probability ramp is the only mechanism. Transit guards are expected structural failures for this zip (promotion impossible by design; the dodge cells are the point)",
+   "config": {
+    "worlds": [
+     "dodgeball_v06",
+     "dodgeball_v10",
+     "dodgeball_v14",
+     "dodgeball_v18"
+    ],
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 900000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/dodgeball/artifacts/ppo_dodgeball_K1.zip",
+    "sha256": "8aeadf227f5bc6f2"
+   },
+   "cells": {
+    "dodge@v0.6": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.0,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.4759184688952033,
+     "custom": {
+      "survived": 1.0,
+      "in_box": 0.0,
+      "disp_x": 2.3820359274632414,
+      "y_max": 1.7538536699742984
+     }
+    },
+    "dodge@v1.0": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.06666666666666667,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.3661051556042957,
+     "custom": {
+      "survived": 0.9333333333333333,
+      "in_box": 0.0,
+      "disp_x": 2.3557652812760908,
+      "y_max": 1.832725252981971
+     }
+    },
+    "dodge@v1.4": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.4,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.24916951425178466,
+     "custom": {
+      "survived": 0.6,
+      "in_box": 0.0,
+      "disp_x": 2.4685159482525085,
+      "y_max": 1.9260557889829248
+     }
+    },
+    "dodge@v1.8": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.5666666666666667,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.21122499855833193,
+     "custom": {
+      "survived": 0.43333333333333335,
+      "in_box": 0.0,
+      "disp_x": 2.5633877981846904,
+      "y_max": 2.0103404140442196
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 1.0,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.10063380441499828,
+     "custom": {}
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.8333333333333334,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.13087365027639136,
+     "custom": {}
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.16666666666666666,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.5660504438188365,
+     "custom": {}
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.016666666666666666,
+     "reached": 0.8166666666666667,
+     "success": 0.8166666666666667,
+     "clearance_mean": 0.86159972350981,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "dodge@v0.6 success>=0.65",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.0 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.4 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.8 success>=0.55",
+      "kind": "target",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.16666666666666666,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.016666666666666666,
+      "pass": true,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-06 00:06 UTC",
+    "ended": "2026-07-06 00:55 UTC"
+   },
+   "git": {
+    "commit": "3549b72"
+   }
   }
  ]
 }
