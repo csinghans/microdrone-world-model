@@ -101,3 +101,37 @@ Config: experiments/distill_generalist/artifacts/ppo_distill_generalist_BC2.zip
 
 ### Researcher notes
 (unattended run)
+
+## Campaign verdict: SUPPORT, twice confirmed — the crown stays vacant (2026-07-06)
+
+The chain survived the pot at BOTH knobs — 93.3 % / chain_break 2.80,
+byte-identical readings across two independently mixed datasets — a
+3.4-point dilution tax on the specialist, 23 points over the bar. The
+champion-taught cells held or improved (sweep 91.7→93.3 %, cluttered
+96.7→93.3 %). The crown fell one world short:
+
+| guard | K0 | K1 (share x2) | bar |
+|---|---|---|---|
+| gap | 53 % | **70 %** | 0.75 ✗ (one recheck-margin short) |
+| mgap | 50 % | **43 %** | 0.70 ✗ (share is NOT its lever) |
+
+**gap responds to share; mgap does not.** Doubling the tracker's data
+(val 0.891 — the pot fits it fine in open loop) made the closed loop
+WORSE. The interference is localized and mechanism-specific: the
+moving fence's closed loop drifts off the demonstrated manifold in a
+way more demonstrations of the same manifold cannot fix — DAgger's
+textbook case, named as the seed. The deviation slot is deliberately
+not spent: the written reserve is exhausted and share was measured to
+not be the lever.
+
+**The cross-paradigm contrast, as pre-stated:** RL mixing erased the
+minority behavior outright (dodgeball-v2, same day: flee signature on
+120/120 episodes); supervised mixing kept the minority chain at
+93.3 % and localized its damage to two boundary worlds. Multi-task
+interference is real in both paradigms, but supervised interference
+is a tax; RL interference was a confiscation.
+
+Catalog: corridor-slalom-v2's crown stays vacant; the generalist BC2
+zip is best-so-far for a five-world single policy. Seeds exported:
+**DAgger-on-mgap** (the closed-loop drift case, now with a measured
+target), and the surpass-the-teacher campaign (next on the queue).
