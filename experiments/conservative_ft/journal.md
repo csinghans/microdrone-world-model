@@ -41,3 +41,25 @@ architecture (per-world dispatch / ensembles), recorded and closed.
 
 Cost: K0 = 325k total training (~under one bcft dose) + 9 index
 evals; K1 one full exam; K2 only on failure.
+
+## K0 — the dose curve: there is no window (2026-07-06)
+
+| dose | chain (≥0.70) | gap (≥0.75) | mgap (≥0.70) |
+|---|---|---|---|
+| 25k | **0.00** | 0.90 ✓ | 0.83 ✓ |
+| 75k | 0.13 | 0.97 ✓ | 0.93 ✓ |
+| 225k | 0.20 | 0.97 ✓ | 0.87 ✓ |
+| 450k (bcft K0) | 0.00 | 0.97 | 0.90 |
+
+No dose qualifies — and the failure is maximally informative:
+**corrosion is FASTER than repair.** The chain is dead inside 25k
+steps (~280 episodes) while the repair is already essentially complete
+at that same dose. Early stopping cannot help when the thing you want
+to keep is the first thing to go: re-optimization toward RL's
+attractor begins immediately, not late. (The 0→0.13→0.20 chain drift
+upward across doses sits inside n=30 noise; nowhere near the bar.)
+
+Per the frozen rule, **K2 fires: the KL anchor gets built** —
+kl_coef · KL(π_prior ‖ π_θ) on rollout states, frozen prior copy,
+kl_coef = 1.0 (one value, no sweep), 450k, same recipe, same index
+cells, same graduation rule.

@@ -1,0 +1,42 @@
+{
+ "zip": "experiments/conservative_ft/artifacts/ppo_dose_75000.zip",
+ "cells": {
+  "slalom3@1.0": {
+   "n": 30,
+   "seed0": 22000,
+   "crash": 0.8666666666666667,
+   "reached": 1.0,
+   "success": 0.13333333333333333,
+   "clearance_mean": 0.12762658277635905,
+   "custom": {
+    "weaved": 0.13333333333333333,
+    "weave_frac": 0.7777777777777779,
+    "chain_break_at": 1.9333333333333333
+   }
+  },
+  "guard:gap@1.0": {
+   "n": 30,
+   "seed0": 9000,
+   "crash": 0.03333333333333333,
+   "reached": 1.0,
+   "success": 0.9666666666666667,
+   "clearance_mean": 0.41811528434166345,
+   "custom": {
+    "transited": 1.0,
+    "gap_margin": 0.26200141928218956
+   }
+  },
+  "guard:mgap@1.0": {
+   "n": 30,
+   "seed0": 9500,
+   "crash": 0.06666666666666667,
+   "reached": 1.0,
+   "success": 0.9333333333333333,
+   "clearance_mean": 0.3280214745129553,
+   "custom": {
+    "transited": 0.9666666666666667,
+    "gap_margin": 0.18353525395455744
+   }
+  }
+ }
+}
