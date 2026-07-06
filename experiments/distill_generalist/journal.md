@@ -53,3 +53,27 @@ Config: experiments/distill_generalist/artifacts/ppo_distill_generalist_BC.zip
 
 ### Researcher notes
 (unattended run)
+
+### K0 researcher notes — the pot holds the chain; interference pools in the single-fence worlds
+
+Support branch confirmed at K0: slalom3@1.0 **93.3 %** (chain_break
+2.80) — a 3.4-point dilution tax vs the specialist's 96.7 %, still
+23 points over the bar. cluttered (96.7 %) and sweep@2.0 (91.7 %,
+crash 5 %) came out BETTER than the specialist — the champion's
+classic/solo data did its job. The failures are gap 53 % and mgap
+50 % — and the shape is informative: both are **single-fence worlds**,
+sitting between the weave teacher (3 fences), the track teacher
+(1 moving fence) and the champion (scattered pillars). Open-loop val
+is fine there (gap 0.912, mgap 0.882) but closed-loop crashes at 47 %:
+the hypothesis (recorded, not asserted) is repertoire collision — in
+states that look alike across those worlds the pot's labels disagree,
+and small mis-dispatches compound in the loop. Notably the SPECIALIST
+flew gap at 93 % with no gap data at all; adding three more teachers
+made gap worse, not better.
+
+### K1 activated per its frozen condition (chain held, guards broken)
+
+Two worlds failed, so the written remedy applies to each: gap share
+100→200 (new block seed0 46000) and moving_gap 200→400 (seed0 47000);
+everything else byte-identical. Recipe frozen in code as
+`GENERALIST2`; same manipulation floors.

@@ -119,6 +119,12 @@ GENERALIST = (
     ("classic", 150, 1.0, "champion", 44000),
     ("solo", 120, 2.0, "champion", 45000),
 )
+# K1 remedy (distill-generalist reserve): the two failing single-fence
+# worlds get their shares doubled; everything else byte-identical.
+GENERALIST2 = GENERALIST + (
+    ("gap", 100, 1.0, "weave", 46000),
+    ("moving_gap", 200, 1.0, "mgap", 47000),
+)
 TEACHERS = {
     "weave": _teacher_weave,
     "track": _teacher_track,
@@ -276,6 +282,7 @@ def main() -> None:
     ap.add_argument("--out", default=None)
     ap.add_argument("--probe-track", type=int, default=0, metavar="N")
     ap.add_argument("--generalist", choices=("track", "mgap_champion"), default=None)
+    ap.add_argument("--recipe2", action="store_true", help="K1 remedy recipe")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
@@ -300,7 +307,8 @@ def main() -> None:
 
         load_skill("corridor-slalom-v2")  # slalom3_fixed + gap + mgap + solo
         parts, tags = [], []
-        for world, n, speed, teacher, seed0 in GENERALIST:
+        recipe = GENERALIST2 if args.recipe2 else GENERALIST
+        for world, n, speed, teacher, seed0 in recipe:
             t = args.generalist if teacher == "mgap" else teacher
             X, Y = collect(n, world, speed, seed0=seed0, teacher=t)
             parts.append((X, Y))
