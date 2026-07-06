@@ -26,3 +26,24 @@ champion band): distillation from the ceiling teacher adds nothing
 over RL here, and the unit's practical band is 0.70-0.74 — the
 integration gate then needs re-pricing (a deployment-threshold
 conversation).
+
+## Verdict: BC-alone REFUTED — the heaviest drift tax yet (2026-07-07)
+
+odoor@1.0: **0.367**, crash 63 % (champion band 0.70-0.74; support bar
+0.80). Open-loop val 0.925 → closed-loop 0.367 = a **53-point drift
+tax**, the repo's worst: the door punishes a 0.2 s timing slip with a
+wall, where mgap merely tracks worse. The refuted clause fires by its
+letter — but its interpretation ("the unit's band is capped; re-price
+the gate") is NOT yet earned: this refutes BC-ALONE, and the measured
+two-leg recipe exists (mgap: BC 0.585 → BC+FT 0.880, TYING the
+teacher, beating pure RL's 0.82). Waiting is RL-learnable (K3 waits
+0.76 s), so the fine-tune leg operates squarely inside its measured
+safe zone (own diet, RL-learnable skill).
+
+## odoor-v3 pre-registration (2026-07-07, before any number): the two-leg recipe
+
+One knob: PPO 450k on the BC init, opening_door world only, SB3
+defaults verbatim (the surpass-teacher dose). Support = odoor@1.0
+≥ 0.80 (n=30); full = ≥ 0.85; refuted = ≤ 0.74 — and only THEN does
+"the unit is capped near the champion band" become the earned reading,
+with the deployment threshold conversation attached.
