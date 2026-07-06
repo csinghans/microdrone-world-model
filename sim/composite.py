@@ -91,6 +91,16 @@ class CompositeCourse:
             self.offsets.append(off)
             stage_meta.append((name, off))
         self.meta = {"stages": stage_meta, "stage_len": self.L}
+        # expose the (already shifted) slalom fences so the gate-bonus
+        # machinery can pay chain-threading during course fine-tuning —
+        # the reward-side chain retention lever (integration-ft v3)
+        fences = []
+        for sub in self.subs:
+            m = getattr(sub, "meta", None)
+            if isinstance(m, dict) and "fences" in m:
+                fences.extend(m["fences"])
+        if fences:
+            self.meta["fences"] = fences
 
     def _drone_x(self) -> float:
         if self.env is not None:

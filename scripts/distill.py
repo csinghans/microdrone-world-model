@@ -811,6 +811,7 @@ def finetune(
     world: str = "slalom3_fixed",
     station_tick: float = 0.0,
     anchor: float = 0.0,
+    gate_bonus: float = 0.0,
 ):
     """PPO fine-tune from the BC init; `world` may be a comma-separated
     diet (round-robin, the training-env convention). station_tick passes
@@ -822,7 +823,12 @@ def finetune(
 
     diet = tuple(world.split(","))
     venv = make_vec_env(
-        lambda: WMPolicyEnv(worlds=diet, x_progress=True, station_tick=station_tick),
+        lambda: WMPolicyEnv(
+            worlds=diet,
+            x_progress=True,
+            station_tick=station_tick,
+            gate_bonus=gate_bonus,
+        ),
         n_envs=1,
     )
     cls = AnchoredPPO.build() if anchor > 0.0 else PPO
@@ -857,6 +863,7 @@ def main() -> None:
     ap.add_argument("--dodge", action="store_true", help="dodge-distill recipe")
     ap.add_argument("--ft-tick", type=float, default=0.0)
     ap.add_argument("--anchor", type=float, default=0.0)
+    ap.add_argument("--ft-gate-bonus", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
@@ -1056,6 +1063,7 @@ def main() -> None:
             world=args.world,
             station_tick=args.ft_tick,
             anchor=args.anchor,
+            gate_bonus=args.ft_gate_bonus,
         )
         return
     if args.collect:

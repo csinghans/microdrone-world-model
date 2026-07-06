@@ -54,7 +54,7 @@ STAGE_EXPERT = {
     "gap": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
     "moving_gap": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
     "door": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
-    "opening_door": "experiments/opening_door/artifacts/ppo_opening_door_K3.zip",
+    "opening_door": "experiments/odoor_v2/artifacts_local/ppo_odoor_v3_FT.zip",
     "slalom3_fixed": "experiments/chain_distill/artifacts/ppo_chain_distill_BC.zip",
 }
 

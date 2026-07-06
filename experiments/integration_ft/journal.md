@@ -62,3 +62,30 @@ Frozen: pooled-recheck protocol applies; graduation ≥ 0.50 (pooled)
 still ≤ 0.6 with doors/gaps held — the anchor's ball is too tight for
 seam-learning at course level, and the residue escalates (per-type
 anchor coefficients / gate_bonus retention), fresh pre-registration.
+
+## v2 verdict at n=100: REFUTED — the ball trades doors for chain (2026-07-07)
+
+n=100: **0.390** (the n=30 graduation read 0.567 — a friendly first
+block; suite graduations are hereby judged at POOLED n=60, the sweep2
+lesson applied to suites, prospective). Per-type conditionals: slalom
+0.632 (+13 vs naked FT), doors 0.852 (−15 vs naked's 1.000) — the
+anchor's ball preserved chain partially by CHOKING the seam/door
+learning, the binding-radius tension made flesh. New-roster relay
+(with odoor-v3 0.96) also measured: **0.167** — unit quality does not
+survive seams in RL-trained units; the relay road stays dead.
+
+## v3 pre-registration: gate-bonus chain retention (2026-07-07, before any number)
+
+Retain the chain by REWARD, not constraint: naked course-FT (450k,
+same BC2 prior, same course_random) + **gate_bonus = 8.0** (the
+chain-learning frozen value; the machinery mirrors the exam predicate
+and pays ONLY slalom fences — CompositeCourse now exposes its shifted
+slalom fences in meta). Measured basis: the bonus's one proven effect
+is retention/hygiene, and naked FT already buys doors 1.000 + seams —
+the bet is the composition. Frozen: slalom conditional ≥ 0.80 with
+doors ≥ 0.95 → the arithmetic clears the gate; graduation at pooled
+n=60 ≥ 0.50 → n=100; GREEN ≥ 0.70 → videos. Refuted = slalom still
+< 0.7: reward retention fails where constraint retention choked — the
+one-policy road closes and the residue goes to Hans with the
+flight-plan question (is course-composition knowledge legitimate
+mission info for deployment?).
