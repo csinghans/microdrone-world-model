@@ -1,0 +1,65 @@
+{
+ "gap-flight/gap@1.0": {
+  "n": 30,
+  "success": 0.0,
+  "crash": 0.1,
+  "bar": "success>=0.85",
+  "pass": false
+ },
+ "moving-gap/mgap@1.0": {
+  "n": 30,
+  "success": 0.1,
+  "crash": 0.7,
+  "bar": "success>=0.75",
+  "pass": false
+ },
+ "closing-door/door@1.0": {
+  "n": 30,
+  "success": 0.0,
+  "crash": 0.0,
+  "bar": "success>=0.7",
+  "pass": false
+ },
+ "opening-door/odoor@1.0": {
+  "n": 30,
+  "success": 0.367,
+  "crash": 0.167,
+  "bar": "success>=0.6",
+  "pass": false
+ },
+ "corridor-slalom-v2/slalom3@1.0": {
+  "n": 30,
+  "success": 0.6,
+  "crash": 0.2,
+  "bar": "success>=0.7",
+  "pass": false
+ },
+ "dodgeball/dodge@v1.8": {
+  "n": 30,
+  "success": 0.6,
+  "crash": 0.233,
+  "bar": "success>=0.55",
+  "pass": true
+ },
+ "dodgeball/dodge@v1.0": {
+  "n": 30,
+  "success": 0.367,
+  "crash": 0.167,
+  "bar": "success>=0.55",
+  "pass": false
+ },
+ "gap-flight/guard:cluttered": {
+  "n": 60,
+  "success": 0.0,
+  "crash": 0.0,
+  "bar": "crash<=0.05",
+  "pass": true
+ },
+ "gap-flight/guard:sweep@2.0": {
+  "n": 30,
+  "success": 0.0,
+  "crash": 0.267,
+  "bar": "crash<=0.1",
+  "pass": false
+ }
+}
