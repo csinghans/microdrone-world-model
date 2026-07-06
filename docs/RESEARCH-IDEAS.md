@@ -65,10 +65,28 @@
 - **The remaining roads to a distilled champion (fresh
   pre-registrations):** the **anchor dial** (coefficient schedule or
   per-world coefficients — now with a measured decoupling proof and a
-  measured binding radius), **per-world dispatch / ensembles**
-  (architecture: route by world instead of averaging behaviors in one
-  net), and **DAgger** (re-anchor to the teacher instead of the prior
-  — five erasure/decoupling datapoints now shape the argument).
+  measured binding radius), and **DAgger** (re-anchor to the teacher
+  instead of the prior — five erasure/decoupling datapoints now shape
+  the argument).
+- ~~dispatch (six-class)~~ CLOSED 2026-07-06 at its own phase-1 meter
+  (`experiments/dispatch/journal.md`): moving_gap 0.80 and
+  opening_door 0.667 under the frozen 0.85 identification floor —
+  opening_door's identity is temporally hidden (median stable ID at
+  decision 34; it opens as a sealed wall), and the confusable set is
+  the single-fence family, the THIRD independent sighting of that
+  boundary. Machinery stands: `planner/dispatch.py` (hysteresis,
+  hover-biased default, frozen experts, union-exam runner).
+- **dispatch-v2: the four-class roster ★★** — cheaper, not cleverer:
+  mgap-v2 K3 already holds EVERY single-fence bar at gated readings
+  (gap 0.90+ / mgap 0.85+ / closing 0.93 / opening ~0.70 zero-shot),
+  so merge the confusable family into one "fence" class flown by K3.
+  Four visually-distinct classes (classic / fence / slalom /
+  dodgeball); same two meters, same union exam, same crown (8 bars).
+  Extension protocol for FUTURE skills is part of the design: a new
+  skill = frozen artifact + class data + refit the tiny head (minutes,
+  no old skill ever retrains — corrosion structurally absent) + re-run
+  the phase-1 meters as the pre-flight gate; temporally-hidden arenas
+  either merge into a family or wait for a temporal classifier.
 - **DAgger** (argue the mechanism difference from FT first: FT
   re-optimizes the objective, DAgger re-anchors to the teacher — the
   four erasure datapoints now make that argument FOR it).
