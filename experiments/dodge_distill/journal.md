@@ -64,3 +64,31 @@ fails as pre-registered (the clone never transits).
 misses at 50 % < 0.55): station-tick FT 450k on the clone — the
 measured drift-repair leg on the measured-good station economy
 (tick 0.6, not the distal +50 that taught yielding).
+
+## K1 — RESERVE: station-reward PPO 450k on the clone (drift repair) (2026-07-06 08:35 UTC)
+Hypothesis: played ONLY if a fast world fits (val >= 0.80) while its cell misses — the drift case; sheathed on a representation negative
+Config: experiments/dodge_distill/artifacts/ppo_dodge_distill_FT.zip
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| dodge@v0.6 | 30 | 0% | 0% | 0.53 | survived=0.93 in_box=0.00 disp_x=2.68 y_max=2.64 |
+| dodge@v1.0 | 30 | 0% | 0% | 0.43 | survived=1.00 in_box=0.00 disp_x=2.34 y_max=2.30 |
+| dodge@v1.4 | 30 | 13% | 0% | 0.34 | survived=0.87 in_box=0.00 disp_x=2.15 y_max=2.14 |
+| dodge@v1.8 | 30 | 20% | 0% | 0.29 | survived=0.80 in_box=0.00 disp_x=2.02 y_max=1.99 |
+| guard:gap@1.0 | 30 | 100% | 0% | 0.09 |  |
+| guard:mgap@1.0 | 30 | 93% | 3% | 0.11 |  |
+| guard:cluttered | 60 | 22% | 3% | 0.66 |  |
+| guard:sweep@2.0 | 60 | 2% | 27% | 1.12 |  |
+- dodge@v0.6 success>=0.65: 0.00 FAIL
+- dodge@v1.0 success>=0.55: 0.00 FAIL
+- dodge@v1.4 success>=0.55: 0.00 FAIL
+- dodge@v1.8 success>=0.55: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.00 FAIL
+- guard:mgap@1.0 success>=0.7: 0.03 FAIL
+- guard:cluttered crash<=0.05: 0.22 FAIL
+- guard:sweep@2.0 crash<=0.1: 0.02 PASS
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
