@@ -87,3 +87,20 @@ suite. Green roads, seeded for the ledger: hot-start collection
 (distill/train with randomized entry velocity and y — make the seam a
 training view), and an all-stage oracle-BC generalist (the clone
 recipe, extended to every pool teacher, hot starts included).
+
+## The n=100 baseline of record (2026-07-06)
+
+The clone's n=30 reading replicated at scale: **33/100 = 0.330**
+(CI ±~9 pt) — the instrument is stable. Break profile 10/28/29 across
+stages 0/1/2: a clean start almost always survives its first stage;
+57 of 67 failures happen at the seams. **Deployment gate: FAIL**
+(0.330 vs 0.70) — the honest TDD red, now with a number and a
+mechanism. Videos of record: none yet, by protocol — the repo carries
+no integration flight video until an integration suite passes.
+
+Campaign state: integration-v1's measurement phase closes here. The
+suite, the gate, the ceiling probe and the baseline are standing
+infrastructure; the green roads (hot-start distillation; the all-stage
+oracle-BC generalist) are seeded in the ledger as the next unit-layer
+campaigns — exactly the red→unit→re-integrate loop docs/TDD-FLIGHT.md
+prescribes.

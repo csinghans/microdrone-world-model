@@ -139,6 +139,20 @@ chain, visibly chained:
 
 ![slalom clone trajectories](docs/figures/traj_slalom_clone.png)
 
+## Flight TDD: the integration layer
+
+Unit tests are the skill cells; the **integration test** is a randomly
+composed 3-stage course flown end to end (`docs/TDD-FLIGHT.md`). The
+**deployment gate** — the standing precondition for real hardware — is
+integration success ≥ 0.70 at n = 100 random courses.
+
+Current state, honestly: **RED.** Best baseline = the slalom clone at
+**33/100** (the privileged per-stage specialist relay manages only
+13 % — the binding constraint is the SEAMS between stages, a condition
+no unit test ever produces). The videos of record (drone FPV +
+simulator god view, `docs/media/`) appear when the first suite passes,
+not before.
+
 ## The benchmark, two tiers (course draw + two fresh from-scratch draws here)
 
 **Tier 1 — mechanisms: reproduced on every draw.**
