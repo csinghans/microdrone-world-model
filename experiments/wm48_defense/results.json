@@ -1,0 +1,257 @@
+{
+ "skill": "wm48-defense",
+ "skill_version": "1",
+ "status": "running",
+ "targets_frozen": [
+  {
+   "cell": "dodge@v0.6",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.65
+  },
+  {
+   "cell": "dodge@v1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "dodge@v1.4",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "dodge@v1.8",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.55
+  },
+  {
+   "cell": "guard:gap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.75
+  },
+  {
+   "cell": "guard:mgap@1.0",
+   "metric": "success",
+   "op": ">=",
+   "bar": 0.7
+  },
+  {
+   "cell": "guard:cluttered",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.05
+  },
+  {
+   "cell": "guard:sweep@2.0",
+   "metric": "crash",
+   "op": "<=",
+   "bar": 0.1
+  }
+ ],
+ "knobs": [
+  {
+   "id": "K1",
+   "kind": "policy",
+   "desc": "v1-K3's recipe verbatim, trained and examined under WM48",
+   "hypothesis": "the single delta is the swapped model (1.0 s horizon): warning 1.06 -> 1.4 s at v1.8. Swap protocol + provenance pairing in the journal; zip flies ONLY with wm_h48.pth",
+   "config": {
+    "worlds": [
+     "dodgeball_v06",
+     "dodgeball_v10",
+     "dodgeball_v14",
+     "dodgeball_v18"
+    ],
+    "station_tick": 0.6,
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 900000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/wm48_defense/artifacts/ppo_wm48_defense_K1.zip",
+    "sha256": "4a66d8de705b5748"
+   },
+   "cells": {
+    "dodge@v0.6": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.03333333333333333,
+     "reached": 0.0,
+     "success": 0.2,
+     "clearance_mean": 0.3922884664756372,
+     "custom": {
+      "survived": 0.9666666666666667,
+      "in_box": 0.23333333333333334,
+      "disp_x": 1.5796121721739025,
+      "y_max": 1.2958695827399656
+     }
+    },
+    "dodge@v1.0": {
+     "n": 90,
+     "seed0": 23000,
+     "crash": 0.3111111111111111,
+     "reached": 0.0,
+     "success": 0.36666666666666664,
+     "clearance_mean": 0.26010980089067165,
+     "custom": {
+      "survived": 0.6888888888888889,
+      "in_box": 0.4111111111111111,
+      "disp_x": 1.5237986280744003,
+      "y_max": 1.2417052602429082
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 24000,
+      "crash": 0.4,
+      "reached": 0.0,
+      "success": 0.25,
+      "clearance_mean": 0.2487862283487819,
+      "custom": {
+       "survived": 0.6,
+       "in_box": 0.3,
+       "disp_x": 1.5543713209658532,
+       "y_max": 1.2690139842553592
+      }
+     },
+     "pooled": true
+    },
+    "dodge@v1.4": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.6,
+     "reached": 0.0,
+     "success": 0.26666666666666666,
+     "clearance_mean": 0.19933025322834552,
+     "custom": {
+      "survived": 0.4,
+      "in_box": 0.5666666666666667,
+      "disp_x": 1.4173951634887056,
+      "y_max": 1.1598412314665103
+     }
+    },
+    "dodge@v1.8": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.8,
+     "reached": 0.0,
+     "success": 0.16666666666666666,
+     "clearance_mean": 0.151672409693132,
+     "custom": {
+      "survived": 0.2,
+      "in_box": 0.6,
+      "disp_x": 1.3864523319377873,
+      "y_max": 1.1682360063299249
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.8,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.43995712349965915,
+     "custom": {}
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.8333333333333334,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.14593582579360023,
+     "custom": {}
+    },
+    "guard:cluttered": {
+     "n": 60,
+     "seed0": 1000,
+     "crash": 0.25,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.7642071135305826,
+     "custom": {}
+    },
+    "guard:sweep@2.0": {
+     "n": 60,
+     "seed0": 3000,
+     "crash": 0.0,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 1.150453074061008,
+     "custom": {}
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "dodge@v0.6 success>=0.65",
+      "kind": "target",
+      "measured": 0.2,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.0 success>=0.55",
+      "kind": "target",
+      "measured": 0.36666666666666664,
+      "pass": false,
+      "rechecked": true
+     },
+     {
+      "name": "dodge@v1.4 success>=0.55",
+      "kind": "target",
+      "measured": 0.26666666666666666,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.8 success>=0.55",
+      "kind": "target",
+      "measured": 0.16666666666666666,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.25,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": true,
+      "rechecked": false
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-06 04:15 UTC",
+    "ended": "2026-07-06 05:05 UTC"
+   },
+   "git": {
+    "commit": "de3fadf"
+   }
+  }
+ ]
+}

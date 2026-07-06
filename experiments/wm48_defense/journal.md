@@ -62,3 +62,33 @@ Config: {"worlds": ["dodgeball_v06", "dodgeball_v10", "dodgeball_v14", "dodgebal
 
 ### Researcher notes
 (unattended run)
+
+## Campaign verdict: REFUTED — the wall is signal quality, not window length (2026-07-06)
+
+The frozen signature lands on the refuted branch, and the mechanism
+check is the decisive column:
+
+| cell | K3 under G1 (success / crash) | K1 under WM48 (success / crash) | bar |
+|---|---|---|---|
+| dodge@v0.6 | 47 % / 0 % | 20 % / 3 % | 0.65 ✗ |
+| dodge@v1.0 | 60 % / 27 % | 60 % / 13 % | 0.55 ✓ |
+| dodge@v1.4 | 20 % / 43 % | 27 % / 60 % | 0.55 ✗ |
+| dodge@v1.8 | 13 % / 77 % | 17 % / **80 %** | 0.55 ✗ |
+
+Neither fast cell approaches its bar, and **v1.8 crash sits at 80 %
+against K3's 77 %** — 0.34 extra seconds of theoretical warning did
+not remove a single collision. The longer lens exists and does not
+help. Secondary read: the slow cells did NOT hold (v0.6 success
+47→20 %, in_box 47→23 %) — the whole WM48 draw is a weaker stack, not
+a strict superset (the single-seed instrument lesson, again).
+
+**The suspect list refines by elimination.** Dodge kinematics are NOT
+the wall: OracleDodge survives 80 % at v1.8 with the same body and the
+same ~1.06 s effective window — the body suffices when the information
+is sharp. What differs is the eyes: WM48's k=48 head is the stack's
+blurriest (val AUC 0.75 vs 0.86 at k=32), and a ramp that is noisy at
+range triggers no earlier than a short lens. **The fast-ball wall is
+signal quality at range** — sharper long-horizon supervision (more
+data, longer rollouts) is the refined suspect, model-training class,
+fresh pre-registration if ever played. G1 restored, sha256 verified
+against artifacts.lock.json (`1fea88ad…`).
