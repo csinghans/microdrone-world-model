@@ -1,52 +1,52 @@
 {
  "classic": {
-  "final_acc": 0.067,
-  "latency_median_decisions": 23.0,
-  "never_stable": 14
+  "final_acc": 0.0,
+  "latency_median_decisions": null,
+  "never_stable": 15
  },
  "dodgeball_v06": {
-  "final_acc": 1.0,
+  "final_acc": 0.6,
   "latency_median_decisions": 0.0,
-  "never_stable": 0
+  "never_stable": 6
  },
  "dodgeball_v10": {
-  "final_acc": 0.933,
+  "final_acc": 0.333,
   "latency_median_decisions": 0.0,
-  "never_stable": 1
+  "never_stable": 10
  },
  "dodgeball_v14": {
-  "final_acc": 1.0,
+  "final_acc": 0.6,
   "latency_median_decisions": 0.0,
-  "never_stable": 0
+  "never_stable": 6
  },
  "dodgeball_v18": {
-  "final_acc": 1.0,
+  "final_acc": 0.333,
   "latency_median_decisions": 0.0,
-  "never_stable": 0
+  "never_stable": 10
  },
  "door": {
-  "final_acc": 1.0,
-  "latency_median_decisions": 2.0,
-  "never_stable": 0
+  "final_acc": 0.867,
+  "latency_median_decisions": 41.0,
+  "never_stable": 2
  },
  "gap": {
-  "final_acc": 1.0,
-  "latency_median_decisions": 2.0,
-  "never_stable": 0
+  "final_acc": 0.667,
+  "latency_median_decisions": 22.0,
+  "never_stable": 5
  },
  "moving_gap": {
-  "final_acc": 0.867,
-  "latency_median_decisions": 2.0,
-  "never_stable": 2
+  "final_acc": 0.8,
+  "latency_median_decisions": 2.5,
+  "never_stable": 3
  },
  "opening_door": {
   "final_acc": 1.0,
-  "latency_median_decisions": 2.0,
+  "latency_median_decisions": 40.0,
   "never_stable": 0
  },
  "slalom3_fixed": {
-  "final_acc": 0.733,
-  "latency_median_decisions": 2.0,
-  "never_stable": 4
+  "final_acc": 0.067,
+  "latency_median_decisions": 65.0,
+  "never_stable": 14
  }
 }

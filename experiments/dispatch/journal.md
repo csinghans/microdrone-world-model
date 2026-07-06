@@ -275,3 +275,35 @@ prediction (JEPA + heads), not scene classification — if classic still
 fails at this tap, the residue escalates to the ENCODER (identity
 discarded before any downstream consumer), and the honest next stop is
 a richer encoder or a pixel-side tap, model-axis work.
+
+## v5 phase 1 — the latent tap is refuted; the arc closes at five (2026-07-06)
+
+| world | v5 (latent) | v3 (probs, best) |
+|---|---|---|
+| classic | **0.000** | 0.067 |
+| slalom | 0.067 | 0.933 |
+| dodgeball ×4 | 0.33-0.60 | 0.93-1.00 |
+| gap / door / mgap / odoor | 0.67-1.00 | 0.93-1.00 |
+
+Worse everywhere that matters: the raw 64-d z is a NOISIER
+classification substrate than the probability summary it was meant to
+replace — draw-specific, appearance-jittered, never shaped for
+identity. The probs were at least task-calibrated features; the naked
+latent is not a free lunch.
+
+**The dispatch arc closes at five eliminations**, each one priced:
+family confusion (v1 → solved by the roster merge), closed-loop
+self-confirmation (v2 → solved by closed-loop training), the
+stationary observer (v3 → diagnosed), channel censorship (v4 →
+convicted), and raw-latent noise (v5). What remains open is honest
+and crisply bounded: **cold-start world identification from this
+stack's representations is unsolved at cheap altitudes.** The
+machinery stands (planner/dispatch.py, five versioned classifiers,
+the closed-loop meter protocol — itself a twice-applied law).
+
+Reframe, recorded for the successor: the incoming TDD integration
+layer (random multi-stage courses) changes the battlefield — mid-
+course stage transitions are MOVING-viewpoint identifications, which
+v3 measured at 2-decision locks; the cold-start ambiguity exists only
+at the first stage. Dispatch's real exam was never ten cold-start
+worlds; it is the composite course.
