@@ -91,6 +91,46 @@ fence — the two-ring collision head's real exam), and its first campaign
 already ran itself to a pass: zero-shot 27 % → 87-90 % success with all
 guards green, in three gates (`experiments/gap_flight/journal.md`).
 
+## Results at a glance
+
+Four figures carry the repo's headline findings; every number is a
+gated campaign record, failures drawn as prominently as wins. Per-skill
+gate charts (every criterion vs its frozen bar, knob by knob) live in
+[docs/figures/](docs/figures/); everything regenerates mechanically
+from the committed `results.json` files via
+`python -m eval.eval_results_figures`.
+
+**The slalom wall, and how it fell.** Five RL knob families (diet,
+budget, rhythm, horizon, reward) and two fine-tune attempts never got
+the three-gate chain off the floor; behavior cloning a privileged
+scripted pilot cleared the probe-priced bar in one shot — on courses
+the clone never saw:
+
+![the slalom wall](docs/figures/arc_slalom_wall.png)
+
+**Fine-tune safety, measured.** From a five-skill BC prior, naive PPO
+repairs the weak skills and erases the chain — and the erasure is
+FASTER than the repair (dead inside 25k steps), so early stopping
+cannot help. A KL anchor to the frozen prior decouples: chain intact,
+gap repaired past its bar; the deeper mgap drift needs more movement
+than kl=1.0 permits:
+
+![fine-tune safety](docs/figures/arc_finetune_safety.png)
+
+**Dodgeball: the speed curve inverts under imitation.** RL's success
+falls with ball speed; the clone's rises (brief threats convert its
+0.898 dodge-decision accuracy directly) — the fastest cell is the
+catalog's only fast-ball bar pass:
+
+![dodgeball inversion](docs/figures/arc_dodgeball_inversion.png)
+
+**Teacher → student → fine-tune, three lines at n=200.** Imitation
+buys the skill (open-loop val 0.908 → closed-loop 58.5 %: the 30-point
+drift tax, quantified), on-policy RL buys the robustness back — and
+ties the teacher:
+
+![surpass the teacher](docs/figures/arc_surpass_teacher.png)
+
 ## The benchmark, two tiers (course draw + two fresh from-scratch draws here)
 
 **Tier 1 — mechanisms: reproduced on every draw.**
