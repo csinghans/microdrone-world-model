@@ -253,16 +253,14 @@ def bc_train(X, Y, out: str, epochs: int = 40, lr: float = 3e-4, val_frac=0.1, W
     return acc, train_acc
 
 
-def finetune(bc_zip: str, steps: int, out: str):
-    """PPO fine-tune from the BC init on the same pure slalom diet."""
+def finetune(bc_zip: str, steps: int, out: str, world: str = "slalom3_fixed"):
+    """PPO fine-tune from the BC init on a pure single-world diet."""
     from stable_baselines3 import PPO
     from stable_baselines3.common.env_util import make_vec_env
 
     from planner.learned_policy import WMPolicyEnv
 
-    venv = make_vec_env(
-        lambda: WMPolicyEnv(worlds=("slalom3_fixed",), x_progress=True), n_envs=1
-    )
+    venv = make_vec_env(lambda: WMPolicyEnv(worlds=(world,), x_progress=True), n_envs=1)
     model = PPO.load(bc_zip, env=venv)
     model.learn(total_timesteps=steps)
     model.save(out)
@@ -281,6 +279,8 @@ def main() -> None:
     ap.add_argument("--steps", type=int, default=450_000)
     ap.add_argument("--out", default=None)
     ap.add_argument("--probe-track", type=int, default=0, metavar="N")
+    ap.add_argument("--probe-seed0", type=int, default=43900)
+    ap.add_argument("--teacher", default="weave", choices=tuple(TEACHERS))
     ap.add_argument("--generalist", choices=("track", "mgap_champion"), default=None)
     ap.add_argument("--recipe2", action="store_true", help="K1 remedy recipe")
     ap.add_argument("--selftest", action="store_true")
@@ -296,7 +296,9 @@ def main() -> None:
         env = make_env()
         ok = 0
         for i in range(args.probe_track):
-            ep = run_scenario_episode(env, OracleTrack(), 43900 + i, "moving_gap", 1.0)
+            ep = run_scenario_episode(
+                env, OracleTrack(), args.probe_seed0 + i, "moving_gap", 1.0
+            )
             ok += int(judge.success(ep))
         env.close()
         print(f"[probe-track] OracleTrack on moving_gap@1.0: {ok}/{args.probe_track}")
@@ -363,13 +365,23 @@ def main() -> None:
         return
 
     if args.finetune:
-        finetune(args.finetune, args.steps, args.out or "output/ppo_distill_ft.zip")
+        from skills.base import load_skill
+
+        load_skill("corridor-slalom-v2")
+        finetune(
+            args.finetune,
+            args.steps,
+            args.out or "output/ppo_distill_ft.zip",
+            world=args.world,
+        )
         return
     if args.collect:
         from skills.base import load_skill
 
         load_skill("corridor-slalom-v2")
-        X, Y = collect(args.collect, args.world, args.speed, seed0=args.seed0)
+        X, Y = collect(
+            args.collect, args.world, args.speed, seed0=args.seed0, teacher=args.teacher
+        )
         acc, _ = bc_train(X, Y, args.out or "output/ppo_distill_bc.zip", args.epochs)
         print(f"[distill] manipulation check: val_top1={acc:.3f} (floor 0.80)")
 
