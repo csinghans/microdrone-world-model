@@ -62,19 +62,26 @@ arena flyable (0.97), per-gate competence learnable, and the chain
 survives diet, budget, fixed rhythm AND observation horizon. Live
 suspects moved off the model axis entirely — see below.
 
-### the chain-learning campaign (RL-side, a new axis) ★★★
-The slalom arc's four eliminations point at the learning algorithm:
-**credit assignment** (success is distal — nothing rewards threading
-gate k *in a way that sets up* gate k+1), **exploration** (the joint
-maneuver may never be sampled), or **reward structure** (progress+crash
-shaping is indifferent to setup positioning). Candidate knobs, one per
-gate: per-gate shaped reward (a bonus per gate threaded — violates the
-no-hand-tuned-danger-weights rule's spirit? argue it in the
-pre-registration: gates are task structure, not danger weights),
-curriculum from slalom1→2→3, and longer n_steps/GAE horizon in PPO.
-Exam: the slalom-v2 skill verbatim, again. Warning inherited from the
-whole arc: pre-register the falsifiable signature per knob before
-launch.
+### ~~the chain-learning campaign~~ — CLOSED 2026-07-06, REFUTED (the fifth elimination)
+The 2x2 factorial (per-gate reward x graded diet, pinned on v2 K1)
+left the whole grid inside the baseline chain_break band
+(`experiments/chain_learning/journal.md`): proximal gate pay, easier
+chains in the diet, and their combination all move nothing. Secondary
+finding worth stealing: the axes compose on GUARDS — K3 flew a 9-world
+diet all-green where K1 alone broke mgap (dilution's ninth sighting).
+The slalom arc now counts five eliminations: diet, budget, rhythm,
+horizon, reward/credit-at-this-altitude.
+
+### the chain-algorithm campaign (algorithm-class, deep water) ★★★
+What survives five eliminations is the algorithm itself. Candidate
+knobs, one per gate, each needing its own pre-registered signature:
+**policy memory** (RecurrentPPO — the repo's LSTM lost 5x on transit
+tasks, but chaining is the first task where a reversal must be *held
+across* a gate; the old negatives don't price this shape), **PPO's
+n_steps/GAE horizon** (the advantage window vs the ~2.6 s chain), or
+an **algorithm swap**. Exam: slalom-v2 verbatim, sixth time. The bar
+for opening this: argue in the pre-registration why the chosen knob's
+mechanism differs from all five eliminated ones.
 
 ### ~~duel timelines (tooling, no training)~~ — DONE 2026-07-05
 Consumed: `eval_duel_plots --timelines` renders, per duel cell, an
