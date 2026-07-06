@@ -76,17 +76,24 @@
   the single-fence family, the THIRD independent sighting of that
   boundary. Machinery stands: `planner/dispatch.py` (hysteresis,
   hover-biased default, frozen experts, union-exam runner).
-- **dispatch-v2: the four-class roster ★★** — cheaper, not cleverer:
-  mgap-v2 K3 already holds EVERY single-fence bar at gated readings
-  (gap 0.90+ / mgap 0.85+ / closing 0.93 / opening ~0.70 zero-shot),
-  so merge the confusable family into one "fence" class flown by K3.
-  Four visually-distinct classes (classic / fence / slalom /
-  dodgeball); same two meters, same union exam, same crown (8 bars).
-  Extension protocol for FUTURE skills is part of the design: a new
-  skill = frozen artifact + class data + refit the tiny head (minutes,
-  no old skill ever retrains — corrosion structurally absent) + re-run
-  the phase-1 meters as the pre-flight gate; temporally-hidden arenas
-  either merge into a family or wait for a temporal classifier.
+- ~~dispatch-v2 (four-class)~~ CLOSED 2026-07-06, REFUTED — **the
+  hover-lock, caught by trace**: perfect open-loop meters (1.00 on
+  every world) collapsed in the closed loop because the hover-biased
+  default generates stationary streams that ARE the dodgeball class's
+  signature — the classifier confirms the default forever (door/gap
+  traces: dodgeball 90/90, zero escapes; door@1.0 read 0 % success /
+  0 % crash — it never went anywhere). The law, measured at TWO levels
+  in one day (BC's 30-point drift tax at the policy level, the
+  hover-lock at the meta-decision level): **a learned component whose
+  inputs are shaped by its own outputs must be trained — and metered —
+  in its own closed loop** (`experiments/dispatch/journal.md`).
+- **dispatch-v3: close the loop ★★** — one delta: collect classifier
+  streams under the RUNTIME distribution (every training episode
+  starts with ~6 default-expert decisions before the designated expert
+  takes over — "gap seen from a hover" becomes a training class, not a
+  trap), and the phase-1 meter replays the same closed-loop start.
+  Roster, hysteresis, union exam, crown all inherited frozen. The
+  new-skill extension protocol from v2 carries over unchanged.
 - **DAgger** (argue the mechanism difference from FT first: FT
   re-optimizes the objective, DAgger re-anchors to the teacher — the
   four erasure datapoints now make that argument FOR it).
