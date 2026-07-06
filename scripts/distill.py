@@ -109,41 +109,82 @@ STAGE_ORACLE = {
     "opening_door": "trackw",
 }
 
+# v2 mixed relay: oracles where geometry suffices, LEARNED artifacts where
+# timing does (the measured law: scripted pilots lose timing tasks). Every
+# teacher carries a gated record on its own world.
+STAGE_TEACHER_V2 = {
+    "gap": ("oracle", "weave"),  # OracleWeave 0.97
+    "slalom3_fixed": ("oracle", "weave"),
+    "moving_gap": ("oracle", "track"),  # OracleTrack 0.90 (probe 27/30)
+    "door": ("zip", "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip"),
+    "opening_door": (
+        "zip",
+        "experiments/opening_door/artifacts/ppo_opening_door_K3.zip",
+    ),
+}
+
 
 class OracleRelay:
-    """Privileged per-stage oracle relay over a composite course: the
-    hot-start TEACHER. Holds `.pillars` (live-refreshed by the runner),
-    filters them to the active stage, and hands the wheel to that
-    stage's oracle. Oracles read global geometry — no localization."""
+    """Privileged per-stage teacher relay over a composite course (the
+    hot-start TEACHER). v2: mixed — oracles fly the geometry stages,
+    gated LEARNED artifacts fly the timing stages (doors). Zip teachers
+    get stage-LOCAL x (their x_progress convention) and a begin() reset
+    at their stage entry; oracles read global geometry."""
 
-    def __init__(self, names, stage_len: float = 3.0):
+    def __init__(self, names, stage_len: float = 3.0, teachers=None):
         self.names = tuple(names)
         self.L = float(stage_len)
+        self.teachers = teachers or STAGE_TEACHER_V2
         self.pillars: list = []
         self._stage = -1
         self._pilot = None
+        self._kind = None
 
     def begin(self, pillars) -> None:
         self.pillars = [np.array(q, dtype=float) for q in pillars]
         self._stage = -1
         self._pilot = None
+        self._kind = None
 
     def _stage_pillars(self, k):
         lo, hi = k * self.L - 0.2, (k + 1) * self.L + 0.2
         return [p for p in self.pillars if lo <= float(p[0]) < hi]
 
-    def decide(self, frame, state) -> int:
+    def _make(self, name):
         from eval.eval_arena_ceiling import OracleWeave
 
+        kind, ref = self.teachers[name]
+        if kind == "oracle":
+            pilot = {
+                "weave": OracleWeave,
+                "track": OracleTrack,
+                "trackw": OracleTrackW,
+            }[ref]()
+        else:
+            pilot = _teacher_zip(ref)
+        return kind, pilot
+
+    def decide(self, frame, state) -> int:
         k = int(np.clip(float(state[0]) // self.L, 0, len(self.names) - 1))
         if k != self._stage:
             self._stage = k
-            kind = STAGE_ORACLE[self.names[k]]
-            self._pilot = OracleWeave() if kind == "weave" else OracleTrackW()
+            self._kind, self._pilot = self._make(self.names[k])
             self._pilot.begin(self._stage_pillars(k))
         if hasattr(self._pilot, "pillars"):
             self._pilot.pillars = self._stage_pillars(k)
+        if self._kind == "zip":  # learned teachers fly in stage-local x
+            s = np.array(state, dtype=float, copy=True)
+            s[0] -= k * self.L
+            return self._pilot.decide(frame, s)
         return self._pilot.decide(frame, state)
+
+
+def _teacher_zip(zip_path: str, speed: float = 1.0):
+    from eval.eval_closed_loop import load_or_train
+    from planner.learned_policy import LearnedPolicy, load_policy
+
+    enc, pred, cheads, _n, meta = load_or_train()
+    return LearnedPolicy(load_policy(zip_path), enc, pred, cheads, meta, speed=speed)
 
 
 def _teacher_weave(speed, stack):
@@ -302,11 +343,12 @@ def collect(
 
 
 def collect_hot(n_courses: int, seed0: int = 120000, k: int = 3):
-    """Hot-start collection: the ORACLE RELAY flies random composite
-    courses and the student's observation is recorded with StageLocal
+    """Hot-start collection v2: the MIXED RELAY flies random composite
+    courses; the student's observation is recorded with StageLocal
     semantics (stage-local x, memory reset at stage entry) — the
-    exam-exact view. Labels are the relay's actions; the seam states
-    are real by construction, not synthesized. Returns (X, Y, tags,
+    exam-exact view. **Cleared-segment filtering**: a decision is kept
+    only if its stage was subsequently cleared BEFORE any crash — weak
+    teachers still yield clean demonstrations. Returns (X, Y, tags,
     relay_success_rate)."""
     from eval.eval_closed_loop import load_or_train
     from planner.action_set import ACTION_VECS

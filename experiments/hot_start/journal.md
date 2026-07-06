@@ -52,3 +52,26 @@ but mediocre for the opening door. One teacher cannot serve both door
 physics. v2 (fresh pre-registration below after a design bench):
 closing → the plain tracker (commit early, ride the aim guarantee);
 opening → a tuned waiter.
+
+## hot-start v2 pre-registration (2026-07-06, before any v2 number exists)
+
+The bench verdict (all door-teacher scripts plateau at ~0.4-0.5;
+plain Track == TrackW on closing — the gate rarely even fires) joins a
+thrice-measured repo law: scripted pilots lose TIMING tasks to learned
+ones. v2 stops fighting it:
+
+- **Mixed relay** (`STAGE_TEACHER_V2`): oracles fly the geometry stages
+  (Weave: gap/slalom, 0.97; Track: moving_gap, 0.90), **gated learned
+  artifacts fly the timing stages** (closing door → mgap-K3, 0.93;
+  opening door → odoor-K3, 0.70). Zip teachers get stage-local x and a
+  begin() reset at entry. Every teacher now carries a gated record —
+  the teacher-floor requirement is met by citation.
+- **Cleared-segment filtering**: a decision enters the pot only if its
+  stage was cleared before any crash — weak teachers still yield clean
+  demonstrations; the relay's raw course rate is recorded as context,
+  not a gate.
+- Data floors: ≥ 1500 kept decisions per stage type; pooled AND
+  per-type val ≥ 0.80.
+- Everything downstream unchanged and frozen: exam on the standard
+  110000 seeds, n=30 graduation at ≥ 0.50, the deployment gate
+  ≥ 0.70 @ n=100, videos of record on pass.
