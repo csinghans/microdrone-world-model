@@ -225,3 +225,34 @@ Collection prefixes, the closed-loop meter and the runtime dispatcher
 all use the SAME gait (the twice-measured law, applied). Everything
 else inherited frozen: roster, hysteresis, floors, union exam, crown.
 Seeds 90000+, artifact dispatch_classifier_v4.pth.
+
+## v4 phase 1 — the probe gait is refuted, and the refutation finds the real wall (2026-07-06)
+
+| world | final acc | vs v3 |
+|---|---|---|
+| classic | **0.067 ✗** | unchanged, to the digit |
+| slalom | **0.733 ✗** | regressed from 0.933 |
+| others | 0.87-1.00 ✓ | held |
+
+Motion did not move the needle AT ALL on classic — and a zero-effect
+result under a mechanism designed to add parallax is itself the
+diagnosis: **the parallax never reaches the classifier.** Its input is
+the policy observation — per-action collision probabilities, a THREAT
+summary. At probe speed a pillar 1.5 m away sits five seconds outside
+the 0.67 s question the heads answer; the channel reports "no threat"
+regardless of viewpoint motion. The fence/slalom/dodgeball classes
+were separable through low-amplitude probability signatures of BIG
+visual structures leaking through the latent; a single thin distant
+pillar leaves no such fingerprint. The observation bottleneck — the
+same censoring that once hid gate k+1 from the slalom policies —
+resurfaces one level up: **the dispatcher is trying to identify a
+world through a channel built to report only imminent danger.**
+
+Two worlds under the floor → v4 closes at its meter, per rule.
+
+v5 seed (one delta, fresh pre-registration): **tap the latent, not
+the summary.** The encoder's 64-d z is computed every decision anyway
+and encodes the SCENE (it is what the heads read); give the classifier
+the stacked z-stream instead of the probability stream. Experts and
+their observations stay untouched — only the dispatcher's tap point
+moves from "threat report" to "what the eye actually saw".
