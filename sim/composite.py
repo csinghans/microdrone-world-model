@@ -280,3 +280,19 @@ def selftest() -> None:
 
 if __name__ == "__main__":
     selftest()
+
+
+def register_random_course(pool=POOL, k: int = 3, name: str = "course_random"):
+    """A TRAINING world: every episode draws a fresh k-stage composition
+    from the episode rng (exam courses stay seed-pinned via
+    register_course; the exam's 110000-series compositions are drawn from
+    course seeds, not episode rngs, so train/exam courses never collide
+    by construction)."""
+
+    def spawn(env, rng, *, speed=1.0, randomize=False, in_path=True):
+        del randomize, in_path
+        names = tuple(pool[int(rng.integers(len(pool)))] for _ in range(k))
+        return CompositeCourse(env, rng, stages=names, speed=speed)
+
+    register(name, spawn)
+    return name

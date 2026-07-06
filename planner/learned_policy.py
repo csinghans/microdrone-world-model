@@ -305,6 +305,18 @@ class WMPolicyEnv(gym.Env):
 
             (sx, sy), (bx, by) = meta["station"], meta["box"]
             self._station = (sx, sy, bx, by, BOX_BACK)
+        # course mode (integration-FT): composite worlds carry a "stages"
+        # meta — the episode goal/budget scale with the course, and the
+        # OBSERVATION mirrors the exam's StageLocal semantics exactly
+        # (stage-local x, history reset at each stage entry) — the
+        # twice-measured closed-loop law: train in the loop you test in
+        self._course = None
+        self._cstage = 0
+        if "stages" in meta:
+            n_st, cl = len(meta["stages"]), float(meta["stage_len"])
+            self._course = (n_st, cl)
+        self._goal = self._course[0] * self._course[1] if self._course else GOAL_X
+        self._max_dec = self.max_decisions * (self._course[0] if self._course else 1)
         self.ob = ObsBuilder(
             self.enc,
             self.pred,
@@ -394,13 +406,21 @@ class WMPolicyEnv(gym.Env):
                 if self.station_tick == 0.0:
                     reward += 50.0
                 terminated = True
-        elif x >= GOAL_X:
+        elif x >= self._goal:
             reward += 50.0
             terminated = True
-        elif abs(y) > 2.4 or self.decisions >= self.max_decisions:
+        elif abs(y) > 2.4 or self.decisions >= self._max_dec:
             truncated = True
 
-        next_obs = self.ob.push(self._frame(), y, int(action), x=x)
+        obs_x = x
+        if self._course:
+            n_st, cl = self._course
+            k_now = int(np.clip(x // cl, 0, n_st - 1))
+            if k_now != self._cstage:
+                self._cstage = k_now
+                self.ob.reset()  # StageLocal semantics: fresh corridor
+            obs_x = x - self._cstage * cl
+        next_obs = self.ob.push(self._frame(), y, int(action), x=obs_x)
         return next_obs, float(reward), terminated, truncated, {}
 
     def close(self):

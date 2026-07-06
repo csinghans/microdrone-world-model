@@ -1046,6 +1046,9 @@ def main() -> None:
             "opening-door",
         ):
             load_skill(sk)  # any --world must be resolvable
+        from sim.composite import register_random_course
+
+        register_random_course()  # the integration-FT training world
         finetune(
             args.finetune,
             args.steps,
