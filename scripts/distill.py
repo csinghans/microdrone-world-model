@@ -233,8 +233,9 @@ def bc_train(X, Y, out: str, epochs: int = 40, lr: float = 3e-4, val_frac=0.1, W
 
     from planner.learned_policy import WMPolicyEnv
 
+    # spaces only — the builtin classic world is always registered
     venv = make_vec_env(
-        lambda: WMPolicyEnv(worlds=("slalom3_fixed",), x_progress=True), n_envs=1
+        lambda: WMPolicyEnv(worlds=("classic",), x_progress=True), n_envs=1
     )
     model = PPO("MlpPolicy", venv, seed=0, verbose=0)
     rng = np.random.default_rng(0)
