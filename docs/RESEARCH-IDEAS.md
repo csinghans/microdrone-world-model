@@ -94,18 +94,27 @@ per-episode data (diagnostic view, not the gate record).
 
 ## ★★ real campaigns
 
-### dodgeball — station defense (a NEW task family) — campaign pre-registered 2026-07-06
-The catalog's first non-transit arena: hover at a station, dodge balls
-thrown head-on. The feasibility probe already priced the arena
-(`experiments/dodgeball_feasibility/`: flyable at every speed, the
-body's drift arithmetic binds — no strafe, no backward). The live
-question is perception: the single-frame model is motion-blind, so the
-policy's stacked history watching the probability ramp is the only
-mechanism. Campaign pre-registered in `experiments/dodgeball/journal.md`
-(K0 structural / K1 science / K2 conditional promotion); if refuted,
-Tier-2 (strafe surgery, model-side motion) is priced there. *Done:* the
-campaign closes with any verdict — support, partial, or an honest
-perception negative.
+### ~~dodgeball — station defense~~ — CLOSED 2026-07-06, SUPPORT (crown vacant)
+The catalog's first non-transit arena closed with all three walls
+removed by their own instruments (`experiments/dodgeball/journal.md`):
+arena by the oracle probe (0.80-0.90), **perception by K1** (survival
+100/93/60/43 % vs the champion's flee-and-crash — the stacked history
+reading a motion-blind model's probability ramp IS a dodgeable signal;
+crash gradient tracks the 0.7 + v·0.67 m warning arithmetic), and
+**objective by the K3 deviation** (dense in-box tick: in_box 0 → 0.8,
+dodge@v1.0 **60 % over its priced 0.55 bar**). No promotion — transit
+guards fail structurally for the pure-diet specialist, as
+pre-registered. Also on the record: K2 ran in breach of its own
+release condition (orchestration lesson now in CLAUDE.md).
+
+### dodgeball v2 — the guard-clean defender ★★
+The untested union: mixed diet WITH the station tick (K2-without-tick
+erased the station; K3-without-mixing holds it). Chase a policy that
+transits AND defends — guards regain meaning, promotion becomes
+possible. If the fast cells (v1.4/v1.8) are attacked instead, the
+priced crutch is WM48 (the horizon campaign's artifact — its transit
+refutation says nothing about defense warning time). Fresh
+pre-registration required; the v1 bars stay frozen.
 
 ### dense-speedrun (attack the known frontier, honestly)
 Fly the dense world at factors 1.5-2.0. The dense floor (17-27 % at
