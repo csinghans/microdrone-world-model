@@ -155,3 +155,41 @@ Config: {"worlds": ["classic", "classic", "dense", "moving", "gap", "moving_gap"
 
 ### Researcher notes
 (unattended run)
+
+## Campaign verdict: the signature fires REFUTED — the fifth elimination (2026-07-06)
+
+The frozen refutation clause required all three knobs to land
+chain_break_at < 2.5 with success < 0.10 and trainings completing. All
+three did, and the whole 2x2 factorial sits inside the pre-registered
+baseline band:
+
+| factorial cell | success | weave_frac | chain_break_at |
+|---|---|---|---|
+| neither (v2 K1, control) | 0.00 | 0.72 | 1.33 |
+| reward (K1) | 0.07 | 0.78 | 1.73 |
+| diet (K2) | 0.00 | 0.80 | 1.97 |
+| both (K3) | 0.00 | 0.73 | 1.80 |
+
+**Neither proximal per-gate pay nor a graded diet — nor their
+combination — moves where the chain snaps.** K1's 6.7 % (2/30) is the
+highest slalom3 reading the arc has ever produced and still binomially
+indistinguishable from the band's 0-3 %; the support threshold was
+chain_break_at ≥ 2.5 precisely so a two-seed wiggle could not be
+read as signal. diag:slalom2 topped at 20 % (K3) — the top of its own
+baseline band, no further.
+
+Two honest secondary findings, recorded not asserted:
+- **The axes compose on guards, not on chains.** K1 alone broke
+  guard:mgap (67 %, the dilution family's ninth sighting); K3 — same
+  9-world diet plus the bonus — flew ALL guards green (mgap 87 %,
+  pooled cluttered 4 %, pooled sweep 2 %). Whatever the gate bonus
+  buys, it is generalization hygiene, not chaining.
+- The pooling protocol carried three borderline guards to n=120
+  without a single re-roll.
+
+**The slalom arc now stands at five eliminations**: diet, budget,
+fixed rhythm, observation horizon, and reward/credit-at-this-altitude.
+Per the pre-registration, the surviving suspects are algorithm-class:
+policy memory (recurrent value/advantage over the reversal), PPO's
+n_steps/GAE horizon, or an algorithm swap. Escalating is a NEW
+campaign with its own pre-registration — this one closes honestly.
