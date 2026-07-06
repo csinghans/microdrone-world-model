@@ -33,3 +33,32 @@ first videos of record are generated from a passing seed (the standing
 protocol). Refuted = ≤ the 0.33 course-BC band: the FT leg does not
 transfer to courses, and the residue (multi-stage credit at 22.5 s
 episodes) escalates with a fresh pre-registration.
+
+## v1 verdict: +15 real, graduation missed by one course — and the killer is named (2026-07-07)
+
+n=30: 0.467; borderline (|Δ|=0.033 ≤ 0.08) → the standing pooled
+recheck: fresh block 0.500 → **pooled 29/60 = 0.483** — one course
+under the 0.50 graduation line. Not refuted (well above the 0.33 BC
+band): the FT leg transfers to courses (+15), but undershoots.
+
+**Per-stage-type conditional success (pooled records):** door 1.000,
+gap 1.000, opening_door 0.861, moving_gap 0.848, **slalom3_fixed
+0.500 — half of all deaths.** The fine-tune safety law, at course
+level: the BC2 prior held the chain at 93.3 %; 450k of progress-reward
+course-FT traded the chain for perfect doors and seams — bcft-K0's
+erasure, re-measured in a new arena. Gate arithmetic with these
+conditionals: mean 0.842 → 0.597 predicted ≈ 0.483-0.50 observed (the
+model holds). Fix slalom alone to ~0.9 → mean 0.922 → 0.783 > the
+gate.
+
+## v2 pre-registration: ANCHORED course-FT (2026-07-07, before any number)
+
+Every ingredient measured: the KL anchor held the chain at ZERO
+corrosion while repairing (conservative-ft K2); the FT leg transfers
+to courses (+15, v1). One knob: `AnchoredPPO`, kl_coef = 1.0 (the
+frozen one-value), 450k on course_random, from the SAME BC2 prior.
+Frozen: pooled-recheck protocol applies; graduation ≥ 0.50 (pooled)
+→ n=100; GREEN = ≥ 0.70 → gate + videos. Refuted = slalom conditional
+still ≤ 0.6 with doors/gaps held — the anchor's ball is too tight for
+seam-learning at course level, and the residue escalates (per-type
+anchor coefficients / gate_bonus retention), fresh pre-registration.
