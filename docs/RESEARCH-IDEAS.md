@@ -53,11 +53,22 @@
   (fast cells easiest for imitation: brief threats convert decision
   accuracy directly; slow balls accumulate closed-loop drift)
   (`experiments/dodge_distill/journal.md`).
-- **KL-anchored / short-dose fine-tuning ★★★** — now the sharpest
-  open tool question in the repo, with four erasure datapoints to
-  design against: can a conservatism constraint (KL-to-prior, tiny
-  LR, or 10-50k doses) buy repair without corrosion? Judge on the
-  bcft table (chain + guards) — the measured worst case.
+- ~~KL-anchored / short-dose fine-tuning~~ CLOSED 2026-07-06, refuted
+  by rule / amended by data (`experiments/conservative_ft/`): the dose
+  axis has NO window (the chain dies inside 25k steps while repair
+  completes — corrosion outruns repair), but the KL anchor at 1.0
+  **decoupled for real** — chain held at zero corrosion while gap
+  repaired past its bar; mgap's deeper drift needs more movement than
+  the 1.0-ball permits. Exports: `AnchoredPPO` (vendored 2.9.0,
+  pinned) and the anchored zip — the catalog's best five-world
+  artifact (93.3/80/43 on chain/gap/mgap).
+- **The remaining roads to a distilled champion (fresh
+  pre-registrations):** the **anchor dial** (coefficient schedule or
+  per-world coefficients — now with a measured decoupling proof and a
+  measured binding radius), **per-world dispatch / ensembles**
+  (architecture: route by world instead of averaging behaviors in one
+  net), and **DAgger** (re-anchor to the teacher instead of the prior
+  — five erasure/decoupling datapoints now shape the argument).
 - **DAgger** (argue the mechanism difference from FT first: FT
   re-optimizes the objective, DAgger re-anchors to the teacher — the
   four erasure datapoints now make that argument FOR it).
