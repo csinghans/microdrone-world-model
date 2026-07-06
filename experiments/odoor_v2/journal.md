@@ -47,3 +47,19 @@ defaults verbatim (the surpass-teacher dose). Support = odoor@1.0
 ≥ 0.80 (n=30); full = ≥ 0.85; refuted = ≤ 0.74 — and only THEN does
 "the unit is capped near the champion band" become the earned reading,
 with the deployment threshold conversation attached.
+
+## odoor-v3 verdict: FULL SUPPORT — the student SURPASSES the teacher (2026-07-07)
+
+Two legs, measured: BC 0.367 → BC+FT(450k, own diet) **1.000 at n=30,
+confirmed 0.96 at n=100** (crash 4 %). Against the whole unit history:
+champion band 0.70-0.74, arena-ceiling teacher 0.90, support bar 0.80,
+full bar 0.85 — all cleared, and the surpass that never fired on mgap
+(FT tied its teacher at 0.880 vs 0.885) fired here: **+6 points above
+the scripted ceiling teacher.** The RL leg optimizes the true
+objective; the teacher's NEED_HALF margin heuristic left timing on the
+table, and on-policy polish took it. The weakest unit in the
+integration pool is now its strongest (0.96).
+
+The two-leg recipe's ledger, complete: mgap 0.585→0.880 (tie), odoor
+0.367→0.960 (surpass). Division of labor confirmed at unit scale:
+imitation buys the skill shape, on-policy RL buys the timing.

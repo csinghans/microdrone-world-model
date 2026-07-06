@@ -1,0 +1,15 @@
+{
+ "n": 100,
+ "seed0": 9950,
+ "crash": 0.04,
+ "reached": 1.0,
+ "success": 0.96,
+ "clearance_mean": 0.3498676105399441,
+ "custom": {
+  "threaded": 0.96,
+  "pinched": 0.04,
+  "froze": 0.0,
+  "door_margin": 0.18389347259575292,
+  "wait_time": 0.8292375734824334
+ }
+}
