@@ -76,7 +76,9 @@ HYBRID = {
     "moving_gap": "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip",
     "door": "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip",
     "opening_door": "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip",
-    "slalom3_fixed": "experiments/chain_distill/artifacts/ppo_chain_distill_BC.zip",
+    "slalom3_fixed": (
+        "experiments/integration_ft/artifacts_local/ppo_slalom_hot_BC.zip"
+    ),
 }
 
 
@@ -86,26 +88,41 @@ class PerStageExperts:
     (flight-plan map) it is a deployment-legal contender per the ruling
     that mission plans know their waypoints."""
 
+    SETTLE_K = 5  # entry brake: hover decisions at a slalom-stage entry
+    # (flight-plan-legal: the plan knows the boundary; braking recreates
+    # the specialist's native near-still start and kills the seam)
+
     def __init__(
         self, names, speed: float = 1.0, stage_len: float = STAGE_LEN, experts=None
     ):
         table = experts or STAGE_EXPERT
+        self.names = tuple(names)
         self.pilots = [_expert(table[n], speed) for n in names]
+        self._settle = 0
         self.L = float(stage_len)
         self._stage = 0
 
     def begin(self, pillars) -> None:
         self._stage = 0
+        self._settle = 0
         self.pilots[0].begin(pillars)
 
     def decide(self, frame, state) -> int:
+        from planner.action_set import ACTION_NAMES
+
         k = int(np.clip(float(state[0]) // self.L, 0, len(self.pilots) - 1))
         if k != self._stage:
             self._stage = k
             self.pilots[k].begin([])
+            if self.names[k] == "slalom3_fixed" and k > 0:
+                self._settle = self.SETTLE_K  # entry brake
         s = np.array(state, dtype=float, copy=True)
         s[0] -= k * self.L
-        return self.pilots[k].decide(frame, s)
+        a = self.pilots[k].decide(frame, s)  # keep the stack warm
+        if self._settle > 0:
+            self._settle -= 1
+            return ACTION_NAMES.index("hover")
+        return a
 
 
 class Cruise:
