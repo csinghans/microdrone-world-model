@@ -67,6 +67,85 @@ class OracleTrack:
         return VEER_L if err > 0 else VEER_R
 
 
+class OracleTrackW(OracleTrack):
+    """OracleTrack with a width gate: if the tracked aperture is too
+    narrow to pass AND we are close to the plane, hold (hover) instead
+    of pressing in — the wait-capable door teacher. Probed on both door
+    worlds before entering any pot (the teacher-floor discipline)."""
+
+    SPACING_MIN = 0.75  # centre-spacing ~= aperture + 2*PILLAR_R; pass needs ~0.55+
+    NEAR = 0.9  # only gate the width when the plane is this close
+
+    def decide(self, frame, state) -> int:
+        from eval.eval_arena_ceiling import DEADBAND, VEER_L, VEER_R
+        from planner.action_set import ACTION_NAMES, FORWARD
+
+        del frame
+        x, y = float(state[0]), float(state[1])
+        ahead = [p for p in self.pillars if float(p[0]) > x - 0.05]
+        if len(ahead) < 2:
+            return FORWARD
+        plane_x = min(float(p[0]) for p in ahead)
+        ys = sorted(float(p[1]) for p in ahead if float(p[0]) < plane_x + 0.3)
+        if len(ys) < 2:
+            return FORWARD
+        width, yc = max((b - a, (a + b) / 2.0) for a, b in zip(ys, ys[1:]))
+        err = yc - y
+        if width < self.SPACING_MIN and (plane_x - x) < self.NEAR:
+            if abs(err) >= DEADBAND:  # line up while waiting
+                return VEER_L if err > 0 else VEER_R
+            return ACTION_NAMES.index("hover")
+        if abs(err) < DEADBAND:
+            return FORWARD
+        return VEER_L if err > 0 else VEER_R
+
+
+# per-stage ORACLE teachers for composite courses (privileged, labelled)
+STAGE_ORACLE = {
+    "gap": "weave",
+    "slalom3_fixed": "weave",
+    "moving_gap": "trackw",
+    "door": "trackw",
+    "opening_door": "trackw",
+}
+
+
+class OracleRelay:
+    """Privileged per-stage oracle relay over a composite course: the
+    hot-start TEACHER. Holds `.pillars` (live-refreshed by the runner),
+    filters them to the active stage, and hands the wheel to that
+    stage's oracle. Oracles read global geometry — no localization."""
+
+    def __init__(self, names, stage_len: float = 3.0):
+        self.names = tuple(names)
+        self.L = float(stage_len)
+        self.pillars: list = []
+        self._stage = -1
+        self._pilot = None
+
+    def begin(self, pillars) -> None:
+        self.pillars = [np.array(q, dtype=float) for q in pillars]
+        self._stage = -1
+        self._pilot = None
+
+    def _stage_pillars(self, k):
+        lo, hi = k * self.L - 0.2, (k + 1) * self.L + 0.2
+        return [p for p in self.pillars if lo <= float(p[0]) < hi]
+
+    def decide(self, frame, state) -> int:
+        from eval.eval_arena_ceiling import OracleWeave
+
+        k = int(np.clip(float(state[0]) // self.L, 0, len(self.names) - 1))
+        if k != self._stage:
+            self._stage = k
+            kind = STAGE_ORACLE[self.names[k]]
+            self._pilot = OracleWeave() if kind == "weave" else OracleTrackW()
+            self._pilot.begin(self._stage_pillars(k))
+        if hasattr(self._pilot, "pillars"):
+            self._pilot.pillars = self._stage_pillars(k)
+        return self._pilot.decide(frame, state)
+
+
 def _teacher_weave(speed, stack):
     from eval.eval_arena_ceiling import OracleWeave
 
@@ -220,6 +299,80 @@ def collect(
         f"(teacher={teacher}, reached {reached}/{n_episodes})"
     )
     return np.asarray(X, dtype=np.float32), np.asarray(Y, dtype=np.int64)
+
+
+def collect_hot(n_courses: int, seed0: int = 120000, k: int = 3):
+    """Hot-start collection: the ORACLE RELAY flies random composite
+    courses and the student's observation is recorded with StageLocal
+    semantics (stage-local x, memory reset at stage entry) — the
+    exam-exact view. Labels are the relay's actions; the seam states
+    are real by construction, not synthesized. Returns (X, Y, tags,
+    relay_success_rate)."""
+    from eval.eval_closed_loop import load_or_train
+    from planner.action_set import ACTION_VECS
+    from planner.latent_mpc import DECIDE_EVERY
+    from planner.learned_policy import ObsBuilder
+    from sim.composite import STAGE_LEN, course_for_seed, register_course
+    from sim.envs import VelCommander, grab_frame, make_ctrl, make_env
+    from sim.scenario_registry import get as get_scenario
+    from sim.scenarios import TMAX
+
+    enc, pred, cheads, _n, meta = load_or_train()
+    env = make_env()
+    X, Y, T, wins = [], [], [], 0
+    for i in range(n_courses):
+        seed = seed0 + i
+        names = course_for_seed(seed)
+        world = register_course(seed)
+        obs0, _ = env.reset(seed=seed)
+        cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
+        state = obs0[0]
+        cmd.reset(state[0:3])
+        scenario = get_scenario(world).spawn(
+            env, np.random.default_rng(seed), speed=1.0
+        )
+        relay = OracleRelay(names)
+        relay.begin(scenario.positions())
+        ob = ObsBuilder(enc, pred, cheads, meta, 1.0, x_progress=True)
+        goal_x, tmax = k * STAGE_LEN, k * TMAX
+        stage, prev, a = -1, 0, 0
+        for t in range(tmax):
+            if t % DECIDE_EVERY == 0:
+                x = float(state[0])
+                k_now = int(np.clip(x // STAGE_LEN, 0, k - 1))
+                if k_now != stage:
+                    stage = k_now
+                    ob.reset()  # StageLocal semantics: fresh corridor
+                    prev = 0
+                frame = grab_frame(env)
+                vec = ob.push(frame, float(state[1]), prev, x=x - stage * STAGE_LEN)
+                relay.pillars = [np.array(q) for q in scenario.positions()]
+                a = relay.decide(frame, state)
+                prev = ob.ids.index(a)
+                X.append(vec)
+                Y.append(prev)
+                T.append(names[stage])
+            rpm = cmd.rpm(state, 1.0 * ACTION_VECS[a])
+            o, _r, _te, _tr, _i = env.step(rpm.reshape(1, 4))
+            state = o[0]
+            scenario.step()
+            if state[0] >= goal_x:
+                wins += 1
+                break
+        if (i + 1) % 25 == 0:
+            print(f"[hot] {i + 1}/{n_courses} courses, {len(X)} decisions")
+    env.close()
+    rate = wins / n_courses
+    print(
+        f"[hot] {len(X)} decisions from {n_courses} courses "
+        f"(relay reached {wins}/{n_courses} = {rate:.3f})"
+    )
+    return (
+        np.asarray(X, dtype=np.float32),
+        np.asarray(Y, dtype=np.int64),
+        np.asarray(T),
+        rate,
+    )
 
 
 def bc_train(X, Y, out: str, epochs: int = 40, lr: float = 3e-4, val_frac=0.1, W=None):
@@ -496,6 +649,9 @@ def main() -> None:
     ap.add_argument("--steps", type=int, default=450_000)
     ap.add_argument("--out", default=None)
     ap.add_argument("--probe-track", type=int, default=0, metavar="N")
+    ap.add_argument("--probe-trackw", type=int, default=0, metavar="N")
+    ap.add_argument("--hot-ceiling", type=int, default=0, metavar="N")
+    ap.add_argument("--hot", type=int, default=0, metavar="N_COURSES")
     ap.add_argument("--probe-seed0", type=int, default=43900)
     ap.add_argument("--teacher", default="weave", choices=tuple(TEACHERS))
     ap.add_argument("--generalist", choices=("track", "mgap_champion"), default=None)
@@ -505,6 +661,69 @@ def main() -> None:
     ap.add_argument("--anchor", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
+
+    if args.probe_trackw:
+        # teacher probe: the width-gated tracker on BOTH door worlds
+        from eval.episode import run_scenario_episode
+        from sim.envs import make_env
+        from skills.base import load_skill
+
+        env = make_env()
+        for skill_name, world, cell_speed in (
+            ("closing-door", "door", 1.0),
+            ("opening-door", "opening_door", 1.0),
+        ):
+            judge = load_skill(skill_name)
+            ok = 0
+            for i in range(args.probe_trackw):
+                ep = run_scenario_episode(
+                    env, OracleTrackW(), 121000 + i, world, cell_speed
+                )
+                ok += int(judge.success(ep))
+            print(
+                f"[probe-trackw] {world}@1.0: {ok}/{args.probe_trackw} "
+                f"= {ok / args.probe_trackw:.3f}"
+            )
+        env.close()
+        return
+
+    if args.hot_ceiling:
+        # the TRUE integration ceiling: the oracle relay on random courses
+        from eval.eval_integration import suite
+        from skills.base import load_skill
+
+        for sk in (
+            "gap-flight",
+            "corridor-slalom-v2",
+            "moving-gap",
+            "closing-door",
+            "opening-door",
+        ):
+            load_skill(sk)
+        suite(
+            lambda names: OracleRelay(names),
+            args.hot_ceiling,
+            110000,
+            args.out,
+        )
+        return
+
+    if args.hot:
+        from skills.base import load_skill
+
+        for sk in (
+            "gap-flight",
+            "corridor-slalom-v2",
+            "moving-gap",
+            "closing-door",
+            "opening-door",
+        ):
+            load_skill(sk)
+        X, Y, T, rate = collect_hot(args.hot)
+        out = args.out or "output/ppo_hot_start.zip"
+        acc, _ = bc_train(X, Y, out, epochs=args.epochs, W=T)
+        print(f"[hot] teacher-relay line {rate:.3f}; pooled val {acc:.3f}")
+        return
 
     if args.probe_track:
         # teacher probe: is OracleTrack a fit teacher on its own world?
