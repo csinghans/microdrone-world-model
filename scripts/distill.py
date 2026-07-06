@@ -79,6 +79,16 @@ def _teacher_track(speed, stack):
     return OracleTrack()
 
 
+def _teacher_dodge(ball_speed):
+    def make(speed, stack):
+        from eval.eval_dodge_ceiling import OracleDodge
+
+        del speed, stack
+        return OracleDodge(ball_speed)
+
+    return make
+
+
 def _teacher_champion(speed, stack):
     from planner.learned_policy import LearnedPolicy, load_policy
 
@@ -130,7 +140,22 @@ TEACHERS = {
     "track": _teacher_track,
     "champion": _teacher_champion,
     "mgap_champion": _teacher_mgap_champion,
+    "dodge06": _teacher_dodge(0.6),
+    "dodge10": _teacher_dodge(1.0),
+    "dodge14": _teacher_dodge(1.4),
+    "dodge18": _teacher_dodge(1.8),
 }
+
+# dodge-distill recipe (frozen at pre-registration): the four ball-speed
+# worlds, each taught by its matched OracleDodge (feasibility-probe records
+# 0.90/0.80/0.80/0.80). Station episodes never reach GOAL_X — "reached 0/N"
+# is the expected print, not a broken teacher.
+DODGE = (
+    ("dodgeball_v06", 200, 1.0, "dodge06", 51000),
+    ("dodgeball_v10", 200, 1.0, "dodge10", 52000),
+    ("dodgeball_v14", 200, 1.0, "dodge14", 53000),
+    ("dodgeball_v18", 200, 1.0, "dodge18", 54000),
+)
 
 
 def collect(
@@ -285,6 +310,7 @@ def main() -> None:
     ap.add_argument("--teacher", default="weave", choices=tuple(TEACHERS))
     ap.add_argument("--generalist", choices=("track", "mgap_champion"), default=None)
     ap.add_argument("--recipe2", action="store_true", help="K1 remedy recipe")
+    ap.add_argument("--dodge", action="store_true", help="dodge-distill recipe")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
@@ -304,6 +330,22 @@ def main() -> None:
             ok += int(judge.success(ep))
         env.close()
         print(f"[probe-track] OracleTrack on moving_gap@1.0: {ok}/{args.probe_track}")
+        return
+
+    if args.dodge:
+        from skills.base import load_skill
+
+        load_skill("dodgeball")
+        parts, tags = [], []
+        for world, n, speed, teacher, seed0 in DODGE:
+            X, Y = collect(n, world, speed, seed0=seed0, teacher=teacher)
+            parts.append((X, Y))
+            tags += [world] * len(X)
+        X = np.concatenate([p[0] for p in parts])
+        Y = np.concatenate([p[1] for p in parts])
+        out = args.out or "output/ppo_distill_dodge.zip"
+        acc, _ = bc_train(X, Y, out, epochs=args.epochs, W=np.asarray(tags))
+        print(f"[distill] dodge-clone manipulation meter: pooled val={acc:.3f}")
         return
 
     if args.generalist:
