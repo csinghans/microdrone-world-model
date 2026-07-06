@@ -75,9 +75,14 @@ EXAM_CELLS = (
     ("gap-flight", "guard:cluttered"),
     ("gap-flight", "guard:sweep@2.0"),
 )
-CLF_PATH = "experiments/dispatch/artifacts/dispatch_classifier_v3.pth"
-SEED0 = 80000  # v3 collection series — virgin (v1: 60000+, v2: 70000+)
-PREFIX = 6  # decisions flown by the DEFAULT expert before the handover
+CLF_PATH = "experiments/dispatch/artifacts/dispatch_classifier_v4.pth"
+SEED0 = 90000  # v4 collection series — virgin (v1-v3: 60000/70000/80000)
+# v4: the probe gait. A FIXED window of forced "slow" — not "probe until
+# switched": the default class is a real class (dodgeball), so an
+# until-switched rule would probe forever exactly when the default is
+# CORRECT. Eight decisions = 0.67 s = 0.15-0.4 m at factor 1.0-2.0,
+# priced harmless in every arena (box 1.9 m, balls at 4 s, doors 2 s+).
+PROBE_K = 8
 
 
 class Hysteresis:
@@ -155,6 +160,8 @@ class DispatchPolicy:
     def decide(self, frame, state) -> int:
         import torch
 
+        from planner.action_set import ACTION_NAMES
+
         vec = self.ob.push(frame, float(state[1]), self._prev_menu, x=float(state[0]))
         with torch.no_grad():
             logits = self.clf(torch.as_tensor(vec)[None])
@@ -163,17 +170,24 @@ class DispatchPolicy:
         # every expert sees every frame (their stacks stay warm); only the
         # dispatched one's action is executed
         actions = {c: e.decide(frame, state) for c, e in self.experts.items()}
-        a = actions[cls]
+        # the probe gait: a fixed window of forced slow advance — evidence
+        # generation is an action; a hovering observer cannot identify a
+        # static world (the v3 verdict)
+        if len(self.trace) <= PROBE_K:
+            a = ACTION_NAMES.index("slow")
+        else:
+            a = actions[cls]
         self._prev_menu = self.ob.ids.index(a)
         return a
 
 
 def collect_streams(world: str, cls: str, n_eps: int, seed0: int, speed=1.0):
-    """Fly the DEFAULT expert for the first PREFIX decisions, then the
-    designated expert (v3: the runtime distribution under dispatch —
-    "this world seen from a hover-start" is a training view, not a
-    trap). Returns per-episode obs streams."""
-    from planner.action_set import ACTION_VECS
+    """Fly the PROBE GAIT (forced "slow") for the first PROBE_K decisions,
+    then the designated expert — the exact runtime distribution under v4
+    dispatch: every world is first seen by a slowly advancing observer,
+    whose parallax is the evidence a hovering one never generates.
+    Returns per-episode obs streams."""
+    from planner.action_set import ACTION_NAMES, ACTION_VECS
     from planner.latent_mpc import DECIDE_EVERY
     from planner.learned_policy import ObsBuilder
     from sim.envs import VelCommander, grab_frame, make_ctrl, make_env
@@ -192,10 +206,9 @@ def collect_streams(world: str, cls: str, n_eps: int, seed0: int, speed=1.0):
         cmd.reset(state[0:3])
         scenario = spec.spawn(env, np.random.default_rng(seed), speed=speed)
         pilot = _expert(cls, speed)
-        starter = _expert(DEFAULT, speed)
         pilot.begin(scenario.positions())
-        starter.begin(scenario.positions())
         ob = ObsBuilder(enc, pred, cheads, meta, speed, x_progress=True)
+        slow = ACTION_NAMES.index("slow")
         prev = 0
         a = ob.ids[prev]
         rows = []
@@ -205,8 +218,7 @@ def collect_streams(world: str, cls: str, n_eps: int, seed0: int, speed=1.0):
                 frame = grab_frame(env)
                 rows.append(ob.push(frame, float(state[1]), prev, x=float(state[0])))
                 a_pilot = pilot.decide(frame, state)
-                a_start = starter.decide(frame, state)
-                a = a_start if decision < PREFIX else a_pilot
+                a = slow if decision < PROBE_K else a_pilot
                 decision += 1
                 prev = ob.ids.index(a)
             rpm = cmd.rpm(state, float(speed) * ACTION_VECS[a])

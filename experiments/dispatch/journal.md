@@ -208,3 +208,20 @@ hover; collection prefixes and the closed-loop meter use the same
 gait. Cost analysis up front: 6-8 probe decisions = 0.15-0.2 m of
 drift — harmless in every arena (the station box holds 1.9 m; balls
 arrive at 4 s; doors close at ~2 s+).
+
+## dispatch-v4 pre-registration (2026-07-06, before any v4 number exists)
+
+One coherent delta from v3's verdict ("a hovering observer cannot
+identify a static world"): **the probe gait.** For the first
+PROBE_K = 8 decisions the dispatcher flies forced "slow" (0.3 m/s ×
+speed factor) — evidence generation as an action; the slowly advancing
+viewpoint produces the parallax that separates a static classic scene
+from dodgeball's pre-launch stillness. A FIXED window, deliberately not
+"probe until switched": the default class is a real class, and an
+until-switched rule would probe forever exactly when the default is
+correct. Cost priced up front: 0.67 s = 0.15-0.4 m across factors
+1.0-2.0 — harmless in every arena (box 1.9 m, balls 4 s, doors 2 s+).
+Collection prefixes, the closed-loop meter and the runtime dispatcher
+all use the SAME gait (the twice-measured law, applied). Everything
+else inherited frozen: roster, hysteresis, floors, union exam, crown.
+Seeds 90000+, artifact dispatch_classifier_v4.pth.
