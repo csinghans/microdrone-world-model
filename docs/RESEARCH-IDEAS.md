@@ -95,13 +95,19 @@
   from a stationary drone is a constant stream, and constant-over-
   sparse IS dodgeball's pre-launch signature — world identity needs
   probing motion** (`experiments/dispatch/journal.md`).
-- **dispatch-v4: the probe gait ★★** — one coherent delta: while the
-  hysteresis still sits at the default, the dispatcher flies "slow"
-  (0.3 m/s) instead of hovering; collection prefixes and the
-  closed-loop meter use the SAME gait. Cost priced up front: 6-8 probe
-  decisions = 0.15-0.2 m drift, harmless in every arena (station box
-  1.9 m, balls at 4 s, doors ~2 s+). Active perception, one line:
-  the dispatcher must move to see.
+- ~~dispatch-v4 (probe gait)~~ CLOSED 2026-07-06, REFUTED — and the
+  zero-effect shape found the real wall: classic unchanged to the
+  digit (0.067) because **the parallax never reaches the classifier**
+  — its input is the per-action collision probabilities, a threat
+  summary that reports "nothing" outside 0.67 s regardless of
+  viewpoint motion. The observation bottleneck, one level up: you
+  cannot identify a world through a channel built to report only
+  imminent danger (`experiments/dispatch/journal.md`).
+- **dispatch-v5: tap the latent ★★** — one delta: the classifier reads
+  the encoder's 64-d z-stream (computed every decision anyway; it IS
+  the scene encoding the heads consume) instead of the probability
+  summary. Experts and their observations untouched; same roster,
+  gait, meters, floors, union exam, crown.
 - **DAgger** (argue the mechanism difference from FT first: FT
   re-optimizes the objective, DAgger re-anchors to the teacher — the
   four erasure datapoints now make that argument FOR it).
