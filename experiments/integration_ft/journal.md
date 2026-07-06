@@ -89,3 +89,26 @@ n=60 ≥ 0.50 → n=100; GREEN ≥ 0.70 → videos. Refuted = slalom still
 one-policy road closes and the residue goes to Hans with the
 flight-plan question (is course-composition knowledge legitimate
 mission info for deployment?).
+
+## Hybrid n=100: 0.550 — the best record; the gap is one number (2026-07-07)
+
+Graduation passed (pooled 0.583); the formal suite reads **55/100**
+— gate FAIL but +16 over the previous best (0.39). Per-type: door
+1.000, gap 0.966, odoor 0.943, mgap 0.864, **slalom 0.579**. The
+clone flies slalom at 0.967 natively but 0.579 in-course: its
+collection was clean starts, and under the hybrid it inherits
+v3-FT's exit states — the seam tax, now measured on the last
+remaining stage type. Arithmetic: slalom at 0.85 puts the mean at
+0.925 → 0.79, comfortably green.
+
+## Hybrid v2 pre-registration: the hot-entry slalom specialist (2026-07-07)
+
+One swap: BC a slalom-stage specialist from the HOT pot — course
+episodes flown by the oracle relay, cleared-segment filtered, slalom
+segments ONLY (Weave-taught, real seam entries, StageLocal obs — the
+machinery is collect_hot verbatim). Swap it into the hybrid's slalom
+slot; everything else frozen. Floors: ≥ 4000 slalom decisions, val
+≥ 0.80. Exam: pooled n=60 graduation → n=100; GREEN ≥ 0.70 → gate +
+videos. Refuted = slalom conditional still < 0.7 — hot-entry BC does
+not close the seam for the chain either, and the residue escalates
+(anchored FT on the specialist / entry-state curriculum).
