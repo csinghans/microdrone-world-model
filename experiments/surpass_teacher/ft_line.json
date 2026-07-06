@@ -1,0 +1,17 @@
+{
+ "zip": "experiments/surpass_teacher/artifacts/ppo_surpass_FT.zip",
+ "cells": {
+  "mgap@1.0": {
+   "n": 200,
+   "seed0": 50000,
+   "crash": 0.115,
+   "reached": 1.0,
+   "success": 0.88,
+   "clearance_mean": 0.35533162463032064,
+   "custom": {
+    "transited": 0.94,
+    "gap_margin": 0.2106062951322056
+   }
+  }
+ }
+}
