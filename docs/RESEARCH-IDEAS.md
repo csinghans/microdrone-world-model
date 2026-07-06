@@ -10,13 +10,22 @@
   exonerated by the oracle; **the fast-ball wall is signal quality at
   range** (`experiments/wm48_defense/journal.md`). Sharper long-horizon
   supervision = model-training class, fresh pre-registration if played.
-- **P2 — chain-distill (ACTIVE): oracle distillation, slalom first.**
-  Behavior-clone OracleWeave (97 % with the same action set) onto the
-  vision observation; five RL-side eliminations never touched
-  imitation, and BC's val accuracy doubles as an obs-sufficiency
-  meter — if supervised learning cannot even fit obs → teacher-action,
-  the observation provably lacks the information. K2 reserve: PPO
-  fine-tune on the BC init.
+- ~~P2 — chain-distill~~ **CLOSED 2026-07-06, FULL SUPPORT — the chain
+  fell.** slalom3@1.0 = 96.7 % vs the five-elimination 0-6.7 % band
+  (chain_break 2.90, teacher ceiling 0.97, unseen courses; first bar
+  pass in seven sittings of that exam). Obs sufficient (open-loop val
+  0.965) + body sufficient (oracle 97 %) + five axes eliminated ⇒ the
+  LEARNER was the wall, and copying removes it
+  (`experiments/chain_distill/journal.md`). No promotion (moving
+  guard 47 %); cruise specialist. Distillation machinery now standing:
+  `scripts/distill.py`.
+- **Next candidates (fresh pre-registrations each):**
+  **distill-generalist** (multi-world oracle datasets → a guard-clean
+  clone), **DAgger-at-speed** (the 1.25× cell died 100 % — but its own
+  ceiling was priced 0.07, so re-probe first), **OracleDodge
+  distillation** (dodgeball fast cells — BC val accuracy directly
+  meters whether fast-ball information exists in the obs at all,
+  the question wm48-defense left open).
 - **P3 — chain-algorithm campaign** (below): only if P2 does not crack
   or reshape the chaining question first.
 - **P4 — the λ multi-seed replication** (below): the standing
