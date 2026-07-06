@@ -24,3 +24,7 @@ fast cells at K3 level with training complete (then the blur — AUC@48
 0.75 — or dodge kinematics is the live suspect). Secondary read:
 v0.6/v1.0 retention. Guards: structural fails expected (pure diet),
 promotion out of scope.
+
+**Swap executed (2026-07-06):** G1 sha256 `1fea88ad…149f80cf` ==
+artifacts.lock.json champion entry ✓; backup kept; WM48 in place
+(`7cc820856c4b77bb…`). K1 launched under it.
