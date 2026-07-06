@@ -112,3 +112,25 @@ slot; everything else frozen. Floors: ≥ 4000 slalom decisions, val
 videos. Refuted = slalom conditional still < 0.7 — hot-entry BC does
 not close the seam for the chain either, and the residue escalates
 (anchored FT on the specialist / entry-state curriculum).
+
+## ★ THE DEPLOYMENT GATE OPENS: hybrid-v4 = 72/100 (2026-07-07) ★
+
+Graduation pooled 44/60 = 0.733 (block B 0.833); the formal suite:
+**72/100 = 0.720 ≥ the 0.70 gate — PASS.** The goal Hans set
+(/goal 通過飛行整合測試) is achieved, and per the standing protocol
+the repo's first videos of record are generated from passing seed
+110004 (slalom → opening door → moving gap, 3/3 stages, zero
+crashes): docs/media/integration_{fpv,god}.gif + stamp.
+
+The winning lineup, every piece measured: the course-FT generalist
+(v3, gate-bonus trained) flies gap/mgap/door/odoor at 0.86-1.00
+conditionals; the BIG-POT slalom specialist (43,488 decisions =
+native chain-shape demos + hot seam-entry segments, val 0.9634 —
+the fidelity floor the 40-decision chain arithmetic demanded) flies
+slalom; the flight plan (deployment-legal per the 2026-07-07 ruling)
+keys the handoffs. The climb, in n=100 records: clone 0.33 → anchored
+FT 0.39 → hybrid 0.55 → +hot specialist 0.62 → +big pot **0.72**.
+
+Real-hardware deployment is now UNBLOCKED by this gate (the hardware
+itself remains parked per the standing instruction — but the
+precondition Hans defined is met, with the videos to show for it).

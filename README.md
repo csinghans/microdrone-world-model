@@ -146,12 +146,17 @@ composed 3-stage course flown end to end (`docs/TDD-FLIGHT.md`). The
 **deployment gate** — the standing precondition for real hardware — is
 integration success ≥ 0.70 at n = 100 random courses.
 
-Current state, honestly: **RED.** Best baseline = the slalom clone at
-**33/100** (the privileged per-stage specialist relay manages only
-13 % — the binding constraint is the SEAMS between stages, a condition
-no unit test ever produces). The videos of record (drone FPV +
-simulator god view, `docs/media/`) appear when the first suite passes,
-not before.
+Current state: **GREEN — 72/100 (2026-07-07).** The winning entry is
+the flight-plan hybrid: a course-fine-tuned generalist flies four
+stage types (0.86-1.00 conditionals) and a big-pot slalom specialist
+(43k demonstrations, val 0.963 — the fidelity a 40-decision chain
+demands) flies the fifth, with mission-plan handoffs. The climb:
+0.33 → 0.39 → 0.55 → 0.62 → **0.72**. The videos of record, from
+passing seed 110004 (slalom → opening door → moving gap):
+
+| drone FPV | simulator god view |
+|---|---|
+| ![FPV](docs/media/integration_fpv.gif) | ![god](docs/media/integration_god.gif) |
 
 ## The benchmark, two tiers (course draw + two fresh from-scratch draws here)
 

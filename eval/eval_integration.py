@@ -77,7 +77,7 @@ HYBRID = {
     "door": "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip",
     "opening_door": "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip",
     "slalom3_fixed": (
-        "experiments/integration_ft/artifacts_local/ppo_slalom_hot_BC.zip"
+        "experiments/integration_ft/artifacts_local/ppo_slalom_bigpot_BC.zip"
     ),
 }
 
