@@ -235,3 +235,39 @@ Config: {"worlds": ["dodgeball_v06", "dodgeball_v10", "dodgeball_v14", "dodgebal
 
 ### Researcher notes
 (unattended run)
+
+## Campaign verdict: SUPPORT — the tick buys the station (2026-07-06)
+
+The deviation's frozen expectation fires on its support branch:
+**dodge@v1.0 reads 60 % against its pre-priced 0.55 bar** — a priced
+cell cleared, with the behavior change the knob was designed to buy
+visible in every column: in_box 0.00 → 0.47-0.80 across the grid,
+drift 2.4 m → 1.2-1.4 m (inside budget), y_max back to the box edge.
+The economics moved exactly as priced: at v1.0 the K1 policy survived
+93 % by fleeing; K3 survives 73 % but holds ground 80 % of the time —
+it now *spends* some survival to earn the station, which is the trade
+the mission defines.
+
+Full grid (n=30, seed0 23000): v0.6 success 47 % (bar 0.65, FAIL —
+survived 30/30 but slow balls mean long threats; it rides the y-edge,
+y_max 1.24 vs 1.2), v1.0 **60 % PASS**, v1.4 20 %, v1.8 13 %. The
+crash gradient (0/27/43/77 %) tracks the same warning-range arithmetic
+K1 exposed (visible at 0.7 + v·0.67 m): the speed ceiling is the
+model's k=32 horizon, not the policy.
+
+**The three-wall ladder closed as designed**, each wall removed by its
+own instrument: arena by the oracle probe (0.80-0.90), perception by
+K1 (dodging exists without station pay), objective by K3 (dense
+station pay expresses holding). Gate verdict is guard_regression —
+transit guards are structural failures for the pure-diet specialist,
+exactly as pre-registered; **no promotion, no champion**. Knob budget
+is exhausted (4/4 played, one of them in breach — recorded above), so
+the campaign closes here: **capability SUPPORTED, crown vacant.**
+
+Artifact kept as best-so-far: `artifacts/ppo_dodgeball_K3.zip` (flies
+with G1). The natural v2 seed, for a fresh pre-registration: mixed
+diet WITH the station tick (K2-without-tick erased the station;
+K3-without-mixing holds it; the union — a guard-clean generalist that
+also defends — is the untested cell), plus WM48 as the priced crutch
+if v1.4/v1.8 warning time is ever attacked (the horizon campaign's
+artifact exists; its transit refutation says nothing about defense).

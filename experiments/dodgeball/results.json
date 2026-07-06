@@ -629,6 +629,226 @@
    "git": {
     "commit": "680f926"
    }
+  },
+  {
+   "id": "K3",
+   "kind": "policy",
+   "desc": "deviation: dense station tick (0.6/decision inside the box) replacing the distal +50, on the K1 recipe",
+   "hypothesis": "K1 proved the dodge; nothing paid holding ground \u2014 box exit truncated at ~0 while proximity risked -30, so 'leave safely' was the optimum we bought. Pay the station densely (90 ticks ~= +54, same scale, derived not tuned); rationale in journal",
+   "config": {
+    "worlds": [
+     "dodgeball_v06",
+     "dodgeball_v10",
+     "dodgeball_v14",
+     "dodgeball_v18"
+    ],
+    "station_tick": 0.6,
+    "x_progress": true,
+    "edge_bias": true,
+    "timesteps": 900000
+   },
+   "artifacts": {
+    "policy_zip": "experiments/dodgeball/artifacts/ppo_dodgeball_K3.zip",
+    "sha256": "04329139194ab793"
+   },
+   "cells": {
+    "dodge@v0.6": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.0,
+     "reached": 0.0,
+     "success": 0.4666666666666667,
+     "clearance_mean": 0.4192288353724474,
+     "custom": {
+      "survived": 1.0,
+      "in_box": 0.4666666666666667,
+      "disp_x": 1.3996799964891158,
+      "y_max": 1.244424440991612
+     }
+    },
+    "dodge@v1.0": {
+     "n": 90,
+     "seed0": 23000,
+     "crash": 0.3111111111111111,
+     "reached": 0.0,
+     "success": 0.4777777777777778,
+     "clearance_mean": 0.2501819765764689,
+     "custom": {
+      "survived": 0.6888888888888889,
+      "in_box": 0.6888888888888889,
+      "disp_x": 1.2095573399139232,
+      "y_max": 1.1161804739782173
+     },
+     "recheck": {
+      "n": 60,
+      "seed0": 24000,
+      "crash": 0.3333333333333333,
+      "reached": 0.0,
+      "success": 0.4166666666666667,
+      "clearance_mean": 0.2460910824477452,
+      "custom": {
+       "survived": 0.6666666666666666,
+       "in_box": 0.6333333333333333,
+       "disp_x": 1.2265569644524135,
+       "y_max": 1.1324406168127201
+      }
+     },
+     "pooled": true
+    },
+    "dodge@v1.4": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.43333333333333335,
+     "reached": 0.0,
+     "success": 0.2,
+     "clearance_mean": 0.2137769993755739,
+     "custom": {
+      "survived": 0.5666666666666667,
+      "in_box": 0.5,
+      "disp_x": 1.3394545776957352,
+      "y_max": 1.186440483953494
+     }
+    },
+    "dodge@v1.8": {
+     "n": 30,
+     "seed0": 23000,
+     "crash": 0.7666666666666667,
+     "reached": 0.0,
+     "success": 0.13333333333333333,
+     "clearance_mean": 0.1601279075593866,
+     "custom": {
+      "survived": 0.23333333333333334,
+      "in_box": 0.36666666666666664,
+      "disp_x": 1.4248926114741032,
+      "y_max": 1.216678276531823
+     }
+    },
+    "guard:gap@1.0": {
+     "n": 30,
+     "seed0": 9000,
+     "crash": 0.36666666666666664,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 1.0458240421424052,
+     "custom": {}
+    },
+    "guard:mgap@1.0": {
+     "n": 30,
+     "seed0": 9500,
+     "crash": 0.23333333333333334,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 0.6429348911577268,
+     "custom": {}
+    },
+    "guard:cluttered": {
+     "n": 120,
+     "seed0": 1000,
+     "crash": 0.075,
+     "reached": 0.0,
+     "success": 0.0,
+     "clearance_mean": 1.3170933657938038,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 2000,
+      "crash": 0.08333333333333333,
+      "reached": 0.0,
+      "success": 0.0,
+      "clearance_mean": 1.3646954386384786,
+      "custom": {}
+     },
+     "pooled": true
+    },
+    "guard:sweep@2.0": {
+     "n": 120,
+     "seed0": 3000,
+     "crash": 0.041666666666666664,
+     "reached": 0.2833333333333333,
+     "success": 0.2833333333333333,
+     "clearance_mean": 0.923345406996353,
+     "custom": {},
+     "recheck": {
+      "n": 60,
+      "seed0": 4000,
+      "crash": 0.016666666666666666,
+      "reached": 0.3,
+      "success": 0.3,
+      "clearance_mean": 0.9237516518878321,
+      "custom": {}
+     },
+     "pooled": true
+    }
+   },
+   "gate": {
+    "verdict": "guard_regression",
+    "criteria": [
+     {
+      "name": "dodge@v0.6 success>=0.65",
+      "kind": "target",
+      "measured": 0.4666666666666667,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.0 success>=0.55",
+      "kind": "target",
+      "measured": 0.4777777777777778,
+      "pass": false,
+      "rechecked": true
+     },
+     {
+      "name": "dodge@v1.4 success>=0.55",
+      "kind": "target",
+      "measured": 0.2,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "dodge@v1.8 success>=0.55",
+      "kind": "target",
+      "measured": 0.13333333333333333,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:gap@1.0 success>=0.75",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:mgap@1.0 success>=0.7",
+      "kind": "guard",
+      "measured": 0.0,
+      "pass": false,
+      "rechecked": false
+     },
+     {
+      "name": "guard:cluttered crash<=0.05",
+      "kind": "guard",
+      "measured": 0.075,
+      "pass": false,
+      "rechecked": true
+     },
+     {
+      "name": "guard:sweep@2.0 crash<=0.1",
+      "kind": "guard",
+      "measured": 0.041666666666666664,
+      "pass": true,
+      "rechecked": true
+     }
+    ],
+    "guards_ok": false
+   },
+   "timing": {
+    "started": "2026-07-06 01:57 UTC",
+    "ended": "2026-07-06 02:47 UTC"
+   },
+   "git": {
+    "commit": "4dacdda"
+   }
   }
  ]
 }
