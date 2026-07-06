@@ -92,3 +92,33 @@ Config: experiments/dodge_distill/artifacts/ppo_dodge_distill_FT.zip
 
 ### Researcher notes
 (unattended run)
+
+## Campaign verdict: SUPPORT stands at K0; the repair leg fails backwards (2026-07-06)
+
+**The gated result is K0's: dodge@v1.8 = 60 % over its 0.55 bar** — the
+catalog's only fast-cell pass, with the representation verdict
+(dodge-decision accuracy 0.898) instrument-audited. That verdict
+stands.
+
+K1 (station-tick FT, the drift-repair leg) did not repair — it
+**re-optimized into flight**: crash 0-20 % (better than the clone) but
+in_box 0.00 everywhere, y_max 2.0-2.6 — "yield ground", the exact
+attractor the distal-bonus variant found in dodgeball v1, rediscovered
+UNDER the tick economy that from-scratch RL (K3) used to hold the box
+at 47-60 %. The prior made it worse, not better: PPO from the crashy
+clone (v0.6 crash 57 %) found "exit early, avoid -30" before it could
+find "dodge better, collect the stream" — and settled in a basin with
+LOWER return than K3's. Third measurement of the day's fine-tune law,
+with a new clause: **fine-tuning converges to RL's preferred optimum
+from wherever it starts — and a strong-but-imperfect prior can bias it
+into a WORSE basin than training from scratch.** Fine-tune is not
+monotone.
+
+Catalog standing: two dodge specialists now hold one bar each —
+RL-K3 at v1.0 (60 %), the imitation clone at v1.8 (60 %); v0.6/v1.4
+unheld, crown vacant. The imitation clone
+(`artifacts/ppo_dodge_distill_BC.zip`) is best-so-far on fast balls.
+Exported questions: KL-anchored / short-dose FT (now three erasure
+datapoints — the sharpest open tool question in the repo), and
+slow-ball drift (v0.6: long threat windows accumulate drift the fast
+cells never see).
