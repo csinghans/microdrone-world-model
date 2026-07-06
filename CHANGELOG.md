@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased — the imitation turn: five skills become one pilot, and the pilot passes its flight exam
+## 0.6.0 — 2026-07-07 (the imitation turn: five skills become one pilot, and the pilot passes its flight exam)
+
+Seven campaign records, newest first — the imitation-era headline,
+then the six campaigns that led into it.
 
 - **The slalom wall falls to imitation** (chain_distill →
   distill_generalist): 25 RL sittings scored 0.00-0.067 on slalom3@1.0;
@@ -48,7 +51,7 @@
   friendly block promoted a 0.39 lineup once); conditional-knob
   discipline extended to composite courses.
 
-## Unreleased — the friendly research environment, exercised to a crown
+### the friendly research environment, exercised to a crown
 
 - **Onboarding stack** (docs + tools + charter, all verified on a fresh
   env AND on CI's artifact-less runners): ONBOARDING/GLOSSARY/
@@ -79,7 +82,7 @@
   mid-launch once — the whole class now dies with a friendly message);
   `eval_policy_cells --skill` judges with a skill's own predicates.
 
-## Unreleased — the closing-door duel (third skill; the benchmark that is also a capability)
+### the closing-door duel (third skill; the benchmark that is also a capability)
 
 - **closing-door PASSED at K3, zero-shot** (`skills/closing_door`,
   figures + gate-by-gate numbers in `experiments/closing_door/`): the
@@ -103,7 +106,7 @@
   trajectory overlay where the champion's earliest commit makes
   anticipation visible to the naked eye. Catalog: 3/3 skills passed.
 
-## Unreleased — moving-gap v2: PASSED (the diet's shape closes what budget couldn't)
+### moving-gap v2: PASSED (the diet's shape closes what budget couldn't)
 
 - **moving-gap-v2 PASSED at K3** (`skills/moving_gap_v2`,
   `experiments/moving_gap_v2/journal.md`): the mixture-shape campaign
@@ -122,7 +125,7 @@
   researcher deviation each); the general champion is explicitly
   untouched — dense/moving cells were never measured here.
 
-## Unreleased — the second skill campaign (moving-gap, closed: capability yes, promotion no)
+### the second skill campaign (moving-gap, closed: capability yes, promotion no)
 
 - **moving-gap** (`skills/moving_gap`): transit a *sliding* fence's gap,
   success judged at the crossing instant — the first skill whose success
@@ -158,7 +161,7 @@
   (`meta["autotrained_tiny"]`) so behavioral selftests can scope
   themselves to wiring, honestly. Weekly job: green.
 
-## Unreleased — the calibration falsification (head_calibration campaign, closed)
+### the calibration falsification (head_calibration campaign, closed)
 
 - **C0: FAILED — and the failure sharpened the mechanism.** Temperature
   recalibration (`eval/calibrate_heads.py`, in CI: one T per
@@ -179,7 +182,7 @@
   mechanism candidate (D0) → cheapest fix falsified (C0). The champion
   stack stands; dense 17-27 % keeps its crown as the open frontier.
 
-## Unreleased — the mechanism hunt (grounding_mechanism campaign, closed)
+### the mechanism hunt (grounding_mechanism campaign, closed)
 
 - **D0, the product:** the v0.5 flight loss has a measured mechanism
   candidate. The new landscape probe (`eval/eval_head_calibration.py`,
