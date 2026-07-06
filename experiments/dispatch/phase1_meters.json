@@ -1,8 +1,8 @@
 {
  "classic": {
-  "final_acc": 0.867,
-  "latency_median_decisions": 4.0,
-  "never_stable": 2
+  "final_acc": 1.0,
+  "latency_median_decisions": 3.0,
+  "never_stable": 0
  },
  "dodgeball_v06": {
   "final_acc": 1.0,
@@ -25,28 +25,28 @@
   "never_stable": 0
  },
  "door": {
-  "final_acc": 0.867,
+  "final_acc": 1.0,
   "latency_median_decisions": 2.0,
-  "never_stable": 2
+  "never_stable": 0
  },
  "gap": {
-  "final_acc": 0.933,
-  "latency_median_decisions": 3.5,
-  "never_stable": 1
+  "final_acc": 1.0,
+  "latency_median_decisions": 2.0,
+  "never_stable": 0
  },
  "moving_gap": {
-  "final_acc": 0.8,
+  "final_acc": 1.0,
   "latency_median_decisions": 2.0,
-  "never_stable": 3
+  "never_stable": 0
  },
  "opening_door": {
-  "final_acc": 0.667,
-  "latency_median_decisions": 34.0,
-  "never_stable": 5
+  "final_acc": 1.0,
+  "latency_median_decisions": 2.0,
+  "never_stable": 0
  },
  "slalom3_fixed": {
-  "final_acc": 0.867,
+  "final_acc": 1.0,
   "latency_median_decisions": 2.0,
-  "never_stable": 2
+  "never_stable": 0
  }
 }

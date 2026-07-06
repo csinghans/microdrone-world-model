@@ -111,3 +111,12 @@ home cell 20+ points under its solo record). New collection series
 classic ↔ fence(sealed-opening-door) boundary — a wall of pillars is
 the one place the four families may still look alike; the meters
 gate it.
+
+### v2 phase 1 — perfect meters; the gate passes (2026-07-06)
+
+Every world at **1.00** final identification, zero never-stable
+episodes, median latency 0-3 decisions (dodgeball's 0 is the default's
+gift, as before; every transit world locks within ~0.25 s). The named
+residual risk (classic ↔ sealed opening door) did not materialize.
+Merging the confusable family did not dilute it — it dissolved it.
+Phase 2 (the union exam) launches per the frozen gate.
