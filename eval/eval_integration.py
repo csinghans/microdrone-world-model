@@ -288,11 +288,6 @@ def make_factory(args):
         return lambda names: StageLocal(_expert(args.zip, 1.0), n_stages=K_STAGES)
     if args.contender == "ceiling":
         return lambda names: PerStageExperts(names, 1.0)
-    if args.contender == "dispatch":
-        from planner.dispatch import DispatchPolicy
-
-        clf = "experiments/dispatch/artifacts/dispatch_classifier_v3.pth"
-        return lambda names: StageLocal(DispatchPolicy(1.0, clf), n_stages=K_STAGES)
     raise SystemExit(f"unknown contender {args.contender!r} and no --zip given")
 
 
@@ -300,7 +295,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--suite", type=int, default=0)
     ap.add_argument("--seed0", type=int, default=SEED0)
-    ap.add_argument("--contender", default=None, choices=(None, "ceiling", "dispatch"))
+    ap.add_argument("--contender", default=None, choices=(None, "ceiling"))
     ap.add_argument("--zip", default=None)
     ap.add_argument("--video-seed", type=int, default=None)
     ap.add_argument("--out", default=None)

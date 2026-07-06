@@ -46,3 +46,44 @@ view GIFs in docs/media/, with a provenance stamp).
 **Solo-holder expert map** (each gated in its own journal): gap→KD1,
 moving_gap/door→mgap-v2 K3, opening_door→odoor K3,
 slalom3_fixed→chain-distill clone.
+
+## The ceiling probe and the red baseline — the seam tax (2026-07-06)
+
+| contender | integration success (n=30) | breaks @stage 0/1/2 |
+|---|---|---|
+| **ceiling relay** (privileged per-stage solo holders) | **13.3 %** | 5/10/11 |
+| anchored generalist | 13.3 % | 8/4/14 |
+| mgap-K3 | 13.3 % | 12/7/7 |
+| **slalom clone** | **33.3 %** | 5/7/8 |
+
+**The headline is the ceiling's own number.** If stages were
+independent at the experts' native rates (~0.90 each), the relay would
+read ~0.73; it reads 0.133 — per-stage conditional success ≈ 0.51.
+**The seams cut every expert's stage rate nearly in half**: mid-flight
+entry states (residual velocity, y carried over from the previous
+stage's gap, no hover start) are conditions no unit episode ever
+produced. Units green, integration red, and the break is in the thing
+units never test — the integration layer earned its keep on run one.
+
+**The clone anomaly is the green road's first signpost:** a single
+policy beating the privileged specialist relay 2.5×. OracleWeave's BC
+repertoire is "steer to the visible gap from wherever you are" — the
+teacher handled arbitrary entry states, so its student does too; the
+RL specialists only ever saw clean starts. Seam robustness was
+DISTILLED, never trained.
+
+Notes on the record: (i) the walk-around loophole was audited (passing
+runs at |y| ≤ 0.57) and the corridor clause (|y| ≤ 2.4) added as
+hardening — no measured number changed; (ii) dispatch-v3 was dropped
+from the red list — its artifact predates the v5 code migration, and
+the relay's own seam ceiling dominates whatever learned dispatch could
+add; its integration exam waits for seam-competent experts; (iii) the
+ceiling probe's job was arena pricing, and what it priced is that
+**this arena's binding constraint is the seams, not the stages**.
+
+**Graduation per the frozen rule** (within 10 points of the ceiling —
+the clone EXCEEDS it): the slalom clone advances to the n=100 formal
+suite. Green roads, seeded for the ledger: hot-start collection
+(distill/train with randomized entry velocity and y — make the seam a
+training view), and an all-stage oracle-BC generalist (the clone
+recipe, extended to every pool teacher, hot starts included).

@@ -187,10 +187,18 @@ def integration_metrics(ep: dict) -> dict:
     return out
 
 
+CORRIDOR_Y = 2.4  # the training envelope; fences seal at 2.2/3.2
+
+
 def integration_success(ep: dict) -> bool:
-    """Reach the composite goal without EVER crashing; transit fallback
-    for any non-composite cell that borrows this predicate."""
-    return bool(ep.get("reached") and not ep.get("crashed"))
+    """Reach the composite goal without EVER crashing, staying inside the
+    corridor (|y| <= 2.4 — closes the walk-around-the-fence loophole;
+    audited before hardening: passing runs sat at |y| <= 0.57, so this
+    clause changed no measured number)."""
+    if not (ep.get("reached") and not ep.get("crashed")):
+        return False
+    path = np.asarray(ep["path"])
+    return bool(np.abs(path[:, 1]).max() <= CORRIDOR_Y)
 
 
 def selftest() -> None:
