@@ -91,3 +91,31 @@ Config: output/ppo_wm_policy_edge_hard_xp.zip
 
 ### Researcher notes
 (unattended run)
+
+## K1 — pure dodgeball diet + station reward (the science knob) (2026-07-06 00:55 UTC)
+Hypothesis: does the observation carry a dodgeable warning at all? The heads are single-frame (motion-blind); the 12-step stacked history watching the probability ramp is the only mechanism. Transit guards are expected structural failures for this zip (promotion impossible by design; the dodge cells are the point)
+Config: {"worlds": ["dodgeball_v06", "dodgeball_v10", "dodgeball_v14", "dodgeball_v18"], "x_progress": true, "edge_bias": true, "timesteps": 900000}
+
+| cell | n | crash | success | clearance | custom |
+|---|---|---|---|---|---|
+| dodge@v0.6 | 30 | 0% | 0% | 0.48 | survived=1.00 in_box=0.00 disp_x=2.38 y_max=1.75 |
+| dodge@v1.0 | 30 | 7% | 0% | 0.37 | survived=0.93 in_box=0.00 disp_x=2.36 y_max=1.83 |
+| dodge@v1.4 | 30 | 40% | 0% | 0.25 | survived=0.60 in_box=0.00 disp_x=2.47 y_max=1.93 |
+| dodge@v1.8 | 30 | 57% | 0% | 0.21 | survived=0.43 in_box=0.00 disp_x=2.56 y_max=2.01 |
+| guard:gap@1.0 | 30 | 100% | 0% | 0.10 |  |
+| guard:mgap@1.0 | 30 | 83% | 0% | 0.13 |  |
+| guard:cluttered | 60 | 17% | 0% | 0.57 |  |
+| guard:sweep@2.0 | 60 | 2% | 82% | 0.86 |  |
+- dodge@v0.6 success>=0.65: 0.00 FAIL
+- dodge@v1.0 success>=0.55: 0.00 FAIL
+- dodge@v1.4 success>=0.55: 0.00 FAIL
+- dodge@v1.8 success>=0.55: 0.00 FAIL
+- guard:gap@1.0 success>=0.75: 0.00 FAIL
+- guard:mgap@1.0 success>=0.7: 0.00 FAIL
+- guard:cluttered crash<=0.05: 0.17 FAIL
+- guard:sweep@2.0 crash<=0.1: 0.02 PASS
+
+**Gate verdict: guard_regression**
+
+### Researcher notes
+(unattended run)
