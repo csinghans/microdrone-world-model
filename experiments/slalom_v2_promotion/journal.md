@@ -71,3 +71,28 @@ rollout mass** with the champion's own recipe knob — `edge_bias`
 (EDGE_P = 0.5: half the FT episodes drawn from the 1.5-2.0 envelope
 edge). Priced risk, stated now: halving cruise mass may tax the chain
 (0.800 pooled has 6 points of headroom).
+
+## Eleventh-sitting pre-registration: raise the thin slice's mass (2026-07-07, before any number)
+
+**Single delta from the tenth-sitting artifact's recipe:** the FT env
+gains `edge_bias` (EDGE_P = 0.5 — half the episodes draw speed from
+the 1.5-2.0 envelope edge; the v0.3 champion's own knob, now passed
+through `--ft-edge-bias`). Everything else verbatim: BC2 prior,
+450k, five-world diet, anchor schedule 1.0 → 0.1.
+
+**Mechanism bet (falsifiable):** the fifth clause says anchor
+protection is mass-weighted; edge_bias multiplies the fast-solo
+slice's rollout mass ~6x (from ~4 % to ~25 % of episodes at speed
+>1.5 x 1/5 solo share), giving both the KL term and the reward
+something to defend. Refuted-signature: sweep@2.0 crash stays > 0.10.
+**Priced risk:** cruise mass halves — the chain (6 points of pooled
+headroom) and cruise guards may pay; any bar failure keeps the
+throne vacant, no deviation slot.
+
+**Exam (frozen, all bars at n=60 single blocks — pooled-grade by
+construction):** slalom3@1.0 ≥ 0.70 (seed0 22000, n=60) / gap ≥ 0.75
+(9000, n=60) / mgap ≥ 0.70 (9500, n=60) / cluttered crash ≤ 0.05
+(1000, n=60) / sweep@2.0 crash ≤ 0.10 (3000, n=60); diags slalom2 &
+slalom3@1.25 measured-only (n=30).
+
+Cost: one 450k FT (~70 min) + 330 exam episodes (~50 min), background.
