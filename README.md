@@ -4,7 +4,8 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.1.0 — ported and reproduced.** The baseline shipped as
+**Status: v0.7.0 — the anchor dial; a crowned skill and a six-clause
+fine-tune safety law.** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what

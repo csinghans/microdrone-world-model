@@ -4,22 +4,27 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "microdrone-world-model"
-version = "0.1.0"
+version = "0.7.0"
 description = "A tiny latent world-model stack for micro-drones"
 license = {text = "Apache-2.0"}
 requires-python = ">=3.10"
 dependencies = []
 
-[tool.setuptools]
-packages = [
-    "world_model",
-    "planner",
-    "sim",
-    "datasets",
-    "eval",
-    "scripts",
-    "skills",
-    "skills.gap_flight",
+[tool.setuptools.packages.find]
+# auto-discover every package (skills.* grow per campaign; the Indoor
+# Active Search Track adds mapping/perception/search) — a hand-listed
+# set silently dropped new skills from non-editable installs
+include = [
+    "world_model*",
+    "planner*",
+    "sim*",
+    "datasets*",
+    "eval*",
+    "scripts*",
+    "skills*",
+    "mapping*",
+    "perception*",
+    "search*",
 ]
 
 [tool.black]
