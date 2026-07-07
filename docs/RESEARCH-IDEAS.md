@@ -173,6 +173,14 @@
   runner (wire when a SECOND hand-queued model-axis campaign appears
   after wm48-defense), predictor-side grounding, conditional
   calibration.
+- **P7 — aisle-inventory cruise ★★ (the monetization pick)** — the
+  first market-sourced candidate: a warehouse-aisle scan task built
+  from the crowned slalom (aisle walls) + dodgeball's box station
+  (shelf-face lateral hold) + the composite-course machinery. The
+  strongest revenue story in the catalog (Verity/Gather AI RaaS,
+  250+ stores) and squarely on the GPS-denied embedded-anticipation
+  wedge. Full write-up + sim-world design under **commercial-frontier
+  candidates** below.
 
 Each entry: difficulty, expected cost, a hypothesis sketch (falsifiable
 — being wrong is a finding), the conventions to reuse, and what "done"
@@ -339,6 +347,94 @@ is closed at every power measured.
 *(Original framing, kept for the record: publish the distribution,
 not the best run. Delivered — twice, the second time on a repaired
 instrument.)*
+
+## ★★ commercial-frontier candidates (2026-07-07, deep-research-sourced)
+
+Three candidates from a fact-checked market sweep (24 sources, full
+claim list + provenance in
+[docs/notes/2026-07-indoor-drone-market-sweep.md](notes/2026-07-indoor-drone-market-sweep.md);
+the human-difficulty, AI-ceiling, and monetization evidence is cited
+inline below). Scored on
+three axes: **sim-validatable** (PyBullet-level, no new sensor
+hardware — the repo's hard gate), **monetization** (real B2B revenue
+evidence), **wedge-fit** (still the 512 KB single-camera GPS-denied
+anticipation story, not a heavier body/compute). Each is a
+market-driven hypothesis, not a promise — being wrong is a finding.
+
+### aisle-inventory cruise ★★ — the monetization pick (sim ✅ / money ✅✅ / wedge ✅)
+The catalog's strongest revenue story. **Who pays, measured:** Verity
+runs autonomous inventory drones at 250+ stores / 100+ warehouses
+(UPS, DSV, Maersk as named customers); IKEA's night-scan hits ~100 %
+daily inventory accuracy fully autonomously with NO GPS; Gather AI
+retrofits single-camera COTS drones to scan ~900 slots/hr per operator
+and cut a full-warehouse count from 90 days to 2.5. The RaaS model is
+proven recurring revenue, not a demo. **Why humans struggle:**
+repetitive aisle precision under GPS-denied drift + cognitive fatigue
+(perceptual errors are 29.3 % of RPAS unsafe acts vs 6.1 % crewed;
+autonomous interfaces cut task time 48 % and mental workload 77 % in a
+n=20 study).
+
+**The capability is a composite, not a knob** — like the integration
+suite, this is a task-layer skill assembled from crowned primitives:
+the slalom champion (aisle = a corridor of shelf-wall pillars), the
+dodgeball box station (hold a lateral offset from the shelf face while
+advancing), and `sim/composite.py`'s course machinery (waypoint scan
+stops along the aisle). **Sim world sketch** (`skills/aisle_inventory/`,
+new `warehouse_aisle` world): two parallel pillar walls at y = ±W_aisle
+(the racks), K scan-stops at fixed x-intervals where the policy must
+hold |y − y_face| ≤ ε and |vx| ≈ 0 for T_dwell (the "read the shelf"
+predicate), then advance to the next stop; success = all K stops
+serviced ∧ ¬crashed ∧ reached the aisle end. Frozen bars: stops
+serviced ≥ 0.9, crash ≤ 0.05, lateral RMS at stop ≤ ε. No new sensor —
+the scan predicate is a pose/dwell check, exactly the kind of
+trajectory statement `eval/episode.py` already records.
+**Hypothesis (falsifiable):** the slalom+station primitives compose
+into aisle cruise with the seam tax the integration suite already
+priced; the new difficulty is the *dwell* (hold station mid-corridor,
+not just transit) — dodgeball proved station-keeping is learnable but
+reward-fragile (the sixth clause), so expect the anchored-schedule
+recipe, not naked RL. **Done:** a `warehouse_aisle` unit gate + an
+aisle-inventory entry in the integration pool, or an honest negative
+naming which primitive fails to compose.
+
+### near-surface robustness ★★ — ground/wall/ceiling effect (sim ✅✅ / money 🟡 / wedge 🟡)
+The **most sim-ready** candidate: gym-pybullet-drones already models
+ground effect (the repo's env inherits `gnd_eff_coeff` from the URDF),
+so near-surface lift changes are simulatable with ZERO new machinery.
+**Why humans struggle:** near-ceiling/wall flight is notoriously
+unstable — pilots avoid it, yet it is exactly where close inspection
+and shelf-top scanning must happen. **Monetization:** moderate on its
+own (enables the priciest confined-space vertical — the inspection-drone
+market is $1.2 B → $5.3 B, CAGR 16.8 % — and shelf-top reads for
+candidate 1), so its best role is a **guard/robustness layer for
+aisle-inventory** rather than a standalone crown. **Hypothesis:** the
+world model can be trained to anticipate the lift transient near a
+surface (the danger-now head already exists); measure whether a
+near-wall approach cell degrades the champion and whether ground-effect
+exposure in the diet repairs it. **Done:** a `near_surface` guard cell
+priced, champion regression measured, repair (or honest null) recorded.
+
+### injected-drift correction ★★ — GPS-denied localization (sim 🟡 / money ✅ / wedge ✅)
+Enables candidate 1's realism (warehouses ARE GPS-denied). **AI ceiling
+measured:** NanoSLAM cuts trajectory error 67 % vs dead-reckoning while
+fitting the 128 kB L1 of a GAP9 — KB-scale drift correction is proven;
+SGBA's 33 g swarm returns home by radio-beacon gradient search, no
+global localization. **Sim caveat (the 🟡):** a perfect simulator has no
+odometry drift to correct — this needs a *drift-injection* extension to
+the obs (a slow random-walk bias on the x-progress pin / stacked
+history), a small but non-zero sim cost. **Wedge-fit:** strong KB-scale
+story, but leans SLAM rather than pure anticipation. **Hypothesis:**
+with injected drift, aisle-cruise success collapses (naming the
+problem), and a lightweight correction signal the drone actually has
+(shelf-face visual re-anchoring) recovers it. **Done:** drift-injection
+world + the measured collapse + a recovery or honest negative.
+
+**Parked (off-wedge or sim-weak for this repo):** degraded vision
+(dark/dust/smoke — strong money via confined-space, but the repo's obs
+is collision-probability not pixels, so sim-fit is weakest here); swarm
+coordination (gym-pybullet-drones supports multi-agent and SGBA/LEARN
+prove sub-1 MB swarm policies, but it dilutes the single-agent
+anticipation wedge and is large scope).
 
 ## ★★★ deep water
 
