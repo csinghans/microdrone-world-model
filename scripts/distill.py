@@ -734,7 +734,42 @@ class AnchoredPPO:
                         )
 
                         # === the ONE addition: anchor to the frozen prior ===
-                        if self.kl_coef > 0.0:
+                        # per-group mode: sample buffer rows via the tag list
+                        # the callback aligned to them; weight each sample by
+                        # its group's live coefficient (sixth-clause tooling)
+                        use_groups = getattr(self, "anchor_live", None) and getattr(
+                            self, "anchor_tags", None
+                        )
+                        if use_groups:
+                            j = np.random.randint(
+                                0,
+                                len(self.anchor_tags),
+                                size=len(rollout_data.advantages),
+                            )
+                            obs_arr = self.rollout_buffer.observations
+                            # .get() flattens (n_steps, 1, d) -> (n_steps, d)
+                            # in place on first call; row order (n_envs=1)
+                            # matches the tag list either way
+                            obs_t = th.as_tensor(
+                                obs_arr[j, 0] if obs_arr.ndim == 3 else obs_arr[j],
+                                dtype=th.float32,
+                            )
+                            coef = th.as_tensor(
+                                [self.anchor_live[self.anchor_tags[i]] for i in j],
+                                dtype=th.float32,
+                            )
+                            with th.no_grad():
+                                prior_dist = self.prior_policy.get_distribution(
+                                    obs_t
+                                ).distribution
+                            cur_dist = self.policy.get_distribution(obs_t).distribution
+                            anchor = (
+                                coef
+                                * th.distributions.kl_divergence(prior_dist, cur_dist)
+                            ).mean()
+                            anchor_losses.append(float(anchor.item()))
+                            loss = loss + anchor
+                        elif self.kl_coef > 0.0:
                             with th.no_grad():
                                 prior_dist = self.prior_policy.get_distribution(
                                     rollout_data.observations
@@ -814,12 +849,17 @@ def finetune(
     gate_bonus: float = 0.0,
     anchor_end: float = None,
     edge_bias: bool = False,
+    anchor_ball_end: float = None,
 ):
     """PPO fine-tune from the BC init; `world` may be a comma-separated
     diet (round-robin, the training-env convention). station_tick passes
     through to the env for ball worlds (the measured-good station economy).
     anchor_end (with anchor > 0) drives the KL coefficient linearly from
-    anchor to anchor_end across the run, updated at each rollout start."""
+    anchor to anchor_end across the run, updated at each rollout start.
+    anchor_ball_end additionally splits the schedule per GROUP: ball
+    episodes land on their own end coefficient (transit keeps
+    anchor_end) — per-sample weighting in the anchor term, aligned to
+    buffer rows by a collection-time tag list (the sixth clause)."""
     from stable_baselines3 import PPO
     from stable_baselines3.common.env_util import make_vec_env
 
@@ -841,7 +881,38 @@ def finetune(
     callback = None
     if anchor > 0.0:
         model.set_anchor(anchor)
-        if anchor_end is not None:
+        if anchor_ball_end is not None:
+            from stable_baselines3.common.callbacks import BaseCallback
+
+            ends = {"ball": float(anchor_ball_end), "transit": float(anchor_end)}
+            model.kl_coef = 0.0  # the group branch replaces the global one
+            model.anchor_live = {g: anchor for g in ends}
+            model.anchor_tags = []
+
+            class _GroupAnchor(BaseCallback):
+                """Per-rollout: update the live per-group coefficients and
+                rebuild the tag list positionally aligned to buffer rows
+                (each row's tag = the acting episode's group at step
+                START — `_pending` carries it across the boundary)."""
+
+                def _group(self):
+                    return self.model.env.get_attr("current_anchor_group")[0]
+
+                def _on_rollout_start(self):
+                    frac = min(1.0, self.model.num_timesteps / float(steps))
+                    self.model.anchor_live = {
+                        g: anchor + (e - anchor) * frac for g, e in ends.items()
+                    }
+                    self.model.anchor_tags = []
+                    self._pending = self._group()
+
+                def _on_step(self) -> bool:
+                    self.model.anchor_tags.append(self._pending)
+                    self._pending = self._group()
+                    return True
+
+            callback = _GroupAnchor()
+        elif anchor_end is not None:
             from stable_baselines3.common.callbacks import BaseCallback
 
             class _AnchorSchedule(BaseCallback):
@@ -858,7 +929,15 @@ def finetune(
 
             callback = _AnchorSchedule()
     model.learn(total_timesteps=steps, callback=callback)
-    if anchor > 0.0 and anchor_end is not None:
+    if anchor > 0.0 and anchor_ball_end is not None:
+        live = {g: round(v, 4) for g, v in model.anchor_live.items()}
+        from collections import Counter
+
+        print(
+            f"[finetune] group anchor landed at {live}; last-rollout tags "
+            f"{dict(Counter(model.anchor_tags))}"
+        )
+    elif anchor > 0.0 and anchor_end is not None:
         print(f"[finetune] anchor schedule landed at kl_coef={model.kl_coef:.4f}")
     model.save(out)
     venv.close()
@@ -889,6 +968,7 @@ def main() -> None:
     ap.add_argument("--anchor", type=float, default=0.0)
     ap.add_argument("--anchor-end", type=float, default=None)
     ap.add_argument("--ft-edge-bias", action="store_true")
+    ap.add_argument("--anchor-ball-end", type=float, default=None)
     ap.add_argument("--ft-gate-bonus", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -1092,6 +1172,7 @@ def main() -> None:
             gate_bonus=args.ft_gate_bonus,
             anchor_end=args.anchor_end,
             edge_bias=args.ft_edge_bias,
+            anchor_ball_end=args.anchor_ball_end,
         )
         return
     if args.collect:
