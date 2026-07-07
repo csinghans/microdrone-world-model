@@ -117,28 +117,21 @@ benchmark. Phasing (`experiments/search_room_v*`,
   were overfit — the robust configuration is slow flight (0.36 m/s)
   under a braking-distance geometric safety filter. Trajectory:
   `docs/figures/search_room_trajectory.png`.
-- **Phase 1b — does the world model help? HONEST NEGATIVE, with a
-  sharp mechanism map.** The transit WM is blind to walls head-on
-  (forward AUC 0.48) and a retrain on room data did NOT fix it
-  (pooled AUC 0.76 → 0.38): the retrained model predicts room latents
-  well (MSE@32 0.94 vs no-op 9.14) but its collision head sits at
-  chance — because the danger signal (`clearance()`, omnidirectional)
-  is mostly OUT of the forward 28° camera's view. **The bottleneck is
-  the observation channel, not the model** (the repo's signature
-  channel-limit result, now for search safety). Phase 1a's privileged
-  geometric filter stands as the working sim safety layer
-  (`experiments/search_wm_v1/`). **Follow-up (v2): FOV-honest labels
-  did NOT rescue it** — forward-danger AUC stayed ~0.58 across three
-  routes (transit WM, omni-label retrain, FOV-honest retrain). The two
-  negatives converge on a PERCEPTUAL limit: the WM rides discrete
-  obstacles' apparent-size cue (boxes scored 0.79), but a flat wall is
-  scale-free in a single 64×64 monocular frame, so wall distance is
-  ill-posed — no label or retrain adds information the pixels lack.
-  **Search safety belongs to geometry / cheap rangefinders
-  (omnidirectional, distance-direct), not a monocular world model**;
-  the WM's place in this track, if any, is target reasoning, not
-  collision (`experiments/search_wm_v2/`).
-- **v3 — the deployability capstone: GREEN.** Swapping the privileged
+- **Phase 1b — does the world model help? YES for forward collision
+  (after a setup correction).** First pass (v1/v2) read a negative —
+  transit WM forward AUC ~0.48, and a retrain did not fix it — and
+  wrongly blamed a "monocular flat-wall is scale-free" perceptual
+  limit. **That was a rendering bug:** `SearchScenario` spawned no
+  pybullet bodies, so the camera saw a blank floor; the WM scored at
+  chance because there was nothing in the image. With the room
+  actually RENDERED (`spawn_bodies`: wall slabs + box obstacles), the
+  **transit WM transfers out of the box — forward AUC 0.814 at n=12,
+  zero retraining** — the pillar-trained collision head reads box-walls
+  fine. The v1/v2 negative and its mechanism story are RETRACTED
+  (`experiments/search_wm_v3/`; v1/v2 kept with correction notes). So
+  the WM CAN own vision-based forward danger; side/behind stays the
+  rangefinders' omnidirectional job.
+- **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
   0.033, return ~0.98, 8× faster than random). **Indoor single-room

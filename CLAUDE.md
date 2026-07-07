@@ -87,6 +87,14 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   push, not just the files you edited — a hand-typed dict in an
   otherwise-verified file shipped two E501s and CI stayed red for six
   pushes before anyone looked (2026-07-07).
+- A vision experiment must FIRST assert the frame is non-blank (the
+  geometry is actually RENDERED, not just scored by math). The Indoor
+  Active Search scenarios spawned no pybullet bodies, so the camera saw
+  a blank floor — and two WM version-verdicts (search_wm_v1/v2) were
+  written on empty frames, mis-attributing a rendering bug to a
+  "monocular perceptual limit," before a depth sanity-check caught it
+  (2026-07-08). Same class as the split-identity leak: verify the
+  instrument sees what you think before interpreting what it says.
 - Scripted string replacement (`python - <<` + `str.replace`) fails
   SILENTLY on zero matches — black reformatting invalidates pasted
   old-strings. Use the Edit tool (loud no-match) for code surgery, and
