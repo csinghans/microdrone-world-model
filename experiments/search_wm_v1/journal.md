@@ -89,3 +89,59 @@ effort (v0.8-scale), carried across loop iterations.
 
 Cost of step 1: 12 episodes with a WM tap, ~15 min, zero training —
 and it redirected the whole of Phase 1b from "action OOD" to "walls".
+
+## Step-2 verdict: the retrain confirms an OBSERVATION-CHANNEL bottleneck, not a model gap — honest negative (2026-07-07)
+
+Retrained the WM 80 epochs on the wall-teaching search dataset (96
+rooms x 150 steps, near-wall frac 0.40), then re-probed:
+
+| probe | pooled AUC | forward | reverse/strafe |
+|---|---|---|---|
+| transit WM (step 1) | 0.762 | 0.480 | 0.793 |
+| **retrained WM (step 2)** | **0.384** | 0.567 | 0.377 |
+
+The retrain did NOT earn the vision safety filter — forward nudged
+0.48 -> 0.567 (still far below the 0.75 gate) and the pooled signal
+COLLAPSED to 0.384 (below chance). But the training metrics say the
+model is not broken: **latent MSE@32 = 0.939 vs no-op 9.137** — it
+predicts the room's future latents ~10x better than no-op. It learned
+the dynamics; it could not learn the danger label (collision AUC@32
+0.59, now-AUC 0.47 ~ chance).
+
+**The MSE-good / AUC-chance split is the finding.** The danger label
+is `clearance()` — the nearest surface in ANY direction — but the
+camera sees only a forward 28-degree cone. In a room the nearest
+surface is usually to the SIDE or BEHIND (a wall the drone is flying
+parallel to), which the forward camera cannot see. So "am I within
+0.7 m of something?" is **not a function of the observation** — and no
+amount of training makes a head predict a label its input doesn't
+contain. This is the repo's signature channel-bottleneck result
+(cf. the dispatch arc, "you cannot identify a world through a channel
+built to report only imminent danger"), now for search safety:
+**a forward-only camera cannot supply the OMNIDIRECTIONAL safety
+signal that 2D roaming needs.** The privileged geometric filter is
+deployable-in-sim precisely because it is omnidirectional; vision on
+this body is not its equal for lateral/behind danger.
+
+**Why the pooled AUC went BELOW 0.5:** trained toward an unlearnable
+(out-of-FOV) target, the warn head fit noise and anti-correlated with
+the (mostly-lateral) true proximity — worse than the transit WM,
+which at least got box obstacles right when they happened to be ahead.
+
+**Named successors (each its own pre-registration; NOT run here):**
+1. **FOV-honest labels + split safety** — label danger only for
+   surfaces inside the forward cone (the `metric_labels` visible=0
+   discipline), let the WM own FORWARD danger, and keep side/behind on
+   the 4 rangefinders (which are already omnidirectional and cheap).
+   A hybrid safety filter, honest about what each sensor can know.
+2. **Look around (yaw)** — the deferred big step: a yaw command lets
+   the camera sweep, making the omnidirectional signal observable —
+   but it breaks the WM's body==world frame and forces the full
+   retrain the nav-action-set analysis flagged.
+
+**Phase 1b closes as an honest negative with a sharp mechanism map:**
+the world model is not the missing piece for search safety on this
+body — the forward camera's FOV is. Phase 1a's privileged geometric
+filter stands as the working (sim) safety layer; a deployable vision
+replacement needs FOV-honest labels or a wider view, not just wall
+data. Cost: one dataset + one 80-epoch retrain + two probes.
