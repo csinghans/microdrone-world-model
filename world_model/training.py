@@ -435,6 +435,7 @@ def train(
             "a_norm": [float(v) for v in A_NORM],
             "action_names": list(ACTION_NAMES),
             "action_vecs": [[float(v) for v in row] for row in ACTION_VECS],
+            "seed": int(seed),
         },
     }
     metrics = {

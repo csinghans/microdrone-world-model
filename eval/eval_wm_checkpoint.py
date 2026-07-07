@@ -118,9 +118,35 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ckpt", default=None)
     ap.add_argument("--data", default=DATA)
-    ap.add_argument("--seed", type=int, default=0, help="the training run's seed")
+    ap.add_argument("--seed", type=int, default=None, help="the training run's seed")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
+
+    if args.ckpt and not args.selftest:
+        meta_seed = (
+            torch.load(args.ckpt, map_location="cpu", weights_only=False)
+            .get("meta", {})
+            .get("seed")
+        )
+        if meta_seed is not None:
+            if args.seed is not None and int(args.seed) != int(meta_seed):
+                raise SystemExit(
+                    f"--seed {args.seed} contradicts the checkpoint's own "
+                    f"training seed {meta_seed}: a mismatched split makes "
+                    "the val rollouts overlap the model's TRAIN set "
+                    "(leakage) — refuse to grade"
+                )
+            args.seed = int(meta_seed)
+        elif args.seed is None:
+            print(
+                "[wm-probe] WARNING: checkpoint stores no training seed and "
+                "--seed not given; grading on the seed-0 split. If this "
+                "model trained on another seed, these val reads LEAK its "
+                "training data."
+            )
+            args.seed = 0
+    elif args.seed is None:
+        args.seed = 0
 
     if args.selftest:
         from datasets.generate_rollouts import gen
