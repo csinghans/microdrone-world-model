@@ -1,0 +1,9 @@
+[
+ {"id": "slalom3@1.0#B", "world": "slalom3_fixed", "speed": 1.0, "n": 30, "seed0": 22030},
+ {"id": "guard:gap@1.0#B", "world": "gap", "speed": 1.0, "n": 30, "seed0": 9030},
+ {"id": "guard:mgap@1.0#B", "world": "moving_gap", "speed": 1.0, "n": 30, "seed0": 9530},
+ {"id": "guard:cluttered", "world": null, "speed": 1.0, "n": 60, "seed0": 1000, "kwargs": {"in_path": true}, "role": "guard"},
+ {"id": "guard:sweep@2.0", "world": null, "speed": 2.0, "n": 60, "seed0": 4000, "role": "guard"},
+ {"id": "diag:slalom2@1.0", "world": "slalom2_fixed", "speed": 1.0, "n": 30, "seed0": 22000},
+ {"id": "diag:slalom3@1.25", "world": "slalom3_fixed", "speed": 1.25, "n": 30, "seed0": 22000}
+]
