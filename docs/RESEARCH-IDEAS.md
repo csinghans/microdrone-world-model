@@ -274,9 +274,13 @@ scripted "ceiling" was refuted by the incumbent champion itself
 learned skill scripts lack; the slalom lesson's dual). Mechanism map:
 cruise is essentially closed (0.833 vs 0.867, side-clutter deaths
 only); at speed the champion clears in-path threats at every factor
-and dies on FOV-EDGE side clutter (13/14 @x2.0). Successors (fresh
-pre-registration each): champion-as-teacher two-leg at speed; an
-oracle that may slow (`experiments/dense_speedrun/journal.md`).
+and dies on FOV-EDGE side clutter (13/14 @x2.0). Stage 0b (slow-capable
+oracle) refuted the instrument a second time — slow-interleave ≈ plain
+script everywhere (0.367 = 0.367 @x1.5): speed management is a TIMING
+skill, the door-arc law again. No valid speed ceiling exists; headroom
+unknown. Sole successor (unscheduled): champion-as-teacher two-leg,
+bars priced against the existence numbers + margin
+(`experiments/dense_speedrun/journal.md`).
 
 Fly the dense world at factors 1.5-2.0. The dense floor (17-27 % at
 cruise band) is the repo's stated open frontier and it has *survived*

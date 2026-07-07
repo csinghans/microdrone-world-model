@@ -1,0 +1,49 @@
+{
+ "n": 30,
+ "seed0": 7000,
+ "zip": null,
+ "cells": [
+  {
+   "speed": 1.0,
+   "n": 30,
+   "success": 0.8333333333333334,
+   "crash": 0.16666666666666666,
+   "timeout": 0.0,
+   "taxonomy": {
+    "in_path_1": 0,
+    "in_path_2": 0,
+    "side": 5
+   },
+   "blind_side": 0,
+   "arm": "oracle_slow"
+  },
+  {
+   "speed": 1.5,
+   "n": 30,
+   "success": 0.36666666666666664,
+   "crash": 0.6,
+   "timeout": 0.03333333333333333,
+   "taxonomy": {
+    "in_path_1": 4,
+    "in_path_2": 5,
+    "side": 9
+   },
+   "blind_side": 1,
+   "arm": "oracle_slow"
+  },
+  {
+   "speed": 2.0,
+   "n": 30,
+   "success": 0.16666666666666666,
+   "crash": 0.7333333333333333,
+   "timeout": 0.1,
+   "taxonomy": {
+    "in_path_1": 14,
+    "in_path_2": 1,
+    "side": 7
+   },
+   "blind_side": 0,
+   "arm": "oracle_slow"
+  }
+ ]
+}

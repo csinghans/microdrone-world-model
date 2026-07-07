@@ -147,3 +147,43 @@ An honest boundary as before: a scripted slow rule is ONE point in
 policy space — this ceiling stays a lower bound, and a refuted-again
 outcome (slow-oracle ≤ plain oracle) is itself reportable (the trick
 is harder than one rule).
+
+## Stage 0b verdict: the instrument is refuted AGAIN — no branch may fire (2026-07-07)
+
+| speed | plain oracle | slow oracle | champion |
+|---|---|---|---|
+| x1.0 | 0.867 | 0.833 | 0.833 |
+| x1.5 | 0.367 | **0.367** | 0.733 |
+| x2.0 | 0.100 | 0.167 | 0.433 |
+
+The pre-registered honest-boundary sentence fired, not the branches:
+**slow-oracle ≈ plain oracle everywhere** (identical at the x1.5
+headline; +2 episodes at x2.0; −1 at cruise). The letter of the
+lower branch (ceiling_slow ≤ champion + 0.05) is technically
+satisfied, but drawing "the champion sits at the arena ceiling" from
+an instrument that reads BELOW the known flyer would be dishonest —
+an instrument under the champion upper-bounds nothing. **No headroom
+conclusion is drawn.**
+
+What the failure teaches (and it is the campaign's second law-grade
+reading): the one rule DID fire — 10 % timeouts at x2.0 say the slow
+interleave engaged — it paid the time cost without buying the
+clearance. Slowing *once urgency is already true* is too late; the
+champion's advantage is not "it slows" but WHERE and WHEN it slows,
+upstream of the emergency. **Speed management is a timing skill, and
+the door-arc law holds: scripted pilots lose timing tasks unless
+handed the true clock.** Two script generations, one refrain.
+
+**Standing state of the dense frontier (final for this campaign):**
+- Cruise: closed (champion 0.833 vs scripts 0.833-0.867, all deaths
+  side-clutter).
+- Speed: the champion (0.733 @x1.5, 0.433 @x2.0) is simultaneously
+  the best-known flyer AND the only valid instrument; true headroom
+  UNKNOWN — the repo has now spent two honest attempts failing to
+  build a speed ceiling and records the instrument gap as real.
+- The champion-as-teacher two-leg successor stays UNSCHEDULED (the
+  middle branch's disposition): if opened later, its bars must be
+  priced without a ceiling — against the existence numbers plus a
+  margin, the honest second-best.
+
+Cost of 0b: 90 episodes, ~25 min, zero training. Campaign CLOSED.
