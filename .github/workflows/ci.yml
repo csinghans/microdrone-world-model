@@ -95,6 +95,7 @@ jobs:
           python -m scripts.distill --selftest
           python -m eval.eval_integration --selftest
           python -m eval.search_episode --sim
+          python -m eval.eval_search --selftest
           # the newcomer path, end to end: fetch the pinned champions
           # (sha256-verified from the release), then a real preflight
           python -m scripts.fetch_champions
