@@ -104,3 +104,52 @@ so. Secondary OBSERVATIONAL readout (no verdict power): the same
 ratio on now-AUC, which does not saturate.
 
 Cost: 10 trainings x ~3 min + 10 probes, ~45-60 min, &&-chained.
+
+## ⚠ INSTRUMENT CORRECTION: the probe's split did not follow the training seed (2026-07-07)
+
+**The flaw.** `eval_wm_checkpoint --seed` defaults to 0 and both this
+campaign's probe passes omitted it. Models trained with `--seed N`
+hold out a seed-N rollout split; graded on the seed-0 split, their
+"val" rollouts overlap their TRAIN set — leakage. Every s1+ read in
+the sections above is affected. Caught by the escalation run's
+training printouts disagreeing with its probe reads; the sections
+above stay as written (era rules; numbers never edited), this
+section supersedes their numbers.
+
+**Instrument rehabilitated, bit-exact.** Re-probed with matching
+seeds: l05_s1 = **0.9948** (M1's historical seed-1 number, exact)
+and l01_s1 = **0.9504** (N1's historical second number, exact).
+Training was deterministic all along. **The "seed-adjacent
+nondeterminism" note in the n=3 verdict is RETRACTED** — the
+mismatch was split protocol, nothing else. The three 1.0000 reads
+were leakage artifacts, not saturation; the saturation caveat is
+moot. Hardening shipped: checkpoints now store their training seed
+in meta; the probe reads it, REFUSES a contradicting --seed, and
+warns loudly on legacy checkpoints.
+
+**Every verdict re-derived on clean per-seed val reads:**
+
+| read | leaked | clean |
+|---|---|---|
+| n=3 arm means (ctrl/λ.1/λ.5) | 0.917 / 0.805 / 0.859 | **0.878 / 0.772 / 0.822** |
+| n=3 verdict | NOT RESOLVABLE | **NOT RESOLVABLE (survives)** — max sep 0.106 < pooled sd 0.193 |
+| "λ0.5 tightest" (sd) | 0.036 | **0.170 — the observation was itself a leakage artifact** |
+| n=8 var ratio ctrl/λ0.5 | (ungraded) | **0.96 → NOT RESOLVABLE; the stabilizer hypothesis dissolves** — equal variances, born of a leaked read, dead on clean ones |
+| n=8 arm means | — | ctrl 0.8041 vs λ0.5 0.7688 (SE ≈ 0.054): indistinguishable |
+
+**The M1 retro-read, recomputed.** The published supporting number
+(powered control mean 0.917) was leaked; the clean powered control
+is **0.8041 ± 0.153 (n=8)**. The mechanism sentence changes: not
+"control's seed 0 was its worst draw" but "M1's grounded pair
+(0.8175, 0.9948) were among the λ-arm's LUCKIEST draws — ranks #3
+and #1 of its eight." The clean λ0.5 arm at full power means 0.7688
+— nominally BELOW the control's 0.8041, difference ≈ 0.6 SE.
+**The retro-read's conclusion SURVIVES, strengthened: no model-axis
+gain is resolvable at any power measured; the M1→M2 paradox stays
+dissolved.** What changes is only the arithmetic that carried it.
+
+Cost of the correction: 16 re-probes (~10 min), one tool hardening,
+and the reminder that instrument bugs do not respect how much you
+liked the old number: two of today's numbers got WORSE for our own
+published story (control mean 0.917→0.804) and one got better —
+they land where they land.
