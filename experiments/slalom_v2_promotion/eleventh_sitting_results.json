@@ -1,0 +1,86 @@
+{
+ "zip": "experiments/anchor_dial/artifacts_local/ppo_anchor_sched_edge.zip",
+ "cells": {
+  "slalom3@1.0": {
+   "n": 60,
+   "seed0": 22000,
+   "crash": 0.31666666666666665,
+   "reached": 1.0,
+   "success": 0.6833333333333333,
+   "clearance_mean": 0.222633563080462,
+   "custom": {
+    "weaved": 0.6833333333333333,
+    "weave_frac": 0.9333333333333333,
+    "chain_break_at": 2.7
+   }
+  },
+  "guard:gap@1.0": {
+   "n": 60,
+   "seed0": 9000,
+   "crash": 0.03333333333333333,
+   "reached": 1.0,
+   "success": 0.9666666666666667,
+   "clearance_mean": 0.40676446871187183,
+   "custom": {
+    "transited": 1.0,
+    "gap_margin": 0.24657040436557273
+   }
+  },
+  "guard:mgap@1.0": {
+   "n": 60,
+   "seed0": 9500,
+   "crash": 0.11666666666666667,
+   "reached": 1.0,
+   "success": 0.8833333333333333,
+   "clearance_mean": 0.31088498905488937,
+   "custom": {
+    "transited": 0.9666666666666667,
+    "gap_margin": 0.17436953767717417
+   }
+  },
+  "guard:cluttered": {
+   "n": 60,
+   "seed0": 1000,
+   "crash": 0.016666666666666666,
+   "reached": 1.0,
+   "success": 0.9833333333333333,
+   "clearance_mean": 0.41831698799911204,
+   "custom": {}
+  },
+  "guard:sweep@2.0": {
+   "n": 60,
+   "seed0": 3000,
+   "crash": 0.05,
+   "reached": 1.0,
+   "success": 0.95,
+   "clearance_mean": 0.6159790506896906,
+   "custom": {}
+  },
+  "diag:slalom2@1.0": {
+   "n": 30,
+   "seed0": 22000,
+   "crash": 0.8,
+   "reached": 1.0,
+   "success": 0.2,
+   "clearance_mean": 0.1538421616447854,
+   "custom": {
+    "weaved": 0.2,
+    "weave_frac": 0.8166666666666667,
+    "chain_break_at": 1.5666666666666667
+   }
+  },
+  "diag:slalom3@1.25": {
+   "n": 30,
+   "seed0": 22000,
+   "crash": 1.0,
+   "reached": 0.9666666666666667,
+   "success": 0.0,
+   "clearance_mean": 0.05789205309679345,
+   "custom": {
+    "weaved": 0.0,
+    "weave_frac": 0.6777777777777778,
+    "chain_break_at": 1.7666666666666666
+   }
+  }
+ }
+}

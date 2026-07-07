@@ -1,0 +1,18 @@
+{
+ "zip": "experiments/anchor_dial/artifacts_local/ppo_anchor_sched_edge.zip",
+ "cells": {
+  "slalom3@1.0": {
+   "n": 60,
+   "seed0": 22060,
+   "crash": 0.2833333333333333,
+   "reached": 1.0,
+   "success": 0.7166666666666667,
+   "clearance_mean": 0.2282395126024894,
+   "custom": {
+    "weaved": 0.7166666666666667,
+    "weave_frac": 0.9388888888888887,
+    "chain_break_at": 2.7666666666666666
+   }
+  }
+ }
+}

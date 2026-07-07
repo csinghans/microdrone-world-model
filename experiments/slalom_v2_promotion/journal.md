@@ -96,3 +96,49 @@ construction):** slalom3@1.0 ≥ 0.70 (seed0 22000, n=60) / gap ≥ 0.75
 slalom3@1.25 measured-only (n=30).
 
 Cost: one 450k FT (~70 min) + 330 exam episodes (~50 min), background.
+
+## Eleventh-sitting verdict: THE THRONE IS TAKEN — at zero margin (2026-07-07)
+
+Borderline protocol fired on the chain (0.683 at n=60, inside ±0.08):
+one fresh disjoint block, POOLED verdict — as frozen, one recheck,
+never re-rolled.
+
+| criterion (bar) | read | verdict |
+|---|---|---|
+| slalom3@1.0 ≥ 0.70 | block A 41/60 + block B 43/60 = **84/120 = 0.700** | ✓ at EXACT equality |
+| gap ≥ 0.75 | 0.967 (n=60) | ✓ |
+| mgap ≥ 0.70 | 0.883 (n=60) | ✓ |
+| cluttered crash ≤ 0.05 | 0.017 (n=60) | ✓ |
+| sweep@2.0 crash ≤ 0.10 | 0.050 (n=60), clearance 0.62 m | ✓ |
+
+**All five criteria pass — `ppo_anchor_sched_edge.zip` is the
+corridor-slalom-v2 champion**, the first artifact in eleven sittings
+across five knob families, two fine-tune eras and one distillation
+wall to hold the target AND every guard. Committed at
+`experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip`
+(provenance name kept: BC2 prior + 450k five-world FT + KL schedule
+1.0→0.1 + edge_bias 0.5).
+
+**Honesty at the edge:** the crown's chain margin is exactly ZERO —
+84/120, one episode from vacancy. The record states it plainly: this
+is a champion by the letter of a pre-frozen rule, not by comfort.
+n=120 binomial 95 % CI ≈ ±0.082 — the true rate is somewhere in
+0.62-0.78; what is NOT in doubt is the guard set (four greens with
+fat margins, incl. the sweep slice at 10x-better-than-prior... than
+the TENTH artifact).
+
+**What the eleven-sitting arc proved, one line per era:** RL could
+not learn the chain (5 knob families, 0.00-0.067); imitation bought
+it but dropped guards (clone 0.967, mgap 47 %); naked FT erased it
+(3 arms); the constant anchor decoupled but couldn't reach (mgap 43);
+the SCHEDULED anchor reached but left a thin slice naked (sweep 32);
+**schedule + edge mass closes every hole at once — the crown recipe
+is BC shape + mass-weighted anchored repair + slice-aware diet.**
+
+Diags (measured-only): slalom2 0.200, slalom3@1.25 0.000 — unpriced/
+0.07-ceiling cells, unchanged.
+
+Measured-only observation (no cross-skill claim): the champion's
+guard reads (gap 0.967, mgap 0.883) sit at-or-above those skills' own
+champion records — the first five-world artifact with no red cell on
+this gate. Cross-skill promotion, if ever, is each skill's own gate.
