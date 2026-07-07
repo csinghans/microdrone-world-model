@@ -95,3 +95,52 @@ change = fresh pre-registration.
 Arms launched (all from BC2, 450k, five-world diet, no edge_bias):
 Arm E `--ewc 10`, Arm F `--anchor 1.0 --anchor-end 0.3`, Arm L
 `--anchor 1.0 --freeze-trunk`.
+
+## Verdict: the FLOOR SCHEDULE wins; EWC did not beat it; freeze-trunk is the mechanism gem (2026-07-07)
+
+Reference (measured, anchor_dial): schedule 1.0→0.1 = 0.833 / 1.000 / 0.800.
+
+| arm | chain slalom3 | gap | mgap | all bars? | chain vs 0.833 |
+|---|---|---|---|---|---|
+| **F — floor 1.0→0.3** | **0.867** (pooled 52/60) | **0.983** (59/60) | **0.833** (50/60) | **✓✓✓** | **+0.034** |
+| E — EWC λ=10 | 0.533 | 0.833 ✓ | 0.567 ✗ | ✗ | −0.30 |
+| L — freeze-trunk | 0.933 | 0.800 ✓ | 0.500 ✗ | ✗ | +0.10 (but mgap dead) |
+
+**Arm F borderline recheck (mgap was 0.767 at n=30, inside ±0.08):** fresh
+block 0.900 → pooled 50/60 = 0.833, comfortably green; chain block B
+0.867 == block A, pooled 0.867. By the frozen grid F PASSES all bars
+with chain > 0.833 → it dominates the 1.0→0.1 schedule *by the letter*.
+Honesty on the margin: 0.867 vs 0.833 is ~2 pts, inside n=60 binomial
+noise — so the true statement is **the floor schedule is the
+equal-or-better default and forgets no more than the tighter one**. The
+anchor_dial "unopened dial question" (does a higher floor remove the
+chain bleed?) resolves toward the floor: **1.0→0.3 keeps more chain
+headroom while still repairing mgap.**
+
+**EWC (per-parameter Fisher importance) did NOT beat the schedule.** At
+λ=10 both the chain (0.533) and mgap (0.567) fell — the penalty was too
+weak to hold the chain yet still distorted the repair. Its high-λ limit
+is BRACKETED by freeze-trunk (hard-locking the important weights = the
+trunk): chain preserved, mgap dead. So per-parameter importance
+anchoring does not dominate distributional-KL scheduling on this
+problem. The pre-registered single bracketing shot (EWC-high) is
+sanctioned but LOW-INFORMATION — freeze-trunk already shows the high-λ
+regime — and is deferred, not run.
+
+**Freeze-trunk is the finding, not a contender.** Freezing
+`mlp_extractor.policy_net` preserves the chain at **0.933 = the BC2
+prior EXACTLY (zero forgetting)** — so the chain LIVES IN the shared
+trunk, not the action head. But the same frozen trunk cannot repair
+mgap (0.500). **The skill to keep and the skill to repair compete for
+the same trunk weights** — a parameter-level echo of the dodge-crown
+wall ("station and repair live on the same states"). Forgetting is
+localized (trunk), and so is the repair capacity: you cannot freeze one
+without freezing the other.
+
+**The best fine-tune method, stated plainly:** a KL anchor on a
+tight→loose SCHEDULE, floored around 0.3 — a better-tuned version of the
+reigning method, not a new mechanism. EWC and layer-freezing each fail
+the repair while over-protecting; the schedule's graded distributional
+pressure remains the winner. Artifacts kept: ppo_floor.zip (the
+dominating-by-letter arm), ppo_freeze.zip (the zero-forgetting probe).
+Cost: 3×450k FT + exams + one pooled recheck.

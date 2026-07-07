@@ -1,0 +1,42 @@
+{
+ "zip": "experiments/ft_bakeoff/artifacts_local/ppo_freeze.zip",
+ "cells": {
+  "slalom3@1.0": {
+   "n": 30,
+   "seed0": 22000,
+   "crash": 0.06666666666666667,
+   "reached": 1.0,
+   "success": 0.9333333333333333,
+   "clearance_mean": 0.2665368006473763,
+   "custom": {
+    "weaved": 0.9333333333333333,
+    "weave_frac": 0.9777777777777777,
+    "chain_break_at": 2.8
+   }
+  },
+  "guard:gap@1.0": {
+   "n": 30,
+   "seed0": 9000,
+   "crash": 0.2,
+   "reached": 0.9666666666666667,
+   "success": 0.8,
+   "clearance_mean": 0.3050877265973934,
+   "custom": {
+    "transited": 0.9333333333333333,
+    "gap_margin": 0.20586808210758697
+   }
+  },
+  "guard:mgap@1.0": {
+   "n": 30,
+   "seed0": 9500,
+   "crash": 0.5,
+   "reached": 1.0,
+   "success": 0.5,
+   "clearance_mean": 0.2306119285597822,
+   "custom": {
+    "transited": 0.8,
+    "gap_margin": 0.14202413866630184
+   }
+  }
+ }
+}

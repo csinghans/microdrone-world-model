@@ -1,0 +1,42 @@
+{
+ "zip": "experiments/ft_bakeoff/artifacts_local/ppo_floor.zip",
+ "cells": {
+  "slalom3@1.0": {
+   "n": 30,
+   "seed0": 22000,
+   "crash": 0.13333333333333333,
+   "reached": 1.0,
+   "success": 0.8666666666666667,
+   "clearance_mean": 0.26416683600781754,
+   "custom": {
+    "weaved": 0.8666666666666667,
+    "weave_frac": 0.9555555555555556,
+    "chain_break_at": 2.7333333333333334
+   }
+  },
+  "guard:gap@1.0": {
+   "n": 30,
+   "seed0": 9000,
+   "crash": 0.0,
+   "reached": 1.0,
+   "success": 1.0,
+   "clearance_mean": 0.4164721997748308,
+   "custom": {
+    "transited": 1.0,
+    "gap_margin": 0.25117707869419215
+   }
+  },
+  "guard:mgap@1.0": {
+   "n": 30,
+   "seed0": 9500,
+   "crash": 0.23333333333333334,
+   "reached": 1.0,
+   "success": 0.7666666666666667,
+   "clearance_mean": 0.30968296597029527,
+   "custom": {
+    "transited": 0.9333333333333333,
+    "gap_margin": 0.17323686760104254
+   }
+  }
+ }
+}
