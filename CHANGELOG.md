@@ -1,5 +1,54 @@
 # Changelog
 
+## Unreleased — the instrument-honesty era: two retro-reads, one throne
+
+- **λ multi-seed (the v0.5 instrument debt, PAID): NOT RESOLVABLE.**
+  Three arms × three seeds on one frozen draw: arm means separate by
+  0.112 against a pooled within-arm sd of 0.189 (the CONTROL arm alone
+  spans 0.75→1.00 on identical data). Single-seed model-layer AUC is
+  weather — now measured, not asserted. **The retro-read: v0.5's M1
+  model-axis PASS does not survive a powered control** (its control
+  seed was that arm's worst draw; the powered control mean 0.917
+  absorbs the grounded mean 0.9062) — the M1→M2 paradox dissolves:
+  there was likely no model-axis gain to cash. Era verdicts stand as
+  written; the reading is prospective.
+- **dense-speedrun closed at stage 0 (zero training): the map was the
+  deliverable.** The scripted "ceiling" was refuted by the incumbent
+  champion itself (0.733 vs 0.367 @1.2 m/s; 0.433 vs 0.100 @1.6) and
+  a slow-capable script was refuted again (0.367 = 0.367) — **speed
+  management is a timing skill; the door-arc law extends to scripts
+  that merely slow.** Mechanism map rewritten: cruise is closed;
+  at speed the champion clears every in-path threat and dies on
+  FOV-edge side clutter (13/14 crashes). The repo records an honest
+  instrument gap: no valid speed ceiling exists.
+- **anchor-dial (the ★★★ tool question): the schedule buys what
+  constants trade.** kl 1.0→0.1 over 450k passes all three index bars
+  (chain 0.833 / gap 1.000 / mgap 0.800) while constant 0.3 is
+  strictly dominated. Machinery: `--anchor-end` (coefficient-only per
+  rollout — the first draft's per-rollout `set_anchor` would have
+  silently re-frozen the prior to the current policy; a deepcopy
+  crash caught the semantic bug).
+- **The FT-safety law's fifth clause, measured both ways:** anchor
+  protection is MASS-WEIGHTED. The tenth promotion sitting died on a
+  guard no training exam had measured (sweep@2.0: prior 3 % crash →
+  31.7 % after anchored FT — the fast-solo slice carries ~4 % of
+  rollout mass, and thin slices corrode almost as if naked). One
+  knob later (`--ft-edge-bias`, EDGE_P 0.5) the slice's mass rose
+  ~6x and the corrosion vanished: 31.7 % → 5.0 %, clearance 0.62 m.
+- **👑 corridor-slalom-v2 CROWNED — eleventh sitting.**
+  `ppo_anchor_sched_edge.zip` (BC2 prior + 450k anchored-schedule FT
+  + edge_bias): chain pooled **84/120 = 0.700 at exact equality**,
+  all four guards green with margins — the first artifact in eleven
+  sittings across five RL knob families, two fine-tune eras and one
+  distillation wall to hold the target AND every guard. The crown
+  recipe, one line: **BC shape + mass-weighted anchored repair +
+  slice-aware diet.** Honesty on the record: zero chain margin.
+- Article #6 shipped (`writing/06-the-integration-climb/`, EN+繁中):
+  unit-green is not integration-green — the climb to the deployment
+  gate. New standing instrument: `eval_dense_probe` (gap-tracker
+  oracles + mechanical failure taxonomy + blind-side flag, in CI).
+  House rule added after six red pushes: repo-wide lint before push.
+
 ## 0.6.0 — 2026-07-07 (the imitation turn: five skills become one pilot, and the pilot passes its flight exam)
 
 Seven campaign records, newest first — the imitation-era headline,
