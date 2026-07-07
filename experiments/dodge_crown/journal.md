@@ -337,3 +337,49 @@ not the artifact):**
 
 Cost: machinery + smokes + one 450k FT + one 480-episode gate
 ≈ 3-3.5 h, &&-chained background queue.
+
+## K4 verdict: the kill condition fires by its letter — DAgger priced dead for this throne (2026-07-07)
+
+Machinery clean (transit landed 0.103; 1298/1298 ball rows labelled).
+The gate:
+
+| cell (bar) | K2a pin | K4 DAgger | note |
+|---|---|---|---|
+| dodge@v0.6 (≥0.65) | 0.350 | **0.350** | crash 0.383 → **0.083** |
+| dodge@v1.0 (≥0.55) | 0.333 | 0.333 | crash 0.200 → 0.083 |
+| dodge@v1.4 (≥0.55) | 0.550 | 0.533 | ~tie |
+| dodge@v1.8 (≥0.55) | 0.500 | **0.567** | crosses its bar |
+| gap (≥0.75) | 0.850 ✓ | 0.833 ✓ | |
+| mgap (≥0.70) | 0.600 ✗ | **0.733** | first-ever mgap green in this campaign |
+| cluttered (≤0.05) | 0.100 ✗ | 0.083 ✗ | |
+| sweep@2.0 (≤0.10) | 0.200 ✗ | 0.283 ✗ | hard fail |
+
+**The frozen grid's third branch fires:** v0.6 success 0.350 ≤ K2a's
+0.350 — an EXACT tie (21/60 both) on the pre-registered headline.
+**DAgger at λ_T = 1.0 under this recipe is priced dead for this
+throne.** No metric-switching after the fact: the branch was frozen
+on v0.6 success, and v0.6 success did not move.
+
+**Recorded, not litigated (the honest margins of the same table):**
+the tutor changed real things the headline does not credit — v0.6
+crashes fell 5x (0.383 → 0.083: the student stopped DYING and started
+timing-out/degrading instead), v1.8 crossed its bar (0.567), and mgap
+went green for the first time in four knobs (0.733). A future
+re-registration could legally re-open the teacher-anchor road with a
+different frozen headline or a λ_T dial — that would be a NEW
+argument entering through its own pre-registration; nothing here
+grandfathers it.
+
+**The campaign closes: four knobs, two eras, five priced directions.**
+Global schedule (erased by reward — the sixth clause), per-group pin
+(defends station, forbids repair — the shared-states wall), the
+fidelity road (sub-linear volume — refuted at its own checkpoint),
+DAgger λ1.0 (exact tie on the headline). The throne stays split
+(RL-K3 holds v1.0, the pure clone holds v1.8); ppo_dodge_K2a_pin
+remains the best station-holding generalist; the only named road
+left standing is the ~1400-episode volume re-registration. The
+dodge crown is the catalog's hardest open problem, and it is now
+priced from five directions — which is what an honest repo calls
+progress on an unsolved throne.
+
+Cost (K4): one 450k FT + 480 exam episodes, ~2.1 h.

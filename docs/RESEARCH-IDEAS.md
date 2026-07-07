@@ -78,10 +78,14 @@
   split them. Named roads: ~~the fidelity road~~ REFUTED at
   its own checkpoint (tripling v06 demos bought BC v0.6 only
   0.267→0.433, sub-linear; ~1400+ episodes extrapolated for 0.6 — a
-  legal re-registration, not an entitlement) and **DAgger**
-  (re-anchor to the teacher instead of the prior — seven
-  erasure/decoupling datapoints now shape the argument; now the
-  dodge throne's LEAD road).
+  legal re-registration, not an entitlement) and ~~DAgger~~ PLAYED
+  (dodge_crown K4, λ_T=1.0): the frozen kill condition fired by its
+  letter — v0.6 success tied K2a's pin EXACTLY (0.350) — priced dead
+  for this throne; honest margins recorded (v0.6 crashes fell 5x,
+  v1.8 crossed its bar, mgap green for the first time). The throne's
+  sole surviving named road: the ~1400-episode slow-ball volume
+  re-registration. Five directions priced; the throne rests
+  (`experiments/dodge_crown/journal.md`).
 - ~~dispatch (six-class)~~ CLOSED 2026-07-06 at its own phase-1 meter
   (`experiments/dispatch/journal.md`): moving_gap 0.80 and
   opening_door 0.667 under the frozen 0.85 identification floor —
