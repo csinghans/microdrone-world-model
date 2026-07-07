@@ -40,6 +40,7 @@ jobs:
       - name: Pure-math selftests
         run: |
           python -m planner.action_set
+          python -m planner.nav_action_set
           python -m datasets.intervention_labels
           python -m datasets.metric_labels
           python -m world_model.grounding
@@ -68,6 +69,10 @@ jobs:
           python -m eval.eval_arena_ceiling --selftest
           python -m eval.eval_dodge_ceiling --selftest
           python -m eval.eval_dense_probe --selftest
+          python -m sim.search_scenario
+          python -m sim.indoor.rooms
+          python -m search.strategies
+          python -m eval.search_episode
           python -m eval.eval_results_figures --selftest
           python -m eval.eval_skill_gallery --selftest
           python -m planner.dispatch --selftest
@@ -89,6 +94,7 @@ jobs:
           python -m eval.eval_head_calibration --selftest
           python -m scripts.distill --selftest
           python -m eval.eval_integration --selftest
+          python -m eval.search_episode --sim
           # the newcomer path, end to end: fetch the pinned champions
           # (sha256-verified from the release), then a real preflight
           python -m scripts.fetch_champions
