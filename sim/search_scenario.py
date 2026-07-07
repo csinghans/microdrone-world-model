@@ -51,6 +51,61 @@ class SearchScenario:
     def step(self) -> None:
         pass
 
+    def spawn_bodies(self, env, offset=(0.0, 0.0), wall_h=1.0):
+        """Render the room as VISUAL pybullet bodies so the on-board camera
+        can actually SEE it — four wall slabs + box obstacles, placed in
+        ENV coordinates (env = room - offset, matching the runner's
+        room=env+offset convention). Visual-only (baseMass=0), like the
+        transit pillars; collisions are still scored geometrically by
+        `clearance()`. Returns the body ids (caller removes them per
+        rollout). Earlier search runs rendered NOTHING — the camera saw a
+        blank floor, which invalidated the v1/v2 WM mechanism claims."""
+        import pybullet as p
+
+        ox, oy = offset
+        x0, x1, y0, y1 = self.bounds
+        cx, cy = (x0 + x1) / 2 - ox, (y0 + y1) / 2 - oy
+        hx, hy = (x1 - x0) / 2, (y1 - y0) / 2
+        t = 0.05  # wall thickness (half-extent)
+        walls = [
+            ((x1 - ox, cy), (t, hy)),  # +x
+            ((x0 - ox, cy), (t, hy)),  # -x
+            ((cx, y1 - oy), (hx, t)),  # +y
+            ((cx, y0 - oy), (hx, t)),  # -y
+        ]
+        ids = []
+        for (px, py), (ex, ey) in walls:
+            vis = p.createVisualShape(
+                p.GEOM_BOX,
+                halfExtents=[ex, ey, wall_h / 2],
+                rgbaColor=[0.55, 0.57, 0.60, 1],
+                physicsClientId=env.CLIENT,
+            )
+            ids.append(
+                p.createMultiBody(
+                    baseMass=0,
+                    baseVisualShapeIndex=vis,
+                    basePosition=[px, py, wall_h / 2],
+                    physicsClientId=env.CLIENT,
+                )
+            )
+        for obx, oby, r in self.obstacles:
+            vis = p.createVisualShape(
+                p.GEOM_BOX,
+                halfExtents=[r, r, wall_h / 2],
+                rgbaColor=[0.80, 0.45, 0.30, 1],
+                physicsClientId=env.CLIENT,
+            )
+            ids.append(
+                p.createMultiBody(
+                    baseMass=0,
+                    baseVisualShapeIndex=vis,
+                    basePosition=[obx - ox, oby - oy, wall_h / 2],
+                    physicsClientId=env.CLIENT,
+                )
+            )
+        return ids
+
     # --- geometric safety signal (privileged; the Phase 1a safety layer) ---
     def clearance(self, pos_xy) -> float:
         """Planar distance to the nearest wall or obstacle surface (m).
@@ -188,6 +243,14 @@ class SearchScenario:
         # min distance from each cell centre to any path point
         d = np.linalg.norm(c[:, None, :] - pts[None, :, :], axis=2).min(axis=1)
         return float((d <= self.sensor_range).mean())
+
+
+def remove_bodies(env, ids) -> None:
+    """Remove bodies spawned by `spawn_bodies` (per-rollout cleanup)."""
+    import pybullet as p
+
+    for i in ids:
+        p.removeBody(i, physicsClientId=env.CLIENT)
 
 
 def selftest() -> None:

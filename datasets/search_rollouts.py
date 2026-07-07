@@ -43,6 +43,7 @@ from planner.nav_action_set import NAV_ACTION_NAMES, NAV_ACTION_VECS
 from sim.envs import IMG_RES, START, VelCommander, grab_frame, make_ctrl, make_env
 from sim.indoor.rooms import single_room
 from sim.scenarios import DANGER_R
+from sim.search_scenario import remove_bodies
 
 OUT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -111,6 +112,7 @@ def gen(n_rollouts, length, seed=0, fov_honest=False):
         ox, oy = start[0] - START[0], start[1] - START[1]
         obs, _ = env.reset(seed=int(rng.integers(2**31 - 1)))
         cmd.reset(obs[0][0:3])
+        body_ids = sc.spawn_bodies(env, offset=(ox, oy))  # RENDER the room
         act_id[r], seg[r] = _nav_schedule(rng, L)
         v_speed = float(rng.uniform(SPEED_LO, SPEED_HI))
         rollout_speed[r] = v_speed
@@ -130,6 +132,7 @@ def gen(n_rollouts, length, seed=0, fov_honest=False):
             actions[r, t] = v
             obs, _, _, _, _ = env.step(cmd.rpm(state, v).reshape(1, 4))
             state = obs[0]
+        remove_bodies(env, body_ids)  # clean up before the next room
         near = float((dists[r] < DANGER_R).mean())
         print(f"  rollout {r + 1}/{R} (room, near-wall frac {near:.2f})", flush=True)
 

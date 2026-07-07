@@ -24,6 +24,7 @@ from eval.search_episode import _safe_action
 from planner.latent_mpc import DECIDE_EVERY, _frame_tensor
 from planner.nav_action_set import NAV_ACTION_VECS, nav_menu
 from sim.envs import START, VelCommander, grab_frame, make_ctrl
+from sim.search_scenario import remove_bodies
 
 WARN_HORIZON_ANY = True  # use the max warn prob over horizons (any-horizon threat)
 LOOKAHEAD_K = 4  # a "true near" decision = clearance dips below the ring within K
@@ -85,6 +86,7 @@ def probe(
         cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
         cmd.reset(obs[0][0:3])
         sx, sy = sc.start_xy
+        body_ids = sc.spawn_bodies(env, offset=(sx - START[0], sy - START[1]))
         state = obs[0]
         ep = []
         for _d in range(max_decisions):
@@ -115,6 +117,7 @@ def probe(
                     cmd.rpm(state, speed * NAV_ACTION_VECS[a]).reshape(1, 4)
                 )
                 state = obs[0]
+        remove_bodies(env, body_ids)
         rows.extend(ep)
         clears.append([c for _, _, c in ep])
     env.close()
