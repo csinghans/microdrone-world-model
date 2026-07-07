@@ -1,0 +1,316 @@
+{
+ "agg": {
+  "strategy": "wall_follow",
+  "n": 30,
+  "seed0": 110000,
+  "max_decisions": 1400,
+  "find_rate": 0.8,
+  "return_rate": 0.8333333333333334,
+  "success_rate": 0.6666666666666666,
+  "coverage_mean": 0.7306290211269174,
+  "collision_rate": 0.3333333333333333,
+  "steps_to_find_median": 105.0
+ },
+ "rows": [
+  {
+   "coverage": 0.7142857142857143,
+   "target_found": true,
+   "steps_to_find": 73,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 136
+  },
+  {
+   "coverage": 0.8043478260869565,
+   "target_found": true,
+   "steps_to_find": 107,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 197
+  },
+  {
+   "coverage": 0.6630434782608695,
+   "target_found": true,
+   "steps_to_find": 107,
+   "returned": false,
+   "success": false,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 1400
+  },
+  {
+   "coverage": 0.8791208791208791,
+   "target_found": true,
+   "steps_to_find": 256,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 353
+  },
+  {
+   "coverage": 0.7032967032967034,
+   "target_found": true,
+   "steps_to_find": 104,
+   "returned": true,
+   "success": true,
+   "collisions": 14,
+   "crashed": true,
+   "steps": 177
+  },
+  {
+   "coverage": 0.7934782608695652,
+   "target_found": true,
+   "steps_to_find": 258,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 352
+  },
+  {
+   "coverage": 0.7956989247311828,
+   "target_found": false,
+   "steps_to_find": -1,
+   "returned": false,
+   "success": false,
+   "collisions": 22,
+   "crashed": true,
+   "steps": 1400
+  },
+  {
+   "coverage": 0.717391304347826,
+   "target_found": true,
+   "steps_to_find": 212,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 285
+  },
+  {
+   "coverage": 0.6774193548387096,
+   "target_found": false,
+   "steps_to_find": -1,
+   "returned": false,
+   "success": false,
+   "collisions": 17,
+   "crashed": true,
+   "steps": 1400
+  },
+  {
+   "coverage": 0.6923076923076923,
+   "target_found": true,
+   "steps_to_find": 92,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 161
+  },
+  {
+   "coverage": 0.8021978021978022,
+   "target_found": true,
+   "steps_to_find": 94,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 180
+  },
+  {
+   "coverage": 0.8260869565217391,
+   "target_found": true,
+   "steps_to_find": 127,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 213
+  },
+  {
+   "coverage": 0.5652173913043478,
+   "target_found": true,
+   "steps_to_find": 65,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 123
+  },
+  {
+   "coverage": 0.8043478260869565,
+   "target_found": true,
+   "steps_to_find": 235,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 341
+  },
+  {
+   "coverage": 0.6236559139784946,
+   "target_found": true,
+   "steps_to_find": 73,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 139
+  },
+  {
+   "coverage": 0.7717391304347826,
+   "target_found": false,
+   "steps_to_find": -1,
+   "returned": false,
+   "success": false,
+   "collisions": 22,
+   "crashed": true,
+   "steps": 1400
+  },
+  {
+   "coverage": 0.7472527472527473,
+   "target_found": true,
+   "steps_to_find": 98,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 184
+  },
+  {
+   "coverage": 0.6521739130434783,
+   "target_found": true,
+   "steps_to_find": 76,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 143
+  },
+  {
+   "coverage": 1.0,
+   "target_found": true,
+   "steps_to_find": 431,
+   "returned": false,
+   "success": false,
+   "collisions": 82,
+   "crashed": true,
+   "steps": 1400
+  },
+  {
+   "coverage": 0.75,
+   "target_found": true,
+   "steps_to_find": 113,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 214
+  },
+  {
+   "coverage": 0.5,
+   "target_found": false,
+   "steps_to_find": -1,
+   "returned": false,
+   "success": false,
+   "collisions": 873,
+   "crashed": true,
+   "steps": 1400
+  },
+  {
+   "coverage": 0.8901098901098901,
+   "target_found": false,
+   "steps_to_find": -1,
+   "returned": false,
+   "success": false,
+   "collisions": 40,
+   "crashed": true,
+   "steps": 1400
+  },
+  {
+   "coverage": 0.9456521739130435,
+   "target_found": true,
+   "steps_to_find": 268,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 367
+  },
+  {
+   "coverage": 0.1956521739130435,
+   "target_found": false,
+   "steps_to_find": -1,
+   "returned": false,
+   "success": false,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 1400
+  },
+  {
+   "coverage": 0.6304347826086957,
+   "target_found": true,
+   "steps_to_find": 77,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 147
+  },
+  {
+   "coverage": 0.8043478260869565,
+   "target_found": true,
+   "steps_to_find": 106,
+   "returned": true,
+   "success": true,
+   "collisions": 12,
+   "crashed": true,
+   "steps": 188
+  },
+  {
+   "coverage": 0.7934782608695652,
+   "target_found": true,
+   "steps_to_find": 139,
+   "returned": false,
+   "success": false,
+   "collisions": 31,
+   "crashed": true,
+   "steps": 1400
+  },
+  {
+   "coverage": 0.6521739130434783,
+   "target_found": true,
+   "steps_to_find": 60,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 111
+  },
+  {
+   "coverage": 0.7956989247311828,
+   "target_found": true,
+   "steps_to_find": 96,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 192
+  },
+  {
+   "coverage": 0.7282608695652174,
+   "target_found": true,
+   "steps_to_find": 75,
+   "returned": false,
+   "success": false,
+   "collisions": 1251,
+   "crashed": true,
+   "steps": 1400
+  }
+ ]
+}

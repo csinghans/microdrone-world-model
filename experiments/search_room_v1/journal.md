@@ -50,3 +50,54 @@ confirm zero cross-effect.
 
 Cost: 3 strategies x 30 episodes, privileged safety, no training,
 background.
+
+## Verdict: strategy-beats-null SUPPORTED; the gate is RED on robustness (2026-07-07)
+
+Baseline, n=30, gate seeds 110000 (disjoint from the 90000 tuning block):
+
+| strategy | find | success | return\|found | coverage | collision | steps_to_find(med) |
+|---|---|---|---|---|---|---|
+| random | 0.133 | 0.067 | 0.500 | 0.503 | 0.533 | 168 |
+| wall_follow | 0.800 | 0.667 | 0.833 | 0.731 | 0.333 | 105 |
+| **frontier** | **0.900** | 0.700 | 0.778 | **0.762** | 0.167 | 121 |
+
+**The core hypothesis SUPPORTED, decisively:** coverage-planning
+frontier finds the beacon **0.90 vs random's 0.13** — a 6.8x lift —
+and leads on coverage (0.76) and safety (collision 0.17 vs random
+0.53). Wall-follow is a strong middle (find 0.80) and marginally
+faster to first sight (105 vs 121 steps — it hugs the perimeter where
+several beacons sit) but covers less and crashes twice as often. The
+strategy layer earns its keep: **which way you search dominates the
+outcome**, exactly the thing Phase 1a set out to measure.
+
+**The SEARCH-ROOM gate is RED — on robustness, not search:**
+- find_rate 0.90 >= 0.85 ✓ (borderline +0.05, moot below)
+- steps_to_find(frontier 121) < random (168) ✓
+- **return_rate|found 0.778 < 0.90 ✗**
+- **collision_rate 0.167 > 0.05 ✗ (the hard fail)**
+
+**The n=8 feasibility ceiling was a FRIENDLY BLOCK.** On the tuning
+seeds the privileged Frontier read find 1.0 / success 1.0 /
+collision 0.0; the fresh n=30 gate reads 0.90 / 0.70 / 0.167. This is
+the repo's own recurring lesson (graduation must be judged at high n,
+not a friendly first block — cf. the integration-suite n=30 promotion
+that fell at n=100) re-applied to a new track. The mechanics were
+tuned against the 8 friendly seeds and the gate caught the overfit.
+Recorded, not re-rolled.
+
+**Where the crashes come from (diagnostic):** a single global
+`BRAKE_DIST` cannot both avoid freezing (0.8 m stalled the drone) and
+avoid brushing (0.35 m lets ~1-in-6 episodes clip a corner) — the
+coarse cardinal motion at 0.6 m/s overshoots on the tight side. The
+homing return also stalls ~22 % (BFS routes exist but the same
+brush-or-freeze tension bites on the way home).
+
+**Named successor (fresh pre-registration, fresh seeds — NOT a
+re-tune of this gate): search_room_v2.** Hypothesis: a GRADED safety
+filter — command `slow` (already in the nav vocabulary, off the
+coverage menu) when clearance is marginal, and veto only when a crash
+is imminent — drives collision under 0.05 without the freeze, because
+it decouples "slow down near obstacles" from "stop exploring". Phase
+1b (world-model safety layer) waits behind v2: comparing WM-assisted
+vs a geometric baseline that itself crashes 17 % would confound the
+WM's contribution with the geometric filter's weakness.
