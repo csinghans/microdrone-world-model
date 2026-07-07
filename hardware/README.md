@@ -1,9 +1,15 @@
-# Hardware bridge — v0.4 (design placeholder)
+# Hardware bridge — design placeholder (parked by standing instruction)
 
-Nothing here runs yet, on purpose. The simulation stack must reproduce its
-benchmarks in this repo (v0.1) and survive harder worlds (v0.2) before any
-airframe pays for our bugs. This note pins the design so the code that lands
-here has a shape to land into.
+Nothing here runs yet, on purpose. The original rule — the simulation
+stack must reproduce its benchmarks (v0.1) and survive harder worlds
+(v0.2) before any airframe pays for our bugs — has since been
+formalized as the **Flight-TDD deployment gate**: ≥ 0.70 success over
+100 random 3-stage composite courses (`docs/TDD-FLIGHT.md`).
+
+**Status 2026-07-07: the gate is GREEN** (72/100, videos of record in
+`docs/media/`). The software-side precondition is met; the bridge
+stays parked until the owner explicitly unfreezes it. This note pins
+the design so the code that lands here has a shape to land into.
 
 ## Two stages, honestly labelled
 
