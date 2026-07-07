@@ -5,7 +5,9 @@ The training printout rounds to two decimals, which cannot resolve a
 borderline bar (is dense +0.048 or +0.052?), and its veer-ranking sample
 can be tiny (n=20 on a 19-rollout val split). This probe recomputes the
 decision metrics from the *saved* checkpoint at four decimals, on exactly
-the split the training run used (same seed -> same rollout split), and
+the split the training run used (same seed -> same rollout split —
+the CLI reads the seed from the checkpoint's meta, refuses a
+contradicting --seed, and warns on legacy checkpoints without one), and
 scores veer-ranking both on the val rollouts and widened to every rollout
 (the probe never trains on labels, so widening stays meaningful — the
 same rule training.py itself applies when val is thin).

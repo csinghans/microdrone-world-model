@@ -27,7 +27,9 @@
   weather — now measured, not asserted. **The retro-read: v0.5's M1
   model-axis PASS does not survive a powered control** (its control
   seed was that arm's worst draw; the powered control mean 0.917
-  absorbs the grounded mean 0.9062) — the M1→M2 paradox dissolves:
+  absorbs the grounded mean 0.9062) *[0.917 was a leaked read — see
+  the split-identity correction above; clean value 0.804, conclusion
+  unchanged]* — the M1→M2 paradox dissolves:
   there was likely no model-axis gain to cash. Era verdicts stand as
   written; the reading is prospective.
 - **dense-speedrun closed at stage 0 (zero training): the map was the

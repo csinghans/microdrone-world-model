@@ -66,32 +66,27 @@
   the 1.0-ball permits. Exports: `AnchoredPPO` (vendored 2.9.0,
   pinned) and the anchored zip — the catalog's best five-world
   artifact (93.3/80/43 on chain/gap/mgap).
-- **The remaining roads to a distilled champion (fresh
-  pre-registrations):** ~~the coefficient schedule~~ PLAYED and
-  CROWNED (slalom-v2, 2026-07-07); ~~per-world anchor coefficients~~
-  PLAYED (dodge_crown K2): the defense WORKS — ball success is
-  monotone in the ball-group coefficient (0→0.2-0.4→0.33-0.55), the
-  sixth clause has a countermeasure — but the crown stays out: the
-  floor arm is strictly dominated by the pin (freedom on ball states
-  buys erosion, not repair), and **station-keeping and slow-ball
-  repair live on the same states** — per-group anchoring cannot
-  split them. Named roads: ~~the fidelity road~~ REFUTED at
-  its own checkpoint (tripling v06 demos bought BC v0.6 only
-  0.267→0.433, sub-linear; ~1400+ episodes extrapolated for 0.6 — a
-  legal re-registration, not an entitlement) and ~~DAgger~~ PLAYED
-  (dodge_crown K4, λ_T=1.0): the frozen kill condition fired by its
-  letter — v0.6 success tied K2a's pin EXACTLY (0.350) — priced dead
-  for this throne; honest margins recorded (v0.6 crashes fell 5x,
-  v1.8 crossed its bar, mgap green for the first time). The volume road,
-  priced by its own two measured points (200 eps → 0.267, 600 →
-  0.433; log-fit k ≈ 0.15): ~1400 episodes lands BC v0.6 ≈ 0.56 —
-  below the 0.65 bar even before the pin's preservation-only
-  ceiling — and bar-level BC needs ~2500 episodes (≈ 8 h of
-  collection). **The dodge file now rests with every named road
-  priced**: five mechanism directions + the volume curve's own
-  arithmetic. Re-opening requires either the 2500-episode shot
-  (owner's call — cost known) or a NEW idea (a stronger slow-ball
-  teacher, curriculum, action-set change)
+- **The roads to a distilled champion — ALL PLAYED (2026-07-07), one
+  crown, one file at rest.** Scoreboard form, one line per road:
+  - *coefficient schedule* → **CROWNED** (slalom-v2, eleventh
+    sitting: schedules buy what constants trade).
+  - *per-world (per-group) coefficients* → defense WORKS (ball
+    success monotone in the ball coefficient, 0→0.2-0.4→0.33-0.55 —
+    the sixth clause has a countermeasure) but the pin strictly
+    dominates the floor: **station-keeping and slow-ball repair live
+    on the same states**; per-group anchoring cannot split them.
+  - *the fidelity (volume) road* → refuted at its own checkpoint
+    (200→600 v06 demos bought BC v0.6 0.267→0.433, sub-linear;
+    log-fit says ~1400 eps ≈ 0.56, bar-level BC needs ~2500 eps
+    ≈ 8 h — priced, owner's call).
+  - *DAgger teacher-anchor* → kill condition fired by its letter
+    (v0.6 tied the pin EXACTLY, 21/60 both); honest margins recorded
+    (crashes fell 5x, v1.8 crossed its bar, mgap first green).
+
+  **The dodge file rests with every named road priced** — five
+  mechanism directions plus the volume curve's own arithmetic.
+  Re-opening requires the 2500-episode shot or a NEW idea (stronger
+  slow-ball teacher, curriculum, action-set change)
   (`experiments/dodge_crown/journal.md`).
 - ~~dispatch (six-class)~~ CLOSED 2026-07-06 at its own phase-1 meter
   (`experiments/dispatch/journal.md`): moving_gap 0.80 and
@@ -159,17 +154,21 @@
   safe zone. Unit inventory now supports it: native mean ≈ 0.92 →
   product 0.77 > the 0.70 gate; the ONLY remaining deficit is the
   seam tax (measured conditional 0.51 vs the 0.888 needed).
-- **DAgger** (argue the mechanism difference from FT first: FT
-  re-optimizes the objective, DAgger re-anchors to the teacher — the
-  four erasure datapoints now make that argument FOR it).
+- **DAgger, course-level** (distinct from the PLAYED dodge
+  teacher-anchor, which died on its own kill condition): re-anchor a
+  course/integration student to its relay teacher. The mechanism
+  debate is written (`experiments/dodge_crown/journal.md`, K4); a
+  course-level application would need its own pre-registration and
+  its own kill condition.
 - ~~P3 — chain-algorithm campaign~~ RESHAPED by chain-distill: the
   chaining question is ANSWERED (imitation chains at 96.7 %); an
   RL-algorithm campaign against that wall is now academic. Reopen
   only with a question distillation cannot touch.
-- **P4 — the λ multi-seed replication** (below): the standing
-  instrument-discipline debt; ~3 h, closes v0.5's open question.
-- **P5 — dense-speedrun** (below): frontier mapping; deliberately
-  newcomer-sized.
+- ~~P4 — the λ multi-seed replication~~ CLOSED 2026-07-07 (below):
+  NOT RESOLVABLE at every power measured; the debt paid, the probe's
+  split-identity leak found and hardened along the way.
+- ~~P5 — dense-speedrun~~ CLOSED 2026-07-07 at stage 0 (below): the
+  map was the deliverable; the scripted ceiling refuted twice.
 - **P6 — trigger-based infra & deep water:** world_model knobs in the
   runner (wire when a SECOND hand-queued model-axis campaign appears
   after wm48-defense), predictor-side grounding, conditional
@@ -316,13 +315,9 @@ unknown. Sole successor (unscheduled): champion-as-teacher two-leg,
 bars priced against the existence numbers + margin
 (`experiments/dense_speedrun/journal.md`).
 
-Fly the dense world at factors 1.5-2.0. The dense floor (17-27 % at
-cruise band) is the repo's stated open frontier and it has *survived*
-grounding (λ two doses) and global calibration — so pre-register modest
-bars and expect an honest partial. The value is the failure's *shape*
-(where does it die: FOV edge? late re-plan?). Reuse `door_metrics`-style
-outcome taxonomies. *Done:* a journal that sharpens the frontier's
-mechanism map even if no bar passes.
+*(Original framing, kept for the record: fly dense at factors
+1.5-2.0, pre-register modest bars, expect an honest partial — the
+value is the failure's shape. Delivered exactly that.)*
 
 ### the λ multi-seed replication (instrument discipline, practiced)
 
@@ -341,11 +336,9 @@ mismatches), and on clean reads the stabilizer hypothesis DISSOLVES
 and the M1 retro-read conclusion survive re-derivation. The λ file
 is closed at every power measured.
 
-v0.5's N1 measured single-seed dense AUC as a ~0.5-wide lottery. Run
-grounding λ ∈ {0.1, 0.5} × 3 seeds each (six trainings, ~3 h) and
-publish the *distribution* — the first properly-powered model-layer
-comparison here. *Done:* per-λ mean±spread vs the control draw, and a
-verdict on whether λ has any resolvable model-layer effect at all.
+*(Original framing, kept for the record: publish the distribution,
+not the best run. Delivered — twice, the second time on a repaired
+instrument.)*
 
 ## ★★★ deep water
 

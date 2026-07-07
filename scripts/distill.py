@@ -1102,6 +1102,7 @@ def main() -> None:
     ap.add_argument("--anchor-dagger-ball", type=float, default=None)
     ap.add_argument("--ft-gate-bonus", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--ft-smoke", action="store_true")
     args = ap.parse_args()
 
     if args.probe_trackw:
@@ -1227,6 +1228,50 @@ def main() -> None:
         out = args.out or "output/ppo_distill_generalist.zip"
         acc, _ = bc_train(X, Y, out, epochs=args.epochs, W=np.asarray(tags))
         print(f"[distill] generalist manipulation check: pooled val={acc:.3f}")
+        return
+
+    if args.ft_smoke:
+        # training-tier wiring smoke for every anchor branch: a tiny BC,
+        # then one micro-finetune per branch (schedule / per-group /
+        # DAgger). Loud-fail machinery is the assertion — each of these
+        # branches shipped with a crash-caught bug the first time.
+        from skills.base import load_skill
+
+        load_skill("corridor-slalom-v2")
+        load_skill("dodgeball")
+        X1, Y1 = collect(6, "gap", 1.0, seed0=91000, teacher="weave")
+        X2, Y2 = collect(6, "dodgeball_v10", 1.0, seed0=92000, teacher="dodge10")
+        X, Y = np.concatenate([X1, X2]), np.concatenate([Y1, Y2])
+        bc = "output/ppo_ftsmoke_selftest_BC.zip"
+        bc_train(X, Y, bc, epochs=3)
+        diet = "dodgeball_v10,gap"
+        finetune(
+            bc,
+            2048,
+            "output/ppo_ftsmoke_selftest_a.zip",
+            world=diet,
+            anchor=1.0,
+            anchor_end=0.1,
+        )
+        finetune(
+            bc,
+            2048,
+            "output/ppo_ftsmoke_selftest_b.zip",
+            world=diet,
+            anchor=1.0,
+            anchor_end=0.1,
+            anchor_ball_end=1.0,
+        )
+        finetune(
+            bc,
+            2048,
+            "output/ppo_ftsmoke_selftest_c.zip",
+            world=diet,
+            anchor=1.0,
+            anchor_end=0.1,
+            anchor_dagger_ball=1.0,
+        )
+        print("FT-SMOKE OK: schedule + per-group + dagger anchor branches exercised")
         return
 
     if args.selftest:

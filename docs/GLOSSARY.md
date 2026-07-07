@@ -50,6 +50,10 @@ Alphabetical-ish, grouped by layer. Every term links to a live example.
 - **instrument discipline** — knowing which measurements can bear
   weight: flight gates at n=30/60 with rechecks yes; single-seed
   per-world AUC no; the fast-solo cell (`sweep@2.0`) only at n≥60.
+  And split identity: a model-axis probe must grade on the
+  checkpoint's OWN training split, or "val" overlaps its train set
+  (leakage — measured 2026-07-07; checkpoints now store their seed
+  and `eval_wm_checkpoint` refuses a contradicting `--seed`).
 - **honest negative** — a failed hypothesis recorded with the same care
   as a win, never retried into passing. Two campaigns here are *built*
   of them ([grounding](../experiments/metric_grounding/journal.md),
@@ -89,8 +93,11 @@ Alphabetical-ish, grouped by layer. Every term links to a live example.
   a schedule (1.0→0.1, `--anchor-end`) BUYS (early tightness guards
   the fragile skill, late freedom finishes the repair); per-group
   coefficients (`--anchor-ball-end`) pin reward-opposed behavior
-  while the rest relaxes — the dial's three measured axes
-  ([anchor-dial](../experiments/anchor_dial/journal.md)).
+  while the rest relaxes; the DAgger variant (`--anchor-dagger-ball`)
+  re-anchors ball rows to a shadow TEACHER's actions instead of the
+  prior — the dial's measured axes
+  ([anchor-dial](../experiments/anchor_dial/journal.md),
+  [dodge-crown](../experiments/dodge_crown/journal.md)).
 
 ## The stack layer
 
