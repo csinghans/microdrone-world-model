@@ -97,6 +97,11 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   knob whose pre-registration is CONDITIONAL (released only on an earlier
   knob's reading) must be arbitrated with `research step`, never `run`
   (measured: dodgeball K2 played against its own release condition, 2026-07-06).
+  The hand-rolled-queue variant of the same trap: newline-separated stages
+  run even after a checkpoint assert trips — conditional gates in background
+  queues MUST be `&&`-chained (or `set -e`) so a NO-GO stops the queue
+  (measured: dodge_crown K3 flew a quarantined FT against its own
+  pre-registration, 2026-07-07).
 
 ## Relationship to nanodrone-ai
 

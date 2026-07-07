@@ -75,10 +75,13 @@
   floor arm is strictly dominated by the pin (freedom on ball states
   buys erosion, not repair), and **station-keeping and slow-ball
   repair live on the same states** — per-group anchoring cannot
-  split them. Named roads: the fidelity road (raise slow-ball demo
-  shares, then pin — the big-pot lesson) and **DAgger** (re-anchor
-  to the teacher instead of the prior — seven erasure/decoupling
-  datapoints now shape the argument).
+  split them. Named roads: ~~the fidelity road~~ REFUTED at
+  its own checkpoint (tripling v06 demos bought BC v0.6 only
+  0.267→0.433, sub-linear; ~1400+ episodes extrapolated for 0.6 — a
+  legal re-registration, not an entitlement) and **DAgger**
+  (re-anchor to the teacher instead of the prior — seven
+  erasure/decoupling datapoints now shape the argument; now the
+  dodge throne's LEAD road).
 - ~~dispatch (six-class)~~ CLOSED 2026-07-06 at its own phase-1 meter
   (`experiments/dispatch/journal.md`): moving_gap 0.80 and
   opening_door 0.667 under the frozen 0.85 identification floor —

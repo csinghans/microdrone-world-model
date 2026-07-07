@@ -241,3 +241,46 @@ guard reads feed K4's design).
 
 Cost: ~2270 collection episodes (~1.5-2 h, npz saved) + BC + probe
 + 450k FT + 480-episode gate ≈ 4-4.5 h, background queue.
+
+## K3 verdict: the fidelity road is REFUTED at its own checkpoint — plus a harness violation, recorded (2026-07-07)
+
+**The sanctioned reading ends at checkpoint 2.** Floors passed
+(pooled val 0.9295, meter 0.9578 — both a touch above K1's pot).
+The road's own checkpoint: BC closed-loop dodge@v0.6 = **0.4333**
+against the frozen ≥ 0.50 release — NO-GO. Tripling the v06 demos
+(200 → 600 episodes, ~18k → ~54k slow-ball decisions) bought
+0.267 → 0.433: **+17 points, sub-linear, and 0.47 short of the 0.90
+teacher.** Volume closed the slalom chain's gap; it does NOT close
+the slow-ball gap at this rate — long-horizon drift under a
+station constraint is a harder fidelity problem than chain-shape.
+The extrapolated cost of "BC v0.6 ≈ 0.6" is ~1400+ episodes — a
+legal future pre-registration, not an entitlement.
+
+**Harness violation, on the record:** the queue was written as a
+newline-separated block, so the tripped checkpoint assert did NOT
+stop it — the FT and gate ran against the pre-registration's
+explicit "no FT flown". This is the dodgeball-K2 violation family
+(a conditional stage played unconditionally), reproduced in a
+hand-rolled queue. The FT/gate numbers below are QUARANTINED —
+documented for honesty, outside the campaign's decision record:
+
+> unsanctioned pin-FT gate: v0.6 0.583 / v1.0 0.183 / v1.4 0.400 /
+> v1.8 0.483; gap 0.850 ✓ / mgap 0.600 ✗ / cluttered 0.217 ✗ /
+> sweep 0.083 ✓. Directionally tantalizing at v0.6 (0.583 vs bar
+> 0.65) and collapsed at v1.0 — if pursued, it must enter through a
+> fresh pre-registration that supersedes the refuted checkpoint
+> honestly; nothing here is evidence, because nothing here was
+> sanctioned.
+
+CLAUDE.md gains the tooling clause: conditional gates in hand-rolled
+queues MUST be `&&`-chained (or `set -e`) so a tripped release
+condition stops the queue — echo markers alone document, they do not
+arbitrate.
+
+**Campaign state after three knobs + two eras:** throne split as
+before (RL-K3 holds v1.0, clone holds v1.8); the pin (K2a) remains
+the best station-holding generalist; the named remaining roads are
+DAgger (teacher re-anchor, seven datapoints) and the ~1400-episode
+volume re-registration. The dodge crown is the catalog's hardest
+open problem, and today's three sittings priced WHY from three
+different directions.
