@@ -205,3 +205,39 @@ squanders.
 Cost: 2 x 450k FT + 960 exam episodes, ~3.2 h. Artifacts kept
 (best-so-far): ppo_dodge_K2a_pin.zip — the strongest station-holding
 generalist measured (0.850 gap + nonzero station at every speed).
+
+## K3 pre-registration: the fidelity road — feed the slow ball, then pin (2026-07-07, before any number)
+
+K2 named the wall (station and repair share ball states) and the
+cheapest road around it: the prior's slow-ball fidelity. The teacher
+holds v0.6 at 0.90; the pot clone converts it to 0.267 closed-loop —
+slow-ball episodes run ~90 decisions, drift compounds, and the
+big-pot lesson (data volume closed exactly such a gap for the slalom
+chain: val 0.928 → 0.963 ended an identical stall) applies verbatim.
+
+**Single delta vs K2a — the POT's slow-ball shares:**
+v06 200 → 600 episodes (+400, fresh seed series 57000; the 55-56k
+audit series stays untouched), v10 200 → 400 (+200, seed0 58000).
+Everything else in the pot byte-identical (same recipes, same seeds).
+Collection is saved to npz this time (pot reuse, future rebalances).
+
+**Checkpoint gates (frozen, in order):**
+1. BC floors as before: pooled val ≥ 0.80, fast-ball meter ≥ 0.85.
+2. **The road's own checkpoint:** BC closed-loop dodge@v0.6 ≥ 0.50
+   at n=30 (prior read 0.267). Below 0.50 = the fidelity road is
+   REFUTED at the pot level (volume does not buy slow-ball
+   closed-loop the way it bought the chain) — stop before FT,
+   verdict recorded, no FT flown.
+3. FT arm (only if 1-2 pass): the K2a PIN recipe verbatim
+   (ball 1.0→1.0, transit 1.0→0.1, tick 0.6, edge_bias, 8-world
+   diet, 450k) on the new BC.
+
+**Exam:** the crown gate verbatim (all 8, n=60, borderline pooled).
+Honest expectation set now: mgap/sweep carry K2's standing 8-way
+thinning deficit — a dodge-side success with guard failures is the
+EXPECTED shape, and it would fork a K4 (mass budgeting) rather than
+deny the fidelity finding. The gate flies regardless (cheap, and the
+guard reads feed K4's design).
+
+Cost: ~2270 collection episodes (~1.5-2 h, npz saved) + BC + probe
++ 450k FT + 480-episode gate ≈ 4-4.5 h, background queue.
