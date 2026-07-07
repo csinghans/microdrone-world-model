@@ -32,3 +32,42 @@ Cost: ~240 episodes, ~45-70 min, zero training.
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01GGt7SZ3GgNrbrXFrC5UWcn
+
+## Tenth-sitting verdict: the throne stays VACANT — killed by the guard nobody had measured (2026-07-07)
+
+Pooled and fresh reads, all frozen bars:
+
+| criterion (bar) | block A (dial) | block B (fresh) | POOLED n=60 | verdict |
+|---|---|---|---|---|
+| slalom3@1.0 ≥ 0.70 | 0.833 | 0.767 | **0.800** | ✓ |
+| gap ≥ 0.75 | 0.933 | 1.000 | **0.967** | ✓ |
+| mgap ≥ 0.70 | 0.800 | 0.867 | **0.833** | ✓ |
+| cluttered crash ≤ 0.05 | — | — | 0.033 (n=60) | ✓ |
+| **sweep@2.0 crash ≤ 0.10** | — | — | **0.317 (n=60)** | **✗** |
+
+Diagnostics (measured-only): slalom2 0.233, slalom3@1.25 0.000 —
+consistent with their unpriced/0.07 ceilings.
+
+**The crown rule fires: throne stays vacant.** The pooling demand did
+not kill it (every pooled read is comfortably green — mgap's fresh
+block came in HIGHER); the kill is the guard the dial campaign never
+measured. The BC2 prior flies sweep@2.0 at **3 % crash (n=120)**; its
+schedule-anchored fine-tune flies it at **31.7 %** — a 10x corrosion
+the anchor was supposed to prevent.
+
+**The mechanism, and the FT-safety law's fifth clause.** The KL
+anchor acts on ROLLOUT states, and WMPolicyEnv samples speed
+uniformly per episode — so the fast-solo slice IS visited, at roughly
+4 % of rollout mass (1/5 of solo episodes above ~1.75x, solo = 1/5 of
+the diet). Protection proportional to visitation is no protection:
+**anchor pressure is mass-weighted — thin slices corrode almost as if
+the fine-tune were naked.** bcft K1's untouched-world collapse was
+the zero-mass limit of the same clause; this is the first measurement
+of the thin-mass regime, caught only because a promotion gate audits
+guards the training exam did not.
+
+**Successor (single delta, pre-registered below): raise the slice's
+rollout mass** with the champion's own recipe knob — `edge_bias`
+(EDGE_P = 0.5: half the FT episodes drawn from the 1.5-2.0 envelope
+edge). Priced risk, stated now: halving cruise mass may tax the chain
+(0.800 pooled has 6 points of headroom).

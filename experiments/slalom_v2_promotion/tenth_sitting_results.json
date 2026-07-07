@@ -1,0 +1,86 @@
+{
+ "zip": "experiments/anchor_dial/artifacts_local/ppo_anchor_sched.zip",
+ "cells": {
+  "slalom3@1.0#B": {
+   "n": 30,
+   "seed0": 22030,
+   "crash": 0.23333333333333334,
+   "reached": 1.0,
+   "success": 0.7666666666666667,
+   "clearance_mean": 0.23353855982581936,
+   "custom": {
+    "weaved": 0.7666666666666667,
+    "weave_frac": 0.9777777777777779,
+    "chain_break_at": 2.8
+   }
+  },
+  "guard:gap@1.0#B": {
+   "n": 30,
+   "seed0": 9030,
+   "crash": 0.0,
+   "reached": 1.0,
+   "success": 1.0,
+   "clearance_mean": 0.42463939380099547,
+   "custom": {
+    "transited": 1.0,
+    "gap_margin": 0.26442388653826904
+   }
+  },
+  "guard:mgap@1.0#B": {
+   "n": 30,
+   "seed0": 9530,
+   "crash": 0.1,
+   "reached": 1.0,
+   "success": 0.8666666666666667,
+   "clearance_mean": 0.35894499876599034,
+   "custom": {
+    "transited": 0.9333333333333333,
+    "gap_margin": 0.20825006568837878
+   }
+  },
+  "guard:cluttered": {
+   "n": 60,
+   "seed0": 1000,
+   "crash": 0.03333333333333333,
+   "reached": 1.0,
+   "success": 0.9666666666666667,
+   "clearance_mean": 0.3731019370658564,
+   "custom": {}
+  },
+  "guard:sweep@2.0": {
+   "n": 60,
+   "seed0": 3000,
+   "crash": 0.31666666666666665,
+   "reached": 1.0,
+   "success": 0.6833333333333333,
+   "clearance_mean": 0.32849008588411155,
+   "custom": {}
+  },
+  "diag:slalom2@1.0": {
+   "n": 30,
+   "seed0": 22000,
+   "crash": 0.7666666666666667,
+   "reached": 1.0,
+   "success": 0.23333333333333334,
+   "clearance_mean": 0.16117804709194264,
+   "custom": {
+    "weaved": 0.23333333333333334,
+    "weave_frac": 0.85,
+    "chain_break_at": 1.6666666666666667
+   }
+  },
+  "diag:slalom3@1.25": {
+   "n": 30,
+   "seed0": 22000,
+   "crash": 1.0,
+   "reached": 1.0,
+   "success": 0.0,
+   "clearance_mean": 0.07879571504369465,
+   "custom": {
+    "weaved": 0.0,
+    "weave_frac": 0.8333333333333335,
+    "chain_break_at": 2.1
+   }
+  }
+ }
+}
