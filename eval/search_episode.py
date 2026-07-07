@@ -192,14 +192,25 @@ def search_metrics(scenario, path, found_step, returned, collisions, n_decisions
 
 
 def run_search_episode(
-    env, scenario, policy, seed, max_decisions=300, speed=1.0, safety="geometric"
+    env,
+    scenario,
+    policy,
+    seed,
+    max_decisions=300,
+    speed=1.0,
+    safety="geometric",
+    on_collision=None,
 ):
     """One search mission on the real 48 Hz env. Returns the scorecard.
     `speed` scales the executed command velocity (the safety filter's
     lookahead is a fixed DISTANCE, so slower flight overshoots less and
     the same veto margin holds with room to spare). `safety` selects the
     filter: "geometric" (privileged omnidirectional clearance) or
-    "rangefinder" (the deployable 4-beam SGBA-style sensor)."""
+    "rangefinder" (the deployable 4-beam SGBA-style sensor).
+    `on_collision`, if given, is called once per collision with a
+    forensics dict (executed action, forward-cone clearance, beams) —
+    for diagnosing WHICH failure mode the residual collisions are; when
+    None (the default) behaviour is bit-for-bit unchanged."""
     safe_fn = _SAFETY[safety]
     obs, _ = env.reset(seed=int(seed))
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
@@ -245,12 +256,28 @@ def run_search_episode(
                 a = _cardinal(
                     scenario.start_xy[0] - rpos[0], scenario.start_xy[1] - rpos[1]
                 )
+        proposed = a
         a = safe_fn(scenario, rpos, a)
         for _ in range(DECIDE_EVERY):
             obs, _, _, _, _ = env.step(cmd.rpm(state, vecs[a]).reshape(1, 4))
             state = obs[0]
             if scenario.clearance(room_xy(state)) < COLLISION_R:
                 collisions += 1
+                if on_collision is not None:
+                    beams = scenario.range_sensors(rpos)
+                    on_collision(
+                        {
+                            "decision": d,
+                            "phase": phase,
+                            "proposed": int(proposed),
+                            "executed": int(a),
+                            "rpos": (float(rpos[0]), float(rpos[1])),
+                            "hit": room_xy(state),
+                            "beams": {k: float(v) for k, v in beams.items()},
+                            "fwd_clear": float(scenario.forward_clearance(rpos)),
+                            "clearance_pre": float(scenario.clearance(rpos)),
+                        }
+                    )
                 break
         path.append(room_xy(state))
     return search_metrics(scenario, path, found_step, returned, collisions, d + 1)

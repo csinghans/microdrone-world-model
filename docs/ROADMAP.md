@@ -131,6 +131,20 @@ benchmark. Phasing (`experiments/search_room_v*`,
   (`experiments/search_wm_v3/`; v1/v2 kept with correction notes). So
   the WM CAN own vision-based forward danger; side/behind stays the
   rangefinders' omnidirectional job.
+- **Hybrid safety layer (WM-forward + rangefinder-side)? NOT worth
+  building — add beams, not a world model.** A collision-forensics
+  diagnostic (`experiments/search_hybrid_v1/`, 200 episodes) classified
+  the v3 residual crashes: of 10 first-contact failures, a WM-forward
+  warn could prevent only **4 (40%)** — forward corners just off the
+  single +x beam but inside the +-28 deg cone. The other 60% are blind
+  to a +x-locked camera by construction: 3 strafe/reverse (camera
+  orthogonal to motion) and 3 forward corners past +-28 deg. The cheap
+  fix covers all ten — **more rangefinder beams** (8/angled), no vision
+  stack in the safety loop. The channel-limit theme, sharpened: the
+  yaw=0 camera-lock that keeps the WM VALID is what hides most of the
+  crashes from it. Next: an 8-beam ablation (does doubling beams drive
+  the 0.05 residual toward zero?); the WM's honest role here is
+  target/coverage reasoning, not collision.
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
