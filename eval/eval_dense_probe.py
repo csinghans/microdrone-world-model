@@ -34,6 +34,7 @@ from sim.scenarios import COLLISION_R
 
 VEER_L = ACTION_NAMES.index("veer_left")  # +y
 VEER_R = ACTION_NAMES.index("veer_right")  # -y
+SLOW = ACTION_NAMES.index("slow")
 
 SPEED_GRID = (1.0, 1.5, 2.0)
 SEED0 = 7000
@@ -48,6 +49,8 @@ STICKY = 0.25  # bonus for keeping the current target (commitment)
 CAP = 1.1  # gap-width contribution cap (edge gaps must not dominate)
 RECENTER = 0.9  # drift-home threshold past the field
 BLIND_DECISIONS = 3  # crash within this many decisions of a flip = blind-side
+SLOW_DIST = 0.9  # urgency: next blocking plane nearer than this ...
+SLOW_ERR = 0.35  # ... while the lateral error is still larger than this
 
 
 class OracleField:
@@ -91,6 +94,36 @@ class OracleField:
         if abs(err) < DEADBAND:
             return FORWARD
         return VEER_L if err > 0 else VEER_R
+
+
+class OracleFieldSlow(OracleField):
+    """Stage-0b instrument repair: the same gap-tracker, plus the one
+    trick the champion's timeouts suggest it learned — when the next
+    pillar plane is near while the lateral error is still large
+    (urgency), interleave `slow` with the veer, trading forward
+    momentum for bend rate. One scripted point in policy space; the
+    ceiling stays a lower bound."""
+
+    def begin(self, pillars) -> None:
+        super().begin(pillars)
+        self.tick = 0
+
+    def decide(self, frame, state) -> int:
+        a = super().decide(frame, state)
+        self.tick += 1
+        if a not in (VEER_L, VEER_R):
+            return a
+        x, y = float(state[0]), float(state[1])
+        dists = [px - x for px, _ in self.p if x < px <= x + LOOK2]
+        urgent = (
+            bool(dists)
+            and min(dists) < SLOW_DIST
+            and self.target is not None
+            and abs(self.target - y) > SLOW_ERR
+        )
+        if urgent and self.tick % 2 == 0:
+            return SLOW
+        return a
 
 
 class DecisionRecorder:
@@ -168,12 +201,15 @@ def fly_cell(env, make_policy, speed: float, n: int) -> dict:
     }
 
 
-def probe(n: int, zip_path=None) -> dict:
+def probe(n: int, zip_path=None, slow_only=False) -> dict:
     from scripts.research import _policy_factory
     from sim.envs import make_env
 
     env, arms = make_env(), {}
-    arms["oracle"] = lambda speed: OracleField()
+    if slow_only:
+        arms["oracle_slow"] = lambda speed: OracleFieldSlow()
+    else:
+        arms["oracle"] = lambda speed: OracleField()
     if zip_path:
         arms["contender"] = _policy_factory(zip_path)
     out = {"n": n, "seed0": SEED0, "zip": zip_path, "cells": []}
@@ -211,6 +247,15 @@ def selftest() -> None:
     s6 = np.array([3.0, 1.4, 1.0])
     assert pilot.decide(None, s6) == VEER_R, "past the field, far off-axis -> home"
 
+    # slow-capable oracle: urgency interleaves slow with the veer
+    ps = OracleFieldSlow()
+    ps.begin([(1.0, 0.0)])
+    su = np.array([0.4, 0.0, 1.0])
+    seq = [ps.decide(None, su) for _ in range(4)]
+    assert seq == [VEER_R, SLOW, VEER_R, SLOW], f"urgent -> interleave, got {seq}"
+    ps.begin([(3.0, 0.0)])
+    assert ps.decide(None, su) == FORWARD, "no window -> passthrough, never slow"
+
     # taxonomy: fabricated side-pillar crash, blind-side flagged
     path = np.zeros((41, 3))
     path[:, 0] = np.linspace(0.0, 2.0, 41)
@@ -242,12 +287,13 @@ def main() -> None:
     ap.add_argument("--n", type=int, default=30)
     ap.add_argument("--zip", dest="zip_path", default=None)
     ap.add_argument("--out", default=os.path.join(OUT_DIR, "probe.json"))
+    ap.add_argument("--slow-only", action="store_true")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    res = probe(args.n, args.zip_path)
+    res = probe(args.n, args.zip_path, slow_only=args.slow_only)
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     with open(args.out, "w") as f:
         json.dump(res, f, indent=1)
