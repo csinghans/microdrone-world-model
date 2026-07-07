@@ -91,3 +91,36 @@ track, if any, is the BEACON/target-reasoning layer, not collision.
 WM from the safety loop entirely, keep it for target reasoning); or,
 far bigger, depth/parallax input (the sim renders depth the stack
 discards) — a new perception channel, its own multi-version arc.
+
+## ⚠ SETUP CORRECTION (2026-07-08): the WM investigation ran on EMPTY frames
+
+Preparing the depth-channel follow-up, a depth grab flying INTO a wall
+read constant far (~1.0) — the camera saw no wall. Root cause, verified:
+**`SearchScenario` and `sim/indoor/rooms.py` spawn NO pybullet bodies**
+(grep: zero createMultiBody/createVisualShape). The room's walls and
+box obstacles exist ONLY as `clearance()` math for scoring and the
+rangefinders — they are never RENDERED. So every camera frame in a
+search room is near-blank (RGB mean 225.8, std 38.6, ~11 unique
+values = floor gradient, no obstacle).
+
+**What this invalidates:** the search_wm_v1/v2 MECHANISM claim —
+"the WM is blind to walls because monocular flat-wall distance is
+ill-posed / scale-free." That was over-attributed. The WM scored
+forward danger at chance because **there was no wall in the image at
+all**, not because a rendered wall is ambiguous. v1's "boxes 0.79 via
+strafe" was likewise an action-conditioning artifact on blank frames,
+not the WM seeing boxes. Those mechanism conclusions are RETRACTED
+pending a rendered re-run. (Per house rule: numbers stay as recorded;
+this note supersedes their interpretation.)
+
+**What still stands, unaffected:** Phase 1a (GREEN) and search_room_v3
+(rangefinder deployability, GREEN) — both use `clearance()`/rangefinder
+MATH, never the rendered frame, so an unrendered room never touched
+them. The capability result and the "rangefinders own safety"
+deployability result are intact.
+
+**The corrected experiment (search_wm_v3, next):** render the walls +
+box obstacles as visual bodies, regenerate, and re-run the transfer
+probe + retrain to get the HONEST answer to "can the WM see room
+geometry when it is actually drawn?" Only then is the depth-channel
+question (does depth beat RGB for wall distance) even well-posed.
