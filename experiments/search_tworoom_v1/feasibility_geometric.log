@@ -1,0 +1,26 @@
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gym_pybullet_drones/envs/BaseAviary.py:7: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+pybullet build time: Oct 21 2025 16:30:45
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:236: UserWarning: [33mWARN: Box low's precision lowered by casting to float32, current low.dtype=float64[0m
+  gym.logger.warn(
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:306: UserWarning: [33mWARN: Box high's precision lowered by casting to float32, current high.dtype=float64[0m
+  gym.logger.warn(
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier seed 170000: found=1 success=1 cov=0.66 steps_to_find=122 crash=0
+  frontier seed 170001: found=1 success=1 cov=0.67 steps_to_find=117 crash=0
+  frontier seed 170002: found=1 success=1 cov=0.60 steps_to_find=105 crash=0
+  frontier seed 170003: found=1 success=1 cov=0.81 steps_to_find=139 crash=0
+  frontier seed 170004: found=1 success=1 cov=0.69 steps_to_find=128 crash=0
+  frontier seed 170005: found=1 success=1 cov=0.69 steps_to_find=128 crash=0
+  frontier seed 170006: found=1 success=1 cov=0.83 steps_to_find=144 crash=0
+  frontier seed 170007: found=1 success=1 cov=0.60 steps_to_find=105 crash=0
+  frontier seed 170008: found=1 success=0 cov=0.67 steps_to_find=117 crash=0
+  frontier seed 170009: found=1 success=1 cov=0.77 steps_to_find=132 crash=0
+[frontier] n=10  find 1.000  success 0.900  return|found 0.900  coverage 0.699  collision 0.000  steps_to_find(med) 125

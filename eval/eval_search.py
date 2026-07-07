@@ -30,16 +30,20 @@ def suite(
     los=False,
     speed=1.0,
     safety="geometric",
+    room="single",
 ):
     from eval.search_episode import run_search_episode
     from search.strategies import get_strategy
     from sim.envs import make_env
-    from sim.indoor.rooms import single_room
+    from sim.indoor.rooms import single_room, two_room
 
     env = make_env()
     rows = []
     for i in range(n):
-        sc = single_room(seed0 + i, n_obstacles=n_obstacles, los=los)
+        if room == "two":
+            sc = two_room(seed0 + i, los=los)
+        else:
+            sc = single_room(seed0 + i, n_obstacles=n_obstacles, los=los)
         m = run_search_episode(
             env,
             sc,
@@ -87,8 +91,11 @@ def main() -> None:
     ap.add_argument("--los", action="store_true")
     ap.add_argument("--speed", type=float, default=1.0)
     ap.add_argument(
-        "--safety", default="geometric", choices=("geometric", "rangefinder")
+        "--safety",
+        default="geometric",
+        choices=("geometric", "rangefinder", "beams4", "beams8", "beams16"),
     )
+    ap.add_argument("--room", default="single", choices=("single", "two"))
     ap.add_argument("--out", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -114,6 +121,7 @@ def main() -> None:
         args.los,
         args.speed,
         args.safety,
+        args.room,
     )
     print(
         f"[{agg['strategy']}] n={agg['n']}  find {agg['find_rate']:.3f}  "

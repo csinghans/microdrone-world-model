@@ -156,6 +156,20 @@ benchmark. Phasing (`experiments/search_room_v*`,
   spot** (one crash in 120, find 0.884). This CLOSES the Indoor Active
   Search safety arc: the whole story is a cheap omnidirectional
   rangefinder ring (`experiments/search_beams_v1/`).
+- **Two-room (search_tworoom_v1): GREEN — the smallest multi-room
+  proof.** Two rooms joined by one doorway, beacon hidden in the far
+  room. The deployable beams8 ring clears all three SEARCH-ROOM bars at
+  n=30 (find 0.933, return 0.964, collision 0.000), matching the
+  geometric ceiling (find 0.933 / collision 0.000) — the coverage-first
+  search crosses the doorway, covers the far room, finds the beacon,
+  returns, still no world model or ground truth. Feasibility-first
+  caught the real constraint: not the physics but the PLANNER'S SAFETY
+  GRAPH — a 0.7-half doorway left the gap's grid cells at clearance 0.49
+  (below the 0.5 min_clear), disconnecting the graph and stalling
+  coverage in room A; widening to 0.9 fixed it (the two-room analogue of
+  1a's unreachable-corner start). Named next: doorway detection +
+  topological room graph (drop the hand-tuned width), then N-room
+  (`experiments/search_tworoom_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
@@ -165,9 +179,12 @@ benchmark. Phasing (`experiments/search_room_v*`,
   capability exists (privileged geometry) → 1b the monocular WM can't
   own safety (flat walls are scale-free) → v3 it never needed to; the
   right sensor is cheap and omnidirectional (`experiments/search_room_v3/`).
-- **Later (each its own pre-registration):** multi-room + topological
-  map; a visual-detection branch (widen the observation channel — the
-  big perception step); static-person SAR framing with safety bounds.
+- **Later (each its own pre-registration):** the multi-room MINIMAL
+  proof is done (two_room GREEN above) — next is doorway detection + a
+  topological room graph to drop the hand-tuned doorway width and scale
+  to N rooms; a visual-detection branch (widen the observation channel —
+  the big perception step, where the world model re-enters); static-
+  person SAR framing with safety bounds.
 
 ## How we work
 

@@ -23,7 +23,7 @@ import sys
 FILTERS = ["geometric", "rangefinder", "beams4", "beams8", "beams16"]
 
 
-def ablation(n, seed0, max_decisions=600, speed=0.6, filters=FILTERS):
+def ablation(n, seed0, max_decisions=600, speed=0.6, filters=FILTERS, room="single"):
     from eval.eval_search import suite
 
     rows = {}
@@ -36,6 +36,7 @@ def ablation(n, seed0, max_decisions=600, speed=0.6, filters=FILTERS):
             n_obstacles=2,
             speed=speed,
             safety=f,
+            room=room,
         )
         rows[f] = agg
         print(
@@ -60,13 +61,16 @@ def main() -> None:
     ap.add_argument("--max-decisions", type=int, default=600)
     ap.add_argument("--speed", type=float, default=0.6)
     ap.add_argument("--filters", nargs="+", default=FILTERS)
+    ap.add_argument("--room", default="single", choices=("single", "two"))
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
 
-    rows = ablation(args.n, args.seed0, args.max_decisions, args.speed, args.filters)
+    rows = ablation(
+        args.n, args.seed0, args.max_decisions, args.speed, args.filters, args.room
+    )
     print(f"\n[beam-ablation] n={args.n} seed0={args.seed0} (same rooms, all filters)")
     print(f"  {'filter':<12}{'collision':>11}{'find':>8}{'return':>9}")
     for f in args.filters:
