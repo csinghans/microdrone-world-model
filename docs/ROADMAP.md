@@ -187,6 +187,21 @@ benchmark. Phasing (`experiments/search_room_v*`,
   scalability play to pre-register on its own merits. Lesson: every
   search eval must fly at 0.6; the stale 1.0 default is fixed
   (`experiments/search_nroom_v1/`).
+- **Doorway detection (search_doorway_v1): static FAILS, crossing is
+  perfect — the room graph is feasible via traversal.** The topological
+  map's one prerequisite: can the cheap ring tell the drone it is at a
+  doorway? A static single-position heuristic (`doorway_score`, a far
+  opening flanked by near walls) lands at chance (AUC 0.511) — the
+  signature is vantage-dependent (flanks ~40 deg off before the gap,
+  ~90 deg in it), so no fixed rule fires. But detecting the CROSSING
+  (`passage_score`: one beam axis short both sides = walls squeezing,
+  the perpendicular axis long = openings fore/aft) separates
+  in-the-gap positions at **AUC 1.000** (clean rooms). So the drone maps
+  doorways by FLAGGING the traversal, not spotting them from afar — an
+  O(rooms) deployable room graph built by counting passage-crossings, no
+  ground truth. Named next: the room-graph mission output ("beacon in
+  room k of N"). Caveat: 1.000 is clean-room; clutter would lower it
+  (`experiments/search_doorway_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
