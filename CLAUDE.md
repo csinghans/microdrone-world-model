@@ -95,6 +95,14 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   "monocular perceptual limit," before a depth sanity-check caught it
   (2026-07-08). Same class as the split-identity leak: verify the
   instrument sees what you think before interpreting what it says.
+- Every Indoor Active Search eval must fly at the track's ROBUST speed
+  0.6 — the whole track (1a v2, v3, beams, two_room) is measured there,
+  and 1a's v1->v2 fix WAS the single knob "speed 1.0 -> 0.6" (collision
+  0.167 -> 0.000). `eval_search --speed` carried a stale default of 1.0,
+  and running the N-room probe on it silently re-exhibited that v1-era
+  crash rate as a false "N-room doesn't scale" — a scary retraction that
+  evaporated at 0.6 (search_nroom_v1, 2026-07-08). Default fixed to 0.6.
+  Match the established, verified config before interpreting a number.
 - Scripted string replacement (`python - <<` + `str.replace`) fails
   SILENTLY on zero matches — black reformatting invalidates pasted
   old-strings. Use the Edit tool (loud no-match) for code surgery, and

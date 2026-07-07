@@ -172,21 +172,21 @@ benchmark. Phasing (`experiments/search_room_v*`,
   (`experiments/search_tworoom_v1/`). Trajectory (god view of a
   deployable beams8 run, doorway traversal visible):
   `docs/figures/search_tworoom_trajectory.png`.
-- **N-room (search_nroom_v1): feasibility probe — finding scales, safe
-  threading does NOT.** N rooms in a line (N-1 doorways, beacon in the
-  last room). At the geometric ceiling: find 1.000 at both 3 and 4
-  rooms — the flat-grid Frontier hops through several doorways and
-  reaches the far beacon, so a topological map is NOT needed to FIND.
-  But collision climbs with doorway count at fixed 3.0 m room width
-  (3-room 0.100 -> 4-room 0.300), even at the omni-truth ceiling that
-  crashed 0.000 in single/two-room. **The doorway is the collision
-  hotspot and it compounds; the problem is planning/control, not
-  sensing.** This reframes the N-room direction: the topological map's
-  payload is DOORWAY-AWARE SAFE TRAVERSAL (detect, centre, thread slow),
-  not finding. Named next: a doorway-collision diagnostic (reuse the
-  on_collision forensics) -> doorway-aware traversal gated on cutting
-  the multi-doorway collision -> then the room graph for efficient
-  coverage (`experiments/search_nroom_v1/`).
+- **N-room (search_nroom_v1): GREEN — multi-room scales cleanly at the
+  deployable config.** N rooms in a line (N-1 doorways, beacon in the
+  last room). At the robust speed 0.6, the deployable beams8 ring covers
+  3 AND 4 rooms, hops every doorway, finds the far beacon, and returns
+  crash-free (4-room: find 1.0, success 0.95, **collision 0.000**);
+  geometric ceiling identical (0.000). A first read at eval_search's
+  stale default speed 1.0 looked like "collision rises with doorway
+  count (0.10 -> 0.30)" — RETRACTED: that re-exhibited 1a's known
+  speed sensitivity (v1 0.167 -> v2 0.000 was the "1.0 -> 0.6" knob),
+  not a doorway problem. So the topological room graph's motivation is
+  neither safety nor finding (both solved) but EFFICIENCY at scale
+  (an O(rooms) memory-efficient map for the <1 MB budget) — a
+  scalability play to pre-register on its own merits. Lesson: every
+  search eval must fly at 0.6; the stale 1.0 default is fixed
+  (`experiments/search_nroom_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision

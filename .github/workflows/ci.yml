@@ -76,6 +76,7 @@ jobs:
           python -m eval.eval_search_gallery --selftest
           python -m eval.eval_search_wm_probe --selftest
           python -m eval.diagnose_v3_collisions --selftest
+          python -m eval.diagnose_nroom_doorway --selftest
           python -m eval.eval_results_figures --selftest
           python -m eval.eval_skill_gallery --selftest
           python -m planner.dispatch --selftest

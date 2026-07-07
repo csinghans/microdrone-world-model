@@ -91,7 +91,10 @@ def main() -> None:
     ap.add_argument("--max-decisions", type=int, default=600)
     ap.add_argument("--n-obstacles", type=int, default=2)
     ap.add_argument("--los", action="store_true")
-    ap.add_argument("--speed", type=float, default=1.0)
+    # 0.6 is the track's ROBUST flight speed (1a v1->v2 fixed collisions with
+    # exactly the 1.0->0.6 knob); a stale 1.0 default re-exhibited that crash
+    # rate as a false "N-room doesn't scale" (search_nroom_v1)
+    ap.add_argument("--speed", type=float, default=0.6)
     ap.add_argument(
         "--safety",
         default="geometric",
