@@ -77,13 +77,24 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
    `eval_policy_cells` (policy axis, pre-registered JSON cells),
    `eval_head_calibration` (probability-landscape diagnostics),
    `calibrate_heads` (temperature baking, AUC-invariant by construction).
-4. **v0.6 — the hardware bridge (parked).** Two stages, honestly
-   labelled (`hardware/README.md`): Tello (off-board AI, the perception
-   gap) → Crazyflie 2.1+ + AI-deck (GAP8, the on-board story the whole
-   budget discipline points at). **Unfreeze criteria:** the first three
-   articles published and a stable new frontier result worth
-   demonstrating — or an external need for a physical demo. The
-   shopping list is priced and ready; nothing here blocks on it.
+4. **The hardware bridge (still parked — but its gate is GREEN).**
+   Two stages, honestly labelled (`hardware/README.md`): Tello
+   (off-board AI, the perception gap) → Crazyflie 2.1+ + AI-deck
+   (GAP8, the on-board story the whole budget discipline points at).
+   Status 2026-07-07: the original unfreeze criteria are MET (six
+   bilingual articles in `writing/`; the Flight-TDD deployment gate —
+   ≥ 0.70 over 100 random 3-stage courses — passed at 72/100 with
+   committed videos of record), and v0.6.0 shipped as the imitation
+   turn instead. Hardware remains parked by explicit standing
+   instruction; unfreezing is the owner's call, not a schedule's.
+   The shopping list is priced and ready; nothing here blocks on it.
+
+Shipped since this roadmap's last revision (see `CHANGELOG.md` for
+the gate-by-gate record): the imitation turn (v0.6.0 — five skills
+become one pilot, the deployment gate opens), the instrument-honesty
+era (the λ multi-seed retro-read, the dense-speedrun map), and the
+corridor-slalom-v2 crown (eleventh sitting, anchored-schedule
+fine-tune + edge-biased diet).
 
 ## How we work
 
