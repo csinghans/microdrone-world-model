@@ -43,6 +43,16 @@
   distillation wall to hold the target AND every guard. The crown
   recipe, one line: **BC shape + mass-weighted anchored repair +
   slice-aware diet.** Honesty on the record: zero chain margin.
+- **dodge-crown attempt: REFUTED, and the law's sixth clause named.**
+  The crown pot itself is strong (pooled val 0.9218; fast-ball meter
+  0.9573; the pot BC holds station at 0.267-0.700 — v1.8 ABOVE the
+  pure clone), but the schedule-anchored FT erased station-keeping to
+  0.000 at every ball speed while station_tick paid for the box:
+  **anchors defend against drift, not against reward** — the transit
+  majority's progress gradient out-voted the box through shared
+  weights, and the relaxing anchor ratified it. Successor machinery
+  shipped: per-GROUP anchor coefficients (`--anchor-ball-end`,
+  tag-aligned buffer sampling); the pin/floor arms are in flight.
 - Article #6 shipped (`writing/06-the-integration-climb/`, EN+繁中):
   unit-green is not integration-green — the climb to the deployment
   gate. New standing instrument: `eval_dense_probe` (gap-tracker
