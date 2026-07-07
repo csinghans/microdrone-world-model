@@ -11,7 +11,8 @@ number in every article traces to a rerunnable script in this repo.
 | 4 | Building an action-conditioned latent world model | [en](04-building-the-world-model/en.md) | [繁中](04-building-the-world-model/zh-TW.md) | published in-repo |
 | 5 | Evaluate by crash rate, not loss | [en](05-evaluate-by-crash-rate/en.md) | [繁中](05-evaluate-by-crash-rate/zh-TW.md) | published in-repo |
 | 6 | Unit-green is not integration-green: the climb to a deployment gate | [en](06-the-integration-climb/en.md) | [繁中](06-the-integration-climb/zh-TW.md) | published in-repo |
-| 7 | From sim toward Crazyflie: the embedded budget | — | — | planned |
+| 7 | What a KL anchor cannot defend | [en](07-what-anchors-cannot-defend/en.md) | [繁中](07-what-anchors-cannot-defend/zh-TW.md) | published in-repo |
+| 8 | From sim toward Crazyflie: the embedded budget | — | — | planned |
 
 Cadence: roughly one bilingual article per month. The English long-form is
 the canonical version; the 繁體中文 version is a faithful re-write, not a
