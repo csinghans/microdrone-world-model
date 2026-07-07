@@ -284,3 +284,56 @@ DAgger (teacher re-anchor, seven datapoints) and the ~1400-episode
 volume re-registration. The dodge crown is the catalog's hardest
 open problem, and today's three sittings priced WHY from three
 different directions.
+
+## K4 pre-registration: DAgger-anchor — re-anchor to the TEACHER (2026-07-07, before any number)
+
+**The mechanism debate the ledger required (owed for three campaigns,
+paid now).** Why prior-anchored FT cannot take this throne, in its own
+measured words: the prior is either the ceiling (pin: station holds,
+repair forbidden — K2a) or the casualty (freedom: reward's majority
+erodes it — K2b, global schedule). Six erasure/decoupling datapoints
+say the anchor's TARGET is the binding choice, and the prior is the
+wrong target on ball states: it is mediocre exactly where repair is
+needed (v0.6 0.43) while the thing that must be defended (station) and
+the thing that must improve (dodge) LIVE ON THE SAME STATES — K2's
+wall. **The teacher dissolves the wall by embodying both**: OracleDodge
+holds station AND dodges v0.6 at 0.90. Re-anchoring ball states to the
+teacher turns the anchor from a leash into a tutor: corrective
+supervision lands exactly where the student's own rollouts drift
+(the classic DAgger covariate-shift fix), while PPO's reward keeps
+paying for station economy — two aligned signals instead of a
+tug-of-war. Why this wasn't opened earlier, honestly: surpass_teacher
+measured plain FT repairing drift cheaper — true where reward and
+skill are ALIGNED; the sixth clause carved out exactly the case where
+they are not. That case is this throne.
+
+**Frozen design (single arm; init = the K3 pot BC, the strongest
+prior available — its refuted checkpoint refuted "volume ALONE",
+not the artifact):**
+- Transit states: prior-KL schedule 1.0 → 0.1 (the crown recipe leg,
+  unchanged).
+- Ball states: **teacher cross-entropy anchor**, λ_T = 1.0 (one
+  value, no sweep): per rollout row, a shadow OracleDodge (per-world
+  ball speed, live privileged pillars, its own velocity-differencing
+  state advanced once per decision) records the action IT would have
+  taken at that state; the anchor term is −λ_T · log π_θ(a_teacher)
+  on ball rows. Deterministic teacher ⇒ KL(teacher‖θ) reduces to
+  exactly this CE.
+- Everything else the K2a recipe verbatim: 450k, 8-world diet,
+  station_tick 0.6, edge_bias.
+- **Machinery smokes gate the launch** (wiring must show: shadow
+  labels cover ~the ball share of rows; both anchor terms report).
+  The queue is &&-chained end-to-end — a tripped gate STOPS it
+  (K3's violation, structurally prevented).
+
+**Exam:** the crown gate verbatim. **Verdict grid (frozen):**
+- All 8 pass → the throne is taken.
+- Station survives AND v0.6 > K2a's 0.350 but bars fail → the
+  tutor works, dials (λ_T / guard mass) are named for a K5.
+- v0.6 ≤ K2a's 0.350 → the teacher-anchor buys nothing over the pin
+  — **DAgger is priced dead for this throne** (the argument's honest
+  kill condition), leaving the ~1400-episode volume road as the only
+  named survivor.
+
+Cost: machinery + smokes + one 450k FT + one 480-episode gate
+≈ 3-3.5 h, &&-chained background queue.
