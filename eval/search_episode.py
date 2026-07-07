@@ -31,7 +31,15 @@ fly home.
 import numpy as np
 
 from planner.latent_mpc import DECIDE_EVERY
-from planner.nav_action_set import HOVER, NAV_ACTION_VECS, nav_menu
+from planner.nav_action_set import (
+    FORWARD,
+    HOVER,
+    NAV_ACTION_VECS,
+    REVERSE,
+    STRAFE_L,
+    STRAFE_R,
+    nav_menu,
+)
 from sim.envs import START, VelCommander, make_ctrl
 from sim.scenarios import COLLISION_R
 
@@ -83,6 +91,33 @@ def _safe_action(scenario, pos_xy, proposed, dt=None, steps=None):
         if clr > best_clr:
             best, best_clr = a, clr
     return best
+
+
+# each cardinal nav action reads exactly one rangefinder beam
+_BEAM = {FORWARD: "+x", REVERSE: "-x", STRAFE_L: "+y", STRAFE_R: "-y"}
+BEAM_STOP = 0.55  # veto a cardinal whose beam is closer than this (a single
+# point beam + PID momentum; a touch more conservative than the geometric ray)
+
+
+def _safe_action_rf(scenario, pos_xy, proposed, dt=None, steps=None):
+    """DEPLOYABLE safety veto: use only the 4 cardinal rangefinders (the
+    SGBA sensor suite), not omnidirectional ground truth. Each cardinal
+    nav action aligns with one beam; keep it if that beam is clear, else
+    take the cardinal whose beam reads farthest (hover if all are close).
+    The honest question: do 4 beams suffice where full clearance did?"""
+    del dt, steps
+    beams = scenario.range_sensors(pos_xy)
+    if proposed == HOVER or beams.get(_BEAM.get(proposed), 9.0) >= BEAM_STOP:
+        return proposed
+    best, best_r = HOVER, 0.0
+    for a in nav_menu():
+        r = 9.0 if a == HOVER else beams[_BEAM[a]]
+        if r > best_r:
+            best, best_r = a, r
+    return HOVER if best_r < BEAM_STOP else best
+
+
+_SAFETY = {"geometric": _safe_action, "rangefinder": _safe_action_rf}
 
 
 def _build_safe_grid(scenario, min_clear=0.5):
@@ -156,11 +191,16 @@ def search_metrics(scenario, path, found_step, returned, collisions, n_decisions
     }
 
 
-def run_search_episode(env, scenario, policy, seed, max_decisions=300, speed=1.0):
+def run_search_episode(
+    env, scenario, policy, seed, max_decisions=300, speed=1.0, safety="geometric"
+):
     """One search mission on the real 48 Hz env. Returns the scorecard.
     `speed` scales the executed command velocity (the safety filter's
     lookahead is a fixed DISTANCE, so slower flight overshoots less and
-    the same veto margin holds with room to spare)."""
+    the same veto margin holds with room to spare). `safety` selects the
+    filter: "geometric" (privileged omnidirectional clearance) or
+    "rangefinder" (the deployable 4-beam SGBA-style sensor)."""
+    safe_fn = _SAFETY[safety]
     obs, _ = env.reset(seed=int(seed))
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
     cmd.reset(obs[0][0:3])
@@ -205,7 +245,7 @@ def run_search_episode(env, scenario, policy, seed, max_decisions=300, speed=1.0
                 a = _cardinal(
                     scenario.start_xy[0] - rpos[0], scenario.start_xy[1] - rpos[1]
                 )
-        a = _safe_action(scenario, rpos, a)
+        a = safe_fn(scenario, rpos, a)
         for _ in range(DECIDE_EVERY):
             obs, _, _, _, _ = env.step(cmd.rpm(state, vecs[a]).reshape(1, 4))
             state = obs[0]
@@ -239,6 +279,11 @@ def selftest() -> None:
     a = _safe_action(sc, near_wall, fwd, dt=0.021, steps=8)
     assert a != fwd, "forward into the wall must be vetoed"
     assert NAV_ACTION_VECS[a][0] <= 0.0, "the safe substitute backs off / holds"
+    # the deployable rangefinder filter vetoes the same wall-bound forward
+    # using only the 4 beams (its +x beam reads < BEAM_STOP at the wall)
+    arf = _safe_action_rf(sc, near_wall, fwd)
+    assert arf != fwd, "rangefinder filter also vetoes forward into the wall"
+    assert "rangefinder" in _SAFETY and "geometric" in _SAFETY
     # BFS homing: from the beacon (always clear, far from start) a safe
     # route home exists and its first step heads back toward start (-x)
     grid = _build_safe_grid(sc)

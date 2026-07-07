@@ -22,7 +22,14 @@ import numpy as np
 
 
 def suite(
-    strategy, n, seed0=90000, max_decisions=600, n_obstacles=2, los=False, speed=1.0
+    strategy,
+    n,
+    seed0=90000,
+    max_decisions=600,
+    n_obstacles=2,
+    los=False,
+    speed=1.0,
+    safety="geometric",
 ):
     from eval.search_episode import run_search_episode
     from search.strategies import get_strategy
@@ -40,6 +47,7 @@ def suite(
             seed=seed0 + i,
             max_decisions=max_decisions,
             speed=speed,
+            safety=safety,
         )
         m.pop("path", None)  # drop the array for the aggregate record
         rows.append(m)
@@ -78,6 +86,9 @@ def main() -> None:
     ap.add_argument("--n-obstacles", type=int, default=2)
     ap.add_argument("--los", action="store_true")
     ap.add_argument("--speed", type=float, default=1.0)
+    ap.add_argument(
+        "--safety", default="geometric", choices=("geometric", "rangefinder")
+    )
     ap.add_argument("--out", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -102,6 +113,7 @@ def main() -> None:
         args.n_obstacles,
         args.los,
         args.speed,
+        args.safety,
     )
     print(
         f"[{agg['strategy']}] n={agg['n']}  find {agg['find_rate']:.3f}  "
