@@ -65,6 +65,7 @@ jobs:
           python -m skills.dodge_distill.skill
           python -m eval.eval_arena_ceiling --selftest
           python -m eval.eval_dodge_ceiling --selftest
+          python -m eval.eval_dense_probe --selftest
           python -m eval.eval_results_figures --selftest
           python -m eval.eval_skill_gallery --selftest
           python -m planner.dispatch --selftest
