@@ -72,3 +72,26 @@ conditional stops must halt the chain).
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01GGt7SZ3GgNrbrXFrC5UWcn
+
+## Launch note — machinery + lambda calibration (2026-07-07, pre-number)
+
+Machinery shipped and smoked: `--ewc LAMBDA` (diagonal Fisher of the
+prior computed once at FT start over 512 rollout states, frozen;
+penalty lambda * sum_i F_i (theta_i - theta*_i)^2 added per minibatch)
+and `--freeze-trunk` (freezes mlp_extractor.policy_net = 4 trunk
+tensors, action_net + value path train). Smoke: Fisher sum ~1.5e2,
+freeze froze 4 tensors, both save clean.
+
+**lambda_ewc = 10 (first shot, rationale frozen):** with Fisher sum
+~150 and a target parameter RMS drift ~0.05 (Delta-theta^2 ~ 2.5e-3),
+the start penalty magnitude is ~150 * 10 * 2.5e-3 ~ 3.8 — a firm
+anchor comparable in scale to the kl=1.0 term at mid-drift. If the
+EWC arm lands degenerate (chain fully preserved AND no repair =
+lambda too high; or chain dead = too low), ONE resumed shot at the
+bracketing lambda is sanctioned (lambda is EWC's single knob, the
+analogue of the anchor coefficient the schedule arm tuned). Any other
+change = fresh pre-registration.
+
+Arms launched (all from BC2, 450k, five-world diet, no edge_bias):
+Arm E `--ewc 10`, Arm F `--anchor 1.0 --anchor-end 0.3`, Arm L
+`--anchor 1.0 --freeze-trunk`.

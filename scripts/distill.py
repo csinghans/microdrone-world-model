@@ -659,6 +659,7 @@ class AnchoredPPO:
 
         class _AnchoredPPO(PPO):
             kl_coef = 0.0
+            ewc_lambda = 0.0
 
             def set_anchor(self, kl_coef: float) -> None:
                 self.kl_coef = float(kl_coef)
@@ -667,9 +668,55 @@ class AnchoredPPO:
                 for prm in self.prior_policy.parameters():
                     prm.requires_grad_(False)
 
+            def set_ewc(self, lam: float) -> None:
+                """Elastic Weight Consolidation: penalize per-PARAMETER drift
+                from the prior, weighted by each weight's diagonal Fisher
+                importance to the prior's skills. The Fisher is computed once,
+                lazily, on the first train() call (over that rollout's states,
+                which are on the prior's own distribution at step 0), then
+                frozen. theta* = the prior params (set_anchor's frozen copy)."""
+                self.ewc_lambda = float(lam)
+                self._fisher = None  # {name: tensor}, filled lazily
+                self._theta_star = None
+
+            def _compute_fisher(self, observations) -> None:
+                # diagonal Fisher of the prior at theta*: E_s[(grad log pi(a|s))^2],
+                # a ~ prior. requires_grad flipped on just for this pass.
+                pri = self.prior_policy
+                for prm in pri.parameters():
+                    prm.requires_grad_(True)
+                fisher = {n: th.zeros_like(p) for n, p in pri.named_parameters()}
+                obs = observations
+                if obs.ndim == 3:
+                    obs = obs[:, 0]
+                obs_t = th.as_tensor(obs, dtype=th.float32)
+                n = min(len(obs_t), 512)  # a diagonal estimate needs no more
+                for i in range(n):
+                    pri.zero_grad(set_to_none=True)
+                    dist = pri.get_distribution(obs_t[i : i + 1])
+                    a = dist.get_actions()  # sample ~ prior
+                    logp = dist.log_prob(a).sum()
+                    logp.backward()
+                    for name, p in pri.named_parameters():
+                        if p.grad is not None:
+                            fisher[name] += p.grad.detach() ** 2
+                for name in fisher:
+                    fisher[name] /= float(n)
+                pri.zero_grad(set_to_none=True)
+                for prm in pri.parameters():
+                    prm.requires_grad_(False)
+                self._fisher = fisher
+                self._theta_star = {
+                    n: p.detach().clone() for n, p in pri.named_parameters()
+                }
+                tot = sum(float(v.sum()) for v in fisher.values())
+                print(f"[ewc] diagonal Fisher computed on {n} states, sum={tot:.3e}")
+
             def train(self) -> None:
                 self.policy.set_training_mode(True)
                 self._update_learning_rate(self.policy.optimizer)
+                if self.ewc_lambda > 0.0 and self._fisher is None:
+                    self._compute_fisher(self.rollout_buffer.observations)
                 clip_range = self.clip_range(self._current_progress_remaining)
                 if self.clip_range_vf is not None:
                     clip_range_vf = self.clip_range_vf(self._current_progress_remaining)
@@ -732,6 +779,20 @@ class AnchoredPPO:
                             + self.ent_coef * entropy_loss
                             + self.vf_coef * value_loss
                         )
+
+                        # === EWC: Fisher-weighted per-parameter anchor ===
+                        # (parameter-space, so it composes with — or replaces —
+                        # the per-state KL below; the bakeoff runs it alone)
+                        if self.ewc_lambda > 0.0 and self._fisher is not None:
+                            ewc = th.zeros((), dtype=th.float32)
+                            for name, p in self.policy.named_parameters():
+                                f = self._fisher.get(name)
+                                ts = self._theta_star.get(name)
+                                if f is not None and ts is not None:
+                                    ewc = ewc + (f * (p - ts) ** 2).sum()
+                            ewc = self.ewc_lambda * ewc
+                            anchor_losses.append(float(ewc.item()))
+                            loss = loss + ewc
 
                         # === the ONE addition: anchor to the frozen prior ===
                         # per-group mode: sample buffer rows via the tag list
@@ -897,6 +958,8 @@ def finetune(
     edge_bias: bool = False,
     anchor_ball_end: float = None,
     anchor_dagger_ball: float = None,
+    ewc: float = 0.0,
+    freeze_trunk: bool = False,
 ):
     """PPO fine-tune from the BC init; `world` may be a comma-separated
     diet (round-robin, the training-env convention). station_tick passes
@@ -923,9 +986,25 @@ def finetune(
         ),
         n_envs=1,
     )
-    cls = AnchoredPPO.build() if anchor > 0.0 else PPO
+    cls = AnchoredPPO.build() if (anchor > 0.0 or ewc > 0.0) else PPO
     model = cls.load(bc_zip, env=venv)
     callback = None
+    if ewc > 0.0:
+        # EWC needs theta* (the prior copy set_anchor makes) but no KL term;
+        # set_anchor(0.0) freezes the prior without adding per-state pressure
+        model.set_anchor(0.0)
+        model.set_ewc(ewc)
+    if freeze_trunk:
+        # layer-freeze arm: freeze the policy MLP trunk
+        # (mlp_extractor.policy_net), FT only the final action_net; the
+        # value path stays trainable so PPO can still estimate advantages.
+        # Localizes forgetting: if the chain survives, it lived in the trunk
+        frozen = 0
+        for name, p in model.policy.named_parameters():
+            if name.startswith("mlp_extractor.policy_net"):
+                p.requires_grad_(False)
+                frozen += 1
+        print(f"[freeze] froze {frozen} policy-trunk tensors; action_net trains")
     if anchor > 0.0:
         model.set_anchor(anchor)
         if anchor_dagger_ball is not None:
@@ -1100,6 +1179,8 @@ def main() -> None:
     ap.add_argument("--ft-edge-bias", action="store_true")
     ap.add_argument("--anchor-ball-end", type=float, default=None)
     ap.add_argument("--anchor-dagger-ball", type=float, default=None)
+    ap.add_argument("--ewc", type=float, default=0.0)
+    ap.add_argument("--freeze-trunk", action="store_true")
     ap.add_argument("--ft-gate-bonus", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--ft-smoke", action="store_true")
@@ -1350,6 +1431,8 @@ def main() -> None:
             edge_bias=args.ft_edge_bias,
             anchor_ball_end=args.anchor_ball_end,
             anchor_dagger_ball=args.anchor_dagger_ball,
+            ewc=args.ewc,
+            freeze_trunk=args.freeze_trunk,
         )
         return
     if args.collect:
