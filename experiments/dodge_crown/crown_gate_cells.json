@@ -1,0 +1,10 @@
+[
+ {"id": "dodge@v0.6", "world": "dodgeball_v06", "speed": 1.0, "n": 60, "seed0": 23000},
+ {"id": "dodge@v1.0", "world": "dodgeball_v10", "speed": 1.0, "n": 60, "seed0": 23000},
+ {"id": "dodge@v1.4", "world": "dodgeball_v14", "speed": 1.0, "n": 60, "seed0": 23000},
+ {"id": "dodge@v1.8", "world": "dodgeball_v18", "speed": 1.0, "n": 60, "seed0": 23000},
+ {"id": "guard:gap@1.0", "world": "gap", "speed": 1.0, "n": 60, "seed0": 9000},
+ {"id": "guard:mgap@1.0", "world": "moving_gap", "speed": 1.0, "n": 60, "seed0": 9500},
+ {"id": "guard:cluttered", "world": null, "speed": 1.0, "n": 60, "seed0": 1000, "kwargs": {"in_path": true}, "role": "guard"},
+ {"id": "guard:sweep@2.0", "world": null, "speed": 2.0, "n": 60, "seed0": 3000, "kwargs": {"in_path": true, "solo": true}, "role": "guard"}
+]
