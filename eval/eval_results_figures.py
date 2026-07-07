@@ -95,6 +95,7 @@ SLALOM_SITTINGS = (
     ("BC clone\nspecialist", 0.967, "BC"),
     ("BC2 pot\ngeneralist", 0.933, "BC"),
     ("anchored\nFT@1.0", 0.933, "BC"),
+    ("sched+edge\nCROWN n=120", 0.700, "BC"),
 )
 
 
@@ -116,7 +117,8 @@ def slalom_wall_figure():
     ax.set_ylabel("slalom3@1.0 success")
     ax.set_title(
         "The slalom wall: five RL eliminations and two fine-tune erasures "
-        "(grey/red) vs imitation (green) — same exam, same seeds",
+        "(grey/red) vs imitation (green) — same exam, same seeds; last bar "
+        "= the crowned artifact (pooled n=120, ALL guards green)",
         fontsize=9,
     )
     fig.tight_layout()
@@ -354,7 +356,7 @@ def main() -> None:
             for p in [p1] + ps:
                 assert os.path.getsize(p) > 10_000, f"figure too small: {p}"
         # curated series must stay inside [0, 1] and cite real sittings
-        assert len(SLALOM_SITTINGS) == 12 and all(
+        assert len(SLALOM_SITTINGS) == 13 and all(
             0 <= s[1] <= 1 for s in SLALOM_SITTINGS
         )
         assert len(FT_DOSES) == len(FT_CHAIN) == len(FT_GAP) == len(FT_MGAP)
