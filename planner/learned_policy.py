@@ -308,6 +308,7 @@ class WMPolicyEnv(gym.Env):
         # per-group anchoring reads this: ball episodes carry a reward
         # that transit gradients actively oppose (the sixth clause)
         self.current_anchor_group = "ball" if self._station else "transit"
+        self.current_world = world  # shadow teachers key on the world
         # course mode (integration-FT): composite worlds carry a "stages"
         # meta — the episode goal/budget scale with the course, and the
         # OBSERVATION mirrors the exam's StageLocal semantics exactly

@@ -740,7 +740,53 @@ class AnchoredPPO:
                         use_groups = getattr(self, "anchor_live", None) and getattr(
                             self, "anchor_tags", None
                         )
-                        if use_groups:
+                        use_dagger = getattr(self, "dagger_lambda", None) and getattr(
+                            self, "dagger_tags", None
+                        )
+                        if use_dagger:
+                            # DAgger-anchor: transit rows keep the prior-KL
+                            # schedule; ball rows anchor to the SHADOW
+                            # TEACHER's action (CE = KL to a deterministic
+                            # teacher) — the tutor, not the leash
+                            tags = self.dagger_tags
+                            j = np.random.randint(
+                                0, len(tags), size=len(rollout_data.advantages)
+                            )
+                            obs_arr = self.rollout_buffer.observations
+                            obs_np = obs_arr[j, 0] if obs_arr.ndim == 3 else obs_arr[j]
+                            obs_t = th.as_tensor(obs_np, dtype=th.float32)
+                            grp = [tags[i][0] for i in j]
+                            act = [tags[i][1] for i in j]
+                            tmask = th.as_tensor([g == "transit" for g in grp])
+                            bsel = [g == "ball" and a >= 0 for g, a in zip(grp, act)]
+                            bmask = th.as_tensor(bsel)
+                            terms = []
+                            if bool(tmask.any()):
+                                with th.no_grad():
+                                    pd = self.prior_policy.get_distribution(
+                                        obs_t[tmask]
+                                    ).distribution
+                                cd = self.policy.get_distribution(
+                                    obs_t[tmask]
+                                ).distribution
+                                terms.append(
+                                    self.anchor_live["transit"]
+                                    * th.distributions.kl_divergence(pd, cd).sum()
+                                )
+                            if bool(bmask.any()):
+                                d = self.policy.get_distribution(obs_t[bmask])
+                                a_t = th.as_tensor(
+                                    [a for a, m in zip(act, bsel) if m],
+                                    dtype=th.long,
+                                )
+                                terms.append(
+                                    -self.dagger_lambda * d.log_prob(a_t).sum()
+                                )
+                            if terms:
+                                anchor = sum(terms) / len(j)
+                                anchor_losses.append(float(anchor.item()))
+                                loss = loss + anchor
+                        elif use_groups:
                             j = np.random.randint(
                                 0,
                                 len(self.anchor_tags),
@@ -850,6 +896,7 @@ def finetune(
     anchor_end: float = None,
     edge_bias: bool = False,
     anchor_ball_end: float = None,
+    anchor_dagger_ball: float = None,
 ):
     """PPO fine-tune from the BC init; `world` may be a comma-separated
     diet (round-robin, the training-env convention). station_tick passes
@@ -881,7 +928,79 @@ def finetune(
     callback = None
     if anchor > 0.0:
         model.set_anchor(anchor)
-        if anchor_ball_end is not None:
+        if anchor_dagger_ball is not None:
+            from stable_baselines3.common.callbacks import BaseCallback
+
+            model.kl_coef = 0.0  # the dagger branch replaces the global one
+            model.anchor_live = {"transit": anchor}
+            model.dagger_lambda = float(anchor_dagger_ball)
+            model.dagger_tags = []
+            ball_speed = {
+                "dodgeball_v06": 0.6,
+                "dodgeball_v10": 1.0,
+                "dodgeball_v14": 1.4,
+                "dodgeball_v18": 1.8,
+            }
+
+            class _DAggerAnchor(BaseCallback):
+                """Shadow-teacher tagger: per buffer row, record (group,
+                the action the per-world OracleDodge WOULD take at that
+                state). The shadow's velocity-differencing state advances
+                once per decision, live privileged pillars, rebuilt at
+                every episode boundary. Transit coef keeps the schedule."""
+
+                def _a(self, name):
+                    return self.model.env.get_attr(name)[0]
+
+                def _refresh_shadow(self):
+                    ep = self._a("_ep")
+                    if ep == self._ep_seen:
+                        return
+                    self._ep_seen = ep
+                    self._shadow = None
+                    if self._a("current_anchor_group") == "ball":
+                        from eval.eval_dodge_ceiling import OracleDodge
+
+                        sc = self._a("scenario")
+                        self._shadow = OracleDodge(ball_speed[self._a("current_world")])
+                        self._shadow.begin(sc.positions())
+
+                def _teacher_action(self) -> int:
+                    if self._shadow is None:
+                        return -1
+                    sc = self._a("scenario")
+                    self._shadow.pillars = [
+                        np.array(q, dtype=float) for q in sc.positions()
+                    ]
+                    a_global = int(self._shadow.decide(None, self._a("state")))
+                    # the policy speaks the 5-command MENU (climb off):
+                    # convert exactly as collect() does
+                    return self._a("ob").ids.index(a_global)
+
+                def _on_rollout_start(self):
+                    frac = min(1.0, self.model.num_timesteps / float(steps))
+                    self.model.anchor_live = {
+                        "transit": anchor + (anchor_end - anchor) * frac
+                    }
+                    self.model.dagger_tags = []
+                    self._ep_seen = None
+                    self._refresh_shadow()
+                    self._pending = (
+                        self._a("current_anchor_group"),
+                        self._teacher_action(),
+                    )
+
+                def _on_step(self) -> bool:
+                    self.model.dagger_tags.append(self._pending)
+                    self._refresh_shadow()
+                    self._pending = (
+                        self._a("current_anchor_group"),
+                        self._teacher_action(),
+                    )
+                    return True
+
+            callback = _DAggerAnchor()
+        elif anchor_ball_end is not None:
             from stable_baselines3.common.callbacks import BaseCallback
 
             ends = {"ball": float(anchor_ball_end), "transit": float(anchor_end)}
@@ -929,7 +1048,18 @@ def finetune(
 
             callback = _AnchorSchedule()
     model.learn(total_timesteps=steps, callback=callback)
-    if anchor > 0.0 and anchor_ball_end is not None:
+    if anchor > 0.0 and anchor_dagger_ball is not None:
+        from collections import Counter
+
+        c = Counter(g for g, _ in model.dagger_tags)
+        lab = sum(1 for g, a in model.dagger_tags if g == "ball" and a >= 0)
+        print(
+            f"[finetune] dagger anchor landed: transit "
+            f"k={model.anchor_live['transit']:.4f}, ball lambda="
+            f"{model.dagger_lambda}, last-rollout rows {dict(c)}, "
+            f"labelled ball rows {lab}"
+        )
+    elif anchor > 0.0 and anchor_ball_end is not None:
         live = {g: round(v, 4) for g, v in model.anchor_live.items()}
         from collections import Counter
 
@@ -969,6 +1099,7 @@ def main() -> None:
     ap.add_argument("--anchor-end", type=float, default=None)
     ap.add_argument("--ft-edge-bias", action="store_true")
     ap.add_argument("--anchor-ball-end", type=float, default=None)
+    ap.add_argument("--anchor-dagger-ball", type=float, default=None)
     ap.add_argument("--ft-gate-bonus", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -1173,6 +1304,7 @@ def main() -> None:
             anchor_end=args.anchor_end,
             edge_bias=args.ft_edge_bias,
             anchor_ball_end=args.anchor_ball_end,
+            anchor_dagger_ball=args.anchor_dagger_ball,
         )
         return
     if args.collect:
