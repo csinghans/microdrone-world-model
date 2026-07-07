@@ -117,10 +117,18 @@ benchmark. Phasing (`experiments/search_room_v*`,
   were overfit — the robust configuration is slow flight (0.36 m/s)
   under a braking-distance geometric safety filter. Trajectory:
   `docs/figures/search_room_trajectory.png`.
-- **Phase 1b — does the world model help? (next).** Retrain the WM on
-  the translational nav action set, swap the privileged geometric
-  safety filter for a WM-predicted one, and measure whether it matches
-  the geometric baseline at deployable cost.
+- **Phase 1b — does the world model help? HONEST NEGATIVE, with a
+  sharp mechanism map.** The transit WM is blind to walls head-on
+  (forward AUC 0.48) and a retrain on room data did NOT fix it
+  (pooled AUC 0.76 → 0.38): the retrained model predicts room latents
+  well (MSE@32 0.94 vs no-op 9.14) but its collision head sits at
+  chance — because the danger signal (`clearance()`, omnidirectional)
+  is mostly OUT of the forward 28° camera's view. **The bottleneck is
+  the observation channel, not the model** (the repo's signature
+  channel-limit result, now for search safety). Phase 1a's privileged
+  geometric filter stands as the working sim safety layer; a
+  deployable vision replacement needs FOV-honest labels + rangefinder
+  split, or yaw to look around (`experiments/search_wm_v1/`).
 - **Later (each its own pre-registration):** multi-room + topological
   map; a visual-detection branch (widen the observation channel — the
   big perception step); static-person SAR framing with safety bounds.
