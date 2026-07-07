@@ -82,9 +82,16 @@
   (dodge_crown K4, λ_T=1.0): the frozen kill condition fired by its
   letter — v0.6 success tied K2a's pin EXACTLY (0.350) — priced dead
   for this throne; honest margins recorded (v0.6 crashes fell 5x,
-  v1.8 crossed its bar, mgap green for the first time). The throne's
-  sole surviving named road: the ~1400-episode slow-ball volume
-  re-registration. Five directions priced; the throne rests
+  v1.8 crossed its bar, mgap green for the first time). The volume road,
+  priced by its own two measured points (200 eps → 0.267, 600 →
+  0.433; log-fit k ≈ 0.15): ~1400 episodes lands BC v0.6 ≈ 0.56 —
+  below the 0.65 bar even before the pin's preservation-only
+  ceiling — and bar-level BC needs ~2500 episodes (≈ 8 h of
+  collection). **The dodge file now rests with every named road
+  priced**: five mechanism directions + the volume curve's own
+  arithmetic. Re-opening requires either the 2500-episode shot
+  (owner's call — cost known) or a NEW idea (a stronger slow-ball
+  teacher, curriculum, action-set change)
   (`experiments/dodge_crown/journal.md`).
 - ~~dispatch (six-class)~~ CLOSED 2026-07-06 at its own phase-1 meter
   (`experiments/dispatch/journal.md`): moving_gap 0.80 and

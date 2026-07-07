@@ -153,3 +153,12 @@ and the reminder that instrument bugs do not respect how much you
 liked the old number: two of today's numbers got WORSE for our own
 published story (control mean 0.917→0.804) and one got better —
 they land where they land.
+
+**Contamination-scope audit (2026-07-07):** every earlier campaign
+that probed non-s0 checkpoints did so CORRECTLY — M1's historical s1
+row (0.8940 / 0.9948 / 0.8855) and N1b's 0.9504 match today's clean
+re-probes bit-exact, i.e. the v0.5 era passed `--seed` properly (and
+even flagged s1 as a strong-slice draw in its two-tier note).
+head_calibration probed s0 models only. **The leak is confined to
+this campaign's two probe passes, both now corrected.** The flaw was
+operator error made structural-proof, not a historical contamination.
