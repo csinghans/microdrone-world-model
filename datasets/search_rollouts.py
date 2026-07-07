@@ -37,7 +37,7 @@ import sys
 
 import numpy as np
 
-from datasets.intervention_labels import HORIZONS
+from datasets.intervention_labels import H_MAX, HORIZONS
 from planner.action_set import A_NORM
 from planner.nav_action_set import NAV_ACTION_NAMES, NAV_ACTION_VECS
 from sim.envs import IMG_RES, START, VelCommander, grab_frame, make_ctrl, make_env
@@ -50,21 +50,25 @@ OUT = os.path.join(
     "search_dataset.npz",
 )
 # collection speed sampled per rollout so the WM sees nav actions across
-# speeds; the range brackets the Phase-1a flight speed (0.36 m/s) and up,
-# and high-speed rollouts actually reach the walls within the rollout
-SPEED_LO, SPEED_HI = 0.6, 1.4
-SEG_LEN = 24  # held-command segment length in control steps (~0.5 s @ 48 Hz)
+# speeds; brackets the Phase-1a flight speed (0.36 m/s). Capped at 1.0 so a
+# full held segment doesn't fly clear across the room before switching.
+SPEED_LO, SPEED_HI = 0.6, 1.0
+# segments MUST exceed H_MAX (32): a k=32 training window has to fit inside
+# one held command, or `window_valid` yields ZERO samples (measured — an
+# earlier 24-step hold produced an empty index and a 1-D-array crash).
+SEG_MIN, SEG_MAX = H_MAX + 8, H_MAX + 32
 
 
 def _nav_schedule(rng, length):
     """Held segments of random nav commands (the counterfactual-contrast
-    recipe: keep a command for a stretch, then switch)."""
+    recipe: keep a command for a stretch, then switch). Each hold exceeds
+    H_MAX so k-step windows are valid."""
     act_id = np.zeros(length, dtype=np.int16)
     seg = np.zeros(length, dtype=np.int16)
     t, s = 0, 1
     while t < length:
         a = int(rng.integers(0, len(NAV_ACTION_VECS)))
-        n = int(rng.integers(SEG_LEN // 2, SEG_LEN + 1))
+        n = int(rng.integers(SEG_MIN, SEG_MAX + 1))
         act_id[t : t + n] = a
         seg[t : t + n] = s
         t += n

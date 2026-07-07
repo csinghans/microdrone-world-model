@@ -46,15 +46,21 @@ def _auc(scores, labels):
     return float((r_pos - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg)))
 
 
-def probe(n=12, seed0=130000, max_decisions=1500, speed=0.6):
+def probe(n=12, seed0=130000, max_decisions=1500, speed=0.6, ckpt=None):
     import torch
 
-    from eval.eval_closed_loop import load_or_train
     from search.strategies import get_strategy
     from sim.envs import make_env
     from sim.indoor.rooms import single_room
 
-    enc, pred, cheads, _nhead, meta = load_or_train(device="cpu")
+    if ckpt:  # a specific (e.g. retrained-on-rooms) checkpoint
+        from world_model.training import load_model
+
+        enc, pred, cheads, _nhead, meta = load_model(ckpt, device="cpu")
+    else:
+        from eval.eval_closed_loop import load_or_train
+
+        enc, pred, cheads, _nhead, meta = load_or_train(device="cpu")
     a_norm = np.array(meta["a_norm"], dtype=np.float32)
     cands = torch.tensor(NAV_ACTION_VECS * speed / a_norm, dtype=torch.float32)
 
@@ -143,12 +149,15 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=12)
     ap.add_argument("--seed0", type=int, default=130000)
+    ap.add_argument(
+        "--ckpt", default=None, help="WM checkpoint to probe (else the champion)"
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    r = probe(args.n, args.seed0)
+    r = probe(args.n, args.seed0, ckpt=args.ckpt)
     print(
         f"[wm-probe] decisions {r['n_decisions']} (danger {r['danger_rate']:.2f}) | "
         f"AUC all {r['auc_all']:.3f}  forward {r['auc_forward']:.3f} "
