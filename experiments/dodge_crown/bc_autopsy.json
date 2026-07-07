@@ -1,0 +1,61 @@
+{
+ "zip": "experiments/dodge_crown/artifacts_local/ppo_dodge_crown_BC.zip",
+ "cells": {
+  "dodge@v0.6": {
+   "n": 30,
+   "seed0": 23000,
+   "crash": 0.5,
+   "reached": 0.1,
+   "success": 0.26666666666666666,
+   "clearance_mean": 0.2788415396207595,
+   "custom": {
+    "survived": 0.4,
+    "in_box": 0.6,
+    "disp_x": 1.391265905524672,
+    "y_max": 0.93241263695812
+   }
+  },
+  "dodge@v1.0": {
+   "n": 30,
+   "seed0": 23000,
+   "crash": 0.2,
+   "reached": 0.03333333333333333,
+   "success": 0.4,
+   "clearance_mean": 0.31791452836852524,
+   "custom": {
+    "survived": 0.8,
+    "in_box": 0.5666666666666667,
+    "disp_x": 1.609474090986157,
+    "y_max": 1.0515391091993056
+   }
+  },
+  "dodge@v1.4": {
+   "n": 30,
+   "seed0": 23000,
+   "crash": 0.16666666666666666,
+   "reached": 0.0,
+   "success": 0.4666666666666667,
+   "clearance_mean": 0.33563144973205816,
+   "custom": {
+    "survived": 0.8333333333333334,
+    "in_box": 0.6,
+    "disp_x": 1.4196016734393615,
+    "y_max": 0.9713892571777734
+   }
+  },
+  "dodge@v1.8": {
+   "n": 30,
+   "seed0": 23000,
+   "crash": 0.13333333333333333,
+   "reached": 0.0,
+   "success": 0.7,
+   "clearance_mean": 0.33130471606565653,
+   "custom": {
+    "survived": 0.8666666666666667,
+    "in_box": 0.7666666666666667,
+    "disp_x": 1.3791676487528066,
+    "y_max": 0.8703294168108898
+   }
+  }
+ }
+}

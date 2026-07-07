@@ -63,11 +63,14 @@
   pinned) and the anchored zip — the catalog's best five-world
   artifact (93.3/80/43 on chain/gap/mgap).
 - **The remaining roads to a distilled champion (fresh
-  pre-registrations):** the **anchor dial** (coefficient schedule or
-  per-world coefficients — now with a measured decoupling proof and a
-  measured binding radius), and **DAgger** (re-anchor to the teacher
-  instead of the prior — five erasure/decoupling datapoints now shape
-  the argument).
+  pre-registrations):** ~~the coefficient schedule~~ PLAYED and
+  CROWNED (slalom-v2, 2026-07-07); **per-world anchor coefficients**
+  — now the named successor for the dodge throne (the sixth clause:
+  anchors defend against drift, not against reward — a station
+  economy was erased through a relaxing anchor by a transit-majority
+  diet, `experiments/dodge_crown/journal.md`); and **DAgger**
+  (re-anchor to the teacher instead of the prior — six
+  erasure/decoupling datapoints now shape the argument).
 - ~~dispatch (six-class)~~ CLOSED 2026-07-06 at its own phase-1 meter
   (`experiments/dispatch/journal.md`): moving_gap 0.80 and
   opening_door 0.667 under the frozen 0.85 identification floor —

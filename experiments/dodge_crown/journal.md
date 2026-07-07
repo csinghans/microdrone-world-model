@@ -56,3 +56,60 @@ episodes ≈ 4-6 h, background queue with markers.
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01GGt7SZ3GgNrbrXFrC5UWcn
+
+## Verdict: REFUTED — and the anchor's limit is named (2026-07-07)
+
+**Floors passed, gate failed 5/8.** Pot pooled val 0.9218; fast-ball
+manipulation meter 0.9573 (n=5400/world — the mixed pot did NOT
+dilute fast-ball fidelity; it may have helped). The crown shot:
+
+| bar | read | verdict |
+|---|---|---|
+| dodge@v0.6 ≥ 0.65 | **0.000** (crash 0.167) | ✗ |
+| dodge@v1.0 ≥ 0.55 | **0.000** (crash 0.217) | ✗ |
+| dodge@v1.4 ≥ 0.55 | **0.000** (crash 0.533) | ✗ |
+| dodge@v1.8 ≥ 0.55 | **0.000** (crash 0.550) | ✗ |
+| gap ≥ 0.75 | 0.833 | ✓ |
+| mgap ≥ 0.70 | 0.550 | ✗ |
+| cluttered ≤ 0.05 | 0.133 | ✗ |
+| sweep@2.0 ≤ 0.10 | 0.083 | ✓ |
+
+Zero success with sub-bar crash rates = the artifact dodges and
+survives but never holds the box — the station economy is GONE.
+
+**The autopsy convicts the fine-tune, not the pot** (BC prior flown
+on the same cells, measured-only): 0.267 / 0.400 / 0.467 / 0.700.
+The clone holds station at every speed — v1.8 at 0.700, ABOVE the
+pure dodge clone's 0.60 record (n=30, observation not title). The
+anchored FT took a station-holding prior and erased station-keeping
+to 0.000 at all four speeds, with station_tick=0.6 PAYING for the
+box the whole time and the prior's demos holding it.
+
+**The FT-safety law's sixth clause (measured):** the anchor defends
+against DRIFT, not against REWARD. Five of eight diet worlds pay
+forward progress; their gradient majority actively opposes staying
+in a box, and the schedule's late freedom (kl → 0.1) ratifies the
+vote precisely when it consolidates. Contrast the chain, which the
+same recipe carried to a crown: nothing in the five-world reward
+OPPOSED weaving — mass-weighted anchoring protects what reward is
+neutral about; **nothing in this design protects what reward
+opposes.** (K2-dodgeball measured the naked version of this wash-out;
+this campaign measured that the anchor does not change it.)
+
+Secondary findings, both priced in the pre-registration: the 8-way
+round-robin thinned per-world mass and broke mgap (0.550) and
+cluttered (0.133) — risk (ii) fired; edge_bias held sweep green for
+the third consecutive campaign (0.083, clearance 0.60 m).
+
+**Successor (named, not scheduled): per-world anchor coefficients**
+— the dial's third axis, present in the original ledger entry. Pin
+kl high on ball worlds (defend station against the transit majority)
+while the schedule relaxes transit worlds for repair. Alternative
+named: reward surgery (progress term masked on ball worlds — but
+that is a reward change, a different knob family). Ball-only diets
+are NOT a road: the fifth clause prices zero-mass guards as naked.
+
+Artifacts kept (best-so-far, no titles): ppo_dodge_crown_BC.zip
+(the pot clone — v1.8 0.700 observation), ppo_dodge_crown_FT.zip
+(the refuted shot). Throne state unchanged: split two ways, v0.6 and
+v1.4 vacant. Cost: ~1670 collection + 450k FT + 600 exam episodes.
