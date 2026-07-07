@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — the instrument-honesty era: two retro-reads, one throne
+## 0.7.0 — 2026-07-07 (the anchor dial: one throne taken, the safety law grows to six clauses)
 
 - **λ multi-seed (the v0.5 instrument debt, PAID): NOT RESOLVABLE.**
   Three arms × three seeds on one frozen draw: arm means separate by
@@ -43,16 +43,29 @@
   distillation wall to hold the target AND every guard. The crown
   recipe, one line: **BC shape + mass-weighted anchored repair +
   slice-aware diet.** Honesty on the record: zero chain margin.
-- **dodge-crown attempt: REFUTED, and the law's sixth clause named.**
-  The crown pot itself is strong (pooled val 0.9218; fast-ball meter
-  0.9573; the pot BC holds station at 0.267-0.700 — v1.8 ABOVE the
-  pure clone), but the schedule-anchored FT erased station-keeping to
-  0.000 at every ball speed while station_tick paid for the box:
-  **anchors defend against drift, not against reward** — the transit
-  majority's progress gradient out-voted the box through shared
-  weights, and the relaxing anchor ratified it. Successor machinery
-  shipped: per-GROUP anchor coefficients (`--anchor-ball-end`,
-  tag-aligned buffer sampling); the pin/floor arms are in flight.
+- **The dodge throne, priced from five directions (campaign closed,
+  throne unclaimed).** The crown pot is strong (pooled val 0.92-0.93;
+  fast-ball meter 0.957; the pot BC holds station at 0.267-0.700 —
+  v1.8 above the pure clone), and then: (K1) the schedule-anchored FT
+  erased station-keeping to 0.000 at every ball speed while
+  station_tick paid for the box — **anchors defend against drift, not
+  against reward** (the sixth clause); (K2) per-GROUP anchoring
+  (`--anchor-ball-end`, tag-aligned buffer sampling) DEFENDS it —
+  ball success is monotone in the ball coefficient (0 → 0.2-0.4 →
+  0.33-0.55) — but the pin strictly dominates the floor: freedom on
+  ball states buys erosion, and **station and repair live on the same
+  states**; (K3) the fidelity road is refuted at its own checkpoint
+  (tripling slow-ball demos bought BC v0.6 only 0.267→0.433,
+  sub-linear) — plus one harness violation quarantined on the record
+  (a newline-separated queue ran past a tripped NO-GO; queues now
+  must be &&-chained); (K4) **DAgger-anchor** (shadow-teacher CE on
+  ball rows, `--anchor-dagger-ball`) ties the pin EXACTLY on the
+  frozen headline (v0.6 0.350 = 0.350, 21/60 both) — priced dead by
+  its own kill condition, with honest margins recorded (v0.6 crashes
+  fell 5x, v1.8 crossed its bar, mgap green for the first time).
+  Sole surviving road: a ~1400-episode slow-ball volume
+  re-registration. `ppo_dodge_K2a_pin` stands as the best
+  station-holding generalist.
 - Article #6 shipped (`writing/06-the-integration-climb/`, EN+繁中):
   unit-green is not integration-green — the climb to the deployment
   gate. New standing instrument: `eval_dense_probe` (gap-tracker
