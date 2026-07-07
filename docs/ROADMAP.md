@@ -126,9 +126,18 @@ benchmark. Phasing (`experiments/search_room_v*`,
   is mostly OUT of the forward 28° camera's view. **The bottleneck is
   the observation channel, not the model** (the repo's signature
   channel-limit result, now for search safety). Phase 1a's privileged
-  geometric filter stands as the working sim safety layer; a
-  deployable vision replacement needs FOV-honest labels + rangefinder
-  split, or yaw to look around (`experiments/search_wm_v1/`).
+  geometric filter stands as the working sim safety layer
+  (`experiments/search_wm_v1/`). **Follow-up (v2): FOV-honest labels
+  did NOT rescue it** — forward-danger AUC stayed ~0.58 across three
+  routes (transit WM, omni-label retrain, FOV-honest retrain). The two
+  negatives converge on a PERCEPTUAL limit: the WM rides discrete
+  obstacles' apparent-size cue (boxes scored 0.79), but a flat wall is
+  scale-free in a single 64×64 monocular frame, so wall distance is
+  ill-posed — no label or retrain adds information the pixels lack.
+  **Search safety belongs to geometry / cheap rangefinders
+  (omnidirectional, distance-direct), not a monocular world model**;
+  the WM's place in this track, if any, is target reasoning, not
+  collision (`experiments/search_wm_v2/`).
 - **Later (each its own pre-registration):** multi-room + topological
   map; a visual-detection branch (widen the observation channel — the
   big perception step); static-person SAR framing with safety bounds.
