@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased — the split-identity correction
+
+- **⚠ Instrument correction (affects λ-campaign numbers published in
+  0.7.0's notes; conclusions survive, arithmetic corrected).** The
+  model-axis probe graded every non-seed-0 checkpoint on the seed-0
+  rollout split — those "val" reads overlapped the models' train
+  sets (leakage). Clean re-probes reproduce the historical M1/N1
+  numbers BIT-EXACT (l05_s1 0.9948, l01_s1 0.9504): training was
+  deterministic all along and the "seed-adjacent nondeterminism"
+  note is retracted. Re-derived clean: the n=3 verdict stands (NOT
+  RESOLVABLE); the "λ0.5 stabilizes" hypothesis dissolves (it was
+  born of a leaked read — clean n=8 variance ratio 0.96); the M1
+  retro-read's conclusion SURVIVES strengthened (clean powered
+  control 0.804 ± 0.15 vs λ0.5 0.769 ± 0.16 at n=8 —
+  indistinguishable; M1's grounded pair were the λ-arm's luckiest
+  draws). Hardening: checkpoints store their training seed; the
+  probe reads it, refuses contradictions, warns on legacy ckpts.
+
 ## 0.7.0 — 2026-07-07 (the anchor dial: one throne taken, the safety law grows to six clauses)
 
 - **λ multi-seed (the v0.5 instrument debt, PAID): NOT RESOLVABLE.**

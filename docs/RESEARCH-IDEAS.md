@@ -325,9 +325,14 @@ against a pooled within-arm sd of 0.189 (control alone spans
 0.75→1.00 on identical data). No λ effect readable at this power; the
 M1 model-axis PASS does not survive the powered control (retro-read
 recorded in `experiments/lambda_multiseed/journal.md`). Single-seed
-model-layer AUC is weather — now measured, not asserted. Optional
-escalation (unscheduled): n≥8/arm or a non-saturating probe slice to
-test the "λ0.5 stabilizes" hypothesis (its arm sd 0.036 vs 0.144).
+model-layer AUC is weather — now measured, not asserted. Escalation PLAYED
+(2026-07-07): the n=8 run exposed a probe split-identity leak (every
+non-s0 read was graded on the s0 split — train/val overlap), the
+instrument was hardened (ckpts store their seed; probe refuses
+mismatches), and on clean reads the stabilizer hypothesis DISSOLVES
+(variance ratio 0.96; it was born of a leaked number). n=3 verdict
+and the M1 retro-read conclusion survive re-derivation. The λ file
+is closed at every power measured.
 
 v0.5's N1 measured single-seed dense AUC as a ~0.5-wide lottery. Run
 grounding λ ∈ {0.1, 0.5} × 3 seeds each (six trainings, ~3 h) and
