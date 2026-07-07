@@ -80,6 +80,10 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   (hard worlds + odometry pin + edge diet); gap-flight =
   `experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip`.
 
+- Lint the WHOLE repo (`black --check . && ruff check .`) before any
+  push, not just the files you edited — a hand-typed dict in an
+  otherwise-verified file shipped two E501s and CI stayed red for six
+  pushes before anyone looked (2026-07-07).
 - Scripted string replacement (`python - <<` + `str.replace`) fails
   SILENTLY on zero matches — black reformatting invalidates pasted
   old-strings. Use the Edit tool (loud no-match) for code surgery, and
