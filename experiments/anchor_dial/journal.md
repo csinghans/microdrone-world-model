@@ -63,3 +63,37 @@ graph (loud crash — the crash is what caught the semantic bug).
 Wiring smoke: 4096 steps, 1.0 → 0.1 → landed kl_coef 0.5500, the
 exact two-rollout expectation. Exam preflight: index_cells command
 verified on the kl=1.0 record artifact (slalom3@1.0, n=2 dry).
+
+## Verdict: the dial answers YES — the schedule dominates (2026-07-07)
+
+| cell (bar) | BC2 prior | kl=1.0 record | K1 kl=0.3 | K2 sched 1.0→0.1 |
+|---|---|---|---|---|
+| slalom3 chain (≥0.70) | 0.933 | 0.933 | 0.833 ✓ | **0.833 ✓** |
+| gap (≥0.75) | 0.70 | 0.80 | 0.933 ✓ | **1.000 ✓** |
+| mgap (≥0.70) | 0.43 | 0.433 | 0.567 ✗ | **0.800 ✓** |
+
+**K2 (the schedule) passes all three frozen bars** — margins +0.133 /
++0.25 / +0.10, none inside the ±0.08 borderline band, no recheck
+owed. Landed coefficient 0.1030 (the designed 0.1, last rollout).
+
+**K1 prices the middle of the dial and is strictly dominated:** at
+constant 0.3 the chain pays the SAME ~10-point tax as the schedule
+(0.833 both) while buying materially less repair (gap 0.933 < 1.000,
+mgap 0.567 < 0.800). Constant coefficients trade on one axis; the
+schedule buys on both — early tightness carries the chain through the
+period when re-optimization pressure is fiercest (measured in the
+dose curve: corrosion begins immediately), late freedom finishes the
+repair that the 1.0-ball measurably could not reach.
+
+The tool law, three datapoints in: **naked FT erases, constant
+anchors trade, scheduled anchors buy.** The chain's residual ~10-pt
+bleed (0.933 → 0.833, still 13 pts above bar) is the price of ANY
+late freedom; whether a floor schedule (e.g. 1.0 → 0.3) removes it is
+an unopened dial question, recorded not scheduled.
+
+**Frozen-grid consequence:** successor unlocked — the FULL
+corridor-slalom-v2 gate promotion shot with `ppo_anchor_sched.zip`
+(fresh pre-registration, own campaign). The nine-sitting throne gets
+its tenth challenger, this one carrying every guard's diet.
+
+Cost: 2 x 450k FT + 180 exam episodes, ~2.6 h wall, background.
