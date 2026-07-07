@@ -180,6 +180,15 @@ replacement-style recheck re-rolling an opening-door PASS into the one
 bad block in ten). The opening-door K3 title question now has a
 legitimate path: a fresh pre-registered promotion gate at pooled n ≥ 200.
 
+### ~~corridor-slalom-v2 throne~~ — CROWNED 2026-07-07 (eleventh sitting)
+`ppo_anchor_sched_edge.zip`: BC2 prior + 450k anchored-schedule FT
+(kl 1.0→0.1) + edge_bias. Pooled chain 84/120 = 0.700 EXACT, four
+guards green with margins (sweep@2.0 crash 0.05, clearance 0.62 m).
+The crown recipe, one line: BC shape + mass-weighted anchored repair
++ slice-aware diet. Full arc: `experiments/slalom_v2_promotion/`,
+`experiments/anchor_dial/`. FT-safety law fifth clause measured both
+ways en route (thin slice 3%→31.7% corrosion; mass restored → 5%).
+
 ### ~~corridor-slalom (sustained weaving)~~ — CLOSED 2026-07-05, honest negative
 No knob passed any target (best 10 % vs a 70 % bar): **the first
 reversal is the wall** — the mgap champion dies at gate two zero-shot,

@@ -78,7 +78,10 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   steps sat broken-from-birth this way — the job had never actually run.
 - Current champions: general = `output/ppo_wm_policy_edge_hard_xp.zip`
   (hard worlds + odometry pin + edge diet); gap-flight =
-  `experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip`.
+  `experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip`; slalom-v2 =
+  `experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip`
+  (BC2 + anchored-schedule FT + edge_bias; crowned at pooled 84/120,
+  all guards green — the eleventh sitting).
 
 - Lint the WHOLE repo (`black --check . && ruff check .`) before any
   push, not just the files you edited — a hand-typed dict in an
