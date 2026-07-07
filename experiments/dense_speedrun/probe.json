@@ -1,0 +1,91 @@
+{
+ "n": 30,
+ "seed0": 7000,
+ "zip": "output/ppo_wm_policy_edge_hard_xp.zip",
+ "cells": [
+  {
+   "speed": 1.0,
+   "n": 30,
+   "success": 0.8666666666666667,
+   "crash": 0.13333333333333333,
+   "timeout": 0.0,
+   "taxonomy": {
+    "in_path_1": 0,
+    "in_path_2": 0,
+    "side": 4
+   },
+   "blind_side": 0,
+   "arm": "oracle"
+  },
+  {
+   "speed": 1.5,
+   "n": 30,
+   "success": 0.36666666666666664,
+   "crash": 0.6,
+   "timeout": 0.03333333333333333,
+   "taxonomy": {
+    "in_path_1": 6,
+    "in_path_2": 5,
+    "side": 7
+   },
+   "blind_side": 1,
+   "arm": "oracle"
+  },
+  {
+   "speed": 2.0,
+   "n": 30,
+   "success": 0.1,
+   "crash": 0.8333333333333334,
+   "timeout": 0.06666666666666667,
+   "taxonomy": {
+    "in_path_1": 16,
+    "in_path_2": 1,
+    "side": 8
+   },
+   "blind_side": 2,
+   "arm": "oracle"
+  },
+  {
+   "speed": 1.0,
+   "n": 30,
+   "success": 0.8333333333333334,
+   "crash": 0.16666666666666666,
+   "timeout": 0.0,
+   "taxonomy": {
+    "in_path_1": 1,
+    "in_path_2": 0,
+    "side": 4
+   },
+   "blind_side": 2,
+   "arm": "contender"
+  },
+  {
+   "speed": 1.5,
+   "n": 30,
+   "success": 0.7333333333333333,
+   "crash": 0.26666666666666666,
+   "timeout": 0.0,
+   "taxonomy": {
+    "in_path_1": 1,
+    "in_path_2": 1,
+    "side": 6
+   },
+   "blind_side": 2,
+   "arm": "contender"
+  },
+  {
+   "speed": 2.0,
+   "n": 30,
+   "success": 0.43333333333333335,
+   "crash": 0.4666666666666667,
+   "timeout": 0.1,
+   "taxonomy": {
+    "in_path_1": 0,
+    "in_path_2": 1,
+    "side": 13
+   },
+   "blind_side": 3,
+   "arm": "contender"
+  }
+ ]
+}

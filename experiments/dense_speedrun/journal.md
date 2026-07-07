@@ -65,3 +65,60 @@ one collect + one BC + two exams ≈ 1-1.5 h.
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01GGt7SZ3GgNrbrXFrC5UWcn
+
+## Stage-0 verdict: the ceiling is refuted — the champion IS the map (2026-07-07)
+
+| speed | oracle success | champion success | champion crash (record) |
+|---|---|---|---|
+| x1.0 | 0.867 | 0.833 | 0.167 (v0.3: 17 % ✓ exact) |
+| x1.5 | 0.367 | **0.733** | 0.267 (v0.3: 27 % ✓ exact) |
+| x2.0 | 0.100 | **0.433** | 0.467 (first read) |
+
+**Replication:** exact on both standing cells (same seeds, deterministic
+runner) — instrument sound, no bug hunt owed.
+
+**The pre-registered lower-bound caveat fired, and it is the finding.**
+The learned champion beats the privileged scripted pilot 2x at x1.5
+and 4x at x2.0. OracleField flies forward/veer only; the champion has
+the full action set — and its 10 % timeouts at x2.0 say it *slows on
+purpose*, trading transit time for lateral budget. A scripted ceiling
+is only a ceiling where scripting is easy: the exact DUAL of the
+slalom lesson (there, the script crushed RL; here, the learned flyer
+crushes the script). **Speed management under momentum is a learned
+skill our scripts do not have** — the door-arc law ("scripted pilots
+lose timing tasks") extends to continuous speed-vs-clearance trades.
+
+**The taxonomy answers the campaign's mechanism question:**
+- The champion handles IN-PATH threats at every speed (4 in-path
+  crashes across all 90 episodes). The "FOV physical limit" story, as
+  usually told (evasion outruns vision on the threats ahead), is NOT
+  where the failure mass lives.
+- Its failure mass at speed is **side clutter** (13/14 crashes at
+  x2.0) plus deliberate-slowness timeouts. The FOV blame survives
+  REFINED: what kills is the 0.55-1.2 m off-axis band — FOV-edge
+  space entered during sustained evasion — not the well-seen in-path
+  pillars. The oracle's in-path-1 pileup (16 @x2.0) is the script's
+  momentum-blindness, not an arena property.
+
+**Frozen-rule application (no discretion exercised):** K1 unlock
+required oracle ceiling ≥ 0.70 — true only at x1.0, where the teacher
+(0.867) offers nothing over the incumbent (0.833) through a lossy
+clone. At the speed cells the teacher is *worse than the incumbent*.
+**K1 is dead in every cell; no training thrown; the campaign closes
+at stage 0** with the map as the deliverable — the P5 "Done" clause
+(sharpen the frontier's mechanism, even if no bar passes) is met.
+
+**What the map now says (ledger material):**
+- Cruise: the frontier is essentially CLOSED — champion 0.833 vs
+  scripted 0.867, both dying only on side clutter.
+- Speed: dense@1.5 is flyable ≥ 0.733 and dense@2.0 ≥ 0.433 *by
+  existence proof* (the champion itself); true headroom is unknown —
+  the repo currently has NO valid ceiling instrument at speed.
+- Named follow-ups (each needs fresh pre-registration, neither
+  scheduled): (a) champion-as-teacher two-leg at speed (BC the
+  champion, on-policy FT at x1.5/x2.0 — the odoor recipe pointed at
+  speed); (b) an oracle that may SLOW (instrument repair, to price
+  headroom honestly before any training bet).
+
+Cost: 2 x 180 episodes (one arm-signature harness fix between),
+~75 min wall, zero training.

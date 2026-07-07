@@ -267,6 +267,17 @@ refutation says nothing about defense warning time). Fresh
 pre-registration required; the v1 bars stay frozen.
 
 ### dense-speedrun (attack the known frontier, honestly)
+
+**CLOSED 2026-07-07 at stage 0 — the map was the deliverable.** The
+scripted "ceiling" was refuted by the incumbent champion itself
+(0.733 vs 0.367 @x1.5, 0.433 vs 0.100 @x2.0 — speed management is a
+learned skill scripts lack; the slalom lesson's dual). Mechanism map:
+cruise is essentially closed (0.833 vs 0.867, side-clutter deaths
+only); at speed the champion clears in-path threats at every factor
+and dies on FOV-EDGE side clutter (13/14 @x2.0). Successors (fresh
+pre-registration each): champion-as-teacher two-leg at speed; an
+oracle that may slow (`experiments/dense_speedrun/journal.md`).
+
 Fly the dense world at factors 1.5-2.0. The dense floor (17-27 % at
 cruise band) is the repo's stated open frontier and it has *survived*
 grounding (λ two doses) and global calibration — so pre-register modest
