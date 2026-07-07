@@ -55,8 +55,11 @@ def render(scenario, result, found_step, out_path):
     ax.set_xlim(x0 - 0.3, x1 + 0.3)
     ax.set_ylim(y0 - 0.3, y1 + 0.3)
     ax.set_aspect("equal")
+    kind = scenario.meta.get("kind", "room")
+    safety = result.get("safety", "geometric")
     ax.set_title(
-        f"Indoor search — frontier, seed {scenario.meta.get('seed')}\n"
+        f"Indoor search — frontier / {safety}, {kind} seed "
+        f"{scenario.meta.get('seed')}\n"
         f"found @ decision {found_step}, coverage {result['coverage']:.2f}, "
         f"{'returned' if result['returned'] else 'no return'}, "
         f"{result['collisions']} collisions",
@@ -73,6 +76,12 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=120000)
     ap.add_argument("--speed", type=float, default=0.6)
     ap.add_argument("--max-decisions", type=int, default=2400)
+    ap.add_argument("--room", default="single", choices=("single", "two"))
+    ap.add_argument(
+        "--safety",
+        default="geometric",
+        choices=("geometric", "rangefinder", "beams4", "beams8", "beams16"),
+    )
     ap.add_argument("--out", default="docs/figures")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -93,9 +102,10 @@ def main() -> None:
     from eval.search_episode import run_search_episode
     from search.strategies import get_strategy
     from sim.envs import make_env
-    from sim.indoor.rooms import single_room
+    from sim.indoor.rooms import single_room, two_room
 
-    env, sc = make_env(), single_room(args.seed)
+    sc = two_room(args.seed) if args.room == "two" else single_room(args.seed)
+    env = make_env()
     res = run_search_episode(
         env,
         sc,
@@ -103,12 +113,19 @@ def main() -> None:
         seed=args.seed,
         max_decisions=args.max_decisions,
         speed=args.speed,
+        safety=args.safety,
     )
     env.close()
+    res["safety"] = args.safety
     # recover found_step from the metrics (steps_to_find), fall back to end
     fs = res["steps_to_find"] if res["target_found"] else -1
     os.makedirs(args.out, exist_ok=True)
-    out = os.path.join(args.out, "search_room_trajectory.png")
+    fname = (
+        "search_tworoom_trajectory.png"
+        if args.room == "two"
+        else ("search_room_trajectory.png")
+    )
+    out = os.path.join(args.out, fname)
     render(sc, res, fs, out)
     print(
         f"[search-gallery] seed {args.seed}: found@{fs} coverage {res['coverage']:.2f} "

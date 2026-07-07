@@ -169,7 +169,9 @@ benchmark. Phasing (`experiments/search_room_v*`,
   coverage in room A; widening to 0.9 fixed it (the two-room analogue of
   1a's unreachable-corner start). Named next: doorway detection +
   topological room graph (drop the hand-tuned width), then N-room
-  (`experiments/search_tworoom_v1/`).
+  (`experiments/search_tworoom_v1/`). Trajectory (god view of a
+  deployable beams8 run, doorway traversal visible):
+  `docs/figures/search_tworoom_trajectory.png`.
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
