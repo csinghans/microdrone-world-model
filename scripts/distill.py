@@ -812,10 +812,13 @@ def finetune(
     station_tick: float = 0.0,
     anchor: float = 0.0,
     gate_bonus: float = 0.0,
+    anchor_end: float = None,
 ):
     """PPO fine-tune from the BC init; `world` may be a comma-separated
     diet (round-robin, the training-env convention). station_tick passes
-    through to the env for ball worlds (the measured-good station economy)."""
+    through to the env for ball worlds (the measured-good station economy).
+    anchor_end (with anchor > 0) drives the KL coefficient linearly from
+    anchor to anchor_end across the run, updated at each rollout start."""
     from stable_baselines3 import PPO
     from stable_baselines3.common.env_util import make_vec_env
 
@@ -833,9 +836,28 @@ def finetune(
     )
     cls = AnchoredPPO.build() if anchor > 0.0 else PPO
     model = cls.load(bc_zip, env=venv)
+    callback = None
     if anchor > 0.0:
         model.set_anchor(anchor)
-    model.learn(total_timesteps=steps)
+        if anchor_end is not None:
+            from stable_baselines3.common.callbacks import BaseCallback
+
+            class _AnchorSchedule(BaseCallback):
+                def _on_rollout_start(self):
+                    frac = min(1.0, self.model.num_timesteps / float(steps))
+                    # coefficient ONLY — set_anchor would re-freeze the
+                    # prior to the CURRENT policy (and deepcopy a live
+                    # grad graph); the prior snapshot stays the load-time
+                    # BC2, which is the whole point of the anchor
+                    self.model.kl_coef = anchor + (anchor_end - anchor) * frac
+
+                def _on_step(self) -> bool:
+                    return True
+
+            callback = _AnchorSchedule()
+    model.learn(total_timesteps=steps, callback=callback)
+    if anchor > 0.0 and anchor_end is not None:
+        print(f"[finetune] anchor schedule landed at kl_coef={model.kl_coef:.4f}")
     model.save(out)
     venv.close()
     print(f"[finetune] saved {out} after {steps} steps on the BC init")
@@ -863,6 +885,7 @@ def main() -> None:
     ap.add_argument("--dodge", action="store_true", help="dodge-distill recipe")
     ap.add_argument("--ft-tick", type=float, default=0.0)
     ap.add_argument("--anchor", type=float, default=0.0)
+    ap.add_argument("--anchor-end", type=float, default=None)
     ap.add_argument("--ft-gate-bonus", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -1064,6 +1087,7 @@ def main() -> None:
             station_tick=args.ft_tick,
             anchor=args.anchor,
             gate_bonus=args.ft_gate_bonus,
+            anchor_end=args.anchor_end,
         )
         return
     if args.collect:
