@@ -42,8 +42,12 @@
   biased by a strong-but-imperfect prior into a basin WORSE than
   from-scratch (dodge-distill K1: fled the box under the same tick
   economy K3 used to hold it). Safe iff the diet covers everything you
-  care about AND all of it is RL-learnable. Crown vacant, ninth
-  sitting (`experiments/bcft_generalist/journal.md`).
+  care about AND all of it is RL-learnable. Since extended to six
+  clauses — (5) anchor pressure is mass-weighted; (6) anchors defend
+  against drift, not reward — and the slalom-v2 crown landed at the
+  ELEVENTH sitting via the schedule anchor
+  (`experiments/slalom_v2_promotion/journal.md`,
+  `experiments/dodge_crown/journal.md`).
 - ~~OracleDodge distillation~~ CLOSED 2026-07-06, SUPPORT —
   **dodge@v1.8 = 60 % over its bar, the catalog's only fast-cell
   pass** (crash 80→23 vs RL). Representation verdict instrument-

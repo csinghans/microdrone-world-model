@@ -134,6 +134,8 @@ FT_CHAIN = (0.933, 0.00, 0.133, 0.20, 0.00)
 FT_GAP = (0.70, 0.90, 0.967, 0.967, 0.967)
 FT_MGAP = (0.43, 0.833, 0.933, 0.867, 0.90)
 ANCHOR = {"chain": 0.933, "gap": 0.80, "mgap": 0.433}  # 450k @ kl=1.0
+# scheduled anchor 1.0->0.1 @450k — experiments/anchor_dial/journal.md
+SCHED = {"chain": 0.833, "gap": 1.000, "mgap": 0.800}
 
 
 def finetune_safety_figure():
@@ -148,9 +150,16 @@ def finetune_safety_figure():
         ("mgap", ANCHOR["mgap"], "#1565c0"),
     ):
         ax.scatter([len(FT_DOSES) - 1], [y], marker="*", s=170, color=c, zorder=5)
+    for key, y, c in (
+        ("chain", SCHED["chain"], RED),
+        ("gap", SCHED["gap"], GREEN),
+        ("mgap", SCHED["mgap"], "#1565c0"),
+    ):
+        ax.scatter([len(FT_DOSES) - 1.35], [y], marker="D", s=70, color=c, zorder=5)
     ax.annotate(
-        "stars: KL-anchored @450k\n(decoupling measured)",
-        xy=(3.6, 0.6),
+        "stars: anchored @450k, kl=1.0\ndiamonds: SCHEDULED "
+        "1.0\u21920.1\n(repair without erasure)",
+        xy=(3.25, 0.55),
         fontsize=8,
     )
     ax.set_xticks(list(xs))

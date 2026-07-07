@@ -93,7 +93,7 @@ guards green, in three gates (`experiments/gap_flight/journal.md`).
 
 ## Results at a glance
 
-Four figures carry the repo's headline findings; every number is a
+Five arc figures carry the repo's headline findings; every number is a
 gated campaign record, failures drawn as prominently as wins. Per-skill
 gate charts (every criterion vs its frozen bar, knob by knob) live in
 [docs/figures/](docs/figures/); everything regenerates mechanically
@@ -114,8 +114,15 @@ anchored-schedule fine-tune + edge-biased diet) — the skill's crown:
 repairs the weak skills and erases the chain — and the erasure is
 FASTER than the repair (dead inside 25k steps), so early stopping
 cannot help. A KL anchor to the frozen prior decouples: chain intact,
-gap repaired past its bar; the deeper mgap drift needs more movement
-than kl=1.0 permits:
+gap repaired past its bar. The deeper mgap drift needs more movement
+than a constant kl=1.0 permits — a SCHEDULED anchor (1.0 → 0.1,
+diamonds) buys it: early tightness carries the chain through the
+period when re-optimization is fiercest, late freedom finishes the
+repair. Two limits are measured, not assumed: anchor pressure is
+mass-weighted (thin diet slices corrode almost as if naked), and
+anchors defend against drift, not against reward (a station economy
+opposed by the diet majority's progress reward was erased through a
+relaxing anchor):
 
 ![fine-tune safety](docs/figures/arc_finetune_safety.png)
 

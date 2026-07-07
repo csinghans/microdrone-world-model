@@ -65,6 +65,32 @@ Alphabetical-ish, grouped by layer. Every term links to a live example.
   [v0.5 M2](../experiments/metric_grounding/journal.md)): model-layer
   gains do not transfer to closed-loop crash rates by right. Hence:
   evaluate by crash rate, not loss.
+- **the fine-tune safety law** — six measured clauses on what PPO
+  fine-tuning does to a multi-skill prior: (1) repairs skills inside
+  its diet; (2) corrodes skills outside it; (3) erases RL-unlearnable
+  skills even *inside* it (corrosion outruns repair — dead in 25k);
+  (4) a strong-but-imperfect prior can land a basin worse than
+  from-scratch; (5) anchor protection is **mass-weighted** — thin
+  diet slices corrode almost as if naked
+  ([tenth sitting](../experiments/slalom_v2_promotion/journal.md));
+  (6) anchors defend against **drift, not reward** — behavior the
+  diet-majority reward opposes is erased through a relaxing anchor
+  ([dodge-crown](../experiments/dodge_crown/journal.md)).
+- **the crown recipe** — the composition that took the slalom-v2
+  throne after eleven sittings: **BC shape + mass-weighted anchored
+  repair + slice-aware diet** (clone a teacher pot, fine-tune under a
+  KL-*schedule* anchor 1.0→0.1, give every graded slice rollout mass
+  — [the crowning](../experiments/slalom_v2_promotion/journal.md)).
+
+- **KL anchor / anchor schedule / per-group anchor** — the anchored
+  fine-tune family (`AnchoredPPO`, `scripts/distill.py`): a frozen
+  copy of the prior policy penalizes divergence on rollout states.
+  Constant coefficients TRADE (repair one skill, bleed another);
+  a schedule (1.0→0.1, `--anchor-end`) BUYS (early tightness guards
+  the fragile skill, late freedom finishes the repair); per-group
+  coefficients (`--anchor-ball-end`) pin reward-opposed behavior
+  while the rest relaxes — the dial's three measured axes
+  ([anchor-dial](../experiments/anchor_dial/journal.md)).
 
 ## The stack layer
 
