@@ -1,0 +1,97 @@
+{
+ "zip": "experiments/dodge_crown/artifacts_local/ppo_dodge_K2a_pin.zip",
+ "cells": {
+  "dodge@v0.6": {
+   "n": 60,
+   "seed0": 23000,
+   "crash": 0.38333333333333336,
+   "reached": 0.16666666666666666,
+   "success": 0.35,
+   "clearance_mean": 0.3049961318748736,
+   "custom": {
+    "survived": 0.45,
+    "in_box": 0.6666666666666666,
+    "disp_x": 1.4516715798875857,
+    "y_max": 0.9419676683170791
+   }
+  },
+  "dodge@v1.0": {
+   "n": 60,
+   "seed0": 23000,
+   "crash": 0.2,
+   "reached": 0.2833333333333333,
+   "success": 0.3333333333333333,
+   "clearance_mean": 0.34340489451740047,
+   "custom": {
+    "survived": 0.65,
+    "in_box": 0.36666666666666664,
+    "disp_x": 2.0400333358087157,
+    "y_max": 1.1042142274026614
+   }
+  },
+  "dodge@v1.4": {
+   "n": 60,
+   "seed0": 23000,
+   "crash": 0.15,
+   "reached": 0.05,
+   "success": 0.55,
+   "clearance_mean": 0.3376117362340097,
+   "custom": {
+    "survived": 0.8333333333333334,
+    "in_box": 0.6166666666666667,
+    "disp_x": 1.696382517295725,
+    "y_max": 0.9825542191870055
+   }
+  },
+  "dodge@v1.8": {
+   "n": 60,
+   "seed0": 23000,
+   "crash": 0.23333333333333334,
+   "reached": 0.0,
+   "success": 0.5,
+   "clearance_mean": 0.2799019024792203,
+   "custom": {
+    "survived": 0.7666666666666667,
+    "in_box": 0.6666666666666666,
+    "disp_x": 1.4791314363733112,
+    "y_max": 0.9489190843108959
+   }
+  },
+  "guard:gap@1.0": {
+   "n": 60,
+   "seed0": 9000,
+   "crash": 0.15,
+   "reached": 0.9666666666666667,
+   "success": 0.85,
+   "clearance_mean": 0.3719188036253653,
+   "custom": {}
+  },
+  "guard:mgap@1.0": {
+   "n": 60,
+   "seed0": 9500,
+   "crash": 0.4,
+   "reached": 0.9833333333333333,
+   "success": 0.6,
+   "clearance_mean": 0.25789553726307957,
+   "custom": {}
+  },
+  "guard:cluttered": {
+   "n": 60,
+   "seed0": 1000,
+   "crash": 0.1,
+   "reached": 0.9833333333333333,
+   "success": 0.9,
+   "clearance_mean": 0.40058602537853616,
+   "custom": {}
+  },
+  "guard:sweep@2.0": {
+   "n": 60,
+   "seed0": 3000,
+   "crash": 0.2,
+   "reached": 1.0,
+   "success": 0.8,
+   "clearance_mean": 0.45784292863671633,
+   "custom": {}
+  }
+ }
+}

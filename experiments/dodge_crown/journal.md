@@ -149,3 +149,59 @@ per-group anchoring cannot defend reward-opposed behavior at all —
 the road forks to reward surgery / DAgger, recorded.
 
 Cost: 2 x 450k FT + 2 x 480-episode gates ≈ 4-5 h, background.
+
+## K2 verdict: the defense WORKS, the crown stays out of reach — and the wall has a name (2026-07-07)
+
+| cell (bar) | global sched (K1-era) | K2b floor 0.5 | K2a PIN 1.0 | BC prior |
+|---|---|---|---|---|
+| dodge@v0.6 (≥0.65) | 0.000 | 0.317 | **0.350** | 0.267 |
+| dodge@v1.0 (≥0.55) | 0.000 | 0.200 | **0.333** | 0.400 |
+| dodge@v1.4 (≥0.55) | 0.000 | 0.383 | **0.550** | 0.467 |
+| dodge@v1.8 (≥0.55) | 0.000 | 0.400 | **0.500** | 0.700 |
+| gap (≥0.75) | 0.833 | 0.933 ✓ | 0.850 ✓ | — |
+| mgap (≥0.70) | 0.550 | 0.583 ✗ | 0.600 ✗ | — |
+| cluttered (≤0.05) | 0.133 | 0.050 ✓ | 0.100 ✗ | — |
+| sweep@2.0 (≤0.10) | 0.083 | 0.300 ✗ | 0.200 ✗ | — |
+
+**The pre-registered middle branch fires** (station survives in both
+arms, bars fail): no crown. No borderline rechecks flown — the gate
+is dead through TWO non-borderline failures in each arm (mgap and
+sweep), so no recheck could flip the verdict; rechecks exist to
+settle verdicts, not to decorate them.
+
+**Finding 1 — the sixth clause has a working countermeasure.** Ball
+success is MONOTONE in the ball-group anchor: global schedule 0.000
+everywhere → floor 0.5 lands 0.20-0.40 → pin 1.0 lands 0.33-0.55.
+Per-group anchoring defends reward-opposed behavior in direct
+proportion to its coefficient. The pin arm even repairs a little
+inside the ball (v0.6 0.267→0.350, v1.4 0.467→0.550 — the +10-ish
+in-ball repair the kl=1.0 record predicted).
+
+**Finding 2 — the wall: station and slow-ball repair live on the
+SAME states.** The floor hypothesis (half-freedom buys ball repair)
+is refuted in the cleanest possible way: the floor is worse than the
+pin on ALL FOUR ball cells — freedom on ball states buys erosion,
+not repair, because the reward opposition dominates whatever
+on-policy improvement was hoped for. Per-group anchoring separates
+ball from transit; **nothing in this design separates
+station-keeping from dodge-improvement within the ball group.**
+v0.6's bar (0.65) needs true learning the pin forbids and the floor
+squanders.
+
+**Named roads (recorded, not scheduled):**
+- **The fidelity road (cheapest):** the BC prior's v0.6 = 0.267
+  against a 0.90 teacher ceiling is a FIDELITY gap at the pot level —
+  slow-ball episodes are long, drift compounds, the big-pot lesson
+  applies verbatim: raise the v06/v10 demo shares (data volume, not
+  architecture), then PIN. If BC-level v0.6 reaches ~0.6+, the pin
+  preserves it.
+- **The teacher-re-anchor road (DAgger's seventh datapoint):**
+  re-anchor to a TEACHER (station-holding AND stronger than the
+  prior) instead of the prior itself — the anchor then defends the
+  right target rather than the imperfect starting point.
+- Guards mgap/sweep remain the 8-way-diet thinning problem in every
+  arm — any future attempt inherits it (mass budgeting, not new law).
+
+Cost: 2 x 450k FT + 960 exam episodes, ~3.2 h. Artifacts kept
+(best-so-far): ppo_dodge_K2a_pin.zip — the strongest station-holding
+generalist measured (0.850 gap + nonzero station at every speed).

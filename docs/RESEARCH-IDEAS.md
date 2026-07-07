@@ -68,13 +68,17 @@
   artifact (93.3/80/43 on chain/gap/mgap).
 - **The remaining roads to a distilled champion (fresh
   pre-registrations):** ~~the coefficient schedule~~ PLAYED and
-  CROWNED (slalom-v2, 2026-07-07); **per-world anchor coefficients**
-  — now the named successor for the dodge throne (the sixth clause:
-  anchors defend against drift, not against reward — a station
-  economy was erased through a relaxing anchor by a transit-majority
-  diet, `experiments/dodge_crown/journal.md`); and **DAgger**
-  (re-anchor to the teacher instead of the prior — six
-  erasure/decoupling datapoints now shape the argument).
+  CROWNED (slalom-v2, 2026-07-07); ~~per-world anchor coefficients~~
+  PLAYED (dodge_crown K2): the defense WORKS — ball success is
+  monotone in the ball-group coefficient (0→0.2-0.4→0.33-0.55), the
+  sixth clause has a countermeasure — but the crown stays out: the
+  floor arm is strictly dominated by the pin (freedom on ball states
+  buys erosion, not repair), and **station-keeping and slow-ball
+  repair live on the same states** — per-group anchoring cannot
+  split them. Named roads: the fidelity road (raise slow-ball demo
+  shares, then pin — the big-pot lesson) and **DAgger** (re-anchor
+  to the teacher instead of the prior — seven erasure/decoupling
+  datapoints now shape the argument).
 - ~~dispatch (six-class)~~ CLOSED 2026-07-06 at its own phase-1 meter
   (`experiments/dispatch/journal.md`): moving_gap 0.80 and
   opening_door 0.667 under the frozen 0.85 identification floor —

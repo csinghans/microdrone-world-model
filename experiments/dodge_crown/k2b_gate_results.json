@@ -1,0 +1,97 @@
+{
+ "zip": "experiments/dodge_crown/artifacts_local/ppo_dodge_K2b_floor.zip",
+ "cells": {
+  "dodge@v0.6": {
+   "n": 60,
+   "seed0": 23000,
+   "crash": 0.25,
+   "reached": 0.26666666666666666,
+   "success": 0.31666666666666665,
+   "clearance_mean": 0.3828369734706205,
+   "custom": {
+    "survived": 0.5166666666666667,
+    "in_box": 0.5166666666666667,
+    "disp_x": 1.6930966871893118,
+    "y_max": 1.0234569447152095
+   }
+  },
+  "dodge@v1.0": {
+   "n": 60,
+   "seed0": 23000,
+   "crash": 0.1,
+   "reached": 0.25,
+   "success": 0.2,
+   "clearance_mean": 0.38133001954925116,
+   "custom": {
+    "survived": 0.7333333333333333,
+    "in_box": 0.21666666666666667,
+    "disp_x": 2.065010354765262,
+    "y_max": 1.2770008374439272
+   }
+  },
+  "dodge@v1.4": {
+   "n": 60,
+   "seed0": 23000,
+   "crash": 0.16666666666666666,
+   "reached": 0.05,
+   "success": 0.38333333333333336,
+   "clearance_mean": 0.33764475958149975,
+   "custom": {
+    "survived": 0.8166666666666667,
+    "in_box": 0.48333333333333334,
+    "disp_x": 1.730913238366759,
+    "y_max": 1.1412797979850147
+   }
+  },
+  "dodge@v1.8": {
+   "n": 60,
+   "seed0": 23000,
+   "crash": 0.23333333333333334,
+   "reached": 0.0,
+   "success": 0.4,
+   "clearance_mean": 0.29570765114142183,
+   "custom": {
+    "survived": 0.7666666666666667,
+    "in_box": 0.5833333333333334,
+    "disp_x": 1.4143231540801535,
+    "y_max": 1.0290139126144877
+   }
+  },
+  "guard:gap@1.0": {
+   "n": 60,
+   "seed0": 9000,
+   "crash": 0.06666666666666667,
+   "reached": 1.0,
+   "success": 0.9333333333333333,
+   "clearance_mean": 0.4079298380155665,
+   "custom": {}
+  },
+  "guard:mgap@1.0": {
+   "n": 60,
+   "seed0": 9500,
+   "crash": 0.4166666666666667,
+   "reached": 0.9833333333333333,
+   "success": 0.5833333333333334,
+   "clearance_mean": 0.2631017766384179,
+   "custom": {}
+  },
+  "guard:cluttered": {
+   "n": 60,
+   "seed0": 1000,
+   "crash": 0.05,
+   "reached": 0.9333333333333333,
+   "success": 0.8833333333333333,
+   "clearance_mean": 0.4746166619349301,
+   "custom": {}
+  },
+  "guard:sweep@2.0": {
+   "n": 60,
+   "seed0": 3000,
+   "crash": 0.3,
+   "reached": 1.0,
+   "success": 0.7,
+   "clearance_mean": 0.3437890091641512,
+   "custom": {}
+  }
+ }
+}
