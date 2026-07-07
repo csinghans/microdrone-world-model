@@ -151,7 +151,7 @@ def fly_cell(env, make_policy, speed: float, n: int) -> dict:
     counts = {"success": 0, "timeout": 0, "in_path_1": 0, "in_path_2": 0, "side": 0}
     blind = 0
     for i in range(n):
-        pol = DecisionRecorder(make_policy())
+        pol = DecisionRecorder(make_policy(speed))
         ep = run_scenario_episode(env, pol, SEED0 + i, "dense", speed)
         tax = classify(ep, pol.log)
         counts[tax["outcome"]] += 1
@@ -173,7 +173,7 @@ def probe(n: int, zip_path=None) -> dict:
     from sim.envs import make_env
 
     env, arms = make_env(), {}
-    arms["oracle"] = lambda: OracleField()
+    arms["oracle"] = lambda speed: OracleField()
     if zip_path:
         arms["contender"] = _policy_factory(zip_path)
     out = {"n": n, "seed0": SEED0, "zip": zip_path, "cells": []}
