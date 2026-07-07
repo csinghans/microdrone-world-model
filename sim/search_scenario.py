@@ -67,6 +67,43 @@ class SearchScenario:
     def crashed(self, pos_xy) -> bool:
         return self.clearance(pos_xy) < COLLISION_R
 
+    def forward_clearance(self, pos_xy, max_range: float = 3.0, n_rays: int = 9):
+        """FOV-honest distance: the nearest wall/obstacle surface the
+        FORWARD camera can actually see — the min over rays spanning the
+        +x cone (yaw==0, so body==world; the camera looks along +x). This
+        is what a vision safety signal CAN know; `clearance()` (all
+        directions) is what it cannot (side/behind walls are out of view).
+        """
+        from sim.scenarios import FOV_HALF_DEG
+
+        x, y = float(pos_xy[0]), float(pos_xy[1])
+        x0, x1, y0, y1 = self.bounds
+        half = np.radians(FOV_HALF_DEG)
+        best = max_range
+        for a in np.linspace(-half, half, n_rays):
+            ux, uy = np.cos(a), np.sin(a)  # +x cone
+            t = max_range
+            # axis-aligned walls: nearest positive ray parameter
+            if ux > 1e-6:
+                t = min(t, (x1 - x) / ux)
+            elif ux < -1e-6:
+                t = min(t, (x0 - x) / ux)
+            if uy > 1e-6:
+                t = min(t, (y1 - y) / uy)
+            elif uy < -1e-6:
+                t = min(t, (y0 - y) / uy)
+            # obstacle discs: ray-circle intersection
+            for ox, oy, r in self.obstacles:
+                fx, fy = ox - x, oy - y
+                proj = fx * ux + fy * uy
+                if proj <= 0:
+                    continue
+                perp2 = (fx * fx + fy * fy) - proj * proj
+                if perp2 < r * r:
+                    t = min(t, proj - float(np.sqrt(r * r - perp2)))
+            best = min(best, max(0.0, t))
+        return float(best)
+
     def range_sensors(self, pos_xy, max_range: float = 3.0) -> dict:
         """Four cardinal rangefinder distances to the nearest wall or
         obstacle (SGBA-style minimal sensing — the strategy layer's real
@@ -176,6 +213,13 @@ def selftest() -> None:
     assert abs(near["bearing"] - 0.0) < 1e-6, "beacon due +x from (1.0,1.5)"
     assert not sc.found((1.0, 1.5)) and sc.found((1.5, 1.45))
     # range sensors: at centre, obstacle ahead in +x/-x/+y/-y at r=0.4
+    # forward (FOV-honest) clearance: sees the obstacle ahead, blind to
+    # the side walls that clearance() counts
+    assert sc.forward_clearance((-1.0, 0.0)) < 0.7, "obstacle 0.6 m ahead is seen"
+    assert sc.forward_clearance((0.0, 1.9)) > sc.clearance((0.0, 1.9)), (
+        "near the top wall, forward view (looking +x) is clearer than the "
+        "omnidirectional clearance that counts the wall beside/behind"
+    )
     r = sc.range_sensors((-1.0, 0.0))
     assert abs(r["+x"] - 0.6) < 1e-6, "obstacle surface 0.6 m ahead (+x)"
     assert abs(r["-x"] - 1.0) < 1e-6, "1.0 m to the -x wall (no obstacle behind)"

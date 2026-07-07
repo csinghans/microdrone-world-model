@@ -46,7 +46,9 @@ def _auc(scores, labels):
     return float((r_pos - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg)))
 
 
-def probe(n=12, seed0=130000, max_decisions=1500, speed=0.6, ckpt=None):
+def probe(
+    n=12, seed0=130000, max_decisions=1500, speed=0.6, ckpt=None, fov_label=False
+):
     import torch
 
     from search.strategies import get_strategy
@@ -103,7 +105,10 @@ def probe(n=12, seed0=130000, max_decisions=1500, speed=0.6, ckpt=None):
             )
             a = _safe_action(sc, rpos, a)
             wp = warn_prob(frame, a)
-            clr = sc.clearance(rpos)
+            # FOV-honest label: score against forward-cone clearance (what
+            # the camera can see), the target an FOV-honest WM was trained
+            # on; else omnidirectional clearance (the step-1 transit probe)
+            clr = sc.forward_clearance(rpos) if fov_label else sc.clearance(rpos)
             ep.append((wp, a, clr))
             for _ in range(DECIDE_EVERY):
                 obs, _, _, _, _ = env.step(
@@ -152,12 +157,15 @@ def main() -> None:
     ap.add_argument(
         "--ckpt", default=None, help="WM checkpoint to probe (else the champion)"
     )
+    ap.add_argument(
+        "--fov-label", action="store_true", help="score vs forward-cone clearance"
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    r = probe(args.n, args.seed0, ckpt=args.ckpt)
+    r = probe(args.n, args.seed0, ckpt=args.ckpt, fov_label=args.fov_label)
     print(
         f"[wm-probe] decisions {r['n_decisions']} (danger {r['danger_rate']:.2f}) | "
         f"AUC all {r['auc_all']:.3f}  forward {r['auc_forward']:.3f} "

@@ -89,7 +89,7 @@ def _safe_start(sc, rng):
     return sc.start_xy
 
 
-def gen(n_rollouts, length, seed=0):
+def gen(n_rollouts, length, seed=0, fov_honest=False):
     env = make_env()
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
     rng = np.random.default_rng(seed)
@@ -119,7 +119,13 @@ def gen(n_rollouts, length, seed=0):
             frames[r, t] = grab_frame(env)
             pos[r, t] = state[0:3]
             rpos = (float(state[0]) + ox, float(state[1]) + oy)
-            dists[r, t] = sc.clearance(rpos)
+            # FOV-honest: label only what the forward camera can see (the
+            # +x cone), so the danger target is a FUNCTION of the frame;
+            # omnidirectional clearance is mostly out of view in a room and
+            # trained a chance-level collision head (search_wm_v1 step 2)
+            dists[r, t] = (
+                sc.forward_clearance(rpos) if fov_honest else sc.clearance(rpos)
+            )
             v = v_speed * NAV_ACTION_VECS[act_id[r, t]]
             actions[r, t] = v
             obs, _, _, _, _ = env.step(cmd.rpm(state, v).reshape(1, 4))
@@ -176,13 +182,14 @@ def main() -> None:
     ap.add_argument("--rollouts", type=int, default=96)
     ap.add_argument("--len", type=int, default=150)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--fov-honest", action="store_true")
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    data = gen(args.rollouts, args.len, args.seed)
+    data = gen(args.rollouts, args.len, args.seed, fov_honest=args.fov_honest)
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     np.savez_compressed(args.out, **data)
     near = float((data["dists"] < DANGER_R).mean())
