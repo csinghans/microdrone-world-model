@@ -99,6 +99,57 @@ def _divider_wall():
     return bricks
 
 
+ROOM_W = 3.0  # each room's x-width in an N-room line (a multiple of cell 0.5,
+# so internal dividers land on cell boundaries and the doorway grid cells sit
+# at the same +-0.25 offset that clears the planner's 0.5 as in two_room)
+
+
+def _divider_at(xd: float):
+    """A dividing wall at x=xd: overlapping discs with a centred doorway gap
+    (the two_room brick recipe, relocated to an arbitrary x)."""
+    bricks = []
+    y = DOOR_HALF + DIVIDER_R
+    while y <= 2.5:
+        bricks.append((xd, y, DIVIDER_R))
+        bricks.append((xd, -y, DIVIDER_R))
+        y += 0.4
+    return bricks
+
+
+def n_room(seed: int, n_rooms: int = 3, los: bool = False) -> SearchScenario:
+    """N rooms in a line, joined by N-1 doorways; beacon hidden in the LAST
+    room. The scale-up of two_room — does the flat-grid coverage search hop
+    through several doorways, or does it need a topological room graph?"""
+    rng = np.random.default_rng(seed)
+    w = n_rooms * ROOM_W
+    x0, x1, y0, y1 = -w / 2.0, w / 2.0, -2.5, 2.5
+    dividers = []
+    for k in range(1, n_rooms):
+        dividers.extend(_divider_at(x0 + k * ROOM_W))
+    start = (x0 + 0.5, 0.0)  # 0.5 m into room 0 (its cell clears 0.5, as two_room)
+    last_x0 = x0 + (n_rooms - 1) * ROOM_W  # the far room's near edge
+    beacon = None
+    for _ in range(200):
+        bx = float(rng.uniform(last_x0 + WALL_MARGIN, x1 - WALL_MARGIN))
+        by = float(rng.uniform(y0 + WALL_MARGIN, y1 - WALL_MARGIN))
+        if _far_from(bx, by, [(a, b) for a, b, _ in dividers], DIVIDER_R + 0.4):
+            beacon = (bx, by)
+            break
+    if beacon is None:
+        beacon = (x1 - WALL_MARGIN, y1 - WALL_MARGIN)
+    return SearchScenario(
+        bounds=(x0, x1, y0, y1),
+        obstacles=tuple(dividers),
+        beacon_xy=beacon,
+        start_xy=start,
+        sensor_range=SENSOR_RANGE,
+        confirm_radius=CONFIRM_RADIUS,
+        cell=0.5,
+        los=los,
+        meta={"kind": f"{n_rooms}room", "seed": int(seed), "n_rooms": n_rooms},
+    )
+
+
 def two_room(seed: int, los: bool = False) -> SearchScenario:
     """Two rooms joined by one doorway; beacon hidden in the FAR room.
     The smallest test that the coverage-first search traverses a doorway:
@@ -171,10 +222,25 @@ def selftest() -> None:
                 assert tr.clearance((gx, gy)) > 0.5, "doorway grid cell is routable"
         # the divider is solid off the doorway: a point on the wall crashes
         assert tr.crashed((0.0, 2.0)), "dividing wall is solid off the doorway"
+    # n_room: N-1 dividers, every doorway routable, beacon in the LAST room
+    for n in (3, 4):
+        nr = n_room(5, n_rooms=n)
+        x0, x1, _, _ = nr.bounds
+        assert not nr.crashed(nr.start_xy), "n_room start clear"
+        assert not nr.crashed(nr.beacon_xy), "n_room beacon clear"
+        last_x0 = x0 + (n - 1) * ROOM_W
+        assert nr.beacon_xy[0] > last_x0, "beacon is in the LAST room"
+        # each internal doorway (centred at a divider x, y~0) must be routable
+        for k in range(1, n):
+            xd = x0 + k * ROOM_W
+            for gx in (xd - 0.25, xd + 0.25):
+                assert nr.clearance((gx, 0.25)) > 0.5, f"doorway {k} routable"
+            assert nr.crashed((xd, 2.0)), f"divider {k} solid off the doorway"
+    assert n_room(5, 3).beacon_xy == n_room(5, 3).beacon_xy, "n_room deterministic"
     print(
         f"INDOOR-ROOMS OK: single_room deterministic; beacon far ("
         f">={MIN_BEACON_DIST} m), clear, unsensable from start across 20 seeds; "
-        f"two_room doorway passable + wall solid across 20 seeds"
+        f"two_room + n_room(3,4) doorways routable + walls solid"
     )
 
 

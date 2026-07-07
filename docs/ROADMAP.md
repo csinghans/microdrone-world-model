@@ -172,6 +172,21 @@ benchmark. Phasing (`experiments/search_room_v*`,
   (`experiments/search_tworoom_v1/`). Trajectory (god view of a
   deployable beams8 run, doorway traversal visible):
   `docs/figures/search_tworoom_trajectory.png`.
+- **N-room (search_nroom_v1): feasibility probe — finding scales, safe
+  threading does NOT.** N rooms in a line (N-1 doorways, beacon in the
+  last room). At the geometric ceiling: find 1.000 at both 3 and 4
+  rooms — the flat-grid Frontier hops through several doorways and
+  reaches the far beacon, so a topological map is NOT needed to FIND.
+  But collision climbs with doorway count at fixed 3.0 m room width
+  (3-room 0.100 -> 4-room 0.300), even at the omni-truth ceiling that
+  crashed 0.000 in single/two-room. **The doorway is the collision
+  hotspot and it compounds; the problem is planning/control, not
+  sensing.** This reframes the N-room direction: the topological map's
+  payload is DOORWAY-AWARE SAFE TRAVERSAL (detect, centre, thread slow),
+  not finding. Named next: a doorway-collision diagnostic (reuse the
+  on_collision forensics) -> doorway-aware traversal gated on cutting
+  the multi-doorway collision -> then the room graph for efficient
+  coverage (`experiments/search_nroom_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision

@@ -35,12 +35,14 @@ def suite(
     from eval.search_episode import run_search_episode
     from search.strategies import get_strategy
     from sim.envs import make_env
-    from sim.indoor.rooms import single_room, two_room
+    from sim.indoor.rooms import n_room, single_room, two_room
 
     env = make_env()
     rows = []
     for i in range(n):
-        if room == "two":
+        if room in ("three", "four"):
+            sc = n_room(seed0 + i, n_rooms=3 if room == "three" else 4, los=los)
+        elif room == "two":
             sc = two_room(seed0 + i, los=los)
         else:
             sc = single_room(seed0 + i, n_obstacles=n_obstacles, los=los)
@@ -95,7 +97,9 @@ def main() -> None:
         default="geometric",
         choices=("geometric", "rangefinder", "beams4", "beams8", "beams16"),
     )
-    ap.add_argument("--room", default="single", choices=("single", "two"))
+    ap.add_argument(
+        "--room", default="single", choices=("single", "two", "three", "four")
+    )
     ap.add_argument("--out", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()

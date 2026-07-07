@@ -1,0 +1,54 @@
+### 3-room ###
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gym_pybullet_drones/envs/BaseAviary.py:7: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+pybullet build time: Oct 21 2025 16:30:45
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:236: UserWarning: [33mWARN: Box low's precision lowered by casting to float32, current low.dtype=float64[0m
+  gym.logger.warn(
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:306: UserWarning: [33mWARN: Box high's precision lowered by casting to float32, current high.dtype=float64[0m
+  gym.logger.warn(
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier seed 200000: found=1 success=0 cov=0.74 steps_to_find=192 crash=0
+  frontier seed 200001: found=1 success=1 cov=0.78 steps_to_find=176 crash=0
+  frontier seed 200002: found=1 success=1 cov=0.66 steps_to_find=148 crash=0
+  frontier seed 200003: found=1 success=1 cov=0.67 steps_to_find=161 crash=0
+  frontier seed 200004: found=1 success=1 cov=0.76 steps_to_find=213 crash=0
+  frontier seed 200005: found=1 success=1 cov=0.70 steps_to_find=167 crash=0
+  frontier seed 200006: found=1 success=1 cov=0.78 steps_to_find=170 crash=0
+  frontier seed 200007: found=1 success=0 cov=0.72 steps_to_find=163 crash=1
+  frontier seed 200008: found=1 success=1 cov=0.68 steps_to_find=159 crash=0
+  frontier seed 200009: found=1 success=1 cov=0.76 steps_to_find=164 crash=0
+[frontier] n=10  find 1.000  success 0.800  return|found 0.800  coverage 0.724  collision 0.100  steps_to_find(med) 166
+### 4-room ###
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gym_pybullet_drones/envs/BaseAviary.py:7: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+pybullet build time: Oct 21 2025 16:30:45
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:236: UserWarning: [33mWARN: Box low's precision lowered by casting to float32, current low.dtype=float64[0m
+  gym.logger.warn(
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:306: UserWarning: [33mWARN: Box high's precision lowered by casting to float32, current high.dtype=float64[0m
+  gym.logger.warn(
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier seed 210000: found=1 success=1 cov=0.81 steps_to_find=255 crash=0
+  frontier seed 210001: found=1 success=1 cov=0.81 steps_to_find=240 crash=0
+  frontier seed 210002: found=1 success=1 cov=0.66 steps_to_find=209 crash=0
+  frontier seed 210003: found=1 success=1 cov=0.77 steps_to_find=230 crash=0
+  frontier seed 210004: found=1 success=1 cov=0.59 steps_to_find=189 crash=0
+  frontier seed 210005: found=1 success=1 cov=0.61 steps_to_find=198 crash=0
+  frontier seed 210006: found=1 success=1 cov=0.65 steps_to_find=239 crash=1
+  frontier seed 210007: found=1 success=0 cov=0.73 steps_to_find=238 crash=1
+  frontier seed 210008: found=1 success=1 cov=0.66 steps_to_find=212 crash=0
+  frontier seed 210009: found=1 success=1 cov=0.71 steps_to_find=214 crash=1
+[frontier] n=10  find 1.000  success 0.900  return|found 0.900  coverage 0.699  collision 0.300  steps_to_find(med) 222
