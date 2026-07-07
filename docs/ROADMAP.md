@@ -142,9 +142,20 @@ benchmark. Phasing (`experiments/search_room_v*`,
   fix covers all ten — **more rangefinder beams** (8/angled), no vision
   stack in the safety loop. The channel-limit theme, sharpened: the
   yaw=0 camera-lock that keeps the WM VALID is what hides most of the
-  crashes from it. Next: an 8-beam ablation (does doubling beams drive
-  the 0.05 residual toward zero?); the WM's honest role here is
-  target/coverage reasoning, not collision.
+  crashes from it. The WM's honest role here is target/coverage
+  reasoning, not collision.
+- **Beam-count ablation (search_beams_v1): PASS — 8 beams close 3/4 of
+  the residual, 16 recover the geometric ceiling.** A body-aware
+  swept-corridor veto over an N-beam ring, pooled n=120 on the v3
+  seeds: collision **0.033 (4 beams) -> 0.008 (8) -> 0.000 (16)**,
+  monotone, with 16 beams matching the privileged geometric filter's
+  0.000. The residual WAS the between-beam off-axis gap — it closes
+  with more of the same cheap sensor, no vision/WM/ground-truth. Cost:
+  find_rate erodes monotonically (0.908 -> 0.884 -> 0.842) as the
+  corridor veto turns conservative; **8 beams is the deployment sweet
+  spot** (one crash in 120, find 0.884). This CLOSES the Indoor Active
+  Search safety arc: the whole story is a cheap omnidirectional
+  rangefinder ring (`experiments/search_beams_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision

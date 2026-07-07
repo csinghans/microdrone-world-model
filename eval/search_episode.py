@@ -28,6 +28,8 @@ graph) so strategies are compared on SEARCH efficiency, not on how they
 fly home.
 """
 
+from functools import partial
+
 import numpy as np
 
 from planner.latent_mpc import DECIDE_EVERY
@@ -117,7 +119,63 @@ def _safe_action_rf(scenario, pos_xy, proposed, dt=None, steps=None):
     return HOVER if best_r < BEAM_STOP else best
 
 
-_SAFETY = {"geometric": _safe_action, "rangefinder": _safe_action_rf}
+# the drone is a disc of radius COLLISION_R; a single beam only checks its
+# centerline, so an off-axis corner clips the body while the aligned beam reads
+# clear. The N-beam veto protects the whole swept body corridor.
+CORRIDOR_HALF = COLLISION_R + 0.08  # 0.30 m — the body half-width the veto guards
+
+
+def _corridor_clear(beams, ux, uy, max_range=9.0):
+    """Nearest along-distance to a beam hit inside the body corridor of a
+    move along unit (ux, uy); `max_range` if the corridor is clear. Each
+    beam (angle, dist) hit is projected into the motion frame: `along` is
+    the forward component, `lateral` the sideways one; a hit counts only
+    if it is AHEAD (along > 0) and within the body half-width."""
+    best = max_range
+    for a, d in beams:
+        hx, hy = d * np.cos(a), d * np.sin(a)
+        along = hx * ux + hy * uy
+        lateral = abs(-hx * uy + hy * ux)
+        if along > 0.0 and lateral < CORRIDOR_HALF:
+            best = min(best, along)
+    return best
+
+
+def _safe_action_beams(scenario, pos_xy, proposed, dt=None, steps=None, n_beams=8):
+    """DEPLOYABLE body-aware veto over an `n_beams` rangefinder ring: keep
+    `proposed` if its swept body corridor stays clear past BEAM_STOP, else
+    take the menu action whose corridor is clearest (hover if none is).
+    Degrades to the single-beam `_safe_action_rf` at n_beams=4 (only the
+    aligned cardinal beam lies in a cardinal action's corridor); more beams
+    add the off-axis diagonals that catch between-beam corners."""
+    del dt, steps
+    beams = scenario.beam_ranges(pos_xy, n_beams=n_beams)
+    vecs = NAV_ACTION_VECS
+
+    def clear(a):
+        v = vecs[a]
+        s = float(np.hypot(v[0], v[1]))
+        if s < 1e-6:
+            return 9.0  # hover: no motion, no corridor to block
+        return _corridor_clear(beams, v[0] / s, v[1] / s)
+
+    if proposed == HOVER or clear(proposed) >= BEAM_STOP:
+        return proposed
+    best, best_c = HOVER, clear(HOVER)
+    for a in nav_menu():
+        c = clear(a)
+        if c > best_c:
+            best, best_c = a, c
+    return HOVER if best_c < BEAM_STOP else best
+
+
+_SAFETY = {
+    "geometric": _safe_action,
+    "rangefinder": _safe_action_rf,
+    "beams4": partial(_safe_action_beams, n_beams=4),
+    "beams8": partial(_safe_action_beams, n_beams=8),
+    "beams16": partial(_safe_action_beams, n_beams=16),
+}
 
 
 def _build_safe_grid(scenario, min_clear=0.5):
@@ -296,6 +354,7 @@ class _StraightProbe:
 
 def selftest() -> None:
     from sim.indoor.rooms import single_room
+    from sim.search_scenario import SearchScenario
 
     # env-free: the safety filter vetoes a wall-bound command
     sc = single_room(3)
@@ -311,6 +370,27 @@ def selftest() -> None:
     arf = _safe_action_rf(sc, near_wall, fwd)
     assert arf != fwd, "rangefinder filter also vetoes forward into the wall"
     assert "rangefinder" in _SAFETY and "geometric" in _SAFETY
+    # the N-beam body-aware filter vetoes the same wall-bound forward, and at
+    # n_beams=4 it must agree with the single-beam rangefinder filter (its
+    # corridor sees only the aligned cardinal beam) — the ablation control
+    for nb in (4, 8, 16):
+        assert (
+            _safe_action_beams(sc, near_wall, fwd, n_beams=nb) != fwd
+        ), f"beams{nb} filter vetoes forward into the wall"
+    assert {"beams4", "beams8", "beams16"} <= set(_SAFETY)
+    # an off-axis corner clips the disc body while the +x beam reads clear:
+    # a beam ring catches it (corridor blocked) where the single ray cannot
+    corner_sc = SearchScenario(
+        bounds=(-2.5, 2.5, -2.5, 2.5),
+        obstacles=((0.32, 0.32, 0.1),),  # a small disc ~45 deg off +x, close
+        beacon_xy=(2.0, 2.0),
+        start_xy=(0.0, 0.0),
+    )
+    origin = (0.0, 0.0)
+    assert corner_sc.range_sensors(origin)["+x"] > BEAM_STOP, "the +x ray misses it"
+    assert (
+        _corridor_clear(corner_sc.beam_ranges(origin, 8), 1.0, 0.0) < BEAM_STOP
+    ), "the 8-beam corridor catches the off-axis corner the single ray missed"
     # BFS homing: from the beacon (always clear, far from start) a safe
     # route home exists and its first step heads back toward start (-x)
     grid = _build_safe_grid(sc)

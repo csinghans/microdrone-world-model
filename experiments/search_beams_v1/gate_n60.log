@@ -1,0 +1,362 @@
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gym_pybullet_drones/envs/BaseAviary.py:7: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+pybullet build time: Oct 21 2025 16:30:45
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:236: UserWarning: [33mWARN: Box low's precision lowered by casting to float32, current low.dtype=float64[0m
+  gym.logger.warn(
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:306: UserWarning: [33mWARN: Box high's precision lowered by casting to float32, current high.dtype=float64[0m
+  gym.logger.warn(
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier seed 140000: found=1 success=1 cov=0.69 steps_to_find=150 crash=0
+  frontier seed 140001: found=1 success=1 cov=0.69 steps_to_find=154 crash=0
+  frontier seed 140002: found=1 success=1 cov=0.74 steps_to_find=195 crash=0
+  frontier seed 140003: found=1 success=1 cov=0.71 steps_to_find=176 crash=0
+  frontier seed 140004: found=1 success=1 cov=0.73 steps_to_find=162 crash=0
+  frontier seed 140005: found=1 success=1 cov=0.65 steps_to_find=165 crash=0
+  frontier seed 140006: found=1 success=1 cov=0.71 steps_to_find=132 crash=0
+  frontier seed 140007: found=1 success=1 cov=0.68 steps_to_find=190 crash=0
+  frontier seed 140008: found=1 success=1 cov=0.66 steps_to_find=121 crash=0
+  frontier seed 140009: found=1 success=1 cov=0.85 steps_to_find=189 crash=0
+  frontier seed 140010: found=1 success=1 cov=0.68 steps_to_find=162 crash=0
+  frontier seed 140011: found=1 success=1 cov=0.74 steps_to_find=154 crash=0
+  frontier seed 140012: found=1 success=0 cov=0.97 steps_to_find=271 crash=0
+  frontier seed 140013: found=1 success=1 cov=0.75 steps_to_find=190 crash=0
+  frontier seed 140014: found=0 success=0 cov=0.65 steps_to_find=-1 crash=0
+  frontier seed 140015: found=0 success=0 cov=0.70 steps_to_find=-1 crash=0
+  frontier seed 140016: found=1 success=1 cov=0.78 steps_to_find=166 crash=0
+  frontier seed 140017: found=1 success=1 cov=0.79 steps_to_find=163 crash=0
+  frontier seed 140018: found=1 success=1 cov=0.69 steps_to_find=133 crash=0
+  frontier seed 140019: found=1 success=1 cov=0.57 steps_to_find=111 crash=0
+  frontier seed 140020: found=1 success=1 cov=0.78 steps_to_find=210 crash=0
+  frontier seed 140021: found=1 success=1 cov=0.82 steps_to_find=171 crash=0
+  frontier seed 140022: found=1 success=1 cov=0.67 steps_to_find=141 crash=0
+  frontier seed 140023: found=0 success=0 cov=0.65 steps_to_find=-1 crash=0
+  frontier seed 140024: found=1 success=1 cov=0.65 steps_to_find=144 crash=0
+  frontier seed 140025: found=1 success=1 cov=0.74 steps_to_find=161 crash=0
+  frontier seed 140026: found=1 success=1 cov=0.72 steps_to_find=136 crash=0
+  frontier seed 140027: found=1 success=1 cov=0.65 steps_to_find=150 crash=0
+  frontier seed 140028: found=1 success=1 cov=0.79 steps_to_find=219 crash=0
+  frontier seed 140029: found=0 success=0 cov=0.79 steps_to_find=-1 crash=0
+  frontier seed 140030: found=0 success=0 cov=0.58 steps_to_find=-1 crash=0
+  frontier seed 140031: found=1 success=1 cov=0.71 steps_to_find=153 crash=0
+  frontier seed 140032: found=0 success=0 cov=0.70 steps_to_find=-1 crash=0
+  frontier seed 140033: found=1 success=1 cov=0.63 steps_to_find=132 crash=0
+  frontier seed 140034: found=1 success=1 cov=0.66 steps_to_find=159 crash=0
+  frontier seed 140035: found=1 success=1 cov=0.71 steps_to_find=164 crash=0
+  frontier seed 140036: found=1 success=1 cov=0.65 steps_to_find=138 crash=0
+  frontier seed 140037: found=1 success=1 cov=0.82 steps_to_find=213 crash=0
+  frontier seed 140038: found=1 success=1 cov=0.71 steps_to_find=155 crash=0
+  frontier seed 140039: found=1 success=0 cov=0.77 steps_to_find=179 crash=0
+  frontier seed 140040: found=1 success=1 cov=0.87 steps_to_find=401 crash=0
+  frontier seed 140041: found=1 success=1 cov=0.79 steps_to_find=268 crash=0
+  frontier seed 140042: found=1 success=1 cov=0.73 steps_to_find=142 crash=0
+  frontier seed 140043: found=1 success=1 cov=0.75 steps_to_find=163 crash=0
+  frontier seed 140044: found=1 success=1 cov=0.68 steps_to_find=143 crash=0
+  frontier seed 140045: found=1 success=1 cov=0.64 steps_to_find=164 crash=0
+  frontier seed 140046: found=1 success=1 cov=0.88 steps_to_find=356 crash=0
+  frontier seed 140047: found=1 success=1 cov=0.86 steps_to_find=312 crash=0
+  frontier seed 140048: found=0 success=0 cov=0.67 steps_to_find=-1 crash=0
+  frontier seed 140049: found=1 success=1 cov=0.86 steps_to_find=322 crash=0
+  frontier seed 140050: found=1 success=1 cov=0.72 steps_to_find=141 crash=0
+  frontier seed 140051: found=1 success=1 cov=0.64 steps_to_find=121 crash=0
+  frontier seed 140052: found=1 success=1 cov=0.68 steps_to_find=134 crash=0
+  frontier seed 140053: found=1 success=1 cov=0.87 steps_to_find=229 crash=0
+  frontier seed 140054: found=1 success=1 cov=0.67 steps_to_find=158 crash=0
+  frontier seed 140055: found=1 success=1 cov=0.76 steps_to_find=289 crash=0
+  frontier seed 140056: found=1 success=1 cov=0.84 steps_to_find=277 crash=0
+  frontier seed 140057: found=1 success=1 cov=0.75 steps_to_find=159 crash=0
+  frontier seed 140058: found=1 success=1 cov=0.83 steps_to_find=395 crash=0
+  frontier seed 140059: found=1 success=1 cov=0.83 steps_to_find=203 crash=0
+  [geometric] collision 0.000  find 0.883  return 0.962
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier seed 140000: found=1 success=1 cov=0.69 steps_to_find=150 crash=0
+  frontier seed 140001: found=1 success=1 cov=0.69 steps_to_find=154 crash=0
+  frontier seed 140002: found=1 success=1 cov=0.74 steps_to_find=195 crash=0
+  frontier seed 140003: found=1 success=1 cov=0.71 steps_to_find=176 crash=0
+  frontier seed 140004: found=1 success=1 cov=0.73 steps_to_find=162 crash=0
+  frontier seed 140005: found=1 success=1 cov=0.65 steps_to_find=165 crash=0
+  frontier seed 140006: found=1 success=1 cov=0.71 steps_to_find=132 crash=0
+  frontier seed 140007: found=1 success=1 cov=0.69 steps_to_find=190 crash=0
+  frontier seed 140008: found=1 success=1 cov=0.66 steps_to_find=121 crash=0
+  frontier seed 140009: found=1 success=1 cov=0.85 steps_to_find=189 crash=0
+  frontier seed 140010: found=1 success=1 cov=0.70 steps_to_find=162 crash=0
+  frontier seed 140011: found=1 success=1 cov=0.74 steps_to_find=154 crash=0
+  frontier seed 140012: found=1 success=0 cov=0.96 steps_to_find=240 crash=0
+  frontier seed 140013: found=1 success=1 cov=0.75 steps_to_find=190 crash=0
+  frontier seed 140014: found=0 success=0 cov=0.65 steps_to_find=-1 crash=0
+  frontier seed 140015: found=0 success=0 cov=0.70 steps_to_find=-1 crash=0
+  frontier seed 140016: found=1 success=1 cov=0.78 steps_to_find=166 crash=0
+  frontier seed 140017: found=1 success=1 cov=0.79 steps_to_find=163 crash=0
+  frontier seed 140018: found=1 success=1 cov=0.69 steps_to_find=133 crash=0
+  frontier seed 140019: found=1 success=1 cov=0.57 steps_to_find=111 crash=0
+  frontier seed 140020: found=1 success=1 cov=0.78 steps_to_find=210 crash=0
+  frontier seed 140021: found=1 success=1 cov=0.82 steps_to_find=171 crash=0
+  frontier seed 140022: found=1 success=1 cov=0.67 steps_to_find=141 crash=0
+  frontier seed 140023: found=1 success=1 cov=0.68 steps_to_find=243 crash=1
+  frontier seed 140024: found=1 success=1 cov=0.65 steps_to_find=144 crash=0
+  frontier seed 140025: found=1 success=1 cov=0.74 steps_to_find=161 crash=0
+  frontier seed 140026: found=1 success=1 cov=0.72 steps_to_find=136 crash=0
+  frontier seed 140027: found=1 success=1 cov=0.65 steps_to_find=150 crash=0
+  frontier seed 140028: found=1 success=1 cov=0.79 steps_to_find=219 crash=0
+  frontier seed 140029: found=0 success=0 cov=0.79 steps_to_find=-1 crash=0
+  frontier seed 140030: found=1 success=1 cov=0.66 steps_to_find=192 crash=1
+  frontier seed 140031: found=1 success=1 cov=0.72 steps_to_find=151 crash=0
+  frontier seed 140032: found=1 success=1 cov=0.77 steps_to_find=315 crash=0
+  frontier seed 140033: found=1 success=1 cov=0.61 steps_to_find=119 crash=0
+  frontier seed 140034: found=1 success=1 cov=0.65 steps_to_find=156 crash=0
+  frontier seed 140035: found=1 success=1 cov=0.71 steps_to_find=164 crash=0
+  frontier seed 140036: found=1 success=1 cov=0.65 steps_to_find=138 crash=0
+  frontier seed 140037: found=1 success=1 cov=0.82 steps_to_find=213 crash=0
+  frontier seed 140038: found=1 success=1 cov=0.71 steps_to_find=155 crash=0
+  frontier seed 140039: found=1 success=0 cov=0.77 steps_to_find=179 crash=0
+  frontier seed 140040: found=1 success=1 cov=0.87 steps_to_find=266 crash=0
+  frontier seed 140041: found=1 success=1 cov=0.79 steps_to_find=268 crash=0
+  frontier seed 140042: found=1 success=1 cov=0.73 steps_to_find=142 crash=0
+  frontier seed 140043: found=1 success=1 cov=0.75 steps_to_find=163 crash=0
+  frontier seed 140044: found=1 success=1 cov=0.68 steps_to_find=143 crash=0
+  frontier seed 140045: found=1 success=1 cov=0.64 steps_to_find=164 crash=0
+  frontier seed 140046: found=1 success=1 cov=0.88 steps_to_find=356 crash=0
+  frontier seed 140047: found=1 success=1 cov=0.86 steps_to_find=301 crash=0
+  frontier seed 140048: found=1 success=1 cov=0.68 steps_to_find=165 crash=1
+  frontier seed 140049: found=0 success=0 cov=0.76 steps_to_find=-1 crash=0
+  frontier seed 140050: found=1 success=1 cov=0.72 steps_to_find=141 crash=0
+  frontier seed 140051: found=1 success=1 cov=0.64 steps_to_find=121 crash=0
+  frontier seed 140052: found=1 success=1 cov=0.68 steps_to_find=134 crash=0
+  frontier seed 140053: found=1 success=1 cov=0.87 steps_to_find=227 crash=0
+  frontier seed 140054: found=1 success=1 cov=0.67 steps_to_find=158 crash=0
+  frontier seed 140055: found=1 success=1 cov=0.76 steps_to_find=289 crash=0
+  frontier seed 140056: found=1 success=1 cov=0.84 steps_to_find=291 crash=0
+  frontier seed 140057: found=1 success=1 cov=0.74 steps_to_find=160 crash=0
+  frontier seed 140058: found=1 success=1 cov=0.84 steps_to_find=241 crash=0
+  frontier seed 140059: found=1 success=1 cov=0.83 steps_to_find=203 crash=0
+  [rangefinder] collision 0.050  find 0.933  return 0.964
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier seed 140000: found=1 success=1 cov=0.69 steps_to_find=150 crash=0
+  frontier seed 140001: found=1 success=1 cov=0.69 steps_to_find=154 crash=0
+  frontier seed 140002: found=1 success=1 cov=0.74 steps_to_find=195 crash=0
+  frontier seed 140003: found=1 success=1 cov=0.71 steps_to_find=176 crash=0
+  frontier seed 140004: found=1 success=1 cov=0.73 steps_to_find=162 crash=0
+  frontier seed 140005: found=1 success=1 cov=0.65 steps_to_find=165 crash=0
+  frontier seed 140006: found=1 success=1 cov=0.71 steps_to_find=132 crash=0
+  frontier seed 140007: found=1 success=1 cov=0.69 steps_to_find=190 crash=0
+  frontier seed 140008: found=1 success=1 cov=0.66 steps_to_find=121 crash=0
+  frontier seed 140009: found=1 success=1 cov=0.85 steps_to_find=189 crash=0
+  frontier seed 140010: found=1 success=1 cov=0.70 steps_to_find=162 crash=0
+  frontier seed 140011: found=1 success=1 cov=0.74 steps_to_find=154 crash=0
+  frontier seed 140012: found=1 success=0 cov=0.96 steps_to_find=240 crash=0
+  frontier seed 140013: found=1 success=1 cov=0.75 steps_to_find=190 crash=0
+  frontier seed 140014: found=0 success=0 cov=0.65 steps_to_find=-1 crash=0
+  frontier seed 140015: found=0 success=0 cov=0.70 steps_to_find=-1 crash=0
+  frontier seed 140016: found=1 success=1 cov=0.78 steps_to_find=166 crash=0
+  frontier seed 140017: found=1 success=1 cov=0.79 steps_to_find=163 crash=0
+  frontier seed 140018: found=1 success=1 cov=0.69 steps_to_find=133 crash=0
+  frontier seed 140019: found=1 success=1 cov=0.57 steps_to_find=111 crash=0
+  frontier seed 140020: found=1 success=1 cov=0.78 steps_to_find=210 crash=0
+  frontier seed 140021: found=1 success=1 cov=0.82 steps_to_find=171 crash=0
+  frontier seed 140022: found=1 success=1 cov=0.67 steps_to_find=141 crash=0
+  frontier seed 140023: found=1 success=0 cov=0.67 steps_to_find=243 crash=1
+  frontier seed 140024: found=1 success=1 cov=0.65 steps_to_find=144 crash=0
+  frontier seed 140025: found=1 success=1 cov=0.74 steps_to_find=161 crash=0
+  frontier seed 140026: found=1 success=1 cov=0.72 steps_to_find=136 crash=0
+  frontier seed 140027: found=1 success=1 cov=0.65 steps_to_find=150 crash=0
+  frontier seed 140028: found=1 success=1 cov=0.79 steps_to_find=219 crash=0
+  frontier seed 140029: found=0 success=0 cov=0.79 steps_to_find=-1 crash=0
+  frontier seed 140030: found=0 success=0 cov=0.63 steps_to_find=-1 crash=1
+  frontier seed 140031: found=1 success=1 cov=0.72 steps_to_find=151 crash=0
+  frontier seed 140032: found=1 success=1 cov=0.77 steps_to_find=181 crash=1
+  frontier seed 140033: found=1 success=1 cov=0.61 steps_to_find=117 crash=0
+  frontier seed 140034: found=1 success=1 cov=0.65 steps_to_find=156 crash=0
+  frontier seed 140035: found=1 success=1 cov=0.71 steps_to_find=164 crash=0
+  frontier seed 140036: found=1 success=1 cov=0.65 steps_to_find=138 crash=0
+  frontier seed 140037: found=1 success=1 cov=0.82 steps_to_find=213 crash=0
+  frontier seed 140038: found=1 success=1 cov=0.71 steps_to_find=155 crash=0
+  frontier seed 140039: found=1 success=0 cov=0.77 steps_to_find=179 crash=0
+  frontier seed 140040: found=1 success=1 cov=0.87 steps_to_find=266 crash=0
+  frontier seed 140041: found=1 success=1 cov=0.79 steps_to_find=268 crash=0
+  frontier seed 140042: found=1 success=1 cov=0.73 steps_to_find=142 crash=0
+  frontier seed 140043: found=1 success=1 cov=0.75 steps_to_find=163 crash=0
+  frontier seed 140044: found=1 success=1 cov=0.68 steps_to_find=143 crash=0
+  frontier seed 140045: found=1 success=1 cov=0.64 steps_to_find=164 crash=0
+  frontier seed 140046: found=1 success=1 cov=0.88 steps_to_find=356 crash=0
+  frontier seed 140047: found=1 success=1 cov=0.86 steps_to_find=301 crash=0
+  frontier seed 140048: found=1 success=1 cov=0.68 steps_to_find=158 crash=1
+  frontier seed 140049: found=0 success=0 cov=0.77 steps_to_find=-1 crash=0
+  frontier seed 140050: found=1 success=1 cov=0.72 steps_to_find=141 crash=0
+  frontier seed 140051: found=1 success=1 cov=0.64 steps_to_find=121 crash=0
+  frontier seed 140052: found=1 success=1 cov=0.68 steps_to_find=134 crash=0
+  frontier seed 140053: found=1 success=1 cov=0.87 steps_to_find=227 crash=0
+  frontier seed 140054: found=1 success=1 cov=0.67 steps_to_find=158 crash=0
+  frontier seed 140055: found=1 success=1 cov=0.76 steps_to_find=289 crash=0
+  frontier seed 140056: found=1 success=1 cov=0.84 steps_to_find=291 crash=0
+  frontier seed 140057: found=1 success=1 cov=0.74 steps_to_find=160 crash=0
+  frontier seed 140058: found=1 success=1 cov=0.84 steps_to_find=241 crash=0
+  frontier seed 140059: found=1 success=1 cov=0.83 steps_to_find=203 crash=0
+  [beams4] collision 0.067  find 0.917  return 0.945
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier seed 140000: found=1 success=1 cov=0.69 steps_to_find=150 crash=0
+  frontier seed 140001: found=1 success=1 cov=0.69 steps_to_find=154 crash=0
+  frontier seed 140002: found=1 success=1 cov=0.74 steps_to_find=195 crash=0
+  frontier seed 140003: found=1 success=1 cov=0.71 steps_to_find=176 crash=0
+  frontier seed 140004: found=1 success=1 cov=0.73 steps_to_find=162 crash=0
+  frontier seed 140005: found=1 success=1 cov=0.65 steps_to_find=165 crash=0
+  frontier seed 140006: found=1 success=1 cov=0.71 steps_to_find=132 crash=0
+  frontier seed 140007: found=1 success=1 cov=0.69 steps_to_find=190 crash=0
+  frontier seed 140008: found=1 success=1 cov=0.66 steps_to_find=121 crash=0
+  frontier seed 140009: found=1 success=1 cov=0.85 steps_to_find=189 crash=0
+  frontier seed 140010: found=1 success=1 cov=0.70 steps_to_find=162 crash=0
+  frontier seed 140011: found=1 success=1 cov=0.74 steps_to_find=154 crash=0
+  frontier seed 140012: found=1 success=0 cov=0.96 steps_to_find=240 crash=0
+  frontier seed 140013: found=1 success=1 cov=0.75 steps_to_find=190 crash=0
+  frontier seed 140014: found=0 success=0 cov=0.65 steps_to_find=-1 crash=0
+  frontier seed 140015: found=0 success=0 cov=0.70 steps_to_find=-1 crash=0
+  frontier seed 140016: found=1 success=1 cov=0.78 steps_to_find=166 crash=0
+  frontier seed 140017: found=1 success=1 cov=0.79 steps_to_find=163 crash=0
+  frontier seed 140018: found=1 success=1 cov=0.69 steps_to_find=133 crash=0
+  frontier seed 140019: found=1 success=1 cov=0.57 steps_to_find=111 crash=0
+  frontier seed 140020: found=1 success=1 cov=0.78 steps_to_find=210 crash=0
+  frontier seed 140021: found=1 success=1 cov=0.82 steps_to_find=171 crash=0
+  frontier seed 140022: found=1 success=1 cov=0.67 steps_to_find=141 crash=0
+  frontier seed 140023: found=0 success=0 cov=0.64 steps_to_find=-1 crash=0
+  frontier seed 140024: found=1 success=1 cov=0.65 steps_to_find=144 crash=0
+  frontier seed 140025: found=1 success=1 cov=0.74 steps_to_find=161 crash=0
+  frontier seed 140026: found=1 success=1 cov=0.72 steps_to_find=136 crash=0
+  frontier seed 140027: found=1 success=1 cov=0.65 steps_to_find=150 crash=0
+  frontier seed 140028: found=1 success=1 cov=0.79 steps_to_find=219 crash=0
+  frontier seed 140029: found=0 success=0 cov=0.79 steps_to_find=-1 crash=0
+  frontier seed 140030: found=0 success=0 cov=0.59 steps_to_find=-1 crash=0
+  frontier seed 140031: found=1 success=1 cov=0.72 steps_to_find=151 crash=0
+  frontier seed 140032: found=1 success=1 cov=0.77 steps_to_find=177 crash=0
+  frontier seed 140033: found=1 success=1 cov=0.61 steps_to_find=117 crash=0
+  frontier seed 140034: found=1 success=1 cov=0.65 steps_to_find=156 crash=0
+  frontier seed 140035: found=1 success=1 cov=0.71 steps_to_find=164 crash=0
+  frontier seed 140036: found=1 success=1 cov=0.65 steps_to_find=138 crash=0
+  frontier seed 140037: found=1 success=1 cov=0.82 steps_to_find=213 crash=0
+  frontier seed 140038: found=1 success=1 cov=0.71 steps_to_find=155 crash=0
+  frontier seed 140039: found=1 success=0 cov=0.77 steps_to_find=179 crash=0
+  frontier seed 140040: found=1 success=0 cov=0.80 steps_to_find=266 crash=0
+  frontier seed 140041: found=1 success=0 cov=0.79 steps_to_find=268 crash=0
+  frontier seed 140042: found=1 success=1 cov=0.73 steps_to_find=142 crash=0
+  frontier seed 140043: found=1 success=1 cov=0.75 steps_to_find=163 crash=0
+  frontier seed 140044: found=1 success=1 cov=0.68 steps_to_find=143 crash=0
+  frontier seed 140045: found=1 success=1 cov=0.64 steps_to_find=164 crash=0
+  frontier seed 140046: found=1 success=1 cov=0.88 steps_to_find=356 crash=0
+  frontier seed 140047: found=1 success=1 cov=0.86 steps_to_find=301 crash=0
+  frontier seed 140048: found=1 success=1 cov=0.68 steps_to_find=153 crash=1
+  frontier seed 140049: found=0 success=0 cov=0.77 steps_to_find=-1 crash=0
+  frontier seed 140050: found=1 success=1 cov=0.72 steps_to_find=141 crash=0
+  frontier seed 140051: found=1 success=1 cov=0.64 steps_to_find=121 crash=0
+  frontier seed 140052: found=1 success=1 cov=0.68 steps_to_find=134 crash=0
+  frontier seed 140053: found=1 success=1 cov=0.87 steps_to_find=422 crash=0
+  frontier seed 140054: found=1 success=1 cov=0.67 steps_to_find=158 crash=0
+  frontier seed 140055: found=1 success=1 cov=0.76 steps_to_find=289 crash=0
+  frontier seed 140056: found=1 success=1 cov=0.84 steps_to_find=291 crash=0
+  frontier seed 140057: found=1 success=1 cov=0.74 steps_to_find=160 crash=0
+  frontier seed 140058: found=1 success=1 cov=0.83 steps_to_find=242 crash=0
+  frontier seed 140059: found=1 success=1 cov=0.83 steps_to_find=203 crash=0
+  [beams8] collision 0.017  find 0.900  return 0.926
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier seed 140000: found=1 success=1 cov=0.69 steps_to_find=150 crash=0
+  frontier seed 140001: found=1 success=1 cov=0.69 steps_to_find=154 crash=0
+  frontier seed 140002: found=1 success=1 cov=0.74 steps_to_find=195 crash=0
+  frontier seed 140003: found=1 success=1 cov=0.71 steps_to_find=176 crash=0
+  frontier seed 140004: found=1 success=1 cov=0.73 steps_to_find=162 crash=0
+  frontier seed 140005: found=1 success=1 cov=0.65 steps_to_find=165 crash=0
+  frontier seed 140006: found=1 success=1 cov=0.71 steps_to_find=132 crash=0
+  frontier seed 140007: found=1 success=1 cov=0.69 steps_to_find=190 crash=0
+  frontier seed 140008: found=1 success=1 cov=0.66 steps_to_find=121 crash=0
+  frontier seed 140009: found=1 success=1 cov=0.85 steps_to_find=189 crash=0
+  frontier seed 140010: found=1 success=1 cov=0.70 steps_to_find=162 crash=0
+  frontier seed 140011: found=1 success=1 cov=0.74 steps_to_find=154 crash=0
+  frontier seed 140012: found=1 success=0 cov=0.96 steps_to_find=255 crash=0
+  frontier seed 140013: found=1 success=1 cov=0.75 steps_to_find=190 crash=0
+  frontier seed 140014: found=0 success=0 cov=0.65 steps_to_find=-1 crash=0
+  frontier seed 140015: found=0 success=0 cov=0.70 steps_to_find=-1 crash=0
+  frontier seed 140016: found=1 success=1 cov=0.78 steps_to_find=166 crash=0
+  frontier seed 140017: found=1 success=1 cov=0.79 steps_to_find=163 crash=0
+  frontier seed 140018: found=1 success=1 cov=0.69 steps_to_find=133 crash=0
+  frontier seed 140019: found=1 success=1 cov=0.57 steps_to_find=111 crash=0
+  frontier seed 140020: found=1 success=1 cov=0.78 steps_to_find=210 crash=0
+  frontier seed 140021: found=1 success=1 cov=0.82 steps_to_find=171 crash=0
+  frontier seed 140022: found=1 success=1 cov=0.67 steps_to_find=141 crash=0
+  frontier seed 140023: found=0 success=0 cov=0.60 steps_to_find=-1 crash=0
+  frontier seed 140024: found=1 success=1 cov=0.65 steps_to_find=144 crash=0
+  frontier seed 140025: found=1 success=1 cov=0.74 steps_to_find=161 crash=0
+  frontier seed 140026: found=1 success=1 cov=0.72 steps_to_find=136 crash=0
+  frontier seed 140027: found=1 success=1 cov=0.65 steps_to_find=150 crash=0
+  frontier seed 140028: found=1 success=1 cov=0.79 steps_to_find=219 crash=0
+  frontier seed 140029: found=0 success=0 cov=0.79 steps_to_find=-1 crash=0
+  frontier seed 140030: found=0 success=0 cov=0.57 steps_to_find=-1 crash=0
+  frontier seed 140031: found=1 success=1 cov=0.72 steps_to_find=151 crash=0
+  frontier seed 140032: found=0 success=0 cov=0.66 steps_to_find=-1 crash=0
+  frontier seed 140033: found=1 success=1 cov=0.61 steps_to_find=117 crash=0
+  frontier seed 140034: found=1 success=1 cov=0.65 steps_to_find=156 crash=0
+  frontier seed 140035: found=1 success=1 cov=0.71 steps_to_find=164 crash=0
+  frontier seed 140036: found=1 success=1 cov=0.65 steps_to_find=138 crash=0
+  frontier seed 140037: found=1 success=1 cov=0.82 steps_to_find=213 crash=0
+  frontier seed 140038: found=1 success=1 cov=0.71 steps_to_find=155 crash=0
+  frontier seed 140039: found=1 success=0 cov=0.77 steps_to_find=179 crash=0
+  frontier seed 140040: found=1 success=1 cov=0.87 steps_to_find=271 crash=0
+  frontier seed 140041: found=1 success=0 cov=0.79 steps_to_find=268 crash=0
+  frontier seed 140042: found=1 success=1 cov=0.73 steps_to_find=142 crash=0
+  frontier seed 140043: found=1 success=1 cov=0.75 steps_to_find=163 crash=0
+  frontier seed 140044: found=1 success=1 cov=0.68 steps_to_find=143 crash=0
+  frontier seed 140045: found=1 success=1 cov=0.64 steps_to_find=164 crash=0
+  frontier seed 140046: found=1 success=1 cov=0.88 steps_to_find=356 crash=0
+  frontier seed 140047: found=1 success=1 cov=0.86 steps_to_find=301 crash=0
+  frontier seed 140048: found=0 success=0 cov=0.65 steps_to_find=-1 crash=0
+  frontier seed 140049: found=0 success=0 cov=0.76 steps_to_find=-1 crash=0
+  frontier seed 140050: found=1 success=1 cov=0.72 steps_to_find=141 crash=0
+  frontier seed 140051: found=1 success=1 cov=0.64 steps_to_find=121 crash=0
+  frontier seed 140052: found=1 success=1 cov=0.68 steps_to_find=134 crash=0
+  frontier seed 140053: found=1 success=1 cov=0.87 steps_to_find=443 crash=0
+  frontier seed 140054: found=1 success=1 cov=0.67 steps_to_find=158 crash=0
+  frontier seed 140055: found=1 success=1 cov=0.76 steps_to_find=289 crash=0
+  frontier seed 140056: found=1 success=1 cov=0.84 steps_to_find=291 crash=0
+  frontier seed 140057: found=1 success=1 cov=0.74 steps_to_find=160 crash=0
+  frontier seed 140058: found=0 success=0 cov=0.70 steps_to_find=-1 crash=0
+  frontier seed 140059: found=1 success=1 cov=0.83 steps_to_find=203 crash=0
+  [beams16] collision 0.000  find 0.850  return 0.941
+
+[beam-ablation] n=60 seed0=140000 (same rooms, all filters)
+  filter        collision    find   return
+  geometric         0.000   0.883    0.962
+  rangefinder       0.050   0.933    0.964
+  beams4            0.067   0.917    0.945
+  beams8            0.017   0.900    0.926
+  beams16           0.000   0.850    0.941
+
+  PRE-REG READ: collision beams4=0.067 -> beams8=0.017  [beams HELP]

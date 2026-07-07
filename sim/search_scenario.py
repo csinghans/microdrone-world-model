@@ -35,6 +35,33 @@ import numpy as np
 from sim.scenarios import COLLISION_R
 
 
+def _ray_dist(x, y, ux, uy, bounds, obstacles, max_range):
+    """Distance from (x, y) along unit direction (ux, uy) to the nearest
+    axis-aligned wall (rectangle `bounds`) or obstacle disc, capped at
+    `max_range`. The shared raycast behind `beam_ranges` (mirrors the
+    inner loop of `forward_clearance`, kept separate so that frozen
+    method is untouched)."""
+    x0, x1, y0, y1 = bounds
+    t = max_range
+    if ux > 1e-6:
+        t = min(t, (x1 - x) / ux)
+    elif ux < -1e-6:
+        t = min(t, (x0 - x) / ux)
+    if uy > 1e-6:
+        t = min(t, (y1 - y) / uy)
+    elif uy < -1e-6:
+        t = min(t, (y0 - y) / uy)
+    for ox, oy, r in obstacles:
+        fx, fy = ox - x, oy - y
+        proj = fx * ux + fy * uy
+        if proj <= 0:
+            continue
+        perp2 = (fx * fx + fy * fy) - proj * proj
+        if perp2 < r * r:
+            t = min(t, proj - float(np.sqrt(r * r - perp2)))
+    return float(max(0.0, t))
+
+
 @dataclass
 class SearchScenario:
     bounds: tuple  # (x_min, x_max, y_min, y_max) room walls
@@ -179,6 +206,22 @@ class SearchScenario:
             if abs(dx) < r and dy < 0:
                 rng["-y"] = min(rng["-y"], -dy - r)
         return {k: float(max(0.0, min(v, max_range))) for k, v in rng.items()}
+
+    def beam_ranges(self, pos_xy, n_beams: int = 8, max_range: float = 3.0):
+        """`n_beams` rangefinder distances evenly spaced around 360 deg
+        (generalizes the 4 cardinal `range_sensors` to an arbitrary ring
+        — the deployable sensor a body-aware, off-axis-corner-catching
+        veto reads). Returns a list of (angle_rad, distance). yaw==0, so
+        the beam angles are world == body angles."""
+        x, y = float(pos_xy[0]), float(pos_xy[1])
+        out = []
+        for k in range(n_beams):
+            a = 2.0 * np.pi * k / n_beams
+            d = _ray_dist(
+                x, y, np.cos(a), np.sin(a), self.bounds, self.obstacles, max_range
+            )
+            out.append((float(a), d))
+        return out
 
     # --- the abstract beacon sensing model ---
     def _blocked(self, pos_xy) -> bool:
