@@ -813,6 +813,7 @@ def finetune(
     anchor: float = 0.0,
     gate_bonus: float = 0.0,
     anchor_end: float = None,
+    edge_bias: bool = False,
 ):
     """PPO fine-tune from the BC init; `world` may be a comma-separated
     diet (round-robin, the training-env convention). station_tick passes
@@ -831,6 +832,7 @@ def finetune(
             x_progress=True,
             station_tick=station_tick,
             gate_bonus=gate_bonus,
+            edge_bias=edge_bias,
         ),
         n_envs=1,
     )
@@ -886,6 +888,7 @@ def main() -> None:
     ap.add_argument("--ft-tick", type=float, default=0.0)
     ap.add_argument("--anchor", type=float, default=0.0)
     ap.add_argument("--anchor-end", type=float, default=None)
+    ap.add_argument("--ft-edge-bias", action="store_true")
     ap.add_argument("--ft-gate-bonus", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -1088,6 +1091,7 @@ def main() -> None:
             anchor=args.anchor,
             gate_bonus=args.ft_gate_bonus,
             anchor_end=args.anchor_end,
+            edge_bias=args.ft_edge_bias,
         )
         return
     if args.collect:
