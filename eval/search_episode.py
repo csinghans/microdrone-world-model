@@ -156,8 +156,11 @@ def search_metrics(scenario, path, found_step, returned, collisions, n_decisions
     }
 
 
-def run_search_episode(env, scenario, policy, seed, max_decisions=300):
-    """One search mission on the real 48 Hz env. Returns the scorecard."""
+def run_search_episode(env, scenario, policy, seed, max_decisions=300, speed=1.0):
+    """One search mission on the real 48 Hz env. Returns the scorecard.
+    `speed` scales the executed command velocity (the safety filter's
+    lookahead is a fixed DISTANCE, so slower flight overshoots less and
+    the same veto margin holds with room to spare)."""
     obs, _ = env.reset(seed=int(seed))
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
     cmd.reset(obs[0][0:3])
@@ -168,7 +171,7 @@ def run_search_episode(env, scenario, policy, seed, max_decisions=300):
 
     policy.begin(scenario)
     grid = _build_safe_grid(scenario)  # for BFS homing on the return leg
-    vecs = NAV_ACTION_VECS
+    vecs = float(speed) * NAV_ACTION_VECS
     state = obs[0]
     path = [room_xy(state)]
     found_step, collisions, returned, phase = -1, 0, False, "search"

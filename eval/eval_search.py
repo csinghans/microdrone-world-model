@@ -21,7 +21,9 @@ import sys
 import numpy as np
 
 
-def suite(strategy, n, seed0=90000, max_decisions=600, n_obstacles=3, los=False):
+def suite(
+    strategy, n, seed0=90000, max_decisions=600, n_obstacles=2, los=False, speed=1.0
+):
     from eval.search_episode import run_search_episode
     from search.strategies import get_strategy
     from sim.envs import make_env
@@ -32,7 +34,12 @@ def suite(strategy, n, seed0=90000, max_decisions=600, n_obstacles=3, los=False)
     for i in range(n):
         sc = single_room(seed0 + i, n_obstacles=n_obstacles, los=los)
         m = run_search_episode(
-            env, sc, get_strategy(strategy), seed=seed0 + i, max_decisions=max_decisions
+            env,
+            sc,
+            get_strategy(strategy),
+            seed=seed0 + i,
+            max_decisions=max_decisions,
+            speed=speed,
         )
         m.pop("path", None)  # drop the array for the aggregate record
         rows.append(m)
@@ -70,6 +77,7 @@ def main() -> None:
     ap.add_argument("--max-decisions", type=int, default=600)
     ap.add_argument("--n-obstacles", type=int, default=2)
     ap.add_argument("--los", action="store_true")
+    ap.add_argument("--speed", type=float, default=1.0)
     ap.add_argument("--out", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -93,6 +101,7 @@ def main() -> None:
         args.max_decisions,
         args.n_obstacles,
         args.los,
+        args.speed,
     )
     print(
         f"[{agg['strategy']}] n={agg['n']}  find {agg['find_rate']:.3f}  "
