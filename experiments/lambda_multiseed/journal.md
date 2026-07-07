@@ -76,3 +76,31 @@ Cost: 9 trainings + 9 probes, ~35 min wall (background). Ledger
 updated; the standing house rule — single-seed model-layer AUC is
 weather, never evidence — now rests on a measured floor instead of an
 anecdote.
+
+## Escalation pre-registration: the λ0.5-stabilizes hypothesis at n=8 (2026-07-07, before any number)
+
+The n=3 verdict left one legal hypothesis: λ0.5's arm was the
+tightest (sd 0.036 vs control 0.144). This escalation gives it the
+power the verdict said it needs (n≥8/arm).
+
+**Design (frozen):** the SAME frozen draw (output/wm_dataset.npz
+verified untouched — sha256 prefix 2c3d0884fa96a343, mtime = the
+original datagen), five NEW training seeds {3..7} for the control
+and λ0.5 arms only (the hypothesis names those two), 80 epochs,
+probes via eval_wm_checkpoint. Pooled n=8/arm with the existing
+seeds {0,1,2}.
+
+**Frozen verdict rule:** the hypothesis is SUPPORTED iff
+Var(control) / Var(λ0.5) on dense AUC@32 ≥ F₀.₉₅(7,7) = 3.787 at
+n=8/arm; otherwise NOT RESOLVABLE (there is no "refuted" here — a
+ratio under the critical value at this n is absence of evidence,
+recorded as such).
+
+**Saturation caveat, pre-stated:** dense AUC@32 clips at 1.0000
+(2/3 control reads did at n=3). The count of saturated reads per arm
+is reported; if ≥ half the control arm saturates, the variance
+comparison is confounded by the ceiling and the verdict line says
+so. Secondary OBSERVATIONAL readout (no verdict power): the same
+ratio on now-AUC, which does not saturate.
+
+Cost: 10 trainings x ~3 min + 10 probes, ~45-60 min, &&-chained.
