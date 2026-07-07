@@ -73,6 +73,7 @@ jobs:
           python -m sim.indoor.rooms
           python -m search.strategies
           python -m eval.search_episode
+          python -m eval.eval_search_gallery --selftest
           python -m eval.eval_results_figures --selftest
           python -m eval.eval_skill_gallery --selftest
           python -m planner.dispatch --selftest

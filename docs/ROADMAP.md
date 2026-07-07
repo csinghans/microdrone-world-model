@@ -96,6 +96,35 @@ era (the λ multi-seed retro-read, the dense-speedrun map), and the
 corridor-slalom-v2 crown (eleventh sitting, anchored-schedule
 fine-tune + edge-biased diet).
 
+## The Indoor Active Search Track (new, 2026-07-07)
+
+The repo's next direction — from proactive avoidance to a task-driven
+autonomy: cover an unknown indoor room, find an abstract beacon,
+return home. A SEPARATE track (its own translational nav action set,
+search scenario, mission runner, and strategies) sharing the world
+model and research gate but structurally isolated from the transit
+benchmark. Phasing (`experiments/search_room_v*`,
+`docs/TRAINING-A-SKILL.md` for the method):
+
+- **Phase 1a — the smallest single-room proof: GREEN.** A micro-drone
+  covers a 5×5 room, senses an abstract beacon (bearing+range, no
+  detector), confirms it and returns home crash-free. Frontier
+  (BFS coverage planning) clears the SEARCH-ROOM gate at n=30:
+  find 0.933 / success 0.933 / collision 0.000 / return 1.000, and
+  finds the beacon **4× faster than a random walk** (186 vs 740
+  decisions). Feasibility-first caught (and the fresh-seed gate
+  confirmed) that a naive safety filter and an n=8 friendly ceiling
+  were overfit — the robust configuration is slow flight (0.36 m/s)
+  under a braking-distance geometric safety filter. Trajectory:
+  `docs/figures/search_room_trajectory.png`.
+- **Phase 1b — does the world model help? (next).** Retrain the WM on
+  the translational nav action set, swap the privileged geometric
+  safety filter for a WM-predicted one, and measure whether it matches
+  the geometric baseline at deployable cost.
+- **Later (each its own pre-registration):** multi-room + topological
+  map; a visual-detection branch (widen the observation channel — the
+  big perception step); static-person SAR framing with safety bounds.
+
 ## How we work
 
 House rules: `CLAUDE.md` (one knob per run, frozen bars, sacred guards,
