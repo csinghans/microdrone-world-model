@@ -8,7 +8,10 @@ agent; agents should also read
 [docs/START-HERE.zh-TW.md](START-HERE.zh-TW.md)。
 
 Words you don't know yet (knob, gate, bar, guard, draw, champion…) are
-all in [docs/GLOSSARY.md](GLOSSARY.md) — keep it open in a tab.
+all in [docs/GLOSSARY.md](GLOSSARY.md) — keep it open in a tab. For the
+*why* behind the training recipe (what breaks when you add a skill and
+how to strengthen it), read
+[docs/TRAINING-A-SKILL.md](TRAINING-A-SKILL.md).
 
 ## 0. What this repo is, in three sentences
 
