@@ -97,6 +97,7 @@ def gen(n_rollouts, length, seed=0):
     seg = np.zeros((R, L), dtype=np.int16)
     dists = np.zeros((R, L), dtype=np.float32)
     pos = np.zeros((R, L, 3), dtype=np.float32)
+    rollout_speed = np.zeros(R, dtype=np.float32)
 
     for r in range(R):
         sc = single_room(int(rng.integers(2**31 - 1)))
@@ -108,6 +109,7 @@ def gen(n_rollouts, length, seed=0):
         cmd.reset(obs[0][0:3])
         act_id[r], seg[r] = _nav_schedule(rng, L)
         v_speed = float(rng.uniform(SPEED_LO, SPEED_HI))
+        rollout_speed[r] = v_speed
         state = obs[0]
         for t in range(L):
             frames[r, t] = grab_frame(env)
@@ -129,10 +131,19 @@ def gen(n_rollouts, length, seed=0):
         "seg": seg,
         "dists": dists,
         "pos": pos,
+        "speed": rollout_speed,
         "horizons": np.array(HORIZONS, dtype=np.int16),
         "a_norm": A_NORM,
         "danger_r": np.float32(DANGER_R),
         "nav_action_names": np.array(NAV_ACTION_NAMES),
+        # compatibility keys so world_model.training consumes this npz
+        # unchanged: one "room" world; all-NaN pillars so the (transit-only)
+        # veer-ranking probe finds no pillar and is skipped cleanly.
+        "world_id": np.zeros(R, dtype=np.int16),
+        "world_names": np.array(["room"]),
+        "pillars": np.full((R, 8, 2), np.nan, dtype=np.float32),
+        "pillar_vel": np.zeros((R, 8, 2), dtype=np.float32),
+        "in_path": np.ones(R, dtype=bool),
     }
 
 

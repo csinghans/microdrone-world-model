@@ -25,12 +25,15 @@ from datasets.intervention_labels import HORIZONS
 from world_model.training import GAP8_BUDGET_KB, MODEL, MODEL_GRU, train
 
 
-def _load_or_make(selftest: bool) -> dict:
+def _load_or_make(selftest: bool, data_path: str = None) -> dict:
     if selftest:
         return gen(20, 110)  # self-contained tiny set (no prior npz needed)
-    if os.path.exists(DATA):
-        blob = np.load(DATA)
+    path = data_path or DATA
+    if os.path.exists(path):
+        blob = np.load(path)
         return {k: blob[k] for k in blob.files}
+    if data_path:  # an explicit dataset was named but is missing — fail loud
+        raise SystemExit(f"--data {data_path} not found")
     print(f"[INFO] no dataset at {DATA}; generating a default one ...")
     return gen(64, 120)
 
@@ -42,7 +45,7 @@ def train_world_model(args) -> None:
     # converge later — but the predictive-gain claim itself is never waived
     leash = args.temporal or args.ground
     epochs = (120 if leash else 60) if args.selftest else args.epochs
-    data = _load_or_make(args.selftest)
+    data = _load_or_make(args.selftest, args.data)
     ckpt, m = train(
         data,
         epochs=epochs,
@@ -158,6 +161,7 @@ def main() -> None:
     ap.add_argument("--ground-lambda", type=float, default=0.5)  # the N-knob
     ap.add_argument("--out", default=None, help="world-model save path override")
     ap.add_argument("--seed", type=int, default=0)  # borderline reruns use seed+1
+    ap.add_argument("--data", default=None, help="dataset npz override (e.g. search)")
     # policy knobs
     ap.add_argument("--timesteps", type=int, default=300_000)
     ap.add_argument("--recurrent", action="store_true")
