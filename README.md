@@ -100,11 +100,13 @@ gate charts (every criterion vs its frozen bar, knob by knob) live in
 from the committed `results.json` files via
 `python -m eval.eval_results_figures`.
 
-**The slalom wall, and how it fell.** Five RL knob families (diet,
-budget, rhythm, horizon, reward) and two fine-tune attempts never got
-the three-gate chain off the floor; behavior cloning a privileged
-scripted pilot cleared the probe-priced bar in one shot — on courses
-the clone never saw:
+**The slalom wall, and how it fell — twice.** Five RL knob families
+(diet, budget, rhythm, horizon, reward) and two fine-tune attempts
+never got the three-gate chain off the floor; behavior cloning a
+privileged scripted pilot cleared the probe-priced bar in one shot —
+on courses the clone never saw. The last bar is the eleventh sitting:
+the first artifact to hold the chain AND every guard (pooled n=120,
+anchored-schedule fine-tune + edge-biased diet) — the skill's crown:
 
 ![the slalom wall](docs/figures/arc_slalom_wall.png)
 
