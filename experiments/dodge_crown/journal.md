@@ -113,3 +113,39 @@ Artifacts kept (best-so-far, no titles): ppo_dodge_crown_BC.zip
 (the pot clone — v1.8 0.700 observation), ppo_dodge_crown_FT.zip
 (the refuted shot). Throne state unchanged: split two ways, v0.6 and
 v1.4 vacant. Cost: ~1670 collection + 450k FT + 600 exam episodes.
+
+## K2 pre-registration: per-world (per-GROUP) anchor coefficients (2026-07-07, before any number)
+
+The sixth clause's named successor, played as two arms. Machinery on
+the record first: the anchor term now supports per-GROUP coefficients
+(ball vs transit, read off the env's episode meta) — a collection-time
+callback keeps a tag list positionally aligned to rollout-buffer rows,
+and the vendored train() samples that buffer with per-sample
+coefficients. Wiring smoke: 8192 steps on a 2-world diet landed
+{ball: 1.0, transit: 0.325} with both groups tagged (1113/935) — the
+0.325 is the exact frac-0.75 schedule value. One flatten-layout bug
+caught by the smoke (SB3's .get() flattens the buffer in place; the
+branch now handles both layouts).
+
+**Both arms reuse the SAME frozen pot prior (ppo_dodge_crown_BC.zip),
+diet, tick, edge_bias, 450k — the only delta per arm is the ball
+group's schedule:**
+- **K2a — ball PINNED (1.0 → 1.0), transit scheduled (1.0 → 0.1).**
+  The mechanism arm: if station survives here, per-group anchoring
+  defends reward-opposed behavior; dodge repair is expected to be
+  LIMITED (the kl=1.0 record repaired +10 inside a tight ball) — v1.8
+  (prior 0.700) may hold while v0.6 (needs +38) likely cannot.
+- **K2b — ball FLOOR (1.0 → 0.5), transit scheduled (1.0 → 0.1).**
+  The crown bet: half-freedom on ball states — enough late movement
+  for the on-policy repair the slow cells need, enough floor (above
+  K1-dial's leaky 0.3) to out-vote the transit majority.
+
+**Exam:** the crown gate verbatim (all eight bars, n=60, borderline
+±0.08 → one fresh block pooled). **Verdict grid (frozen):** any arm
+passes all 8 → the throne is taken. Station survives (>0 success
+with in-box behavior at every speed) in both arms but bars fail →
+"the ball-floor dial" is real and named; station dies even PINNED →
+per-group anchoring cannot defend reward-opposed behavior at all —
+the road forks to reward surgery / DAgger, recorded.
+
+Cost: 2 x 450k FT + 2 x 480-episode gates ≈ 4-5 h, background.
