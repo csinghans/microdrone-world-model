@@ -138,6 +138,15 @@ benchmark. Phasing (`experiments/search_room_v*`,
   (omnidirectional, distance-direct), not a monocular world model**;
   the WM's place in this track, if any, is target reasoning, not
   collision (`experiments/search_wm_v2/`).
+- **v3 — the deployability capstone: GREEN.** Swapping the privileged
+  omnidirectional clearance for four SGBA-style rangefinder beams
+  passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
+  0.033, return ~0.98, 8× faster than random). **Indoor single-room
+  search is deployable with a $5 rangefinder ring — no world model,
+  no ground truth in the safety loop.** The full arc: 1a the
+  capability exists (privileged geometry) → 1b the monocular WM can't
+  own safety (flat walls are scale-free) → v3 it never needed to; the
+  right sensor is cheap and omnidirectional (`experiments/search_room_v3/`).
 - **Later (each its own pre-registration):** multi-room + topological
   map; a visual-detection branch (widen the observation channel — the
   big perception step); static-person SAR framing with safety bounds.
