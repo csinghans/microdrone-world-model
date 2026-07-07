@@ -13,7 +13,11 @@ import numpy as np
 from sim.search_scenario import SearchScenario
 
 BOUNDS = (-2.5, 2.5, -2.5, 2.5)  # 5x5 m room (vs the 3 m transit corridor)
-START = (-2.0, -2.0)  # a fixed entry corner
+# entry is a DOORWAY in the middle of the -x wall, not a corner: the return
+# leg must reach within confirm_radius of it, and a corner sits inside the
+# safety margin (both walls close), so home would be unreachable there
+# (measured: corner start -> 14 % return even with BFS homing)
+START = (-2.0, 0.0)
 OBS_R = 0.35  # box obstacle footprint radius
 MIN_BEACON_DIST = 3.0  # beacon must be non-trivially far from start
 WALL_MARGIN = 0.6  # keep obstacles/beacon off the walls
@@ -25,7 +29,7 @@ def _far_from(x, y, pts, d) -> bool:
     return all(np.hypot(x - px, y - py) >= d for px, py in pts)
 
 
-def single_room(seed: int, n_obstacles: int = 3, los: bool = False) -> SearchScenario:
+def single_room(seed: int, n_obstacles: int = 2, los: bool = False) -> SearchScenario:
     rng = np.random.default_rng(seed)
     x0, x1, y0, y1 = BOUNDS
     lo_x, hi_x = x0 + WALL_MARGIN, x1 - WALL_MARGIN

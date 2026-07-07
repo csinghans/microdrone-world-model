@@ -105,13 +105,22 @@ class Frontier(_Base):
         self.nx = max(1, int(round((x1 - x0) / self.cell)))
         self.ny = max(1, int(round((y1 - y0) / self.cell)))
         self.x0, self.y0 = x0, y0
-        # free cells (clear of walls/obstacles) as the coverage universe
-        self._free = set(
+        self.sensor = scenario.sensor_range
+        # coverage universe = all free cells (sensable from a distance)
+        self._all = set(
             scenario_free_cells(scenario, self.nx, self.ny, x0, y0, self.cell)
         )
-        self._visited = set()
-        self._target = None
-        self._since = 0
+        # navigation graph = SAFELY-OCCUPIABLE cells only (border cells are
+        # coverable from afar but brushed if driven into — measured: the
+        # naive frontier crashed every episode targeting 0.22 m cells)
+        self._safe = set(
+            scenario_free_cells(
+                scenario, self.nx, self.ny, x0, y0, self.cell, min_clear=0.5
+            )
+        )
+        self._covered = set()  # free cells swept (within sensor of the path)
+        self._path = []  # remaining BFS steps to the current target
+        self._since = self.REPLAN
 
     def _cell(self, pos):
         i = int((pos[0] - self.x0) / self.cell)
@@ -121,37 +130,84 @@ class Frontier(_Base):
     def _centre(self, c):
         return (self.x0 + (c[0] + 0.5) * self.cell, self.y0 + (c[1] + 0.5) * self.cell)
 
+    def _nbrs(self, c):
+        for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            nb = (c[0] + di, c[1] + dj)
+            if nb in self._safe:
+                yield nb
+
+    def _plan(self, start):
+        """BFS over safe cells from `start` to the nearest safe cell that
+        can still cover an uncovered free cell; return the cell path."""
+        from collections import deque
+
+        if start not in self._safe:  # drifted to a border: snap to nearest safe
+            start = min(
+                self._safe,
+                key=lambda c: np.hypot(
+                    *np.subtract(self._centre(c), self._centre(start))
+                ),
+            )
+        prev, q = {start: None}, deque([start])
+        goal = None
+        while q:
+            c = q.popleft()
+            # a safe cell the sensor has NOT yet swept — going toward it
+            # guarantees motion and ~sensor-spaced coverage (the earlier
+            # "sees any uncovered" test fired on the start cell itself and
+            # the drone never moved)
+            if c not in self._covered and c != start:
+                goal = c
+                break
+            for nb in self._nbrs(c):
+                if nb not in prev:
+                    prev[nb] = c
+                    q.append(nb)
+        if goal is None:
+            return []
+        path = [goal]
+        while prev[path[-1]] is not None:
+            path.append(prev[path[-1]])
+        path.reverse()
+        return path
+
     def _search(self, ctx) -> int:
         pos = ctx["pos"]
-        self._visited.add(self._cell(pos))
+        here = self._cell(pos)
+        # coverage tracks what the sensor has swept from the ACTUAL path
+        # (independent of navigability — border cells get sensed too)
+        self._covered |= {
+            f
+            for f in self._all
+            if np.hypot(*np.subtract(self._centre(f), pos)) <= self.sensor
+        }
         self._since += 1
-        frontier = self._free - self._visited
-        if not frontier:
-            return HOVER  # room covered
-        if (
-            self._target is None
-            or self._target in self._visited
-            or self._since >= self.REPLAN
-        ):
-            here = np.asarray(pos)
-            self._target = min(
-                frontier, key=lambda c: np.hypot(*(np.asarray(self._centre(c)) - here))
-            )
+        if not (self._all - self._covered):
+            return HOVER  # whole room sensed
+        if not self._path or self._since >= self.REPLAN:
+            self._path = self._plan(here)
             self._since = 0
-        tx, ty = self._centre(self._target)
-        return _cardinal(tx - pos[0], ty - pos[1])
+        # advance along the planned cell path
+        while self._path and self._path[0] == here:
+            self._path.pop(0)
+        if not self._path:
+            return HOVER
+        cx, cy = self._centre(self._path[0])
+        return _cardinal(cx - pos[0], cy - pos[1])
 
 
-def scenario_free_cells(scenario, nx, ny, x0, y0, cell):
-    """Indices of grid cells clear enough to occupy (mirrors the
-    scenario's coverage denominator, in index space)."""
+def scenario_free_cells(scenario, nx, ny, x0, y0, cell, min_clear=None):
+    """Indices of grid cells with clearance above `min_clear` (defaults to
+    COLLISION_R — the coverage denominator; pass a larger value for
+    safely-occupiable navigation targets)."""
     from sim.scenarios import COLLISION_R
 
+    thr = COLLISION_R if min_clear is None else float(min_clear)
     out = []
     for i in range(nx):
         for j in range(ny):
             cx, cy = x0 + (i + 0.5) * cell, y0 + (j + 0.5) * cell
-            if scenario.clearance((cx, cy)) > COLLISION_R:
+            if scenario.clearance((cx, cy)) > thr:
                 out.append((i, j))
     return out
 
@@ -195,9 +251,10 @@ def selftest() -> None:
     }
     seq = [r.decide(ctx) for _ in range(6)]
     assert len(set(seq)) == 1, "momentum: one heading held for PERSIST decisions"
-    # frontier: visits new cells; target is an unvisited free cell
+    # frontier: BFS coverage planner — moves toward an uncovered region
     f = get_strategy("frontier")
     f.begin(sc)
+    assert len(f._safe) > 0 and f._safe <= f._all, "safe cells subset of free cells"
     a = f.decide(
         {
             "pos": sc.start_xy,
@@ -206,8 +263,8 @@ def selftest() -> None:
             "step": 0,
         }
     )
-    assert a in _CARDINALS and f._target is not None and f._target not in f._visited
-    assert len(f._free) > 0
+    assert a in _CARDINALS and len(f._path) > 0, "planned a path toward coverage"
+    assert f._covered, "start cell's sensor disk marks some cells covered"
     # wall-follow: turns when a wall is close ahead
     w = get_strategy("wall_follow")
     w.begin(sc)
@@ -221,7 +278,7 @@ def selftest() -> None:
     assert a != FORWARD, "wall ahead -> turn"
     print(
         f"STRATEGIES OK: {len(STRATEGIES)} strategies, beacon-approach shared, "
-        f"frontier free-cells {len(f._free)}"
+        f"frontier safe/free cells {len(f._safe)}/{len(f._all)}"
     )
 
 

@@ -23,8 +23,9 @@ Two things kept deliberately simple for Phase 1a:
 
 The policy speaks a small context dict (pos, beacon sense, 4 cardinal
 rangefinders, step) and returns a `nav_action_set` id. Homing (the
-return leg) is a shared greedy controller so strategies are compared on
-SEARCH efficiency, not on how they fly home.
+return leg) is a shared BFS controller (route home over the safe-cell
+graph) so strategies are compared on SEARCH efficiency, not on how they
+fly home.
 """
 
 import numpy as np
@@ -34,39 +35,110 @@ from planner.nav_action_set import HOVER, NAV_ACTION_VECS, nav_menu
 from sim.envs import START, VelCommander, make_ctrl
 from sim.scenarios import COLLISION_R
 
-SAFE_MARGIN = COLLISION_R + 0.12  # veto actions whose lookahead drops below this
+SAFE_MARGIN = COLLISION_R + 0.13  # veto actions whose braking ray drops below this
+# ~the real stopping distance: ~0.05 m travelled per decision + PID overshoot.
+# 0.8 m froze the drone (it stopped ~0.8 m short of everything in a cluttered
+# room, 16x its per-decision travel — measured: it stalled mid-return)
+BRAKE_DIST = 0.35
 
 
-def _lookahead(pos_xy, vec, dt, steps):
-    return (pos_xy[0] + vec[0] * dt * steps, pos_xy[1] + vec[1] * dt * steps)
+def _cardinal(dx, dy) -> int:
+    """The nav action whose translation best matches direction (dx, dy)."""
+    from planner.nav_action_set import FORWARD, REVERSE, STRAFE_L, STRAFE_R
+
+    if abs(dx) >= abs(dy):
+        return FORWARD if dx >= 0 else REVERSE
+    return STRAFE_L if dy >= 0 else STRAFE_R
 
 
-def _safe_action(scenario, pos_xy, proposed, dt, steps=DECIDE_EVERY):
-    """Privileged geometric veto: keep `proposed` if its lookahead stays
-    clear; else pick the menu action with the most lookahead clearance;
-    else hover. Returns an action id."""
+def _ray_clearance(scenario, pos_xy, vec, dist=BRAKE_DIST, samples=6):
+    """Worst clearance along the command direction out to `dist` — the
+    honest safety signal under PID momentum (the endpoint alone vetoes
+    too late; the drone coasts). A zero-velocity command just samples
+    the current point."""
+    speed = float(np.hypot(vec[0], vec[1]))
+    if speed < 1e-6:
+        return scenario.clearance(pos_xy)
+    ux, uy = vec[0] / speed, vec[1] / speed
+    worst = 9.0
+    for k in range(1, samples + 1):
+        d = dist * k / samples
+        worst = min(worst, scenario.clearance((pos_xy[0] + ux * d, pos_xy[1] + uy * d)))
+    return worst
+
+
+def _safe_action(scenario, pos_xy, proposed, dt=None, steps=None):
+    """Privileged geometric veto with a braking-distance lookahead: keep
+    `proposed` if its whole braking ray stays clear; else pick the menu
+    action whose ray keeps the most clearance (reverse/hover win near a
+    wall — they back off). Returns an action id. dt/steps unused (kept
+    for the old call signature)."""
+    del dt, steps
     vecs = NAV_ACTION_VECS
-    if scenario.clearance(_lookahead(pos_xy, vecs[proposed], dt, steps)) >= SAFE_MARGIN:
+    if _ray_clearance(scenario, pos_xy, vecs[proposed]) >= SAFE_MARGIN:
         return proposed
-    best, best_clr = HOVER, scenario.clearance(pos_xy)
+    best, best_clr = HOVER, _ray_clearance(scenario, pos_xy, vecs[HOVER])
     for a in nav_menu():
-        clr = scenario.clearance(_lookahead(pos_xy, vecs[a], dt, steps))
+        clr = _ray_clearance(scenario, pos_xy, vecs[a])
         if clr > best_clr:
             best, best_clr = a, clr
     return best
 
 
-def _greedy_home(scenario, pos_xy, dt, steps=DECIDE_EVERY):
-    """Shared homing: the menu action whose lookahead best reduces
-    distance to the start point (then safety-filtered by the caller)."""
-    vecs, s = NAV_ACTION_VECS, np.asarray(scenario.start_xy, dtype=float)
-    best, best_d = HOVER, np.hypot(*(np.asarray(pos_xy) - s))
-    for a in nav_menu():
-        nxt = np.asarray(_lookahead(pos_xy, vecs[a], dt, steps))
-        d = np.hypot(*(nxt - s))
-        if d < best_d:
-            best, best_d = a, d
-    return best
+def _build_safe_grid(scenario, min_clear=0.5):
+    """The safe-cell navigation graph (shared shape with the Frontier
+    planner) — cells clear enough to occupy, for BFS routing."""
+    from search.strategies import scenario_free_cells
+
+    x0, x1, y0, y1 = scenario.bounds
+    nx = max(1, int(round((x1 - x0) / scenario.cell)))
+    ny = max(1, int(round((y1 - y0) / scenario.cell)))
+    safe = set(scenario_free_cells(scenario, nx, ny, x0, y0, scenario.cell, min_clear))
+    return {"safe": safe, "nx": nx, "ny": ny, "x0": x0, "y0": y0, "cell": scenario.cell}
+
+
+def _cell_of(grid, pos):
+    i = int((pos[0] - grid["x0"]) / grid["cell"])
+    j = int((pos[1] - grid["y0"]) / grid["cell"])
+    return (min(max(i, 0), grid["nx"] - 1), min(max(j, 0), grid["ny"] - 1))
+
+
+def _centre(grid, c):
+    return (
+        grid["x0"] + (c[0] + 0.5) * grid["cell"],
+        grid["y0"] + (c[1] + 0.5) * grid["cell"],
+    )
+
+
+def _bfs_home_path(grid, pos_xy, start_xy):
+    """BFS over safe cells from the drone's cell to the start cell; return
+    the cell path (start-of-graph excluded). Empty if unreachable. The
+    caller CACHES and follows this — recomputing every decision oscillates
+    between adjacent cells and stalls (measured: crashes + zero returns)."""
+    from collections import deque
+
+    safe = grid["safe"]
+    start = _cell_of(grid, pos_xy)
+    goal = _cell_of(grid, start_xy)
+    if start not in safe or goal not in safe or start == goal:
+        return []
+    prev, q = {start: None}, deque([start])
+    while q:
+        c = q.popleft()
+        if c == goal:
+            break
+        for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            nb = (c[0] + di, c[1] + dj)
+            if nb in safe and nb not in prev:
+                prev[nb] = c
+                q.append(nb)
+    if goal not in prev:
+        return []
+    path = [goal]
+    while prev[path[-1]] is not None:
+        path.append(prev[path[-1]])
+    path.reverse()
+    return path[1:]  # drop the start-of-graph cell (where we already are)
 
 
 def search_metrics(scenario, path, found_step, returned, collisions, n_decisions):
@@ -90,16 +162,17 @@ def run_search_episode(env, scenario, policy, seed, max_decisions=300):
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
     cmd.reset(obs[0][0:3])
     sx, sy = scenario.start_xy
-    dt = env.CTRL_TIMESTEP
 
     def room_xy(state):  # env origin == the room's start point
         return (float(state[0]) + sx - START[0], float(state[1]) + sy - START[1])
 
     policy.begin(scenario)
+    grid = _build_safe_grid(scenario)  # for BFS homing on the return leg
     vecs = NAV_ACTION_VECS
     state = obs[0]
     path = [room_xy(state)]
     found_step, collisions, returned, phase = -1, 0, False, "search"
+    home_path = []  # cached BFS route home, followed cell by cell
 
     for d in range(max_decisions):
         rpos = room_xy(state)
@@ -117,8 +190,19 @@ def run_search_episode(env, scenario, policy, seed, max_decisions=300):
             }
             a = policy.decide(ctx)
         else:
-            a = _greedy_home(scenario, rpos, dt)
-        a = _safe_action(scenario, rpos, a, dt)
+            here = _cell_of(grid, rpos)
+            while home_path and home_path[0] == here:
+                home_path.pop(0)
+            if not home_path:
+                home_path = _bfs_home_path(grid, rpos, scenario.start_xy)
+            if home_path:
+                cx, cy = _centre(grid, home_path[0])
+                a = _cardinal(cx - rpos[0], cy - rpos[1])
+            else:  # already in the start cell (or no route): aim straight
+                a = _cardinal(
+                    scenario.start_xy[0] - rpos[0], scenario.start_xy[1] - rpos[1]
+                )
+        a = _safe_action(scenario, rpos, a)
         for _ in range(DECIDE_EVERY):
             obs, _, _, _, _ = env.step(cmd.rpm(state, vecs[a]).reshape(1, 4))
             state = obs[0]
@@ -152,10 +236,14 @@ def selftest() -> None:
     a = _safe_action(sc, near_wall, fwd, dt=0.021, steps=8)
     assert a != fwd, "forward into the wall must be vetoed"
     assert NAV_ACTION_VECS[a][0] <= 0.0, "the safe substitute backs off / holds"
-    # homing points roughly toward start
-    home = _greedy_home(sc, (1.0, 1.0), dt=0.021, steps=8)
-    v = NAV_ACTION_VECS[home]
-    assert v[0] < 0 or v[1] < 0, "home from (1,1) means -x or -y (start is bottom-left)"
+    # BFS homing: from the beacon (always clear, far from start) a safe
+    # route home exists and its first step heads back toward start (-x)
+    grid = _build_safe_grid(sc)
+    hp = _bfs_home_path(grid, sc.beacon_xy, sc.start_xy)
+    assert hp, "a safe route home exists from the beacon"
+    cx, cy = _centre(grid, hp[0])
+    a = _cardinal(cx - sc.beacon_xy[0], cy - sc.beacon_xy[1])
+    assert a in (nav_menu()), "first home step is a valid nav action"
     # metrics schema
     m = search_metrics(sc, [sc.start_xy, sc.beacon_xy], 5, True, 0, 6)
     assert set(m) >= {"coverage", "target_found", "success", "returned", "collisions"}
