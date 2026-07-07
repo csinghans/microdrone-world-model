@@ -52,3 +52,14 @@ sequential background (~2-5 h wall).
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01GGt7SZ3GgNrbrXFrC5UWcn
+
+## Machinery on the record (2026-07-07, pre-flight)
+
+`--anchor-end` shipped: per-rollout linear coefficient drive,
+**coefficient only** — the first draft called `set_anchor()` per
+rollout, which would have re-frozen the prior to the CURRENT policy
+(silently deleting the anchor's meaning) and deepcopied a live grad
+graph (loud crash — the crash is what caught the semantic bug).
+Wiring smoke: 4096 steps, 1.0 → 0.1 → landed kl_coef 0.5500, the
+exact two-rollout expectation. Exam preflight: index_cells command
+verified on the kl=1.0 record artifact (slalom3@1.0, n=2 dry).
