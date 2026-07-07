@@ -122,3 +122,28 @@ at stage 0** with the map as the deliverable — the P5 "Done" clause
 
 Cost: 2 x 180 episodes (one arm-signature harness fix between),
 ~75 min wall, zero training.
+
+## Stage 0b pre-registration: instrument repair — an oracle that may slow (2026-07-07, before any number)
+
+Stage 0 left the repo with no valid ceiling instrument at speed; the
+named cheap successor runs BEFORE any training bet. **OracleFieldSlow**
+= the stage-0 gap-tracker plus one rule: when the lateral error to the
+held target is large while the next blocking plane is near (urgency),
+interleave `slow` decisions with the veer — trading forward momentum
+for bend rate, the trick the champion's 10 % timeouts suggest it
+learned. Same cells, same seeds (n=30, seed0=7000); slow-arm only
+(the other two arms are committed in probe.json, deterministic).
+
+**Frozen interpretation (dense@1.5 headline, @2.0 secondary):**
+- ceiling_slow ≥ 0.85 @1.5 → real headroom over the champion's 0.733;
+  the champion-as-teacher two-leg campaign earns bars priced at
+  0.70 x ceiling_slow (its own pre-registration still required).
+- ceiling_slow ≤ champion + 0.05 → the champion already sits AT the
+  arena ceiling; dense closes end-to-end (cruise closed at stage 0,
+  speed closed here) and the two-leg successor dies before birth.
+- Between → headroom marginal; recorded, successor stays unscheduled.
+
+An honest boundary as before: a scripted slow rule is ONE point in
+policy space — this ceiling stays a lower bound, and a refuted-again
+outcome (slow-oracle ≤ plain oracle) is itself reportable (the trick
+is harder than one rule).
