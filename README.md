@@ -149,6 +149,24 @@ chain, visibly chained:
 
 ![slalom clone trajectories](docs/figures/traj_slalom_clone.png)
 
+**Indoor active search: what a monocular world model is, and is NOT, for.**
+A separate track (2D translational roaming, enclosed rooms, an abstract
+beacon) put the world model to three indoor jobs and gated each honestly:
+
+| job | world-model result | who wins |
+|---|---|---|
+| collision safety | flat walls are scale-free; blind to side/behind | a cheap 4–8-beam rangefinder ring |
+| coverage (where to go) | HURTS under clutter vs a plain grid | geometric Frontier / grid policy |
+| **detection (is a target in view)** | **AUC 0.94, target-specific, no retrain** | **the world model** |
+
+It loses the spatial jobs to cheap geometry but perception is its home;
+the recurring limit is the yaw=0 forward-camera lock (it blinded the WM
+to 60 % of residual collisions AND caps the visual search to glimpses).
+Single- and multi-room search is deployable, crash-free, on the
+rangefinder ring — the doorway crossing visible in a god-view sweep:
+
+![indoor multi-room search](docs/figures/search_tworoom_trajectory.png)
+
 ## Flight TDD: the integration layer
 
 Unit tests are the skill cells; the **integration test** is a randomly
