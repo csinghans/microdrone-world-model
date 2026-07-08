@@ -215,6 +215,20 @@ accept is the high-speed completion trade (or gate deployment to ≤1.2
 m/s). Promotion (overwrite the pinned champion + bump `artifacts.lock.json`)
 remains Hans's explicit strategic call — not taken autonomously.
 
+**Where the trade actually lands (Hans's steer: indoor exploration is
+deliberately slow).** The whole caveat is confined to FAST transit. The
+indoor track runs at 0.6 m/s by design (the robust config of the entire
+indoor arc) — below the 0.8 m/s sweep floor and far below the 1.4–1.6 m/s
+where the completion trade appears, so it never bites the indoor half.
+And indoor collision-avoidance is GEOMETRIC (beams8), WM-independent — so
+the indoor forward-collision AUC regression (0.814→0.674) is invisible at
+deployment too: beams8 does the avoiding, the WM is not on that path.
+Net: the unified WM has NO deployment downside for slow indoor, and wins
+transit at cruise (≤1.2 m/s); the only regime where a promoter accepts a
+trade is fast transit (1.4–1.6 m/s) — which may not be a target regime at
+all. This tightens the promotion case to: clean everywhere the system
+actually flies.
+
 ## Artifacts (all under output/, none committed — champion untouched)
 - `world_model_unified.pth` — the unified WM (transit120 + room80, 80 ep, seed 0)
 - `world_model_transit120.pth` — the transit-only-120 confound control
