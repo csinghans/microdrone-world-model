@@ -26,8 +26,10 @@ import sys
 
 import numpy as np
 
-from search.doorway import doorway_score, passage_score
+from search.doorway import doorway_score, max_wall_run, passage_score
 from sim.scenarios import COLLISION_R
+
+FIRE_THR = 1.0  # passage_score above this = the naive counter fires a crossing
 
 R_DOOR = 1.3  # "doorway-adjacent" (loose): within this of a doorway centre
 GAP_DX = 0.5  # "in the gap" (tight): |x - divider| < this ...
@@ -88,6 +90,32 @@ def probe(score_fn, label_mode, n=12, n_rooms=4, seed0=210000, n_beams=16, clutt
     return _auc(scores, labels), len(scores), float(np.mean(labels))
 
 
+def discriminate(n=12, n_rooms=4, seed0=210000, clutter=2, n_beams=16):
+    """Among positions where passage_score FIRES (> FIRE_THR), can
+    max_wall_run tell a TRUE doorway (thin dividers -> small run) from a
+    box-wall pinch false-positive (extended wall -> large run)? Report the
+    false-positive rate the naive counter suffers and the AUC of
+    -max_wall_run separating true doorways from those false-positives."""
+    from sim.indoor.rooms import n_room
+
+    feats, labels = [], []
+    for i in range(n):
+        sc = n_room(seed0 + i, n_rooms=n_rooms, clutter=clutter)
+        centres = _doorway_centres(sc)
+        x0, x1, y0, y1 = sc.bounds
+        for x in np.arange(x0 + GRID, x1, GRID):
+            for y in np.arange(y0 + GRID, y1, GRID):
+                if sc.clearance((x, y)) <= MIN_CLEAR:
+                    continue
+                if passage_score(sc, (x, y), n_beams=n_beams) <= FIRE_THR:
+                    continue  # only positions the naive counter would fire on
+                true_door = _label(x, y, centres, "gap")
+                feats.append(-max_wall_run(sc, (x, y), n_beams=n_beams))
+                labels.append(true_door)
+    fp_rate = 1.0 - (sum(labels) / len(labels)) if labels else float("nan")
+    return _auc(feats, labels), len(labels), fp_rate
+
+
 def selftest() -> None:
     assert abs(_auc([0.1, 0.2, 0.8, 0.9], [0, 0, 1, 1]) - 1.0) < 1e-9
     assert abs(_auc([0.9, 0.8, 0.2, 0.1], [0, 0, 1, 1]) - 0.0) < 1e-9
@@ -101,10 +129,30 @@ def main() -> None:
     ap.add_argument("--n-rooms", type=int, default=4)
     ap.add_argument("--seed0", type=int, default=210000)
     ap.add_argument("--clutter", type=int, default=0, help="box obstacles per room")
+    ap.add_argument(
+        "--discriminate",
+        action="store_true",
+        help="can max_wall_run separate true doorways from box-pinch false-fires?",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
+        return
+    if args.discriminate:
+        auc, npos, fp = discriminate(
+            args.n, args.n_rooms, args.seed0, clutter=max(args.clutter, 2)
+        )
+        verdict = (
+            "usable (>=0.80)"
+            if auc >= 0.80
+            else ("weak (<0.65)" if auc < 0.65 else "borderline")
+        )
+        print(
+            f"[discriminate] {npos} passage-firing positions, "
+            f"{fp:.0%} are box-pinch false-fires | -max_wall_run AUC {auc:.3f}  "
+            f"[{verdict}]"
+        )
         return
 
     def tag(auc):

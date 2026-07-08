@@ -60,6 +60,25 @@ def passage_score(scenario, pos, n_beams: int = 16) -> float:
     return float(best)
 
 
+def max_wall_run(scenario, pos, n_beams: int = 16, wall_max: float = WALL_MAX) -> int:
+    """Longest contiguous run of beams reading < wall_max. An extended WALL
+    spans many bearings (large run); a thin divider brick or a compact box
+    spans few. The candidate discriminator between a real doorway (a gap
+    between thin dividers, only isolated short returns) and a box-against-
+    wall pinch (the wall gives a long short-run) that both fire
+    `passage_score`."""
+    short = [b[1] < wall_max for b in scenario.beam_ranges(pos, n_beams=n_beams)]
+    if all(short):
+        return n_beams
+    if not any(short):
+        return 0
+    best = run = 0
+    for k in range(2 * n_beams):  # wrap once so a run crossing 0 is counted
+        run = run + 1 if short[k % n_beams] else 0
+        best = max(best, run)
+    return min(best, n_beams)
+
+
 def detect_bearing(scenario, pos, n_beams: int = 16):
     """The bearing (rad) of the best doorway candidate, or None — for the
     room-graph step (which way is the passage to the next room)."""
@@ -96,6 +115,11 @@ def selftest() -> None:
     assert passage_score(sc, (0.0, 0.0)) > passage_score(
         sc, (-2.0, 0.0)
     ), "passage_score fires in the doorway gap, not the open room"
+    # max_wall_run: near an outer wall many bearings read short (a long run);
+    # at the thin-divider doorway only isolated bearings do -> the discriminator
+    assert max_wall_run(sc, (-2.0, 2.0)) > max_wall_run(
+        sc, (0.0, 0.0)
+    ), "an extended wall gives a longer short-run than a thin doorway"
     print(
         f"DOORWAY OK: score at doorway {at_door:.2f} > interior {interior:.2f}; "
         f"bearing points along the passage axis"

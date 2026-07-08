@@ -141,16 +141,40 @@ clutter-robust — it over-counts rooms because furniture squeezes read
 like doorways.** This is the genuine mapping problem, now isolated from
 navigation. The clean-room 100% stands; the counter needs a real fix.
 
+## Discriminator feasibility (2026-07-08) — a simple single-frame ring feature is NOT enough
+
+Before building a clutter-robust detector, probe whether ANY cheap ring
+feature separates a true doorway from the box-wall pinches that
+false-fire `passage_score` (`eval/eval_doorway_detect.py --discriminate`,
+clutter=2). The most geometrically-motivated candidate: `max_wall_run`
+(longest contiguous run of short beams) — a true doorway sits between
+THIN dividers (isolated short returns, small run) while a box-against-
+wall pinch has an extended WALL flank (long run).
+
+`[discriminate] 935 passage-firing positions, 69% are box-pinch
+false-fires | -max_wall_run AUC 0.631 [weak]`
+
+**Two honest numbers.** (1) Under clutter=2, **69% of the naive
+counter's firings are box-pinch false-positives** — that is exactly why
+N over-counts (each room's boxes add phantom crossings). (2) The best
+single-frame discriminator I could motivate, `max_wall_run`, is **AUC
+0.631 — weak.** It carries some signal (> 0.5) but cannot cleanly filter
+the false-fires. The thin-divider geometry defeats it: a divider brick
+column looks about as compact to the ring as a box, so "wall vs box" is
+not separable from one vantage.
+
+**Verdict: the clutter-robust crossing detector is NOT achievable with a
+simple single-frame ring feature.** It needs a richer signal —
+trajectory integration (track a flanking structure across frames: a
+divider persists as the drone threads it and separates two regions; a
+passed box does not), a learned doorway head, or a thicker-wall sensing
+model. Recorded as an honest bound, not a fix.
+
 ## Named next (each its own pre-registration)
-- **Clutter-robust crossing detector.** The discriminator the naive rule
-  lacks: a true doorway connects two LARGE open regions (a room each
-  side), a box-wall pinch has a room on one side and a wall/corner on the
-  other. Candidate rules: gate a crossing on post-crossing OPENNESS (the
-  ring sees a large new area beyond), or on the squeeze axis staying
-  perpendicular to sustained forward progress, or a learned doorway head.
-  Gate: recover room-count/beacon-room accuracy toward the clean 1.000
-  under clutter, with find held by the clear-lane (or connectivity-
-  preserving) layout.
+- **Clutter-robust crossing detector, richer signal** (single-frame ring
+  is insufficient, measured): trajectory-integrated structure tracking or
+  a learned head; gate on recovering accuracy under clutter with find
+  held by the clear-lane layout.
 - **Clutter-robust coverage** (the Frontier over a fragmented safe-cell
   graph — the find-rate story in dense clutter) is a separate
   pre-registration.
