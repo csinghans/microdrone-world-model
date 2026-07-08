@@ -106,6 +106,24 @@ model and research gate but structurally isolated from the transit
 benchmark. Phasing (`experiments/search_room_v*`,
 `docs/TRAINING-A-SKILL.md` for the method):
 
+**What the world model is FOR (the track's through-line, measured).** The
+track put the WM to three indoor jobs and gated each honestly:
+
+| job | WM result | who wins |
+|---|---|---|
+| collision safety | flat walls scale-free, blind to side/behind | cheap 4-8 rangefinder ring (v3, beams_v1) |
+| coverage (where to go) | HURTS under clutter vs a grid | geometric Frontier / grid policy (coverage_v1) |
+| **detection (is a target in view)** | **AUC 0.94, target-specific, no retrain** | **the world model** (vision_v1) |
+
+The WM is a SEEING instrument: it loses the spatial jobs (safety, coverage)
+to cheap geometry, but perception/detection is its home. The recurring
+binding constraint is the **yaw=0 +x camera-lock** (kept to protect the
+WM's body==world frame): it blinded the WM to 60% of collisions
+(search_hybrid_v1) AND caps visual search (the +x cone only glimpses a
+target as it sweeps past — vision_v1 flight). Lifting it (yaw + a WM
+retrain on the turning vocabulary) is the deferred big step, now
+demonstrably needed — the owner's strategic call to open.
+
 - **Phase 1a — the smallest single-room proof: GREEN.** A micro-drone
   covers a 5×5 room, senses an abstract beacon (bearing+range, no
   detector), confirms it and returns home crash-free. Frontier
