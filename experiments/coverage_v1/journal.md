@@ -100,5 +100,57 @@ Both arms training on the single+clutter mix at speed 0.6: the WM-arm
 (`wm_off`). On completion: the A/B/C gate (Frontier vs WM vs grid-only,
 clean + clutter, frozen bars above, pooled recheck at borderline).
 
-## Verdict
-(pending — Phase 2 trains, then the A/B/C gate)
+## Verdict: HONEST NEGATIVE — the world model does not buy coverage (hurts under clutter)
+
+A/B/C gate (n=30, gate seeds 310000, disjoint from ceiling/train,
+`run_coverage_episode`, beams8, speed 0.6, plateau-terminated):
+
+| arm | clean coverage | clutter coverage | clean return | clean collision |
+|---|---|---|---|---|
+| Frontier (privileged ceiling) | 0.774 | 0.395 | 0.967 | 0.000 |
+| **WM-coverage** (250k) | **0.689** | **0.324** | 0.967 | 0.000 |
+| grid-only ablation (250k) | 0.582 | 0.379 | 0.833 | 0.000 |
+
+Frozen bars, all three FAIL:
+- **A (match clean): FAIL** — WM clean 0.689 < 0.758 (borderline, gap
+  0.069). Collision (0.000) and return (0.967) pass. So the WM policy
+  covers clean rooms well but does not reach the privileged Frontier.
+- **B (beat clutter): FAIL** — WM clutter 0.324 < 0.557; in fact NO
+  learned arm beats Frontier's clutter 0.395. **The pre-registered win
+  hypothesis is disconfirmed: cluttered-room coverage is reachability-
+  bound under safe flight, not a Frontier planning gap a reactive policy
+  fixes.** (Both learned arms land near/below Frontier — the cells
+  Frontier misses are genuinely hard to reach under beams8, for any
+  policy.)
+- **C (WM necessity): FAIL, wrong direction** — WM clutter 0.324 is
+  BELOW grid-only 0.379. **Adding the world model HURTS clutter coverage**
+  — the 40 WM collision probs are OOD for reverse/strafe and scale-free
+  for walls, so they inject net-negative noise the grid-only policy is
+  better off without.
+
+**The nuance, stated fairly:** the WM DOES help CLEAN coverage (0.582 ->
+0.689 over grid-only, +0.107) — its forward-openness read aids the open-
+room sweep. But that help (a) does not reach Frontier (0.774), and (b)
+reverses to a HURT under clutter, where the win was supposed to be. So
+across the mission the world model is not the coverage lever; the
+geometric Frontier is the best coverer and a cheap grid-only policy is
+the best deployable-learned one.
+
+**This is consistent with the whole indoor-search arc:** the WM lost to
+cheap rangefinders for SAFETY (v3), and now loses to cheap geometry/grid
+for COVERAGE. The monocular threat-channel world model is not the right
+instrument for indoor spatial tasks — the repo's honest through-line.
+
+## Consequences (no retries without a new pre-registration)
+- **Phase 2.5 (WM nav-retrain) is NOT released.** Its trigger was "the
+  ablation shows the WM helps AND forward-only limits." The ablation
+  shows the WM HURTS under clutter — retraining would sharpen a
+  net-negative signal. Honest: do not spend the retrain.
+- **Bar A's borderline is moot for the verdict** — B and C fail
+  decisively, so a pooled recheck of clean-A cannot flip PASS. Recorded,
+  not rechecked.
+- **The DAgger fallback would at best MATCH Frontier** (it clones
+  Frontier's geometric behaviour, no WM), so it cannot buy the clutter
+  win either; it is a route to a deployable *grid* coverer, not a WM one.
+- Deployable coverage today = the geometric Frontier (privileged) or a
+  grid-only policy; neither needs the world model.

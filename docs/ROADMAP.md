@@ -226,6 +226,25 @@ benchmark. Phasing (`experiments/search_room_v*`,
   Named next: a clutter-robust crossing detector (discriminate a doorway
   — two large open regions — from a box-wall pinch; gate on recovering
   accuracy under clutter) (`experiments/search_roomgraph_v1/`).
+- **WM-driven coverage (coverage_v1): HONEST NEGATIVE — the world model
+  does not buy coverage.** The owner's direction ("use the WM to
+  completely cover the space, THEN visual detection") built the first
+  WM-DRIVEN task: an RL-on-WM-latent coverage policy (293-d obs = 40 WM
+  collision probs over nav actions + an egocentric covered/occupancy
+  grid), safety on beams8, dense coverage-delta reward. Pre-registered
+  3-arm gate (Frontier ceiling / WM policy / grid-only ablation, clean +
+  clutter, bars frozen from the Frontier ceiling); all three fail: WM
+  clean 0.689 < Frontier 0.774 (A); no learned arm beats Frontier's
+  clutter 0.395 — cluttered coverage is reachability-bound under safe
+  flight, not a planning gap (B); WM clutter 0.324 < grid-only 0.379 —
+  **the WM HURTS clutter coverage** (probs OOD for reverse/strafe,
+  scale-free for walls) (C). It helps CLEAN modestly (grid 0.582 -> WM
+  0.689) but never reaches Frontier and reverses to a hurt under clutter.
+  Consistent with the arc — the WM lost to rangefinders for safety and
+  now to geometry/grid for coverage; a monocular threat-channel world
+  model is not the indoor spatial instrument. Deployable coverage =
+  geometric Frontier or a grid-only policy, no WM
+  (`experiments/coverage_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
