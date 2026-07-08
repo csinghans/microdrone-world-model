@@ -245,6 +245,22 @@ benchmark. Phasing (`experiments/search_room_v*`,
   model is not the indoor spatial instrument. Deployable coverage =
   geometric Frontier or a grid-only policy, no WM
   (`experiments/coverage_v1/`).
+- **Visual detection (vision_v1): the WM's latent SEES targets, but the
+  +x camera-lock caps the flight search.** After coverage's negative, the
+  opposite probe: the shipped WM latent linearly detects "target in +x
+  FOV" at AUC 0.94 (> a color pixel baseline) — perception IS the WM's
+  home. A small detection head on the frozen latent is target-SPECIFIC
+  (fresh-room AUC 0.925, obstacle false-alarm 0.105 — red target vs orange
+  obstacles), no retrain. BUT the end-to-end flight (Frontier sweep +
+  detector "found") FAILS: a single-frame trigger compounds the 0.105
+  per-frame false-alarm into 0.95 per-flight; a consecutive-firing
+  debounce cuts that to 0.35 but trades it for 0.40 MISS (the +x cone only
+  glimpses the target as it sweeps past — too few consecutive frames to
+  confirm). The binding constraint is the yaw=0 camera-lock (kept to
+  protect the WM frame): the drone cannot turn to face/confirm a target.
+  Same lock that blinded the WM to 60% of collisions (hybrid). Named next
+  (the deferred big step): add yaw + retrain the WM on the turning
+  vocabulary — the owner's call (`experiments/vision_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
