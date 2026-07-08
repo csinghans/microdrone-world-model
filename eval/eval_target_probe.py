@@ -87,13 +87,17 @@ def _linear_probe_auc(X, y, seed=0):
     return _auc(st, y[te])
 
 
-def collect_target_frames(n_rooms=6, seed0=600000, grid=0.35, half_deg=None):
+def collect_target_frames(n_rooms=6, seed0=600000, grid=0.35, half_deg=None, ckpt=None):
     """Render target/no-target frames over a position grid and encode each
     with the shipped WM. Returns dict of arrays: `lat` (N,64) latents,
     `label` (N,) target-in-FOV, `red` (N,) pixel redness, `obs_in_fov`
     (N,) an obstacle box is in the +x FOV (the hard-negative flag — a
     detector must NOT fire on these). Shared by the linear probe and the
-    detection-head trainer/gate."""
+    detection-head trainer/gate.
+
+    `ckpt` overrides the encoder with an explicit checkpoint (the
+    unified-WM gate passes `output/world_model_unified.pth`), so a
+    candidate WM is graded WITHOUT swapping the pinned champion artifact."""
     import torch
 
     from eval.eval_closed_loop import load_or_train
@@ -102,9 +106,13 @@ def collect_target_frames(n_rooms=6, seed0=600000, grid=0.35, half_deg=None):
     from sim.indoor.rooms import single_room
     from sim.scenarios import FOV_HALF_DEG
     from sim.search_scenario import remove_bodies
+    from world_model.training import load_model
 
     half = FOV_HALF_DEG if half_deg is None else half_deg
-    enc, _pred, _ch, _n, _meta = load_or_train(device="cpu")
+    if ckpt is not None:
+        enc, _pred, _ch, _n, _meta = load_model(ckpt, device="cpu")
+    else:
+        enc, _pred, _ch, _n, _meta = load_or_train(device="cpu")
     env = make_env()
     env.reset(seed=seed0)
     lat, red, label, obs_fov = [], [], [], []
@@ -139,8 +147,8 @@ def collect_target_frames(n_rooms=6, seed0=600000, grid=0.35, half_deg=None):
     }
 
 
-def probe(n_rooms=6, seed0=600000, grid=0.35, half_deg=None):
-    d = collect_target_frames(n_rooms, seed0, grid, half_deg)
+def probe(n_rooms=6, seed0=600000, grid=0.35, half_deg=None, ckpt=None):
+    d = collect_target_frames(n_rooms, seed0, grid, half_deg, ckpt=ckpt)
     y = d["label"]
     return {
         "n": len(y),
@@ -161,12 +169,13 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--n-rooms", type=int, default=6)
     ap.add_argument("--seed0", type=int, default=600000)
+    ap.add_argument("--ckpt", default=None, help="grade this WM (default: champion)")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    r = probe(args.n_rooms, args.seed0)
+    r = probe(args.n_rooms, args.seed0, ckpt=args.ckpt)
     verdict = (
         "FEASIBLE on the WM latent (>=0.80)"
         if r["wm_latent_auc"] >= 0.80

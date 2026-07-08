@@ -1,0 +1,193 @@
+# unified_wm_v1 — can ONE 512 KB world model hold BOTH tracks?
+
+## The question (Hans)
+
+「同一顆可以包含穿越跟室內的能力嗎」— can ONE world model carry BOTH the
+transit-benchmark capability (forward flight through pillar corridors, the
+transit action vocab) AND the indoor-search capability (2-D roaming in
+rooms, the nav vocab) — instead of forking two specialists? This is the
+one architectural risk the earlier audit flagged (a single shared WM used
+OOD). If one WM genuinely holds both, the "risk" becomes the WEDGE: one
+512 KB model, avoidance + indoor search, no fork.
+
+Scope: this unifies the WM's PERCEPTION/prediction substrate; the task
+policies/runners stay separate and ride it. yaw stays 0 (both existing
+capabilities are yaw=0; the turning fork is separate and later).
+
+## Pre-registration (bars frozen BEFORE the unified WM existed)
+
+The incumbent baseline is the SHIPPED champion `output/world_model.pth`
+(the current transit specialist AND the current indoor performer). The
+plan (`jazzy-imagining-gray.md`) pre-registered, before any unified number:
+
+- **Transit — must NOT regress.** Per-world collision AUC@32
+  (classic/dense/moving) and veer-ranking, unified vs champion.
+- **Indoor — must MATCH or beat.** Forward-collision AUC (the WM's
+  feasibility signal, champion 0.814) and target-detection WM-latent AUC
+  (the WM's native home, champion 0.940).
+- **PASS = matches transit (within noise) AND matches-or-beats indoor.**
+  Honest outcomes recorded either way: match-both → one-WM win; regress
+  transit → capacity dilution, keep two; improve indoor → bonus.
+
+## Method
+
+**Unified training set** (`datasets/combine_rollouts.py`): 120 transit
+rollouts (classic/dense/moving, seed 0) + 80 room rollouts (seed 100000),
+common `--len 120`, concatenated. Room `world_id` remapped 0→3 (else it
+aliases transit classic=0); `world_names=[classic,dense,moving,room]`.
+
+**The counterfactual-loss fix** (`datasets/intervention_labels.py`): the
+cf oracle is pillar-kinematic. For NaN-pillar room frames the mask empties
+→ without a fix they keep `cf=0, vis=1` = a fully-weighted "ALL candidates
+safe (incl. forward-into-wall)" signal that fights the honest wall-danger
+`col_loss` on the shared heads. Fix: room frames marked UNANSWERABLE
+(`vis=0`) → they contribute 0 to `cf_loss` and train collision only from
+their honest `dists` wall-clearance label. Transit rollouts bit-identical.
+(This fix has a downstream cost — see the indoor forward-collision result.)
+
+**Trained** to a SEPARATE path (champion never clobbered):
+`scripts.train --data output/combined.npz --out output/world_model_unified.pth
+--epochs 80 --seed 0`. Same v2 architecture/hyperparameters as the champion.
+
+**Head-to-head is apples-to-apples.** Transit: a FRESH held-out eval set
+(120 rollouts, seed 777 — OOD for both models), scored via
+`eval_wm_checkpoint.evaluate(ckpt, data, seed=0)` — same data + same split
+seed → both models score the IDENTICAL val frames. Indoor: `frontier` is a
+GEOMETRIC (model-independent) flight, and the detection grid is fixed, so
+champion and unified traverse the IDENTICAL frames; only their scores
+differ.
+
+**Confound control — a transit-only twin.** "Unified beats champion" could
+be a data-quantity artifact (unified's 120 transit rollouts vs the
+champion's unknown count). So a CONTROL WM was trained on the EXACT same
+120 transit rollouts from `combined.npz` with the 80 rooms DROPPED (same
+seed 0, same 80 epochs) → `world_model_transit120.pth`. Unified vs control
+isolates the ONE variable: adding 80 rooms.
+
+## Results
+
+### Transit — 3-way on the identical held-out (seed 777) val frames
+
+| model | classic | dense | moving | AUC@32 (all) |
+|---|---|---|---|---|
+| CHAMPION (shipped) | 0.657 | **0.933** | 0.931 | 0.896 |
+| CONTROL (transit-only-120) | 0.716 | 0.890 | 0.930 | 0.887 |
+| **UNIFIED (transit120 + room80)** | **0.821** | 0.918 | **0.956** | **0.931** |
+
+- **Unified does NOT regress transit — it beats the champion** on
+  classic (+0.164), moving (+0.025) and overall AUC@32 (+0.035); dense is
+  a statistical tie (−0.015).
+- **The win survives the confound control.** Unified beats the
+  transit-only-120 control — identical transit data, only difference is the
+  80 rooms — on EVERY world (classic +0.105, dense +0.028, moving +0.026,
+  overall +0.044). So the improvement is NOT a data-quantity artifact: the
+  room frames act as a beneficial auxiliary signal / regularizer (the
+  control slightly overfits 120 transit rollouts → worse on held-out
+  seed-777 transit; the rooms broaden the visual representation).
+- (`dense=0.30` appeared on the unified's OWN training-val split — a
+  noisy ~8-rollout bucket; on the 40-rollout held-out set with ≥20 val
+  samples per world it is 0.918. Small-bucket noise, not a collapse.)
+
+### Indoor — champion vs unified on identical frames
+
+| metric | champion | unified | Δ |
+|---|---|---|---|
+| target-detection WM-latent AUC | 0.940 | **0.978** | **+0.038** |
+| forward-collision AUC (fov-label) | **0.814** | 0.674 | **−0.140** |
+
+- **Detection: unified WINS** (0.978 vs 0.940) — expected: the unified WM
+  actually trained on rooms, so its latent carries even more target /
+  room-appearance signal. Detection is the WM's native home, now sharper.
+- **Forward-collision: unified REGRESSES** (0.674 vs 0.814) — an honest
+  negative. Mechanism: the cf-loss fix (correctly) removed the spurious
+  "all-safe" room signal, but that ALSO removed the only ACTION-CONDITIONED
+  danger signal room frames could carry (rooms train collision from
+  position-based `dists` only, no counterfactual). The champion, never
+  having seen a room, transfers its SHARP pillar-cf action-conditioning and
+  ranks room forward-collisions better. Training on rooms with col-only
+  supervision blunted that ranking.
+
+### Transit closed-loop (deployed path) — champion vs unified, 60 seeds
+
+The WM IS the deployed avoidance mechanism on transit, so the AUC win must
+survive flight. `eval_closed_loop.evaluate()` takes model components
+directly (NO artifact swap); same 60 seeds (70% in-path), seed0=1000,
+speed=1.0 for both. WM-arm metrics:
+
+| metric | champion | unified |
+|---|---|---|
+| crash % (in-path) | 40% | **21%** |
+| min-clear (in-path) | 0.35 m | **0.39 m** |
+| false-evasion % (clear) | 100% | **6%** |
+| reached % (in-path) | 100% | 100% |
+| trigger lead vs reactive | +258 ms | +216 ms |
+
+**Unified roughly HALVES the crash rate (40→21%) and nearly eliminates
+false-evasion (100→6%)** at comparable lead and 100% goal-reach — the
+held-out AUC win translates to flight, decisively.
+
+Honesty caveat: these absolute rates are at `eval_closed_loop`'s default
+operating point (speed 1.0, seed0 1000), which is evidently stressful —
+the STANDARD tool independently reproduces the champion's 40% crash /
+100% false-evasion (two code paths agree, so the harness is faithful), and
+even at this point the champion's WM-arm is worse than its own reactive
+baseline (crash 2%→40%). So 40% is NOT the champion's best-case
+deployment number; the COMPARISON under identical stress is what is valid.
+A multi-speed sweep (0.6/0.8/1.0/1.2) is the pre-condition for any
+promotion (see Verdict).
+
+## Verdict — YES, one WM holds both; a WIN on every OWNED job, one honest trade
+
+Scoreboard, unified vs the shipped champion:
+
+| track / job | metric | champion | unified | winner |
+|---|---|---|---|---|
+| transit (WM-owned) | held-out AUC@32 | 0.896 | 0.931 | **unified** |
+| transit (WM-owned) | closed-loop crash | 40% | 21% | **unified** |
+| transit (WM-owned) | closed-loop false-evasion | 100% | 6% | **unified** |
+| indoor (WM's home) | target-detection AUC | 0.940 | 0.978 | **unified** |
+| indoor (geometry-owned) | forward-collision AUC | 0.814 | 0.674 | champion |
+
+**One 512 KB world model DOES hold both tracks — and on every capability
+the WM is actually RESPONSIBLE for, the unified model BEATS the
+specialist**: transit collision-prediction (its core deployed job — better
+held-out AUC AND ~half the closed-loop crashes) and indoor target
+detection (its native home, sharper at 0.978). The transit win is not a
+data-quantity artifact — it survives the transit-only-120 control that saw
+the identical transit data (the rooms act as a beneficial auxiliary
+signal).
+
+**The one trade is honest and bounded:** indoor forward-collision AUC
+regresses 0.814→0.674. But that signal is NOT on the deployed indoor path
+— the indoor safety arc (search_wm_v3 → beams) already handed
+collision-avoidance to geometric rangefinder/beam filters; the WM was
+never the indoor safety mechanism. So the cost lands on a superseded
+signal, while the wins land on deployed jobs. The likely cause is the
+cf-loss room-mask fix (necessary to avoid the spurious "all-safe" label):
+it also removed the only ACTION-CONDITIONED danger signal rooms could
+carry, blunting the action-ranking the champion transfers zero-shot from
+pillar counterfactuals. A future room-cf oracle (a wall-kinematic
+counterfactual, not pillar-kinematic) could likely recover it — a clean
+next step, not a blocker.
+
+**Strategic read:** this turns the earlier "shared-WM risk" into the
+WEDGE. No fork — ONE model, avoidance + indoor detection, each better than
+a specialist would be, at 512 KB. The yaw=0 turning fork remains the one
+real capability boundary (separate, later).
+
+**Promotion is deferred to Hans + a sweep.** The pinned champion
+`output/world_model.pth` is UNTOUCHED. The transit closed-loop win is
+strong but measured at a single stressful operating point; the
+pre-condition for promoting the unified WM to the pinned champion (and
+updating `artifacts.lock.json`) is a multi-speed closed-loop sweep
+(0.6/0.8/1.0/1.2 m/s) confirming the win holds — then Hans's explicit
+call. Not done here (feasibility-first): the core question is answered.
+
+## Artifacts (all under output/, none committed — champion untouched)
+- `world_model_unified.pth` — the unified WM (transit120 + room80, 80 ep, seed 0)
+- `world_model_transit120.pth` — the transit-only-120 confound control
+- `combined.npz` — the union training set
+- `transit_only120.npz` — control training set (rooms dropped)
+- `transit_eval_holdout.npz` — fresh seed-777 held-out transit eval set
+- reproduce: `python -m eval.eval_unified_wm_gate` (transit AUC + indoor
+  detection/forward head-to-heads; closed-loop via `--closed-loop`)

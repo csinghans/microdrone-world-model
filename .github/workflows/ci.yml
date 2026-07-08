@@ -83,6 +83,7 @@ jobs:
           python -m eval.eval_doorway_detect --selftest
           python -m eval.eval_room_graph --selftest
           python -m eval.eval_target_probe --selftest
+          python -m eval.eval_unified_wm_gate --selftest
           python -m search.target_detector --selftest
           python -m eval.eval_vision_search --selftest
           python -m eval.eval_results_figures --selftest
