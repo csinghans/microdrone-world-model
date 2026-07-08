@@ -42,6 +42,7 @@ jobs:
           python -m planner.action_set
           python -m planner.nav_action_set
           python -m datasets.intervention_labels
+          python -m datasets.combine_rollouts --selftest
           python -m datasets.metric_labels
           python -m world_model.grounding
           python -m world_model.encoder

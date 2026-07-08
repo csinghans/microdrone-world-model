@@ -83,6 +83,14 @@ def counterfactual_labels(data: dict) -> tuple:
         mask = ~np.isnan(pil[:, 0])
         pil = pil[mask]
         if not len(pil):
+            # NaN-pillar (room) rollout: the counterfactual oracle is
+            # pillar-kinematic and cannot label it -> UNANSWERABLE (vis=0), so
+            # it contributes nothing to cf_loss. Without this the room frames
+            # keep the initialized vis=1 with cf=0 = a fully-weighted "all
+            # candidates safe (incl. forward-into-wall)" signal that fights the
+            # honest wall-danger col_loss (from dists) on the shared heads —
+            # the silent hazard when transit + indoor rollouts train one WM.
+            vis[r] = 0
             continue
         vp = np.asarray(all_vel[r])[mask] if all_vel is not None else np.zeros_like(pil)
         # pillar positions at every frame: (L, P, 2)
@@ -141,6 +149,17 @@ def selftest() -> None:
     cf_s, _ = counterfactual_labels(static_view)
     assert cf_s[0, 0, hover, -1, 0] == 0, "static oracle must call the hover safe"
     assert cf_m[0, 0, hover, -1, 0] == 1, "motion oracle must see the crosser coming"
+    # room rollout (all-NaN pillars): the oracle can't label it -> vis 0
+    # everywhere, so mixing rooms into a transit WM injects NO spurious
+    # "all candidates safe" counterfactual signal (the unified-WM fix)
+    room = {
+        "frames": np.zeros((R, L, 2, 2, 3), dtype=np.uint8),
+        "pillars": np.full((R, 3, 2), np.nan, dtype=np.float32),
+        "pos": np.zeros((R, L, 3), dtype=np.float32),
+        "speed": np.array([0.6], dtype=np.float32),
+    }
+    _cf_room, vis_room = counterfactual_labels(room)
+    assert (vis_room == 0).all(), "room (NaN-pillar) frames unanswerable -> vis 0"
     print(
         f"LABELS OK: horizons {HORIZONS}, rings {RADII}, static + motion-aware "
         f"oracle asserts (crosser: static says safe, motion says warn)"
