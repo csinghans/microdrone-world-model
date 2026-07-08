@@ -229,6 +229,36 @@ trade is fast transit (1.4–1.6 m/s) — which may not be a target regime at
 all. This tightens the promotion case to: clean everywhere the system
 actually flies.
 
+### Promotion-readiness — does swapping the WM break the learned policies?
+
+Promotion overwrites the pinned champion, and the learned transit policies
+(PPO on an obs built from the WM latent + collision-head probs) were
+TRAINED against the champion latent — so swapping the substrate under them
+is the real hidden cost. Test: the dense/hard transit champion
+(`ppo_wm_policy_edge_hard_xp`, the hardest transit policy) run on champion
+WM vs unified WM, same seeds, `--promotion`:
+
+| world @ m/s | champion crash/success | unified crash/success | Δ succ |
+|---|---|---|---|
+| dense @0.8 | 16% / 83% | 26% / 73% | −10 |
+| dense @1.0 | 40% / 60% | 36% / 63% | +3 |
+| dense @1.2 | 26% / 73% | 30% / 70% | −3 |
+| moving @0.8 | 13% / 86% | 6% / 93% | +7 |
+| moving @1.0 | 0% / 100% | 3% / 96% | −4 |
+| moving @1.2 | 6% / 93% | 3% / 96% | +3 |
+
+**Mean Δ success ≈ −0.7% — NEUTRAL, within seed noise (n=30 → ±~9%/cell),
+not the catastrophic OOD degradation one might fear.** The unified latent
+is close enough to the champion's (shared architecture + the unified's
+training data CONTAINS the champion's entire transit set) that a policy
+trained on the champion transfers to the unified WM almost losslessly. So
+**promotion would NOT break the learned transit zoo — no retrain needed.**
+Honest scope: one policy (the hardest, most representative transit one) at
+n=30; a full-zoo pass (slalom / gap / dodge / doors, each on its own
+scenario) is the remaining pre-promotion check before overwriting the
+champion. But the hidden cost I flagged does not materialize on the
+policy most likely to show it.
+
 ## Artifacts (all under output/, none committed — champion untouched)
 - `world_model_unified.pth` — the unified WM (transit120 + room80, 80 ep, seed 0)
 - `world_model_transit120.pth` — the transit-only-120 confound control

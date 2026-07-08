@@ -167,6 +167,54 @@ def speed_sweep_gate(champion, unified, speeds=SWEEP_SPEEDS, n=40, seed0=3000):
     return out
 
 
+def promotion_gate(
+    champion,
+    unified,
+    worlds=("dense", "moving"),
+    speeds=(1.0, 1.25, 1.5),
+    n=30,
+    seed0=7000,
+):
+    """Does swapping champion->unified break a learned policy TRAINED on the
+    champion latent? The dense/hard transit champion PPO, same seeds, both
+    WMs — per (world, speed) crash%/success%. Returns None if the policy
+    artifact is absent (it lives in output/, not the repo/CI)."""
+    from eval.eval_hard_worlds import run_hard_episode
+    from planner.learned_policy import LearnedPolicy, load_policy, zip_path
+    from sim.envs import make_env
+    from world_model.training import load_model
+
+    path = zip_path(hard=True, xp=True, edge=True)
+    if not os.path.exists(path):
+        return None
+    model = load_policy(path)
+    wms = {
+        "champion": load_model(champion, device="cpu"),
+        "unified": load_model(unified, device="cpu"),
+    }
+    env = make_env()
+    out = {}
+    for world in worlds:
+        for s in speeds:
+            cell = {}
+            for name, (enc, pred, cheads, _n, meta) in wms.items():
+                cr = sc = 0
+                for i in range(n):
+                    r = run_hard_episode(
+                        env,
+                        LearnedPolicy(model, enc, pred, cheads, meta, speed=s),
+                        seed0 + i,
+                        world,
+                        s,
+                    )
+                    cr += int(r["crashed"])
+                    sc += int(r["reached"] and not r["crashed"])
+                cell[name] = {"crash": cr / n, "success": sc / n}
+            out[(world, s)] = cell
+    env.close()
+    return out
+
+
 def selftest() -> None:
     # wm_arm math on synthetic rows (no artifacts, no sim)
     rows = [
@@ -210,6 +258,11 @@ def main() -> None:
     ap.add_argument("--cl-seeds", type=int, default=60)
     ap.add_argument("--speed-sweep", action="store_true", help="promotion gate")
     ap.add_argument("--sweep-seeds", type=int, default=40)
+    ap.add_argument(
+        "--promotion",
+        action="store_true",
+        help="does a champion-trained learned policy survive the WM swap?",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
@@ -247,6 +300,22 @@ def main() -> None:
                     f"  {s*0.8:>5.2f}  {name:9} "
                     f"{m['crash']*100:4.0f}% {m['reached']*100:5.0f}%  "
                     f"{m['min_clear']:.2f}m   {m['false_evasion']*100:4.0f}%"
+                )
+
+    if args.promotion:
+        print(
+            "=== PROMOTION-READINESS (dense-champion PPO: champion vs unified WM) ==="
+        )
+        p = promotion_gate(args.champion, args.unified)
+        if p is None:
+            print("  (skipped: dense-champion policy zip not in output/)")
+        else:
+            for (world, s), cell in p.items():
+                c, u = cell["champion"], cell["unified"]
+                print(
+                    f"  {world:6}@{s*0.8:.1f} | champion "
+                    f"{c['crash']*100:3.0f}%/{c['success']*100:3.0f}%  "
+                    f"unified {u['crash']*100:3.0f}%/{u['success']*100:3.0f}%"
                 )
 
 
