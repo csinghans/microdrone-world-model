@@ -202,6 +202,18 @@ benchmark. Phasing (`experiments/search_room_v*`,
   ground truth. Named next: the room-graph mission output ("beacon in
   room k of N"). Caveat: 1.000 is clean-room; clutter would lower it
   (`experiments/search_doorway_v1/`).
+- **Room graph (search_roomgraph_v1): GREEN — "beacon in room k of N" at
+  100%.** The deployable spatial output. `track_rooms` post-processes a
+  flight: a `passage_score` spike (debounced, net |Δx| > 0.25) is a
+  doorway crossing, its sign from odometry steps a room counter; the
+  beacon's room is the counter at the found step, N is the farthest room
+  reached + 1. Gate (beams8, speed 0.6, 3- and 4-room, 57 found of 60):
+  **beacon-room accuracy 1.000 and room-count accuracy 1.000** (bars
+  0.85), from the beam ring + odometry, no ground truth — an O(rooms)
+  topological map, not a pixel grid. Closes the topological thread:
+  N-room GREEN -> doorway-by-traversal -> room-level report. Caveat:
+  clean rooms + x-line layout; clutter and arbitrary doorway directions
+  are the named stress tests (`experiments/search_roomgraph_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
