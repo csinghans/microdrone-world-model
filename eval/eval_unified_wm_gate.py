@@ -12,6 +12,10 @@ Head-to-head, unified vs the shipped champion, on IDENTICAL frames:
   * --closed-loop — transit closed-loop WM-arm (`eval_closed_loop.evaluate`
                 takes model components directly, no artifact swap): crash%,
                 min-clear, false-evasion%, reached%, lead.
+  * --speed-sweep — the promotion pre-condition: closed-loop WMPolicy
+                head-to-head across the transit speed envelope (0.8..1.6
+                m/s), same seeds every cell. Does the win hold at more than
+                one operating point?
 
 The champion path (`output/world_model.pth`) is READ-only — never swapped,
 never clobbered. See experiments/unified_wm_v1/journal.md for the frozen
@@ -20,6 +24,7 @@ bars, the confound control, and the verdict.
 Run:
   python -m eval.eval_unified_wm_gate                    # transit + indoor
   python -m eval.eval_unified_wm_gate --closed-loop      # + closed-loop
+  python -m eval.eval_unified_wm_gate --speed-sweep      # promotion sweep
   python -m eval.eval_unified_wm_gate --selftest         # CI, no artifacts
 """
 
@@ -106,6 +111,62 @@ def closed_loop_gate(champion, unified, n=60, seed0=1000):
     return out
 
 
+# the repo's transit speed axis: x 0.8 m/s base -> 0.8..1.6 m/s cruise
+SWEEP_SPEEDS = (1.0, 1.25, 1.5, 1.75, 2.0)
+
+
+def _wmpolicy_arm(env, model, speed, n, seed0):
+    """WMPolicy over n seeds (70% in-path) at one speed: crash%/reached%/
+    min-clear (in-path) + false-evasion% (clear)."""
+    from eval.eval_closed_loop import run_episode
+    from planner.latent_mpc import WMPolicy
+
+    enc, pred, cheads, _nhead, meta = model
+    ipc, ipr, ipm, clt = [], [], [], []
+    for i in range(n):
+        in_path = (i % 10) < 7
+        r = run_episode(
+            env,
+            WMPolicy(enc, pred, cheads, meta),
+            seed0 + i,
+            in_path=in_path,
+            speed=speed,
+        )
+        if in_path:
+            ipc.append(float(r["crashed"]))
+            ipr.append(float(r["reached"]))
+            ipm.append(r["min_clear"])
+        else:
+            clt.append(r["trigger"] >= 0)
+    return {
+        "crash": float(np.mean(ipc)),
+        "reached": float(np.mean(ipr)),
+        "min_clear": float(np.mean(ipm)),
+        "false_evasion": float(np.mean(clt)),
+    }
+
+
+def speed_sweep_gate(champion, unified, speeds=SWEEP_SPEEDS, n=40, seed0=3000):
+    """Closed-loop WMPolicy head-to-head across the transit speed envelope —
+    the promotion pre-condition (does the win hold at more than one operating
+    point?). Same seeds across speeds AND models -> identical pillar courses."""
+    from sim.envs import make_env
+    from world_model.training import load_model
+
+    env = make_env()
+    models = {
+        "champion": load_model(champion, device="cpu"),
+        "unified": load_model(unified, device="cpu"),
+    }
+    out = {}
+    for s in speeds:
+        out[s] = {
+            name: _wmpolicy_arm(env, m, s, n, seed0) for name, m in models.items()
+        }
+    env.close()
+    return out
+
+
 def selftest() -> None:
     # wm_arm math on synthetic rows (no artifacts, no sim)
     rows = [
@@ -147,6 +208,8 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--closed-loop", action="store_true")
     ap.add_argument("--cl-seeds", type=int, default=60)
+    ap.add_argument("--speed-sweep", action="store_true", help="promotion gate")
+    ap.add_argument("--sweep-seeds", type=int, default=40)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
@@ -172,6 +235,19 @@ def main() -> None:
         ks = ["crash", "min_clear", "false_evasion", "reached", "lead_ms"]
         for name in ("champion", "unified"):
             print(f"  {name:9s} {_fmt(c[name], ks)}")
+
+    if args.speed_sweep:
+        print(f"=== TRANSIT SPEED SWEEP (WMPolicy, {args.sweep_seeds} seeds/speed) ===")
+        sw = speed_sweep_gate(args.champion, args.unified, n=args.sweep_seeds)
+        print(f"  {'m/s':>5}  {'model':9} crash reached min-clr false-evade")
+        for s in SWEEP_SPEEDS:
+            for name in ("champion", "unified"):
+                m = sw[s][name]
+                print(
+                    f"  {s*0.8:>5.2f}  {name:9} "
+                    f"{m['crash']*100:4.0f}% {m['reached']*100:5.0f}%  "
+                    f"{m['min_clear']:.2f}m   {m['false_evasion']*100:4.0f}%"
+                )
 
 
 if __name__ == "__main__":
