@@ -117,14 +117,21 @@ def _divider_at(xd: float):
 
 
 def n_room(
-    seed: int, n_rooms: int = 3, los: bool = False, clutter: int = 0
+    seed: int,
+    n_rooms: int = 3,
+    los: bool = False,
+    clutter: int = 0,
+    clutter_lane: float = 0.0,
 ) -> SearchScenario:
     """N rooms in a line, joined by N-1 doorways; beacon hidden in the LAST
     room. The scale-up of two_room — does the flat-grid coverage search hop
     through several doorways, or does it need a topological room graph?
     `clutter` adds that many box obstacles PER ROOM (kept off the doorway
     corridors), to stress-test whether furniture squeezes false-fire the
-    room-graph's passage detector."""
+    room-graph's passage detector. `clutter_lane` (if > 0) keeps the
+    central band |y| < clutter_lane clear of boxes — furniture against the
+    walls, a clear traversal lane — so navigation stays connected and the
+    room-graph MISCOUNT is isolated from the coverage crater."""
     rng = np.random.default_rng(seed)
     w = n_rooms * ROOM_W
     x0, x1, y0, y1 = -w / 2.0, w / 2.0, -2.5, 2.5
@@ -152,7 +159,12 @@ def n_room(
         for _ in range(clutter):
             for _try in range(60):
                 cx = float(rng.uniform(rx0 + 0.9, rx0 + ROOM_W - 0.9))
-                cy = float(rng.uniform(y0 + 0.55, y1 - 0.55))
+                if clutter_lane > 0.0 and clutter_lane < y1 - 0.55:
+                    # a wall band only: keep |y| < clutter_lane clear (a lane)
+                    mag = float(rng.uniform(clutter_lane, y1 - 0.55))
+                    cy = mag if rng.random() < 0.5 else -mag
+                else:
+                    cy = float(rng.uniform(y0 + 0.55, y1 - 0.55))
                 blockers = [start, beacon] + [(a, b) for a, b, _ in boxes]
                 if _far_from(cx, cy, blockers, 2 * OBS_R + 0.5):
                     boxes.append((cx, cy, OBS_R))

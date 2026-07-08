@@ -16,7 +16,9 @@ import argparse
 import sys
 
 
-def gate(n=30, seed0=230000, n_rooms_list=(3, 4), speed=0.6, clutter=0):
+def gate(
+    n=30, seed0=230000, n_rooms_list=(3, 4), speed=0.6, clutter=0, clutter_lane=0.0
+):
     from eval.search_episode import run_search_episode
     from search.room_graph import track_rooms
     from search.strategies import get_strategy
@@ -28,7 +30,9 @@ def gate(n=30, seed0=230000, n_rooms_list=(3, 4), speed=0.6, clutter=0):
     rows = []
     for nr in n_rooms_list:
         for i in range(n):
-            sc = n_room(seed0 + i, n_rooms=nr, clutter=clutter)
+            sc = n_room(
+                seed0 + i, n_rooms=nr, clutter=clutter, clutter_lane=clutter_lane
+            )
             m = run_search_episode(
                 env,
                 sc,
@@ -92,15 +96,28 @@ def main() -> None:
     ap.add_argument("--seed0", type=int, default=230000)
     ap.add_argument("--speed", type=float, default=0.6)
     ap.add_argument("--clutter", type=int, default=0, help="box obstacles per room")
+    ap.add_argument(
+        "--clutter-lane",
+        type=float,
+        default=0.0,
+        help="keep |y| < this clear of boxes (a traversal lane)",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    r = gate(args.n, args.seed0, speed=args.speed, clutter=args.clutter)
+    r = gate(
+        args.n,
+        args.seed0,
+        speed=args.speed,
+        clutter=args.clutter,
+        clutter_lane=args.clutter_lane,
+    )
     b, c = r["beacon_room_acc"], r["count_acc"]
     print(
-        f"\n[room-graph] clutter={args.clutter} found {r['found']} episodes | "
+        f"\n[room-graph] clutter={args.clutter} lane={args.clutter_lane} "
+        f"found {r['found']} | "
         f"beacon-room acc {b:.3f} {'PASS' if b >= 0.85 else 'FAIL'} (bar 0.85) | "
         f"room-count acc {c:.3f} {'PASS' if c >= 0.85 else 'FAIL'} (bar 0.85)"
     )

@@ -115,14 +115,45 @@ furnished-room deployment claim. Honest: the clean-room capability is
 real and fully measured; its brittleness to clutter is now equally
 measured, not hand-waved.
 
+## Isolation (2026-07-08) — the confound resolved: navigation crater was placement, the mapping miscount is REAL
+
+Re-ran clutter=2 with `clutter_lane=1.0`: boxes confined to the wall
+bands (|y| >= 1.0), a clear 2 m central traversal lane, so navigation
+stays connected while the frontier still covers near the boxes.
+
+`[room-graph] clutter=2 lane=1.0 found 36 | beacon-room acc 0.139 |
+room-count acc 0.139`
+
+**The two failures cleanly separate:**
+1. **The find-rate crater WAS the confound.** With a clear lane, find
+   recovers to 36/40 = 0.90 (from clutter=2's 5/40 = 0.13). So the
+   crater was narrow-room + unconstrained placement fragmenting the
+   safe-cell graph, NOT clutter being fundamentally unnavigable —
+   exactly the confound flagged above, now confirmed.
+2. **The room-graph miscount is REAL and isolated.** Navigation fixed,
+   accuracy is still 0.139 — and the miss pattern is systematic
+   OVER-counting: detected N = 6, 7, 8 against a true 4, beacon room 5-7
+   against true 3. Box-wall squeezes false-fire `passage_score`, each
+   adding a phantom crossing, so the room count inflates.
+
+**Clean verdict: the naive `passage_score` crossing counter is not
+clutter-robust — it over-counts rooms because furniture squeezes read
+like doorways.** This is the genuine mapping problem, now isolated from
+navigation. The clean-room 100% stands; the counter needs a real fix.
+
 ## Named next (each its own pre-registration)
-- **Isolate mapping from navigation:** connectivity-preserving clutter
-  (or wider rooms) so find-rate holds, leaving the room-graph miscount
-  as the clean question — then a clutter-robust crossing detector
-  (debounce on sustained perpendicular-squeeze + forward progress, or a
-  learned doorway head) gated on recovering accuracy under clutter.
-- **Clutter-robust coverage:** the Frontier over a fragmented safe-cell
-  graph is the find-rate story; a separate pre-registration.
+- **Clutter-robust crossing detector.** The discriminator the naive rule
+  lacks: a true doorway connects two LARGE open regions (a room each
+  side), a box-wall pinch has a room on one side and a wall/corner on the
+  other. Candidate rules: gate a crossing on post-crossing OPENNESS (the
+  ring sees a large new area beyond), or on the squeeze axis staying
+  perpendicular to sustained forward progress, or a learned doorway head.
+  Gate: recover room-count/beacon-room accuracy toward the clean 1.000
+  under clutter, with find held by the clear-lane (or connectivity-
+  preserving) layout.
+- **Clutter-robust coverage** (the Frontier over a fragmented safe-cell
+  graph — the find-rate story in dense clutter) is a separate
+  pre-registration.
 - Arbitrary doorway directions (not an x-line): use `detect_bearing` for
   edge direction; a real room graph with nodes+edges, not just a count.
 - The visual-detection branch remains the big perception step (where the

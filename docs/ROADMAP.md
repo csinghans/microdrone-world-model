@@ -216,12 +216,16 @@ benchmark. Phasing (`experiments/search_room_v*`,
   per room) breaks both legs — find-rate craters 0.95 -> 0.48 -> 0.13
   (clutter fragments the safe-cell graph; partly a narrow-room/placement
   confound) and room-graph accuracy collapses 1.000 -> 0.263 -> 0.000
-  among found missions (box squeezes false-fire `passage_score`, so
-  crossings miscount; position-AUC 1.000 -> 0.839 -> 0.745 the same
-  direction). The clean-room capability is real and fully measured; so
-  is its brittleness. Named next: connectivity-preserving clutter to
-  isolate the mapping miscount, then a clutter-robust crossing detector
-  (`experiments/search_roomgraph_v1/`).
+  among found missions (box squeezes false-fire `passage_score`).
+  **Isolation (clear-lane clutter, boxes against walls) resolves the
+  confound:** find recovers to 0.90 (the crater was narrow-room +
+  placement, not clutter-fundamental), but room-graph accuracy stays
+  0.139 — systematic OVER-counting (detected N 6-8 vs true 4) as
+  furniture squeezes add phantom crossings. So the naive crossing
+  counter is genuinely not clutter-robust; the clean-room 100% stands.
+  Named next: a clutter-robust crossing detector (discriminate a doorway
+  — two large open regions — from a box-wall pinch; gate on recovering
+  accuracy under clutter) (`experiments/search_roomgraph_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
