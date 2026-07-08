@@ -87,7 +87,13 @@ def _linear_probe_auc(X, y, seed=0):
     return _auc(st, y[te])
 
 
-def probe(n_rooms=6, seed0=600000, grid=0.35, half_deg=None):
+def collect_target_frames(n_rooms=6, seed0=600000, grid=0.35, half_deg=None):
+    """Render target/no-target frames over a position grid and encode each
+    with the shipped WM. Returns dict of arrays: `lat` (N,64) latents,
+    `label` (N,) target-in-FOV, `red` (N,) pixel redness, `obs_in_fov`
+    (N,) an obstacle box is in the +x FOV (the hard-negative flag — a
+    detector must NOT fire on these). Shared by the linear probe and the
+    detection-head trainer/gate."""
     import torch
 
     from eval.eval_closed_loop import load_or_train
@@ -101,7 +107,7 @@ def probe(n_rooms=6, seed0=600000, grid=0.35, half_deg=None):
     enc, _pred, _ch, _n, _meta = load_or_train(device="cpu")
     env = make_env()
     env.reset(seed=seed0)
-    lats, reds, labels = [], [], []
+    lat, red, label, obs_fov = [], [], [], []
     for i in range(n_rooms):
         sc = single_room(seed0 + i)
         target = sc.beacon_xy  # the hidden spot becomes a VISUAL target
@@ -117,18 +123,30 @@ def probe(n_rooms=6, seed0=600000, grid=0.35, half_deg=None):
                 remove_bodies(env, ids + [tid])
                 with torch.no_grad():
                     z = enc(_frame_tensor(frame)).numpy().reshape(-1)
-                lats.append(z)
-                reds.append(_redness(frame))
-                labels.append(1 if _in_fov((x, y), target, half) else 0)
+                lat.append(z)
+                red.append(_redness(frame))
+                label.append(1 if _in_fov((x, y), target, half) else 0)
+                seen_obs = any(
+                    _in_fov((x, y), (ox, oy), half) for ox, oy, _ in sc.obstacles
+                )
+                obs_fov.append(1 if seen_obs else 0)
     env.close()
-    X = np.asarray(lats, dtype=np.float32)
-    y = np.asarray(labels, dtype=int)
-    reds = np.asarray(reds, dtype=float)
+    return {
+        "lat": np.asarray(lat, dtype=np.float32),
+        "red": np.asarray(red, dtype=float),
+        "label": np.asarray(label, dtype=int),
+        "obs_in_fov": np.asarray(obs_fov, dtype=int),
+    }
+
+
+def probe(n_rooms=6, seed0=600000, grid=0.35, half_deg=None):
+    d = collect_target_frames(n_rooms, seed0, grid, half_deg)
+    y = d["label"]
     return {
         "n": len(y),
         "positive_rate": float(y.mean()),
-        "wm_latent_auc": _linear_probe_auc(X, y),
-        "pixel_redness_auc": _auc(reds, y),
+        "wm_latent_auc": _linear_probe_auc(d["lat"], y),
+        "pixel_redness_auc": _auc(d["red"], y),
     }
 
 
