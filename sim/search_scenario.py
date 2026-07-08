@@ -133,6 +133,28 @@ class SearchScenario:
             )
         return ids
 
+    def spawn_target(self, env, target_xy, offset=(0.0, 0.0), wall_h=1.0):
+        """Render ONE visually-distinct target (bright red box) the camera
+        can SEE — for the visual-detection branch (vs the abstract beacon,
+        which was sensed omnidirectionally without vision). Same visual-only
+        + env-coordinate convention as spawn_bodies. Returns its body id."""
+        import pybullet as p
+
+        ox, oy = offset
+        tx, ty = target_xy
+        vis = p.createVisualShape(
+            p.GEOM_BOX,
+            halfExtents=[0.2, 0.2, wall_h / 2],
+            rgbaColor=[0.95, 0.10, 0.10, 1],  # bright red — distinct from walls/boxes
+            physicsClientId=env.CLIENT,
+        )
+        return p.createMultiBody(
+            baseMass=0,
+            baseVisualShapeIndex=vis,
+            basePosition=[tx - ox, ty - oy, wall_h / 2],
+            physicsClientId=env.CLIENT,
+        )
+
     # --- geometric safety signal (privileged; the Phase 1a safety layer) ---
     def clearance(self, pos_xy) -> float:
         """Planar distance to the nearest wall or obstacle surface (m).
