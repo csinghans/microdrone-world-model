@@ -2,8 +2,10 @@ output/
 __pycache__/
 *.pyc
 *.pth
+*.pt
 *.npz
 *.zip
+experiments/**/*.log
 *.png
 !docs/**/*.png
 site/
