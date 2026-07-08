@@ -341,8 +341,13 @@ class CoveragePolicy:
         from stable_baselines3 import PPO
 
         self.model = PPO.load(zip_path, device="cpu")
-        self.enc, self.pred, self.cheads, _n, self.meta = _load_wm(ckpt)
+        if wm_off:  # grid-only: WM slots zeroed, no load (matches training)
+            self.enc = self.pred = self.cheads = None
+            self.meta = {"a_norm": [1.0, 1.0, 1.0, 1.0]}
+        else:
+            self.enc, self.pred, self.cheads, _n, self.meta = _load_wm(ckpt)
         self.speed, self.wm_off = float(speed), bool(wm_off)
+        self.wants_frame = not wm_off  # grid-only needs no camera render
 
     def begin(self, scenario):
         self._sc = scenario  # kept for the memory's beam-ring occupancy update
@@ -409,5 +414,30 @@ def selftest() -> None:
     )
 
 
+def main() -> None:
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--train", default=None, help="output zip path (else selftest)")
+    ap.add_argument("--timesteps", type=int, default=300_000)
+    ap.add_argument("--wm-off", action="store_true", help="grid-only ablation")
+    ap.add_argument("--ckpt", default=None, help="nav-retrained WM (else shipped)")
+    ap.add_argument("--clutter-mix", type=float, default=0.5)
+    ap.add_argument("--seed0", type=int, default=500000)
+    args = ap.parse_args()
+    if not args.train:
+        selftest()
+        return
+    out = train(
+        args.train,
+        timesteps=args.timesteps,
+        wm_off=args.wm_off,
+        ckpt=args.ckpt,
+        clutter_mix=args.clutter_mix,
+        seed0=args.seed0,
+    )
+    print(f"COVERAGE-TRAIN done -> {out}")
+
+
 if __name__ == "__main__":
-    selftest()
+    main()

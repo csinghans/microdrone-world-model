@@ -48,6 +48,7 @@ def suite(
     speed=0.6,
     safety="beams8",
     threshold=0.90,
+    wm_off=False,
 ):
     from eval.search_episode import run_coverage_episode
     from search.strategies import STRATEGIES, get_strategy
@@ -55,14 +56,17 @@ def suite(
 
     env = make_env()
     rows = []
+    pol_cache = None
     for i in range(n):
         sc = make_room(room, seed0 + i, clutter)
         if arm in STRATEGIES:
             pol = get_strategy(arm)  # Phase 0: geometric baselines/ceiling
-        else:  # a trained policy zip (Phase 2+)
+        else:  # a trained policy zip (Phase 2+); load once, reuse
             from search.coverage_policy import CoveragePolicy
 
-            pol = CoveragePolicy(arm)
+            if pol_cache is None:
+                pol_cache = CoveragePolicy(arm, speed=speed, wm_off=wm_off)
+            pol = pol_cache
         m = run_coverage_episode(
             env,
             sc,
@@ -125,6 +129,7 @@ def main() -> None:
     ap.add_argument("--speed", type=float, default=0.6)
     ap.add_argument("--safety", default="beams8")
     ap.add_argument("--threshold", type=float, default=0.90)
+    ap.add_argument("--wm-off", action="store_true", help="grid-only ablation policy")
     ap.add_argument("--out", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -141,6 +146,7 @@ def main() -> None:
         args.speed,
         args.safety,
         args.threshold,
+        args.wm_off,
     )
     print(
         f"\n[coverage] {agg['arm']}/{agg['room']} n={agg['n']} thr={agg['threshold']}"

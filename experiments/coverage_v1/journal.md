@@ -76,5 +76,29 @@ ceiling (reads true free cells); the fair deployable baseline is
 Grid-only. A WM-coverage policy matching the privileged Frontier from
 vision + beams + odometry is itself a strong result.
 
+## Phase 1 — G1 learning-signal smoke: GO
+
+Grid-only ablation (`wm_off`, no camera — fastest check that PPO + the
+coverage-delta reward + the egocentric grid learns to cover), 40k
+timesteps on clean `single_room`, evaluated vs RandomWalk on fresh seeds
+(400000, disjoint from train 500000 / ceiling 300000):
+
+| arm | clean coverage_mean |
+|---|---|
+| RandomWalk (null) | 0.424 |
+| grid-only, 40k | **0.553** |
+| Frontier ceiling (ref) | 0.808 |
+
+**G1 = GO:** coverage climbs +0.13 above random after only 40k steps —
+the reward/obs/RL machinery learns to cover. (Between random and the
+Frontier ceiling, as expected for a short smoke; full train is 250k.)
+
+## Phase 2 — full trains launched (250k, clutter_mix 0.5)
+
+Both arms training on the single+clutter mix at speed 0.6: the WM-arm
+(real champion WM, rendered rooms, 293-d obs) and the grid-only ablation
+(`wm_off`). On completion: the A/B/C gate (Frontier vs WM vs grid-only,
+clean + clutter, frozen bars above, pooled recheck at borderline).
+
 ## Verdict
-(pending — Phase 1 env + G1 smoke, then Phase 2 train + A/B/C gate)
+(pending — Phase 2 trains, then the A/B/C gate)
