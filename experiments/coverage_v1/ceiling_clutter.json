@@ -1,0 +1,159 @@
+{
+ "agg": {
+  "arm": "frontier",
+  "room": "clutter",
+  "n": 12,
+  "threshold": 0.99,
+  "coverage_mean": 0.407462744789343,
+  "coverage_complete_rate": 1.0,
+  "return_rate": 1.0,
+  "steps_to_cover_median": 229.0,
+  "collision_rate": 0.0
+ },
+ "rows": [
+  {
+   "coverage": 0.7661290322580645,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 460,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 709,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.20967741935483872,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 132,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 155,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.20161290322580644,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 132,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 149,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.7952755905511811,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 448,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 744,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.25203252032520324,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 227,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 237,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.6910569105691057,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 531,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 653,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.456,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 312,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 435,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.2661290322580645,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 175,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 243,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.20634920634920634,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 133,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 150,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.4435483870967742,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 265,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 295,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.384,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 231,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 358,
+   "threshold": 0.99
+  },
+  {
+   "coverage": 0.21774193548387097,
+   "coverage_complete": true,
+   "hit_threshold": false,
+   "steps_to_cover": 142,
+   "returned": true,
+   "success": true,
+   "collisions": 0,
+   "crashed": false,
+   "steps": 177,
+   "threshold": 0.99
+  }
+ ]
+}

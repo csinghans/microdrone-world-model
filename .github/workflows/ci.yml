@@ -106,6 +106,8 @@ jobs:
           python -m eval.search_episode --sim
           python -m eval.eval_search --selftest
           python -m eval.eval_beam_ablation --selftest
+          python -m search.coverage_policy
+          python -m eval.eval_coverage --selftest
           # the newcomer path, end to end: fetch the pinned champions
           # (sha256-verified from the release), then a real preflight
           python -m scripts.fetch_champions

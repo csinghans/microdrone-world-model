@@ -42,8 +42,9 @@ from planner.nav_action_set import (
     STRAFE_R,
     nav_menu,
 )
-from sim.envs import START, VelCommander, make_ctrl
+from sim.envs import START, VelCommander, grab_frame, make_ctrl
 from sim.scenarios import COLLISION_R
+from sim.search_scenario import remove_bodies
 
 SAFE_MARGIN = COLLISION_R + 0.13  # veto actions whose braking ray drops below this
 # ~the real stopping distance: ~0.05 m travelled per decision + PID overshoot.
@@ -341,6 +342,152 @@ def run_search_episode(
     return search_metrics(scenario, path, found_step, returned, collisions, d + 1)
 
 
+def coverage_metrics(
+    sc, path, steps_to_cover, returned, collisions, n_dec, thr, hit_threshold=False
+):
+    """Env-free scorecard for a COMPLETE-COVERAGE mission (distinct from
+    search_metrics, which scores beacon find-and-return). `coverage` (the
+    fraction actually swept) is the metric of record; `success` = the cover
+    phase ended (threshold or plateau) AND the drone made it home."""
+    return {
+        "coverage": sc.coverage(path),
+        "coverage_complete": bool(steps_to_cover >= 0),
+        "hit_threshold": bool(hit_threshold),
+        "steps_to_cover": int(steps_to_cover),
+        "returned": bool(returned),
+        # success needs BOTH: finished covering (threshold/plateau) AND home
+        "success": bool(steps_to_cover >= 0 and returned),
+        "collisions": int(collisions),
+        "crashed": bool(collisions > 0),
+        "steps": int(n_dec),
+        "threshold": float(thr),
+        "path": np.asarray(path),
+    }
+
+
+def run_coverage_episode(
+    env,
+    scenario,
+    policy,
+    seed,
+    max_decisions=800,
+    speed=0.6,
+    safety="beams8",
+    coverage_threshold=0.90,
+    plateau=100,
+):
+    """A COMPLETE-COVERAGE mission: roam until the covered fraction reaches
+    `coverage_threshold` OR PLATEAUS (no new cell covered for `plateau`
+    decisions — "covered what I can"), THEN fly home (reusing the BFS
+    homing). The plateau trigger matters because the deployable-reachable
+    ceiling is well below 1.0 (Phase 0: geometric Frontier under beams8
+    tops ~0.80 on a clean room — the safety margin leaves wall-hugging /
+    behind-obstacle cells unreached), so a fixed high threshold would never
+    fire and the drone would never come home.
+
+    The world-model coverage policy's grader; the geometric strategies
+    (Frontier/RandomWalk/WallFollow) run here unchanged — they ignore the
+    added `frame`/`covered_fraction` ctx keys. `run_search_episode` (beacon
+    find-and-return) is left bit-for-bit intact. Coverage is tracked LIVE
+    with the SAME definition as `SearchScenario.coverage`. The camera frame
+    is grabbed (and the room rendered) only when the policy advertises
+    `wants_frame` — so the geometric ceiling probe pays no rendering cost."""
+    safe_fn = _SAFETY[safety]
+    render = bool(getattr(policy, "wants_frame", False))
+    obs, _ = env.reset(seed=int(seed))
+    cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
+    cmd.reset(obs[0][0:3])
+    sx, sy = scenario.start_xy
+
+    def room_xy(state):
+        return (float(state[0]) + sx - START[0], float(state[1]) + sy - START[1])
+
+    body_ids = None
+    if render:
+        body_ids = scenario.spawn_bodies(env, offset=(sx - START[0], sy - START[1]))
+    policy.begin(scenario)
+    grid = _build_safe_grid(scenario)
+    vecs = float(speed) * NAV_ACTION_VECS
+    # live coverage: free-cell centres + a covered mask (== scenario.coverage)
+    free = np.asarray(scenario.free_cells(), dtype=float)
+    covered = np.zeros(len(free), dtype=bool)
+    srange = float(scenario.sensor_range)
+
+    def mark(pos):
+        if len(free):
+            covered[np.linalg.norm(free - np.asarray(pos), axis=1) <= srange] = True
+
+    def cov_frac():
+        return float(covered.mean()) if len(free) else 0.0
+
+    state = obs[0]
+    path = [room_xy(state)]
+    steps_to_cover, collisions, returned, phase = -1, 0, False, "search"
+    home_path = []
+    no_gain, prev_cov, hit_threshold = 0, 0.0, False
+
+    for d in range(max_decisions):
+        rpos = room_xy(state)
+        mark(rpos)
+        cf = cov_frac()
+        if cf > prev_cov + 1e-9:  # covered a new cell -> reset the plateau clock
+            no_gain, prev_cov = 0, cf
+        else:
+            no_gain += 1
+        if steps_to_cover < 0 and (cf >= coverage_threshold or no_gain >= plateau):
+            hit_threshold = cf >= coverage_threshold
+            steps_to_cover, phase = d, "return"
+        if phase == "return" and scenario.found_home(rpos):
+            returned = True
+            break
+        if phase == "search":
+            ctx = {
+                "pos": rpos,
+                # coverage mission ignores the beacon; sense=None keeps the
+                # geometric strategies' shared beacon-approach branch dormant
+                # so Frontier/RandomWalk/WallFollow run their pure coverage
+                "sense": None,
+                "ranges": scenario.range_sensors(rpos),
+                "frame": grab_frame(env) if render else None,
+                "step": d,
+                "covered_fraction": cov_frac(),
+            }
+            a = policy.decide(ctx)
+        else:
+            here = _cell_of(grid, rpos)
+            while home_path and home_path[0] == here:
+                home_path.pop(0)
+            if not home_path:
+                home_path = _bfs_home_path(grid, rpos, scenario.start_xy)
+            if home_path:
+                cx, cy = _centre(grid, home_path[0])
+                a = _cardinal(cx - rpos[0], cy - rpos[1])
+            else:
+                a = _cardinal(
+                    scenario.start_xy[0] - rpos[0], scenario.start_xy[1] - rpos[1]
+                )
+        a = safe_fn(scenario, rpos, a)
+        for _ in range(DECIDE_EVERY):
+            obs, _, _, _, _ = env.step(cmd.rpm(state, vecs[a]).reshape(1, 4))
+            state = obs[0]
+            if scenario.clearance(room_xy(state)) < COLLISION_R:
+                collisions += 1
+                break
+        path.append(room_xy(state))
+    if body_ids is not None:
+        remove_bodies(env, body_ids)
+    return coverage_metrics(
+        scenario,
+        path,
+        steps_to_cover,
+        returned,
+        collisions,
+        d + 1,
+        coverage_threshold,
+        hit_threshold,
+    )
+
+
 class _StraightProbe:
     """Selftest stand-in: always drive +x (no torch, no strategy)."""
 
@@ -403,22 +550,40 @@ def selftest() -> None:
     m = search_metrics(sc, [sc.start_xy, sc.beacon_xy], 5, True, 0, 6)
     assert set(m) >= {"coverage", "target_found", "success", "returned", "collisions"}
     assert m["success"] and m["target_found"]
+    # coverage-mission scorecard schema (success needs cover AND return home)
+    cm = coverage_metrics(sc, [sc.start_xy, sc.beacon_xy], 4, True, 0, 6, 0.9)
+    assert set(cm) >= {"coverage", "coverage_complete", "steps_to_cover", "success"}
+    assert cm["success"] and cm["coverage_complete"]
+    assert not coverage_metrics(sc, [sc.start_xy], -1, False, 0, 6, 0.9)["success"]
     print("SEARCH-EPISODE OK (env-free): safety veto + homing + metrics schema")
 
 
 def selftest_sim() -> None:
     """Sim group: a few real-env decisions end to end."""
+    from search.strategies import get_strategy
     from sim.envs import make_env
     from sim.indoor.rooms import single_room
 
     env = make_env()
     sc = single_room(3)
     m = run_search_episode(env, sc, _StraightProbe(), seed=3, max_decisions=6)
+    # complete-coverage runner: Frontier runs here unchanged (ignores the
+    # added frame ctx key); low threshold so it flips to return quickly
+    mc = run_coverage_episode(
+        env,
+        sc,
+        get_strategy("frontier"),
+        seed=3,
+        max_decisions=6,
+        coverage_threshold=0.3,
+    )
     env.close()
     assert m["steps"] >= 1 and m["path"].shape[1] == 2
     assert 0.0 <= m["coverage"] <= 1.0
+    assert 0.0 <= mc["coverage"] <= 1.0 and mc["path"].shape[1] == 2
     print(
-        f"SEARCH-EPISODE SIM OK: {m['steps']} decisions, coverage {m['coverage']:.2f}"
+        f"SEARCH-EPISODE SIM OK: search cov {m['coverage']:.2f}, "
+        f"coverage-mission cov {mc['coverage']:.2f} (s2c {mc['steps_to_cover']})"
     )
 
 

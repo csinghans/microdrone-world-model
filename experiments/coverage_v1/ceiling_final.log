@@ -1,0 +1,64 @@
+### CLEAN ###
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gym_pybullet_drones/envs/BaseAviary.py:7: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+pybullet build time: Oct 21 2025 16:30:45
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:236: UserWarning: [33mWARN: Box low's precision lowered by casting to float32, current low.dtype=float64[0m
+  gym.logger.warn(
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:306: UserWarning: [33mWARN: Box high's precision lowered by casting to float32, current high.dtype=float64[0m
+  gym.logger.warn(
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier/single seed 300000: cov 0.87 complete=1 return=1 crash=0 steps_to_cover=378
+  frontier/single seed 300001: cov 0.88 complete=1 return=1 crash=0 steps_to_cover=360
+  frontier/single seed 300002: cov 0.81 complete=1 return=1 crash=0 steps_to_cover=388
+  frontier/single seed 300003: cov 0.98 complete=1 return=1 crash=0 steps_to_cover=398
+  frontier/single seed 300004: cov 0.77 complete=1 return=1 crash=0 steps_to_cover=359
+  frontier/single seed 300005: cov 0.72 complete=1 return=1 crash=0 steps_to_cover=273
+  frontier/single seed 300006: cov 0.66 complete=1 return=1 crash=0 steps_to_cover=331
+  frontier/single seed 300007: cov 0.84 complete=1 return=1 crash=0 steps_to_cover=424
+  frontier/single seed 300008: cov 0.77 complete=1 return=1 crash=0 steps_to_cover=394
+  frontier/single seed 300009: cov 0.80 complete=1 return=0 crash=1 steps_to_cover=484
+  frontier/single seed 300010: cov 0.80 complete=1 return=1 crash=0 steps_to_cover=353
+  frontier/single seed 300011: cov 0.79 complete=1 return=0 crash=0 steps_to_cover=349
+
+[coverage] frontier/single n=12 thr=0.99
+  coverage 0.808 | complete 1.000 | return|done 0.833 | collision 0.083 | steps_to_cover(med) 369
+[coverage] wrote experiments/coverage_v1/ceiling_single.json
+### CLUTTER ###
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gym_pybullet_drones/envs/BaseAviary.py:7: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+pybullet build time: Oct 21 2025 16:30:45
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:236: UserWarning: [33mWARN: Box low's precision lowered by casting to float32, current low.dtype=float64[0m
+  gym.logger.warn(
+/Users/hans.chen/miniforge3/envs/microdrone-wm/lib/python3.12/site-packages/gymnasium/spaces/box.py:306: UserWarning: [33mWARN: Box high's precision lowered by casting to float32, current high.dtype=float64[0m
+  gym.logger.warn(
+[INFO] BaseAviary.__init__() loaded parameters from the drone's .urdf:
+[INFO] m 0.027000, L 0.039700,
+[INFO] ixx 0.000014, iyy 0.000014, izz 0.000022,
+[INFO] kf 3.160000e-10, km 7.940000e-12,
+[INFO] t2w 2.250000, max_speed_kmh 30.000000,
+[INFO] gnd_eff_coeff 11.368590, prop_radius 0.023135,
+[INFO] drag_xy_coeff 0.000001, drag_z_coeff 0.000001,
+[INFO] dw_coeff_1 2267.180000, dw_coeff_2 0.160000, dw_coeff_3 -0.110000
+  frontier/clutter seed 300000: cov 0.77 complete=1 return=1 crash=0 steps_to_cover=460
+  frontier/clutter seed 300001: cov 0.21 complete=1 return=1 crash=0 steps_to_cover=132
+  frontier/clutter seed 300002: cov 0.20 complete=1 return=1 crash=0 steps_to_cover=132
+  frontier/clutter seed 300003: cov 0.80 complete=1 return=1 crash=0 steps_to_cover=448
+  frontier/clutter seed 300004: cov 0.25 complete=1 return=1 crash=0 steps_to_cover=227
+  frontier/clutter seed 300005: cov 0.69 complete=1 return=1 crash=0 steps_to_cover=531
+  frontier/clutter seed 300006: cov 0.46 complete=1 return=1 crash=0 steps_to_cover=312
+  frontier/clutter seed 300007: cov 0.27 complete=1 return=1 crash=0 steps_to_cover=175
+  frontier/clutter seed 300008: cov 0.21 complete=1 return=1 crash=0 steps_to_cover=133
+  frontier/clutter seed 300009: cov 0.44 complete=1 return=1 crash=0 steps_to_cover=265
+  frontier/clutter seed 300010: cov 0.38 complete=1 return=1 crash=0 steps_to_cover=231
+  frontier/clutter seed 300011: cov 0.22 complete=1 return=1 crash=0 steps_to_cover=142
+
+[coverage] frontier/clutter n=12 thr=0.99
+  coverage 0.407 | complete 1.000 | return|done 1.000 | collision 0.000 | steps_to_cover(med) 229
+[coverage] wrote experiments/coverage_v1/ceiling_clutter.json
