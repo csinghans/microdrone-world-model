@@ -50,9 +50,14 @@ def _auc(scores, labels) -> float:
 
 
 def _doorway_centres(scenario):
-    """Each divider gap centre (divider x, y=0) — the ground-truth doorways."""
-    xs = sorted({round(float(ox), 3) for ox, _, _ in scenario.obstacles})
-    return [(x, 0.0) for x in xs]
+    """Each divider gap centre (x0 + k*ROOM_W, y=0) — from the layout
+    geometry, NOT the obstacle list (box clutter adds obstacle x's that are
+    not doorways)."""
+    from sim.indoor.rooms import ROOM_W
+
+    x0 = scenario.bounds[0]
+    n = int(scenario.meta.get("n_rooms", 1))
+    return [(x0 + k * ROOM_W, 0.0) for k in range(1, n)]
 
 
 def _label(x, y, centres, mode):
@@ -66,12 +71,12 @@ def _label(x, y, centres, mode):
     return 1 if near < R_DOOR else 0
 
 
-def probe(score_fn, label_mode, n=12, n_rooms=4, seed0=210000, n_beams=16):
+def probe(score_fn, label_mode, n=12, n_rooms=4, seed0=210000, n_beams=16, clutter=0):
     from sim.indoor.rooms import n_room
 
     scores, labels = [], []
     for i in range(n):
-        sc = n_room(seed0 + i, n_rooms=n_rooms)
+        sc = n_room(seed0 + i, n_rooms=n_rooms, clutter=clutter)
         centres = _doorway_centres(sc)
         x0, x1, y0, y1 = sc.bounds
         for x in np.arange(x0 + GRID, x1, GRID):
@@ -95,6 +100,7 @@ def main() -> None:
     ap.add_argument("--n", type=int, default=12)
     ap.add_argument("--n-rooms", type=int, default=4)
     ap.add_argument("--seed0", type=int, default=210000)
+    ap.add_argument("--clutter", type=int, default=0, help="box obstacles per room")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
@@ -118,11 +124,17 @@ def main() -> None:
     for nb in (16,):
         for name, fn, mode in combos:
             auc, npos, rate = probe(
-                fn, mode, args.n, args.n_rooms, args.seed0, n_beams=nb
+                fn,
+                mode,
+                args.n,
+                args.n_rooms,
+                args.seed0,
+                n_beams=nb,
+                clutter=args.clutter,
             )
             print(
-                f"[doorway] {nb}b {name:14s} vs '{mode}'-label  "
-                f"({npos} pos, positive {rate:.2f}): AUC {auc:.3f}  [{tag(auc)}]"
+                f"[doorway] {nb}b {name} vs '{mode}' clutter={args.clutter} "
+                f"({npos} pos, pos-rate {rate:.2f}): AUC {auc:.3f}  [{tag(auc)}]"
             )
 
 

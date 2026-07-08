@@ -116,10 +116,15 @@ def _divider_at(xd: float):
     return bricks
 
 
-def n_room(seed: int, n_rooms: int = 3, los: bool = False) -> SearchScenario:
+def n_room(
+    seed: int, n_rooms: int = 3, los: bool = False, clutter: int = 0
+) -> SearchScenario:
     """N rooms in a line, joined by N-1 doorways; beacon hidden in the LAST
     room. The scale-up of two_room — does the flat-grid coverage search hop
-    through several doorways, or does it need a topological room graph?"""
+    through several doorways, or does it need a topological room graph?
+    `clutter` adds that many box obstacles PER ROOM (kept off the doorway
+    corridors), to stress-test whether furniture squeezes false-fire the
+    room-graph's passage detector."""
     rng = np.random.default_rng(seed)
     w = n_rooms * ROOM_W
     x0, x1, y0, y1 = -w / 2.0, w / 2.0, -2.5, 2.5
@@ -137,16 +142,36 @@ def n_room(seed: int, n_rooms: int = 3, los: bool = False) -> SearchScenario:
             break
     if beacon is None:
         beacon = (x1 - WALL_MARGIN, y1 - WALL_MARGIN)
+    # optional box clutter, one batch per room, x kept >= 0.9 m off the
+    # dividers so the doorway corridors stay open; y spans most of the room
+    # (some boxes land near a wall, the box-wall squeeze that could look
+    # like a doorway to `passage_score`)
+    boxes = []
+    for r in range(n_rooms):
+        rx0 = x0 + r * ROOM_W
+        for _ in range(clutter):
+            for _try in range(60):
+                cx = float(rng.uniform(rx0 + 0.9, rx0 + ROOM_W - 0.9))
+                cy = float(rng.uniform(y0 + 0.55, y1 - 0.55))
+                blockers = [start, beacon] + [(a, b) for a, b, _ in boxes]
+                if _far_from(cx, cy, blockers, 2 * OBS_R + 0.5):
+                    boxes.append((cx, cy, OBS_R))
+                    break
     return SearchScenario(
         bounds=(x0, x1, y0, y1),
-        obstacles=tuple(dividers),
+        obstacles=tuple(dividers) + tuple(boxes),
         beacon_xy=beacon,
         start_xy=start,
         sensor_range=SENSOR_RANGE,
         confirm_radius=CONFIRM_RADIUS,
         cell=0.5,
         los=los,
-        meta={"kind": f"{n_rooms}room", "seed": int(seed), "n_rooms": n_rooms},
+        meta={
+            "kind": f"{n_rooms}room",
+            "seed": int(seed),
+            "n_rooms": n_rooms,
+            "clutter": clutter,
+        },
     )
 
 
@@ -237,6 +262,14 @@ def selftest() -> None:
                 assert nr.clearance((gx, 0.25)) > 0.5, f"doorway {k} routable"
             assert nr.crashed((xd, 2.0)), f"divider {k} solid off the doorway"
     assert n_room(5, 3).beacon_xy == n_room(5, 3).beacon_xy, "n_room deterministic"
+    # clutter adds box obstacles but keeps the doorways routable and the
+    # start/beacon clear (the room-graph clutter stress test rests on this)
+    cl = n_room(5, n_rooms=3, clutter=2)
+    assert len(cl.obstacles) > len(n_room(5, 3).obstacles), "clutter adds boxes"
+    assert not cl.crashed(cl.start_xy) and not cl.crashed(cl.beacon_xy)
+    for k in (1, 2):
+        xd = cl.bounds[0] + k * ROOM_W
+        assert cl.clearance((xd - 0.25, 0.25)) > 0.5, "clutter keeps doorways routable"
     print(
         f"INDOOR-ROOMS OK: single_room deterministic; beacon far ("
         f">={MIN_BEACON_DIST} m), clear, unsensable from start across 20 seeds; "

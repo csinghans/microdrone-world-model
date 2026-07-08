@@ -75,9 +75,54 @@ REPORT the room-level map — runs deployably on a cheap rangefinder ring.
   pre-registration) and not tuned to the result — the perfect score is
   the clean-room geometry, not a fitted threshold.
 
+## Clutter stress test (2026-07-08) — the 100% is CLEAN-ROOM only
+
+The honest test of the caveat: add box obstacles per room (`n_room`
+`clutter=k`, boxes kept off the doorway corridors) and re-measure.
+
+Position-level passage detection (eval_doorway_detect, gap-label AUC)
+degrades monotonically: clutter 0 -> 1 -> 2 gives AUC 1.000 -> 0.839
+-> 0.745. Furniture makes box-wall and box-box squeezes that read like
+a doorway to `passage_score`.
+
+The mission-level room-graph gate (n=20, 3- and 4-room) is worse:
+
+| clutter | found | beacon-room acc | room-count acc |
+|---|---|---|---|
+| 0 | 57/60 | **1.000** | **1.000** |
+| 1 | 19/40 | **0.263** | 0.263 |
+| 2 | 5/40 | **0.000** | 0.000 |
+
+**TWO failures, both honest:**
+1. **Find-rate craters** (0.95 -> 0.48 -> 0.13). The box clutter
+   fragments the safe-cell graph, so the Frontier can't cover the rooms
+   and never reaches the beacon. **Confound, stated plainly:** the
+   N-room rooms are only 3.0 m wide and the clutter is placed at random
+   with no connectivity guarantee, so part of this crater is
+   narrow-room + unconstrained placement, NOT proof that clutter is
+   intractable (single_room carried 2 obstacles in a 5 m room fine).
+2. **Room-graph accuracy collapses** (1.000 -> 0.263 -> 0.000) among
+   the episodes that DID find. This is the clean signal: it is measured
+   only on found missions and it matches (in fact exceeds) the
+   position-AUC degradation — a handful of false crossings per flight is
+   enough to miscount the rooms, so the counter is even more
+   clutter-sensitive than the per-position score.
+
+**Verdict: the room-graph GREEN and the doorway/passage AUC 1.000 are
+CLEAN-ROOM results and do not survive furniture.** Both the coverage
+search and the topological mapping need clutter-robustness before any
+furnished-room deployment claim. Honest: the clean-room capability is
+real and fully measured; its brittleness to clutter is now equally
+measured, not hand-waved.
+
 ## Named next (each its own pre-registration)
-- Cluttered rooms: does passage_score false-fire on furniture squeezes?
-  (the honest stress test of the 100%).
+- **Isolate mapping from navigation:** connectivity-preserving clutter
+  (or wider rooms) so find-rate holds, leaving the room-graph miscount
+  as the clean question — then a clutter-robust crossing detector
+  (debounce on sustained perpendicular-squeeze + forward progress, or a
+  learned doorway head) gated on recovering accuracy under clutter.
+- **Clutter-robust coverage:** the Frontier over a fragmented safe-cell
+  graph is the find-rate story; a separate pre-registration.
 - Arbitrary doorway directions (not an x-line): use `detect_bearing` for
   edge direction; a real room graph with nodes+edges, not just a count.
 - The visual-detection branch remains the big perception step (where the

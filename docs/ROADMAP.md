@@ -211,9 +211,17 @@ benchmark. Phasing (`experiments/search_room_v*`,
   **beacon-room accuracy 1.000 and room-count accuracy 1.000** (bars
   0.85), from the beam ring + odometry, no ground truth — an O(rooms)
   topological map, not a pixel grid. Closes the topological thread:
-  N-room GREEN -> doorway-by-traversal -> room-level report. Caveat:
-  clean rooms + x-line layout; clutter and arbitrary doorway directions
-  are the named stress tests (`experiments/search_roomgraph_v1/`).
+  N-room GREEN -> doorway-by-traversal -> room-level report. **But
+  CLEAN-ROOM only, now measured:** a clutter stress test (box obstacles
+  per room) breaks both legs — find-rate craters 0.95 -> 0.48 -> 0.13
+  (clutter fragments the safe-cell graph; partly a narrow-room/placement
+  confound) and room-graph accuracy collapses 1.000 -> 0.263 -> 0.000
+  among found missions (box squeezes false-fire `passage_score`, so
+  crossings miscount; position-AUC 1.000 -> 0.839 -> 0.745 the same
+  direction). The clean-room capability is real and fully measured; so
+  is its brittleness. Named next: connectivity-preserving clutter to
+  isolate the mapping miscount, then a clutter-robust crossing detector
+  (`experiments/search_roomgraph_v1/`).
 - **v3 (search_room) — the deployability capstone: GREEN.** Swapping the privileged
   omnidirectional clearance for four SGBA-style rangefinder beams
   passes the SEARCH-ROOM gate at pooled n=60 (find 0.917, collision
