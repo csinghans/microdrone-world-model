@@ -9,6 +9,12 @@
    "what": "the G1 world model (v0.2 champion; == world_model_g1.pth, cmp-verified)"
   },
   {
+   "name": "world_model_unified.pth",
+   "dest": "output/world_model_unified.pth",
+   "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+   "what": "unified WM (transit+indoor union) — WMPolicy transit + indoor detection; shipped ALONGSIDE the champion, never overwriting it (indoor_search flight mode)"
+  },
+  {
    "name": "ppo_wm_policy_edge_hard_xp.zip",
    "dest": "output/ppo_wm_policy_edge_hard_xp.zip",
    "sha256": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
