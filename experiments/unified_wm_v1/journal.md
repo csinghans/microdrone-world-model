@@ -209,11 +209,21 @@ a single-operating-point artifact — is now DONE (above): unified crashes ≤
 champion at every speed 0.8–1.6 m/s, holds more clearance, and nearly
 eliminates false-evasion, with an honest goal-reach trade only at the
 aggressive 1.4–1.6 m/s edge (unified 79/75% vs champion 96/100% — a
-caution/completion trade, not a safety loss). So the evidence supports
-promotion FOR the normal cruise envelope; the one thing a promoter must
-accept is the high-speed completion trade (or gate deployment to ≤1.2
-m/s). Promotion (overwrite the pinned champion + bump `artifacts.lock.json`)
-remains Hans's explicit strategic call — not taken autonomously.
+caution/completion trade, not a safety loss). So the WM-direct evidence
+supports promotion FOR the normal cruise envelope.
+
+**But promotion has a SECOND, larger cost the full-zoo pass revealed (see
+Promotion-readiness below): overwriting the pinned champion breaks the
+distilled skill zoo** — slalom collapses 80%→0%, gap/moving_gap/door lose
+5–30% — because every skill was trained on the champion latent. So
+promotion means either (a) keep the unified WM as a SEPARATE artifact
+(used for WMPolicy transit + detection, where its wins are direct) and
+leave the champion pinned for the skill zoo, or (b) budget a full zoo
+re-distill against the unified latent. This is Hans's explicit strategic
+call — NOT taken autonomously; the pinned champion + `artifacts.lock.json`
+stay UNTOUCHED. My recommendation: **(a) — ship the unified WM alongside,
+don't overwrite**, since its concrete wins (WMPolicy transit, detection)
+don't need the swap, while overwriting taxes the whole zoo.
 
 **Where the trade actually lands (Hans's steer: indoor exploration is
 deliberately slow).** The whole caveat is confined to FAST transit. The
@@ -247,17 +257,45 @@ WM vs unified WM, same seeds, `--promotion`:
 | moving @1.0 | 0% / 100% | 3% / 96% | −4 |
 | moving @1.2 | 6% / 93% | 3% / 96% | +3 |
 
-**Mean Δ success ≈ −0.7% — NEUTRAL, within seed noise (n=30 → ±~9%/cell),
-not the catastrophic OOD degradation one might fear.** The unified latent
-is close enough to the champion's (shared architecture + the unified's
-training data CONTAINS the champion's entire transit set) that a policy
-trained on the champion transfers to the unified WM almost losslessly. So
-**promotion would NOT break the learned transit zoo — no retrain needed.**
-Honest scope: one policy (the hardest, most representative transit one) at
-n=30; a full-zoo pass (slalom / gap / dodge / doors, each on its own
-scenario) is the remaining pre-promotion check before overwriting the
-champion. But the hidden cost I flagged does not materialize on the
-policy most likely to show it.
+Mean Δ success ≈ −0.7% on THIS transit policy — reassuring, but this was
+only the dense/moving transit champion. **That reassurance was misleading:
+the full-zoo pass below REVERSES it.**
+
+**Full-zoo pass — each skill's champion on its OWN target scenarios +
+success predicate, champion WM vs unified WM, same seeds (n=20):**
+
+| skill / cell | champ success | unified success | Δ |
+|---|---|---|---|
+| gap_flight/gap@1.0 | 85% | 75% | −10% |
+| gap_flight/gap@1.5 | 95% | 80% | −15% |
+| moving_gap_v2/mgap@1.0 | 80% | 70% | −10% |
+| moving_gap_v2/mgap@1.5 | 95% | 65% | −30% |
+| corridor_slalom_v2/slalom3@1.0 | 80% | **0%** | **−80%** |
+| opening_door/odoor@1.0 | 100% | 95% | −5% |
+| opening_door/odoor@1.5 | 90% | 65% | −25% |
+| dodgeball_v2/dodge@v0.6..1.8 | 0% | 0% | — (harness-invalid) |
+
+**Corrected verdict: promotion DOES break the zoo.** Excluding the
+harness-invalid dodge cells (the champion scores 0% on its own scenario in
+this generic runner — likely a recurrent policy / scenario-setup mismatch,
+so no champion-vs-unified signal), the valid cells mean **−25% success**,
+and **slalom collapses 80%→0%**. Slalom is the longest-chain (≈40
+decisions), most latent-sensitive skill — a small latent shift that is
+negligible over a short transit episode COMPOUNDS catastrophically over
+the chain (the "slalom wall" again, now via the encoder). gap / moving_gap
+/ door degrade a real 5–30% (worse at the higher speed of each pair).
+
+So the hidden cost is REAL: **overwriting the pinned champion with the
+unified WM would require RE-DISTILLING / RE-TRAINING the skill zoo against
+the unified latent** (slalom mandatorily; the others to recover 5–30%).
+The single-policy transit test was not representative — a lesson that the
+cheap probe can mislead when the sensitive case (long chains) is not in
+it. This is a strong argument for keeping the unified WM as a SEPARATE
+artifact used where its wins are direct (WMPolicy transit, detection),
+rather than swapping the substrate every distilled skill depends on —
+unless a promoter budgets the zoo retrain. (Caveat: dodge needs its proper
+harness before a clean full-zoo number; and n=20 leaves ±~10%/cell, but
+−80% on slalom is far outside noise.)
 
 ## Artifacts (all under output/, none committed — champion untouched)
 - `world_model_unified.pth` — the unified WM (transit120 + room80, 80 ep, seed 0)

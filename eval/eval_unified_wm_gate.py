@@ -25,7 +25,13 @@ Run:
   python -m eval.eval_unified_wm_gate                    # transit + indoor
   python -m eval.eval_unified_wm_gate --closed-loop      # + closed-loop
   python -m eval.eval_unified_wm_gate --speed-sweep      # promotion sweep
+  python -m eval.eval_unified_wm_gate --zoo              # full-zoo swap cost
   python -m eval.eval_unified_wm_gate --selftest         # CI, no artifacts
+
+`--promotion` (one transit policy) and `--zoo` (every skill's champion on
+its own scenarios) measure whether OVERWRITING the champion breaks the
+distilled skill zoo. Verdict (journal): the zoo IS broken (slalom 80%->0%),
+so promotion needs a zoo re-distill — argues for shipping unified ALONGSIDE.
 """
 
 import argparse
@@ -215,6 +221,63 @@ def promotion_gate(
     return out
 
 
+# each skill's champion (trained on the champion latent) + its skill module
+ZOO = (
+    ("skills/gap_flight", "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip"),
+    ("skills/moving_gap_v2", "experiments/moving_gap/artifacts/ppo_moving_gap_KD1.zip"),
+    (
+        "skills/dodgeball_v2",
+        "experiments/dodgeball_v2/artifacts/ppo_dodgeball_v2_K1.zip",
+    ),
+    (
+        "skills/corridor_slalom_v2",
+        "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip",
+    ),
+    ("skills/opening_door", "experiments/odoor_v2/artifacts_local/ppo_odoor_v3_FT.zip"),
+)
+
+
+def zoo_gate(champion, unified, n=20, seed0=8000):
+    """Full-zoo promotion cost: each skill's champion on its OWN target
+    scenarios + success predicate, champion WM vs unified WM, same seeds.
+    The single-policy transit `promotion_gate` is NOT representative — the
+    long-chain skills (slalom) are where a latent shift compounds. Skips
+    skills whose champion zip is absent (artifacts_local may be gitignored)."""
+    from eval.episode import run_scenario_episode
+    from planner.learned_policy import LearnedPolicy, load_policy
+    from sim.envs import make_env
+    from skills.base import load_skill
+    from world_model.training import load_model
+
+    wms = {
+        "champion": load_model(champion, device="cpu"),
+        "unified": load_model(unified, device="cpu"),
+    }
+    env = make_env()
+    out = {}
+    for skill_name, zip_path in ZOO:
+        if not os.path.exists(zip_path):
+            continue
+        try:
+            skill = load_skill(skill_name)
+            model = load_policy(zip_path)
+        except Exception as e:
+            out[skill_name] = {"error": f"{type(e).__name__}: {e}"}
+            continue
+        for c in [c for c in skill.cells if c.role == "target" and c.world]:
+            cell = {}
+            for name, (enc, pred, cheads, _n, meta) in wms.items():
+                ok = 0
+                for i in range(n):
+                    pol = LearnedPolicy(model, enc, pred, cheads, meta, speed=c.speed)
+                    ep = run_scenario_episode(env, pol, seed0 + i, c.world, c.speed)
+                    ok += int(bool(skill.success(ep)))
+                cell[name] = ok / n
+            out[f"{skill_name.split('/')[-1]}/{c.id}"] = cell
+    env.close()
+    return out
+
+
 def selftest() -> None:
     # wm_arm math on synthetic rows (no artifacts, no sim)
     rows = [
@@ -262,6 +325,11 @@ def main() -> None:
         "--promotion",
         action="store_true",
         help="does a champion-trained learned policy survive the WM swap?",
+    )
+    ap.add_argument(
+        "--zoo",
+        action="store_true",
+        help="full-zoo --promotion: every skill's champion on its scenarios",
     )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -317,6 +385,25 @@ def main() -> None:
                     f"{c['crash']*100:3.0f}%/{c['success']*100:3.0f}%  "
                     f"unified {u['crash']*100:3.0f}%/{u['success']*100:3.0f}%"
                 )
+
+    if args.zoo:
+        print(
+            "=== FULL-ZOO PROMOTION COST (each skill's champion, champ vs unified) ==="
+        )
+        z = zoo_gate(args.champion, args.unified)
+        deltas = []
+        for tag, cell in z.items():
+            if "error" in cell:
+                print(f"  {tag:28} LOAD ERR: {cell['error']}")
+                continue
+            c, u = cell["champion"], cell["unified"]
+            print(
+                f"  {tag:28} champ {c*100:4.0f}%  unified {u*100:4.0f}%  "
+                f"Δ {(u - c) * 100:+4.0f}%"
+            )
+            deltas.append(u - c)
+        if deltas:
+            print(f"  mean Δ success (unified - champion): {np.mean(deltas)*100:+.1f}%")
 
 
 if __name__ == "__main__":
