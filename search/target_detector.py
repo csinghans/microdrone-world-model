@@ -138,17 +138,23 @@ def train_and_gate_alt(
     test_seed0=610000,
     thr=0.5,
     oversample_low=0,
+    z_cams=None,
+    target_hs=None,
 ):
     """The alt_v1 detector: train on MULTI-ALTITUDE frames (unified WM), gate
     on a fresh multi-altitude block, and break AUC/recall down BY DRONE
     ALTITUDE for level targets — the test of whether a trained head recovers
     the low (under-bed, z=0.4) regime the linear probe was weak at (0.66).
-    `oversample_low` (int) repeats the low-altitude (z<=0.8) training rows
-    that many extra times, to force the head to learn the harder view."""
+    `z_cams`/`target_hs` override the sweep (e.g. a floor-hugging very-low
+    sweep). `oversample_low` repeats the low-altitude training rows."""
     from eval.eval_alt_detect import UNIFIED_WM, Z_CAMS, collect_alt_frames
 
-    tr = collect_alt_frames(n_rooms, train_seed0, ckpt=UNIFIED_WM)
-    te = collect_alt_frames(n_rooms, test_seed0, ckpt=UNIFIED_WM)
+    zc = tuple(z_cams) if z_cams is not None else Z_CAMS
+    kw = {"ckpt": UNIFIED_WM, "z_cams": zc}
+    if target_hs is not None:
+        kw["target_hs"] = tuple(target_hs)
+    tr = collect_alt_frames(n_rooms, train_seed0, **kw)
+    te = collect_alt_frames(n_rooms, test_seed0, **kw)
     X, Y = tr["lat"], tr["label"]
     if oversample_low > 0:
         low = tr["z_cam"] <= 0.8
@@ -167,7 +173,7 @@ def train_and_gate_alt(
         res["thr_sweep"][t] = (s["precision"], s["recall"], s["obstacle_false_alarm"])
     level = te["elev"] <= 0.4
     res["level_by_z"] = {}
-    for z in sorted(set(Z_CAMS)):
+    for z in sorted(set(zc)):
         m = level & (te["z_cam"] == z)
         yy = y[m]
         auc = _auc(p[m], yy) if (len(yy) and yy.min() != yy.max()) else float("nan")
@@ -200,14 +206,21 @@ def main() -> None:
     ap.add_argument(
         "--oversample-low", type=int, default=0, help="alt: repeat low rows"
     )
+    ap.add_argument("--low", action="store_true", help="alt: floor-hugging sweep")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest or not args.train:
         selftest()
         return
     if args.alt:
+        # floor-hugging: drone z 0.15-0.8, target on/near the floor 0.2-0.5
+        low_kw = (
+            dict(z_cams=(0.15, 0.25, 0.35, 0.5, 0.8), target_hs=(0.2, 0.3, 0.5))
+            if args.low
+            else {}
+        )
         r = train_and_gate_alt(
-            args.train, args.n_rooms, oversample_low=args.oversample_low
+            args.train, args.n_rooms, oversample_low=args.oversample_low, **low_kw
         )
     else:
         fn = train_and_gate_yaw if args.yaw else train_and_gate
