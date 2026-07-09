@@ -1,9 +1,9 @@
 {
- "seed": 110004,
+ "seed": 110098,
  "course": [
   "slalom3_fixed",
-  "opening_door",
-  "moving_gap"
+  "slalom3_fixed",
+  "opening_door"
  ],
  "success": true,
  "stages_cleared": 3.0,

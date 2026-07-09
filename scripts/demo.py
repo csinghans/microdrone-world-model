@@ -35,9 +35,14 @@ SCENARIO_SEED = 11  # the demo course (the scoreboards sweep many seeds)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "output", "wm_closed_loop.png")
 GIF_OUT = os.path.join(ROOT, "docs", "media", "demo_single_course.gif")
+# the GIF flies FASTER than the scoreboard/plot default (1.0): a 1.3x cruise
+# tightens the anticipation window (min-clear ~0.24 m vs 0.34 at 1.0, still
+# crash-free) so the veer reads as a real, hard decision, not a stroll. The
+# --selftest / PNG story stays at 1.0 (the calibrated, gated speed).
+GIF_SPEED = 1.3
 
 
-def _record_course(env, policy, seed: int, speed: float = 1.0) -> list:
+def _record_course(env, policy, seed: int, speed: float = GIF_SPEED) -> list:
     """Fly the demo course once under `policy`, capturing a top-down god
     view per decision — the frames for the single-course demo GIF. Mirrors
     eval_closed_loop.run_episode's spawn so the GIF is the SAME course the
@@ -130,7 +135,15 @@ def main() -> None:
     reactive = run_episode(env, ReactivePolicy(enc, nhead), args.seed)
     wm = run_episode(env, anticipator, args.seed)
     if args.gif:  # a top-down god view of the anticipating seat on this course
-        _save_gif(env, anticipator, args.seed)
+        if champion:  # fly the GIF at the harder cruise, policy speed-matched
+            from planner.learned_policy import LearnedPolicy, load_policy
+
+            gif_pol = LearnedPolicy(
+                load_policy(CHAMPION_ZIP), enc, pred, cheads, meta, speed=GIF_SPEED
+            )
+            _save_gif(env, gif_pol, args.seed)
+        else:
+            print("[INFO] --gif needs the champion stack; skipped (fallback run)")
     env.close()
     _save_plot(
         reactive,

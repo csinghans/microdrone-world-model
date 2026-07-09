@@ -44,8 +44,10 @@ def _follow_god(env, x, y, span=3.0, res=360):
     return np.reshape(rgb, (res, res, 4))[:, :, :3].astype(np.uint8)
 
 
-def _record_transit(env, seed, speed=1.0):
-    """Champion WM + general transit champion; capture the whole-course view."""
+def _record_transit(env, seed, speed=1.4):
+    """Champion WM + general transit champion; capture the whole-course view.
+    Flown at 1.4 m/s (the WM's pressure regime, crash 10-20% zone) rather than
+    cruise, so the anticipation is a hard decision — on a seed that holds."""
     from eval.eval_integration import _god_frame
     from planner.action_set import ACTION_VECS, FORWARD
     from planner.flight_mode import load_wm_cached
@@ -53,7 +55,7 @@ def _record_transit(env, seed, speed=1.0):
     from planner.learned_policy import LearnedPolicy, load_policy, zip_path
     from sim.envs import VelCommander, grab_frame, make_ctrl
     from sim.scenario_registry import get as get_scenario
-    from sim.scenarios import GOAL_X, TMAX
+    from sim.scenarios import COLLISION_R, GOAL_X, TMAX, nearest_planar
     from world_model.training import MODEL
 
     enc, pred, cheads, _n, meta = load_wm_cached(MODEL)
@@ -71,7 +73,7 @@ def _record_transit(env, seed, speed=1.0):
     cmd.reset(state[0:3])
     sc = get_scenario("dense").spawn(env, np.random.default_rng(seed), speed=speed)
     pol.begin(sc.positions())
-    frames, a = [], FORWARD
+    frames, a, mc = [], FORWARD, 9.0
     for t in range(TMAX):
         if t % DECIDE_EVERY == 0:
             a = pol.decide(grab_frame(env), state)
@@ -79,14 +81,22 @@ def _record_transit(env, seed, speed=1.0):
         obs, *_ = env.step(cmd.rpm(state, speed * ACTION_VECS[a]).reshape(1, 4))
         state = obs[0]
         sc.step()
+        mc = min(mc, nearest_planar(state[0:2], sc.positions()))
         if state[0] >= GOAL_X:
             break
+    print(
+        f"[demo] transit@{speed} seed {seed}: reached={state[0] >= GOAL_X} "
+        f"crash={mc < COLLISION_R} min_clear={mc:.2f} m"
+    )
     return frames
 
 
 def _record_indoor(env, seed, speed=0.6, max_decisions=1500, stride=3):
-    """Unified WM resident (detection brain); frontier + beams8 fly the room.
-    Capture the search leg + the return leg with a drone-following view."""
+    """Unified WM resident (detection brain); frontier + beams8 fly a
+    THREE-ROOM cluttered floorplan (two doorways, boxes against the walls,
+    beacon hidden in the far room). Capture the multi-room search leg + the
+    BFS return leg with a drone-following view — the deployable coverage
+    search at scale (n_room GREEN at beams8/0.6), not an empty single room."""
     from eval.search_episode import (
         _SAFETY,
         _bfs_home_path,
@@ -100,11 +110,11 @@ def _record_indoor(env, seed, speed=0.6, max_decisions=1500, stride=3):
     from planner.nav_action_set import NAV_ACTION_VECS
     from search.strategies import get_strategy
     from sim.envs import START, VelCommander, make_ctrl
-    from sim.indoor.rooms import single_room
+    from sim.indoor.rooms import n_room
     from sim.scenarios import COLLISION_R
 
     load_wm_cached(UNIFIED_WM)  # the unified WM rides this mode (detection)
-    sc = single_room(seed)
+    sc = n_room(seed, n_rooms=3, clutter=2, clutter_lane=1.0)
     pol = get_strategy("frontier")
     safe_fn = _SAFETY["beams8"]
     obs, _ = env.reset(seed=int(seed))
@@ -156,6 +166,11 @@ def _record_indoor(env, seed, speed=0.6, max_decisions=1500, stride=3):
             state = obs[0]
             if sc.clearance(room_xy(state)) < COLLISION_R:
                 break
+    returned = phase == "return" and sc.found_home(room_xy(state))
+    print(
+        f"[demo] indoor 3-room seed {seed}: found={found >= 0} "
+        f"returned={returned} decisions={found if found >= 0 else -1}"
+    )
     return frames
 
 
