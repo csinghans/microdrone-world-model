@@ -66,8 +66,37 @@ hover 本身就是觀察,不加額外感知。`eval/eval_slalom_stopobserve.py` 
 - 對 unified 的結論不變:連續 slalom 在統一 WM 上仍是 0%(晉升仍需重訓 zoo,或
   走並存)——停下觀察沒有提供一條繞過重訓的捷徑。
 
-## 後續(未排程,Hans 拍板)
+## 後續已做:把停頓訓練進策略(部分正面,Hans「1/2 都做」核准)
 
-- 若要謹慎/停-觀-走能力:訓練一個 stop-aware slalom 策略(station-tick 先例),
-  再測它在統一 WM 上是否也更穩健(把「打斷鏈」做進策略、而非事後包 wrapper)。
-- 工具留任:`eval/eval_slalom_stopobserve.py --hover N`、`StopObserveSlalom`。
+wrapper 失敗的根因是「連續冠軍無法從死停重啟」。修法=**把停頓做進策略**:
+`WMPolicyEnv` 加 `stop_hover`(過門後開一個獎勵窗、付 policy 選 HOVER +0.5、
+移動 −0.05、壓掉 progress),warm-start 微調 slalom 冠軍 500k
+(`scripts/train_stopaware_slalom.py` → `output/ppo_slalom_stopaware.zip`)。
+部署時它**自己會停**(learned),所以讀 `--policy` 的 continuous(raw)欄:
+
+| WM | 連續冠軍(基線) | stop-aware 策略(raw 自停) |
+|---|---|---|
+| champion | 80% | **75%** |
+| unified | **0%** | **25%** |
+
+(n=20;stop-observe 欄=wrapper 疊在已自停策略上=過度停頓 0%,忽略。)
+
+**判詞:部分正面,方向確認。**
+1. **在 wrapper 失敗處成功**:stop-aware 策略在冠軍上 75%(wrapper 包連續冠軍
+   只 0–10%)⇒ 它學會了停穩再重啟,「把停頓訓練進去」才是實現停-觀-走的正解,
+   且幾乎沒犧牲 slalom 技巧(75%≈80% 雜訊內)。
+2. **部分救回換 WM 穩健性**:unified 上 **0%→25%**⇒ 打斷鏈做進策略確實買到
+   真實但不完整的 encoder-swap 穩健性(5/20 vs 0/20,方向明確、n=20 有 ±~10%)。
+
+**為何只部分(25% 非 75%):** 停頓重置的是**位置漂移**;但每道門的**局部感知**
+(讀 gap)仍吃統一 latent 的位移,停頓修不了那部分。加上 500k warm-start 可能
+欠訓(冠軍本體要 900k–1.35M)、stop_hover=8 未必完全沉降。**全恢復的候選**(未做、
+Hans 拍板):更長訓練、更長 hover、或直接**在兩顆 WM 的 latent 上一起訓練**
+(data-aug 對 encoder-swap 的正解)。
+
+**對晉升的意涵:** 打斷鏈不是免費繞過重訓的捷徑,但證明**用 stop-aware 重訓能把
+被 encoder-swap 打壞的長鏈 skill 部分救回**——若要走「重蒸餾 zoo 後晉升」,
+stop-aware 是讓 slalom(最敏感的一環)更耐 swap 的一個具體手段。
+
+工具留任:`scripts/train_stopaware_slalom.py`、`eval/eval_slalom_stopobserve.py
+--policy/--hover`、`WMPolicyEnv(stop_hover=)`、`StopObserveSlalom`。
