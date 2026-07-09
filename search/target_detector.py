@@ -131,6 +131,32 @@ def train_and_gate_yaw(
     return _score(head, te, thr)
 
 
+def train_and_gate_person(
+    out=None, n_rooms=6, train_seed0=650000, test_seed0=660000, thr=0.5
+):
+    """The person detector (person_v1): train a head to fire on a PERSON
+    (capsule) and NOT on box clutter or empty, on the FROZEN unified WM latent
+    (Phase 0 showed person-vs-box separates at AUC 0.94, and 0.81 on shape
+    alone — so no WM retrain, only this head). Gate on fresh rooms; the
+    decisive metric is the BOX false-alarm (does it fire on clutter?)."""
+    from eval.eval_person_detect import collect
+
+    def _prep(seed0):
+        d = collect(n_rooms, seed0)  # person=label, box=hard-negative
+        return {"lat": d["lat"], "label": d["person"], "obs_in_fov": d["box"]}
+
+    tr, te = _prep(train_seed0), _prep(test_seed0)
+    head = DetectionHead().fit(tr["lat"], tr["label"])
+    if out:
+        head.save(out)
+    res = _score(head, te, thr)
+    res["thr_sweep"] = {}
+    for t in (0.2, 0.3, 0.4, 0.5):
+        s = _score(head, te, t)
+        res["thr_sweep"][t] = (s["precision"], s["recall"], s["obstacle_false_alarm"])
+    return res
+
+
 def train_and_gate_alt(
     out=None,
     n_rooms=6,
@@ -203,6 +229,7 @@ def main() -> None:
     ap.add_argument("--n-rooms", type=int, default=6)
     ap.add_argument("--yaw", action="store_true", help="train on yaw-swept frames")
     ap.add_argument("--alt", action="store_true", help="train on multi-altitude frames")
+    ap.add_argument("--person", action="store_true", help="train the person detector")
     ap.add_argument(
         "--oversample-low", type=int, default=0, help="alt: repeat low rows"
     )
@@ -222,6 +249,8 @@ def main() -> None:
         r = train_and_gate_alt(
             args.train, args.n_rooms, oversample_low=args.oversample_low, **low_kw
         )
+    elif args.person:
+        r = train_and_gate_person(args.train, args.n_rooms)
     else:
         fn = train_and_gate_yaw if args.yaw else train_and_gate
         r = fn(args.train, args.n_rooms)

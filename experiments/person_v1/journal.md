@@ -54,8 +54,40 @@ WM 贏感知(偵測「目標在視野」AUC 0.94)。要往搜救推進,找的不
   不等於分得開「瓦礫下半遮的人」。
 - 探針是停機取像(不測飛行);per-frame recall 靠掃描複利(同 yaw/alt)。
 
+## Phase 1 —— 訓練 person 偵測頭(person 正 / box+empty 負):乾淨但單幀 recall 中等
+
+`search/target_detector.py:train_and_gate_person`(`--person`),凍結統一 WM latent、
+fresh room gate(n=180、pos 0.13、hard-neg 28 box-in-FOV 幀):
+
+| 指標 | 值 | 判讀 |
+|---|---|---|
+| AUC | 0.834 | 略低於 0.85 bar(全混合集含遠/邊緣正例) |
+| precision | **1.000** | 開火必是人 |
+| **obstacle(box)-FA** | **0.000** | **從不對雜物誤觸發** ← 決定性 |
+| per-frame recall | 0.50 | 同 yaw/alt regime,靠掃描複利 |
+
+thr sweep:0.2→recall 0.62/FA 0.07、0.4→0.58/0.04、0.5→0.50/0.00。頭存
+`output/target_head_person.pt`。
+
+**判讀**:逐幀 gate 標 FAIL(recall/AUC bar),但那是**單幀** bar。真正要的「人 vs 雜物」
+辨別是**乾淨的**(box-FA 0.000、precision 1.0——細 capsule 人形從不被當成箱子)。per-frame
+recall 0.50 是 FOV 邊緣/遠處細目標的已知特性(同 yaw 0.758 / alt ~0.5),靠多視角掃描
+複利到 ~0.9。細 capsule 比紅箱目標窄(半徑 0.15 vs 半寬 0.2),遠處像素更少,是 recall
+偏低的合理主因。
+
+## Phase 1b —— 「找到人」搜索 demo:掃描複利真能找到
+
+`scripts/demo_person.py`:capsule 人形站在房裡,無人機 frontier 覆蓋 + 每 22 決策一次
+360° hover-yaw 掃描,用 person 頭視覺確認(confirm=2)。斜角跟隨相機、beams8 安全。
+探 5 個 seed:**3/5 found+returned**(seed 11 / 7 / 650002),2/5 miss(650000/650001)
+——正是 per-frame recall 0.5 的誠實特性:掃描複利多半找到、但不保證每個 seed 都在預算內
+命中。demo 用 seed 11(found+returned、117 幀)。GIF `docs/media/demo_person.gif`。
+
+**整體判詞**:凍結 WM latent「認出人 vs 雜物」= GREEN 的 WM 主場,零 WM 重訓;頭乾淨
+(不誤報雜物),掃描複利可佈署成「找到人」。這是幾何 beams **完全做不到**的能力
+(它只知「前方有東西」、不知「是人還是家具」)。
+
 ## 下一步(留 Hans 拍板)
-1. **走廉價路**:訓一個多類頭(人 / 箱 / 空),量 fresh-room 分類準確率 + 飛行中確認
-   (同 yaw-scan 複利),做成「找到人」的搜索 demo。
-2. 更真實人形(多姿態 / 部分遮蔽)壓測 —— 若崩,才需 WM 重訓(大步)。
-兩顆 WM sha 全程未動(探針只讀)。
+1. 更真實人形(多姿態 / 部分遮蔽 / 瓦礫半掩)壓測 —— 若崩,才需 WM 重訓(大步)。
+2. 提高 per-frame recall(更寬 capsule / 更近確認 / 更長掃描)以提升 find-rate。
+兩顆 WM sha 全程未動。

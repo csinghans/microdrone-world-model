@@ -108,6 +108,7 @@ jobs:
           python -m scripts.train_stopaware_slalom --selftest
           python -m scripts.demo_two_mode --selftest
           python -m scripts.demo_vertical --selftest
+          python -m scripts.demo_person --selftest
       - name: Sim-in-the-loop selftests (headless)
         run: |
           python -m sim.envs
