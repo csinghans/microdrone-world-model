@@ -30,7 +30,11 @@ def _far_from(x, y, pts, d) -> bool:
 
 
 def single_room(
-    seed: int, n_obstacles: int = 2, los: bool = False, ceiling: bool = False
+    seed: int,
+    n_obstacles: int = 2,
+    los: bool = False,
+    ceiling: bool = False,
+    vary_height: bool = False,
 ) -> SearchScenario:
     rng = np.random.default_rng(seed)
     x0, x1, y0, y1 = BOUNDS
@@ -73,6 +77,12 @@ def single_room(
         by = float(rng.uniform(lo_y, hi_y))
         beam = (bx, by, 0.6, ceiling_h - float(rng.uniform(0.7, 1.2)))
 
+    # alt_v1: place the target at a random HEIGHT (under-furniture / level /
+    # high-shelf), so a multi-altitude search must sweep vertically to find it.
+    beacon_z = None
+    if vary_height:
+        beacon_z = float(rng.choice([0.3, 1.0, 2.0]))
+
     return SearchScenario(
         bounds=BOUNDS,
         obstacles=tuple(obstacles),
@@ -84,6 +94,7 @@ def single_room(
         los=los,
         ceiling_h=ceiling_h,
         beam=beam,
+        beacon_z=beacon_z,
         meta={"kind": "single_room", "seed": int(seed), "n_obstacles": len(obstacles)},
     )
 

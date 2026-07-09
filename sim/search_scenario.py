@@ -79,6 +79,7 @@ class SearchScenario:
     # METRIC job for an up-facing rangefinder, not the monocular WM.
     ceiling_h: float = 0.0
     beam: tuple = None  # (bx, by, half, beam_h) low-ceiling patch, or None
+    beacon_z: float = None  # target HEIGHT (alt_v1); None -> floor-standing
     meta: dict = field(default_factory=dict)
 
     def ceiling_at(self, x, y) -> float:
@@ -110,6 +111,25 @@ class SearchScenario:
         )[0]
         frac = hit[2]  # hitFraction in [0,1]; 1.0 == no hit within max_range
         return float(0.15 + frac * max_range)  # clearance from the drone
+
+    def floor_range(self, env, max_range: float = 4.0) -> float:
+        """Down-facing rangefinder: ray-test straight DOWN from the drone to
+        the floor (plane.urdf at z=0) or furniture underside. Returns the
+        clearance below (m). Mirrors ceiling_range — for floor / under-bed
+        clearance so the drone knows how low it can descend."""
+        import pybullet as p
+
+        pos, _ = p.getBasePositionAndOrientation(
+            env.DRONE_IDS[0], physicsClientId=env.CLIENT
+        )
+        z0 = pos[2] - 0.15  # start below the drone body so the ray never self-hits
+        hit = p.rayTest(
+            [pos[0], pos[1], z0],
+            [pos[0], pos[1], z0 - max_range],
+            physicsClientId=env.CLIENT,
+        )[0]
+        frac = hit[2]
+        return float(0.15 + frac * max_range)
 
     # --- static room: no dynamics (dynamic occupants are a later phase) ---
     def step(self) -> None:

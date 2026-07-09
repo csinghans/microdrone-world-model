@@ -27,12 +27,15 @@ hover point (already clear), so it does not touch the collision heads.
 import numpy as np
 
 YAW_RATE = 2.5  # rad/s for the look-around scan (yaw_v1); OFF the coverage menu
+LIFT_V = 0.60  # m/s for the vertical altitude sweep (alt_v1); OFF the coverage menu
 
 # (vx, vy, vz, yaw_rate) setpoints. The COVERAGE menu (cardinals + hover) is
-# still yaw-free -> body==world holds for search flight. The two yaw actions
-# below turn IN PLACE (zero translation), added for the hover-yaw-scan that
-# confirms a visual target (yaw_v1 Phase 0 showed detection is yaw-invariant
-# on the frozen latent, so scanning needs no WM retrain).
+# still yaw-free AND planar (vz=0) -> body==world holds for search flight. The
+# scan/lift actions below turn or lift IN PLACE (zero horizontal translation):
+# yaw for the horizontal target scan (yaw_v1), up/down for the multi-altitude
+# sweep that finds high/low targets (alt_v1). vz is a clean free DOF (the
+# camera stays level), so a level +x view at any altitude needs no WM retrain
+# (alt_v1 Phase 0: detection holds across altitude with a retrained head).
 NAV_ACTIONS = {
     "forward": (0.60, 0.00, 0.00, 0.0),  # +x
     "reverse": (-0.60, 0.00, 0.00, 0.0),  # -x (the transit set cannot do this)
@@ -42,6 +45,8 @@ NAV_ACTIONS = {
     "hover": (0.00, 0.00, 0.00, 0.0),
     "yaw_left": (0.00, 0.00, 0.00, YAW_RATE),  # turn in place +yaw (scan only)
     "yaw_right": (0.00, 0.00, 0.00, -YAW_RATE),  # turn in place -yaw
+    "up": (0.00, 0.00, LIFT_V, 0.0),  # rise in place (altitude sweep)
+    "down": (0.00, 0.00, -LIFT_V, 0.0),  # descend in place
 }
 NAV_ACTION_NAMES = list(NAV_ACTIONS)
 NAV_ACTION_VECS = np.array([NAV_ACTIONS[n] for n in NAV_ACTION_NAMES], dtype=np.float32)
@@ -52,6 +57,8 @@ STRAFE_R = NAV_ACTION_NAMES.index("strafe_right")
 HOVER = NAV_ACTION_NAMES.index("hover")
 YAW_L = NAV_ACTION_NAMES.index("yaw_left")
 YAW_R = NAV_ACTION_NAMES.index("yaw_right")
+UP = NAV_ACTION_NAMES.index("up")
+DOWN = NAV_ACTION_NAMES.index("down")
 
 # roaming is slower than transit cruise — coverage does not need 1.6 m/s,
 # and slower flight is safer near walls / cheaper on the seam-free plane
@@ -69,16 +76,19 @@ def nav_menu(names=("forward", "reverse", "strafe_left", "strafe_right", "hover"
 
 
 def selftest() -> None:
-    assert NAV_ACTION_VECS.shape == (8, 4)
-    assert np.all(NAV_ACTION_VECS[:, 2] == 0.0), "no vz (planar roaming)"
-    # the COVERAGE menu (cardinals + hover) is still yaw-free -> body==world
-    # holds for search flight; only the two scan actions carry a yaw-rate.
+    assert NAV_ACTION_VECS.shape == (10, 4)
+    # the COVERAGE menu (cardinals + hover) is still planar + yaw-free ->
+    # body==world holds for search flight; only the scan/lift actions break it.
+    assert np.all(NAV_ACTION_VECS[nav_menu(), 2] == 0.0), "coverage menu planar (vz=0)"
     assert np.all(NAV_ACTION_VECS[nav_menu(), 3] == 0.0), "coverage menu yaw-free"
     yaw_ids = [NAV_ACTION_NAMES.index(n) for n in ("yaw_left", "yaw_right")]
-    assert np.all(NAV_ACTION_VECS[yaw_ids, 3] != 0.0), "scan actions carry yaw"
+    assert np.all(NAV_ACTION_VECS[yaw_ids, 3] != 0.0), "yaw scan actions carry yaw"
+    assert np.all(NAV_ACTION_VECS[yaw_ids, :3] == 0.0), "yaw turns in place"
+    lift_ids = [NAV_ACTION_NAMES.index(n) for n in ("up", "down")]
+    assert np.all(NAV_ACTION_VECS[lift_ids, 2] != 0.0), "lift actions carry vz"
     assert np.all(
-        NAV_ACTION_VECS[yaw_ids, :3] == 0.0
-    ), "yaw actions turn in place (zero translation)"
+        NAV_ACTION_VECS[lift_ids, :2] == 0.0
+    ), "lift is vertical in place (no horizontal)"
     # the two capabilities the transit set lacks
     assert NAV_ACTIONS["reverse"][0] < 0.0, "reverse moves -x"
     assert (
