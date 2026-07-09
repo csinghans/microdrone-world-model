@@ -27,6 +27,7 @@ ACTIONS = {
 ACTION_NAMES = list(ACTIONS)
 ACTION_VECS = np.array([ACTIONS[n] for n in ACTION_NAMES], dtype=np.float32)
 FORWARD = ACTION_NAMES.index("forward")
+HOVER = ACTION_NAMES.index("hover")  # zero command -> VelCommander holds position
 SPEED_RANGE = (0.75, 2.0)  # x base speeds -> 0.6..1.6 m/s cruise
 # Per-dim normaliser so every action (at any speed) feeds the network in ~[-1, 1].
 A_NORM = np.maximum(np.abs(ACTION_VECS).max(axis=0) * SPEED_RANGE[1], 1e-6).astype(

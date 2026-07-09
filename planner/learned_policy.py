@@ -37,7 +37,7 @@ import numpy as np
 import torch
 
 from datasets.intervention_labels import HORIZONS  # noqa: F401  (obs layout doc)
-from planner.action_set import ACTION_VECS, FORWARD, SPEED_RANGE
+from planner.action_set import ACTION_VECS, FORWARD, HOVER, SPEED_RANGE
 from planner.latent_mpc import DECIDE_EVERY, _frame_tensor
 from sim.domain_randomization import jitter
 from sim.envs import VelCommander, grab_frame, make_ctrl, make_env
@@ -202,8 +202,18 @@ class WMPolicyEnv(gym.Env):
         x_progress: bool = False,
         gate_bonus: float = 0.0,
         station_tick: float = 0.0,
+        stop_hover: int = 0,
     ):
         super().__init__()
+        # stop-and-observe training (slalom_stopobserve follow-up): after a
+        # fence is threaded, open a `stop_hover`-decision window that PAYS the
+        # policy for choosing HOVER (and penalises moving), suppressing the
+        # progress/gate terms. The policy LEARNS to stop after each gate and
+        # RESUME from a dead stop — the exact state the continuous champion
+        # never saw (why the post-hoc wrapper collapsed it 80%->10%). 0 keeps
+        # every existing recipe bit-identical.
+        self.stop_hover = int(stop_hover)
+        self._stop_tick = 0.5  # per-hover reward inside the window
         # station-mode reward shape (dodgeball K3 deviation): 0.0 keeps the
         # distal +50 survival bonus (K1); > 0 replaces it with a dense
         # per-decision tick paid only INSIDE the box — the mission pays
@@ -288,7 +298,8 @@ class WMPolicyEnv(gym.Env):
         self.pillars = self.scenario.positions()
         meta = getattr(self.scenario, "meta", None) or {}
         self._fences, self._spent = (), set()
-        if self.gate_bonus:
+        self._stop_left = 0  # decisions remaining in the current post-gate hover
+        if self.gate_bonus or self.stop_hover:
             # lazy import (planner <-> skills would cycle at module level);
             # only fence-carrying worlds (the slaloms) ever pay the bonus
             from skills.gap_flight.skill import PILLAR_R
@@ -383,6 +394,7 @@ class WMPolicyEnv(gym.Env):
             # progress, small time cost, crash, goal — and deliberately no
             # danger-shaping term (that is what we learn)
             reward = 25.0 * (x - self.prev_x) - 0.02
+            hits = ()
             if self._fences:
                 hits = gate_bonus_hits(
                     (self.prev_x, self.prev_y),
@@ -392,6 +404,15 @@ class WMPolicyEnv(gym.Env):
                     self._pillar_r,
                 )
                 reward += self.gate_bonus * len(hits)
+            if self.stop_hover:
+                # inside a post-gate hover window: pay for HOLDING, penalise
+                # moving, and suppress progress (override) — the policy learns
+                # to stop and RESUME (the state the wrapper could not supply)
+                if self._stop_left > 0:
+                    reward = self._stop_tick if a_id == HOVER else -0.05
+                    self._stop_left -= 1
+                if hits:  # just threaded a gate -> open a fresh hover window
+                    self._stop_left = self.stop_hover
         self.prev_x = x
         self.prev_y = y
         terminated, truncated = False, False
@@ -504,6 +525,7 @@ def train(
     lstm_size: int = 64,
     gate_bonus: float = 0.0,
     station_tick: float = 0.0,
+    stop_hover: int = 0,
 ):
     from stable_baselines3.common.env_util import make_vec_env
 
@@ -527,6 +549,7 @@ def train(
             x_progress=x_progress,
             gate_bonus=gate_bonus,
             station_tick=station_tick,
+            stop_hover=stop_hover,
         ),
         n_envs=1,
     )

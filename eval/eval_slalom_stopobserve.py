@@ -97,6 +97,12 @@ def main() -> None:
     ap.add_argument("--seed0", type=int, default=22000)
     ap.add_argument("--hover", type=int, default=10, help="hover decisions per gate")
     ap.add_argument("--speed", type=float, default=1.0)
+    ap.add_argument(
+        "--policy",
+        default=SLALOM_CHAMPION,
+        help="policy zip; a stop-AWARE policy self-hovers, so read its "
+        "'continuous' (raw) column",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
@@ -109,7 +115,7 @@ def main() -> None:
     from world_model.training import load_model
 
     load_skill("skills/corridor_slalom_v2")  # register slalom3_fixed
-    model = load_policy(SLALOM_CHAMPION)
+    model = load_policy(args.policy)
     wms = {
         "champion": load_model(MODEL, device="cpu"),
         "unified": load_model(UNIFIED_WM, device="cpu"),
