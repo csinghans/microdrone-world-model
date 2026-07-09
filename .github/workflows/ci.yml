@@ -105,6 +105,8 @@ jobs:
           python -m scripts.new_skill --selftest
           python -m scripts.fetch_champions --selftest
           python -m scripts.train_stopaware_slalom --selftest
+          python -m scripts.demo_two_mode --selftest
+          python -m scripts.demo_vertical --selftest
       - name: Sim-in-the-loop selftests (headless)
         run: |
           python -m sim.envs

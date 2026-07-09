@@ -189,6 +189,14 @@ aero, not control). Only flight-*while*-turning avoidance (body≠world) still
 awaits a WM retrain; indoor avoidance stays the beams8 ring's job.
 (`experiments/{yaw,alt,height,lowfly}_v1/`)
 
+Seeing it: the drone covers the room at cruise, and when the range sensor
+says the beacon is near, it **descends to the floor and yaw-scans** to confirm
+an under-bed target (z=0.3 m) the level camera looks clean over — the frozen
+latent detects it once the drone drops to its height and turns to face it
+(`python -m scripts.demo_vertical`):
+
+![under-bed vertical search](docs/media/demo_indoor_vertical.gif)
+
 ## One embedded pair, two flight modes
 
 A *unified* world model (trained on the union of transit + indoor rollouts)
