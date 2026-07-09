@@ -58,17 +58,30 @@ SPEED_LO, SPEED_HI = 0.6, 1.0
 # one held command, or `window_valid` yields ZERO samples (measured — an
 # earlier 24-step hold produced an empty index and a 1-D-array crash).
 SEG_MIN, SEG_MAX = H_MAX + 8, H_MAX + 32
+# the TRANSLATIONAL vocabulary this diet teaches (forward/reverse/strafe/
+# slow/hover): these carry the drone across the plane toward walls, which is
+# the whole point of the dataset (wall appearance + collision under nav
+# commands). The yaw/up/down actions added in yaw_v1/alt_v1 turn or lift IN
+# PLACE — they never approach a wall (and their collision-under-yaw/vz regime
+# is a deferred WM retrain), so they are excluded here. Sampling over the full
+# NAV_ACTION_VECS once these landed diluted wall approaches to ~zero (a 3x90
+# selftest saw near-wall frac 0.00 and its danger-label assert tripped).
+ROAM_IDS = [
+    NAV_ACTION_NAMES.index(n)
+    for n in ("forward", "reverse", "strafe_left", "strafe_right", "slow", "hover")
+]
 
 
 def _nav_schedule(rng, length):
     """Held segments of random nav commands (the counterfactual-contrast
     recipe: keep a command for a stretch, then switch). Each hold exceeds
-    H_MAX so k-step windows are valid."""
+    H_MAX so k-step windows are valid. Draws only from the translational
+    ROAM_IDS — the scan/lift actions never fly into a wall."""
     act_id = np.zeros(length, dtype=np.int16)
     seg = np.zeros(length, dtype=np.int16)
     t, s = 0, 1
     while t < length:
-        a = int(rng.integers(0, len(NAV_ACTION_VECS)))
+        a = int(ROAM_IDS[rng.integers(0, len(ROAM_IDS))])
         n = int(rng.integers(SEG_MIN, SEG_MAX + 1))
         act_id[t : t + n] = a
         seg[t : t + n] = s
