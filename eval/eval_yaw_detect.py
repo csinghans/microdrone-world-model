@@ -77,7 +77,7 @@ def collect_yaw_frames(
     yaws = [np.radians(d) for d in yaws_deg]
     env = make_env()
     env.reset(seed=seed0)
-    lat, label, yaw_col, red = [], [], [], []
+    lat, label, yaw_col, red, obs_fov = [], [], [], [], []
     for i in range(n_rooms):
         sc = single_room(seed0 + i)
         target = sc.beacon_xy
@@ -104,6 +104,13 @@ def collect_yaw_frames(
                     red.append(_redness(frame))
                     label.append(1 if _in_fov_yaw((x, y), target, yw, half) else 0)
                     yaw_col.append(float(np.degrees(yw)))
+                    # hard-negative flag: an obstacle box in the (yawed) FOV —
+                    # a detector must fire on the red target, not orange boxes
+                    seen_obs = any(
+                        _in_fov_yaw((x, y), (ox, oy), yw, half)
+                        for ox, oy, _ in sc.obstacles
+                    )
+                    obs_fov.append(1 if seen_obs else 0)
                 remove_bodies(env, ids + [tid])
     env.close()
     return {
@@ -111,6 +118,7 @@ def collect_yaw_frames(
         "label": np.asarray(label, dtype=int),
         "yaw": np.asarray(yaw_col, dtype=float),
         "red": np.asarray(red, dtype=float),
+        "obs_in_fov": np.asarray(obs_fov, dtype=int),
     }
 
 

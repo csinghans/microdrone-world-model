@@ -56,3 +56,28 @@ latent 而言)——只需要重訓一個偵測頭,不動 WM。**
   在 hover(定點、已知淨空)時掃描不觸及碰撞 WM。
 - in-view 正例率 0.11(稀疏),但 pooled n=2005、逐 bin 都有兩類,AUC 穩健。
 - 兩顆 WM sha 全程未動(探針只讀)。
+
+## Phase 1a-1 — 讓 yaw 可飛(enabler,yaw=0 逐位元不變)
+
+`sim/envs.py:VelCommander` 從 `v_cmd[3]`(yaw-rate)積出 `yaw_ref`、傳
+`target_rpy=[0,0,yaw_ref]` 給 PID。yaw_ref 從 0 起、只在有 yaw 命令時動 ⇒ 今天所有
+yaw=0 配方 target_rpy 恆 [0,0,0] = 控制器預設 ⇒ **逐位元相同**(已驗:fly transit
+reached/0.35m/218 步、indoor found+返航/0撞/0.79/331 步,與改前完全一致)。正向測:
+yaw_left 命令把無人機轉 0→+1.87 rad、畫面 mean|Δ|=14.2(相機轉了)。
+`planner/nav_action_set.py` 加 `yaw_left`/`yaw_right`(原地轉、零平移、YAW_RATE 2.5),
+**放在 coverage `nav_menu` 之外**⇒搜索飛行仍 yaw-free(body==world)。(vx,vy)在此
+仍世界座標——對原地掃描正確;translate-while-yawed + 避撞是延後的 WM 重訓(1b)。
+
+## Phase 1a-2 — 在 yaw 幀上重訓偵測頭(穩)
+
+`search/target_detector.py:train_and_gate_yaw`:用統一 WM 編碼 yaw-掃描幀、fresh-room
+gate。n=2010(pos 0.13、hard-neg 374):**AUC 0.982、precision 0.905、obstacle-FA
+0.021、recall 0.758**。
+
+- **關鍵 caveat 解決**:obstacle-FA 0.021 ⇒ 頭認的是紅目標、不是「前方有盒」(對橘障礙
+  盒幾乎不觸發)。AUC 0.982 分離極佳。
+- per-frame recall 0.758(thr=0.5)略低於嚴格 per-frame bar 0.80 ⇒ 逐幀 gate 判 FAIL,
+  **但這對 hover-yaw-scan 不是問題**:掃描時目標跨多個 yaw 角連續在視野,per-frame
+  recall 0.758 複利成「掃描中至少偵到一次」≈ 1−0.242³ ≈ 0.99(vision_v1 的複利洞見)。
+- **判詞:yaw_v1 偵測頭在旋轉幀上運作良好、不需 WM 重訓**,是 hover-yaw-scan 的 found
+  訊號。頭存 `output/target_head_yaw.pt`(gitignored)。兩顆 WM sha 仍未動。
