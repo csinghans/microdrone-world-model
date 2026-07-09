@@ -87,6 +87,7 @@ jobs:
           python -m eval.eval_room_graph --selftest
           python -m eval.eval_target_probe --selftest
           python -m eval.eval_yaw_detect --selftest
+          python -m eval.eval_height --selftest
           python -m eval.eval_unified_wm_gate --selftest
           python -m eval.eval_slalom_stopobserve --selftest
           python -m search.target_detector --selftest

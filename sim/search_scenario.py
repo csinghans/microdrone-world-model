@@ -72,7 +72,44 @@ class SearchScenario:
     confirm_radius: float = 0.4  # "found" when this close to the beacon
     cell: float = 0.5  # coverage grid resolution (m)
     los: bool = False  # if True, obstacles block beacon sensing
+    # vertical extent (height_v1): ceiling_h == 0.0 means OPEN-TOP (the
+    # default — every existing 2D search/detection/coverage room is
+    # unchanged). When > 0 a ceiling slab is spawned at that height, with an
+    # optional low beam (bx, by, half, beam_h) = a lower patch. Height is a
+    # METRIC job for an up-facing rangefinder, not the monocular WM.
+    ceiling_h: float = 0.0
+    beam: tuple = None  # (bx, by, half, beam_h) low-ceiling patch, or None
     meta: dict = field(default_factory=dict)
+
+    def ceiling_at(self, x, y) -> float:
+        """Ground-truth ceiling height at room position (x, y): the low beam
+        where it covers, else the room ceiling. inf when open-top."""
+        if self.ceiling_h <= 0.0:
+            return float("inf")
+        if self.beam is not None:
+            bx, by, half, beam_h = self.beam
+            if abs(x - bx) <= half and abs(y - by) <= half:
+                return float(beam_h)
+        return float(self.ceiling_h)
+
+    def ceiling_range(self, env, max_range: float = 4.0) -> float:
+        """Up-facing rangefinder: ray-test straight up from the drone's world
+        position to the nearest ceiling/beam. Returns the measured CLEARANCE
+        above (m), or max_range if open. The deployable metric-height sensor
+        (a $5 up-rangefinder), the honest contrast to using the WM."""
+        import pybullet as p
+
+        pos, _ = p.getBasePositionAndOrientation(
+            env.DRONE_IDS[0], physicsClientId=env.CLIENT
+        )
+        z0 = pos[2] + 0.15  # start above the drone body so the ray never self-hits
+        hit = p.rayTest(
+            [pos[0], pos[1], z0],
+            [pos[0], pos[1], z0 + max_range],
+            physicsClientId=env.CLIENT,
+        )[0]
+        frac = hit[2]  # hitFraction in [0,1]; 1.0 == no hit within max_range
+        return float(0.15 + frac * max_range)  # clearance from the drone
 
     # --- static room: no dynamics (dynamic occupants are a later phase) ---
     def step(self) -> None:
@@ -131,6 +168,36 @@ class SearchScenario:
                     physicsClientId=env.CLIENT,
                 )
             )
+        if self.ceiling_h > 0.0:  # height_v1: a ceiling slab + an optional beam
+            t = 0.05
+            slabs = [((cx, cy), (hx, hy), self.ceiling_h, [0.70, 0.72, 0.78, 1])]
+            if self.beam is not None:
+                bx, by, half, beam_h = self.beam
+                slabs.append(
+                    ((bx - ox, by - oy), (half, half), beam_h, [0.35, 0.37, 0.42, 1])
+                )
+            for (px, py), (ex, ey), h, col in slabs:
+                # slab BOTTOM at height h, so an up-ray measures clearance = h - z.
+                # the ceiling gets a COLLISION shape too (unlike the visual-only
+                # walls) so the up-facing rangefinder's ray-test actually hits it.
+                vis = p.createVisualShape(
+                    p.GEOM_BOX,
+                    halfExtents=[ex, ey, t],
+                    rgbaColor=col,
+                    physicsClientId=env.CLIENT,
+                )
+                col_id = p.createCollisionShape(
+                    p.GEOM_BOX, halfExtents=[ex, ey, t], physicsClientId=env.CLIENT
+                )
+                ids.append(
+                    p.createMultiBody(
+                        baseMass=0,
+                        baseCollisionShapeIndex=col_id,
+                        baseVisualShapeIndex=vis,
+                        basePosition=[px, py, h + t],
+                        physicsClientId=env.CLIENT,
+                    )
+                )
         return ids
 
     def spawn_target(self, env, target_xy, offset=(0.0, 0.0), wall_h=1.0):

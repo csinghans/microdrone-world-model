@@ -29,7 +29,9 @@ def _far_from(x, y, pts, d) -> bool:
     return all(np.hypot(x - px, y - py) >= d for px, py in pts)
 
 
-def single_room(seed: int, n_obstacles: int = 2, los: bool = False) -> SearchScenario:
+def single_room(
+    seed: int, n_obstacles: int = 2, los: bool = False, ceiling: bool = False
+) -> SearchScenario:
     rng = np.random.default_rng(seed)
     x0, x1, y0, y1 = BOUNDS
     lo_x, hi_x = x0 + WALL_MARGIN, x1 - WALL_MARGIN
@@ -62,6 +64,15 @@ def single_room(seed: int, n_obstacles: int = 2, los: bool = False) -> SearchSce
     if beacon is None:  # degenerate draw: opposite corner, guaranteed valid
         beacon = (hi_x, hi_y)
 
+    # height_v1: an optional ceiling (per-seed height) + a low beam (a lower
+    # patch away from the start), so an up-rangefinder has a profile to map.
+    ceiling_h, beam = 0.0, None
+    if ceiling:
+        ceiling_h = float(rng.uniform(2.0, 3.2))
+        bx = float(rng.uniform(lo_x, hi_x))
+        by = float(rng.uniform(lo_y, hi_y))
+        beam = (bx, by, 0.6, ceiling_h - float(rng.uniform(0.7, 1.2)))
+
     return SearchScenario(
         bounds=BOUNDS,
         obstacles=tuple(obstacles),
@@ -71,6 +82,8 @@ def single_room(seed: int, n_obstacles: int = 2, los: bool = False) -> SearchSce
         confirm_radius=CONFIRM_RADIUS,
         cell=0.5,
         los=los,
+        ceiling_h=ceiling_h,
+        beam=beam,
         meta={"kind": "single_room", "seed": int(seed), "n_obstacles": len(obstacles)},
     )
 
