@@ -109,13 +109,25 @@ Phase 0 探針同步在 r=0.25 重跑:person-vs-empty 0.928、person-vs-box **0.
 附近、面向人做掃描。試過「靠近就掃」的觸發反而更糟(2/7:原地一直掃、不移動去找更好視角,
 燒光預算)——已回退。**find-rate 是獨立的搜索策略槓桿,非偵測 recall 問題。**
 
-## 整體
-- 偵測「人 vs 雜物」:GREEN、零 WM 重訓;加寬人形把 per-frame recall 0.50→0.68、AUC 0.918。
-- end-to-end「找到人」find-rate ~3/7,受搜索編排限制(非偵測),是下一個獨立主題。
-- demo `docs/media/demo_person.gif`(seed 11、found+returned)。頭 `output/target_head_person.pt`。
+## Phase 3 —— 搜索編排:find-rate 3/7 → 14/15(0.933,GREEN 水準)
+
+正經做搜索編排(非快修),兩個修正:
+1. **yaw 修正的 FOV bug**:原 confirm 用 `_in_fov`(假設 yaw=0),但掃描時無人機正在轉
+   yaw≠0 → FOV 判定根本錯。改用 `_in_fov_yaw(rpos, person, yaw, ...)`(如 run_yaw_scan_search)。
+2. **sense→接近→面向確認編排**:測距說「附近有東西」→ 進入 **approach**(朝 bearing **平移**
+   縮短距離到 ≤0.9 m,絕不原地空轉)→ **confirm**(轉 yaw 面向、頭確認 2 連擊)。近距離人形
+   填滿畫面、per-frame recall 高。confirm 一圈沒中就回覆蓋 + cooldown(避免原地反覆)。
+
+**結果(15 seed)**:**find 14/15 = 0.933、return 14/15 = 0.933**(僅 650001 miss)。對照:
+原編排 3/7、快修「靠近就掃」2/7(原地空轉、已回退)。⇒ recall 提升**需要搭配正確編排**才
+轉成 find-rate;兩者都到位後,「找到人」達搜索軌 GREEN 水準(~0.93)。
+
+## 整體判詞 — 「找到人」是可佈署的 WM 主場能力
+- **偵測**:凍結 WM latent 分「人 vs 雜物」GREEN(person-vs-box 0.95、shape-only 0.81),
+  零 WM 重訓;加寬人形 per-frame recall 0.50→0.68、AUC 0.918。
+- **端到端 find**:sense→接近→yaw 確認,find/return **0.933**(n=15)。
+- 幾何 beams 對「是人還是家具」全瞎;認出人是相機+WM 獨門。demo `docs/media/demo_person.gif`
+  (seed 11)。頭 `output/target_head_person.pt`。兩顆 WM sha 全程未動。
 
 ## 下一步(留 Hans 拍板)
-1. **搜索編排**(提 find-rate,非偵測):sense 導引到人附近再面向掃描、覆蓋預算/plateau 調校
-   ——需要比一次觸發更小心的設計(這輪快修已證明會反效果)。
-2. 更真實人形(多姿態 / 部分遮蔽 / 瓦礫半掩)壓測 —— 若崩才需 WM 重訓(大步)。
-兩顆 WM sha 全程未動。
+更真實人形(多姿態 / 部分遮蔽 / 瓦礫半掩)壓測 —— 若崩才需 WM 重訓(大步)。

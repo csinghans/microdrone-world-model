@@ -27,7 +27,8 @@ HEAD = os.path.join("output", "target_head_person.pt")
 def record(env, seed, thr=0.5, speed=0.6, max_decisions=900, scan_every=22, stride=2):
     import torch
 
-    from eval.eval_person_detect import _in_fov, _spawn_person
+    from eval.eval_person_detect import _spawn_person
+    from eval.eval_yaw_detect import _in_fov_yaw
     from eval.search_episode import (
         _SAFETY,
         _bfs_home_path,
@@ -76,7 +77,15 @@ def record(env, seed, thr=0.5, speed=0.6, max_decisions=900, scan_every=22, stri
 
     state = obs[0]
     frames, phase, home_path = [], "search", []
-    found, returned, since_scan, hits = False, False, 0, 0
+    found, returned, since_scan, hits, cooldown, ap_steps, cf_steps = (
+        False,
+        False,
+        0,
+        0,
+        0,
+        0,
+        0,
+    )
     d = 0
 
     def snap():
@@ -85,26 +94,68 @@ def record(env, seed, thr=0.5, speed=0.6, max_decisions=900, scan_every=22, stri
                 _follow_oblique(env, float(state[0]), float(state[1]), float(state[2]))
             )
 
+    def drive(cmd_vec):  # one control block; returns updated state
+        nonlocal state
+        for _ in range(DECIDE_EVERY):
+            o, *_ = env.step(cmd.rpm(state, cmd_vec).reshape(1, 4))
+            state = o[0]
+            if sc.clearance(room_xy(state)) < COLLISION_R:
+                break
+
     while d < max_decisions and phase != "done":
         rpos = room_xy(state)
+        br = sc.sense_beacon(rpos)  # {'bearing','range'} within 1.5 m, else None
+        # DISCOVERY -> APPROACH: the range sensor says something is near; go
+        # CLOSE (translate toward the bearing, never spin in place) so the
+        # person fills the frame and per-frame recall is high before confirming
+        if phase == "search" and br is not None and cooldown == 0 and not found:
+            phase, ap_steps = "approach", 0
+        if phase == "approach":
+            rng = float(np.hypot(person[0] - rpos[0], person[1] - rpos[1]))
+            if rng <= 0.9 or ap_steps > 25:
+                phase, cf_steps, hits = "confirm", 0, 0
+                continue
+            th = br["bearing"] if br else np.arctan2(*(np.array(person) - rpos)[::-1])
+            drive(vecs[safe_fn(sc, rpos, _cardinal(np.cos(th), np.sin(th)))])
+            ap_steps += 1
+            d += 1
+            snap()
+            continue
+        if phase == "confirm":  # face the person (yaw) and CONFIRM with the head
+            yaw = float(state[9])
+            if detect() >= thr:
+                hits += 1
+                if hits >= 2 and _in_fov_yaw(rpos, person, yaw, FOV_HALF_DEG):
+                    found, phase = True, "return"
+            else:
+                hits = 0
+            if not found:
+                drive(yaw_cmd)
+                cf_steps += 1
+                if cf_steps > 34:  # a full turn, no confirm -> resume + cool down
+                    phase, cooldown = "search", 70
+            d += 1
+            snap()
+            continue
+        # periodic discovery scan (fallback if the sensor never triggers)
         if phase == "search" and since_scan >= scan_every and not found:
             since_scan = 0
-            for _s in range(30):  # a 360 hover-yaw scan
+            for _s in range(30):
+                yaw = float(state[9])
                 if detect() >= thr:
                     hits += 1
-                    if hits >= 2 and _in_fov(rpos, person, FOV_HALF_DEG):
+                    if hits >= 2 and _in_fov_yaw(rpos, person, yaw, FOV_HALF_DEG):
                         found, phase = True, "return"
                 else:
                     hits = 0
-                for _ in range(DECIDE_EVERY):
-                    obs, *_ = env.step(cmd.rpm(state, yaw_cmd).reshape(1, 4))
-                    state = obs[0]
+                drive(yaw_cmd)
                 d += 1
                 snap()
                 if found:
                     break
             continue
         since_scan += 1
+        cooldown = max(0, cooldown - 1)
         if phase == "return":
             if sc.found_home(rpos):
                 returned, phase = True, "done"
@@ -125,12 +176,7 @@ def record(env, seed, thr=0.5, speed=0.6, max_decisions=900, scan_every=22, stri
                     "step": d,
                 }
             )
-        a = safe_fn(sc, rpos, a)
-        for _ in range(DECIDE_EVERY):
-            obs, *_ = env.step(cmd.rpm(state, vecs[a]).reshape(1, 4))
-            state = obs[0]
-            if sc.clearance(room_xy(state)) < COLLISION_R:
-                break
+        drive(vecs[safe_fn(sc, rpos, a)])
         d += 1
         snap()
 

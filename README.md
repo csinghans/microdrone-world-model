@@ -202,10 +202,11 @@ separates a person-shape from box clutter at AUC 0.95 — 0.81 on *shape alone*,
 with the person painted the clutter's colour, so it is the shape it reads, not
 a colour cue (`experiments/person_v1/`). A person detection head trained on
 that latent reads a person at AUC 0.92 / recall 0.68 with a low clutter
-false-alarm (0.09); per-frame recall is the scan regime, so a hover-yaw scan
-compounds it to a confirmed find — a rangefinder is blind to *what* a shape is;
-the camera+WM is the only instrument that can tell a person from furniture
-(`python -m scripts.demo_person`):
+false-alarm (0.09). End to end — Frontier coverage, then sense-near → approach
+→ face-and-confirm with a yaw scan — the drone finds AND returns from the
+person at **0.93 (n=15)**, GREEN-level. A rangefinder is blind to *what* a
+shape is; the camera+WM is the only instrument that can tell a person from
+furniture (`python -m scripts.demo_person`):
 
 ![find a person](docs/media/demo_person.gif)
 
