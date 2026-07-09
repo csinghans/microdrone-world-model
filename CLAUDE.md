@@ -1,8 +1,10 @@
 # CLAUDE.md — working in microdrone-world-model
 
 A tiny latent world-model stack for micro-drones. The wedge: **how much
-anticipation can you buy under embedded constraints** (512 KB, ~10 ms
-decisions, one fixed 60° camera)? Everything here serves that question.
+anticipation can you buy under embedded constraints** (512 KB, ~8 ms
+decisions in a 12 Hz loop, one body-fixed 60° camera — v0.8 added a yaw
+command for indoor search, the camera stays rigid to the frame)? Everything
+here serves that question.
 
 ## Environment & commands
 
@@ -82,6 +84,16 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   `experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip`
   (BC2 + anchored-schedule FT + edge_bias; crowned at pooled 84/120,
   all guards green — the eleventh sitting).
+- Two WM artifacts, both SACRED (verify sha before/after any WM touch):
+  the pinned champion `output/world_model.pth` (transit) and the unified
+  `output/world_model_unified.pth` (transit+indoor). v0.8 ships them
+  ALONGSIDE via a start-of-mission flight-mode selector
+  (`planner/flight_mode.py`; `scripts.fly --mode transit|indoor_search`) —
+  overwriting the champion with the unified WM breaks the distilled zoo
+  (slalom 80%→0%), so never clobber; the unified WM is a separate artifact.
+- Indoor detection heads live in `output/target_head_{alt,low}.pt` (retrained
+  on yaw-/multi-height frames — the frozen latent is yaw-invariant, so
+  "turn to find" and vertical search cost a HEAD retrain, never a WM retrain).
 
 - Lint the WHOLE repo (`black --check . && ruff check .`) before any
   push, not just the files you edited — a hand-typed dict in an
@@ -123,5 +135,5 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
 
 This repo grew out of the nanodrone-ai course (Lesson 29) and inherits its
 voice: state limits where they bite, prefer scoreboards to demos, and keep
-the embedded budget (512 KB, currently 137-162 KB) in every design
+the embedded budget (512 KB, currently 137-163 KB) in every design
 conversation. The course is frozen at v1.0; new research lands here.

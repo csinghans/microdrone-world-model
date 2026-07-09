@@ -27,7 +27,11 @@ safety filter wrapped around every command.
 the target this whole stack is sized for: int8 weights + activations +
 workspace ≤ 512 KB, ~12 Hz decisions. Deployment path: NNTool quantization →
 Autotiler codegen → encoder/predictor/heads on GAP8; the flight loop stays
-on the STM32 through cflib setpoints.
+on the STM32 through cflib setpoints. v0.8 makes this a **two-WM** target:
+the pinned champion (transit) and the unified WM (indoor search) are
+co-resident at ~163 KB int8 (32 % of the 512 KB budget), only one running
+per flight mode (`planner/flight_mode.py`) — so the on-board bill is one WM's
+compute at a time, two WMs' weights at rest.
 
 `crazyflie_adapter.py` (planned): cflib velocity setpoints + the same safety
 filter; the AI-deck streams camera frames during bring-up so on-board and

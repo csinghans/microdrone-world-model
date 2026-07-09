@@ -8,7 +8,8 @@ per decision, and gigabytes of memory.
 A 27 g micro-drone offers none of that. It offers:
 
 - **512 KB** of fast memory for weights *and* activations *and* workspace,
-- a **~10 ms** decision deadline at a useful control rate,
+- a decision loop at a useful control rate (**~8 ms** compute per decision,
+  a 12 Hz loop — see [embedded_budget.md](embedded_budget.md)),
 - one **fixed, forward, 60°** camera (body-mounted, no gimbal — the drone
   turns its whole body to look; v0.8 added a yaw command for indoor search,
   the camera still rigid to the frame),

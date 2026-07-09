@@ -1,10 +1,10 @@
 # AGENTS.md — working in microdrone-world-model
 
 A tiny latent world-model stack for micro-drones. The wedge: **how much
-anticipation can you buy under embedded constraints** (512 KB, ~10 ms
-decisions, one body-fixed 60° camera — v0.8 added a yaw command for indoor
-search, the camera stays rigid to the frame)? Everything here serves that
-question.
+anticipation can you buy under embedded constraints** (512 KB, ~8 ms
+decisions in a 12 Hz loop, one body-fixed 60° camera — v0.8 added a yaw
+command for indoor search, the camera stays rigid to the frame)? Everything
+here serves that question.
 
 ## Environment & commands
 
@@ -135,5 +135,5 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
 
 This repo grew out of the nanodrone-ai course (Lesson 29) and inherits its
 voice: state limits where they bite, prefer scoreboards to demos, and keep
-the embedded budget (512 KB, currently 137-162 KB) in every design
+the embedded budget (512 KB, currently 137-163 KB) in every design
 conversation. The course is frozen at v1.0; new research lands here.

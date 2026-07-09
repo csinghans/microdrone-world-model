@@ -78,7 +78,7 @@ robot arms — assume an Orin-class GPU, tens of watts, gigabytes. A 27 g
 drone offers:
 
 - **512 KB** of fast memory for weights *and* activations *and* workspace,
-- a **~10 ms** decision deadline,
+- a **~12 Hz** decision loop (an 83 ms budget per decision),
 - one **fixed, forward-facing 60° camera**,
 - a battery measured in minutes.
 

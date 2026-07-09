@@ -10,6 +10,14 @@ The software-engineering loop, mapped onto flight research:
 | CI gate | the **deployment gate**: integration success ≥ 0.70 at n = 100 random courses — the standing precondition for real-hardware deployment |
 | build artifact of record | the LATEST passing integration flight, kept in-repo as two GIFs (drone FPV + simulator god view) + a provenance stamp (`docs/media/`) |
 
+This gate is the **transit** flight mode's precondition (the composite is a
+transit obstacle course). v0.8 added a second flight mode, `indoor_search`,
+with its own separate gating — `eval_search` at the robust speed 0.6:
+crash-free single- and multi-room find + return on the beams8 rangefinder
+ring (`experiments/search_*`). The two modes ship alongside and gate
+independently (`planner/flight_mode.py`); real-hardware deployment of a mode
+is preconditioned on that mode's gate.
+
 ## The red–green loop
 
 1. Run the integration suite (`python -m eval.eval_integration --suite

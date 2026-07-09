@@ -129,3 +129,42 @@ Alphabetical-ish, grouped by layer. Every term links to a live example.
   ([charter](../.claude/commands/research-operator.md)) executes,
   reports in a fixed format, and never designs. Not a demotion — a
   division of labour.
+
+## The indoor-search layer (v0.7+)
+
+- **indoor active search track** — a task-driven arc (cover an unknown
+  room, find an abstract beacon, return home) structurally isolated from
+  the transit benchmark: its own nav action set, search scenarios, and
+  gate (`eval_search`, flown at the robust speed 0.6). The through-line:
+  the WM is a SEEING instrument — it loses the spatial jobs (safety,
+  coverage) to cheap geometry but owns perception
+  ([two-room](../experiments/search_tworoom_v1/journal.md)).
+- **camera-lock (yaw=0 +x)** — the body-fixed forward camera, kept to
+  protect the WM's body==world frame; the track's recurring limit (it
+  blinded the WM to 60 % of residual collisions and let visual search
+  only glimpse a target). v0.8 broke it *for perception*: detection is
+  yaw-INVARIANT, so "turn to find" cost a head retrain, not a WM retrain
+  ([yaw_v1](../experiments/yaw_v1/journal.md)).
+- **beams8 ring** — the deployable 8-beam rangefinder veto that owns
+  indoor collision safety (the WM lost that job to cheap geometry): a
+  body-aware swept-corridor check, collision 0.008 at n=120, the sweet
+  spot between 4 beams (0.033) and 16 (0.000)
+  ([search_beams_v1](../experiments/search_beams_v1/journal.md)).
+- **unified WM vs pinned champion** — two WM artifacts: the pinned
+  champion `world_model.pth` (transit) and the unified
+  `world_model_unified.pth` (transit+indoor). The unified WM matches-or-
+  beats the champion on every WM-owned job but OVERWRITING it breaks the
+  distilled skill zoo (slalom 80 %→0 %), so it ships ALONGSIDE, never
+  over ([unified_wm_v1](../experiments/unified_wm_v1/journal.md)).
+- **flight mode** — a start-of-mission selector (`planner/flight_mode.py`,
+  `scripts.fly --mode transit|indoor_search`) binding a mission to its own
+  stack: `transit` = pinned champion WM + skill policy; `indoor_search` =
+  unified WM + Frontier + beams8. Two WMs resident (~163 KB int8), one
+  running per mode.
+- **vertical / multi-altitude search** — fly to a target's height with
+  vertical lift (vz, a clean DOF — the camera stays level; not pitch,
+  which couples to translation) and look level. Lifts find-rate 0.50→1.00
+  by catching the high cabinet and the under-bed target a single altitude
+  cannot ([alt_v1](../experiments/alt_v1/journal.md)). Height itself is
+  cheap geometry — an upward rangefinder, MAE 0.0 cm
+  ([height_v1](../experiments/height_v1/journal.md)).

@@ -1,6 +1,6 @@
 # Sim-to-real
 
-Everything in v0.1 is measured in simulation. That sentence appears wherever
+Everything here is measured in simulation. That sentence appears wherever
 the numbers do, because the classic failure of sim-trained perception is not
 that it breaks on hardware — it is that nobody *priced* the break before
 paying it.
@@ -33,7 +33,18 @@ Two honest findings from the baseline worth keeping in view:
 ## What randomization cannot buy
 
 Randomization hardens against *modelled* gaps. Real optics, real airflow,
-real motor wear are unmodelled — which is exactly what the v0.4 hardware
+real motor wear are unmodelled — which is exactly what the v0.6 hardware
 bridge measures (Tello first for the perception gap, Crazyflie + AI-deck
 for the on-board story), with the same evals and the safety envelope of
 `docs/safety.md`.
+
+A concrete instance the indoor track surfaced (v0.8, `lowfly_v1`): the sim's
+ground effect is a clean analytic term the PID already compensates, so
+floor-hugging flight (hover + descent to z=0.15 m) is stable in sim — drift
+<0.5 mm, descent overshoot <1 cm, no floor contact. That is precisely the
+kind of "clean in sim" result to distrust: real near-surface aerodynamics
+(prop-wash recirculation off floor/walls/clutter, turbulence, uneven ground)
+are far nastier and unmodelled here. So near-floor / under-bed search is a
+perception + geometry success in sim whose *flight* robustness is an open
+sim-to-real bill — not settleable in this simulator, and a first thing the
+hardware bridge would price.

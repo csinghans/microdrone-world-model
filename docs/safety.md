@@ -10,7 +10,7 @@ those directions are declined regardless of technical merit.
 ## Why a collision-avoidance repo talks about safety at all
 
 The models here decide where a flying object goes. In simulation that risk
-is zero; the moment the v0.4 hardware bridge lands, it is not. The rule is
+is zero; the moment the v0.6 hardware bridge lands, it is not. The rule is
 that the safety envelope ships *before* the first free flight, not after
 the first incident.
 

@@ -16,9 +16,9 @@ run-to-run ranges.
 ## Why this exists
 
 Big world models (V-JEPA 2 class) need Orin-class GPUs. A 27 g drone has a
-512 KB budget and a ~10 ms decision deadline. This project's wedge is the
-gap between those two sentences: **how much anticipation can you buy under
-embedded constraints?** See [docs/vision.md](docs/vision.md).
+512 KB budget and computes each decision in ~8 ms (a 12 Hz loop). This
+project's wedge is the gap between those two sentences: **how much
+anticipation can you buy under embedded constraints?** See [docs/vision.md](docs/vision.md).
 
 ## The stack
 
@@ -40,7 +40,7 @@ camera frame ──> Encoder (bearing-aware, 64-d latent)
 | `datasets/` | intervention rollouts, counterfactual label oracle + FOV honesty masks |
 | `eval/` | timing schematic, closed-loop scoreboard, speed sweep, robustness pricing, embedded budget |
 | `scripts/` | `train.py`, `evaluate.py`, `demo.py` |
-| `hardware/` | v0.4 bridge design (Tello off-board → Crazyflie/GAP8 on-board) |
+| `hardware/` | v0.6 bridge design (Tello off-board → Crazyflie/GAP8 on-board) |
 
 ## Quickstart
 
