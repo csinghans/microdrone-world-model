@@ -116,13 +116,52 @@ track put the WM to three indoor jobs and gated each honestly:
 | **detection (is a target in view)** | **AUC 0.94, target-specific, no retrain** | **the world model** (vision_v1) |
 
 The WM is a SEEING instrument: it loses the spatial jobs (safety, coverage)
-to cheap geometry, but perception/detection is its home. The recurring
-binding constraint is the **yaw=0 +x camera-lock** (kept to protect the
-WM's body==world frame): it blinded the WM to 60% of collisions
-(search_hybrid_v1) AND caps visual search (the +x cone only glimpses a
-target as it sweeps past — vision_v1 flight). Lifting it (yaw + a WM
-retrain on the turning vocabulary) is the deferred big step, now
-demonstrably needed — the owner's strategic call to open.
+to cheap geometry, but perception/detection is its home. The track's
+recurring binding constraint was the **yaw=0 +x camera-lock** (kept to
+protect the WM's body==world frame): it blinded the WM to 60% of collisions
+(search_hybrid_v1) AND capped visual search (the +x cone only glimpses a
+target as it sweeps past — vision_v1 flight). **v0.8 lifted it for
+perception, cheaply (yaw_v1 below): detection turned out to be
+yaw-INVARIANT, so "turn to find" and vertical search cost a retrained head,
+not a WM retrain.** Only flight-*while*-turning avoidance (body≠world) still
+awaits the WM retrain — and indoor avoidance is the beams8 ring's job, not
+the WM's, so that step is no longer on the deployment path.
+
+**v0.8 — indoor search goes vertical, and one WM learns two modes.** The
+constraint fell and the search grew a dimension; full numbers in the
+CHANGELOG (0.8.0) and `experiments/{yaw,alt,height,lowfly,unified_wm,slalom_stopobserve}_v1/`:
+
+- **yaw_v1 — the camera-lock broken, GREEN.** Frozen-latent detection is
+  yaw-invariant (pooled AUC 0.977, no decay with heading); a retrained head
+  reads yaw-swept frames at AUC 0.982. Hover-yaw-scan flight gate PASSES
+  (correct 0.70, false-alarm 0.10, collision 0.00, return 1.00) vs the
+  +x-lock baseline's FA 0.95 / miss 0.40 — a ~10-line VelCommander yaw
+  integrator, zero WM retrain.
+- **alt_v1 — vertical search, GREEN after a head retrain.** Fly to the
+  target's height and look level (vz, a clean DOF, not pitch). Level
+  detection is strong high (1.6–2.0 m AUC 0.98–0.99), weak near the floor
+  (0.4 m 0.663); a multi-height-frame head recovers the low regime (0.4 m
+  0.66→0.90, near-floor z=0.15 m 0.83). A multi-height scan lifts find-rate
+  0.50→1.00 — high cabinet (2.0 m) 0.00→1.00 and under-bed (0.3 m) 0.17→1.00,
+  both outside a single level FOV. Zero WM retrain.
+- **height_v1 — height is geometry, not the WM.** An upward rangefinder
+  reads ceiling clearance at MAE 0.0 cm (8 rooms / 326 points) and maps a low
+  beam (0.62 vs 1.63 m). Same division of labor as beams8: WM wins
+  perception, cheap geometry wins metric/spatial.
+- **lowfly_v1 — floor-hugging flight is clean in sim; the limit is
+  sim-to-real.** Settled hover and descent hold to z=0.15 m (<0.5 mm drift,
+  <1 cm overshoot, no floor contact) — the DSL PID compensates the modeled
+  ground effect. The honest remaining limit is near-surface aero the sim does
+  not model, not control.
+- **unified_wm_v1 + flight_mode — one embedded pair, two modes.** One WM on
+  transit+indoor beats the champion on every WM-owned job (transit AUC@32
+  0.896→0.931, crash 40%→21%, false-evasion 100%→6%; indoor detection
+  0.940→0.978) but overwriting the champion breaks the distilled zoo (slalom
+  80%→0%). So it ships ALONGSIDE via a start-of-mission flight-mode selector
+  (`planner/flight_mode.py`; `scripts.fly --mode`), two WMs resident at
+  ~163 KB int8, one running per mode. slalom_stopobserve_v1 measured the
+  swap-robustness levers (wrapper fails, stop-aware 0→25%, two-WM data-aug
+  0→75% but rebalances).
 
 - **Phase 1a — the smallest single-room proof: GREEN.** A micro-drone
   covers a 5×5 room, senses an abstract beacon (bearing+range, no

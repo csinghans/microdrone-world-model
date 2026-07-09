@@ -4,8 +4,8 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.7.0 — the anchor dial; a crowned skill and a six-clause
-fine-tune safety law.** The baseline shipped as
+**Status: v0.8.0 — indoor search goes vertical (yaw + altitude + geometric
+height), and one embedded WM pair flies two modes.** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what
@@ -159,13 +159,28 @@ beacon) put the world model to three indoor jobs and gated each honestly:
 | coverage (where to go) | HURTS under clutter vs a plain grid | geometric Frontier / grid policy |
 | **detection (is a target in view)** | **AUC 0.94, target-specific, no retrain** | **the world model** |
 
-It loses the spatial jobs to cheap geometry but perception is its home;
-the recurring limit is the yaw=0 forward-camera lock (it blinded the WM
-to 60 % of residual collisions AND caps the visual search to glimpses).
+It loses the spatial jobs to cheap geometry but perception is its home.
 Single- and multi-room search is deployable, crash-free, on the
 rangefinder ring — the doorway crossing visible in a god-view sweep:
 
 ![indoor multi-room search](docs/figures/search_tworoom_trajectory.png)
+
+**The camera-lock that capped it — broken, cheaply.** The track's recurring
+limit was the yaw=0 forward camera (it blinded the WM to 60 % of residual
+collisions AND let visual search only glimpse a target sweeping past). v0.8
+lifts it *for perception* with **no WM retrain**, because the frozen latent
+is a function of the image: detection is yaw-INVARIANT (pooled AUC 0.977) and
+survives altitude with a retrained head. So the drone can now **turn to find**
+(hover-yaw-scan flight gate: correct 0.70, false-alarm 0.10, crash 0.00) and
+**search in the vertical** — fly to a target's height and look level (vz, a
+clean DOF, not pitch): a multi-height scan lifts find-rate **0.50 → 1.00**,
+catching both the high cabinet (2.0 m, outside a level FOV at cruise) and the
+under-bed target (0.3 m). Height itself is cheap geometry — an upward
+rangefinder reads ceiling clearance at 0.0 cm MAE — and near-floor flight is
+clean in sim (the honest remaining limit there is sim-to-real near-surface
+aero, not control). Only flight-*while*-turning avoidance (body≠world) still
+awaits a WM retrain; indoor avoidance stays the beams8 ring's job.
+(`experiments/{yaw,alt,height,lowfly}_v1/`)
 
 ## One embedded pair, two flight modes
 

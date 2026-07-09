@@ -9,7 +9,9 @@ A 27 g micro-drone offers none of that. It offers:
 
 - **512 KB** of fast memory for weights *and* activations *and* workspace,
 - a **~10 ms** decision deadline at a useful control rate,
-- one **fixed, forward, 60°** camera,
+- one **fixed, forward, 60°** camera (body-mounted, no gimbal — the drone
+  turns its whole body to look; v0.8 added a yaw command for indoor search,
+  the camera still rigid to the frame),
 - and a battery measured in minutes.
 
 The wedge this project drives: **how much anticipation can you buy under

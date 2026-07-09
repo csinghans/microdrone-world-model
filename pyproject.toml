@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "microdrone-world-model"
-version = "0.7.0"
+version = "0.8.0"
 description = "A tiny latent world-model stack for micro-drones"
 license = {text = "Apache-2.0"}
 requires-python = ">=3.10"

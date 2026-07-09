@@ -1,7 +1,76 @@
 # Changelog
 
-## Unreleased — the split-identity correction
+## 0.8.0 — 2026-07-09 (indoor search goes vertical — and one WM learns two flight modes)
 
+The indoor active-search track's binding constraint fell, and the search
+grew a third dimension. Every job below cost a head + a few lines of
+commander glue — **zero world-model retraining** — because the frozen
+latent is a function of the IMAGE: a target ahead in the body FOV is
+detectable at any heading and (with a retrained head) almost any altitude.
+
+- **The +x camera-lock, broken (yaw_v1): "turn to find" is free for the
+  frozen WM.** The recurring binding constraint of the whole indoor track —
+  a yaw=0 forward camera that could only glimpse a target sweeping past —
+  falls with no WM retrain. Frozen-latent detection is yaw-INVARIANT (pooled
+  AUC **0.977**, per-bin 0.938–1.000, no decay with heading); a head
+  retrained on yaw-swept frames reads them at AUC **0.982** (obstacle-FA
+  0.021). The hover-yaw-scan flight gate PASSES: correct-find **0.70**,
+  false-alarm **0.10**, collision **0.00**, return **1.00** — versus the
+  +x-lock baseline's FA 0.95 / miss 0.40. Cost: a ~10-line VelCommander yaw
+  integrator + off-menu yaw actions. Flight-IN-yaw avoidance (body≠world)
+  stays deferred to a Phase 1b WM retrain — indoor avoidance is the beams8
+  ring's job, not the WM's (`experiments/yaw_v1/`).
+- **Vertical search: fly to the target's height and look level (alt_v1) —
+  high cabinet AND under-bed, zero WM retrain.** Use vertical lift (vz, a
+  clean free DOF — the camera stays level) not pitch (which couples to
+  translation and is WM-OOD). Frozen-latent level detection is strong high
+  (1.6–2.0 m AUC 0.98–0.99) but weak near the floor (0.4 m AUC 0.663); a head
+  retrained on multi-height frames recovers the low regime (0.4 m
+  **0.66→0.90**, all heights 0.86–0.96; near-floor z=0.15 m AUC **0.83**).
+  Capability gate: a multi-height scan lifts find-rate **0.50→1.00** —
+  under-bed (0.3 m) 0.17→1.00, high-cabinet (2.0 m, geometrically outside a
+  level FOV at cruise height) 0.00→1.00. Sim additions all default-off
+  (target height, vary_height rooms, up/down lift actions, down-rangefinder)
+  (`experiments/alt_v1/`).
+- **Indoor height sensing is geometry, not the WM (height_v1).** An upward
+  rangefinder (a modeled up-ToF against a collision-shaped ceiling) measures
+  ceiling height at MAE **0.0 cm** over 8 rooms / 326 points, and maps a low
+  beam (0.62 m under-beam clearance vs 1.63 m open) — the same division of
+  labor as beams8 for avoidance: the WM wins perception, cheap geometry wins
+  metric/spatial. (Recognizing vertical STRUCTURE from the image would need a
+  real pitch-view WM retrain — a bigger step than yaw, deferred)
+  (`experiments/height_v1/`).
+- **Floor-hugging flight is clean IN SIM; the real limit is sim-to-real
+  (lowfly_v1).** With detection holding to z=0.15 m, the open question was
+  flight: settled hover 1.0→0.15 m drifts **<0.5 mm** with no floor-sink, and
+  the descend-into-ground-effect transient overshoots **<1 cm** / settles
+  <2 cm with no bounce — the DSL PID compensates the MODELED ground effect.
+  So the sim reveals no floor-hugging control problem; the honest limit is
+  the sim-to-real near-surface aerodynamics (prop-wash recirculation,
+  turbulence, clutter) this sim does not model (`experiments/lowfly_v1/`).
+- **One 512 KB WM can hold transit AND indoor — and wins every job it owns
+  (unified_wm_v1).** A WM trained on the union of transit + indoor rollouts
+  beats the pinned champion on transit collision-prediction (held-out AUC@32
+  0.896→**0.931**; closed-loop crash **40%→21%**, false-evasion **100%→6%**,
+  min-clear 0.35→0.39 m, 100% reach; crash ≤ champion at every 0.8–1.6 m/s
+  sweep point, reach trading only at 1.4/1.6 m/s) and on indoor detection
+  (0.940→**0.978**), with one honest regression OFF the deployed path (indoor
+  forward-collision AUC 0.814→0.674 — a signal the beams8 ring owns anyway).
+  But OVERWRITING the pinned champion breaks the distilled skill zoo (slalom
+  80%→0%, gap/moving-gap/door −5..−30%; the encoder shift compounds over long
+  chains), so the unified WM ships as a SEPARATE artifact.
+- **Two flight modes, one embedded pair resident (flight_mode).**
+  `planner/flight_mode.py` binds each mission at start to its own stack —
+  `transit` = pinned champion WM + skill policy, `indoor_search` = unified WM
+  + Frontier + beams8 — two WMs resident at ~163 KB int8 (32% of the 512 KB
+  budget), only one running per mode (`scripts.fly --mode`). Ship alongside,
+  not over the champion (whose sha is untouched).
+- **Surviving the encoder swap, measured three ways (slalom_stopobserve_v1).**
+  Whether a swap-broken skill can be RETRAINED to tolerate the unified WM: a
+  post-hoc hover wrapper on the continuous champion is a double negative
+  (80%→10%/0%; hover is itself OOD), stop-aware retraining recovers slalom
+  **0%→25%**, and two-WM encoder data-augmentation is the strongest lever at
+  **0%→75%** — but it rebalances (champion 80%→35%) rather than lifting both.
 - **⚠ Instrument correction (affects λ-campaign numbers published in
   0.7.0's notes; conclusions survive, arithmetic corrected).** The
   model-axis probe graded every non-seed-0 checkpoint on the seed-0
