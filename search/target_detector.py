@@ -131,6 +131,52 @@ def train_and_gate_yaw(
     return _score(head, te, thr)
 
 
+def train_and_gate_alt(
+    out=None,
+    n_rooms=6,
+    train_seed0=600000,
+    test_seed0=610000,
+    thr=0.5,
+    oversample_low=0,
+):
+    """The alt_v1 detector: train on MULTI-ALTITUDE frames (unified WM), gate
+    on a fresh multi-altitude block, and break AUC/recall down BY DRONE
+    ALTITUDE for level targets — the test of whether a trained head recovers
+    the low (under-bed, z=0.4) regime the linear probe was weak at (0.66).
+    `oversample_low` (int) repeats the low-altitude (z<=0.8) training rows
+    that many extra times, to force the head to learn the harder view."""
+    from eval.eval_alt_detect import UNIFIED_WM, Z_CAMS, collect_alt_frames
+
+    tr = collect_alt_frames(n_rooms, train_seed0, ckpt=UNIFIED_WM)
+    te = collect_alt_frames(n_rooms, test_seed0, ckpt=UNIFIED_WM)
+    X, Y = tr["lat"], tr["label"]
+    if oversample_low > 0:
+        low = tr["z_cam"] <= 0.8
+        X = np.concatenate([X] + [X[low]] * oversample_low)
+        Y = np.concatenate([Y] + [Y[low]] * oversample_low)
+    head = DetectionHead().fit(X, Y)
+    if out:
+        head.save(out)
+    res = _score(head, te, thr)
+    p, y = head.prob(te["lat"]), te["label"]
+    # threshold sweep: AUC is strong but the 0.5 operating point clips recall;
+    # find a deployable thr (recall up, obstacle-FA still low)
+    res["thr_sweep"] = {}
+    for t in (0.2, 0.3, 0.4, 0.5):
+        s = _score(head, te, t)
+        res["thr_sweep"][t] = (s["precision"], s["recall"], s["obstacle_false_alarm"])
+    level = te["elev"] <= 0.4
+    res["level_by_z"] = {}
+    for z in sorted(set(Z_CAMS)):
+        m = level & (te["z_cam"] == z)
+        yy = y[m]
+        auc = _auc(p[m], yy) if (len(yy) and yy.min() != yy.max()) else float("nan")
+        npos = int((yy == 1).sum())
+        rec = float(((p[m] >= thr) & (yy == 1)).sum() / npos) if npos else float("nan")
+        res["level_by_z"][z] = (auc, rec)
+    return res
+
+
 def selftest() -> None:
     # env-free: the head learns a linearly-separable toy latent
     rng = np.random.default_rng(0)
@@ -150,19 +196,44 @@ def main() -> None:
     ap.add_argument("--train", default=None, help="output head .pt (else selftest)")
     ap.add_argument("--n-rooms", type=int, default=6)
     ap.add_argument("--yaw", action="store_true", help="train on yaw-swept frames")
+    ap.add_argument("--alt", action="store_true", help="train on multi-altitude frames")
+    ap.add_argument(
+        "--oversample-low", type=int, default=0, help="alt: repeat low rows"
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest or not args.train:
         selftest()
         return
-    fn = train_and_gate_yaw if args.yaw else train_and_gate
-    r = fn(args.train, args.n_rooms)
+    if args.alt:
+        r = train_and_gate_alt(
+            args.train, args.n_rooms, oversample_low=args.oversample_low
+        )
+    else:
+        fn = train_and_gate_yaw if args.yaw else train_and_gate
+        r = fn(args.train, args.n_rooms)
     print(
         f"[target-detector] test n={r['n_test']} (pos {r['positive_rate']:.2f}, "
         f"hard-neg {r['n_hard_neg']}) | AUC {r['auc']:.3f} | "
         f"precision {r['precision']:.3f} recall {r['recall']:.3f} | "
         f"obstacle-FA {r['obstacle_false_alarm']:.3f}"
     )
+    if "level_by_z" in r:
+        print(
+            "  trained head, level AUC/recall by altitude: "
+            + "  ".join(
+                f"{z:.1f}m={a:.2f}/{rc:.2f}" for z, (a, rc) in r["level_by_z"].items()
+            )
+            + "  (vs linear-probe 0.4m=0.66)"
+        )
+    if "thr_sweep" in r:
+        print(
+            "  thr sweep (precision/recall/obs-FA): "
+            + "  ".join(
+                f"{t}={pr:.2f}/{rc:.2f}/{fa:.2f}"
+                for t, (pr, rc, fa) in r["thr_sweep"].items()
+            )
+        )
     ok = (
         r["auc"] >= 0.85
         and r["recall"] >= 0.80

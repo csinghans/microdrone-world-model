@@ -85,7 +85,7 @@ def collect_alt_frames(
         enc, *_ = load_or_train(device="cpu")
     env = make_env()
     env.reset(seed=seed0)
-    lat, label, zc, th, elev = [], [], [], [], []
+    lat, label, zc, th, elev, obs_fov = [], [], [], [], [], []
     for i in range(n_rooms):
         sc = single_room(seed0 + i)
         target = sc.beacon_xy
@@ -116,6 +116,13 @@ def collect_alt_frames(
                         zc.append(float(z))
                         th.append(float(h))
                         elev.append(abs(h - z))
+                        # hard-negative: an obstacle box (at wall_h/2=0.5) in
+                        # the elevation+azimuth FOV — the detector must not fire
+                        seen_obs = any(
+                            _in_fov_alt((x, y), (ox, oy), 0.5, z, half)
+                            for ox, oy, _ in sc.obstacles
+                        )
+                        obs_fov.append(1 if seen_obs else 0)
                     remove_bodies(env, [tid])
                 remove_bodies(env, ids)
     env.close()
@@ -125,6 +132,7 @@ def collect_alt_frames(
         "z_cam": np.asarray(zc, dtype=float),
         "target_h": np.asarray(th, dtype=float),
         "elev": np.asarray(elev, dtype=float),
+        "obs_in_fov": np.asarray(obs_fov, dtype=int),
     }
 
 
