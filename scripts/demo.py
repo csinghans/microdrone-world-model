@@ -11,6 +11,7 @@ asserts only.
 Run:
   python -m scripts.demo             # saves output/wm_closed_loop.png
   python -m scripts.demo --gui       # watch it fly
+  python -m scripts.demo --gif       # also writes docs/media/demo_single_course.gif
   python -m scripts.demo --selftest  # asserts the anticipation story
 Needs output/world_model.pth (auto-trains a tiny one if missing).
 """
@@ -31,11 +32,51 @@ CHAMPION_ZIP = os.path.join(
 )
 
 SCENARIO_SEED = 11  # the demo course (the scoreboards sweep many seeds)
-OUT = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "output",
-    "wm_closed_loop.png",
-)
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(ROOT, "output", "wm_closed_loop.png")
+GIF_OUT = os.path.join(ROOT, "docs", "media", "demo_single_course.gif")
+
+
+def _record_course(env, policy, seed: int, speed: float = 1.0) -> list:
+    """Fly the demo course once under `policy`, capturing a top-down god
+    view per decision — the frames for the single-course demo GIF. Mirrors
+    eval_closed_loop.run_episode's spawn so the GIF is the SAME course the
+    scoreboard flies (reused god-view + writer from eval_integration)."""
+    import numpy as np
+
+    from eval.eval_integration import _god_frame
+    from planner.action_set import ACTION_VECS, FORWARD
+    from planner.latent_mpc import DECIDE_EVERY
+    from sim.envs import VelCommander, grab_frame, make_ctrl
+    from sim.scenarios import GOAL_X, TMAX, spawn_pillars
+
+    rng = np.random.default_rng(seed)
+    obs, _ = env.reset(seed=int(seed))
+    cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
+    cmd.reset(obs[0][0:3])
+    pillars = spawn_pillars(env, rng, in_path=True)
+    policy.begin(pillars)
+    vecs = float(speed) * ACTION_VECS
+    state, a = obs[0], FORWARD
+    frames = []
+    for t in range(TMAX):
+        if t % DECIDE_EVERY == 0:
+            a = policy.decide(grab_frame(env), state)
+            frames.append(_god_frame(env, GOAL_X))
+        obs, *_ = env.step(cmd.rpm(state, vecs[a]).reshape(1, 4))
+        state = obs[0]
+        if state[0] >= GOAL_X:
+            break
+    return frames
+
+
+def _save_gif(env, policy, seed: int) -> None:
+    from eval.eval_integration import _gif
+
+    frames = _record_course(env, policy, seed)
+    os.makedirs(os.path.dirname(GIF_OUT), exist_ok=True)
+    _gif(frames, GIF_OUT, scale=1)
+    print(f"[INFO] saved {GIF_OUT} ({len(frames)} frames)")
 
 
 def _save_plot(reactive: dict, wm: dict, wm_name: str = "wm (latent MPC)") -> None:
@@ -70,6 +111,7 @@ def _save_plot(reactive: dict, wm: dict, wm_name: str = "wm (latent MPC)") -> No
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--gui", action="store_true")
+    ap.add_argument("--gif", action="store_true", help="write the single-course GIF")
     ap.add_argument("--seed", type=int, default=SCENARIO_SEED)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -87,6 +129,8 @@ def main() -> None:
     env = make_env(gui=args.gui)
     reactive = run_episode(env, ReactivePolicy(enc, nhead), args.seed)
     wm = run_episode(env, anticipator, args.seed)
+    if args.gif:  # a top-down god view of the anticipating seat on this course
+        _save_gif(env, anticipator, args.seed)
     env.close()
     _save_plot(
         reactive,

@@ -42,6 +42,13 @@ camera frame ──> Encoder (bearing-aware, 64-d latent)
 | `scripts/` | `train.py`, `evaluate.py`, `demo.py` |
 | `hardware/` | v0.6 bridge design (Tello off-board → Crazyflie/GAP8 on-board) |
 
+**The stack, flying one course** (`python -m scripts.demo --gif`): the
+learned champion reads danger from the camera alone and veers early — a
+top-down god view of the demo pillar course, danger signal from vision only,
+no privileged look-ahead in the control loop.
+
+![single-course demo](docs/media/demo_single_course.gif)
+
 ## Quickstart
 
 **New here?** The verified one-hour path — environment, your first
