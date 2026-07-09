@@ -200,25 +200,34 @@ class SearchScenario:
                 )
         return ids
 
-    def spawn_target(self, env, target_xy, offset=(0.0, 0.0), wall_h=1.0):
+    def spawn_target(
+        self, env, target_xy, offset=(0.0, 0.0), wall_h=1.0, target_z=None
+    ):
         """Render ONE visually-distinct target (bright red box) the camera
         can SEE — for the visual-detection branch (vs the abstract beacon,
         which was sensed omnidirectionally without vision). Same visual-only
-        + env-coordinate convention as spawn_bodies. Returns its body id."""
+        + env-coordinate convention as spawn_bodies. Returns its body id.
+
+        `target_z` (height_v1/alt_v1): None keeps the floor-standing box
+        (centre wall_h/2 — every existing detection/search room is
+        unchanged); a value places a COMPACT target box centred at that
+        height (a target on a high shelf, or low under furniture)."""
         import pybullet as p
 
         ox, oy = offset
         tx, ty = target_xy
+        half_h = wall_h / 2 if target_z is None else 0.2
+        cz = wall_h / 2 if target_z is None else float(target_z)
         vis = p.createVisualShape(
             p.GEOM_BOX,
-            halfExtents=[0.2, 0.2, wall_h / 2],
+            halfExtents=[0.2, 0.2, half_h],
             rgbaColor=[0.95, 0.10, 0.10, 1],  # bright red — distinct from walls/boxes
             physicsClientId=env.CLIENT,
         )
         return p.createMultiBody(
             baseMass=0,
             baseVisualShapeIndex=vis,
-            basePosition=[tx - ox, ty - oy, wall_h / 2],
+            basePosition=[tx - ox, ty - oy, cz],
             physicsClientId=env.CLIENT,
         )
 
