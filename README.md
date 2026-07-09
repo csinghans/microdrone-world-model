@@ -167,6 +167,31 @@ rangefinder ring — the doorway crossing visible in a god-view sweep:
 
 ![indoor multi-room search](docs/figures/search_tworoom_trajectory.png)
 
+## One embedded pair, two flight modes
+
+A *unified* world model (trained on the union of transit + indoor rollouts)
+matches-or-beats the specialist on every job the WM directly owns — transit
+collision-prediction and indoor detection — but overwriting the pinned
+champion breaks the distilled skill zoo (slalom 80 %→0 %; the encoder shift
+compounds over its ~40-decision chain). So the unified WM ships **alongside**
+the champion, not over it: a flight mode set at start binds each mission to
+its own stack (`planner/flight_mode.py`), two WMs resident at ~163 KB int8
+(32 % of the 512 KB budget), only one running per mode.
+
+```bash
+python -m scripts.fly --mode transit        # pinned champion WM + skill policy
+python -m scripts.fly --mode indoor_search  # unified WM + frontier + beams8
+```
+
+| `transit` (pillar avoidance) | `indoor_search` (find + return) |
+|---|---|
+| ![transit mode](docs/media/demo_transit.gif) | ![indoor search mode](docs/media/demo_indoor.gif) |
+
+(Whether a swap-broken skill can be *retrained* to survive the unified WM was
+measured too: a post-hoc hover wrapper fails, stop-aware training recovers
+slalom 0 %→25 %, and two-WM encoder data-augmentation is the strongest lever
+at 0 %→75 % — `experiments/slalom_stopobserve_v1/`.)
+
 ## Flight TDD: the integration layer
 
 Unit tests are the skill cells; the **integration test** is a randomly
