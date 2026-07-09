@@ -19,6 +19,7 @@ the first incident.
 | Guard | Sim status | Hardware requirement |
 |---|---|---|
 | Geofence | `planner.safety_filter` soft box (own odometry) | Hard box + altitude ceiling, enforced below the AI layer |
+| Vertical envelope | vz commanded for altitude/floor search (`planner.nav_action_set` up/down) | Floor bound + capped descent rate near the ground, enforced below the AI layer — the near-surface / ground-effect regime is a sim-to-real unknown (`docs/sim_to_real.md`, lowfly_v1), so hardware must bound it independently |
 | Imminent-collision backstop | `planner.safety_filter.imminent` | Same head, on-board, cannot be overridden by the policy |
 | Manual override | n/a | RC/app kill-switch takes the link at any moment |
 | Emergency land | n/a | One command, spiral-descend, no AI in the loop |

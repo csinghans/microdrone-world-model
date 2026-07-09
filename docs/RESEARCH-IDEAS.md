@@ -181,6 +181,57 @@ docstring carries the pre-registration. Newcomers: do the
 [ONBOARDING](ONBOARDING.md) hour first; ★ ideas are deliberately sized
 as first campaigns.
 
+## The Indoor Active Search Track (v0.7–v0.8) — a separate arc, ledgered
+
+A task-driven track (cover an unknown room, find an abstract beacon, return)
+structurally isolated from the transit benchmark; full gate-by-gate writeups
+in `docs/ROADMAP.md` and `experiments/search_*`. Through-line: the WM is a
+SEEING instrument — it loses the spatial jobs to cheap geometry, owns
+perception. The closed ledger:
+
+- ~~single-/multi-room search~~ CLOSED (v0.7) GREEN — Frontier coverage + the
+  beams8 rangefinder ring find a beacon and return crash-free across 1, 2, N
+  rooms at the robust speed 0.6; deployable with a ~$5 sensor ring, no WM, no
+  ground truth (`experiments/search_{room_v3,tworoom_v1,nroom_v1}`).
+- ~~WM for indoor collision safety~~ CLOSED (v0.7) NEGATIVE — flat walls are
+  scale-free; the fix is more rangefinder beams (8 close 3/4 of the residual,
+  16 hit the geometric 0.000), not a vision stack in the safety loop
+  (`experiments/search_{hybrid,beams}_v1`).
+- ~~WM-driven coverage~~ CLOSED (v0.7) HONEST NEGATIVE — an RL-on-WM-latent
+  coverage policy HURTS under clutter vs a plain grid; deployable coverage is
+  geometric Frontier/grid, no WM (`experiments/coverage_v1`).
+- ~~topological room graph~~ CLOSED (v0.7) GREEN clean-room — "beacon in room
+  k of N" at 100 % from beam-ring passage-crossings + odometry, no ground
+  truth; NOT clutter-robust (over-counts) — a clutter-robust crossing
+  detector is the recorded open sub-item
+  (`experiments/search_{doorway,roomgraph}_v1`).
+- ~~visual detection~~ CLOSED (v0.7) — the WM latent SEES targets (AUC 0.94,
+  target-specific, no retrain) but the yaw=0 +x camera-lock capped the flight
+  search to glimpses; named the yaw step (`experiments/vision_v1`).
+- ~~yaw — break the camera-lock~~ CLOSED (v0.8) GREEN — detection is
+  yaw-INVARIANT (pooled AUC 0.977), so "turn to find" cost a retrained head,
+  not a WM retrain; hover-yaw-scan flight gate PASS (correct 0.70, FA 0.10,
+  collision 0.00) (`experiments/yaw_v1`).
+- ~~vertical / multi-altitude search~~ CLOSED (v0.8) GREEN — fly to a target's
+  height (vz, a clean DOF, not pitch) and look level: find-rate 0.50→1.00,
+  catching high-cabinet (2.0 m) + under-bed (0.3 m); height is cheap geometry
+  (up-rangefinder MAE 0.0 cm) (`experiments/{alt,height}_v1`).
+- ~~floor-hugging flight~~ CLOSED (v0.8) — clean in sim (the PID compensates
+  the modeled ground effect, hover + descent to z=0.15 m); the honest limit is
+  the sim-to-real near-surface aero gap, not control (`experiments/lowfly_v1`).
+- ~~one WM for two modes~~ CLOSED (v0.8) — a unified WM beats the champion on
+  every WM-owned job but overwriting it breaks the distilled zoo, so it ships
+  ALONGSIDE via a flight-mode selector; swap-robustness levers measured
+  (wrapper fails, stop-aware 0→25 %, two-WM data-aug 0→75 %)
+  (`experiments/{unified_wm,slalom_stopobserve}_v1`).
+- **OPEN (deferred, owner's call) — flight-WHILE-turning avoidance
+  (body≠world), then collapsed/rubble 3D search.** Everything above lifted the
+  camera-lock for PERCEPTION with no WM retrain. Avoiding obstacles *while*
+  yawing (body frame ≠ world frame) would need a WM retrain on the turning
+  vocabulary — but indoor avoidance is the beams8 ring's job, so this is off
+  the deployment path. The larger deferred step is a real pitch-view WM
+  retrain for collapsed/rubble 3D search (a new sim + multi-pose training).
+
 ## ★ good first campaigns
 
 ### ~~opening-door (price hesitation)~~ — DONE 2026-07-05
