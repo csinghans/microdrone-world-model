@@ -38,6 +38,12 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--timesteps", type=int, default=500_000)
     ap.add_argument("--stop-hover", type=int, default=8)
+    ap.add_argument(
+        "--aug-wm",
+        default=None,
+        help="second WM checkpoint for per-episode encoder data-aug (two-WM "
+        "training -> swap-invariance); e.g. output/world_model_unified.pth",
+    )
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--selftest", action="store_true")
@@ -60,12 +66,14 @@ def main() -> None:
             x_progress=True,
             edge_bias=True,  # match the champion's speed diet
             stop_hover=args.stop_hover,
+            aug_wm_path=args.aug_wm,
         ),
         n_envs=1,
     )
     print(
         f"[train-stopaware] warm start {CHAMPION} | worlds={WORLDS} "
-        f"stop_hover={args.stop_hover} timesteps={args.timesteps}"
+        f"stop_hover={args.stop_hover} aug_wm={args.aug_wm} "
+        f"timesteps={args.timesteps}"
     )
     model = PPO.load(CHAMPION, env=env)  # resume weights + optimiser on the new env
     model.learn(total_timesteps=args.timesteps)

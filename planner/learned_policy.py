@@ -203,6 +203,7 @@ class WMPolicyEnv(gym.Env):
         gate_bonus: float = 0.0,
         station_tick: float = 0.0,
         stop_hover: int = 0,
+        aug_wm_path: str = None,
     ):
         super().__init__()
         # stop-and-observe training (slalom_stopobserve follow-up): after a
@@ -230,6 +231,18 @@ class WMPolicyEnv(gym.Env):
         from eval.eval_closed_loop import load_or_train
 
         self.enc, self.pred, self.cheads, self.nhead, self.meta = load_or_train()
+        # encoder data-augmentation (two-WM training): per episode, encode the
+        # obs with EITHER the primary WM or an `aug_wm_path` WM (50/50). The
+        # policy learns a control that is invariant to WHICH world model feeds
+        # it -> robust to a champion->unified encoder swap (the promotion
+        # 'ship on the unified WM' answer). None keeps every recipe identical.
+        self._pri = (self.enc, self.pred, self.cheads, self.meta)
+        self._aug = None
+        if aug_wm_path:
+            from world_model.training import load_model
+
+            e2, p2, c2, _n2, m2 = load_model(aug_wm_path, device="cpu")
+            self._aug = (e2, p2, c2, m2)
         self.rng = np.random.default_rng(seed0)
         self.history = int(history)
         self.randomize = bool(randomize)
@@ -332,6 +345,11 @@ class WMPolicyEnv(gym.Env):
             self._course = (n_st, cl)
         self._goal = self._course[0] * self._course[1] if self._course else GOAL_X
         self._max_dec = self.max_decisions * (self._course[0] if self._course else 1)
+        # two-WM data-aug: pick this episode's encoder (primary vs aug, 50/50)
+        if self._aug is not None:
+            self.enc, self.pred, self.cheads, self.meta = (
+                self._aug if self.rng.random() < 0.5 else self._pri
+            )
         self.ob = ObsBuilder(
             self.enc,
             self.pred,
