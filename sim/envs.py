@@ -45,27 +45,44 @@ def make_ctrl():
 class VelCommander:
     """Track a held velocity command with the two-layer split intact: we
     integrate a reference position (re-anchored whenever the command changes)
-    and let the PID flight controller chase it. The AI layer only ever emits
-    (vx, vy, vz); the 48 Hz attitude loop stays the controller's job."""
+    and let the PID flight controller chase it. The command is
+    (vx, vy, vz, yaw_rate); the 48 Hz attitude loop stays the controller's job.
+
+    yaw: `yaw_ref` integrates the commanded yaw-rate from 0, giving an
+    absolute heading setpoint fed to the PID as `target_rpy=[0,0,yaw_ref]`.
+    When yaw_rate is 0 for the whole flight (every transit/indoor recipe
+    today), yaw_ref stays 0 and target_rpy=[0,0,0], which is exactly the
+    controller's default — so the yaw=0 behaviour is BIT-IDENTICAL. Note the
+    translational (vx,vy) are integrated in the WORLD frame here; that is
+    correct for yaw-in-place (the hover-yaw-scan), while translate-WHILE-yawed
+    (body-frame vx,vy) + collision under yaw is the deferred WM-retrain step."""
 
     def __init__(self, ctrl, dt: float):
         self.ctrl, self.dt = ctrl, dt
         self.ref = None
         self.last = None
+        self.yaw_ref = 0.0
 
     def reset(self, pos) -> None:
         self.ctrl.reset()
         self.ref = np.array(pos, dtype=float)
         self.last = None
+        self.yaw_ref = 0.0
 
     def rpm(self, state, v_cmd):
         v = np.asarray(v_cmd[:3], dtype=float)
+        yaw_rate = float(v_cmd[3]) if len(v_cmd) > 3 else 0.0
         if self.last is None or not np.allclose(v_cmd, self.last):
             self.ref = state[0:3].copy()  # re-anchor so a switch never jumps
             self.last = np.array(v_cmd, dtype=float)
         self.ref = self.ref + v * self.dt
+        self.yaw_ref += yaw_rate * self.dt  # absolute heading; stays 0 if never yawed
         rpm, _, _ = self.ctrl.computeControlFromState(
-            control_timestep=self.dt, state=state, target_pos=self.ref, target_vel=v
+            control_timestep=self.dt,
+            state=state,
+            target_pos=self.ref,
+            target_vel=v,
+            target_rpy=np.array([0.0, 0.0, self.yaw_ref]),
         )
         return rpm
 

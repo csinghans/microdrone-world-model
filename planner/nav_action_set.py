@@ -6,28 +6,33 @@ regression guard is trained and scored against). Search needs to visit a
 whole room, so it needs to move in -x and pure ±y, which the transit set
 cannot express (its veers all carry vx>0, and it has no reverse).
 
-**Yaw is still held at 0 on every command** — body frame == world frame,
-exactly as in `action_set.py`. This is deliberate: the world model
-conditions on the commanded setpoint under the yaw≡0 assumption, and
-adding a yaw-rate command would break that coordinate frame and force a
-full model + dataset regeneration. Translation keeps the frame intact.
+**The COVERAGE menu (`nav_menu`: cardinals + hover) is yaw-free** — body
+frame == world frame, exactly as in `action_set.py`, so search flight keeps
+the coordinate frame the collision reasoning relies on. Two scan-only
+actions (`yaw_left`/`yaw_right`) turn IN PLACE (zero translation) and are
+kept OFF the coverage menu; they exist for the hover-yaw-scan that confirms
+a VISUAL target. yaw_v1 Phase 0 measured that the frozen WM latent detects
+a target just as well when the camera is yawed (AUC ~0.98 across ±90°), so
+turning to LOOK needs no WM retrain — only the detection head. Turning
+while TRANSLATING (body-frame vx,vy) + collision under yaw still needs the
+WM retrain (deferred, Phase 1b).
 
 Caveat, by construction: the shipped world model was trained only on the
 forward-biased transit commands, so its collision heads are OUT OF
-DISTRIBUTION for reverse / pure strafe. Phase 1a therefore flies these
-under a privileged geometric safety filter; Phase 1b retrains the model
-on this set before it may serve as the safety layer (see
-`docs/TRAINING-A-SKILL.md` and the search_room campaign).
-
-Camera stays locked to +x (no yaw), so this vocabulary suits an
-omnidirectional beacon target — the drone need not turn to sense it.
-Looking-around (yaw) is deferred to the visual-detection phase, which is
-where it is actually needed and where the model retrain is justified.
+DISTRIBUTION for reverse / pure strafe. Search flies these under a
+privileged geometric safety filter (beams8); the yaw scan happens at a
+hover point (already clear), so it does not touch the collision heads.
 """
 
 import numpy as np
 
-# (vx, vy, vz, yaw_rate) world-frame velocity setpoints; yaw_rate ALWAYS 0.
+YAW_RATE = 2.5  # rad/s for the look-around scan (yaw_v1); OFF the coverage menu
+
+# (vx, vy, vz, yaw_rate) setpoints. The COVERAGE menu (cardinals + hover) is
+# still yaw-free -> body==world holds for search flight. The two yaw actions
+# below turn IN PLACE (zero translation), added for the hover-yaw-scan that
+# confirms a visual target (yaw_v1 Phase 0 showed detection is yaw-invariant
+# on the frozen latent, so scanning needs no WM retrain).
 NAV_ACTIONS = {
     "forward": (0.60, 0.00, 0.00, 0.0),  # +x
     "reverse": (-0.60, 0.00, 0.00, 0.0),  # -x (the transit set cannot do this)
@@ -35,6 +40,8 @@ NAV_ACTIONS = {
     "strafe_right": (0.00, -0.60, 0.00, 0.0),  # -y
     "slow": (0.30, 0.00, 0.00, 0.0),  # slow +x for fine approach near walls
     "hover": (0.00, 0.00, 0.00, 0.0),
+    "yaw_left": (0.00, 0.00, 0.00, YAW_RATE),  # turn in place +yaw (scan only)
+    "yaw_right": (0.00, 0.00, 0.00, -YAW_RATE),  # turn in place -yaw
 }
 NAV_ACTION_NAMES = list(NAV_ACTIONS)
 NAV_ACTION_VECS = np.array([NAV_ACTIONS[n] for n in NAV_ACTION_NAMES], dtype=np.float32)
@@ -43,6 +50,8 @@ REVERSE = NAV_ACTION_NAMES.index("reverse")
 STRAFE_L = NAV_ACTION_NAMES.index("strafe_left")
 STRAFE_R = NAV_ACTION_NAMES.index("strafe_right")
 HOVER = NAV_ACTION_NAMES.index("hover")
+YAW_L = NAV_ACTION_NAMES.index("yaw_left")
+YAW_R = NAV_ACTION_NAMES.index("yaw_right")
 
 # roaming is slower than transit cruise — coverage does not need 1.6 m/s,
 # and slower flight is safer near walls / cheaper on the seam-free plane
@@ -60,10 +69,16 @@ def nav_menu(names=("forward", "reverse", "strafe_left", "strafe_right", "hover"
 
 
 def selftest() -> None:
-    assert NAV_ACTION_VECS.shape == (6, 4)
-    # every command is planar and yaw-free — the frame-preserving invariant
+    assert NAV_ACTION_VECS.shape == (8, 4)
     assert np.all(NAV_ACTION_VECS[:, 2] == 0.0), "no vz (planar roaming)"
-    assert np.all(NAV_ACTION_VECS[:, 3] == 0.0), "yaw held at 0 (body==world)"
+    # the COVERAGE menu (cardinals + hover) is still yaw-free -> body==world
+    # holds for search flight; only the two scan actions carry a yaw-rate.
+    assert np.all(NAV_ACTION_VECS[nav_menu(), 3] == 0.0), "coverage menu yaw-free"
+    yaw_ids = [NAV_ACTION_NAMES.index(n) for n in ("yaw_left", "yaw_right")]
+    assert np.all(NAV_ACTION_VECS[yaw_ids, 3] != 0.0), "scan actions carry yaw"
+    assert np.all(
+        NAV_ACTION_VECS[yaw_ids, :3] == 0.0
+    ), "yaw actions turn in place (zero translation)"
     # the two capabilities the transit set lacks
     assert NAV_ACTIONS["reverse"][0] < 0.0, "reverse moves -x"
     assert (
