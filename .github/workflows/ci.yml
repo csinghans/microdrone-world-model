@@ -89,6 +89,7 @@ jobs:
           python -m eval.eval_yaw_detect --selftest
           python -m eval.eval_height --selftest
           python -m eval.eval_alt_detect --selftest
+          python -m eval.eval_person_detect --selftest
           python -m eval.eval_alt_search --selftest
           python -m eval.eval_low_hover --selftest
           python -m eval.eval_unified_wm_gate --selftest
