@@ -81,3 +81,37 @@ gate。n=2010(pos 0.13、hard-neg 374):**AUC 0.982、precision 0.905、obstacle-
   recall 0.758 複利成「掃描中至少偵到一次」≈ 1−0.242³ ≈ 0.99(vision_v1 的複利洞見)。
 - **判詞:yaw_v1 偵測頭在旋轉幀上運作良好、不需 WM 重訓**,是 hover-yaw-scan 的 found
   訊號。頭存 `output/target_head_yaw.pt`(gitignored)。兩顆 WM sha 仍未動。
+
+## Phase 1a-3 — hover-yaw-scan 飛行 gate:PASS(相機鎖被打破)
+
+`eval/eval_vision_search.py:run_yaw_scan_search`:Frontier 覆蓋(yaw=0 平移)+ 每隔
+`scan_every` 決策做一次 **360° spin-scan**——無人機面向所有方向,離軸目標(+x 掃描只
+瞥得到)進入 FOV 被偵到;需 `confirm=2` 個 scan-frame 連續觸發才宣告 found(壓掉毀掉
++x 版本的孤立誤報)。用統一 WM encoder + yaw 頭 + beams8 安全。fresh gate n=20、thr 0.6:
+
+| | correct_find | false_alarm | miss | collision | return |
+|---|---|---|---|---|---|
+| **yaw-scan** | **0.70** | **0.10** | 0.20 | **0.00** | **1.00** |
+| +x 相機鎖基線 | — | 0.95(單幀)| 0.40(db5)| — | — |
+
+**FLIGHT GATE PASS**(四個 bar 全過:correct≥0.70、FA≤0.20、collision≤0.05、
+return≥0.80)。誠實:correct 0.70 剛好壓線(非大勝)、miss 0.20;但**dramatically
+清掉了 +x 相機鎖的死結**(FA 0.95→0.10、miss 0.40→0.20)——正是「轉身穩定確認」打敗
+「只能瞥一眼」。
+
+## 整體判詞 — yaw 廉價路端到端成立(不動 WM)
+
+**貫穿全程的 yaw=0 相機鎖被打破了,而且很便宜:**
+- Phase 0:凍結 latent 對 yaw 不變(AUC 0.977)⇒ 偵測不需 WM 重訓。
+- 1a-1:yaw 可飛(VelCommander ~10 行,yaw=0 逐位元不變)。
+- 1a-2:yaw 偵測頭穩(AUC 0.982、obstacle-FA 0.021)。
+- 1a-3:hover-yaw-scan 飛行 gate PASS——**可佈署的「轉身找目標」視覺搜索**,把 WM
+  已驗證的偵測強項(0.94/0.978)變成能過飛行 gate 的能力。
+
+**成本:一個重訓的偵測頭 + ~10 行 VelCommander + 一個 spin-scan 行為。零 WM 重訓、
+冠軍/統一 WM sha 全程未動。** 這正是 feasibility-first 的回報:探針先確認廉價路可行,
+省下了一整輪多小時的 WM 重訓。
+
+**仍屬 Phase 1b(未做、Hans 拍板)**:飛行中 yaw + **避撞**(body≠world 的碰撞預測)
+需要 WM 重訓——但室內避撞本來就是幾何 beams8 的職責,scan 在 hover(定點淨空)時掃描
+不觸及碰撞 WM,所以 1a 的能力不依賴它。
