@@ -198,13 +198,13 @@ latent detects it once the drone drops to its height and turns to face it
 ![under-bed vertical search](docs/media/demo_indoor_vertical.gif)
 
 **And what it's for: finding a PERSON, not a beacon.** The frozen latent
-separates a person-shape from box clutter at AUC 0.94 — 0.81 on *shape alone*,
+separates a person-shape from box clutter at AUC 0.95 — 0.81 on *shape alone*,
 with the person painted the clutter's colour, so it is the shape it reads, not
 a colour cue (`experiments/person_v1/`). A person detection head trained on
-that latent never false-alarms on clutter (box false-alarm 0.000); per-frame
-recall is moderate (~0.5, the scan regime), so a hover-yaw scan compounds it to
-a confirmed find — a rangefinder is blind to *what* a shape is; the camera+WM
-is the only instrument that can tell a person from furniture
+that latent reads a person at AUC 0.92 / recall 0.68 with a low clutter
+false-alarm (0.09); per-frame recall is the scan regime, so a hover-yaw scan
+compounds it to a confirmed find — a rangefinder is blind to *what* a shape is;
+the camera+WM is the only instrument that can tell a person from furniture
 (`python -m scripts.demo_person`):
 
 ![find a person](docs/media/demo_person.gif)

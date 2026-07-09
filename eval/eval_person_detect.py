@@ -39,8 +39,12 @@ from eval.eval_target_probe import _linear_probe_auc
 from world_model.training import MODEL
 
 UNIFIED_WM = os.path.join(os.path.dirname(MODEL), "world_model_unified.pth")
-PERSON_R, PERSON_LEN = 0.15, 0.8  # capsule: a standing person's torso (~1.1 m)
-PERSON_Z = PERSON_R + PERSON_LEN / 2  # centre height ~0.55 m
+# capsule person. r=0.25 (~0.5 m across) is a realistic shoulder width — the
+# first r=0.15 (~0.3 m) was a thin pole that subtended too few pixels at range
+# and capped per-frame recall at 0.50 (person_v1 Phase 1). The wider body is
+# both more faithful AND more detectable far away.
+PERSON_R, PERSON_LEN = 0.25, 0.9  # standing person torso (~1.4 m tall, 0.5 wide)
+PERSON_Z = PERSON_R + PERSON_LEN / 2  # centre height ~0.7 m
 BOX_ORANGE = [0.80, 0.45, 0.30, 1]  # the obstacle colour (search_scenario)
 TARGET_RED = [0.95, 0.10, 0.10, 1]
 
