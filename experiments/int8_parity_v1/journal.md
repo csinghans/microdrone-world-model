@@ -216,7 +216,16 @@ Two released knobs, one change each, choices argued before numbers:
       quantization preserves rank (B1 ✓) but shifts probability values;
       thresholds are float-calibrated → temperature-re-bake knob released**
 - [x] K1 pre-registered (percentile pick argued; temperature recipe fixed)
-- [ ] K1a run: champion B1 @ p99.9
-- [ ] K1b run: TempScale(quantized cheads) → B4 re-fly
+- [x] K1a: **the calibration road is closed, both ways.** Percentile
+      p99.9 made it WORSE (moving −0.028, dense −0.020 — the tails carry
+      signal; my outlier hypothesis was wrong for this model, measured),
+      and 2048-sample min/max reproduced K0 to the third decimal
+      (moving −0.0161 vs −0.0162 — as mechanism-predicted, a wider
+      min/max sample can only widen). **The champion's B1-moving −0.016
+      is a real, calibration-insensitive int8 cost.** The unified WM
+      loses only −0.002 on the same world → one more measured argument
+      that the unified WM is the embedded-path artifact (it already wins
+      every WM-owned job in float). (k1a_results.json, k1a2_results.json)
+- [ ] K1b run: TempScale(quantized cheads) → B4 re-fly (in flight)
 - [ ] B3 heads; B5 yaw-scan flight (after the temperature story settles)
 - [ ] Verdict

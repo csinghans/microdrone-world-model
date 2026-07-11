@@ -243,12 +243,12 @@ class TempScale(nn.Module):
 
 
 # --- B1: transit per-world AUC@32, identical held-out split ------------------
-def b1_transit(arms, wms=None, data_path=HOLDOUT, seed=0, pct=None):
+def b1_transit(arms, wms=None, data_path=HOLDOUT, seed=0, pct=None, calib_n=CALIB_N):
     from eval.eval_wm_checkpoint import evaluate_components
 
     wms = wms or {"champion": MODEL, "unified": UNIFIED}
     data = dict(np.load(data_path, allow_pickle=True))
-    calib = _calib_batch()
+    calib = _calib_batch(n=calib_n)
     out = {}
     for wname, ck in wms.items():
         out[wname] = {}
@@ -383,10 +383,16 @@ def _q_logit_stack(q, data, rolls, cf, vis):
     return torch.cat(outs), torch.cat(lbls), torch.cat(msks)
 
 
-def k1a_champion_pct(pct=0.999):
-    """K1a: champion B1 re-read with percentile activation calibration
-    (single knob vs K0's min/max; bar unchanged)."""
-    return b1_transit(("float", "int8pc"), wms={"champion": MODEL}, pct=pct)
+def k1a_champion_pct(pct=0.999, calib_n=CALIB_N):
+    """K1a: champion B1 re-read with a changed activation calibration —
+    percentile (pct>0) or a bigger min/max sample (pct<=0, --calib-n).
+    Single knob per run; bar unchanged."""
+    return b1_transit(
+        ("float", "int8pc"),
+        wms={"champion": MODEL},
+        pct=(pct if pct and pct > 0 else None),
+        calib_n=calib_n,
+    )
 
 
 def k1b_rebake(ck=UNIFIED, n=60, seed0=1000, fit_rolls_cap=40):
@@ -522,7 +528,8 @@ def main() -> None:
     ap.add_argument(
         "--k1a", action="store_true", help="champion B1 @ percentile calibration"
     )
-    ap.add_argument("--pct", type=float, default=0.999)
+    ap.add_argument("--pct", type=float, default=0.999, help="<=0 -> min/max")
+    ap.add_argument("--calib-n", type=int, default=CALIB_N)
     ap.add_argument(
         "--rebake",
         action="store_true",
@@ -549,8 +556,13 @@ def main() -> None:
         print(f"=== B4 transit closed-loop WM-arm (n={args.cl_seeds}) ===")
         res["B4"] = b4_closed_loop(n=args.cl_seeds)
     if args.k1a:
-        print(f"=== K1a champion B1 @ percentile {args.pct} calibration ===")
-        res["K1a"] = {"pct": args.pct, **k1a_champion_pct(args.pct)}
+        rule = f"percentile {args.pct}" if args.pct > 0 else "min/max"
+        print(f"=== K1a champion B1 @ {rule}, calib_n={args.calib_n} ===")
+        res["K1a"] = {
+            "pct": args.pct,
+            "calib_n": args.calib_n,
+            **k1a_champion_pct(args.pct, args.calib_n),
+        }
     if args.rebake:
         print(
             f"=== K1b TempScale(quantized cheads) -> B4 re-fly (n={args.cl_seeds}) ==="
