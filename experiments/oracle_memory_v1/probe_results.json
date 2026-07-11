@@ -1,0 +1,18 @@
+{
+ "n": 200,
+ "seed0": 910000,
+ "speed": 1.5,
+ "base": {
+  "crash": 0.455,
+  "reached": 0.98,
+  "min_clear": 0.2508358895173355
+ },
+ "oracle": {
+  "crash": 0.42,
+  "reached": 0.985,
+  "min_clear": 0.2732170882672733
+ },
+ "delta_crash": -0.03500000000000003,
+ "interventions_per_flight": 3.385,
+ "verdict": "memory is NOT the binding constraint at this frontier \u2014 temporal_wm_v1 dies before an epoch; conditional recalibration is the last named road"
+}

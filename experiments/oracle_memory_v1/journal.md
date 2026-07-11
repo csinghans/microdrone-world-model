@@ -66,8 +66,54 @@ oracle win → no retrain.
 Guards: reached-rate must not collapse (wrapped ≥ base − 0.05); the
 substitution must never be hover (asserted in the tool).
 
+## Results (2026-07-12 — `eval_oracle_memory --probe`, probe_results.json)
+
+| arm | crash | reached | min_clear | interventions/flight |
+|---|---|---|---|---|
+| champion (base) | 0.455 | 0.980 | — | — |
+| champion + perfect memory | 0.420 | 0.985 | — | 3.4 |
+| **Δcrash** | **−0.035** (bar ≤ −0.050) | guard ✓ | | non-vacuous ✓ |
+
+Stable through the run (−0.045 at n=180, −0.035 at n=200). Honest note
+on levels: this fresh seed block flies the cell at base 0.455, above
+the historical 27–33 % — dense cells are measured to be seed-set
+sensitive (`experiments/moving_gap/`'s lesson); the probe's PAIRED
+same-seed Δ is the read, not the level.
+
+## Verdict — memory is NOT the binding constraint; the retrain dies free
+
+Perfect memory of every pillar ever seen, actively cashed 3.4 times per
+flight by a steering veto, recovers **3.5 points of a 45.5 % crash
+rate** — under the pre-registered 5-point release bar. Per the frozen
+consequence table: **temporal_wm_v1 dies before a single epoch.** The
+horizon's one planned WM retrain — the review's most expensive
+campaign — is killed by a forty-minute probe.
+
+Mechanism refinement the probe buys: the FOV-edge death signature
+(13/14 at ×2.0) LOOKED memory-shaped, but knowing where the unseen
+pillar is barely helps — in dense geometry at speed the failure is
+closer to "no kinematically comfortable escape exists by the time any
+signal fires" and "the evade itself creates the next conflict". That
+re-points the dense frontier's last named road, conditional
+recalibration (`docs/RESEARCH-IDEAS.md` deep water), and honestly
+prices everything else: a temporal WM might still buy detection
+elsewhere, but not THIS wall.
+
+Asymmetry honored: a cleverer oracle controller could be proposed under
+a fresh registration (this veto is one crude cashing of the
+information); until someone pays that, the no-oracle-win → no-retrain
+rule stands.
+
+**The day's convergence, for the record:** person_pose_v1 disarmed the
+pitch retrain; this probe kills the temporal retrain. The 12-month
+program's two most expensive steps both died to cheap pre-registered
+probes inside one day — the review's cheap-path discipline doing
+exactly what it was written to do.
+
 ## Status
 
 - [x] Pre-registration committed (this file, before any number)
-- [ ] Oracle wrapper + probe tool + selftest
-- [ ] n=200×2 read → the quarter's verdict
+- [x] Oracle wrapper + probe tool + selftest
+- [x] n=200×2 read → **Δcrash −0.035 < bar; memory NOT binding;
+      temporal_wm_v1 KILLED before an epoch; conditional recalibration
+      is the dense frontier's last named road**
