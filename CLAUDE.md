@@ -91,9 +91,18 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   (`planner/flight_mode.py`; `scripts.fly --mode transit|indoor_search`) —
   overwriting the champion with the unified WM breaks the distilled zoo
   (slalom 80%→0%), so never clobber; the unified WM is a separate artifact.
-- Indoor detection heads live in `output/target_head_{alt,low}.pt` (retrained
-  on yaw-/multi-height frames — the frozen latent is yaw-invariant, so
-  "turn to find" and vertical search cost a HEAD retrain, never a WM retrain).
+- Indoor detection heads: the DEPLOYED three are
+  `output/target_head_{yaw,low,person}.pt` — all trained on the frozen
+  unified-WM latent (yaw-invariance means "turn to find" and vertical
+  search cost a HEAD retrain, never a WM retrain). Since 2026-07-11 they
+  are pinned in `artifacts.lock.json` with a `wm` binding field (a head
+  is only valid with the latent it was trained on) and uploaded to the
+  champions release, so `fetch_champions` restores a COMPLETE flying
+  system; `python -m planner.flight_mode --verify` cross-checks every
+  mode's WM+head bindings + on-disk shas. `target_head_{alt,alt_os}.pt`
+  are superseded journal-side variants (the deployed path uses `low`) —
+  keep them unlocked. Retraining a head = a NEW lock entry + release
+  refresh: the rule protects pairing provenance, not the bytes.
 
 - Lint the WHOLE repo (`black --check . && ruff check .`) before any
   push, not just the files you edited — a hand-typed dict in an

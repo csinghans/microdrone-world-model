@@ -51,13 +51,18 @@ def main() -> None:
         assert lock["release"] and arts, "lock must pin a release and artifacts"
         names = [a["name"] for a in arts]
         assert len(set(names)) == len(names), "duplicate asset names"
+        by_name = {a["name"]: a for a in arts}
         for a in arts:
             assert set(a) >= {"name", "dest", "sha256", "what"}, f"bad entry {a}"
             assert len(a["sha256"]) == 64, f"{a['name']}: full sha256 required"
             assert not os.path.isabs(a["dest"]), "dests must be repo-relative"
+            # a detection head is only valid with the latent it was trained
+            # on — its 'wm' field must name another lock entry
+            if "wm" in a:
+                assert a["wm"] in by_name, f"{a['name']}: wm '{a['wm']}' not in lock"
         print(
             f"FETCH-CHAMPIONS OK: lock pins {len(arts)} artifacts to "
-            f"'{lock['release']}', schema + hash-length asserts green"
+            f"'{lock['release']}', schema + hash-length + head->wm asserts green"
         )
         return
 

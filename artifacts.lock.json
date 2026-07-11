@@ -1,6 +1,6 @@
 {
  "release": "champions-2026-07",
- "note": "measured champions a fresh clone needs to run real campaigns; sha256 cross-checked against the campaigns' results.json records at upload time",
+ "note": "measured champions a fresh clone needs to run real campaigns; sha256 cross-checked against the campaigns' results.json records at upload time. Detection-head entries carry a 'wm' field naming the lock entry of the latent they were trained on — a head is only valid with its WM (planner/flight_mode.py --verify cross-checks the binding).",
  "artifacts": [
   {
    "name": "world_model.pth",
@@ -31,6 +31,30 @@
    "dest": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
    "sha256": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
    "what": "the moving-gap v2 champion (also threads the closing door zero-shot)"
+  },
+  {
+   "name": "target_head_yaw.pt",
+   "dest": "output/target_head_yaw.pt",
+   "sha256": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+   "wm": "world_model_unified.pth",
+   "track": "indoor_search",
+   "what": "indoor detection head on the frozen unified-WM latent, yaw-swept frames (AUC 0.982, obstacle-FA 0.021; yaw_v1) — the yaw spin-scan search head"
+  },
+  {
+   "name": "target_head_low.pt",
+   "dest": "output/target_head_low.pt",
+   "sha256": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+   "wm": "world_model_unified.pth",
+   "track": "indoor_search",
+   "what": "indoor detection head, multi-height + near-floor frames (0.4 m 0.66->0.90, z=0.15 m AUC 0.83; alt_v1) — the vertical/multi-altitude search head"
+  },
+  {
+   "name": "target_head_person.pt",
+   "dest": "output/target_head_person.pt",
+   "sha256": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315",
+   "wm": "world_model_unified.pth",
+   "track": "indoor_search",
+   "what": "person detection head (AUC 0.918, shape-only probe 0.806; person_v1) — the find-a-person choreography head (find+return 0.933, n=15)"
   }
  ]
 }

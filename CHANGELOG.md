@@ -23,6 +23,17 @@
   glimpses→evidence thesis, sequenced campaigns with pre-registration
   sketches, the owner-gate calendar. It moves no bars; ROADMAP.md and
   RESEARCH-IDEAS.md carry pointers.
+- **Head governance (review item G1): the deployed detection heads are
+  lock-pinned with their WM binding.** `target_head_{yaw,low,person}.pt`
+  (all trained on the frozen unified-WM latent) enter
+  `artifacts.lock.json` with a `wm` field naming the latent they ride —
+  a head is only valid with its WM — and are uploaded to the champions
+  release, so `fetch_champions` restores a COMPLETE flying system
+  (8 assets, `--check` green). `planner/flight_mode.py` binds heads per
+  mode; `--verify` cross-checks lock consistency (CI-safe) + on-disk
+  shas, and the selftest refuses a head bound to the wrong WM.
+  `alt`/`alt_os` stay journal-side, superseded by `low` on the deployed
+  path.
 - **The speed-1.0 trap, closed at the API layer (review item I1).**
   `eval_search.suite()` and `run_search_episode` still defaulted to
   speed 1.0 + the privileged "geometric" filter — any programmatic

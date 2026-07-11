@@ -23,18 +23,21 @@ only one runs per mode, so latency does not double. New modes register with
 
 Run:
   python -m planner.flight_mode --selftest
+  python -m planner.flight_mode --verify   # lock-consistency + on-disk shas
 """
 
 import argparse
 import os
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable
 
 from world_model.training import MODEL
 
 # the unified WM lives beside the pinned champion (both under output/)
 UNIFIED_WM = os.path.join(os.path.dirname(MODEL), "world_model_unified.pth")
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 _WM_CACHE: dict = {}
 
@@ -52,12 +55,18 @@ def load_wm_cached(path: str):
 @dataclass
 class FlightMode:
     """A bound mission stack. `build(env, seed, speed)` flies ONE episode in
-    this mode and returns the runner's scorecard dict."""
+    this mode and returns the runner's scorecard dict. `heads` maps a role
+    (e.g. "yaw", "low", "person") to the repo-relative dest of the
+    detection head that rides this mode's WM — every head must be pinned
+    in artifacts.lock.json with a `wm` field naming this mode's WM entry
+    (a head is only valid with the latent it was trained on; `verify()`
+    cross-checks the whole binding)."""
 
     name: str
     wm_path: str
     description: str
     build: Callable
+    heads: dict = field(default_factory=dict)
 
 
 MODES: dict = {}
@@ -75,6 +84,49 @@ def get_mode(name: str) -> FlightMode:
 
 def list_modes() -> list:
     return sorted(MODES)
+
+
+def verify(mode: FlightMode) -> list:
+    """Cross-check a mode's bindings against `artifacts.lock.json`.
+
+    Two layers. CONSISTENCY (needs only the committed lock — CI-safe, CI
+    runners have no output/): the mode's WM and every head are lock
+    entries, each head carries a `wm` field, and that field names THIS
+    mode's WM entry. INTEGRITY (only for files present on disk): sha256
+    must match the lock, mirroring `fetch_champions --check`. Returns
+    report lines; raises AssertionError on any inconsistency."""
+    import json
+
+    with open(os.path.join(ROOT, "artifacts.lock.json")) as f:
+        lock = json.load(f)
+    by_dest = {a["dest"]: a for a in lock["artifacts"]}
+    by_name = {a["name"]: a for a in lock["artifacts"]}
+
+    wm_dest = os.path.relpath(mode.wm_path, ROOT)
+    wm_entry = by_dest.get(wm_dest)
+    assert wm_entry, f"{mode.name}: WM {wm_dest} is not pinned in the lock"
+    checks = [(wm_dest, wm_entry)]
+    for role, dest in sorted(mode.heads.items()):
+        h = by_dest.get(dest)
+        assert h, f"{mode.name}: head {dest} ({role}) is not pinned in the lock"
+        assert h.get("wm") in by_name, f"{h['name']}: 'wm' must name a lock entry"
+        assert by_name[h["wm"]]["dest"] == wm_dest, (
+            f"{h['name']} was trained on {h['wm']}, but mode {mode.name!r} "
+            f"flies {wm_entry['name']} — head/WM binding mismatch"
+        )
+        checks.append((dest, h))
+
+    lines = []
+    for dest, entry in checks:
+        path = os.path.join(ROOT, dest)
+        if os.path.exists(path):
+            from scripts.fetch_champions import _sha256
+
+            assert _sha256(path) == entry["sha256"], f"{dest}: sha256 != lock"
+            lines.append(f"  [ok  ] {dest} (sha verified)")
+        else:
+            lines.append(f"  [skip] {dest} (not on disk — consistency only)")
+    return lines
 
 
 # --- transit: pinned champion WM + general transit champion policy ----------
@@ -135,6 +187,14 @@ register(
         description="room coverage + beacon find/return — unified WM "
         "(detection) + frontier strategy + beams8 geometric safety",
         build=_fly_indoor,
+        # the deployed detection heads, all trained on the frozen unified
+        # latent (lock-pinned with a wm binding; alt/alt_os stay
+        # journal-side — superseded by `low` on the deployed path)
+        heads={
+            "yaw": "output/target_head_yaw.pt",
+            "low": "output/target_head_low.pt",
+            "person": "output/target_head_person.pt",
+        },
     )
 )
 
@@ -146,6 +206,24 @@ def selftest() -> None:
     assert i.wm_path == UNIFIED_WM, "indoor rides the unified WM"
     assert t.wm_path != i.wm_path, "each mode binds a DISTINCT WM (alongside)"
     assert callable(t.build) and callable(i.build)
+    assert t.heads == {}, "transit has no detection heads"
+    assert set(i.heads) == {"yaw", "low", "person"}, i.heads
+    # lock consistency for both modes (CI-safe: sha layer skips missing files)
+    for m in (t, i):
+        verify(m)
+    # negative: a head bound to the WRONG WM must fail the binding check
+    bad = FlightMode(
+        name="bad",
+        wm_path=MODEL,  # champion...
+        description="head/WM mismatch fixture",
+        build=t.build,
+        heads={"yaw": "output/target_head_yaw.pt"},  # ...but a unified head
+    )
+    try:
+        verify(bad)
+        raise AssertionError("head/WM mismatch must raise")
+    except AssertionError as e:
+        assert "binding mismatch" in str(e), e
     try:
         get_mode("nope")
         raise AssertionError("unknown mode must raise")
@@ -153,16 +231,31 @@ def selftest() -> None:
         pass
     print(
         f"FLIGHT-MODE OK: modes {list_modes()}, transit->champion, "
-        f"indoor->unified (distinct WMs, alongside)"
+        f"indoor->unified (distinct WMs, alongside); lock bindings verified "
+        f"({len(i.heads)} indoor heads), wrong-WM head refused"
     )
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument(
+        "--verify",
+        action="store_true",
+        help="cross-check every mode's WM+head bindings against the lock "
+        "(sha256 for files on disk)",
+    )
     args = ap.parse_args()
     if args.selftest:
         selftest()
+        return
+    if args.verify:
+        for name in list_modes():
+            m = get_mode(name)
+            print(f"[{name}]")
+            for line in verify(m):
+                print(line)
+        print("FLIGHT-MODE VERIFY OK: every mode's WM+head bindings match the lock")
         return
     for name in list_modes():
         m = get_mode(name)
