@@ -52,12 +52,20 @@ def _in_fov_yaw(pos, target, yaw_rad, half_deg, max_range=2.5):
 
 
 def collect_yaw_frames(
-    n_rooms=6, seed0=600000, grid=0.45, yaws_deg=YAWS_DEG, half_deg=None, ckpt=None
+    n_rooms=6,
+    seed0=600000,
+    grid=0.45,
+    yaws_deg=YAWS_DEG,
+    half_deg=None,
+    ckpt=None,
+    return_frames=False,
 ):
     """Render + encode target/no-target frames over a position grid AND a
     yaw sweep. Route B: park the drone at START, set its yaw, refresh
     kinematics, and use the stock body-frame grab_frame (camera turns with
-    the yaw). Returns lat (N,64), label (N,), yaw (N,), red (N,)."""
+    the yaw). Returns lat (N,64), label (N,), yaw (N,), red (N,);
+    `return_frames` adds the raw uint8 frames so several encoder arms can
+    score identical imagery without re-rendering (int8_parity_v1)."""
     import pybullet as p
     import torch
 
@@ -77,7 +85,7 @@ def collect_yaw_frames(
     yaws = [np.radians(d) for d in yaws_deg]
     env = make_env()
     env.reset(seed=seed0)
-    lat, label, yaw_col, red, obs_fov = [], [], [], [], []
+    lat, label, yaw_col, red, obs_fov, raw = [], [], [], [], [], []
     for i in range(n_rooms):
         sc = single_room(seed0 + i)
         target = sc.beacon_xy
@@ -101,6 +109,8 @@ def collect_yaw_frames(
                     with torch.no_grad():
                         z = enc(_frame_tensor(frame)).numpy().reshape(-1)
                     lat.append(z)
+                    if return_frames:
+                        raw.append(frame)
                     red.append(_redness(frame))
                     label.append(1 if _in_fov_yaw((x, y), target, yw, half) else 0)
                     yaw_col.append(float(np.degrees(yw)))
@@ -113,13 +123,16 @@ def collect_yaw_frames(
                     obs_fov.append(1 if seen_obs else 0)
                 remove_bodies(env, ids + [tid])
     env.close()
-    return {
+    out = {
         "lat": np.asarray(lat, dtype=np.float32),
         "label": np.asarray(label, dtype=int),
         "yaw": np.asarray(yaw_col, dtype=float),
         "red": np.asarray(red, dtype=float),
         "obs_in_fov": np.asarray(obs_fov, dtype=int),
     }
+    if return_frames:
+        out["frames"] = np.asarray(raw, dtype=np.uint8)
+    return out
 
 
 def probe(n_rooms=6, seed0=600000, yaws_deg=YAWS_DEG, ckpt=UNIFIED_WM):

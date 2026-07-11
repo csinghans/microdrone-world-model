@@ -81,9 +81,17 @@ def _spawn_person(env, xy, offset, color):
     )
 
 
-def collect(n_rooms=6, seed0=650000, grid=0.7, shape_control=False, ckpt=UNIFIED_WM):
+def collect(
+    n_rooms=6,
+    seed0=650000,
+    grid=0.7,
+    shape_control=False,
+    ckpt=UNIFIED_WM,
+    return_frames=False,
+):
     """Render + encode over grid positions x rooms. Each frame is labelled by
-    what sits in the +x FOV: a person, a box obstacle, or neither."""
+    what sits in the +x FOV: a person, a box obstacle, or neither.
+    `return_frames` adds the raw uint8 frames (int8_parity_v1)."""
     import pybullet as p
     import torch
 
@@ -102,7 +110,7 @@ def collect(n_rooms=6, seed0=650000, grid=0.7, shape_control=False, ckpt=UNIFIED
         enc, *_ = load_or_train(device="cpu")
     env = make_env()
     env.reset(seed=seed0)
-    lat, person, box = [], [], []
+    lat, person, box, raw = [], [], [], []
     for i in range(n_rooms):
         sc = single_room(seed0 + i)
         person_xy = sc.beacon_xy
@@ -125,6 +133,8 @@ def collect(n_rooms=6, seed0=650000, grid=0.7, shape_control=False, ckpt=UNIFIED
                 with torch.no_grad():
                     emb = enc(_frame_tensor(frame)).numpy().reshape(-1)
                 lat.append(emb)
+                if return_frames:
+                    raw.append(frame)
                 person.append(1 if _in_fov((x, y), person_xy, FOV_HALF_DEG) else 0)
                 box.append(
                     1
@@ -136,11 +146,14 @@ def collect(n_rooms=6, seed0=650000, grid=0.7, shape_control=False, ckpt=UNIFIED
                 )
                 remove_bodies(env, ids + [pid])
     env.close()
-    return {
+    out = {
         "lat": np.asarray(lat, dtype=np.float32),
         "person": np.asarray(person, dtype=int),
         "box": np.asarray(box, dtype=int),
     }
+    if return_frames:
+        out["frames"] = np.asarray(raw, dtype=np.uint8)
+    return out
 
 
 def probe(n_rooms=6, seed0=650000, shape_control=False, ckpt=UNIFIED_WM):

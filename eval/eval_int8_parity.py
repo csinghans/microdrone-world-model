@@ -486,6 +486,135 @@ def k1b_rebake(ck=UNIFIED, n=60, seed0=1000, fit_rolls_cap=40):
     }
 
 
+# --- B3/B5: the locked heads + the quantized indoor stack in flight ----------
+class QDetector:
+    """A DetectionHead whose MLP runs through FQLeaf quantization, calibrated
+    on latents from the (quantized) encoder — the full deployed int8 stack."""
+
+    def __init__(self, head_path, calib_lat):
+        from search.target_detector import DetectionHead
+
+        head = DetectionHead().load(head_path)
+        self.net, self.leaves = quantize(head.net, per_channel=False)
+        for _, f in self.leaves:
+            f.calibrating = True
+        with torch.no_grad():
+            self.net(torch.tensor(calib_lat, dtype=torch.float32))
+        for _, f in self.leaves:
+            f.calibrating = False
+
+    def prob(self, X):
+        with torch.no_grad():
+            return torch.sigmoid(
+                self.net(torch.tensor(X, dtype=torch.float32)).squeeze(-1)
+            ).numpy()
+
+
+HEAD_SETS = (
+    ("yaw", "output/target_head_yaw.pt", "yaw", {}, "label"),
+    (
+        "low",
+        "output/target_head_low.pt",
+        "alt",
+        {"z_cams": (0.15, 0.25, 0.35, 0.5, 0.8), "target_hs": (0.2, 0.3, 0.5)},
+        "label",
+    ),
+    ("person", "output/target_head_person.pt", "person", {}, "person"),
+)
+
+
+def _collect_head_frames(kind, seed0, kw):
+    if kind == "yaw":
+        from eval.eval_yaw_detect import collect_yaw_frames
+
+        return collect_yaw_frames(6, seed0, ckpt=UNIFIED, return_frames=True, **kw)
+    if kind == "alt":
+        from eval.eval_alt_detect import collect_alt_frames
+
+        return collect_alt_frames(6, seed0, ckpt=UNIFIED, return_frames=True, **kw)
+    from eval.eval_person_detect import collect
+
+    return collect(6, seed0, return_frames=True, **kw)
+
+
+def b3_heads():
+    """B3: each locked head — float stack vs the quantized stack (int8pc
+    encoder + int8 head, the head calibrated on the quantized latents of
+    its TRAIN block) on identical fresh-block frames. Bar: ΔAUC ≥ −0.015."""
+    from search.target_detector import DetectionHead, _auc
+
+    q = QWM(UNIFIED, per_channel=True)
+    calibrate(q, *_calib_batch())
+    out = {}
+    for name, head_path, kind, kw, ykey in HEAD_SETS:
+        tr_seed, te_seed = (650000, 660000) if kind == "person" else (600000, 610000)
+        tr = _collect_head_frames(kind, tr_seed, kw)
+        te = _collect_head_frames(kind, te_seed, kw)
+        y = te[ykey]
+        auc_f = _auc(DetectionHead().load(head_path).prob(te["lat"]), y)
+        qdet = QDetector(head_path, _encode(q.enc, tr["frames"]))
+        auc_q = _auc(qdet.prob(_encode(q.enc, te["frames"])), y)
+        d = auc_q - auc_f
+        ok = d >= -0.015 - 1e-9
+        out[name] = {
+            "float_auc": float(auc_f),
+            "int8_auc": float(auc_q),
+            "delta": float(d),
+            "pass": bool(ok),
+        }
+        print(
+            f"  [B3] {name:7s} float={auc_f:.4f}  int8={auc_q:.4f}  "
+            f"Δ={d:+.4f} (bar ≥ -0.015) -> {'PASS' if ok else 'FAIL'}"
+        )
+    return out
+
+
+def b5_yaw_scan(n=20, seed0=620000, thr=0.65, confirm=2):
+    """B5: the yaw_v1 flight gate flown by the QUANTIZED indoor stack
+    (int8pc unified encoder + int8 yaw head; beams8 safety is geometry, no
+    WM in the loop). Bars are yaw_v1's, absolute: correct ≥0.70, FA ≤0.20,
+    collision ≤0.05, return ≥0.80 (float gate of record: 0.70/0.10/0.00/1.00)."""
+    from eval.eval_vision_search import _rates, run_yaw_scan_search
+    from eval.eval_yaw_detect import collect_yaw_frames
+    from sim.envs import make_env
+    from sim.indoor.rooms import single_room
+
+    q = QWM(UNIFIED, per_channel=True)
+    calibrate(q, *_calib_batch())
+    tr = collect_yaw_frames(6, 600000, ckpt=UNIFIED, return_frames=True)
+    qdet = QDetector("output/target_head_yaw.pt", _encode(q.enc, tr["frames"]))
+    env = make_env()
+    rows = []
+    for i in range(n):
+        rows.append(
+            run_yaw_scan_search(
+                env,
+                single_room(seed0 + i),
+                qdet,
+                q.enc,
+                seed0 + i,
+                thr,
+                confirm=confirm,
+            )
+        )
+    env.close()
+    g = _rates(rows, thr=thr, confirm=confirm)
+    ok = (
+        g["correct_find_rate"] >= 0.70
+        and g["false_alarm_rate"] <= 0.20
+        and g["collision_rate"] <= 0.05
+        and g["return_rate"] >= 0.80
+    )
+    g["pass"] = bool(ok)
+    print(
+        f"  [B5] int8 stack: correct={g['correct_find_rate']:.2f} "
+        f"FA={g['false_alarm_rate']:.2f} miss={g['miss_rate']:.2f} "
+        f"collision={g['collision_rate']:.2f} return={g['return_rate']:.2f} "
+        f"-> {'PASS' if ok else 'FAIL'} (float gate: 0.70/0.10/0.00/1.00)"
+    )
+    return g
+
+
 SEAM = {"pred.trunk.0": 64}  # z(64) || action(4): two quant nodes before concat
 
 
@@ -658,6 +787,14 @@ def main() -> None:
         action="store_true",
         help="K1c: split-scale quant at the z||action seam -> SNR + B4 (slow)",
     )
+    ap.add_argument(
+        "--b3", action="store_true", help="B3: locked heads float vs int8 stack"
+    )
+    ap.add_argument(
+        "--b5",
+        action="store_true",
+        help="B5: yaw-scan flight gate on the quantized indoor stack (slow)",
+    )
     ap.add_argument("--cl-seeds", type=int, default=60)
     ap.add_argument("--cl-seed0", type=int, default=1000)
     ap.add_argument(
@@ -671,9 +808,18 @@ def main() -> None:
     if args.selftest:
         selftest()
         return
-    if not (args.k0 or args.closed_loop or args.k1a or args.rebake or args.k1c):
+    if not (
+        args.k0
+        or args.closed_loop
+        or args.k1a
+        or args.rebake
+        or args.k1c
+        or args.b3
+        or args.b5
+    ):
         raise SystemExit(
-            "pick --k0 / --closed-loop / --k1a / --rebake / --k1c (or --selftest)"
+            "pick --k0 / --closed-loop / --k1a / --rebake / --k1c / --b3 / --b5 "
+            "(or --selftest)"
         )
     res = {"device": DEVICE, "calib_n": CALIB_N, "calib_seed": CALIB_SEED}
     if args.k0:
@@ -706,6 +852,12 @@ def main() -> None:
     if args.k1c:
         print(f"=== K1c split-scale at the z||action seam (n={args.cl_seeds}) ===")
         res["K1c"] = k1c_split_seam(n=args.cl_seeds)
+    if args.b3:
+        print("=== B3 locked heads: float vs the quantized stack ===")
+        res["B3"] = b3_heads()
+    if args.b5:
+        print("=== B5 yaw-scan flight gate, quantized indoor stack (n=20) ===")
+        res["B5"] = b5_yaw_scan()
     if args.out:
         os.makedirs(os.path.dirname(args.out), exist_ok=True)
         with open(args.out, "w") as f:

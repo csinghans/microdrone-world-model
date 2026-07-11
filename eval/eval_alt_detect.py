@@ -64,9 +64,11 @@ def collect_alt_frames(
     target_hs=TARGET_HS,
     half_deg=None,
     ckpt=None,
+    return_frames=False,
 ):
     """Render + encode over grid position x target height x drone altitude.
-    Returns lat (N,64), label, z_cam, target_h, elev (deg, signed |h-z|)."""
+    Returns lat (N,64), label, z_cam, target_h, elev (deg, signed |h-z|);
+    `return_frames` adds the raw uint8 frames (int8_parity_v1)."""
     import pybullet as p
     import torch
 
@@ -85,7 +87,7 @@ def collect_alt_frames(
         enc, *_ = load_or_train(device="cpu")
     env = make_env()
     env.reset(seed=seed0)
-    lat, label, zc, th, elev, obs_fov = [], [], [], [], [], []
+    lat, label, zc, th, elev, obs_fov, raw = [], [], [], [], [], [], []
     for i in range(n_rooms):
         sc = single_room(seed0 + i)
         target = sc.beacon_xy
@@ -110,6 +112,8 @@ def collect_alt_frames(
                         with torch.no_grad():
                             emb = enc(_frame_tensor(frame)).numpy().reshape(-1)
                         lat.append(emb)
+                        if return_frames:
+                            raw.append(frame)
                         label.append(
                             1 if _in_fov_alt((x, y), target, h, z, half) else 0
                         )
@@ -126,7 +130,7 @@ def collect_alt_frames(
                     remove_bodies(env, [tid])
                 remove_bodies(env, ids)
     env.close()
-    return {
+    out = {
         "lat": np.asarray(lat, dtype=np.float32),
         "label": np.asarray(label, dtype=int),
         "z_cam": np.asarray(zc, dtype=float),
@@ -134,6 +138,9 @@ def collect_alt_frames(
         "elev": np.asarray(elev, dtype=float),
         "obs_in_fov": np.asarray(obs_fov, dtype=int),
     }
+    if return_frames:
+        out["frames"] = np.asarray(raw, dtype=np.uint8)
+    return out
 
 
 def probe(n_rooms=6, seed0=600000, ckpt=UNIFIED_WM):
