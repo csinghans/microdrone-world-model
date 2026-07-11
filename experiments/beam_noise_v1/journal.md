@@ -38,8 +38,42 @@ p = Y; the knee is at Z". If even the clean arm misses its historical
 band (find ~0.9, collision ≤ 0.05), the harness is suspect and no
 pricing is read (instrument-first).
 
+## Results (2026-07-12 — `eval_beam_noise --price`, price_results.json)
+
+| arm | find | return | collision |
+|---|---|---|---|
+| clean | 0.833 | 0.733 | 0.000 |
+| σ=0.05 m | 0.833 | 0.733 | 0.033 |
+| σ=0.10 m | 0.833 | 0.733 | **0.067 ✗** |
+| σ=0.20 m | 0.800 | 0.733 | **0.167 ✗** |
+| dropout 5 % | 0.833 | 0.700 | 0.000 |
+| dropout 10 % | 0.833 | 0.733 | **0.067 ✗** |
+
+Clean arm inside its coded sanity band (find ≥ 0.80, collision ≤ 0.05);
+levels on this fresh block sit slightly under the v3 record (0.833 vs
+0.917 find at n=30 — block noise), and the identical-seed Δ across arms
+is the read, per the pre-registration.
+
+## The footnote (the deliverable)
+
+**beams8 holds the ≤ 0.05 collision bar up to σ = 0.05 m range noise
+and 5 % dropout; the knee is at σ = 0.10 m / p = 0.10.** Both failure
+directions behave as geometry predicts: noise puts phantom-far readings
+on genuinely-near walls (the veto passes a bad action), and
+dropout-to-max is pure phantom-far. Find/return barely move across
+arms — the price is paid in collisions, exactly where the safety
+filter lives.
+
+Bridge-relevant line for the sensor BOM (and writing/#8's sequel):
+a ToF ring needs σ < 5 cm and missed-return rate < 5 % at ≤ 3 m —
+VL53-class parts sit comfortably inside the pocket. Named follow-ups
+(fresh registrations, not run): the latency axis (needs runner surgery
+for an honest delay unit); the same pricing on the indoor-gate mission
+pool instead of M1-only.
+
 ## Status
 
 - [x] Pre-registration committed (this file, before any number)
-- [ ] Noisy-proxy + pricing tool + selftest
-- [ ] 6-arm read → the noise footnote
+- [x] Noisy-proxy + pricing tool + selftest
+- [x] 6-arm read → **footnote priced: safe pocket σ ≤ 0.05 m, p ≤ 0.05;
+      knee at σ = 0.10 / p = 0.10**
