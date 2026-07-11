@@ -108,8 +108,9 @@ def selftest() -> None:
     assert "trace" in inspect.signature(run_yaw_scan_search).parameters
     assert inspect.signature(run_vision_search).parameters["trace"].default is None
     # pooled math on a synthetic stream: separable scores -> AUC 1.0,
-    # recall/FA at the threshold count the right frames
-    probs = np.array([0.9, 0.8, 0.7, 0.2, 0.1, 0.6])
+    # recall/FA at the threshold count the right frames (one positive is
+    # deliberately below thr: recall 2/3, FA 0)
+    probs = np.array([0.9, 0.8, 0.3, 0.2, 0.1, 0.05])
     labels = np.array([1, 1, 1, 0, 0, 0])
     assert abs(_auc(probs, labels) - 1.0) < 1e-9
     thr = 0.65
