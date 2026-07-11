@@ -46,6 +46,15 @@ def evaluate(ckpt_path: str, data: dict, seed: int = 0) -> dict:
     and veer-ranking on val rollouts + widened to all rollouts."""
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     enc, pred, cheads, nhead, _meta = load_model(ckpt_path, device)
+    return evaluate_components(enc, pred, cheads, nhead, data, seed, device)
+
+
+def evaluate_components(enc, pred, cheads, nhead, data, seed=0, device="cpu"):
+    """The same scoring loop on already-loaded modules — the seam through
+    which candidate/quantized components are graded on the identical split
+    without any checkpoint swap (int8_parity_v1). `evaluate` is a thin
+    load_model wrapper around this; the selftest's probe==train-val assert
+    guards both."""
     tgru = getattr(enc, "temporal", None)
 
     rng = np.random.default_rng(seed)

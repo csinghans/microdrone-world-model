@@ -87,7 +87,9 @@ def _linear_probe_auc(X, y, seed=0):
     return _auc(st, y[te])
 
 
-def collect_target_frames(n_rooms=6, seed0=600000, grid=0.35, half_deg=None, ckpt=None):
+def collect_target_frames(
+    n_rooms=6, seed0=600000, grid=0.35, half_deg=None, ckpt=None, return_frames=False
+):
     """Render target/no-target frames over a position grid and encode each
     with the shipped WM. Returns dict of arrays: `lat` (N,64) latents,
     `label` (N,) target-in-FOV, `red` (N,) pixel redness, `obs_in_fov`
@@ -97,7 +99,10 @@ def collect_target_frames(n_rooms=6, seed0=600000, grid=0.35, half_deg=None, ckp
 
     `ckpt` overrides the encoder with an explicit checkpoint (the
     unified-WM gate passes `output/world_model_unified.pth`), so a
-    candidate WM is graded WITHOUT swapping the pinned champion artifact."""
+    candidate WM is graded WITHOUT swapping the pinned champion artifact.
+    `return_frames` additionally returns the raw uint8 frames so several
+    encoder ARMS can be scored on the identical imagery without
+    re-rendering (int8_parity_v1)."""
     import torch
 
     from eval.eval_closed_loop import load_or_train
@@ -115,7 +120,7 @@ def collect_target_frames(n_rooms=6, seed0=600000, grid=0.35, half_deg=None, ckp
         enc, _pred, _ch, _n, _meta = load_or_train(device="cpu")
     env = make_env()
     env.reset(seed=seed0)
-    lat, red, label, obs_fov = [], [], [], []
+    lat, red, label, obs_fov, raw = [], [], [], [], []
     for i in range(n_rooms):
         sc = single_room(seed0 + i)
         target = sc.beacon_xy  # the hidden spot becomes a VISUAL target
@@ -138,13 +143,18 @@ def collect_target_frames(n_rooms=6, seed0=600000, grid=0.35, half_deg=None, ckp
                     _in_fov((x, y), (ox, oy), half) for ox, oy, _ in sc.obstacles
                 )
                 obs_fov.append(1 if seen_obs else 0)
+                if return_frames:
+                    raw.append(frame)
     env.close()
-    return {
+    out = {
         "lat": np.asarray(lat, dtype=np.float32),
         "red": np.asarray(red, dtype=float),
         "label": np.asarray(label, dtype=int),
         "obs_in_fov": np.asarray(obs_fov, dtype=int),
     }
+    if return_frames:
+        out["frames"] = np.asarray(raw, dtype=np.uint8)
+    return out
 
 
 def probe(n_rooms=6, seed0=600000, grid=0.35, half_deg=None, ckpt=None):
