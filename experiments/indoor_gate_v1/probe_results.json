@@ -1,0 +1,31 @@
+{
+ "M1_single": {
+  "n": 20,
+  "find": 0.9,
+  "return": 0.85,
+  "collision_missions": 0.0,
+  "composite": 0.85
+ },
+ "M2_multi": {
+  "n": 20,
+  "find": 0.95,
+  "return": 0.9,
+  "collision_missions": 0.0,
+  "composite": 0.9
+ },
+ "M3_vertical": {
+  "n": 20,
+  "find": 0.7,
+  "return": 0.9,
+  "collision_missions": 0.0,
+  "composite": 0.7
+ },
+ "M4_person": {
+  "n": 20,
+  "find": 1.0,
+  "return": 0.95,
+  "collision_missions": 0.0,
+  "composite": 0.95
+ },
+ "weighted_composite": 0.855
+}

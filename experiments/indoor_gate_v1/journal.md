@@ -49,10 +49,40 @@ formal n=100 weighted-draw gate) — never from hope. Non-binding priors
 from the unit numbers, for calibration only: composite ≥ 0.80, pooled
 collision ≤ 0.02, return|found ≥ 0.90.
 
+## Ceiling probe (2026-07-12 — n=20/family, probe_results.json)
+
+| family | find | return | collision missions | composite |
+|---|---|---|---|---|
+| M1 single | 0.900 | 0.850 | 0.000 | 0.850 |
+| M2 multi | 0.950 | 0.900 | 0.000 | 0.900 |
+| **M3 vertical (the first flown read)** | 0.700 | 0.900 | 0.000 | **0.700** |
+| M4 person | 1.000 | 0.950 | 0.000 | 0.950 |
+| **weighted ceiling** | | | **0.000** | **0.855** |
+
+**Zero collisions in 80 missions** — the beams8 safety case survives
+composition, including M3's altitude flying (vertical moves at the safe
+scan spot held the 2-D clearance model). M4 beats its unit gate (1.00 /
+0.95 vs 0.933). M3's 0.700 is the search-then-vertical-scan mission's
+first number ever flown — the pool's load-bearing weak family.
+
+## Bars — FROZEN from the probe (before the formal read)
+
+- **GATE (headline): composite ≥ 0.80 over n=100 missions, split by the
+  registered weights (30/30/20/20), FRESH seed blocks (probe seeds
+  +100).** Margin note, stated honestly: the probe ceiling 0.855 leaves
+  ~1.6σ at n=100 (binomial σ ≈ 0.035) — a modest margin; M3 carries the
+  risk.
+- **Guard: collision missions ≤ 0.02 pooled** (probe: 0.000).
+- Per-family break histogram REPORTED, not gated (probe ceilings on
+  record: 0.85 / 0.90 / 0.70 / 0.95).
+
 ## Status
 
 - [x] Pre-registration committed (this file, before any number)
-- [ ] Runner (`eval/eval_indoor_gate.py`) + M3 flight glue + M4
+- [x] Runner (`eval/eval_indoor_gate.py`) + M3 flight glue + M4
       snapshots/collision patch
-- [ ] Ceiling probe n=20/family → freeze bars (follow-up commit)
-- [ ] Formal gate n=100 weighted draw (H2) + `scripts/gate.py` scorecard
+- [x] Ceiling probe n=20/family → **weighted ceiling 0.855, zero
+      collisions in 80**
+- [x] Bars frozen from the probe (this commit, before the formal read)
+- [ ] Formal gate n=100 weight-split, fresh seeds → verdict
+- [ ] `scripts/gate.py` whole-system scorecard (after the gate lands)

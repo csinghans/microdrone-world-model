@@ -333,6 +333,59 @@ def probe(n=20, only=None):
     return out
 
 
+def gate(n=100, seed_off=100):
+    """The formal read: n missions split by the registered weights (exact
+    counts), FRESH seed blocks (probe seeds + seed_off — never the probe's).
+    Judged against the bars frozen in the journal AFTER the ceiling probe:
+    composite >= 0.80 over the pool AND collision missions <= 0.02."""
+    from sim.envs import make_env
+
+    counts = {k: int(round(WEIGHTS[k] * n)) for k in WEIGHTS}
+    assert sum(counts.values()) == n, counts
+    env = make_env()
+    fam, rows_all = {}, []
+    for name, fn, seed0 in FAMILIES:
+        rows = []
+        for i in range(counts[name]):
+            r = fn(env, seed0 + seed_off + i)
+            r["composite"] = bool(r["found"] and r["returned"] and r["collisions"] == 0)
+            rows.append(r)
+            print(
+                f"  [{name}] seed {seed0 + seed_off + i}: found={int(r['found'])} "
+                f"ret={int(r['returned'])} col={r['collisions']} -> "
+                f"{'OK' if r['composite'] else 'BREAK'}",
+                flush=True,
+            )
+        fam[name] = {
+            "n": counts[name],
+            "find": float(np.mean([r["found"] for r in rows])),
+            "return": float(np.mean([r["returned"] for r in rows])),
+            "collision_missions": float(np.mean([r["collisions"] > 0 for r in rows])),
+            "composite": float(np.mean([r["composite"] for r in rows])),
+        }
+        rows_all += rows
+        print(
+            f"[{name}] "
+            + "  ".join(f"{k}={v:.3f}" for k, v in fam[name].items() if k != "n"),
+            flush=True,
+        )
+    env.close()
+    composite = float(np.mean([r["composite"] for r in rows_all]))
+    col = float(np.mean([r["collisions"] > 0 for r in rows_all]))
+    ok = composite >= 0.80 and col <= 0.02 + 1e-9
+    print(
+        f"[GATE] composite {composite:.3f}/{n} (bar >= 0.80)  "
+        f"collision missions {col:.3f} (guard <= 0.02) -> "
+        f"{'GREEN' if ok else 'FAIL'}"
+    )
+    return {
+        "families": fam,
+        "composite": composite,
+        "collision_missions": col,
+        "pass": bool(ok),
+    }
+
+
 def selftest() -> None:
     import inspect
 
@@ -357,6 +410,10 @@ def selftest() -> None:
     sig = inspect.signature(run_alt_scan_search).parameters
     assert sig["speed"].default == SPEED and sig["safety"].default == SAFETY
     assert sig["scan_alts"].default == (0.4, 1.0, 1.6, 2.0)
+    # the gate's weight split lands exactly on n=100, on fresh seeds
+    counts = {k: int(round(WEIGHTS[k] * 100)) for k in WEIGHTS}
+    assert sum(counts.values()) == 100 and min(counts.values()) >= 20
+    assert inspect.signature(gate).parameters["seed_off"].default >= 100
     print(
         "INDOOR-GATE OK: composite truth table, disjoint seed blocks, "
         "weights sum 1, hardcoded robust config, M3/M4 runner seams"
@@ -366,16 +423,17 @@ def selftest() -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--probe", type=int, default=0, help="n missions per family")
-    ap.add_argument("--family", default=None, help="run one family only")
+    ap.add_argument("--gate", type=int, default=0, help="formal weight-split read")
+    ap.add_argument("--family", default=None, help="run one family only (probe)")
     ap.add_argument("--out", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    if not args.probe:
-        raise SystemExit("--probe N (or --selftest)")
-    res = probe(args.probe, only=args.family)
+    if not (args.probe or args.gate):
+        raise SystemExit("--probe N or --gate N (or --selftest)")
+    res = gate(args.gate) if args.gate else probe(args.probe, only=args.family)
     if args.out:
         os.makedirs(os.path.dirname(args.out), exist_ok=True)
         with open(args.out, "w") as f:
