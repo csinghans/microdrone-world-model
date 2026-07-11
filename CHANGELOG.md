@@ -1,5 +1,37 @@
 # Changelog
 
+## Unreleased
+
+- **Find-a-person (person_v1): GREEN — the WM latent reads a person's
+  SHAPE, and the mission finds one at 0.933.** Frozen-latent probe:
+  person-vs-box 0.944 (colour) / **0.806 shape-only** (person painted
+  box-orange; above the 0.75 diagnostic bar, so it is not a colour cue).
+  Widening the capsule to a real shoulder width (r 0.15→0.25) lifts the
+  head to AUC 0.918 — but recall did not convert to find-rate until the
+  SEARCH CHOREOGRAPHY changed: a yaw-corrected FOV label fix plus
+  sense → approach (translate to ≤0.9 m, never spin in place) →
+  face-and-confirm (2-hit) lifts find **3/7 → 14/15 = 0.933**, return
+  14/15. Honest bounds: an upright capsule proxy, stationary-imaging
+  probes + scan compounding; multi-pose / half-buried realism is the
+  named stress test (`experiments/person_v1/`).
+- **CI is manual-trigger only** (`workflow_dispatch` with an opt-in
+  `train_smoke` input): no more auto-runs on push/PR/schedule — run it
+  from the Actions tab or `gh workflow run CI` (owner request).
+- **External review + 12-month research program (2026-07-11, advisory).**
+  `docs/REVIEW-2026-07.md` (+ zh-TW): verified-state table, live
+  hazards, assumption-debt and bound-space registers, the
+  glimpses→evidence thesis, sequenced campaigns with pre-registration
+  sketches, the owner-gate calendar. It moves no bars; ROADMAP.md and
+  RESEARCH-IDEAS.md carry pointers.
+- **The speed-1.0 trap, closed at the API layer (review item I1).**
+  `eval_search.suite()` and `run_search_episode` still defaulted to
+  speed 1.0 + the privileged "geometric" filter — any programmatic
+  caller silently inherited the v1-era crash config. Both now share the
+  track constants `ROBUST_SPEED` / `DEPLOY_SAFETY`
+  (`eval/search_episode.py`), the eval_search selftest asserts
+  CLI == API == runner defaults, and every suite prints its config
+  header. The privileged filter is explicit-only.
+
 ## 0.8.0 — 2026-07-09 (indoor search goes vertical — and one WM learns two flight modes)
 
 The indoor active-search track's binding constraint fell, and the search
