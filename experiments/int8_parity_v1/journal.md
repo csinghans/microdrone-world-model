@@ -374,5 +374,50 @@ says the information survives), and B5's miss rate falls back toward
 the float gate. Refit heads land in experiments/int8_parity_v1/artifacts/
 (NOT the lock — deploying them is a G1-rules owner decision).
 
-- [ ] K2c run: refit heads on quantized latents → B3 + B5 re-read
-- [ ] Final verdict + writing/#8 handoff
+- [x] K2c: **the rule as written recovers 2 of 3 heads — and the flight
+      gate.** Refit on the quantized latents: yaw 0.9827 (Δ +0.0009,
+      PASS — above the float head), person 0.9185 (Δ +0.0254, PASS —
+      above float by 2.5 points), low 0.7549 (Δ −0.114, FAIL — WORSE
+      than the un-refit 0.8247; the near-floor regime, weakest in float
+      too, is genuinely quantization-hostile — the campaign's residual).
+      **B5 re-flown with the refit yaw head: PASS — correct 0.75 /
+      FA 0.10 / miss 0.15 / collision 0.00 / return 1.00, matching or
+      beating the float gate of record (0.70/0.10/0.20/0.00/1.00).**
+      Refit heads: experiments/int8_parity_v1/artifacts/
+      target_head_{yaw,low,person}_qlat.pt (NOT locked — owner's call).
+      (k2c_results.json)
+
+## Verdict (2026-07-11)
+
+**The unified WM's int8 path is open for the indoor mission — with a
+measured recipe — and closed for the transit WMPolicy until the trigger
+is re-tuned.** The full ledger:
+
+| gate | as shipped | after the pre-registered knobs |
+|---|---|---|
+| B1 transit AUC@32 | unified **PASS** (−0.007); champion FAIL (moving −0.016) | champion's cost is calibration-insensitive (percentile worse; 2048 identical) — real |
+| B2 detection probe | **PASS** (−0.004) | — |
+| B3 locked heads | FAIL ×3 (−0.017/−0.044/−0.024) | refit on q-latents: yaw **PASS**, person **PASS** (both above float), low FAIL (−0.114, residual) |
+| B4 closed-loop transit | FAIL (FE 1.000) | T≈1 (not inflation) → split fixes FE (mechanism ✓) → p16 fixes crash but reflips FE → **knife-edge under PTQ, stays FAIL** |
+| B5 yaw-scan flight | FAIL (miss 0.55) | refit yaw head: **PASS 0.75/0.10/0.00/1.00 ≥ float gate** |
+| monochrome (info) | transit collapses (0.93→0.71, dense < chance); detection holds (0.98→0.95) | the AI-deck stock-camera question, measured |
+
+**The deployable int8 recipe (indoor search, measured end to end):**
+int8pc weights + two-track activation calibration + **refit every
+detection head on the quantized latents** (seconds each; new lock
+entries per G1 when deployed) → the yaw-scan flight gate is GREEN on
+the full quantized stack. **The transit WMPolicy stays float** until a
+freshly pre-registered margin re-tune on the quantized landscape (the
+likeliest cheap win) or QAT — max-statistics triggers amplify exactly
+the noise PTQ leaves behind, while the indoor confirm-k filter's
+failure mode (recall) is what head refits repair.
+
+Exports for writing/#8: the parity tables (k0/k1a/k1b/k1c/k1d/k2/k2c
+results.json), the mechanism chain (rank ✓ → probabilities ✓ →
+per-candidate differentials ✗ → threshold mass ✗), the trigger-symmetry
+finding (margin-max amplifies noise; consensus-k amplifies signal
+loss), the monochrome numbers, and the recipe above. Residual opens:
+the low/near-floor head (quantization-hostile regime), the champion's
+moving −0.016, the transit margin re-tune (fresh pre-registration).
+
+- [x] Final verdict recorded; writing/#8 handoff complete
