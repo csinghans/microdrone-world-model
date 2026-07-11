@@ -44,6 +44,13 @@ def main() -> None:
         help="second WM checkpoint for per-episode encoder data-aug (two-WM "
         "training -> swap-invariance); e.g. output/world_model_unified.pth",
     )
+    ap.add_argument(
+        "--aug-p",
+        type=float,
+        default=0.5,
+        help="P(aug encoder) per episode; 0.5 = the measured two-WM recipe, "
+        "0.34 = zoo_transfer_v1 K1's champion-weighted mix",
+    )
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--selftest", action="store_true")
@@ -67,13 +74,14 @@ def main() -> None:
             edge_bias=True,  # match the champion's speed diet
             stop_hover=args.stop_hover,
             aug_wm_path=args.aug_wm,
+            aug_p=args.aug_p,
         ),
         n_envs=1,
     )
     print(
         f"[train-stopaware] warm start {CHAMPION} | worlds={WORLDS} "
         f"stop_hover={args.stop_hover} aug_wm={args.aug_wm} "
-        f"timesteps={args.timesteps}"
+        f"aug_p={args.aug_p} timesteps={args.timesteps}"
     )
     model = PPO.load(CHAMPION, env=env)  # resume weights + optimiser on the new env
     model.learn(total_timesteps=args.timesteps)

@@ -204,6 +204,7 @@ class WMPolicyEnv(gym.Env):
         station_tick: float = 0.0,
         stop_hover: int = 0,
         aug_wm_path: str = None,
+        aug_p: float = 0.5,
     ):
         super().__init__()
         # stop-and-observe training (slalom_stopobserve follow-up): after a
@@ -238,6 +239,11 @@ class WMPolicyEnv(gym.Env):
         # 'ship on the unified WM' answer). None keeps every recipe identical.
         self._pri = (self.enc, self.pred, self.cheads, self.meta)
         self._aug = None
+        # zoo_transfer_v1 K1: the per-episode probability of encoding with
+        # the AUG WM. 0.5 keeps the measured two-WM recipe bit-identical;
+        # champion-weighted mixes (e.g. 0.34) hold the primary column while
+        # aug episodes keep buying swap tolerance.
+        self.aug_p = float(aug_p)
         if aug_wm_path:
             from world_model.training import load_model
 
@@ -345,10 +351,11 @@ class WMPolicyEnv(gym.Env):
             self._course = (n_st, cl)
         self._goal = self._course[0] * self._course[1] if self._course else GOAL_X
         self._max_dec = self.max_decisions * (self._course[0] if self._course else 1)
-        # two-WM data-aug: pick this episode's encoder (primary vs aug, 50/50)
+        # two-WM data-aug: pick this episode's encoder (primary vs aug;
+        # P(aug) = aug_p, default 0.5 = the measured two-WM recipe)
         if self._aug is not None:
             self.enc, self.pred, self.cheads, self.meta = (
-                self._aug if self.rng.random() < 0.5 else self._pri
+                self._aug if self.rng.random() < self.aug_p else self._pri
             )
         self.ob = ObsBuilder(
             self.enc,
