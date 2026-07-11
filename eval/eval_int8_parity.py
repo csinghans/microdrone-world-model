@@ -252,8 +252,13 @@ def _arm_components(ck, arm, calib, pct=None):
     elif arm == "gray":
         enc, pred, cheads, nhead, _m = load_model(ck, device=DEVICE)
         enc = GrayInput(enc)
-    elif arm in ("int8pc", "int8pt", "gray+int8pc"):
-        q = QWM(ck, per_channel=("pt" not in arm), pct=pct)
+    elif arm in ("int8pc", "int8pt", "gray+int8pc", "int8pc+split"):
+        q = QWM(
+            ck,
+            per_channel=("pt" not in arm),
+            pct=pct,
+            split=(SEAM if arm.endswith("+split") else None),
+        )
         x, a = calib
         calibrate(q, _gray(x) if arm.startswith("gray") else x, a)
         enc, pred, cheads, nhead = q.components()
@@ -369,19 +374,22 @@ def b4_closed_loop(arms=("float", "int8pc"), ck=UNIFIED, n=60, seed0=1000):
         enc, pred, cheads, nhead = _arm_components(ck, arm, calib)
         meta = load_model(ck, device=DEVICE)[4]
         out[arm] = wm_arm(cl_eval(n, seed0, enc, pred, cheads, nhead, meta))
-        print(f"  [B4] unified   {arm:11s} " + _fmt(out[arm]))
-    if {"float", "int8pc"} <= set(out):
+        print(f"  [B4] unified   {arm:13s} " + _fmt(out[arm]))
+    others = [a for a in arms if a != "float" and a in out]
+    if "float" in out and len(others) == 1:
+        qa = others[0]
         n_ip = sum(1 for i in range(n) if (i % 10) < 7)
         p = out["float"]["crash"]
         half = 1.96 * float(np.sqrt(max(p * (1 - p), 1e-9) / n_ip))
-        dq = out["int8pc"]["crash"] - p
+        dq = out[qa]["crash"] - p
         out["bar_B4"] = {
+            "arm": qa,
             "delta_crash": float(dq),
             "float_ci95_half": float(half),
             "pass": bool(dq <= 0.03 + 1e-9 and abs(dq) <= half + 1e-9),
         }
         print(
-            f"  [B4] Δcrash={dq:+.3f} (bar ≤ +0.030, float CI ±{half:.3f}) "
+            f"  [B4] Δcrash({qa})={dq:+.3f} (bar ≤ +0.030, float CI ±{half:.3f}) "
             f"-> {'PASS' if out['bar_B4']['pass'] else 'FAIL'}"
         )
     return out
@@ -629,6 +637,12 @@ def main() -> None:
         help="K1c: split-scale quant at the z||action seam -> SNR + B4 (slow)",
     )
     ap.add_argument("--cl-seeds", type=int, default=60)
+    ap.add_argument("--cl-seed0", type=int, default=1000)
+    ap.add_argument(
+        "--cl-arms",
+        default="float,int8pc",
+        help="comma list for --closed-loop (e.g. float,int8pc+split)",
+    )
     ap.add_argument("--out", default=None, help="write results json here")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -648,8 +662,12 @@ def main() -> None:
         print("=== per-layer SNR (quantize one leaf at a time, unified) ===")
         res["snr_db"] = snr_diag()
     if args.closed_loop:
-        print(f"=== B4 transit closed-loop WM-arm (n={args.cl_seeds}) ===")
-        res["B4"] = b4_closed_loop(n=args.cl_seeds)
+        arms = tuple(a.strip() for a in args.cl_arms.split(",") if a.strip())
+        print(
+            f"=== B4 transit closed-loop WM-arm "
+            f"(n={args.cl_seeds}, seed0={args.cl_seed0}, arms={arms}) ==="
+        )
+        res["B4"] = b4_closed_loop(arms=arms, n=args.cl_seeds, seed0=args.cl_seed0)
     if args.k1a:
         rule = f"percentile {args.pct}" if args.pct > 0 else "min/max"
         print(f"=== K1a champion B1 @ {rule}, calib_n={args.calib_n} ===")

@@ -255,6 +255,28 @@ with full int8pc + split at the seam (identical seeds; float reference
 pre-registered fallback is the int16-activation predictor arm — flagged
 as a BRIDGE question, not a sim fix.
 
-- [ ] K1c run: split-scale at the z‖action seam → SNR + B4 re-fly
+- [x] K1c block 1: **the mechanism is CONFIRMED — and it is finer than
+      predicted.** Split-scale at the seam left the single-leaf SNR
+      unmoved (22.5 → 22.7 dB) yet the flight RECOVERED: false-evasion
+      **1.000 → 0.0556 (exactly the float value)**, min_clear
+      0.318 → 0.411 (above float's 0.387), crash 0.357 → 0.262. The two
+      reads together pin it: z's quantization noise is COMMON-MODE
+      across candidates (same z feeds every candidate — it cancels in
+      margins, and it dominates the absolute-error SNR), while the
+      killer was the 4 ACTION dims sharing a scale sized by the 64-d
+      latent's range (~25 effective levels on [−1,1] → the differences
+      BETWEEN candidate actions were quantization-randomized). Splitting
+      gives actions their own 255-level scale; candidate
+      distinguishability returns; margins mean something again.
+      **Instrument lesson: the SNR probe measures absolute logit error
+      and is blind to the differential (between-candidate) error the
+      deployed trigger actually reads.**
+      Bar arithmetic: false-evasion single-digit ✓ (mechanism clause);
+      Δcrash +0.048 vs the +0.030 clause — a 2-crashes-in-42 miss inside
+      the float arm's ±0.124 CI = **borderline as written**. The house
+      recheck rule applies: pool, never replace — block 2 at fresh seeds
+      (seed0=2000, float + int8pc+split, n=60), pooled Δ decides.
+      (k1c_results.json)
+- [ ] K1c block 2 (pooled recheck, seed0=2000) → B4 verdict
 - [ ] B3 heads; B5 yaw-scan flight (after the flight-parity story settles)
 - [ ] Verdict
