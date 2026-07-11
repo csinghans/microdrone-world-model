@@ -305,6 +305,43 @@ flight needs QAT or a margin re-tune — a future campaign, priced beyond
 Q1's PTQ scope, and writing/#8 reports the parity table with that
 asterisk.
 
-- [ ] K1d run: int8 weights + int16 predictor activations → B4
-- [ ] B3 heads; B5 yaw-scan flight (after the flight-parity story settles)
-- [ ] Verdict
+- [x] K1d: **crash clause PASSES exactly (Δ +0.000 — 9/42, bit-equal to
+      float; min_clear 0.408 above float), but false-evasion flips BACK
+      to 1.000** (K1c's split-only arm had it at 0.056). The int16
+      predictor activations shift the z_hat values feeding the (still
+      8-bit) cheads; the clear-run margin distribution moves back across
+      the trigger threshold. (k1d_results.json)
+
+## B4 verdict — FAIL, with the mechanism fully mapped
+
+Four PTQ arms, each fixing one clause and breaking another:
+
+| arm | crash Δ (bar +0.030) | false-evasion (float 0.056) |
+|---|---|---|
+| int8pc | +0.143 ✗ | 1.000 ✗ |
+| int8pc + T (K1b) | +0.167 ✗ | 1.000 ✗ (T≈1: not a calibration offset) |
+| int8pc + split (K1c) | +0.083 pooled ✗ | **0.056 ✓** (mechanism confirmed 2×) |
+| int8pc + split + p16 (K1d) | **+0.000 ✓** | 1.000 ✗ |
+
+The meta-finding: **false-evasion is an ANY-over-the-run statistic** —
+one spurious margin among ~300 decisions flips a whole flight, so
+per-decision noise that is irrelevant to AUC (B1 green throughout) gets
+amplified to 0↔1 swings by the trigger's max-statistics. Under PTQ, the
+relative-margin trigger is knife-edge: every point fix (temperature,
+split scales, 16-bit acts) reshuffles WHICH clause fails. The honest
+close: **PTQ alone does not buy closed-loop flight parity for a
+margin-triggered WMPolicy.** The named legitimate re-openings (fresh
+pre-registration required): re-fit the trigger's MARGIN_WM/backstop on
+the QUANTIZED probability landscape (a decision-layer analogue of
+temperature — the likeliest cheap win), or QAT. Both priced beyond this
+campaign's PTQ scope. Deployment note for writing/#8: the models
+quantize (B1/B2 green); the CONTROLLER's thresholds are float-tuned —
+"a rank-preserving detector is not the same aircraft" now has its
+mechanism chain: rank ✓ → probabilities ✓ (T≈1) → per-candidate
+differentials ✗ (action scale, fixed by split) → threshold-adjacent
+margin mass ✗ (any-trigger amplification, open).
+
+- [ ] B3 heads; B5 yaw-scan flight (the indoor trigger is confirm-k —
+      a temporal filter, not a margin max; measures whether the indoor
+      stack is PTQ-robust where the transit trigger is not)
+- [ ] Final verdict + writing/#8 handoff
