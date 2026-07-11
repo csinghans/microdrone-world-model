@@ -61,7 +61,7 @@ class FQLeaf(nn.Module):
     and ranges are recorded; afterwards inputs are fake-quantized and the
     quantized weights are used."""
 
-    def __init__(self, leaf, per_channel=True, pct=None):
+    def __init__(self, leaf, per_channel=True, pct=None, split_at=None):
         super().__init__()
         self.leaf = leaf
         self.per_channel = bool(per_channel) and isinstance(leaf, nn.Conv2d)
@@ -75,23 +75,50 @@ class FQLeaf(nn.Module):
         self.register_buffer("qw", (w / s).round().clamp(-127, 127) * s)
         self.calibrating = False
         self.pct = pct  # None -> min/max ranges; else e.g. 0.999 percentile
+        # K1c: quantize x[:, :split_at] and x[:, split_at:] with SEPARATE
+        # ranges (two quant nodes before a concat — SQ8-legal)
+        self.split_at = split_at
         self.lo, self.hi = None, None
+        self.lo2, self.hi2 = None, None
+
+    def _range(self, x):
+        if self.pct is None:
+            return float(x.min()), float(x.max())
+        xf = x.detach().reshape(-1).float()
+        return (
+            float(torch.quantile(xf, 1.0 - self.pct)),
+            float(torch.quantile(xf, self.pct)),
+        )
+
+    @staticmethod
+    def _q(x, lo, hi):
+        hi = max(hi, lo + 1e-9)
+        s = (hi - lo) / 255.0
+        return ((x - lo) / s).round().clamp(0, 255) * s + lo
 
     def _fq_act(self, x):
         if self.lo is None:  # never calibrated: honest float passthrough
             return x
-        lo, hi = self.lo, max(self.hi, self.lo + 1e-9)
-        s = (hi - lo) / 255.0
-        return ((x - lo) / s).round().clamp(0, 255) * s + lo
+        if self.split_at is None:
+            return self._q(x, self.lo, self.hi)
+        k = self.split_at
+        return torch.cat(
+            [
+                self._q(x[:, :k], self.lo, self.hi),
+                self._q(x[:, k:], self.lo2, self.hi2),
+            ],
+            dim=1,
+        )
 
     def forward(self, x):
         if self.calibrating:
-            if self.pct is None:
-                xmin, xmax = float(x.min()), float(x.max())
-            else:  # K1a rule: per-batch percentiles, lo/hi run over batches
-                xf = x.detach().reshape(-1).float()
-                xmin = float(torch.quantile(xf, 1.0 - self.pct))
-                xmax = float(torch.quantile(xf, self.pct))
+            if self.split_at is None:
+                xmin, xmax = self._range(x)
+            else:
+                xmin, xmax = self._range(x[:, : self.split_at])
+                lo2, hi2 = self._range(x[:, self.split_at :])
+                self.lo2 = min(self.lo2, lo2) if self.lo2 is not None else lo2
+                self.hi2 = max(self.hi2, hi2) if self.hi2 is not None else hi2
             self.lo = min(self.lo, xmin) if self.lo is not None else xmin
             self.hi = max(self.hi, xmax) if self.hi is not None else xmax
             return self.leaf(x)
@@ -104,24 +131,26 @@ class FQLeaf(nn.Module):
         return F.linear(x, self.qw, self.leaf.bias)
 
 
-def _swap_leaves(mod, per_channel, only, prefix, out, pct=None):
+def _swap_leaves(mod, per_channel, only, prefix, out, pct=None, split=None):
     for name, child in mod.named_children():
         full = f"{prefix}.{name}" if prefix else name
         if isinstance(child, (nn.Conv2d, nn.Linear)):
             if only is None or full in only:
-                fq = FQLeaf(child, per_channel, pct=pct)
+                fq = FQLeaf(
+                    child, per_channel, pct=pct, split_at=(split or {}).get(full)
+                )
                 setattr(mod, name, fq)
                 out.append((full, fq))
         else:
-            _swap_leaves(child, per_channel, only, full, out, pct)
+            _swap_leaves(child, per_channel, only, full, out, pct, split)
 
 
-def quantize(module, per_channel=True, only=None, pct=None):
+def quantize(module, per_channel=True, only=None, pct=None, split=None):
     """Deep-copy `module`, replacing every Conv2d/Linear leaf (or exactly
     the ones named in `only`) with an FQLeaf. Returns (copy, leaves)."""
     m = copy.deepcopy(module)
     leaves = []
-    _swap_leaves(m, per_channel, only, "", leaves, pct)
+    _swap_leaves(m, per_channel, only, "", leaves, pct, split)
     return m, leaves
 
 
@@ -131,11 +160,17 @@ def _strip(only, prefix):
     return {n[len(prefix) :] for n in only if n.startswith(prefix)}
 
 
+def _strip_map(split, prefix):
+    if not split:
+        return None
+    return {n[len(prefix) :]: k for n, k in split.items() if n.startswith(prefix)}
+
+
 class QWM:
     """A quantized copy of one WM checkpoint's four modules. The shipped
     artifact is loaded read-only and deep-copied — sacred paths untouched."""
 
-    def __init__(self, ck, per_channel=True, only=None, pct=None):
+    def __init__(self, ck, per_channel=True, only=None, pct=None, split=None):
         enc, pred, cheads, nhead, meta = load_model(ck, device=DEVICE)
         self.meta = meta
         self.leaves = []
@@ -145,7 +180,9 @@ class QWM:
             ("cheads.", cheads),
             ("nhead.", nhead),
         ):
-            q, ls = quantize(mod, per_channel, _strip(only, prefix), pct)
+            q, ls = quantize(
+                mod, per_channel, _strip(only, prefix), pct, _strip_map(split, prefix)
+            )
             setattr(self, prefix[:-1], q)
             self.leaves += [(prefix + n, f) for n, f in ls]
 
@@ -428,6 +465,41 @@ def k1b_rebake(ck=UNIFIED, n=60, seed0=1000, fit_rolls_cap=40):
     }
 
 
+SEAM = {"pred.trunk.0": 64}  # z(64) || action(4): two quant nodes before concat
+
+
+def k1c_split_seam(ck=UNIFIED, n=60, seed0=1000):
+    """K1c: split-scale activation quant at the z||action concat seam —
+    the K0-named mechanism candidate. Reads: the single-leaf SNR (should
+    jump from 22.5 dB), then B4 re-flown with full int8pc + the split.
+    Float reference = the recorded same-tool arm (b4_results.json)."""
+    from eval.eval_closed_loop import evaluate as cl_eval
+    from eval.eval_unified_wm_gate import wm_arm
+    from planner.action_set import A_NORM
+
+    x, a = _calib_batch(n=256)
+    enc, pred, cheads, nhead, _m = load_model(ck, device=DEVICE)
+    with torch.no_grad():
+        z = enc(x)
+        ref = cheads(pred(z, a / A_NORM, base=z))
+    snr = {}
+    for tag, split in (("minmax", None), ("split", SEAM)):
+        q1 = QWM(ck, only={"pred.trunk.0"}, split=split)
+        calibrate(q1, x, a)
+        with torch.no_grad():
+            zq = q1.enc(x)
+            got = q1.cheads(q1.pred(zq, a / A_NORM, base=zq))
+        err = float(((ref - got) ** 2).sum())
+        snr[tag] = 10.0 * float(np.log10(float((ref**2).sum()) / max(err, 1e-12)))
+        print(f"  [K1c] pred.trunk.0 SNR ({tag}): {snr[tag]:.1f} dB")
+    q = QWM(ck, split=SEAM)
+    calibrate(q, *_calib_batch())
+    meta = load_model(ck, device=DEVICE)[4]
+    arm = wm_arm(cl_eval(n, seed0, *q.components(), meta))
+    print("  [K1c] int8pc+split  " + _fmt(arm))
+    return {"snr_db": snr, "int8pc_split": arm}
+
+
 def selftest() -> None:
     torch.manual_seed(0)
     from world_model.collision_head import CollisionHeads, DangerNowHead
@@ -492,6 +564,22 @@ def selftest() -> None:
     g = torch.rand(2, 1, 64, 64).expand(-1, 3, -1, -1).contiguous()
     assert torch.allclose(_gray(g), g, atol=1e-6)
 
+    # 7b) split-scale: separate ranges per segment, equal to per-part quant
+    fq_s = FQLeaf(nn.Linear(8, 4), per_channel=False, split_at=6)
+    xs = torch.cat([torch.rand(64, 6), 100.0 * torch.rand(64, 2)], dim=1)
+    fq_s.calibrating = True
+    fq_s(xs)
+    fq_s.calibrating = False
+    assert fq_s.hi < 2.0 and fq_s.hi2 > 50.0, (fq_s.hi, fq_s.hi2)
+    parts = torch.cat(
+        [
+            FQLeaf._q(xs[:, :6], fq_s.lo, fq_s.hi),
+            FQLeaf._q(xs[:, 6:], fq_s.lo2, fq_s.hi2),
+        ],
+        dim=1,
+    )
+    assert torch.allclose(fq_s._fq_act(xs), parts)
+
     # 7) percentile calibration shrugs off a lone outlier; min/max is hostage
     fq_mm = FQLeaf(nn.Linear(8, 4), per_channel=False)
     fq_p = FQLeaf(nn.Linear(8, 4), per_channel=False, pct=0.99)
@@ -535,6 +623,11 @@ def main() -> None:
         action="store_true",
         help="K1b: TempScale the quantized cheads, re-fly B4 (slow)",
     )
+    ap.add_argument(
+        "--k1c",
+        action="store_true",
+        help="K1c: split-scale quant at the z||action seam -> SNR + B4 (slow)",
+    )
     ap.add_argument("--cl-seeds", type=int, default=60)
     ap.add_argument("--out", default=None, help="write results json here")
     ap.add_argument("--selftest", action="store_true")
@@ -542,8 +635,10 @@ def main() -> None:
     if args.selftest:
         selftest()
         return
-    if not (args.k0 or args.closed_loop or args.k1a or args.rebake):
-        raise SystemExit("pick --k0 / --closed-loop / --k1a / --rebake (or --selftest)")
+    if not (args.k0 or args.closed_loop or args.k1a or args.rebake or args.k1c):
+        raise SystemExit(
+            "pick --k0 / --closed-loop / --k1a / --rebake / --k1c (or --selftest)"
+        )
     res = {"device": DEVICE, "calib_n": CALIB_N, "calib_seed": CALIB_SEED}
     if args.k0:
         print("=== B1 transit per-world AUC@32 (held-out, split seed 0) ===")
@@ -568,6 +663,9 @@ def main() -> None:
             f"=== K1b TempScale(quantized cheads) -> B4 re-fly (n={args.cl_seeds}) ==="
         )
         res["K1b"] = k1b_rebake(n=args.cl_seeds)
+    if args.k1c:
+        print(f"=== K1c split-scale at the z||action seam (n={args.cl_seeds}) ===")
+        res["K1c"] = k1c_split_seam(n=args.cl_seeds)
     if args.out:
         os.makedirs(os.path.dirname(args.out), exist_ok=True)
         with open(args.out, "w") as f:
