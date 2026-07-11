@@ -79,6 +79,48 @@ def max_wall_run(scenario, pos, n_beams: int = 16, wall_max: float = WALL_MAX) -
     return min(best, n_beams)
 
 
+def _squeeze_axis(scenario, pos, n_beams: int = 16) -> float:
+    """The bearing (rad) of the best squeeze axis at `pos` — the
+    opposite-beam pair the walls close along (the passage_score argmax);
+    the crossing direction is its perpendicular. Ring-only."""
+    beams = scenario.beam_ranges(pos, n_beams=n_beams)
+    d = [b[1] for b in beams]
+    h, q = n_beams // 2, n_beams // 4
+    best_i, best = 0, -1e18
+    for i in range(h):
+        wall = max(d[i], d[i + h])
+        perp = min(d[(i + q) % n_beams], d[(i + 3 * q) % n_beams])
+        if perp - wall > best:
+            best_i, best = i, perp - wall
+    return float(beams[best_i][0])
+
+
+def bilateral_flanks(
+    scenario, pos, crossing_theta: float, n_beams: int = 16, wall_max: float = WALL_MAX
+) -> bool:
+    """roomgraph_v2 primary primitive: does the ring at `pos` read a short
+    return (<= wall_max) in BOTH half-planes flanking the crossing
+    direction? Fore/aft cones (+-22.5 deg around the crossing axis) are
+    excluded so the opening never counts as a flank. A doorway's divider
+    flanks a traversal on both sides for the whole window; a passed box
+    flanks one side and drops away. Ring + a direction only — no ground
+    truth."""
+    left = right = False
+    for b, r in scenario.beam_ranges(pos, n_beams=n_beams):
+        if r > wall_max:
+            continue
+        rel = (b - crossing_theta + np.pi) % (2 * np.pi) - np.pi
+        if abs(rel) < np.pi / 8 or abs(rel) > np.pi - np.pi / 8:
+            continue  # fore/aft cone: the opening itself
+        if rel > 0:
+            left = True
+        else:
+            right = True
+        if left and right:
+            return True
+    return False
+
+
 def detect_bearing(scenario, pos, n_beams: int = 16):
     """The bearing (rad) of the best doorway candidate, or None — for the
     room-graph step (which way is the passage to the next room)."""
@@ -120,6 +162,14 @@ def selftest() -> None:
     assert max_wall_run(sc, (-2.0, 2.0)) > max_wall_run(
         sc, (0.0, 0.0)
     ), "an extended wall gives a longer short-run than a thin doorway"
+    # the squeeze axis in the gap runs along +-y (the divider closes there),
+    # and the divider flanks a +x crossing on BOTH sides
+    th = _squeeze_axis(sc, (0.0, 0.0))
+    assert abs(np.sin(th)) > abs(np.cos(th)), "gap squeeze axis ~ +/-y"
+    assert bilateral_flanks(sc, (0.0, 0.0), th + np.pi / 2), "divider flanks both"
+    assert not bilateral_flanks(
+        sc, (-2.5, 0.0), np.pi / 2
+    ), "open interior has no bilateral flank"
     print(
         f"DOORWAY OK: score at doorway {at_door:.2f} > interior {interior:.2f}; "
         f"bearing points along the passage axis"

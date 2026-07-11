@@ -90,6 +90,59 @@ def probe(score_fn, label_mode, n=12, n_rooms=4, seed0=210000, n_beams=16, clutt
     return _auc(scores, labels), len(scores), float(np.mean(labels))
 
 
+def discriminate_window(
+    n=12, n_rooms=4, seed0=210000, clutter=2, n_beams=16, half_len=0.5, samples=9
+):
+    """roomgraph_v2 P0: on the SAME firing set as discriminate(), score the
+    traversal-window features. The window is synthesized: `samples` points
+    at +-half_len along the crossing direction (the squeeze axis's
+    perpendicular) — the line a real 0.36 m/s traversal would sweep in
+    ~+-1.4 s. Samples inside geometry count as NOT bilateral (a real
+    crossing could not produce them; the HARNESS uses clearance() for that
+    and for labels — the FEATURE reads only the ring). Primary =
+    traversal persistence (fraction of samples with both flanks);
+    secondaries = window-mean -max_wall_run, window-min passage_score."""
+    from search.doorway import _squeeze_axis, bilateral_flanks
+    from sim.indoor.rooms import n_room
+
+    prim, sec_run, sec_pass, labels = [], [], [], []
+    for i in range(n):
+        sc = n_room(seed0 + i, n_rooms=n_rooms, clutter=clutter)
+        centres = _doorway_centres(sc)
+        x0, x1, y0, y1 = sc.bounds
+        for x in np.arange(x0 + GRID, x1, GRID):
+            for y in np.arange(y0 + GRID, y1, GRID):
+                if sc.clearance((x, y)) <= MIN_CLEAR:
+                    continue
+                if passage_score(sc, (x, y), n_beams=n_beams) <= FIRE_THR:
+                    continue
+                theta = _squeeze_axis(sc, (x, y), n_beams=n_beams)
+                dx, dy = np.cos(theta + np.pi / 2), np.sin(theta + np.pi / 2)
+                hits, runs, passes = 0, [], []
+                for t in np.linspace(-half_len, half_len, samples):
+                    p = (x + t * dx, y + t * dy)
+                    if sc.clearance(p) <= COLLISION_R:  # blocked: not bilateral
+                        runs.append(-float(n_beams))
+                        passes.append(-10.0)
+                        continue
+                    if bilateral_flanks(sc, p, theta, n_beams=n_beams):
+                        hits += 1
+                    runs.append(-float(max_wall_run(sc, p, n_beams=n_beams)))
+                    passes.append(passage_score(sc, p, n_beams=n_beams))
+                prim.append(hits / samples)
+                sec_run.append(float(np.mean(runs)))
+                sec_pass.append(float(np.min(passes)))
+                labels.append(_label(x, y, centres, "gap"))
+    fp = 1.0 - (sum(labels) / len(labels)) if labels else float("nan")
+    return {
+        "n_firings": int(len(labels)),
+        "fp_rate": float(fp),
+        "primary_auc": _auc(prim, labels),
+        "sec_wallrun_auc": _auc(sec_run, labels),
+        "sec_minpass_auc": _auc(sec_pass, labels),
+    }
+
+
 def discriminate(n=12, n_rooms=4, seed0=210000, clutter=2, n_beams=16):
     """Among positions where passage_score FIRES (> FIRE_THR), can
     max_wall_run tell a TRUE doorway (thin dividers -> small run) from a
@@ -134,10 +187,39 @@ def main() -> None:
         action="store_true",
         help="can max_wall_run separate true doorways from box-pinch false-fires?",
     )
+    ap.add_argument(
+        "--window",
+        action="store_true",
+        help="roomgraph_v2 P0: the traversal-window features on the firing set",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
+        return
+    if args.window:
+        r = discriminate_window(
+            args.n, args.n_rooms, args.seed0, clutter=max(args.clutter, 2)
+        )
+        a = r["primary_auc"]
+        verdict = (
+            "FLIGHT REGATE RELEASED (>= 0.85)"
+            if a >= 0.85
+            else (
+                "learned-window-head knob released (0.75-0.85)"
+                if a >= 0.75
+                else "honest bound (< 0.75) — the room graph stays clean-room-only"
+            )
+        )
+        print(
+            f"[window] {r['n_firings']} firings, {r['fp_rate']:.0%} box-pinch | "
+            f"traversal_persistence AUC {a:.3f} "
+            f"(single-frame ref 0.631)  [{verdict}]"
+        )
+        print(
+            f"  secondaries: window-mean -max_wall_run {r['sec_wallrun_auc']:.3f}  "
+            f"window-min passage_score {r['sec_minpass_auc']:.3f}"
+        )
         return
     if args.discriminate:
         auc, npos, fp = discriminate(
