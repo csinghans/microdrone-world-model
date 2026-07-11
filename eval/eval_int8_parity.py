@@ -61,9 +61,10 @@ class FQLeaf(nn.Module):
     and ranges are recorded; afterwards inputs are fake-quantized and the
     quantized weights are used."""
 
-    def __init__(self, leaf, per_channel=True, pct=None, split_at=None):
+    def __init__(self, leaf, per_channel=True, pct=None, split_at=None, act_bits=8):
         super().__init__()
         self.leaf = leaf
+        self._act_max = float(2**act_bits - 1)  # 255 (SQ8) or 65535 (16-bit acts)
         self.per_channel = bool(per_channel) and isinstance(leaf, nn.Conv2d)
         w = leaf.weight.detach().clone()
         if self.per_channel:
@@ -90,11 +91,10 @@ class FQLeaf(nn.Module):
             float(torch.quantile(xf, self.pct)),
         )
 
-    @staticmethod
-    def _q(x, lo, hi):
+    def _q(self, x, lo, hi):
         hi = max(hi, lo + 1e-9)
-        s = (hi - lo) / 255.0
-        return ((x - lo) / s).round().clamp(0, 255) * s + lo
+        s = (hi - lo) / self._act_max
+        return ((x - lo) / s).round().clamp(0, self._act_max) * s + lo
 
     def _fq_act(self, x):
         if self.lo is None:  # never calibrated: honest float passthrough
@@ -131,26 +131,30 @@ class FQLeaf(nn.Module):
         return F.linear(x, self.qw, self.leaf.bias)
 
 
-def _swap_leaves(mod, per_channel, only, prefix, out, pct=None, split=None):
+def _swap_leaves(mod, per_channel, only, prefix, out, pct=None, split=None, act_bits=8):
     for name, child in mod.named_children():
         full = f"{prefix}.{name}" if prefix else name
         if isinstance(child, (nn.Conv2d, nn.Linear)):
             if only is None or full in only:
                 fq = FQLeaf(
-                    child, per_channel, pct=pct, split_at=(split or {}).get(full)
+                    child,
+                    per_channel,
+                    pct=pct,
+                    split_at=(split or {}).get(full),
+                    act_bits=act_bits,
                 )
                 setattr(mod, name, fq)
                 out.append((full, fq))
         else:
-            _swap_leaves(child, per_channel, only, full, out, pct, split)
+            _swap_leaves(child, per_channel, only, full, out, pct, split, act_bits)
 
 
-def quantize(module, per_channel=True, only=None, pct=None, split=None):
+def quantize(module, per_channel=True, only=None, pct=None, split=None, act_bits=8):
     """Deep-copy `module`, replacing every Conv2d/Linear leaf (or exactly
     the ones named in `only`) with an FQLeaf. Returns (copy, leaves)."""
     m = copy.deepcopy(module)
     leaves = []
-    _swap_leaves(m, per_channel, only, "", leaves, pct, split)
+    _swap_leaves(m, per_channel, only, "", leaves, pct, split, act_bits)
     return m, leaves
 
 
@@ -170,7 +174,9 @@ class QWM:
     """A quantized copy of one WM checkpoint's four modules. The shipped
     artifact is loaded read-only and deep-copied — sacred paths untouched."""
 
-    def __init__(self, ck, per_channel=True, only=None, pct=None, split=None):
+    def __init__(
+        self, ck, per_channel=True, only=None, pct=None, split=None, act16=None
+    ):
         enc, pred, cheads, nhead, meta = load_model(ck, device=DEVICE)
         self.meta = meta
         self.leaves = []
@@ -180,8 +186,14 @@ class QWM:
             ("cheads.", cheads),
             ("nhead.", nhead),
         ):
+            bits = 16 if (act16 and prefix in act16) else 8
             q, ls = quantize(
-                mod, per_channel, _strip(only, prefix), pct, _strip_map(split, prefix)
+                mod,
+                per_channel,
+                _strip(only, prefix),
+                pct,
+                _strip_map(split, prefix),
+                act_bits=bits,
             )
             setattr(self, prefix[:-1], q)
             self.leaves += [(prefix + n, f) for n, f in ls]
@@ -252,12 +264,13 @@ def _arm_components(ck, arm, calib, pct=None):
     elif arm == "gray":
         enc, pred, cheads, nhead, _m = load_model(ck, device=DEVICE)
         enc = GrayInput(enc)
-    elif arm in ("int8pc", "int8pt", "gray+int8pc", "int8pc+split"):
+    elif "int8" in arm:
         q = QWM(
             ck,
-            per_channel=("pt" not in arm),
+            per_channel=("int8pt" not in arm),
             pct=pct,
-            split=(SEAM if arm.endswith("+split") else None),
+            split=(SEAM if "+split" in arm else None),
+            act16=({"pred."} if "+p16" in arm else None),
         )
         x, a = calib
         calibrate(q, _gray(x) if arm.startswith("gray") else x, a)
@@ -581,12 +594,21 @@ def selftest() -> None:
     assert fq_s.hi < 2.0 and fq_s.hi2 > 50.0, (fq_s.hi, fq_s.hi2)
     parts = torch.cat(
         [
-            FQLeaf._q(xs[:, :6], fq_s.lo, fq_s.hi),
-            FQLeaf._q(xs[:, 6:], fq_s.lo2, fq_s.hi2),
+            fq_s._q(xs[:, :6], fq_s.lo, fq_s.hi),
+            fq_s._q(xs[:, 6:], fq_s.lo2, fq_s.hi2),
         ],
         dim=1,
     )
     assert torch.allclose(fq_s._fq_act(xs), parts)
+
+    # 7c) 16-bit activations quantize strictly finer than 8-bit (same range)
+    fq16 = FQLeaf(nn.Linear(8, 4), per_channel=False, act_bits=16)
+    fq16.calibrating = True
+    fq16(x)
+    fq16.calibrating = False
+    e8 = float((fq._fq_act(x) - x).abs().max())
+    e16 = float((fq16._fq_act(x) - x).abs().max())
+    assert e16 < e8, (e16, e8)
 
     # 7) percentile calibration shrugs off a lone outlier; min/max is hostage
     fq_mm = FQLeaf(nn.Linear(8, 4), per_channel=False)

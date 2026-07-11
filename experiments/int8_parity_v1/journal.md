@@ -277,6 +277,34 @@ as a BRIDGE question, not a sim fix.
       recheck rule applies: pool, never replace — block 2 at fresh seeds
       (seed0=2000, float + int8pc+split, n=60), pooled Δ decides.
       (k1c_results.json)
-- [ ] K1c block 2 (pooled recheck, seed0=2000) → B4 verdict
+- [x] K1c block 2 + pooled verdict: **B4 FAILS as written, and honestly.**
+      Block 2 (seed0=2000): float crash 0.1905 / FE 0.000; int8pc+split
+      crash 0.3095 / FE 0.0556. Pooled n=84 in-path: float **17/84 =
+      0.202**, split **24/84 = 0.286**, Δ **+0.083** vs the +0.030
+      clause (inside the ±0.086 float CI, but the clause binds — the
+      recheck moved the estimate AWAY from the bar). The split fixes the
+      false-evasion catastrophe in both blocks (mechanism CONFIRMED
+      twice; a small residual 0.056 remains), but a real crash cost
+      survives: z's noise is only common-mode BEFORE the trunk's ReLU —
+      the nonlinearity re-mixes it differentially in exactly the
+      dangerous-geometry states where margins decide evade direction.
+      (b4_block2_results.json)
+
+## K1d pre-registration (the last named fallback, before the run)
+
+**int16 activations on the predictor path** — the pre-registered bridge
+option (NNTool has a 16-bit activation mode; weights stay int8). Applied
+to every `pred.*` leaf: activation step shrinks 256×, so the
+differential noise the trunk's ReLU re-mixes should drop below margin
+relevance while the encoder stays fully int8 (its noise is common-mode
+up to z). Prediction on record: B4 crash returns to the float band
+(pooled Δ ≤ +0.030) with false-evasion staying single-digit. Read: B4 at
+seed0=1000 (float re-flown same-run), pool with block 2 if borderline.
+If it fails too, B4 closes as an honest negative: quantized WMPolicy
+flight needs QAT or a margin re-tune — a future campaign, priced beyond
+Q1's PTQ scope, and writing/#8 reports the parity table with that
+asterisk.
+
+- [ ] K1d run: int8 weights + int16 predictor activations → B4
 - [ ] B3 heads; B5 yaw-scan flight (after the flight-parity story settles)
 - [ ] Verdict
