@@ -176,6 +176,35 @@ thresholds expect, then re-fly B4. One knob, one run. (The champion's
 B1 calibration knob — 1024→2048 / percentile — remains a separate,
 independently released knob.)
 
+## K1 pre-registration (2026-07-11, before the knob runs)
+
+Two released knobs, one change each, choices argued before numbers:
+
+- **K1a — percentile activation calibration (champion B1 re-read).** Of
+  the pre-registered pair "1024→2048 OR percentile clipping", percentile
+  is the mechanism-consistent pick: min/max calibration is hostage to
+  the single largest outlier (a WIDER sample can only widen ranges and
+  coarsen resolution — 2048 would likely make it worse, not better);
+  the moving world's motion streaks are exactly where outlier
+  activations live. Rule: per calibration batch, take the 0.1/99.9
+  percentiles of the input; run lo/hi over batch percentiles. Read: B1
+  champion, arms float + int8pc@p99.9, same everything else. Bar
+  unchanged (worst world ΔAUC ≥ −0.010).
+- **K1b — temperature re-bake on the QUANTIZED logits (B4 re-fly).**
+  `calibrate_heads`' own recipe, applied to the quantized graph: fit one
+  T per (horizon, ring) by masked BCE on the cf-oracle candidate labels
+  over TRAIN rollouts of the combined union (rooms auto-drop out — their
+  vis mask is 0 by the cf-loss room fix, so the fit lives on the transit
+  frames the closed loop actually flies); wrap the quantized cheads in a
+  logits/T scale (algebraically = bake w/T, b/T; on GAP8 it folds into
+  the output dequant scale, zero extra compute). No percentile knob here
+  — K1b isolates the temperature change on top of the recorded int8pc
+  arm. Read: B4, n=60, identical seeds; Δ judged against the recorded
+  same-tool float arm (same seeds/device/loop — noted, not re-flown).
+  Bar unchanged (Δcrash ≤ +3 pts AND inside float CI; plus
+  false-evasion must return to single digits for the mechanism story to
+  count as CONFIRMED).
+
 ## Status
 
 - [x] Pre-registration committed (this file, before any number)
@@ -186,8 +215,8 @@ independently released knob.)
 - [x] K2a: B4 closed-loop — **FAIL (Δcrash +0.143, false-evasion 0.056→1.000):
       quantization preserves rank (B1 ✓) but shifts probability values;
       thresholds are float-calibrated → temperature-re-bake knob released**
-- [ ] K1: champion calibration knob; temperature re-bake on quantized
-      logits → re-fly B4; B3 heads
-- [ ] K2b: B5 yaw-scan flight (after the temperature story settles —
-      detection thresholds share the same calibration question)
+- [x] K1 pre-registered (percentile pick argued; temperature recipe fixed)
+- [ ] K1a run: champion B1 @ p99.9
+- [ ] K1b run: TempScale(quantized cheads) → B4 re-fly
+- [ ] B3 heads; B5 yaw-scan flight (after the temperature story settles)
 - [ ] Verdict
