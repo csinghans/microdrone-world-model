@@ -5,6 +5,9 @@ ones), what is open, and what it would take to unfreeze the parked items.
 Every claim links to a journal or a changelog entry — this file contains
 no numbers that a script cannot reproduce.
 
+An external review of the whole program, with a sequenced 12-month
+research plan (advisory — it moves no bars): [REVIEW-2026-07.md](REVIEW-2026-07.md).
+
 ## Shipped
 
 | version | one line | verdict |

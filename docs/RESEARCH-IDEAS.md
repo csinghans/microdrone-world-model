@@ -1,5 +1,9 @@
 # Research ideas — a graded backlog anyone can pick up
 
+*An external review (2026-07) prioritized and sequenced this backlog into a
+12-month program — see [REVIEW-2026-07.md](REVIEW-2026-07.md); it is advisory
+and moves no bars here.*
+
 ## The queue (priority order, set 2026-07-06)
 
 - ~~P0 — dodgeball-v2~~ CLOSED 2026-07-06, refuted (world-identifiability
