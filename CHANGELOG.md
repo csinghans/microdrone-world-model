@@ -66,6 +66,34 @@
   the parity campaign's mechanism chain, the trigger-symmetry law, the
   monochrome numbers, and the measured int8 recipe. #9 planned:
   detection as sequential evidence.
+- **detect_inflight_v1 (review item C1): the stationary-imaging debt is
+  PRICED.** Per-frame detection on frames harvested DURING flight
+  (behaviour-preserving trace hooks on both search runners): pooled
+  n=40 in-flight AUC **0.8888** vs the stationary 0.9818 — and the
+  operating point breaks, not the ranking (recall@0.65 collapses
+  0.758→0.182; scores shift down). Deployed missions are insulated
+  (the shipped yaw-scan detects while hovering); any future
+  cruise-detection design retrains heads on moving frames or reads the
+  score STREAM as evidence (C2 — its 10542-frame labelled replay corpus
+  was recorded by this campaign). `experiments/detect_inflight_v1/`.
+- **roomgraph_v2 P0: the bilateral-flank window feature is REFUTED
+  (0.486 — below the single-frame 0.631); the windowing direction is
+  not (window-mean −max_wall_run 0.631→0.735).** Clutter makes
+  bilateral short returns ubiquitous; the honest bound stands and the
+  room graph stays clean-room-only until a fresh registration pays for
+  a learned head over windowed ring features.
+  `experiments/roomgraph_v2/`.
+- **indoor_gate_v1: the indoor track's deployment gate opens GREEN at
+  91/100.** Four mission families at their unit configs (single-room /
+  multi-room / vertical / person; speed 0.6 + beams8 hardcoded),
+  feasibility-first (ceiling probe n=20/family → weighted 0.855, bars
+  frozen from the probe), then the formal n=100 weight-split read on
+  fresh seeds: **composite 0.910 ≥ 0.80, ZERO collision missions in
+  100** (and zero in the 80-probe too). M3 is the first FLOWN
+  search-then-vertical-scan number (0.750 formal — misses are the
+  frontier, never safety). Tool: `eval/eval_indoor_gate.py`
+  (--probe/--gate); M4 rides `demo_person.record(snapshots=False)` with
+  collision counting. `experiments/indoor_gate_v1/`.
 
 ## 0.8.0 — 2026-07-09 (indoor search goes vertical — and one WM learns two flight modes)
 

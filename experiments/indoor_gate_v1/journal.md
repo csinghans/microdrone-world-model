@@ -84,5 +84,33 @@ first number ever flown — the pool's load-bearing weak family.
 - [x] Ceiling probe n=20/family → **weighted ceiling 0.855, zero
       collisions in 80**
 - [x] Bars frozen from the probe (this commit, before the formal read)
-- [ ] Formal gate n=100 weight-split, fresh seeds → verdict
-- [ ] `scripts/gate.py` whole-system scorecard (after the gate lands)
+- [x] Formal gate n=100 weight-split, fresh seeds → **GREEN 91/100**
+- [ ] `scripts/gate.py` whole-system scorecard (the named next build)
+
+## The formal read (2026-07-12 — n=100, seeds probe+100, gate_results.json)
+
+| family | n | find | return | collision missions | composite |
+|---|---|---|---|---|---|
+| M1 single | 30 | 0.933 | 0.933 | 0.000 | 0.933 |
+| M2 multi | 30 | 1.000 | 1.000 | 0.000 | **1.000** |
+| M3 vertical | 20 | 0.750 | 1.000 | 0.000 | 0.750 |
+| M4 person | 20 | 0.950 | 0.900 | 0.000 | 0.900 |
+| **GATE** | **100** | | | **0.000** | **0.910** |
+
+**Composite 0.910 ≥ 0.80 ✓ · collision missions 0.000 ≤ 0.02 ✓ →
+GREEN.** The indoor track's deployment number is **91/100**, alongside
+transit's 72/100.
+
+## Verdict
+
+The indoor GREENs survive composition. Zero collisions across all 180
+missions flown today (80 probe + 100 gate) — the beams8 ring's safety
+case holds under mission mixing, doorway traversal, altitude flying and
+person choreography alike. The pool's honest weak spot stays M3
+(vertical search 0.750 formal — its FIRST flown number; misses, never
+crashes, never fails to come home: find is the frontier, not safety).
+Named next builds, in order: `scripts/gate.py` (one command → transit
+gate + indoor gate + budget + safety + lock checks → one JSON per
+mode); a vertical-search find-rate campaign if M3's 0.75 is worth
+buying up (scan cadence/altitudes are un-tuned first-guess parameters —
+priced as a fresh pre-registration, not a knob to fish).

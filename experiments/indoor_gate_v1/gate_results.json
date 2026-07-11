@@ -1,0 +1,35 @@
+{
+ "families": {
+  "M1_single": {
+   "n": 30,
+   "find": 0.9333333333333333,
+   "return": 0.9333333333333333,
+   "collision_missions": 0.0,
+   "composite": 0.9333333333333333
+  },
+  "M2_multi": {
+   "n": 30,
+   "find": 1.0,
+   "return": 1.0,
+   "collision_missions": 0.0,
+   "composite": 1.0
+  },
+  "M3_vertical": {
+   "n": 20,
+   "find": 0.75,
+   "return": 1.0,
+   "collision_missions": 0.0,
+   "composite": 0.75
+  },
+  "M4_person": {
+   "n": 20,
+   "find": 0.95,
+   "return": 0.9,
+   "collision_missions": 0.0,
+   "composite": 0.9
+  }
+ },
+ "composite": 0.91,
+ "collision_missions": 0.0,
+ "pass": true
+}
