@@ -62,8 +62,49 @@ EVAL block. Cross-fitted both directions (1→2 and 2→1).
   this operating point", export the calibration tables, close at P0's
   price.
 
+## Results (2026-07-12 — `eval_evidence --duel`, duel_results.json)
+
+| direction | rule (train-selected) | correct | FA | miss | med steps |
+|---|---|---|---|---|---|
+| b1→b2 | confirm-k (k=2, thr=0.4) | 0.200 | 0.250 | 0.550 | 108 |
+| b1→b2 | CUSUM-SPRT (A=6) | 0.000 | **0.850** | 0.150 | — |
+| b2→b1 | confirm-k (k=1, thr=0.8) | 0.250 | 0.100 | 0.650 | 131 |
+| b2→b1 | CUSUM-SPRT (A=6) | 0.150 | **0.600** | 0.250 | 100 |
+
+## Verdict — honest negative: the incumbent holds, and the mechanism rhymes
+
+**SPRT/CUSUM as instantiated is REFUTED on this corpus, both
+directions** (the pre-registered negative branch fires). The mechanism
+is the campaign's real yield, and it rhymes with B4: reset-at-zero
+CUSUM has an UNBOUNDED accumulation horizon — negatives are 94 % of
+these moving-frame streams, and any weakly-positive LLR mass in the
+mid-bins drifts across the boundary over hundreds of frames, so the
+false-alarm rate explodes (0.85 / 0.60). confirm-k's fixed window
+BOUNDS the per-decision false-alarm mass. **The horizon's boundedness
+is worth more than the accumulation's optimality** — B4's any-trigger
+amplification, now measured on the challenger's side of the ledger.
+
+Instrument observation, recorded: config selection transfers poorly
+across blocks for BOTH rules (confirm-k's b1-selected config blows the
+FA budget on b2: 0.250 vs 0.10) — 20 flights per block is thin for
+selection; any future registration should select on pooled flights
+with a held-out block.
+
+**Consequences.** The deployed choreography (hover-scan + confirm-2)
+stays the config of record. Named candidates for a FRESH registration
+(not run): a bounded-horizon evidence window (sum of the last W LLRs —
+the middle point between confirm-k and CUSUM); pooled-selection
+protocol; or repair per-frame quality first (C1's moving-frame
+head-retrain knob) — on a corpus where the best achievable
+correct-find is ~0.25, no firing rule can rescue the mission, which is
+C1's conclusion restated at the rule layer. Article #9's spine is now
+this negative: *per-frame recall is a lie — and so is unbounded
+evidence.*
+
 ## Status
 
 - [x] Pre-registration committed (this file, before any number)
-- [ ] `eval/eval_evidence.py` (offline duel) + selftest
-- [ ] Cross-fit duel → verdict
+- [x] `eval/eval_evidence.py` (offline duel) + selftest
+- [x] Cross-fit duel → **honest negative both directions; incumbent
+      holds; unbounded-horizon mechanism named; flight regate NOT
+      released**

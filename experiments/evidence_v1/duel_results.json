@@ -1,0 +1,53 @@
+{
+ "b1_to_b2": {
+  "confirm": {
+   "cfg": [
+    2,
+    0.4
+   ],
+   "eval": {
+    "correct": 0.2,
+    "fa": 0.25,
+    "miss": 0.55,
+    "median_steps": 107.5
+   }
+  },
+  "sprt": {
+   "cfg": 6.0,
+   "eval": {
+    "correct": 0.0,
+    "fa": 0.85,
+    "miss": 0.15,
+    "median_steps": NaN
+   }
+  }
+ },
+ "b2_to_b1": {
+  "confirm": {
+   "cfg": [
+    1,
+    0.8
+   ],
+   "eval": {
+    "correct": 0.25,
+    "fa": 0.1,
+    "miss": 0.65,
+    "median_steps": 131.0
+   }
+  },
+  "sprt": {
+   "cfg": 6.0,
+   "eval": {
+    "correct": 0.15,
+    "fa": 0.6,
+    "miss": 0.25,
+    "median_steps": 100.0
+   }
+  }
+ },
+ "wins": [
+  false,
+  false
+ ],
+ "verdict": "honest negative \u2014 the incumbent holds at this operating point"
+}
