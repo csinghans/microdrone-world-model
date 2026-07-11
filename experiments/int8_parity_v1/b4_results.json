@@ -1,0 +1,26 @@
+{
+ "device": "cpu",
+ "calib_n": 1024,
+ "calib_seed": 20260711,
+ "B4": {
+  "float": {
+   "crash": 0.21428571428571427,
+   "min_clear": 0.38720190601134985,
+   "false_evasion": 0.05555555555555555,
+   "reached": 1.0,
+   "lead_ms": 216.26984126984124
+  },
+  "int8pc": {
+   "crash": 0.35714285714285715,
+   "min_clear": 0.3180366787912337,
+   "false_evasion": 1.0,
+   "reached": 1.0,
+   "lead_ms": 313.49206349206344
+  },
+  "bar_B4": {
+   "delta_crash": 0.14285714285714288,
+   "float_ci95_half": 0.12409673645990857,
+   "pass": false
+  }
+ }
+}

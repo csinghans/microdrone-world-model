@@ -141,6 +141,41 @@ this number goes straight into writing/#8 and the bridge-readiness
 ledger. (gray+int8pc tracks gray: quantization is not the binding
 constraint there.)
 
+## B4 results (2026-07-11 — `eval_int8_parity --closed-loop`, b4_results.json)
+
+**FAIL — and the failure's shape is the finding.** Unified WM, n=60,
+identical seeds, WMPolicy closed loop:
+
+| arm | crash | min_clear | false-evasion | reached | lead_ms |
+|---|---|---|---|---|---|
+| float | 0.214 | 0.387 | 0.056 | 1.000 | 216 |
+| int8pc | **0.357** | 0.318 | **1.000** | 1.000 | 313 |
+
+Δcrash **+0.143** (bar ≤ +0.030, float CI ±0.124) → **B4 FAIL**. The
+float arm again reproduces the published closed-loop record (21% / ~6%
+— unified_wm_v1), so the instrument is sound.
+
+**Mechanism: rank survives, calibration does not.** B1 showed the
+quantized model's AUC intact (−0.007) — the ORDERING of dangers is
+preserved. But false-evasion pegged at 100% and the trigger fires
+~100 ms earlier: quantization (SNR already named `pred.trunk.0`, the
+z‖action concat seam) shifts the warn heads' PROBABILITY VALUES upward,
+and `WMPolicy`'s thresholds (relative warn-margin 0.4 + absolute crit
+backstop) were calibrated to the float probability landscape. Every
+clear-path flight now trips a needless evade; in-path, spurious early
+evasions push the drone into worse geometry (min_clear 0.39→0.32) and
+crash rises 14 pts. The house refrain, one level down: **a
+rank-preserving detector is not the same aircraft** — AUC parity (B1)
+does not imply flight parity (B4).
+
+Pre-registered decision rule fires: with B1(unified)/B2 green and B4
+red, the named knob is a **temperature re-bake on the QUANTIZED logits**
+(`eval/calibrate_heads.py` exists and is AUC-invariant by construction)
+— refit T so the quantized probability landscape matches what the
+thresholds expect, then re-fly B4. One knob, one run. (The champion's
+B1 calibration knob — 1024→2048 / percentile — remains a separate,
+independently released knob.)
+
 ## Status
 
 - [x] Pre-registration committed (this file, before any number)
@@ -148,6 +183,11 @@ constraint there.)
       champion B1 FAIL on moving (−0.016) → K1 calibration knob released;
       hostile layer named (pred.trunk.0, concat seam); monochrome gap
       measured (transit collapses, detection holds)**
-- [ ] K1: calibration knob on the champion's moving slice; B3 heads
-- [ ] K2: B4 closed-loop + B5 yaw-scan flight
+- [x] K2a: B4 closed-loop — **FAIL (Δcrash +0.143, false-evasion 0.056→1.000):
+      quantization preserves rank (B1 ✓) but shifts probability values;
+      thresholds are float-calibrated → temperature-re-bake knob released**
+- [ ] K1: champion calibration knob; temperature re-bake on quantized
+      logits → re-fly B4; B3 heads
+- [ ] K2b: B5 yaw-scan flight (after the temperature story settles —
+      detection thresholds share the same calibration question)
 - [ ] Verdict
