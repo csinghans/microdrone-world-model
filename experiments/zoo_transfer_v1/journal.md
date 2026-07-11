@@ -40,8 +40,41 @@ seeds 22000+ — **champion-WM ≥ 0.70 AND unified-WM ≥ 0.50.**
   the honest negative and Option B's price stays "a re-distill per
   encoder".
 
+## K1 results (2026-07-12 — 500k @ aug_p 0.34, 2×2 continuous column, n=20)
+
+| WM | 50/50 reference | K1 (66/34 champion-weighted) | bar |
+|---|---|---|---|
+| champion | 0.35 | **0.40** | ≥ 0.70 ✗ |
+| unified | 0.75 | **0.80** | ≥ 0.50 ✓ |
+
+## Verdict — the honest-negative branch fires: the rebalance is not a mixing artifact
+
+Champion-weighting the episode mix 2:1 barely moves the champion column
+(0.35 → 0.40) and the unified column RISES (0.75 → 0.80). The
+pre-registered branch closes the campaign: **champion-weighting does
+not protect the primary column at 500k — the drift to the aug latent's
+basin is not something episode-count weighting counteracts.** Mechanism
+note (recorded, not asserted): a warm-started PPO fine-tune
+re-optimizes toward whichever latent is the stronger attractor under
+the current diet — gradient-magnitude asymmetry, which episode ratios
+do not touch. K2's budget arm stays unreleased (it was gated on K1
+passing BOTH bars); the pre-named 0.42 arm's branch (champion holds,
+unified low) never fired.
+
+**Consequence, priced and final for this campaign: Option B's cost
+stands — promoting the unified WM means re-distilling the zoo, one
+skill at a time, against its incumbent frozen bars.** Two-WM data-aug
+remains what slalom_stopobserve_v1 measured it to be: the strongest
+lever for making a policy SURVIVE a swap (0 → 75–80 %), not a lever for
+keeping both columns high. Ship-alongside (Option A) remains the
+deployed answer, now with its alternative honestly exhausted at 500k;
+anything further (longer budgets, anchored aug, distill-from-both) is a
+fresh registration with this negative as its prior.
+
 ## Status
 
 - [x] Pre-registration committed (this file, before any number)
-- [ ] `aug_p` machinery (default-identical) + selftest
-- [ ] K1: train 500k @ aug_p 0.34 → 2×2 read → verdict
+- [x] `aug_p` machinery (default-identical) + selftest
+- [x] K1: train 500k @ aug_p 0.34 → 2×2 read → **honest negative:
+      champion 0.40 < 0.70, unified 0.80; the rebalance is real;
+      Option B's re-distill price stands; K2 unreleased**
