@@ -1,12 +1,14 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
+  # MANUAL TRIGGER ONLY — run from the Actions tab (or `gh workflow run CI`).
+  # No longer auto-runs on push / PR / schedule.
   workflow_dispatch:
-  schedule:
-    - cron: "0 3 * * 1"  # weekly training smoke, Monday 03:00 UTC
+    inputs:
+      train_smoke:
+        description: "Also run the ~2h training smoke (lint + selftests always run)"
+        type: boolean
+        default: false
 
 jobs:
   lint:
@@ -134,10 +136,11 @@ jobs:
 
   train-smoke:
     # The full training selftests (world model + all policy flavours) take
-    # ~30-60 min on a CI runner, so they run nightly/manually, not per-push.
-    name: Training smoke (manual / weekly)
+    # ~30-60 min on a CI runner, so they run only when the manual dispatch
+    # opts in via the train_smoke input (never on the routine manual run).
+    name: Training smoke (manual, opt-in)
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    if: ${{ inputs.train_smoke }}
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
@@ -159,6 +162,3 @@ jobs:
       - run: python -m eval.episode
       - run: python -m scripts.research --selftest
       - run: python -m scripts.distill --ft-smoke
-
-# the schedule trigger above is what makes "weekly" true — it was
-# promised in comments but never wired until 2026-07-07
