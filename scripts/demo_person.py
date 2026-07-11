@@ -24,7 +24,16 @@ OUT = os.path.join("docs", "media", "demo_person.gif")
 HEAD = os.path.join("output", "target_head_person.pt")
 
 
-def record(env, seed, thr=0.5, speed=0.6, max_decisions=900, scan_every=22, stride=2):
+def record(
+    env,
+    seed,
+    thr=0.5,
+    speed=0.6,
+    max_decisions=900,
+    scan_every=22,
+    stride=2,
+    snapshots=True,
+):
     import torch
 
     from eval.eval_person_detect import _spawn_person
@@ -86,20 +95,22 @@ def record(env, seed, thr=0.5, speed=0.6, max_decisions=900, scan_every=22, stri
         0,
         0,
     )
+    collisions = 0
     d = 0
 
     def snap():
-        if d % stride == 0:
+        if snapshots and d % stride == 0:
             frames.append(
                 _follow_oblique(env, float(state[0]), float(state[1]), float(state[2]))
             )
 
     def drive(cmd_vec):  # one control block; returns updated state
-        nonlocal state
+        nonlocal state, collisions
         for _ in range(DECIDE_EVERY):
             o, *_ = env.step(cmd.rpm(state, cmd_vec).reshape(1, 4))
             state = o[0]
             if sc.clearance(room_xy(state)) < COLLISION_R:
+                collisions += 1
                 break
 
     while d < max_decisions and phase != "done":
@@ -185,9 +196,9 @@ def record(env, seed, thr=0.5, speed=0.6, max_decisions=900, scan_every=22, stri
     remove_bodies(env, ids + [pid])
     print(
         f"[demo] person seed {seed}: found={found} returned={returned} "
-        f"frames={len(frames)} decisions={d}"
+        f"collisions={collisions} frames={len(frames)} decisions={d}"
     )
-    return frames, found, returned
+    return frames, found, returned, collisions
 
 
 def selftest() -> None:
@@ -213,7 +224,7 @@ def main() -> None:
 
     env = make_env()
     try:
-        frames, found, returned = record(env, args.seed, thr=args.thr)
+        frames, found, returned, _collisions = record(env, args.seed, thr=args.thr)
     finally:
         env.close()
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
