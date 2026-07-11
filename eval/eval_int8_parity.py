@@ -491,10 +491,11 @@ class QDetector:
     """A DetectionHead whose MLP runs through FQLeaf quantization, calibrated
     on latents from the (quantized) encoder — the full deployed int8 stack."""
 
-    def __init__(self, head_path, calib_lat):
+    def __init__(self, head, calib_lat):
         from search.target_detector import DetectionHead
 
-        head = DetectionHead().load(head_path)
+        if isinstance(head, str):
+            head = DetectionHead().load(head)
         self.net, self.leaves = quantize(head.net, per_channel=False)
         for _, f in self.leaves:
             f.calibrating = True
@@ -537,10 +538,25 @@ def _collect_head_frames(kind, seed0, kw):
     return collect(6, seed0, return_frames=True, **kw)
 
 
-def b3_heads():
+def _refit_head(name, lat_tr_q, y_tr):
+    """K2c: refit a head ON the quantized latents (same recipe, same train
+    block) and save it under the campaign's artifacts — NOT the lock
+    (deploying a refit head is a G1-rules owner decision)."""
+    from search.target_detector import DetectionHead
+
+    head = DetectionHead().fit(lat_tr_q, y_tr)
+    out_dir = os.path.join("experiments", "int8_parity_v1", "artifacts")
+    os.makedirs(out_dir, exist_ok=True)
+    head.save(os.path.join(out_dir, f"target_head_{name}_qlat.pt"))
+    return head
+
+
+def b3_heads(retrain=False):
     """B3: each locked head — float stack vs the quantized stack (int8pc
     encoder + int8 head, the head calibrated on the quantized latents of
-    its TRAIN block) on identical fresh-block frames. Bar: ΔAUC ≥ −0.015."""
+    its TRAIN block) on identical fresh-block frames. Bar: ΔAUC ≥ −0.015.
+    `retrain` plays the pre-registered K2c knob: refit the head on the
+    quantized latents before quantizing it."""
     from search.target_detector import DetectionHead, _auc
 
     q = QWM(UNIFIED, per_channel=True)
@@ -552,28 +568,32 @@ def b3_heads():
         te = _collect_head_frames(kind, te_seed, kw)
         y = te[ykey]
         auc_f = _auc(DetectionHead().load(head_path).prob(te["lat"]), y)
-        qdet = QDetector(head_path, _encode(q.enc, tr["frames"]))
+        lat_tr_q = _encode(q.enc, tr["frames"])
+        head = _refit_head(name, lat_tr_q, tr[ykey]) if retrain else head_path
+        qdet = QDetector(head, lat_tr_q)
         auc_q = _auc(qdet.prob(_encode(q.enc, te["frames"])), y)
         d = auc_q - auc_f
         ok = d >= -0.015 - 1e-9
+        tag = "int8+refit" if retrain else "int8"
         out[name] = {
             "float_auc": float(auc_f),
-            "int8_auc": float(auc_q),
+            f"{tag}_auc": float(auc_q),
             "delta": float(d),
             "pass": bool(ok),
         }
         print(
-            f"  [B3] {name:7s} float={auc_f:.4f}  int8={auc_q:.4f}  "
+            f"  [B3] {name:7s} float={auc_f:.4f}  {tag}={auc_q:.4f}  "
             f"Δ={d:+.4f} (bar ≥ -0.015) -> {'PASS' if ok else 'FAIL'}"
         )
     return out
 
 
-def b5_yaw_scan(n=20, seed0=620000, thr=0.65, confirm=2):
+def b5_yaw_scan(n=20, seed0=620000, thr=0.65, confirm=2, retrain=False):
     """B5: the yaw_v1 flight gate flown by the QUANTIZED indoor stack
     (int8pc unified encoder + int8 yaw head; beams8 safety is geometry, no
     WM in the loop). Bars are yaw_v1's, absolute: correct ≥0.70, FA ≤0.20,
-    collision ≤0.05, return ≥0.80 (float gate of record: 0.70/0.10/0.00/1.00)."""
+    collision ≤0.05, return ≥0.80 (float gate of record: 0.70/0.10/0.00/1.00).
+    `retrain` flies the K2c refit-on-quantized-latents yaw head."""
     from eval.eval_vision_search import _rates, run_yaw_scan_search
     from eval.eval_yaw_detect import collect_yaw_frames
     from sim.envs import make_env
@@ -582,7 +602,13 @@ def b5_yaw_scan(n=20, seed0=620000, thr=0.65, confirm=2):
     q = QWM(UNIFIED, per_channel=True)
     calibrate(q, *_calib_batch())
     tr = collect_yaw_frames(6, 600000, ckpt=UNIFIED, return_frames=True)
-    qdet = QDetector("output/target_head_yaw.pt", _encode(q.enc, tr["frames"]))
+    lat_tr_q = _encode(q.enc, tr["frames"])
+    head = (
+        _refit_head("yaw", lat_tr_q, tr["label"])
+        if retrain
+        else "output/target_head_yaw.pt"
+    )
+    qdet = QDetector(head, lat_tr_q)
     env = make_env()
     rows = []
     for i in range(n):
@@ -795,6 +821,11 @@ def main() -> None:
         action="store_true",
         help="B5: yaw-scan flight gate on the quantized indoor stack (slow)",
     )
+    ap.add_argument(
+        "--retrain-heads",
+        action="store_true",
+        help="K2c: refit heads on the quantized latents before B3/B5",
+    )
     ap.add_argument("--cl-seeds", type=int, default=60)
     ap.add_argument("--cl-seed0", type=int, default=1000)
     ap.add_argument(
@@ -853,11 +884,13 @@ def main() -> None:
         print(f"=== K1c split-scale at the z||action seam (n={args.cl_seeds}) ===")
         res["K1c"] = k1c_split_seam(n=args.cl_seeds)
     if args.b3:
-        print("=== B3 locked heads: float vs the quantized stack ===")
-        res["B3"] = b3_heads()
+        tag = " (K2c refit)" if args.retrain_heads else ""
+        print(f"=== B3 locked heads: float vs the quantized stack{tag} ===")
+        res["B3"] = b3_heads(retrain=args.retrain_heads)
     if args.b5:
-        print("=== B5 yaw-scan flight gate, quantized indoor stack (n=20) ===")
-        res["B5"] = b5_yaw_scan()
+        tag = " (K2c refit)" if args.retrain_heads else ""
+        print(f"=== B5 yaw-scan flight gate, quantized indoor stack{tag} (n=20) ===")
+        res["B5"] = b5_yaw_scan(retrain=args.retrain_heads)
     if args.out:
         os.makedirs(os.path.dirname(args.out), exist_ok=True)
         with open(args.out, "w") as f:

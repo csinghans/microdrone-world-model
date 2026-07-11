@@ -341,7 +341,38 @@ mechanism chain: rank ✓ → probabilities ✓ (T≈1) → per-candidate
 differentials ✗ (action scale, fixed by split) → threshold-adjacent
 margin mass ✗ (any-trigger amplification, open).
 
-- [ ] B3 heads; B5 yaw-scan flight (the indoor trigger is confirm-k —
-      a temporal filter, not a margin max; measures whether the indoor
-      stack is PTQ-robust where the transit trigger is not)
+- [x] B3: **all three heads FAIL as shipped** — yaw 0.9818→0.9652
+      (−0.017), low 0.8692→0.8247 (−0.044), person 0.8932→0.8691
+      (−0.024) vs the −0.015 bar. The contrast with B2 (linear probe
+      RETRAINED per arm on the quantized latents: −0.004) names the
+      mechanism: the shipped heads were trained on FLOAT latents and
+      suffer a double shift (their own weight quantization + reading a
+      latent distribution they never saw). The quantized latent itself
+      still carries the signal — B2 proved it. (k2_results.json)
+- [x] B5: **FAIL at correct 0.40 (bar 0.70) — but by MISS (0.55), not
+      false alarm: FA 0.05 is BETTER than the float gate's 0.10;
+      collision 0.00, return 0.90.** The symmetric finding of the
+      campaign, now measured across both tracks: the transit margin-max
+      trigger AMPLIFIES quantization noise into false positives
+      (B4/false-evasion 1.000); the indoor confirm-k temporal filter
+      SUPPRESSES false positives (FA better than float) but amplifies
+      recall loss into misses (per-frame scores shift down vs the
+      float-tuned thr=0.65, and demanding k consecutive hits compounds
+      the deficit). Max-statistics amplify noise; consensus statistics
+      amplify signal loss. (k2_results.json)
+
+## K2c pre-registration — the heads knob (the rule fires as written)
+
+The original decision table: "B3 fails → retrain that head on the
+QUANTIZED latent (seconds)." One knob: refit each head (same
+DetectionHead recipe, same train blocks) on the QUANTIZED encoder's
+latents, then quantize the refit head — the full int8 stack, trained
+where it lives. Reads: B3 re-scored (same fresh blocks, bar unchanged);
+B5 re-flown with the refit yaw head (bars unchanged). Prediction on
+record: B3 recovers to within −0.015 of the FLOAT stack (B2's −0.004
+says the information survives), and B5's miss rate falls back toward
+the float gate. Refit heads land in experiments/int8_parity_v1/artifacts/
+(NOT the lock — deploying them is a G1-rules owner decision).
+
+- [ ] K2c run: refit heads on quantized latents → B3 + B5 re-read
 - [ ] Final verdict + writing/#8 handoff

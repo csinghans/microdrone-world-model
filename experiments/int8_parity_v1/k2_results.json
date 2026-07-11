@@ -1,0 +1,36 @@
+{
+ "device": "cpu",
+ "calib_n": 1024,
+ "calib_seed": 20260711,
+ "B3": {
+  "yaw": {
+   "float_auc": 0.9818381277425646,
+   "int8_auc": 0.9651976452317749,
+   "delta": -0.016640482510789756,
+   "pass": false
+  },
+  "low": {
+   "float_auc": 0.8691514094739902,
+   "int8_auc": 0.824716652136007,
+   "delta": -0.04443475733798319,
+   "pass": false
+  },
+  "person": {
+   "float_auc": 0.8931623931623932,
+   "int8_auc": 0.8691239316239316,
+   "delta": -0.024038461538461564,
+   "pass": false
+  }
+ },
+ "B5": {
+  "thr": 0.65,
+  "confirm": 2,
+  "n": 20,
+  "correct_find_rate": 0.4,
+  "false_alarm_rate": 0.05,
+  "miss_rate": 0.55,
+  "collision_rate": 0.0,
+  "return_rate": 0.9,
+  "pass": false
+ }
+}
