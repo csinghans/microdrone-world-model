@@ -1,0 +1,25 @@
+{
+  "gateOfRecord": "2026-07",
+  "transit": {
+    "successes": 72,
+    "missions": 100,
+    "successRate": 0.72,
+    "source": "experiments/integration_ft/hybrid4_n100.json"
+  },
+  "indoor": {
+    "successes": 91,
+    "missions": 100,
+    "successRate": 0.91,
+    "collisionMissions": 0,
+    "source": "experiments/indoor_gate_v1/gate_results.json"
+  },
+  "embedded": {
+    "version": "v0.1",
+    "totalKb": 137.3,
+    "budgetKb": 512,
+    "macsMillions": 3.9,
+    "assumedThroughputGmacs": 0.5,
+    "estimatedLatencyMs": 8,
+    "source": "docs/embedded_budget.md"
+  }
+}
