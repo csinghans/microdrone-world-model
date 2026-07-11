@@ -60,8 +60,49 @@ altitude, collapses toward the box silhouette; and that pre-registered
 failure is what arms C8's pitch step. Every cell is a finding either
 way.
 
+## Results (2026-07-12 — `eval_person_pose --probe`, probe_results.json)
+
+| pose | frozen probe AUC | head AUC (bar) | recall | obs-FA | verdict |
+|---|---|---|---|---|---|
+| standing | 0.965 | 0.904 (0.90) | 0.59 | 0.069 | PASS |
+| sitting | 0.975 | 0.925 (0.80) | 0.74 | 0.000 | PASS |
+| crouching | 0.934 | 0.892 (0.80) | 0.56 | 0.000 | PASS |
+| **lying** | 0.953 | **0.933 (0.75)** | 0.74 | 0.034 | **PASS** |
+| buried | 0.944 | 0.944 (—) | 0.70 | 0.034 | recorded |
+
+Pooled obstacle-FA 0.028 (guard ≤ 0.15) ✓.
+
+## Verdict — the prediction is REFUTED; the pitch step is NOT armed
+
+**Every pose passes, lying by a wide margin (0.933 vs the 0.75
+go/no-go), and the half-buried proxy scores highest of all.** The
+on-record prediction — that a horizontal low blob seen edge-on from
+cruise altitude collapses toward the box silhouette — is wrong, and
+being wrong on a pre-registered prediction is the point of writing it
+down: **C8's pitch-view WM retrain loses its cheapest argument.** The
+frozen unified latent, through one pooled multi-pose head, separates
+all five pose proxies from box clutter with the level camera alone.
+
+Honest bounds, unchanged from the pre-registration and sharpened by
+the result: these are RED CAPSULE proxies — the probe certifies pose
+GEOMETRY separability, not human appearance (the monochrome arm of
+int8_parity already measured how much colour carries elsewhere); the
+buried proxy's clean grey slab is friendlier than real rubble
+occlusion (its top score should not be over-read); per-frame recall
+0.56–0.74 still leans on scan compounding, as everywhere in this
+track. What would legitimately re-arm the pitch step now: a rubble
+SCENE feasibility failure (C8 phase 0 — flight/reachability, not
+detection), appearance-realistic subjects, or occlusion fractions well
+past a half-slab — each a fresh pre-registration.
+
+**Strategic consequence:** the review's largest deferred step (the
+pitch-view retrain) stays parked with its trigger DISARMED by
+measurement — convergence bought for the price of ten room-render
+sweeps.
+
 ## Status
 
 - [x] Pre-registration committed (this file, before any number)
-- [ ] Pose primitives + collector + probe/head scoring
-- [ ] Read → verdict (the C8 trigger state)
+- [x] Pose primitives + collector + probe/head scoring
+- [x] Read → **all five poses PASS; lying 0.933 ≫ 0.75; prediction
+      refuted; C8 pitch trigger DISARMED**

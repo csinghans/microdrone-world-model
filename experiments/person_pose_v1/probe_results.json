@@ -1,0 +1,44 @@
+{
+ "standing": {
+  "frozen_probe_auc": 0.9650726676043132,
+  "head_auc": 0.9036568213783404,
+  "head_recall": 0.5925925925925926,
+  "obstacle_fa": 0.06896551724137931,
+  "bar": 0.9,
+  "pass": true
+ },
+ "sitting": {
+  "frozen_probe_auc": 0.9749179559306141,
+  "head_auc": 0.9254571026722925,
+  "head_recall": 0.7407407407407407,
+  "obstacle_fa": 0.0,
+  "bar": 0.8,
+  "pass": true
+ },
+ "crouching": {
+  "frozen_probe_auc": 0.9338959212376934,
+  "head_auc": 0.8917018284106891,
+  "head_recall": 0.5555555555555556,
+  "obstacle_fa": 0.0,
+  "bar": 0.8,
+  "pass": true
+ },
+ "lying": {
+  "frozen_probe_auc": 0.9533520862634787,
+  "head_auc": 0.9327238631036099,
+  "head_recall": 0.7407407407407407,
+  "obstacle_fa": 0.034482758620689655,
+  "bar": 0.75,
+  "pass": true
+ },
+ "buried": {
+  "frozen_probe_auc": 0.9442100328176277,
+  "head_auc": 0.9435067979371777,
+  "head_recall": 0.7037037037037037,
+  "obstacle_fa": 0.034482758620689655,
+  "bar": null,
+  "pass": null
+ },
+ "pooled_obstacle_fa": 0.027586206896551724,
+ "c8_armed": false
+}
