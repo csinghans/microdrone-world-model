@@ -13,8 +13,9 @@ provenance, and re-fly on request:
   indoor_search  91/100 of record: experiments/indoor_gate_v1/gate_results.json
                  (--run-indoor N re-flies eval.eval_indoor_gate --gate)
 
-Not yet wired (honest): the safety selftest suite (docs/REVIEW-2026-07.md
-H2 item) joins the quick layer when it exists.
+The safety suite (eval/safety_selftest.py — geofence, imminent veto,
+vertical envelope, emergency land, budget return, log replay) flies in
+the quick layer.
 
 Run:
   python -m scripts.gate                       # quick + ingest both gates
@@ -36,6 +37,7 @@ QUICK = (
     ("budget", ("eval.eval_latency_budget", "--selftest")),
     ("lock", ("scripts.fetch_champions", "--check")),
     ("bindings", ("planner.flight_mode", "--verify")),
+    ("safety", ("eval.safety_selftest", "--all")),
 )
 
 
@@ -48,7 +50,10 @@ def _run_module(mod, *args):
         text=True,
     )
     lines = [ln for ln in (p.stdout + p.stderr).splitlines() if ln.strip()]
-    return p.returncode == 0, (lines[-1] if lines else "")
+    ok_lines = [ln for ln in lines if "OK" in ln]
+    return p.returncode == 0, (
+        ok_lines[-1] if ok_lines else (lines[-1] if lines else "")
+    )
 
 
 def quick_layer():
@@ -152,7 +157,7 @@ def selftest() -> None:
     assert i["gate"] == "91/100" and len(i["families"]) == 4
     assert i["collision_missions"] == 0.0
     # the quick layer runs the commands of record (names only — CI-safe)
-    assert [n for n, _ in QUICK] == ["budget", "lock", "bindings"]
+    assert [n for n, _ in QUICK] == ["budget", "lock", "bindings", "safety"]
     print(
         f"GATE OK: records parse (transit {t['gate']}, indoor {i['gate']}), "
         "quick layer = budget/lock/bindings"

@@ -27,6 +27,15 @@ the first incident.
 | Log replay | episode dicts (`eval.eval_closed_loop.run_episode`) | Full-flight black box, replayable against the sim |
 | Field-test checklist | n/a | GO/NO-GO gate walked before every session |
 
+Since 2026-07-12 the sim-gateable rows are EXECUTABLE — one
+deterministic scenario each, asserted green:
+`python -m eval.safety_selftest --all` (geofence steered into the
+fence, forced-forward imminent veto, vertical envelope, capped-rate
+emergency land, budget-return choreography, bit-exact log replay).
+The suite flies in `scripts/gate.py`'s quick layer, so every
+whole-system scorecard re-certifies it; manual override and the
+GO/NO-GO checklist stay honestly in the hardware column.
+
 ## Design principle
 
 The safety filter wraps *every* policy — scripted, MPC, learned — behind the
