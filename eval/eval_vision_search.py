@@ -35,10 +35,12 @@ def run_vision_search(
     max_decisions=800,
     plateau=100,
     debounce=1,
+    trace=None,
 ):
     import torch
 
     from eval.eval_target_probe import _in_fov
+    from eval.eval_yaw_detect import _in_fov_yaw
     from eval.search_episode import (
         _SAFETY,
         _bfs_home_path,
@@ -88,17 +90,31 @@ def run_vision_search(
     for d in range(max_decisions):
         rpos = room_xy(state)
         mark(rpos)
-        if not fired:
+        if not fired or trace is not None:
             frame = grab_frame(env)
             with torch.no_grad():
                 z = enc(_frame_tensor(frame)).numpy().reshape(1, -1)
-            # debounce: fire only after `debounce` CONSECUTIVE frames above
-            # thr — a persistent target-in-view fires, isolated spurious
-            # frames do not (the fix for first-firing false-alarm compounding)
-            streak = streak + 1 if float(detector.prob(z)[0]) >= thr else 0
-            if streak >= debounce:
-                fired, steps_to_fire, phase = True, d, "return"
-                fire_in_fov = _in_fov(rpos, target, FOV_HALF_DEG)
+            p = float(detector.prob(z)[0])
+            if trace is not None:  # C1 instrumentation — never alters behaviour
+                yw = float(state[9])
+                trace.append(
+                    (
+                        d,
+                        p,
+                        1 if _in_fov_yaw(rpos, target, yw, FOV_HALF_DEG) else 0,
+                        yw,
+                        1 if fired else 0,
+                    )
+                )
+            if not fired:
+                # debounce: fire only after `debounce` CONSECUTIVE frames
+                # above thr — a persistent target-in-view fires, isolated
+                # spurious frames do not (the fix for first-firing
+                # false-alarm compounding)
+                streak = streak + 1 if p >= thr else 0
+                if streak >= debounce:
+                    fired, steps_to_fire, phase = True, d, "return"
+                    fire_in_fov = _in_fov(rpos, target, FOV_HALF_DEG)
         cf = float(covered.mean()) if len(free) else 0.0
         if cf > prev_cov + 1e-9:
             no_gain, prev_cov = 0, cf
@@ -160,6 +176,7 @@ def run_yaw_scan_search(
     scan_every=25,
     scan_steps=30,
     confirm=2,
+    trace=None,
 ):
     """yaw_v1 flight: Frontier coverage (yaw=0), and every `scan_every`
     decisions a full 360 deg SPIN-SCAN — the drone faces every direction, so
@@ -201,7 +218,19 @@ def run_yaw_scan_search(
         frame = grab_frame(env)
         with torch.no_grad():
             z = enc(_frame_tensor(frame)).numpy().reshape(1, -1)
-        return float(detector.prob(z)[0])
+        p = float(detector.prob(z)[0])
+        if trace is not None:  # C1/C2 instrumentation — never alters behaviour
+            yw = float(state[9])
+            trace.append(
+                (
+                    d,
+                    p,
+                    1 if _in_fov_yaw(rpos, target, yw, FOV_HALF_DEG) else 0,
+                    yw,
+                    1 if fired else 0,
+                )
+            )
+        return p
 
     ids = sc.spawn_bodies(env, offset=off)
     tid = sc.spawn_target(env, target, offset=off)
