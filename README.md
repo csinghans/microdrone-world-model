@@ -4,8 +4,10 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.8.0 — indoor search goes vertical (yaw + altitude + geometric
-height), and one embedded WM pair flies two modes.** The baseline shipped as
+**Status: v0.9.0 — a second deployment gate opens (indoor missions
+GREEN at 91/100, beside transit's 72/100), one command scores the whole
+system, and the int8 story is priced honestly (the indoor stack flies
+quantized; the transit trigger does not — yet).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what
@@ -243,7 +245,15 @@ composed 3-stage course flown end to end (`docs/TDD-FLIGHT.md`). The
 integration success ≥ 0.70 at n = 100 random courses.
 
 Current state: **GREEN — 72/100** (2026-07-07; re-verified 2026-07-09,
-72/100 unchanged). The winning entry is
+72/100 unchanged). Since v0.9.0 the indoor track has its own gate —
+**GREEN, 91/100**: a seeded pool of four mission families (single-room /
+multi-room / vertical / person) at the track's robust config, composite
+verdict *found AND returned AND zero collisions*, bars frozen from a
+ceiling probe before the read, **zero collision missions in 100** (and
+zero in the 80-mission probe) — `experiments/indoor_gate_v1/`,
+`python -m eval.eval_indoor_gate --gate 100`. One command now scores the
+whole system: `python -m scripts.gate` (live budget/lock/binding checks
++ both gates of record → one JSON verdict). The winning transit entry is
 the flight-plan hybrid: a course-fine-tuned generalist flies four
 stage types (0.86-1.00 conditionals) and a big-pot slalom specialist
 (43k demonstrations, val 0.963 — the fidelity a 40-decision chain

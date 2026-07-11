@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.9.0 — 2026-07-12 (the review turn: a second gate, one scorecard, int8 priced honestly)
 
 - **Find-a-person (person_v1): GREEN — the WM latent reads a person's
   SHAPE, and the mission finds one at 0.933.** Frozen-latent probe:
