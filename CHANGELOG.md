@@ -42,6 +42,30 @@
   (`eval/search_episode.py`), the eval_search selftest asserts
   CLI == API == runner defaults, and every suite prints its config
   header. The privileged filter is explicit-only.
+- **int8_parity_v1 (review item Q1): the first quantized forward pass —
+  the indoor int8 recipe is measured GREEN, the transit trigger is not.**
+  A fake-quant harness shaped like the GAP8 NNTool SQ8 flow, bars frozen
+  before numbers. Models pass (unified worst-world ΔAUC −0.007,
+  detection −0.004; the champion's moving −0.016 is real and
+  calibration-insensitive). Flight splits by trigger type: the transit
+  margin-max WMPolicy FAILS under PTQ with the mechanism fully mapped
+  (rank ✓ → probabilities ✓, T≈1 → per-candidate differentials ✗, the
+  z‖action shared scale, fixed by a split quant node → threshold-mass ✗,
+  any-trigger amplification; stays float pending a margin re-tune/QAT).
+  The indoor confirm-k stack fails by MISS instead (FA better than
+  float), and **refit heads on the quantized latents recover it: the
+  yaw-scan gate flies 0.75/0.10/0.00/1.00 on the fully quantized stack,
+  ≥ the float record**. Monochrome arm measured (transit collapses
+  0.93→0.71; detection holds 0.98→0.95). Residual: the near-floor head
+  (−0.114 after refit). Recipe: int8pc weights + two-track calibration +
+  seam quant node + head refits. Tool: `eval/eval_int8_parity.py`;
+  ledger: `experiments/int8_parity_v1/journal.md`.
+- **Article #8 published in-repo:** *From Sim Toward Crazyflie: The
+  Embedded Budget* (bilingual, `writing/08-the-embedded-budget/`) — the
+  budget-as-constitution story, the latent-as-ABI lesson (slalom 80→0),
+  the parity campaign's mechanism chain, the trigger-symmetry law, the
+  monochrome numbers, and the measured int8 recipe. #9 planned:
+  detection as sequential evidence.
 
 ## 0.8.0 — 2026-07-09 (indoor search goes vertical — and one WM learns two flight modes)
 

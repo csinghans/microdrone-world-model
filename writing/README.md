@@ -12,7 +12,8 @@ number in every article traces to a rerunnable script in this repo.
 | 5 | Evaluate by crash rate, not loss | [en](05-evaluate-by-crash-rate/en.md) | [繁中](05-evaluate-by-crash-rate/zh-TW.md) | published in-repo |
 | 6 | Unit-green is not integration-green: the climb to a deployment gate | [en](06-the-integration-climb/en.md) | [繁中](06-the-integration-climb/zh-TW.md) | published in-repo |
 | 7 | What a KL anchor cannot defend | [en](07-what-anchors-cannot-defend/en.md) | [繁中](07-what-anchors-cannot-defend/zh-TW.md) | published in-repo |
-| 8 | From sim toward Crazyflie: the embedded budget | — | — | planned |
+| 8 | From sim toward Crazyflie: the embedded budget | [en](08-the-embedded-budget/en.md) | [繁中](08-the-embedded-budget/zh-TW.md) | published in-repo |
+| 9 | Per-frame recall is a lie: detection as sequential evidence | — | — | planned |
 
 Cadence: roughly one bilingual article per month. The English long-form is
 the canonical version; the 繁體中文 version is a faithful re-write, not a
