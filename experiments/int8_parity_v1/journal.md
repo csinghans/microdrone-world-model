@@ -226,6 +226,35 @@ Two released knobs, one change each, choices argued before numbers:
       loses only −0.002 on the same world → one more measured argument
       that the unified WM is the embedded-path artifact (it already wins
       every WM-owned job in float). (k1a_results.json, k1a2_results.json)
-- [ ] K1b run: TempScale(quantized cheads) → B4 re-fly (in flight)
-- [ ] B3 heads; B5 yaw-scan flight (after the temperature story settles)
+- [x] K1b: **temperature REFUTED as the fix — and it sharpens the
+      mechanism.** The fitted T are all ≈1.0 (0.87–1.10 across
+      horizons/rings, 40 fit rollouts): on the natural candidate-label
+      distribution the quantized logits are NOT globally inflated. Yet
+      the re-flown B4 is unchanged (crash 0.381, false-evasion 1.000).
+      So the earlier story ("quantization shifts probability values
+      upward") is wrong as stated — measured. Refined mechanism:
+      `WMPolicy`'s trigger reads the RELATIVE warn-margin BETWEEN
+      candidate actions; quantization noise at the z‖action concat seam
+      (`pred.trunk.0`, 22.5 dB) is uncorrelated across candidates, and
+      margins AMPLIFY uncorrelated noise — in clear scenes the trigger
+      sees spurious "this action is far safer" spreads everywhere. A
+      global temperature cannot remove between-candidate noise.
+      (k1b_results.json)
+
+## K1c pre-registration (before the run)
+
+The K0-named mechanism candidate, now first in line: **split-scale
+activation quantization at the concat seam** — quantize z (64-d) and a
+(4-d) with SEPARATE calibrated ranges before the trunk Linear (two quant
+nodes before concat; SQ8-legal, zero extra weights). Prediction on
+record: `pred.trunk.0` SNR rises well above 22.5 dB, and if the
+between-candidate-noise mechanism is right, B4's false-evasion falls
+away from 1.000. Reads: (1) single-leaf SNR with split, (2) B4 re-fly
+with full int8pc + split at the seam (identical seeds; float reference
+= recorded arm). Bar unchanged. If B4 still fails at high SNR, the
+pre-registered fallback is the int16-activation predictor arm — flagged
+as a BRIDGE question, not a sim fix.
+
+- [ ] K1c run: split-scale at the z‖action seam → SNR + B4 re-fly
+- [ ] B3 heads; B5 yaw-scan flight (after the flight-parity story settles)
 - [ ] Verdict
