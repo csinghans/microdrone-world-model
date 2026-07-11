@@ -86,10 +86,68 @@ missing measurement lands (writing/#8 centerpiece); parity red = the
 hostile layer gets named, the fix is priced, and the 512 KB story gains
 its first honest asterisk.
 
+## K0 results (2026-07-11 — `eval_int8_parity --k0`, k0_results.json)
+
+**Instrument check first:** the float arm reproduces unified_wm_v1's
+published per-world numbers bit-close (champion 0.6572/0.9335/0.9314,
+unified 0.8211/0.9177/0.9557 — the gate table's 0.657/0.933/0.931 and
+0.821/0.918/0.956), and the batched-encode-vs-collector assert held
+(<1e-4). Same loop, same split, cpu.
+
+**B1 — transit per-world AUC@32 (bar: worst ΔAUC ≥ −0.010, int8pc):**
+
+| WM | world | float | int8pc | Δ | int8pt | gray |
+|---|---|---|---|---|---|---|
+| champion | classic | 0.6572 | 0.6716 | +0.014 | 0.6727 | 0.4175 |
+| champion | dense | 0.9335 | 0.9454 | +0.012 | 0.9450 | 0.8169 |
+| champion | **moving** | 0.9314 | 0.9152 | **−0.016 ✗** | 0.9116 | 0.8270 |
+| champion | auc32 | 0.8963 | 0.8935 | −0.003 | 0.8912 | 0.5917 |
+| unified | classic | 0.8211 | 0.8146 | −0.007 ✓ | 0.8030 | 0.6968 |
+| unified | dense | 0.9177 | 0.9541 | +0.036 ✓ | 0.9527 | 0.4447 |
+| unified | moving | 0.9557 | 0.9537 | −0.002 ✓ | 0.9559 | 0.8545 |
+| unified | auc32 | 0.9314 | 0.9246 | −0.007 | 0.9244 | 0.7148 |
+
+**Verdict: unified PASSES B1** (worst world −0.007); **champion FAILS
+B1 on moving (−0.016)** — as pre-registered, this releases the K1
+calibration knob (1024→2048 / percentile clipping), one change at a
+time. Note the champion's classic/dense actually IMPROVE under
+quantization (noise-as-perturbation on its weak slices); the overall
+auc32 Δ is −0.003 — the failure is one world's margin, not a collapse.
+
+**B2 — indoor detection probe (bar: ΔAUC ≥ −0.015):** float 0.9779 →
+int8pc **0.9738 (Δ −0.004) ✓ PASS**; int8pt 0.9759; gray 0.9528;
+gray+int8pc 0.9418.
+
+**SNR names the hostile layer: `pred.trunk.0` at 22.5 dB** (next-worst
+`enc.proj.1` 29.3; everything else 37–166 dB). Mechanism reading: the
+trunk's input is the CONCAT of z (64-d latent) and a (4-d action) —
+one per-tensor activation scale must span both distributions, so the
+narrower branch eats the quantization noise. A split-scale quant at the
+concat seam (two quant nodes before concat — SQ8-legal) is the named
+mechanism-level candidate; the pre-registered K1 knob (wider/percentile
+calibration) is played first.
+
+**The monochrome arm (informational, now measured):** transit collision
+prediction COLLAPSES on luminance-only input — champion auc32
+0.8963→**0.5917** (classic 0.4175, below chance), unified
+0.9314→**0.7148** (dense 0.4447, below chance) — while indoor detection
+mostly holds (0.9779→0.9528, −0.025). The AI-deck's stock camera is
+monochrome: as-is, the transit WM's collision channel would be badly
+degraded on that sensor; the detection story survives. Honest caveat:
+the sim's palette (orange boxes, coloured pillars vs grey walls) may
+overstate colour reliance vs real-world texture; still, the bridge
+needs either a colour sensor or a gray-trained WM (retrain-class) —
+this number goes straight into writing/#8 and the bridge-readiness
+ledger. (gray+int8pc tracks gray: quantization is not the binding
+constraint there.)
+
 ## Status
 
 - [x] Pre-registration committed (this file, before any number)
-- [ ] K0: B1 + B2 + SNR + gray
-- [ ] K1: B3 heads
+- [x] K0: B1 + B2 + SNR + gray — **unified int8pc parity GREEN (B1 ✓ B2 ✓);
+      champion B1 FAIL on moving (−0.016) → K1 calibration knob released;
+      hostile layer named (pred.trunk.0, concat seam); monochrome gap
+      measured (transit collapses, detection holds)**
+- [ ] K1: calibration knob on the champion's moving slice; B3 heads
 - [ ] K2: B4 closed-loop + B5 yaw-scan flight
 - [ ] Verdict
