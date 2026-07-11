@@ -61,7 +61,7 @@ class FQLeaf(nn.Module):
     and ranges are recorded; afterwards inputs are fake-quantized and the
     quantized weights are used."""
 
-    def __init__(self, leaf, per_channel=True):
+    def __init__(self, leaf, per_channel=True, pct=None):
         super().__init__()
         self.leaf = leaf
         self.per_channel = bool(per_channel) and isinstance(leaf, nn.Conv2d)
@@ -74,6 +74,7 @@ class FQLeaf(nn.Module):
             s = w.abs().amax().clamp(min=1e-12) / 127.0
         self.register_buffer("qw", (w / s).round().clamp(-127, 127) * s)
         self.calibrating = False
+        self.pct = pct  # None -> min/max ranges; else e.g. 0.999 percentile
         self.lo, self.hi = None, None
 
     def _fq_act(self, x):
@@ -85,12 +86,14 @@ class FQLeaf(nn.Module):
 
     def forward(self, x):
         if self.calibrating:
-            self.lo = (
-                min(self.lo, float(x.min())) if self.lo is not None else float(x.min())
-            )
-            self.hi = (
-                max(self.hi, float(x.max())) if self.hi is not None else float(x.max())
-            )
+            if self.pct is None:
+                xmin, xmax = float(x.min()), float(x.max())
+            else:  # K1a rule: per-batch percentiles, lo/hi run over batches
+                xf = x.detach().reshape(-1).float()
+                xmin = float(torch.quantile(xf, 1.0 - self.pct))
+                xmax = float(torch.quantile(xf, self.pct))
+            self.lo = min(self.lo, xmin) if self.lo is not None else xmin
+            self.hi = max(self.hi, xmax) if self.hi is not None else xmax
             return self.leaf(x)
         x = self._fq_act(x)
         if isinstance(self.leaf, nn.Conv2d):
@@ -101,24 +104,24 @@ class FQLeaf(nn.Module):
         return F.linear(x, self.qw, self.leaf.bias)
 
 
-def _swap_leaves(mod, per_channel, only, prefix, out):
+def _swap_leaves(mod, per_channel, only, prefix, out, pct=None):
     for name, child in mod.named_children():
         full = f"{prefix}.{name}" if prefix else name
         if isinstance(child, (nn.Conv2d, nn.Linear)):
             if only is None or full in only:
-                fq = FQLeaf(child, per_channel)
+                fq = FQLeaf(child, per_channel, pct=pct)
                 setattr(mod, name, fq)
                 out.append((full, fq))
         else:
-            _swap_leaves(child, per_channel, only, full, out)
+            _swap_leaves(child, per_channel, only, full, out, pct)
 
 
-def quantize(module, per_channel=True, only=None):
+def quantize(module, per_channel=True, only=None, pct=None):
     """Deep-copy `module`, replacing every Conv2d/Linear leaf (or exactly
     the ones named in `only`) with an FQLeaf. Returns (copy, leaves)."""
     m = copy.deepcopy(module)
     leaves = []
-    _swap_leaves(m, per_channel, only, "", leaves)
+    _swap_leaves(m, per_channel, only, "", leaves, pct)
     return m, leaves
 
 
@@ -132,7 +135,7 @@ class QWM:
     """A quantized copy of one WM checkpoint's four modules. The shipped
     artifact is loaded read-only and deep-copied — sacred paths untouched."""
 
-    def __init__(self, ck, per_channel=True, only=None):
+    def __init__(self, ck, per_channel=True, only=None, pct=None):
         enc, pred, cheads, nhead, meta = load_model(ck, device=DEVICE)
         self.meta = meta
         self.leaves = []
@@ -142,7 +145,7 @@ class QWM:
             ("cheads.", cheads),
             ("nhead.", nhead),
         ):
-            q, ls = quantize(mod, per_channel, _strip(only, prefix))
+            q, ls = quantize(mod, per_channel, _strip(only, prefix), pct)
             setattr(self, prefix[:-1], q)
             self.leaves += [(prefix + n, f) for n, f in ls]
 
@@ -205,7 +208,7 @@ class GrayInput(nn.Module):
         return self.enc(_gray(x))
 
 
-def _arm_components(ck, arm, calib):
+def _arm_components(ck, arm, calib, pct=None):
     """Build one arm's (enc, pred, cheads, nhead). `calib` = (x, a)."""
     if arm == "float":
         enc, pred, cheads, nhead, _m = load_model(ck, device=DEVICE)
@@ -213,7 +216,7 @@ def _arm_components(ck, arm, calib):
         enc, pred, cheads, nhead, _m = load_model(ck, device=DEVICE)
         enc = GrayInput(enc)
     elif arm in ("int8pc", "int8pt", "gray+int8pc"):
-        q = QWM(ck, per_channel=("pt" not in arm))
+        q = QWM(ck, per_channel=("pt" not in arm), pct=pct)
         x, a = calib
         calibrate(q, _gray(x) if arm.startswith("gray") else x, a)
         enc, pred, cheads, nhead = q.components()
@@ -224,8 +227,23 @@ def _arm_components(ck, arm, calib):
     return enc, pred, cheads, nhead
 
 
+class TempScale(nn.Module):
+    """Divide collision logits by a fitted per-(horizon, ring) temperature —
+    algebraically identical to calibrate_heads.bake (w/T, b/T), kept as a
+    wrapper so it composes with FQLeaf-quantized heads. On GAP8 the division
+    folds into the output dequant scale: zero extra compute."""
+
+    def __init__(self, cheads, T):
+        super().__init__()
+        self.cheads = cheads
+        self.register_buffer("T", T)
+
+    def forward(self, zh):
+        return self.cheads(zh) / self.T
+
+
 # --- B1: transit per-world AUC@32, identical held-out split ------------------
-def b1_transit(arms, wms=None, data_path=HOLDOUT, seed=0):
+def b1_transit(arms, wms=None, data_path=HOLDOUT, seed=0, pct=None):
     from eval.eval_wm_checkpoint import evaluate_components
 
     wms = wms or {"champion": MODEL, "unified": UNIFIED}
@@ -235,7 +253,7 @@ def b1_transit(arms, wms=None, data_path=HOLDOUT, seed=0):
     for wname, ck in wms.items():
         out[wname] = {}
         for arm in arms:
-            enc, pred, cheads, nhead = _arm_components(ck, arm, calib)
+            enc, pred, cheads, nhead = _arm_components(ck, arm, calib, pct=pct)
             r = evaluate_components(enc, pred, cheads, nhead, data, seed, DEVICE)
             out[wname][arm] = {
                 **{k: float(v) for k, v in r["auc_by_world"].items()},
@@ -338,6 +356,72 @@ def _fmt(d):
     )
 
 
+# --- K1 knobs (pre-registered in the journal before these runs) --------------
+def _q_logit_stack(q, data, rolls, cf, vis):
+    """calibrate_heads._logit_stack through QUANTIZED components: candidate
+    logits (F, n_a, H, R), cf-oracle labels and vis mask over `rolls`
+    (rooms auto-drop — their vis mask is all-zero by the cf-loss fix)."""
+    from planner.action_set import A_NORM, ACTION_VECS
+
+    n_a, L = len(ACTION_VECS), data["frames"].shape[1]
+    outs, lbls, msks = [], [], []
+    with torch.no_grad():
+        for r in rolls:
+            x = (
+                torch.tensor(data["frames"][r], dtype=torch.float32).permute(0, 3, 1, 2)
+                / 255.0
+            )
+            z = q.enc(x)
+            cands = torch.tensor(
+                float(data["speed"][r]) * ACTION_VECS / A_NORM, dtype=torch.float32
+            )
+            zz = z.repeat_interleave(n_a, dim=0)
+            lg = q.cheads(q.pred(zz, cands.repeat(L, 1), base=zz))
+            outs.append(lg.reshape(L, n_a, *lg.shape[1:]).cpu())
+            lbls.append(torch.tensor(cf[r], dtype=torch.float32))
+            msks.append(torch.tensor(vis[r], dtype=torch.bool))
+    return torch.cat(outs), torch.cat(lbls), torch.cat(msks)
+
+
+def k1a_champion_pct(pct=0.999):
+    """K1a: champion B1 re-read with percentile activation calibration
+    (single knob vs K0's min/max; bar unchanged)."""
+    return b1_transit(("float", "int8pc"), wms={"champion": MODEL}, pct=pct)
+
+
+def k1b_rebake(ck=UNIFIED, n=60, seed0=1000, fit_rolls_cap=40):
+    """K1b: fit T per (horizon, ring) on the QUANTIZED graph's candidate
+    logits (cf-oracle labels, combined-union TRAIN rollouts), TempScale
+    the quantized cheads, re-fly B4 on identical seeds. The float
+    reference is the recorded same-tool arm (b4_results.json)."""
+    from datasets.intervention_labels import counterfactual_labels
+    from eval.calibrate_heads import fit_temperatures
+    from eval.eval_closed_loop import evaluate as cl_eval
+    from eval.eval_unified_wm_gate import wm_arm
+    from world_model.training import _split_rollouts
+
+    data = dict(np.load(COMBINED, allow_pickle=True))
+    tr_rolls, _va = _split_rollouts(data, np.random.default_rng(0))
+    cf, vis = counterfactual_labels(data)
+    rolls = [r for r in tr_rolls if bool(vis[r].any())][:fit_rolls_cap]
+    q = QWM(ck, per_channel=True)
+    calibrate(q, *_calib_batch())
+    lg, y, m = _q_logit_stack(q, data, rolls, cf, vis)
+    assert bool(m.any()), "no labelled frames in the fit set"
+    T = fit_temperatures(lg, y, m)
+    t_str = " ".join(f"{float(t):.2f}" for t in T.flatten())
+    print(f"  [K1b] fitted T (warn/crit x horizons): {t_str}  (fit rolls {len(rolls)})")
+    q.cheads = TempScale(q.cheads, T)
+    meta = load_model(ck, device=DEVICE)[4]
+    arm = wm_arm(cl_eval(n, seed0, q.enc, q.pred, q.cheads, q.nhead, meta))
+    print("  [K1b] int8pc+T  " + _fmt(arm))
+    return {
+        "T": [float(t) for t in T.flatten()],
+        "fit_rollouts": len(rolls),
+        "int8pc_T": arm,
+    }
+
+
 def selftest() -> None:
     torch.manual_seed(0)
     from world_model.collision_head import CollisionHeads, DangerNowHead
@@ -402,10 +486,29 @@ def selftest() -> None:
     g = torch.rand(2, 1, 64, 64).expand(-1, 3, -1, -1).contiguous()
     assert torch.allclose(_gray(g), g, atol=1e-6)
 
+    # 7) percentile calibration shrugs off a lone outlier; min/max is hostage
+    fq_mm = FQLeaf(nn.Linear(8, 4), per_channel=False)
+    fq_p = FQLeaf(nn.Linear(8, 4), per_channel=False, pct=0.99)
+    xo = torch.rand(1000, 8)
+    xo[0, 0] = 1e3
+    for f in (fq_mm, fq_p):
+        f.calibrating = True
+        f(xo)
+        f.calibrating = False
+    assert fq_mm.hi >= 999.0 and fq_p.hi < 10.0, (fq_mm.hi, fq_p.hi)
+
+    # 8) TempScale: T=1 is identity; T=2 halves the logits (AUC-invariant
+    #    by monotonicity — the calibrate_heads selftest owns that proof)
+    zh_t = torch.rand(2, len(cheads.heads), 64)
+    t1 = torch.ones(len(cheads.heads), 2)
+    assert torch.allclose(TempScale(cheads, t1)(zh_t), cheads(zh_t))
+    assert torch.allclose(TempScale(cheads, 2 * t1)(zh_t), cheads(zh_t) / 2.0)
+
     print(
         "INT8-PARITY OK: weight-quant bounds, per-channel<=per-tensor, "
         "calibration exactness + clamp, leaf accounting, quantized "
-        "end-to-end graph, gray idempotence"
+        "end-to-end graph, gray idempotence, percentile-vs-outlier, "
+        "TempScale algebra"
     )
 
 
@@ -416,6 +519,15 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--k0", action="store_true", help="B1 + B2 + SNR (+gray arms)")
     ap.add_argument("--closed-loop", action="store_true", help="B4, n=60 (slow)")
+    ap.add_argument(
+        "--k1a", action="store_true", help="champion B1 @ percentile calibration"
+    )
+    ap.add_argument("--pct", type=float, default=0.999)
+    ap.add_argument(
+        "--rebake",
+        action="store_true",
+        help="K1b: TempScale the quantized cheads, re-fly B4 (slow)",
+    )
     ap.add_argument("--cl-seeds", type=int, default=60)
     ap.add_argument("--out", default=None, help="write results json here")
     ap.add_argument("--selftest", action="store_true")
@@ -423,8 +535,8 @@ def main() -> None:
     if args.selftest:
         selftest()
         return
-    if not (args.k0 or args.closed_loop):
-        raise SystemExit("pick --k0 and/or --closed-loop (or --selftest)")
+    if not (args.k0 or args.closed_loop or args.k1a or args.rebake):
+        raise SystemExit("pick --k0 / --closed-loop / --k1a / --rebake (or --selftest)")
     res = {"device": DEVICE, "calib_n": CALIB_N, "calib_seed": CALIB_SEED}
     if args.k0:
         print("=== B1 transit per-world AUC@32 (held-out, split seed 0) ===")
@@ -436,6 +548,14 @@ def main() -> None:
     if args.closed_loop:
         print(f"=== B4 transit closed-loop WM-arm (n={args.cl_seeds}) ===")
         res["B4"] = b4_closed_loop(n=args.cl_seeds)
+    if args.k1a:
+        print(f"=== K1a champion B1 @ percentile {args.pct} calibration ===")
+        res["K1a"] = {"pct": args.pct, **k1a_champion_pct(args.pct)}
+    if args.rebake:
+        print(
+            f"=== K1b TempScale(quantized cheads) -> B4 re-fly (n={args.cl_seeds}) ==="
+        )
+        res["K1b"] = k1b_rebake(n=args.cl_seeds)
     if args.out:
         os.makedirs(os.path.dirname(args.out), exist_ok=True)
         with open(args.out, "w") as f:
