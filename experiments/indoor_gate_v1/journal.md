@@ -85,7 +85,10 @@ first number ever flown — the pool's load-bearing weak family.
       collisions in 80**
 - [x] Bars frozen from the probe (this commit, before the formal read)
 - [x] Formal gate n=100 weight-split, fresh seeds → **GREEN 91/100**
-- [ ] `scripts/gate.py` whole-system scorecard (the named next build)
+- [x] `scripts/gate.py` whole-system scorecard — one command: the quick
+      layer live (budget 137.3 KB · lock 8 artifacts · WM+head bindings)
+      + both gates of record (transit 72/100, indoor 91/100) → one JSON,
+      verdict **GREEN**; `--run-transit/--run-indoor` re-fly on demand
 
 ## The formal read (2026-07-12 — n=100, seeds probe+100, gate_results.json)
 
