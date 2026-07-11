@@ -178,6 +178,16 @@ _SAFETY = {
     "beams16": partial(_safe_action_beams, n_beams=16),
 }
 
+# The track's ROBUST config — the only defaults an indoor eval may silently
+# inherit. 0.6 is the measured robust speed (search_room v1->v2: the single
+# knob "1.0 -> 0.6" took collisions 0.167 -> 0.000); "beams8" is the
+# deployment sweet spot (search_beams_v1: one crash in 120, find 0.884).
+# The privileged "geometric" filter is a CEILING arm — pass it explicitly,
+# never inherit it (a stale speed-1.0 default already faked one retraction,
+# search_nroom_v1; the 2026-07 review found the same trap in the API layer).
+ROBUST_SPEED = 0.6
+DEPLOY_SAFETY = "beams8"
+
 
 def _build_safe_grid(scenario, min_clear=0.5):
     """The safe-cell navigation graph (shared shape with the Frontier
@@ -256,16 +266,17 @@ def run_search_episode(
     policy,
     seed,
     max_decisions=300,
-    speed=1.0,
-    safety="geometric",
+    speed=ROBUST_SPEED,
+    safety=DEPLOY_SAFETY,
     on_collision=None,
 ):
     """One search mission on the real 48 Hz env. Returns the scorecard.
     `speed` scales the executed command velocity (the safety filter's
     lookahead is a fixed DISTANCE, so slower flight overshoots less and
-    the same veto margin holds with room to spare). `safety` selects the
-    filter: "geometric" (privileged omnidirectional clearance) or
-    "rangefinder" (the deployable 4-beam SGBA-style sensor).
+    the same veto margin holds with room to spare); it defaults to the
+    track's ROBUST_SPEED. `safety` selects the filter from `_SAFETY`
+    (default DEPLOY_SAFETY; "geometric" is the privileged ceiling arm —
+    request it explicitly).
     `on_collision`, if given, is called once per collision with a
     forensics dict (executed action, forward-cone clearance, beams) —
     for diagnosing WHICH failure mode the residual collisions are; when

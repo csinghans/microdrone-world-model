@@ -115,6 +115,14 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   crash rate as a false "N-room doesn't scale" — a scary retraction that
   evaporated at 0.6 (search_nroom_v1, 2026-07-08). Default fixed to 0.6.
   Match the established, verified config before interpreting a number.
+  2026-07-11: the same trap survived one level deeper — the Python API
+  (`eval_search.suite()` and `run_search_episode`) still defaulted to
+  speed 1.0 + the privileged "geometric" filter, so any programmatic
+  caller silently inherited the v1-era config. Both now share the track
+  constants `ROBUST_SPEED` / `DEPLOY_SAFETY` (`eval/search_episode.py`),
+  the eval_search selftest asserts CLI == API == runner defaults, and
+  every suite prints a config header. The privileged filter is
+  explicit-only.
 - Scripted string replacement (`python - <<` + `str.replace`) fails
   SILENTLY on zero matches — black reformatting invalidates pasted
   old-strings. Use the Edit tool (loud no-match) for code surgery, and

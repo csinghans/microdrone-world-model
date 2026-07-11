@@ -5,9 +5,11 @@ privileged Frontier strategy — it reads ground-truth free cells — to
 confirm the room is coverable / the beacon findable / home reachable
 within the decision budget, BEFORE any bar is frozen) and the
 three-strategy BASELINE comparison (random / wall_follow / frontier on
-the same seeds). All flights use the real 48 Hz env and the privileged
-geometric safety filter (Phase 1a isolates search strategy from
-perception; the world model enters in Phase 1b).
+the same seeds). All flights use the real 48 Hz env at the track's
+ROBUST config (speed 0.6, beams8 — one constant shared by CLI, API and
+the episode runner); the privileged geometric filter remains available
+as an explicit ceiling arm (Phase 1a used it to isolate search strategy
+from perception).
 
 Run:
   python -m eval.eval_search --strategy frontier --n 20 --max-decisions 600
@@ -20,6 +22,8 @@ import sys
 
 import numpy as np
 
+from eval.search_episode import DEPLOY_SAFETY, ROBUST_SPEED
+
 
 def suite(
     strategy,
@@ -28,8 +32,8 @@ def suite(
     max_decisions=600,
     n_obstacles=2,
     los=False,
-    speed=1.0,
-    safety="geometric",
+    speed=ROBUST_SPEED,
+    safety=DEPLOY_SAFETY,
     room="single",
 ):
     from eval.search_episode import run_search_episode
@@ -37,6 +41,12 @@ def suite(
     from sim.envs import make_env
     from sim.indoor.rooms import n_room, single_room, two_room
 
+    # the config header: a wrong default must be VISIBLE in every log
+    print(
+        f"[eval-search] config: strategy={strategy} n={n} seed0={seed0} "
+        f"speed={speed} safety={safety} room={room} max_decisions={max_decisions}",
+        flush=True,
+    )
     env = make_env()
     rows = []
     for i in range(n):
@@ -93,11 +103,14 @@ def main() -> None:
     ap.add_argument("--los", action="store_true")
     # 0.6 is the track's ROBUST flight speed (1a v1->v2 fixed collisions with
     # exactly the 1.0->0.6 knob); a stale 1.0 default re-exhibited that crash
-    # rate as a false "N-room doesn't scale" (search_nroom_v1)
-    ap.add_argument("--speed", type=float, default=0.6)
+    # rate as a false "N-room doesn't scale" (search_nroom_v1). CLI and API
+    # share one constant so they cannot drift apart again (selftest asserts).
+    ap.add_argument("--speed", type=float, default=ROBUST_SPEED)
+    # "beams8" is the deployable default; "geometric" is the privileged
+    # ceiling arm and must be requested explicitly
     ap.add_argument(
         "--safety",
-        default="geometric",
+        default=DEPLOY_SAFETY,
         choices=("geometric", "rangefinder", "beams4", "beams8", "beams16"),
     )
     ap.add_argument(
@@ -108,6 +121,27 @@ def main() -> None:
     args = ap.parse_args()
 
     if args.selftest:
+        import inspect
+
+        from eval.search_episode import run_search_episode
+
+        # CLI, suite() API and the episode runner must share the ROBUST
+        # config — a silent 1.0/geometric default faked a retraction once
+        # (search_nroom_v1) and survived in the API layer until 2026-07-11
+        sig = inspect.signature(suite).parameters
+        run_sig = inspect.signature(run_search_episode).parameters
+        assert (
+            ap.get_default("speed")
+            == sig["speed"].default
+            == run_sig["speed"].default
+            == ROBUST_SPEED
+        )
+        assert (
+            ap.get_default("safety")
+            == sig["safety"].default
+            == run_sig["safety"].default
+            == DEPLOY_SAFETY
+        )
         agg, rows = suite("frontier", n=1, max_decisions=8)
         assert set(agg) >= {
             "find_rate",
@@ -116,7 +150,10 @@ def main() -> None:
             "collision_rate",
         }
         assert 0.0 <= agg["coverage_mean"] <= 1.0 and len(rows) == 1
-        print("EVAL-SEARCH OK: suite aggregates find/success/coverage/collision")
+        print(
+            "EVAL-SEARCH OK: suite aggregates find/success/coverage/collision; "
+            f"CLI==API==runner defaults (speed {ROBUST_SPEED}, {DEPLOY_SAFETY})"
+        )
         return
 
     agg, rows = suite(
