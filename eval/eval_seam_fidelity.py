@@ -140,6 +140,7 @@ def capture(
     seed0: int = 110000,
     out_json: str = OUT_JSON,
     out_npz: str = OUT_NPZ,
+    slalom_zip: str | None = None,
 ) -> int:
     import torch  # noqa: F401  (torch before SB3 policies)
 
@@ -169,6 +170,9 @@ def capture(
     ids = ObsBuilder(enc, pred, cheads, meta, 1.0, x_progress=True).ids
     assert ids.index(FORWARD) == 0, "mirror entry-prev convention broken"
 
+    experts = dict(HYBRID)
+    if slalom_zip:  # R3+: the student is a later-round clone
+        experts["slalom3_fixed"] = slalom_zip
     env = make_env()
     outcomes = []
     for i in range(n):
@@ -178,7 +182,7 @@ def capture(
         probe.begin_course(seed, names)
         ep = run_composite_episode(
             env,
-            PerStageExperts(names, 1.0, experts=dict(HYBRID)),
+            PerStageExperts(names, 1.0, experts=dict(experts)),
             seed,
             world,
             probe=probe,
@@ -201,10 +205,20 @@ def capture(
             flush=True,
         )
     env.close()
-    return _score(probe, outcomes, n, seed0, out_json, out_npz)
+    return _score(
+        probe, outcomes, n, seed0, out_json, out_npz, experts["slalom3_fixed"]
+    )
 
 
-def _score(probe, outcomes, n: int, seed0: int, out_json: str, out_npz: str) -> int:
+def _score(
+    probe,
+    outcomes,
+    n: int,
+    seed0: int,
+    out_json: str,
+    out_npz: str,
+    flew_zip: str | None = None,
+) -> int:
     from planner.dispatch import _model
 
     by_seed = {o["seed"]: o for o in outcomes}
@@ -250,12 +264,13 @@ def _score(probe, outcomes, n: int, seed0: int, out_json: str, out_npz: str) -> 
     else:
         verdict = "GRAY-RECHECK"
 
-    # instrument: offline record-clone must reproduce its executed acts
+    # instrument: the clone that FLEW must reproduce its executed acts
+    # offline from the mirror vecs (R3+: that is a later-round clone)
     V = np.asarray(probe.vecs, dtype=np.float32)
     keep_ix = [i for i, r in enumerate(probe.rows) if "outcome" in r]
     from eval.eval_integration import HYBRID
 
-    rec_zip = HYBRID["slalom3_fixed"]
+    rec_zip = flew_zip or HYBRID["slalom3_fixed"]
     execs = np.asarray([r["exec"] for r in kept])
     weaves = np.asarray([r["weave"] for r in kept])
     rec_pred, _ = _model(rec_zip).predict(V[keep_ix], deterministic=True)
@@ -374,6 +389,9 @@ def selftest() -> None:
     from eval.eval_integration import run_composite_episode
 
     assert inspect.signature(run_composite_episode).parameters["probe"].default is None
+    # student-slot override and mirror target are opt-in (R3 machinery)
+    assert inspect.signature(capture).parameters["slalom_zip"].default is None
+    assert inspect.signature(_score).parameters["flew_zip"].default is None
 
     # stage-window filter, relay semantics (±0.2 overlap at boundaries
     # is BY DESIGN — near-edge obstacles belong to both stages)
@@ -424,13 +442,16 @@ def main() -> None:
     ap.add_argument("--seed0", type=int, default=110000)
     ap.add_argument("--out-json", default=OUT_JSON)
     ap.add_argument("--out-npz", default=OUT_NPZ)
+    ap.add_argument("--slalom-zip", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
     if args.capture:
-        raise SystemExit(capture(args.n, args.seed0, args.out_json, args.out_npz))
+        raise SystemExit(
+            capture(args.n, args.seed0, args.out_json, args.out_npz, args.slalom_zip)
+        )
     ap.print_help()
 
 

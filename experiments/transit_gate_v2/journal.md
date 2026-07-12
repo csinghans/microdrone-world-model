@@ -307,8 +307,56 @@ R1 replication on non-exam seeds (reported, not barred).
       CONFIRMED; v2 diet never transferred; mechanism = covariate
       shift; instrument perfect — exam match 1.000, mirror 1.0000)**
 - [x] R2 pre-registered (this section, before any number)
-- [ ] R2: DAgger collect (200 @130000) → pot rebuild → graduation
-      @114000 → formal @110000 vs the frozen bars
+- [x] R2 executed: **PROGRESS, NOT PASS — formal 0.73; the [0.72,
+      0.78) cell fires R3** (results below)
+- [ ] R3: DAgger round 2 (student = R2 clone, 240 @131000, aggregate
+      pot) → graduation @116000 → formal @110000; **the ladder ends
+      here regardless** (results below when run)
+
+## R2 results (2026-07-12 — r2_grad_n60.json, r2_formal_n100.json)
+
+**Pot & floors:** 51,958 decisions (native 37,035 + oracle-hot 7,634 +
+**dagger 7,289**, of which 4,783 seam); pooled val 0.9648 ≥ 0.96 ✓.
+**Per-world val — the fit diagnostic: dagger 0.905** vs native 0.983 /
+oracle-hot 0.935: the student manifold is measurably harder for the
+same head. Graduation 45/60 = 0.750, exactly the integer bar → formal.
+
+**Formal: 0.73** (record 0.72; bar 0.78). Method-consistent per-type
+conditionals (same script on both gate files): slalom **0.814 → 0.861
+(+4.7 pts; seam failures 12/40 → 9/42, 30 % → 21.4 %)**, odoor 0.900 →
+0.920, door 1.000 = 1.000, gap 0.964 → 0.946 (−1.8), moving_gap 0.846
+→ 0.815 (−3.1). Guard (≤ −0.05, method-consistent deltas): ALL HELD.
+
+**Reading:** the knob moved its target — the slalom seam shrank by a
+third, the first instrument-confirmed lift this campaign — but the
+composite banked only +1 because moving_gap (whose seam this knob was
+never pointed at; pre-named K2 since the failure map) gave back three.
+**The [0.72, 0.78) cell fires: R3 auto-authorized per the frozen tree.**
+
+## R3 — DAgger round 2 (pre-registered; the ladder's last rung)
+
+**One knob:** aggregate DAgger, canon form — pot = R2's pot + a round-2
+component collected by the **R2 clone itself** flying the lineup
+(students collect their own residual off-manifold states; the record
+clone's states stay in — aggregation, not replacement). Collection
+n=240 @ **seeds 131000+**; component floors same as R2 (kept ≥ 6,000,
+seam ≥ 3,000, asserted on the NEW component alone at merge); pooled
+val ≥ 0.96; per-world val watched (a dagger-val slide below ~0.90 is
+the capacity-wall signature, reported not barred).
+
+**Bars:** graduation n=60 @116000 (wins ≥ 45; 42–44 → recheck @117000
+pooled ≥ 90/120); formal @ the standing 110000 exam, **PASS ≥ 0.78**,
+same method-consistent conditional guard. **Exit branches, frozen: ≥
+0.78 → PASS, stop (promotion = owner's call); ANYTHING below → the
+campaign's imitation-side closes at its measured plateau — no R4, no
+ladder.** Residue arms already named: moving_gap seam (K2, a different
+knob), dagger-weighted BC (the 7.3k student rows are 14 % of a pot
+that is 84 % teacher-manifold — a sample-weight knob, separate
+registration), RL-from-success, or accept the plateau.
+
+**Machinery (defaults bit-identical):** `eval_seam_fidelity --capture`
+gains `--slalom-zip` (the student slot override, mirroring
+eval_integration's) so round-2 states are the R2 clone's own.
 
 **R2 execution notes (recorded as they happened):**
 - The n=200 collection under-delivered the frozen floor by 22 rows
