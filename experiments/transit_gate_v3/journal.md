@@ -225,9 +225,17 @@ remaining priced arms are all owner-gated training:
 Reaching 0.84 realistically requires BOTH (1) and (2) landing. The
 campaign holds here for the owner's call.
 
-## Status (v3)
+## Status (v3) — CLOSED
 
 - [x] Bars frozen → Arm 1 → K2 (SWAP-NULL + coupling law) → D1
       (REFUTED at graduation)
-- [ ] Owner's decision: RL arms (1)/(2) in the ordering-law sequence,
-      or close at the 79 record with findings banked
+- [x] **Owner's decision (2026-07-12,「收官」): close at the 79
+      record.** The 0.84 challenger was never attempted — the exam
+      never fired (hygiene held: 110000 was not read once this
+      campaign). Banked findings: the lineup-coupling law
+      (lineup-as-ABI + the ordering law), the true-rate table
+      (true composite ~0.775–0.78), mgap's two diseases priced, and
+      two honest negatives (K2, D1). The RL arms stay priced and
+      parked with this journal as their prior: RL-from-success on
+      slalom (+2–4 est.), mgap phase training (+4 est., carries the
+      re-DAgger surcharge, goes first if both are ever bought).

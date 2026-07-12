@@ -2,6 +2,29 @@
 
 ## Unreleased
 
+- **transit_gate_v3: the road past 80, probed honestly and CLOSED at
+  the 79 record (owner's call) — with two findings worth more than
+  the points.** The cheap knives died fast and cleanly: swapping the
+  solo moving_gap champion into the lineup is SWAP-NULL (0.818 vs the
+  generalist's 0.828 at seams; the champion itself degrades 10.5 pts
+  from cold to seam — moving_gap's wall is the task, random-phase
+  entries, not the pilot), and dagger-weighted BC (w=3) is refuted at
+  graduation (88/120; held-out student-manifold fidelity ROSE while
+  flight fell — unweighted DAgger aggregation was already at the
+  flight optimum). Banked: (1) **the lineup-coupling law** — swapping
+  any upstream pilot re-opens downstream seams (slalom 17.2 % →
+  43.8 % behind a swapped moving_gap; DAgger adaptation binds to the
+  upstream exit-state distribution; ordering law: fix upstreams
+  first, re-adapt downstream last); (2) **the true-rate table** —
+  cross-block pooling shows the DAgger ladder's real, monotone effect
+  (slalom seam 34.6 → 24.5 → 17.2 %) and that the exam's 9.5 % read
+  was a ~1.3σ friendly draw (true composite ~0.775–0.78; the 79
+  record stands by protocol, planning uses truth). Exam hygiene held:
+  the 110000 exam never fired this campaign. The RL-class arms
+  (slalom RL-from-success, mgap phase training + its re-DAgger
+  surcharge) stay priced and parked. Ledger:
+  `experiments/transit_gate_v3/journal.md`.
+
 - **transit_gate_v2: the integration gate rises 72 → 79 (PASS ≥ 0.78,
   all conditional guards held) — and the seam finally has a mechanism.**
   The campaign in five measured moves: (1) failure map — 86 % of the
