@@ -1,8 +1,8 @@
 # microdrone-world-model website
 
 The bilingual, static project introduction site for
-`microdrone-world-model`. Traditional Chinese is the default route and English
-is available at `/en/`.
+`microdrone-world-model`. English is the default route and Traditional Chinese
+is available at `/zh/`.
 
 ## Local development
 

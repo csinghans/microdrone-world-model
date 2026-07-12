@@ -11,15 +11,15 @@ const siteOrigin = "https://csinghans.github.io";
 const siteUrl = `${siteOrigin}${basePath}`;
 
 const pages = {
-  zh: {
+  en: {
     file: "index.html",
     canonical: `${siteUrl}/`,
-    headline: "512 KB 裡，可以買到多少預判？",
-  },
-  en: {
-    file: "en/index.html",
-    canonical: `${siteUrl}/en/`,
     headline: "How much anticipation can 512 KB buy?",
+  },
+  zh: {
+    file: "zh/index.html",
+    canonical: `${siteUrl}/zh/`,
+    headline: "512 KB 裡，可以買到多少預判？",
   },
 };
 
@@ -116,6 +116,10 @@ test("both locales export complete canonical, alternate, and Open Graph metadata
     );
     assert.equal(zhAlternate?.href, pages.zh.canonical);
     assert.equal(enAlternate?.href, pages.en.canonical);
+    const defaultAlternate = alternates.find(
+      (tag) => (tag.hreflang ?? "").toLowerCase() === "x-default",
+    );
+    assert.equal(defaultAlternate?.href, pages.en.canonical);
 
     assert.ok(metaBy(page.html, "property", "og:title")?.content);
     assert.ok(metaBy(page.html, "property", "og:description")?.content);
@@ -150,8 +154,8 @@ test("all internal URLs honor the repository base path", async () => {
     }
   }
 
-  assert.ok(zhHtml.includes(`href="${basePath}/en/"`));
-  assert.ok(enHtml.includes(`href="${basePath}/"`));
+  assert.ok(zhHtml.includes(`href="${basePath}/"`));
+  assert.ok(enHtml.includes(`href="${basePath}/zh/"`));
 });
 
 test("referenced videos, posters, gate image, icon, and static assets exist", async () => {

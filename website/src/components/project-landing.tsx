@@ -78,8 +78,8 @@ type ProjectLandingProps = {
 export function ProjectLanding({ locale }: ProjectLandingProps) {
   const copy = siteCopy[locale];
   const isZh = locale === "zh-TW";
-  const homeHref = sitePath(isZh ? "/" : "/en/");
-  const languageHref = sitePath(isZh ? "/en/" : "/");
+  const homeHref = sitePath(isZh ? "/zh/" : "/");
+  const languageHref = sitePath(isZh ? "/" : "/zh/");
   const guideUrl = `${GITHUB_URL}/blob/main/docs/START-HERE.zh-TW.md`;
   const ideasUrl = `${GITHUB_URL}/blob/main/docs/RESEARCH-IDEAS.md`;
 

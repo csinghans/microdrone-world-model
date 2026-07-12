@@ -26,7 +26,7 @@ export function metadataFor(locale: Locale): Metadata {
   const description = isZh
     ? "為 27 g 微型無人機打造的 tiny latent world model：在嵌入式限制下預測動作的未來，以可重跑的模擬閘門驗證每一個主張。"
     : "A tiny latent world model for 27 g micro-drones, measuring how much action-conditioned anticipation fits inside embedded constraints.";
-  const canonical = publicUrl(isZh ? "/" : "/en/");
+  const canonical = publicUrl(isZh ? "/zh/" : "/");
   const ogImage = publicUrl("/og.png");
 
   return {
@@ -36,8 +36,9 @@ export function metadataFor(locale: Locale): Metadata {
     alternates: {
       canonical,
       languages: {
-        "zh-Hant": publicUrl("/"),
-        en: publicUrl("/en/"),
+        "zh-Hant": publicUrl("/zh/"),
+        en: publicUrl("/"),
+        "x-default": publicUrl("/"),
       },
     },
     icons: {
