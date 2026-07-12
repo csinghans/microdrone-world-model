@@ -17,7 +17,7 @@ component. The knob remains the added component; regeneration variance
 is covered by the val >= 0.96 floor and the graduation gate.
 
 Run:
-  python -m scripts.build_bigpot_v2 --out experiments/transit_gate_v2/artifacts/ppo_slalom_bigpot_v2.zip
+  python -m scripts.build_bigpot_v2   # writes the campaign's default OUT
   python -m scripts.build_bigpot_v2 --selftest
 """
 
