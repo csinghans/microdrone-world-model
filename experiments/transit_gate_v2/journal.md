@@ -309,3 +309,20 @@ R1 replication on non-exam seeds (reported, not barred).
 - [x] R2 pre-registered (this section, before any number)
 - [ ] R2: DAgger collect (200 @130000) → pot rebuild → graduation
       @114000 → formal @110000 vs the frozen bars
+
+**R2 execution notes (recorded as they happened):**
+- The n=200 collection under-delivered the frozen floor by 22 rows
+  (kept 5,978 < 6,000 — the fresh block breaks more often than the
+  exam, so postmortem exclusion bites harder; 1,482 rows excluded of
+  7,460). **The floor did its job and the build refused.** Remedy per
+  the house rule (bars never move to meet numbers): collection
+  EXTENDED within the same pre-named seed block (+40 courses @130200),
+  floors and bars untouched. n=200 was dosage, not a bar.
+- Free replication: the fresh-block capture reproduces R1 on non-exam
+  seeds, stronger — cold 0.9420 vs seam 0.8009 (CONFIRMED), broke
+  0.4538 vs cleared 0.9011 over 29 broke stages (CONFIRMED), mirror
+  1.0000 (r2_dagger_diag.json).
+- Builder gained `--base-cache` (opt-in, defaults bit-identical): the
+  native+oracle base is a pure function of its frozen seeds and had
+  now been regenerated three times; a downstream floor failure no
+  longer burns the ~2 h regeneration.

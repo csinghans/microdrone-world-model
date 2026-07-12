@@ -78,6 +78,7 @@ def build(
     hot_oracle=HOT_ORACLE,
     hot_dep=HOT_DEPLOYED,
     dagger_npz=None,
+    base_cache=None,
 ):
     from scripts.distill import bc_train, collect, collect_hot
     from sim.composite import course_for_seed
@@ -92,15 +93,28 @@ def build(
     ):
         load_skill(sk)
 
-    print(f"[pot-v2] native: {native_eps} weave chain episodes", flush=True)
-    Xa, Ya = collect(native_eps, "slalom3_fixed", 1.0, teacher="weave")
+    # the base components are pure functions of their frozen seeds
+    # (regeneration stability demonstrated at K1) — cache them so a
+    # downstream floor failure stops burning ~2h of regeneration
+    if base_cache and os.path.exists(base_cache):
+        with np.load(base_cache) as z:
+            Xa, Ya = z["Xa"], z["Ya"]
+            Xbm, Ybm, r_o = z["Xbm"], z["Ybm"], float(z["r_o"])
+        print(f"[pot-v2] base loaded from cache {base_cache}")
+    else:
+        print(f"[pot-v2] native: {native_eps} weave chain episodes", flush=True)
+        Xa, Ya = collect(native_eps, "slalom3_fixed", 1.0, teacher="weave")
+        print(f"[pot-v2] hot-oracle: {hot_oracle} courses (the recorded recipe)")
+        Xb, Yb, Tb, r_o = collect_hot(hot_oracle, seed0=120000)
+        mb = Tb == "slalom3_fixed"
+        Xbm, Ybm = Xb[mb], Yb[mb]
+        if base_cache:
+            os.makedirs(os.path.dirname(base_cache), exist_ok=True)
+            np.savez_compressed(base_cache, Xa=Xa, Ya=Ya, Xbm=Xbm, Ybm=Ybm, r_o=r_o)
+            print(f"[pot-v2] base cached -> {base_cache}")
 
-    print(f"[pot-v2] hot-oracle: {hot_oracle} courses (the recorded recipe)")
-    Xb, Yb, Tb, r_o = collect_hot(hot_oracle, seed0=120000)
-    mb = Tb == "slalom3_fixed"
-
-    parts_x, parts_y = [Xa, Xb[mb]], [Ya, Yb[mb]]
-    tags = ["native"] * len(Xa) + ["hot_oracle"] * int(mb.sum())
+    parts_x, parts_y = [Xa, Xbm], [Ya, Ybm]
+    tags = ["native"] * len(Xa) + ["hot_oracle"] * len(Xbm)
     rates = f"oracle {r_o:.3f}"
 
     if hot_dep > 0:
@@ -185,6 +199,12 @@ def selftest() -> None:
     }
     Xd, Yd, n_seam = _dagger_slice(z)
     assert Xd.shape == (3, 2) and list(Yd) == [0, 2, 3] and n_seam == 2
+
+    # cache and dagger args are opt-in: defaults must stay bit-identical
+    import inspect
+
+    sig = inspect.signature(build).parameters
+    assert sig["dagger_npz"].default is None and sig["base_cache"].default is None
     print(
         "BUILD-BIGPOT-V2 OK: deployed table complete (slalom stays "
         "oracle-labelled), seam filter, dagger slice (kept mask + weave "
@@ -199,6 +219,7 @@ def main() -> None:
     ap.add_argument("--hot-oracle", type=int, default=HOT_ORACLE)
     ap.add_argument("--hot-deployed", type=int, default=HOT_DEPLOYED)
     ap.add_argument("--dagger-npz", default=None)
+    ap.add_argument("--base-cache", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
@@ -211,6 +232,7 @@ def main() -> None:
             args.hot_oracle,
             args.hot_deployed,
             args.dagger_npz,
+            args.base_cache,
         )
     )
 
