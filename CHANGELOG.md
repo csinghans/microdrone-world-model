@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- **Article #9 published in-repo:** *The Seam Tax: The Teacher Always
+  Drives Home* (bilingual, `writing/09-the-seam-tax/`) — the 72→79
+  story end to end: the failure map (86 % seam deaths, ×8 at slalom
+  hand-offs), the refuted obvious fix and why it never could have
+  worked ("the teacher always drives home" — covariate shift, with
+  the per-decision numbers), two rounds of DAgger landing the 79
+  record, and the three laws the cure taught: lineup-as-ABI (+ the
+  ordering law), exam draws vs true rates, and fidelity-as-meter
+  (raised twice, flight refused twice). The planned
+  sequential-evidence article moves to slot #10.
+
 - **transit_gate_v3: the road past 80, probed honestly and CLOSED at
   the 79 record (owner's call) — with two findings worth more than
   the points.** The cheap knives died fast and cleanly: swapping the
