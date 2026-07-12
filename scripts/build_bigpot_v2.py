@@ -79,10 +79,19 @@ def build(
     hot_dep=HOT_DEPLOYED,
     dagger_npz=None,
     base_cache=None,
+    from_pot=None,
+    dagger_weight=1.0,
+    native_floor=None,
 ):
     from scripts.distill import bc_train, collect, collect_hot
     from sim.composite import course_for_seed
     from skills.base import load_skill
+
+    if from_pot:  # transit_gate_v3 D1: re-BC a persisted pot, no collection
+        with np.load(from_pot) as z:
+            X, Y, W = z["X"], z["Y"], np.asarray(z["W"])
+        print(f"[pot-v2] pot loaded from {from_pot}: {len(X)} decisions")
+        return _train(out, X, Y, W, bc_train, dagger_weight, native_floor)
 
     for sk in (
         "gap-flight",
@@ -161,11 +170,32 @@ def build(
     print(f"[pot-v2] pot: {counts} = {len(X)} decisions (relay rates {rates})")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     np.savez_compressed(out.replace(".zip", "_pot.npz"), X=X, Y=Y, W=W)
-    acc, _ = bc_train(X, Y, out, epochs=40, W=W)
+    return _train(out, X, Y, W, bc_train, dagger_weight, native_floor)
+
+
+def _train(out, X, Y, W, bc_train, dagger_weight=1.0, native_floor=None):
+    """The shared training tail: optional dagger sample weight (the
+    training loss only — every val meter stays unweighted), the pooled
+    val floor, and the optional native-val rebalance guard."""
+    sw = None
+    if float(dagger_weight) != 1.0:
+        n_dag = int((W == "dagger").sum())
+        assert n_dag > 0, "dagger weight requested but the pot has no dagger rows"
+        sw = np.where(W == "dagger", float(dagger_weight), 1.0).astype(np.float32)
+        print(f"[pot-v2] dagger sample weight {dagger_weight} on {n_dag} rows")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    rep: dict = {}
+    acc, _ = bc_train(X, Y, out, epochs=40, W=W, sample_w=sw, report=rep)
     ok = acc >= VAL_FLOOR
+    verdict = "FLOOR OK" if ok else "FLOOR MISSED"
+    if native_floor is not None:
+        nat = rep["per_world"].get("native", -1.0)
+        if nat < float(native_floor):
+            ok = False
+            verdict = f"NATIVE FLOOR MISSED ({nat} < {native_floor})"
     print(
         f"[pot-v2] pooled val {acc:.4f} (floor {VAL_FLOOR}) -> "
-        f"{'FLOOR OK' if ok else 'FLOOR MISSED'} | saved {out} (+_pot.npz)"
+        f"{verdict} | saved {out}"
     )
     return 0 if ok else 3
 
@@ -205,6 +235,17 @@ def selftest() -> None:
 
     sig = inspect.signature(build).parameters
     assert sig["dagger_npz"].default is None and sig["base_cache"].default is None
+    assert sig["from_pot"].default is None and sig["dagger_weight"].default == 1.0
+    assert sig["native_floor"].default is None
+    from scripts.distill import bc_train as _bt
+
+    bt_sig = inspect.signature(_bt).parameters
+    assert bt_sig["sample_w"].default is None and bt_sig["report"].default is None
+
+    # the D1 weight vector: dagger rows get w, everything else stays 1.0
+    Wv = np.asarray(["native", "dagger", "hot_oracle", "dagger"])
+    sw = np.where(Wv == "dagger", 3.0, 1.0)
+    assert list(sw) == [1.0, 3.0, 1.0, 3.0]
     print(
         "BUILD-BIGPOT-V2 OK: deployed table complete (slalom stays "
         "oracle-labelled), seam filter, dagger slice (kept mask + weave "
@@ -220,6 +261,9 @@ def main() -> None:
     ap.add_argument("--hot-deployed", type=int, default=HOT_DEPLOYED)
     ap.add_argument("--dagger-npz", default=None)
     ap.add_argument("--base-cache", default=None)
+    ap.add_argument("--from-pot", default=None)
+    ap.add_argument("--dagger-weight", type=float, default=1.0)
+    ap.add_argument("--native-floor", type=float, default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
@@ -233,6 +277,9 @@ def main() -> None:
             args.hot_deployed,
             args.dagger_npz,
             args.base_cache,
+            args.from_pot,
+            args.dagger_weight,
+            args.native_floor,
         )
     )
 

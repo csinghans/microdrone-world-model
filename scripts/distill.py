@@ -583,11 +583,25 @@ def collect_hot(
     )
 
 
-def bc_train(X, Y, out: str, epochs: int = 40, lr: float = 3e-4, val_frac=0.1, W=None):
+def bc_train(
+    X,
+    Y,
+    out: str,
+    epochs: int = 40,
+    lr: float = 3e-4,
+    val_frac=0.1,
+    W=None,
+    sample_w=None,
+    report=None,
+):
     """Supervise a fresh PPO policy's action head; save a runner-ready zip.
     Returns held-out top-1 accuracy — the obs-sufficiency meter. With `W`
     (per-sample world tags) the meter is also reported PER WORLD: a mixed
-    pot must fit every teacher, not an average of them."""
+    pot must fit every teacher, not an average of them. `sample_w`
+    (transit_gate_v3 D1) weights the TRAINING loss per row; None is the
+    exact unweighted path, and every val meter stays unweighted. A dict
+    passed as `report` receives {val, train, per_world} without touching
+    the 2-tuple return every existing caller unpacks."""
     import torch
     from stable_baselines3 import PPO
     from stable_baselines3.common.env_util import make_vec_env
@@ -607,12 +621,21 @@ def bc_train(X, Y, out: str, epochs: int = 40, lr: float = 3e-4, val_frac=0.1, W
     Xt = torch.as_tensor(X, device=dev)
     Yt = torch.as_tensor(Y, device=dev)
     opt = torch.optim.Adam(model.policy.parameters(), lr=lr)
+    Wt = (
+        torch.as_tensor(np.asarray(sample_w), device=dev, dtype=torch.float32)
+        if sample_w is not None
+        else None
+    )
     for ep in range(epochs):
         model.policy.train()
         for k in range(0, len(ti), 256):
             b = ti[k : k + 256]
             dist = model.policy.get_distribution(Xt[b])
-            loss = -dist.log_prob(Yt[b]).mean()
+            if Wt is None:
+                loss = -dist.log_prob(Yt[b]).mean()
+            else:  # weighted mean; every val meter below stays unweighted
+                wb = Wt[b]
+                loss = -(wb * dist.log_prob(Yt[b])).sum() / wb.sum()
             opt.zero_grad()
             loss.backward()
             opt.step()
@@ -637,6 +660,8 @@ def bc_train(X, Y, out: str, epochs: int = 40, lr: float = 3e-4, val_frac=0.1, W
         f"[bc] saved {out}  val_top1={acc:.3f}  train_top1={train_acc:.3f}  "
         f"(n={len(X)}, val={n_val})" + (f"  per_world={per_world}" if per_world else "")
     )
+    if report is not None:
+        report.update(val=acc, train=train_acc, per_world=dict(per_world))
     return acc, train_acc
 
 

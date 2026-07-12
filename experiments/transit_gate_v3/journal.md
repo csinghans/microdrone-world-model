@@ -100,9 +100,86 @@ better mgap pilot is a training arm, registered separately if chosen.
   (R1 measured those as on-teacher-but-dying = teacher/dynamics
   ceiling); expensive, guards carry the regression risk.
 
+## K2 results (2026-07-12 — k2_swap_n100.json)
+
+**The registered read: SWAP-NULL, cleanly.** C_seam **0.818** (6/33)
+vs G_seam 0.828 — the champion buys nothing at moving_gap seams
+(≤ 0.848 branch). C_cold 0.923 vs 0.902 (noise, n=26). The
+task-hardness signature FIRES: the champion itself degrades cold →
+seam by 10.5 points. The wall is the task — random-phase entries —
+not the pilot.
+
+**The collateral discovery (worth more than the question): lineups
+are coupled — "lineup-as-ABI."** The probe block's slalom seam
+exploded to **14/32 = 43.8 %**, and the sharpest cut is the
+**moving_gap→slalom edge at 6/9**. Cross-block truth table (slalom
+seam fail rate, every committed record, by clone lineage):
+
+| lineage | pooled | blocks |
+|---|---|---|
+| record-clone | 34.6 % (47/136) | 30.0 exam · 35.8 · 40.0 |
+| r2-clone | 24.5 % (34/139) | 30.8 grad · 21.4 exam · 23.9 |
+| r3-clone | **17.2 % (11/64)** | 31.8 grad · **9.5 exam** |
+| r3-clone, mgap→champion | **43.8 % (14/32)** | one block |
+
+Three verdicts fall out at once:
+1. **The DAgger ladder's true effect is real and monotone** (34.6 →
+   24.5 → 17.2) — but the exam's 9.5 % was the friendly tail (~1.3σ
+   lucky draw; the gate of record stands by protocol, planning uses
+   17.2 %). Honest correction: the lineup's TRUE composite is
+   ~0.775–0.78, so the 0.84 challenger needs **≈ +6.5 true points**,
+   not +5.
+2. **Swapping any upstream pilot re-opens downstream seams** (17.2 →
+   43.8 % behind the swapped mgap, z ≈ 2.8): the R3 clone's DAgger
+   adaptation is specific to the exit-state distribution of the
+   lineup it was trained under. The behavioural sibling of the
+   latent-as-ABI law.
+3. K2's swap is therefore **doubly dead**: no mgap gain AND a slalom
+   collateral tax. Rejected without a graduation.
+
+**Ordering law (frozen for the rest of the campaign):** any future
+arm that changes an upstream pilot (e.g. a phase-trained mgap
+specialist) must budget a slalom re-DAgger against the NEW upstream
+as part of its price — fix upstreams first, re-adapt downstream last.
+
+**Consequence for the knives:** D1's expected value RISES — the
+slalom seam's true rate is 17.2 %, not 9.5 %, so the dagger-weight
+knob has ~+3–6 true points of headroom (0.14 × ~42 seam
+instances/100 at full kill), the single biggest lever left. The
+mgap-phase training arm stays parked pending the owner (it now
+carries the re-DAgger surcharge).
+
+## D1 — dagger-weighted BC (pre-registered)
+
+**One knob:** re-BC the R3 pot (persisted, byte-identical) with
+sample weight **w = 3 on the dagger rows** (native/oracle-hot stay
+1.0; dagger is 24 % of rows → ~49 % of effective gradient mass). One
+value, no sweep — a second value is a new arm.
+
+**Floors (frozen):** pooled val ≥ 0.96 (unweighted meter, as ever);
+**native-val ≥ 0.975** (rebalance guard — the zoo_transfer lesson:
+upweighting must not trade the primary manifold away; R3's was
+0.982); dagger-val reported (expect ↑ from 0.918).
+
+**Bars:** graduation n=60 @121000, wins ≥ 45 (42–44 → recheck
+@122000, pooled ≥ 90/120). Declared read (not barred alone): the
+graduation block's slalom-seam rate joins the lineage truth table
+against 17.2 %. The 110000 exam fires ONLY when the accumulated stack
+is 0.84-worthy.
+
+**Machinery (defaults bit-identical):** `bc_train` gains
+`sample_w=None` (None = the exact current mean-loss path);
+`build_bigpot_v2` gains `--dagger-weight` (default 1.0) and can build
+from the persisted pot npz.
+
 ## Status
 
 - [x] Campaign bars frozen (this file, before any number)
 - [x] Arm 1 pooled comparator computed (free, from committed records)
 - [x] K2 pre-registered (this file, before any probe number)
-- [ ] K2 probe n=100 @118000 → branch verdict
+- [x] K2 verdict: **SWAP-NULL + task-hardness + the lineup-coupling
+      law (slalom 17.2 → 43.8 % behind a swapped upstream); true-rate
+      table corrects the exam's friendly draw; swap rejected**
+- [x] D1 pre-registered (this section, before any number)
+- [ ] D1: weighted re-BC → graduation @121000 → stack arithmetic +
+      the owner's RL decision point
