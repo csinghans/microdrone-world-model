@@ -64,9 +64,21 @@ arm, pre-named, separately registered).
 Ledger note: moving_gap's 6 seam failures are the pool's second seam —
 NOT touched by K1 (one knob); pre-named as K2 if K1 lands.
 
+Implementation note (harness fact, recorded before running): the
+record pot's raw arrays were never persisted, so "top up" is
+implemented as regenerate-the-recipe (native weave chains + oracle-hot
+segments) PLUS the deployed-hot component — `scripts/build_bigpot_v2.py`
+(native 600 eps / 240 oracle courses / 240 deployed seam-courses,
+deployed X→slalom mix reported). The knob remains the added component;
+regeneration variance is covered by the val ≥ 0.96 floor and the
+graduation gate. Machinery: `collect_hot` gains `teachers`/
+`course_filter` (defaults bit-identical); `eval_integration` gains
+`--slalom-zip` (swaps only the hybrid's slalom slot).
+
 ## Status
 
 - [x] Failure map computed from the gate of record (before any knob)
 - [x] K1 pre-registered (this file, before any number)
-- [ ] Deployment-matched collection + big-pot top-up + re-BC
-- [ ] Graduation n=60 → formal n=100 → verdict
+- [ ] Deployment-matched collection + big-pot rebuild + re-BC
+- [ ] Graduation n=60 (seeds 111000+, ≥ 0.75) → formal n=100 (the
+      standing 110000 exam) → verdict

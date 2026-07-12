@@ -474,14 +474,20 @@ def collect_odoor(n_episodes: int, seed0: int = 125000):
     return np.asarray(X, dtype=np.float32), np.asarray(Y, dtype=np.int64)
 
 
-def collect_hot(n_courses: int, seed0: int = 120000, k: int = 3):
+def collect_hot(
+    n_courses: int, seed0: int = 120000, k: int = 3, teachers=None, course_filter=None
+):
     """Hot-start collection v2: the MIXED RELAY flies random composite
     courses; the student's observation is recorded with StageLocal
     semantics (stage-local x, memory reset at stage entry) — the
     exam-exact view. **Cleared-segment filtering**: a decision is kept
     only if its stage was subsequently cleared BEFORE any crash — weak
     teachers still yield clean demonstrations. Returns (X, Y, tags,
-    relay_success_rate)."""
+    relay_success_rate). `teachers` overrides the relay's per-stage
+    table (transit_gate_v2 K1: the DEPLOYED upstream instead of the
+    oracle); `course_filter(names)` skips non-matching courses (the seed
+    cursor advances, the collected count does not). Both default to the
+    recorded recipe bit-identically."""
     from eval.eval_closed_loop import load_or_train
     from planner.action_set import ACTION_VECS
     from planner.latent_mpc import DECIDE_EVERY
@@ -494,9 +500,14 @@ def collect_hot(n_courses: int, seed0: int = 120000, k: int = 3):
     enc, pred, cheads, _n, meta = load_or_train()
     env = make_env()
     X, Y, T, wins = [], [], [], 0
-    for i in range(n_courses):
-        seed = seed0 + i
+    cursor, done = 0, 0
+    while done < n_courses:
+        seed = seed0 + cursor
+        cursor += 1
         names = course_for_seed(seed)
+        if course_filter is not None and not course_filter(names):
+            continue
+        done += 1
         world = register_course(seed)
         obs0, _ = env.reset(seed=seed)
         cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
@@ -505,7 +516,7 @@ def collect_hot(n_courses: int, seed0: int = 120000, k: int = 3):
         scenario = get_scenario(world).spawn(
             env, np.random.default_rng(seed), speed=1.0
         )
-        relay = OracleRelay(names)
+        relay = OracleRelay(names, teachers=teachers)
         relay.begin(scenario.positions())
         ob = ObsBuilder(enc, pred, cheads, meta, 1.0, x_progress=True)
         goal_x, tmax = k * STAGE_LEN, k * TMAX
@@ -556,8 +567,8 @@ def collect_hot(n_courses: int, seed0: int = 120000, k: int = 3):
                 X.append(vec)
                 Y.append(lab)
                 T.append(names[st])
-        if (i + 1) % 25 == 0:
-            print(f"[hot] {i + 1}/{n_courses} courses, {len(X)} kept decisions")
+        if done % 25 == 0:
+            print(f"[hot] {done}/{n_courses} courses, {len(X)} kept decisions")
     env.close()
     rate = wins / n_courses
     print(

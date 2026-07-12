@@ -324,7 +324,11 @@ def make_factory(args):
     if args.contender == "ceiling":
         return lambda names: PerStageExperts(names, 1.0)
     if args.contender == "hybrid":
-        return lambda names: PerStageExperts(names, 1.0, experts=HYBRID)
+        experts = dict(HYBRID)
+        if getattr(args, "slalom_zip", None):
+            # transit_gate_v2: swap ONLY the slalom slot (K1's one change)
+            experts["slalom3_fixed"] = args.slalom_zip
+        return lambda names: PerStageExperts(names, 1.0, experts=experts)
     raise SystemExit(f"unknown contender {args.contender!r} and no --zip given")
 
 
@@ -333,6 +337,11 @@ def main() -> None:
     ap.add_argument("--suite", type=int, default=0)
     ap.add_argument("--seed0", type=int, default=SEED0)
     ap.add_argument("--contender", default=None, choices=(None, "ceiling", "hybrid"))
+    ap.add_argument(
+        "--slalom-zip",
+        default=None,
+        help="hybrid only: swap the slalom slot's specialist (transit_gate_v2)",
+    )
     ap.add_argument("--zip", default=None)
     ap.add_argument("--video-seed", type=int, default=None)
     ap.add_argument("--out", default=None)
