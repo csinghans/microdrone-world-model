@@ -19,19 +19,24 @@ function capturedNumber(contents, pattern, label) {
 }
 
 test("website transit evidence matches the gate of record", async () => {
+  // promoted 2026-07-12 (transit_gate_v2 R3): the record re-anchored
+  // from hybrid4_n100.json (72/100) to the DAgger round-2 formal
   const [evidence, transit] = await Promise.all([
     readJson("website/src/content/evidence.json"),
-    readJson("experiments/integration_ft/hybrid4_n100.json"),
+    readJson("experiments/transit_gate_v2/r3_formal_n100.json"),
   ]);
 
   const successes = transit.records.filter((record) => record.success).length;
 
-  assert.equal(evidence.transit.source, "experiments/integration_ft/hybrid4_n100.json");
+  assert.equal(
+    evidence.transit.source,
+    "experiments/transit_gate_v2/r3_formal_n100.json",
+  );
   assert.equal(transit.records.length, transit.n);
   assert.equal(evidence.transit.missions, transit.n);
   assert.equal(evidence.transit.successes, successes);
   assert.equal(evidence.transit.successRate, transit.success_rate);
-  assert.equal(evidence.transit.successes, 72);
+  assert.equal(evidence.transit.successes, 79);
   assert.equal(evidence.transit.missions, 100);
 });
 

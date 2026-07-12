@@ -7,7 +7,7 @@ on:
     paths:
       - "website/**"
       - ".github/workflows/pages.yml"
-      - "experiments/integration_ft/hybrid4_n100.json"
+      - "experiments/transit_gate_v2/r3_formal_n100.json"
       - "experiments/indoor_gate_v1/gate_results.json"
       - "docs/embedded_budget.md"
   workflow_dispatch:
