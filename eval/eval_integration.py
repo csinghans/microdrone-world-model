@@ -326,6 +326,19 @@ def _load_all_skills() -> None:
         load_skill(s)
 
 
+def _apply_swaps(experts: dict, swaps) -> dict:
+    """transit_gate_v3: generic one-slot swaps, `STAGE=ZIP` pairs. Only
+    known stages are accepted — a typo must fail loudly, not fly the
+    default silently."""
+    out = dict(experts)
+    for pair in swaps or ():
+        name, _, zp = pair.partition("=")
+        if name not in out or not zp:
+            raise SystemExit(f"--swap wants STAGE=ZIP with a known stage: {pair!r}")
+        out[name] = zp
+    return out
+
+
 def make_factory(args):
     if args.zip:
         return lambda names: StageLocal(_expert(args.zip, 1.0), n_stages=K_STAGES)
@@ -336,6 +349,7 @@ def make_factory(args):
         if getattr(args, "slalom_zip", None):
             # transit_gate_v2: swap ONLY the slalom slot (K1's one change)
             experts["slalom3_fixed"] = args.slalom_zip
+        experts = _apply_swaps(experts, getattr(args, "swap", None))
         return lambda names: PerStageExperts(names, 1.0, experts=experts)
     raise SystemExit(f"unknown contender {args.contender!r} and no --zip given")
 
@@ -350,6 +364,12 @@ def main() -> None:
         default=None,
         help="hybrid only: swap the slalom slot's specialist (transit_gate_v2)",
     )
+    ap.add_argument(
+        "--swap",
+        action="append",
+        default=None,
+        help="hybrid only: STAGE=ZIP slot swap, repeatable (transit_gate_v3)",
+    )
     ap.add_argument("--zip", default=None)
     ap.add_argument("--video-seed", type=int, default=None)
     ap.add_argument("--out", default=None)
@@ -360,6 +380,17 @@ def main() -> None:
         # artifact-less end-to-end: a 2-stage course flown by the FORWARD
         # cruiser, 8 recorded frames, tiny GIFs, metrics keys present
         import tempfile
+
+        # --swap slot logic: known stage swaps, typos fail loudly
+        sw = _apply_swaps(dict(HYBRID), ["moving_gap=x.zip"])
+        assert sw["moving_gap"] == "x.zip" and sw["door"] == HYBRID["door"]
+        assert _apply_swaps(dict(HYBRID), None) == HYBRID
+        for bad in ("nope=x.zip", "moving_gap", "moving_gap="):
+            try:
+                _apply_swaps(dict(HYBRID), [bad])
+                raise AssertionError(f"swap accepted {bad!r}")
+            except SystemExit:
+                pass
 
         _load_all_skills()
         from sim.composite import CompositeCourse  # noqa: F401 (registration path)
