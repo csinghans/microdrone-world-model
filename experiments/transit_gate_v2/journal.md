@@ -207,6 +207,93 @@ kills the imitation rationale outright.
 (committed record) + capture npz in `artifacts/` (gitignored, replay
 corpus). Tool: `eval/eval_seam_fidelity.py` (--capture/--selftest).
 
+## R1 results (2026-07-12 — r1_seam_fidelity.json)
+
+**Instrument, first:** exam-outcome match **1.000** — the rebuilt
+environment (fresh miniforge, torch 2.12.1) reproduces the gate of
+record per-seed EXACTLY, 72/100 with the same 72. Mirror fidelity
+**1.0000** (the offline clone reproduces every executed action from the
+mirror vecs — the vec construction is bit-faithful). 608 post-crash
+phantom rows excluded. Every read below is fully credentialed.
+
+| contrast | numbers | frozen bar | branch |
+|---|---|---|---|
+| primary: cold vs seam | **0.9523 vs 0.8573** (−9.5 pts; clustered −12.0) | −0.03 | **CONFIRMED** |
+| co-primary: seam broke vs cleared | **0.6667 vs 0.9101** (−24.3 pts, 12 stages) | −0.05 | **CONFIRMED** |
+
+**VERDICT: FIDELITY-IS-THE-LESION.** On the states a seam actually
+visits, the clone leaves its teacher at 3× the cold rate — and on the
+stages that break, one decision in three is off-teacher. Context reads
+all cohere: the deficit concentrates in the entry window (first 12
+decisions 0.7625 vs 0.8845 after) and on the worst mapped edge —
+**opening_door→slalom agreement 0.6875, the failure map's 6-break edge
+found again by a completely different instrument**. Cold breaks stay
+on-teacher (0.9333): cold failures are the dynamics tail, not fidelity.
+
+**The money read (secondary, frozen cell fired):** the v2 clone on the
+SAME states — seam **0.8666** vs the record's 0.8573. K1's seventeen
+thousand deployment-matched teacher-flown seam decisions bought **less
+than one point** of fidelity on student-visited states. The registered
+interpretation: *the diet never transferred; imitation-side repair is
+still unexploited.*
+
+**Mechanism, now named: covariate shift.** Teacher-flown trajectories
+— even ones STARTED from true deployed entries (K1's whole design) —
+relax back onto the teacher's manifold within a few decisions. The
+states that kill the clone are the ones its OWN compounding deviations
+create, and no amount of teacher-flown collection can harvest them.
+This also retires the brake-null's wording the right way: stilling the
+entry (brake) and matching the entry distribution (K1) both failed
+because the problem was never the entry POSE — it is the off-manifold
+aftermath the student generates from it. The textbook remedy is
+DAgger: let the STUDENT fly, label its states with the teacher
+counterfactually — which is mechanically exactly what this probe's
+instrumentation already does.
+
+## R2 — DAgger round 1 (pre-registered)
+
+**One knob vs the record pot:** pot = the record recipe regenerated
+(native 600 weave episodes + oracle-hot 240 courses — K1 already
+demonstrated regeneration stability) **plus a DAgger component**:
+student-flown slalom states (the RECORD lineup flies fresh courses),
+weave-counterfactual labels, post-crash rows excluded. K1's
+deployed-hot component is DROPPED (measured null; one knob stays one
+knob). Collection: n=200 courses, **seeds 130000+** — disjoint from the
+exam (110000), every graduation block, and every prior collection.
+**No exam-seed state ever enters a pot: R1's capture npz is
+diagnostic-only, permanently.**
+
+**Floors (frozen):** kept DAgger rows ≥ 6,000 with seam rows ≥ 3,000;
+pooled BC val ≥ 0.96; per-world val REPORTED (the dagger-val column is
+the fit diagnostic: can one head fit both manifolds?).
+
+**Bars (the campaign's standing bars, restated):** graduation n=60 @
+seeds 114000 — integer-safe: wins ≥ 45 proceeds; wins 42–44 → recheck
+block @115000 and pooled wins ≥ 90/120 proceeds; wins < 42 → dead. The
+formal n=100 @ the standing 110000 exam: **PASS = ≥ 0.78** with the
+per-type conditional guard (no type worse than record − 0.05: door
+1.000, gap 0.966, odoor 0.906, mgap 0.864, slalom 0.829). Guard
+failure at any rate = "traded", not a pass; no promotion.
+
+**Pre-named continuation (frozen now, not fished later):** DAgger is
+inherently iterative; ONE more round (R3: student = the R2 clone,
+seeds 131000+) is auto-authorized iff the formal lands in **[0.72,
+0.78)** — visible progress, short of the bar. Formal ≥ 0.78 → stop,
+PASS (promotion into the deployed lineup is the OWNER's call — it
+swaps a deployment artifact and re-anchors the gate of record). Formal
+< 0.72 → R2 refuted: one DAgger round does not lift the composite;
+residue re-points at RL-from-success (weave-anchored FT in-course) or
+accepting 72 as the architecture's plateau.
+
+**Machinery (defaults bit-identical):** `eval_seam_fidelity --capture`
+gains `--out-json/--out-npz` (the exam-match read guards against
+zero-overlap seed blocks; npz gains kept/outcome/dec/upstream arrays);
+`build_bigpot_v2` gains `--dagger-npz` + `--hot-deployed 0` (deployed
+floor applies only when the component is requested) and persists the
+assembled pot arrays alongside the zip (R3 stops paying the
+regeneration tax). Fresh-block capture diagnostics double as a free
+R1 replication on non-exam seeds (reported, not barred).
+
 ## Status
 
 - [x] Failure map computed from the gate of record (before any knob)
@@ -215,5 +302,10 @@ corpus). Tool: `eval/eval_seam_fidelity.py` (--capture/--selftest).
 - [x] Graduation blocks 1+2 → pooled 0.725 < 0.75 → **K1 REFUTED;
       formal never runs; record lineup stays; residue = per-state
       fidelity at seam states (fresh registration, owner's call)**
-- [x] R1 pre-registered (this section, before any number)
-- [ ] R1 capture on the exam block + verdict vs the frozen contrasts
+- [x] R1 pre-registered (this file, before any number)
+- [x] R1 capture + verdict: **FIDELITY-IS-THE-LESION (both contrasts
+      CONFIRMED; v2 diet never transferred; mechanism = covariate
+      shift; instrument perfect — exam match 1.000, mirror 1.0000)**
+- [x] R2 pre-registered (this section, before any number)
+- [ ] R2: DAgger collect (200 @130000) → pot rebuild → graduation
+      @114000 → formal @110000 vs the frozen bars

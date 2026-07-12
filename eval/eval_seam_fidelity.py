@@ -135,7 +135,12 @@ def _stages(rows) -> int:
     return len({(r["seed"], r["k"]) for r in rows})
 
 
-def capture(n: int = 100, seed0: int = 110000) -> int:
+def capture(
+    n: int = 100,
+    seed0: int = 110000,
+    out_json: str = OUT_JSON,
+    out_npz: str = OUT_NPZ,
+) -> int:
     import torch  # noqa: F401  (torch before SB3 policies)
 
     from eval.eval_closed_loop import load_or_train
@@ -196,10 +201,10 @@ def capture(n: int = 100, seed0: int = 110000) -> int:
             flush=True,
         )
     env.close()
-    return _score(probe, outcomes, n, seed0)
+    return _score(probe, outcomes, n, seed0, out_json, out_npz)
 
 
-def _score(probe, outcomes, n: int, seed0: int) -> int:
+def _score(probe, outcomes, n: int, seed0: int, out_json: str, out_npz: str) -> int:
     from planner.dispatch import _model
 
     by_seed = {o["seed"]: o for o in outcomes}
@@ -277,7 +282,8 @@ def _score(probe, outcomes, n: int, seed0: int) -> int:
         with open(RECORD_GATE) as f:
             rec = {r["seed"]: r["success"] for r in json.load(f)["records"]}
         both = [s for s in by_seed if s in rec]
-        match = float(np.mean([by_seed[s]["success"] == rec[s] for s in both]))
+        if both:  # fresh-seed blocks share no exam seeds — match unread
+            match = float(np.mean([by_seed[s]["success"] == rec[s] for s in both]))
 
     # context reads (declared, not barred)
     per_up: dict = {}
@@ -334,17 +340,21 @@ def _score(probe, outcomes, n: int, seed0: int) -> int:
         },
         "exam_outcomes": outcomes,
     }
-    os.makedirs(os.path.dirname(OUT_NPZ), exist_ok=True)
+    os.makedirs(os.path.dirname(out_npz), exist_ok=True)
     np.savez_compressed(
-        OUT_NPZ,
+        out_npz,
         vecs=V,
         seed=np.asarray([r["seed"] for r in probe.rows]),
         k=np.asarray([r["k"] for r in probe.rows]),
         t=np.asarray([r["t"] for r in probe.rows]),
+        dec=np.asarray([r["dec"] for r in probe.rows]),
         exec_menu=np.asarray([r["exec"] for r in probe.rows]),
         weave_menu=np.asarray([r["weave"] for r in probe.rows]),
+        upstream=np.asarray([r["upstream"] for r in probe.rows]),
+        kept=np.asarray(["outcome" in r for r in probe.rows]),
+        outcome=np.asarray([r.get("outcome", "postmortem") for r in probe.rows]),
     )
-    with open(OUT_JSON, "w") as f:
+    with open(out_json, "w") as f:
         json.dump(report, f, indent=1)
     print(
         f"[r1] cold {a_cold:.4f} vs seam {a_seam:.4f} -> {primary} | "
@@ -353,7 +363,7 @@ def _score(probe, outcomes, n: int, seed0: int) -> int:
     )
     print(
         f"[r1] instrument: match {match:.3f} mirror {mirror:.4f} | "
-        f"v2 {v2} | saved {OUT_JSON} + npz"
+        f"v2 {v2} | saved {out_json} + npz"
     )
     return 0
 
@@ -412,13 +422,15 @@ def main() -> None:
     ap.add_argument("--capture", action="store_true")
     ap.add_argument("--n", type=int, default=100)
     ap.add_argument("--seed0", type=int, default=110000)
+    ap.add_argument("--out-json", default=OUT_JSON)
+    ap.add_argument("--out-npz", default=OUT_NPZ)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
     if args.capture:
-        raise SystemExit(capture(args.n, args.seed0))
+        raise SystemExit(capture(args.n, args.seed0, args.out_json, args.out_npz))
     ap.print_help()
 
 
