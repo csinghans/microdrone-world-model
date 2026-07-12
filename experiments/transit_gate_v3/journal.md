@@ -181,5 +181,53 @@ from the persisted pot npz.
       law (slalom 17.2 → 43.8 % behind a swapped upstream); true-rate
       table corrects the exam's friendly draw; swap rejected**
 - [x] D1 pre-registered (this section, before any number)
-- [ ] D1: weighted re-BC → graduation @121000 → stack arithmetic +
-      the owner's RL decision point
+- [x] D1 executed: **REFUTED at graduation** (results below)
+
+## D1 results (2026-07-12 — d1_grad_n60{,_b2}.json) — REFUTED
+
+**Floors all green:** pooled val 0.9611; **dagger-val 0.918 → 0.926
+(the weight bought exactly the meter it aimed at)**; native 0.982 →
+0.978 (above the 0.975 guard, but the trade is visible). **Flight:
+graduation 44/60, recheck 44/60 → pooled 88/120 = 0.733 < 0.75.**
+Pooled slalom seam 11/41 = **26.8 %** — worse than the R3 lineage's
+true 17.2 % (+1.65σ), certainly not better.
+
+**Mechanism verdict:** held-out student-manifold fidelity went UP and
+flight went DOWN. The chain flies mostly ON the teacher manifold
+(native rows are 63 % of the pot and of real flight time); w=3's
+marginal trade — a sliver of native fidelity for dagger fidelity —
+was net negative where it counts. The natural (unweighted) DAgger
+aggregation was already at or near the flight optimum; canon earns
+its keep. This is R1's frozen cell ("fidelity raised ≠ success
+follows") measured a second way, now at the weight margin.
+
+## Campaign checkpoint — the cheap knives are spent; every live arm is training-class
+
+Ledger: K2 swap doubly dead (no mgap gain + slalom collateral); D1
+weight dead at graduation. The truth table stands: true composite
+~0.775–0.78, the 0.84 challenger needs ~+6.5 TRUE points, and the
+remaining priced arms are all owner-gated training:
+
+1. **RL-from-success on the slalom clone** (anchored FT in-course) —
+   the only named lever left on slalom's true 17.2 % seam residue
+   (imitation-side exhausted TWICE: v2's ladder, D1's weight);
+   also the only class that touches the cold-fail tail. Est. +2–4
+   true; cost ≈ one PPO campaign + gates; regression risk on guards.
+2. **mgap phase-randomized training** — the biggest single prize
+   (mgap both sides ≈ +4) but carries the lineup-coupling surcharge:
+   a new mgap pilot re-opens the slalom seam (measured 17.2 → 43.8 %),
+   so its true cost includes a slalom re-DAgger against the new
+   upstream. Ordering law: this arm FIRST if both are bought.
+3. **Accept the 79 record** (true ~0.78) and bank the campaign's
+   scientific assets — the lineup-coupling law and the true-rate
+   table are real findings; the spread tail is priced.
+
+Reaching 0.84 realistically requires BOTH (1) and (2) landing. The
+campaign holds here for the owner's call.
+
+## Status (v3)
+
+- [x] Bars frozen → Arm 1 → K2 (SWAP-NULL + coupling law) → D1
+      (REFUTED at graduation)
+- [ ] Owner's decision: RL arms (1)/(2) in the ordering-law sequence,
+      or close at the 79 record with findings banked
