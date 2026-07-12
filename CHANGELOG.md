@@ -1,5 +1,32 @@
 # Changelog
 
+## Unreleased
+
+- **transit_gate_v2: the integration gate rises 72 → 79 (PASS ≥ 0.78,
+  all conditional guards held) — and the seam finally has a mechanism.**
+  The campaign in five measured moves: (1) failure map — 86 % of the
+  record's failures are SEAM failures, slalom seam 26 % vs cold 3 %;
+  (2) K1, deployment-matched teacher collection: REFUTED, the seam did
+  not move a millimetre; (3) R1, the seam-fidelity probe: the clone
+  leaves its teacher 3× as often on seam-visited states (0.9523 cold vs
+  0.8573 seam; 0.6667 on breaking stages) and K1's diet never
+  transferred — **covariate shift, measured** (teacher-flown
+  trajectories relax onto the teacher's manifold; the student's own
+  compounding errors create the states that kill it); (4) R2, DAgger
+  round 1 (student flies, the oracle labels counterfactually): slalom
+  seam 30 % → 21.4 %, formal 0.73 — progress, not pass; (5) R3, DAgger
+  round 2 (aggregate): slalom conditional 0.814 → **0.917**, seam
+  failures 12/40 → **4/42 (9.5 %)**, formal **0.79 = PASS**. The ladder
+  was pre-frozen to end at round 2 — no R4. Promotion of the R3 clone
+  into the deployed lineup (and re-anchoring the gate of record) is the
+  owner's call and has NOT happened; the record lineup still stands.
+  Instrument dividend: the probe reproduced the 72/100 exam per-seed at
+  1.000 after the full environment rebuild — behavioural bit-stability
+  across the toolchain swap, measured. Tools:
+  `eval/eval_seam_fidelity.py` (probe hook + mirror ObsBuilder + weave
+  counterfactuals), `scripts/build_bigpot_v2.py` (--dagger-npz,
+  --base-cache); ledger: `experiments/transit_gate_v2/journal.md`.
+
 ## 0.9.0 — 2026-07-12 (the review turn: a second gate, one scorecard, int8 priced honestly)
 
 - **Find-a-person (person_v1): GREEN — the WM latent reads a person's

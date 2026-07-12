@@ -309,9 +309,62 @@ R1 replication on non-exam seeds (reported, not barred).
 - [x] R2 pre-registered (this section, before any number)
 - [x] R2 executed: **PROGRESS, NOT PASS — formal 0.73; the [0.72,
       0.78) cell fires R3** (results below)
-- [ ] R3: DAgger round 2 (student = R2 clone, 240 @131000, aggregate
-      pot) → graduation @116000 → formal @110000; **the ladder ends
-      here regardless** (results below when run)
+- [x] R3 executed: **PASS — formal 0.79 ≥ 0.78, guards all held,
+      slalom seam 30 % → 9.5 %. The ladder ends as frozen. Promotion =
+      owner's call (not done).**
+
+## R3 results (2026-07-12 — r3_grad_n60.json, r3_formal_n100.json) — PASS
+
+**Collection (the R2 clone flying itself):** 240 courses @131000,
+round-2 component kept 6,896 (3,814 seam) — floors ✓; aggregate dagger
+14,185 (8,597 seam). Treatment response visible at collection: the R2
+clone's own seam agreement 0.8728 vs the record clone's 0.8009 on
+fresh seeds, fresh-block success 189/240 = 0.7875. Mirror 1.0000 again.
+
+**Pot:** 58,854 decisions; pooled val 0.9614 ≥ 0.96 ✓; per-world val
+**dagger 0.918 — UP from R2's 0.905**: no capacity slide; the head
+absorbs the student manifold as it grows. Graduation 45/60 → formal.
+
+**Formal: 0.79 ≥ 0.78 = PASS.** Method-consistent conditionals vs the
+record, guard −0.05 ALL HELD:
+
+| type | record | R3 | Δ |
+|---|---|---|---|
+| slalom | 0.814 | **0.917** | **+0.102** (seam fails 12/40 → **4/42 = 9.5 %**) |
+| moving_gap | 0.846 | 0.887 | +0.041 (R2's dip was the draw, not damage) |
+| opening_door | 0.900 | 0.923 | +0.023 |
+| door | 1.000 | 0.980 | −0.020 ✓ |
+| gap | 0.964 | 0.930 | −0.034 ✓ |
+
+Break profile 28 → 21 fails; stage-1 breaks 12 → 5. The failure map's
+arithmetic headroom ("slalom seam at its cold rate ≈ +10") is banked
+at +7 by this knob; the residual failure mass is now SPREAD (mgap 4 /
+gap 4 / odoor 3 / door 1 seam + 5 cold) — no single dominant edge
+remains for a successor campaign to farm.
+
+## Campaign verdict — the seam had a mechanism, and two rounds of DAgger bought it down
+
+The arc, every step on the record: failure map (86 % seam; slalom ×8)
+→ K1 deployment-matched teacher data REFUTED (0.725, seam unmoved) →
+R1 probe names the mechanism (covariate shift; fidelity 0.9523 cold /
+0.8573 seam / 0.6667 on breaking stages; K1's diet never transferred)
+→ R2 DAgger-1 moves the target (seam 30 → 21.4 %, formal 0.73) → R3
+DAgger-2 aggregate lands it (**0.917 conditional, seam 9.5 %, formal
+0.79 PASS**). The ladder closes as pre-frozen; no R4.
+
+**What remains the owner's (explicitly NOT done here):**
+1. **Promotion** of `ppo_slalom_dagger_r3.zip` into the deployed
+   lineup (`eval_integration.HYBRID` slalom slot) and re-anchoring the
+   gate of record (72 → 79 in `scripts/gate.py` ingest + scorecard).
+   Note: gate-lineup zips live under gitignored `artifacts/` dirs —
+   record reproducibility wants the R3 zip published (champions
+   release) or rebuilt from the persisted pot npz.
+2. Or hold at 72-of-record with the R3 result banked in the journal.
+
+**Named residues (fresh registrations if pursued):** the spread tail
+(no dominant edge — diminishing returns priced accordingly),
+dagger-weighted BC, RL-from-success. The moving_gap seam recovered on
+its own draw (+4.1) — K2's motivation is now thinner than at freeze.
 
 ## R2 results (2026-07-12 — r2_grad_n60.json, r2_formal_n100.json)
 
