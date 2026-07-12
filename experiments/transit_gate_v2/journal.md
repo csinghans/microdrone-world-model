@@ -115,6 +115,98 @@ recipe pointed at the specialist in-course), judged first by a
 per-state-fidelity probe on seam-visited states (measure THAT before
 training — the oracle-probe pattern). Owner's call on spending it.
 
+## R1 — the residue probe: per-state fidelity at seam-visited states (pre-registered)
+
+**Question.** K1's verdict named the surviving suspect: the pooled val
+(0.9658) is dominated by native-start states — the clone's fidelity ON
+the states a seam actually visits is unmeasured. R1 measures exactly
+that, before any training money is spent.
+
+**Instrument.** `run_composite_episode` gains `probe=None` (two lines,
+bit-identical when None — the C1 trace-hook pattern). A `SeamProbe`
+rides the RECORD lineup (PerStageExperts + HYBRID, the deployed
+contender) over the standing exam block (seeds 110000..110099, n=100)
+and, at every slalom-stage decision, records: the executed action, the
+**OracleWeave counterfactual label** at the same state (begin() at
+stage entry with the relay's stage-window pillars — weave is a pure
+function of (x, y) vs its gate ladder, so counterfactual queries are
+exact), and a mirror ObsBuilder vec built with collect_hot's exact
+construction (StageLocal reset, executed-prev, stage-local x). No new
+gate number is produced: the record lineup flies its own standing exam;
+the v2 clone NEVER flies (offline forward passes only — its formal
+stays unrun).
+
+**Agreement** = executed menu action == weave label (menu space, the
+same space as bc_train's val meter). Caveat, frozen now: agreement is
+label-match, not correctness — several actions can be safe at once, so
+absolute level is not the read; the CONTRASTS are.
+
+**Instrument checks (before any read):**
+- Exam-outcome match: per-seed success vs `hybrid4_n100.json` — expect
+  ≥ 0.95 (deterministic re-fly; the env was REBUILT since the record,
+  so drift is possible). Below 0.95 → flag loudly as a reproducibility
+  finding; the primary read still stands (contrasts are internal to the
+  capture) but the "record's 12 seam failures" framing is re-anchored
+  to the capture's own outcomes.
+- Mirror fidelity: the record clone's OFFLINE predict on mirror vecs
+  must equal its executed actions ≥ 0.99 — proves the vec mirror is
+  faithful. Below → the v2 secondary is marked unreadable; the primary
+  (live agreement) does not depend on vecs.
+- Menu-0 identity: `ObsBuilder.ids.index(FORWARD) == 0` asserted at
+  capture start (the mirror's entry-prev convention).
+
+**Primary contrast (barred): cold vs seam.** A_cold = pooled
+per-decision agreement on slalom stages at position 0; A_seam = same at
+position ≥ 1. Stage-clustered means reported alongside; if pooled and
+clustered disagree on the branch, treat as GRAY.
+- **CONFIRMED** (a broad seam-entry fidelity tax): A_seam ≤ A_cold − 0.03.
+- **REFUTED** (no detectable tax): A_seam ≥ A_cold − 0.01.
+- GRAY between → pool a fresh block (seeds 113000, n=60), judge pooled.
+
+**Co-primary contrast (barred): within-seam, by outcome.** A 5-point
+deficit concentrated on the ~26 % of seam stages that break would
+dilute to ~1.3 points pooled and hide under the primary — so it gets
+its own bars (wider: fewer decisions, episodes end at the crash).
+A_broke = agreement on seam stages where the episode broke AT that
+stage; A_cleared = agreement on seam stages cleared.
+- **CONFIRMED** (fidelity deficit rides the failures): A_broke ≤ A_cleared − 0.05.
+- **REFUTED**: A_broke ≥ A_cleared − 0.02. GRAY between → same recheck.
+- Readability floor: ≥ 6 broke seam stages in-sample, else recheck block.
+
+**Verdict synthesis (frozen):** fidelity is the lesion iff EITHER
+contrast confirms; the fidelity story dies iff BOTH refute.
+
+**Secondary (declared): the v2 clone, same states.** Offline
+teacher-forced predicts on the captured vecs (readable only if mirror
+fidelity ≥ 0.99). Interpretation table, frozen:
+- Primary/co-primary CONFIRMED and v2 does NOT close the gap → K1's
+  diet never transferred to these states; imitation-side repair is
+  still unexploited (anchored FT with imitation anchor — owner's call).
+- CONFIRMED and v2 CLOSES the gap (yet K1 success was flat) → fidelity
+  was raised and success did not follow → **fidelity is non-binding**;
+  imitation-side work is dead, the money is saved.
+- REFUTED → v2 read is a consistency check only.
+
+**Context reads (declared, not barred):** agreement by upstream stage
+type (the door→slalom edge carried 6 of 13 record breaks);
+early-window (first 12 decisions post-entry) vs rest; break-step-
+after-entry histogram; per-decision agreement in the last 10 decisions
+before a break. Interpretation guide, frozen: if REFUTED and
+A_broke ≈ A_cleared, the clone is **on-teacher-but-dying** — the named
+suspect becomes teacher adequacy at deployed seam states (the oracle
+relay's own clean-course rate was 0.550), and the residue arm's shape
+becomes RL-from-success (transcend the teacher), not imitation repair.
+
+**What this probe cannot decide (honest scope):** it does not gate
+WHETHER anchored FT is the next candidate (pre-named since K1); it
+decides the rationale and the training target — imitation top-up vs
+RL-from-success — and in exactly one cell (CONFIRMED + v2-closed) it
+kills the imitation rationale outright.
+
+**Artifacts:** `experiments/transit_gate_v2/r1_seam_fidelity.json`
+(committed record) + capture npz in `artifacts/` (gitignored, replay
+corpus). Tool: `eval/eval_seam_fidelity.py` (--capture/--selftest).
+
 ## Status
 
 - [x] Failure map computed from the gate of record (before any knob)
@@ -123,3 +215,5 @@ training — the oracle-probe pattern). Owner's call on spending it.
 - [x] Graduation blocks 1+2 → pooled 0.725 < 0.75 → **K1 REFUTED;
       formal never runs; record lineup stays; residue = per-state
       fidelity at seam states (fresh registration, owner's call)**
+- [x] R1 pre-registered (this section, before any number)
+- [ ] R1 capture on the exam block + verdict vs the frozen contrasts

@@ -156,10 +156,14 @@ def _god_frame(env, span: float, res: int = 400) -> np.ndarray:
     return np.reshape(rgb, (res, res, 4))[:, :, :3].astype(np.uint8)
 
 
-def run_composite_episode(env, policy, seed, world, k=K_STAGES, speed=1.0, record=None):
+def run_composite_episode(
+    env, policy, seed, world, k=K_STAGES, speed=1.0, record=None, probe=None
+):
     """The episode runner, composite-scaled (goal k*L, tmax k*360), with
     min-clear step tracking (crash localization) and optional recording.
-    Mirrors eval/episode.py's loop shape."""
+    Mirrors eval/episode.py's loop shape. `probe(t, frame, state, a,
+    scenario)` fires after each decision (transit_gate_v2 R1); None is
+    bit-identical."""
     from planner.action_set import ACTION_VECS
     from planner.latent_mpc import DECIDE_EVERY
     from sim.envs import VelCommander, grab_frame, make_ctrl
@@ -182,6 +186,8 @@ def run_composite_episode(env, policy, seed, world, k=K_STAGES, speed=1.0, recor
             if hasattr(policy, "pillars"):
                 policy.pillars = [np.array(q) for q in scenario.positions()]
             a = policy.decide(frame, state)
+            if probe is not None:
+                probe(t, frame, state, a, scenario)
             if record is not None:
                 record["fpv"].append(frame.copy())
                 record["god"].append(_god_frame(env, goal_x))
