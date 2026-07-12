@@ -75,10 +75,51 @@ graduation gate. Machinery: `collect_hot` gains `teachers`/
 `course_filter` (defaults bit-identical); `eval_integration` gains
 `--slalom-zip` (swaps only the hybrid's slalom slot).
 
+## K1 results (2026-07-12 — build + graduation, k1_grad_n60{,_b2}.json)
+
+**The pot (floors all green):** 62,276 decisions = native 37,035 +
+oracle-hot 7,634 + **deployed-hot 17,607** (≫ the 4,000 floor); pooled
+val **0.9658** ≥ 0.96; deployed X→slalom mix healthy (door 48 / odoor
+56 / mgap 57 / gap 54 / slalom 57); the deployed upstream clears
+courses at 0.825 vs the oracle relay's 0.550.
+
+**The read:** graduation block 1 **0.733** (< 0.75 — the && gate held
+the formal); borderline → the house pooled recheck, block 2 (seeds
+112000+) **0.717** → **pooled 87/120 = 0.725 < 0.75. The formal n=100
+never runs.** Seam dissection, pooled across both blocks:
+**slalom seam 16/63 = 25.4 % — bit-identical to the record's 26 %**
+(12/46); mgap seam 8/54 = 14.8 % (record 17 %). Graduation level itself
+is a null vs the record's own graduation (0.725 vs 0.733, inside
+noise): the v2 pot neither helps nor hurts.
+
+## Verdict — K1 REFUTED: the entry-state story dies its second, better-instrumented death
+
+With the fidelity floor HELD (0.9658) and seventeen thousand
+deployment-matched seam entries in the diet, the slalom seam rate did
+not move a millimetre. Combined with the earlier brake-null (braking
+INTO the specialist's native start: exactly null), the seam now has two
+independent eliminations from opposite directions — neither recreating
+the native entry NOR training on the true deployed entries touches it.
+The distribution-matching hypothesis is dead; what survives the two
+eliminations is **per-state fidelity in seam-reachable states** (the
+pooled val is dominated by native-start states; the clone's accuracy
+ON the states a seam actually visits is unmeasured) — or a mechanism
+neither knob reaches (StageLocal reset timing, the entry-decision
+prev-action context).
+
+**Consequences:** the v2 pot is NOT promoted — the record lineup
+(72/100) stays deployed, its graduation twin measured. The pre-named
+residue arm is now the only live road and needs its own registration:
+**anchored FT of the specialist on composite seam entries** (the crown
+recipe pointed at the specialist in-course), judged first by a
+per-state-fidelity probe on seam-visited states (measure THAT before
+training — the oracle-probe pattern). Owner's call on spending it.
+
 ## Status
 
 - [x] Failure map computed from the gate of record (before any knob)
 - [x] K1 pre-registered (this file, before any number)
-- [ ] Deployment-matched collection + big-pot rebuild + re-BC
-- [ ] Graduation n=60 (seeds 111000+, ≥ 0.75) → formal n=100 (the
-      standing 110000 exam) → verdict
+- [x] Deployment-matched collection + big-pot rebuild + re-BC (floors ✓)
+- [x] Graduation blocks 1+2 → pooled 0.725 < 0.75 → **K1 REFUTED;
+      formal never runs; record lineup stays; residue = per-state
+      fidelity at seam states (fresh registration, owner's call)**
