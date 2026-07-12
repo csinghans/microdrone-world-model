@@ -17,9 +17,10 @@
   seam 30 % → 21.4 %, formal 0.73 — progress, not pass; (5) R3, DAgger
   round 2 (aggregate): slalom conditional 0.814 → **0.917**, seam
   failures 12/40 → **4/42 (9.5 %)**, formal **0.79 = PASS**. The ladder
-  was pre-frozen to end at round 2 — no R4. Promotion of the R3 clone
-  into the deployed lineup (and re-anchoring the gate of record) is the
-  owner's call and has NOT happened; the record lineup still stands.
+  was pre-frozen to end at round 2 — no R4. **Promoted 2026-07-12
+  (owner's call): the R3 clone takes the HYBRID slalom slot, the gate
+  of record re-anchors to `r3_formal_n100.json` (79/100), and the
+  scorecard/README carry the new number with full lineage.**
   Instrument dividend: the probe reproduced the 72/100 exam per-seed at
   1.000 after the full environment rebuild — behavioural bit-stability
   across the toolchain swap, measured. Tools:

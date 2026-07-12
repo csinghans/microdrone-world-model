@@ -70,15 +70,17 @@ def _expert(zip_path: str, speed: float):
 # the flight-plan hybrid (deployment-legal per the 2026-07-07 ruling:
 # course composition = legitimate mission information, like waypoints):
 # the course-FT generalist flies everything except slalom stages, which
-# the big-pot clone flies
+# the DAgger-round-2 clone flies (promoted 2026-07-12, transit_gate_v2
+# R3: formal 79/100, slalom seam 30%->9.5%; lineage big-pot 72/100 ->
+# r2 0.73 -> r3 — the ledger is the campaign journal)
 _FT_V3 = "experiments/integration_ft/artifacts_local/ppo_integration_ft_v3.zip"
-_BIGPOT = "experiments/integration_ft/artifacts_local/ppo_slalom_bigpot_BC.zip"
+_SLALOM_R3 = "experiments/transit_gate_v2/artifacts/ppo_slalom_dagger_r3.zip"
 HYBRID = {
     "gap": _FT_V3,
     "moving_gap": _FT_V3,
     "door": _FT_V3,
     "opening_door": _FT_V3,
-    "slalom3_fixed": _BIGPOT,
+    "slalom3_fixed": _SLALOM_R3,
 }
 
 

@@ -8,7 +8,8 @@ WM+head binding verification. The SLOW layers (the two n=100 gates)
 default to INGESTING the committed gate-of-record JSONs with their
 provenance, and re-fly on request:
 
-  transit        72/100 of record: experiments/integration_ft/hybrid4_n100.json
+  transit        79/100 of record: experiments/transit_gate_v2/r3_formal_n100.json
+                 (promoted 2026-07-12; lineage 72/100 hybrid4_n100.json)
                  (--run-transit N re-flies eval.eval_integration --suite)
   indoor_search  91/100 of record: experiments/indoor_gate_v1/gate_results.json
                  (--run-indoor N re-flies eval.eval_indoor_gate --gate)
@@ -30,7 +31,10 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TRANSIT_RECORD = os.path.join("experiments", "integration_ft", "hybrid4_n100.json")
+TRANSIT_RECORD = os.path.join("experiments", "transit_gate_v2", "r3_formal_n100.json")
+TRANSIT_SCRATCH = os.path.join(
+    "experiments", "transit_gate_v2", "scorecard_transit.json"
+)
 INDOOR_RECORD = os.path.join("experiments", "indoor_gate_v1", "gate_results.json")
 
 QUICK = (
@@ -103,11 +107,10 @@ def scorecard(run_transit=0, run_indoor=0, out=None):
             "--contender",
             "hybrid",
             "--out",
-            TRANSIT_RECORD.replace("hybrid4_n100", "scorecard_transit"),
+            TRANSIT_SCRATCH,
         )
-        src = TRANSIT_RECORD.replace("hybrid4_n100", "scorecard_transit")
         res["modes"]["transit"] = (
-            ingest_transit(src) if ok else {"pass": False, "error": line}
+            ingest_transit(TRANSIT_SCRATCH) if ok else {"pass": False, "error": line}
         )
     else:
         res["modes"]["transit"] = ingest_transit()
@@ -150,8 +153,10 @@ def scorecard(run_transit=0, run_indoor=0, out=None):
 def selftest() -> None:
     # the committed gates-of-record parse, and their verdicts hold
     t = ingest_transit()
-    assert t["pass"] and t["n"] == 100 and abs(t["success_rate"] - 0.72) < 1e-9
-    assert t["gate"] == "72/100"
+    assert t["pass"] and t["n"] == 100 and abs(t["success_rate"] - 0.79) < 1e-9
+    assert t["gate"] == "79/100"
+    # the re-fly scratch path must never shadow the record itself
+    assert TRANSIT_SCRATCH != TRANSIT_RECORD
     i = ingest_indoor()
     assert i["pass"] and abs(i["composite"] - 0.91) < 1e-9
     assert i["gate"] == "91/100" and len(i["families"]) == 4

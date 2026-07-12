@@ -366,6 +366,23 @@ DAgger-2 aggregate lands it (**0.917 conditional, seam 9.5 %, formal
 dagger-weighted BC, RL-from-success. The moving_gap seam recovered on
 its own draw (+4.1) — K2's motivation is now thinner than at freeze.
 
+## Promotion (2026-07-12, owner's call — Hans「go 1 then push」)
+
+Executed: `eval_integration.HYBRID["slalom3_fixed"]` →
+`ppo_slalom_dagger_r3.zip`; `scripts/gate.py` re-anchored
+(TRANSIT_RECORD → `r3_formal_n100.json`, 79/100; re-fly scratch path
+split from the record so `--run-transit` can never shadow it; selftest
+asserts 0.79); README status + gate section carry the new number with
+lineage; CHANGELOG Unreleased updated. Record reproducibility: the R3
+zip's sha256 is
+`dcb50674a492f4af829bd9980b77a0465e4225ba82eb17f531fc0c4079f7b182`
+(recorded here); publishing it to the champions release awaits the
+owner's explicit release word (the permission layer correctly held the
+upload — releases are owner-gated by house rule), and the assembled
+pot npz is persisted locally for deterministic rebuild meanwhile. The
+72/100 lineup and its record file stay in the tree untouched as
+lineage.
+
 ## R2 results (2026-07-12 — r2_grad_n60.json, r2_formal_n100.json)
 
 **Pot & floors:** 51,958 decisions (native 37,035 + oracle-hot 7,634 +

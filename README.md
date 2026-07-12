@@ -4,10 +4,11 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.9.0 — a second deployment gate opens (indoor missions
-GREEN at 91/100, beside transit's 72/100), one command scores the whole
-system, and the int8 story is priced honestly (the indoor stack flies
-quantized; the transit trigger does not — yet).** The baseline shipped as
+**Status: v0.9.0+ — a second deployment gate opens (indoor missions
+GREEN at 91/100, beside transit's 79/100 — raised from 72 by a
+measured DAgger campaign), one command scores the whole system, and
+the int8 story is priced honestly (the indoor stack flies quantized;
+the transit trigger does not — yet).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what
@@ -244,8 +245,12 @@ composed 3-stage course flown end to end (`docs/TDD-FLIGHT.md`). The
 **deployment gate** — the standing precondition for real hardware — is
 integration success ≥ 0.70 at n = 100 random courses.
 
-Current state: **GREEN — 72/100** (2026-07-07; re-verified 2026-07-09,
-72/100 unchanged). Since v0.9.0 the indoor track has its own gate —
+Current state: **GREEN — 79/100** (promoted 2026-07-12: the
+transit_gate_v2 campaign measured the slalom seam's mechanism —
+covariate shift at expert handoffs — and two pre-registered DAgger
+rounds cut seam failures 30 % → 9.5 %; lineage 72/100 of 2026-07-07,
+re-verified per-seed at 1.000 after a full toolchain rebuild). Since
+v0.9.0 the indoor track has its own gate —
 **GREEN, 91/100**: a seeded pool of four mission families (single-room /
 multi-room / vertical / person) at the track's robust config, composite
 verdict *found AND returned AND zero collisions*, bars frozen from a
