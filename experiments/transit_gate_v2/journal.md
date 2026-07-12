@@ -374,14 +374,13 @@ Executed: `eval_integration.HYBRID["slalom3_fixed"]` →
 split from the record so `--run-transit` can never shadow it; selftest
 asserts 0.79); README status + gate section carry the new number with
 lineage; CHANGELOG Unreleased updated. Record reproducibility: the R3
-zip's sha256 is
-`dcb50674a492f4af829bd9980b77a0465e4225ba82eb17f531fc0c4079f7b182`
-(recorded here); publishing it to the champions release awaits the
-owner's explicit release word (the permission layer correctly held the
-upload — releases are owner-gated by house rule), and the assembled
-pot npz is persisted locally for deterministic rebuild meanwhile. The
-72/100 lineup and its record file stay in the tree untouched as
-lineage.
+zip is PUBLISHED to the champions-2026-07 release (owner's word
+「發 release」, 2026-07-12), sha256
+`dcb50674a492f4af829bd9980b77a0465e4225ba82eb17f531fc0c4079f7b182` —
+verified by download-back (bit-identical) with `fetch_champions
+--check` still green (superset-tolerant); the assembled pot npz is
+also persisted locally for deterministic rebuild. The 72/100 lineup
+and its record file stay in the tree untouched as lineage.
 
 ## R2 results (2026-07-12 — r2_grad_n60.json, r2_formal_n100.json)
 
