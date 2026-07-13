@@ -206,24 +206,35 @@ class QWM:
         return self.enc, self.pred, self.cheads, self.nhead
 
 
-def _calib_batch(n=CALIB_N, seed=CALIB_SEED):
+def _calib_batch(n=CALIB_N, seed=CALIB_SEED, low_n=0):
     """Frames + paired actions sampled seed-fixed from the two-track
     training union (combined.npz) — the deployment-realistic calibration
-    set (no rendered-target imagery; journal names that as a K1 knob)."""
+    set (no rendered-target imagery; journal names that as a K1 knob).
+    `low_n` (low_head_int8_v1 K1) APPENDS that named track: near-floor
+    frames from the low head's TRAIN block (600000), paired with actions
+    sampled from the standard corpus. The standard sample is drawn FIRST
+    with the same rng stream, so low_n=0 is byte-identical to before and
+    low_n>0 only widens min/max ranges (calibration is monotone)."""
     blob = np.load(COMBINED, allow_pickle=True)
     frames, actions = blob["frames"], blob["actions"]
     R, L = frames.shape[:2]
     rng = np.random.default_rng(seed)
     r, t = rng.integers(0, R, n), rng.integers(0, L, n)
+    xs = [np.stack([frames[i, j] for i, j in zip(r, t)])]
+    acts = [np.stack([actions[i, j] for i, j in zip(r, t)])]
+    if low_n:
+        kw = HEAD_SETS[1][3]
+        tr = _collect_head_frames("alt", 600000, kw)
+        fr = np.asarray(tr["frames"])
+        pick = rng.integers(0, len(fr), low_n)
+        r2, t2 = rng.integers(0, R, low_n), rng.integers(0, L, low_n)
+        xs.append(fr[pick])
+        acts.append(np.stack([actions[i, j] for i, j in zip(r2, t2)]))
     x = (
-        torch.tensor(
-            np.stack([frames[i, j] for i, j in zip(r, t)]), dtype=torch.float32
-        ).permute(0, 3, 1, 2)
+        torch.tensor(np.concatenate(xs), dtype=torch.float32).permute(0, 3, 1, 2)
         / 255.0
     )
-    a = torch.tensor(
-        np.stack([actions[i, j] for i, j in zip(r, t)]), dtype=torch.float32
-    )
+    a = torch.tensor(np.concatenate(acts), dtype=torch.float32)
     return x, a
 
 
@@ -298,12 +309,14 @@ class TempScale(nn.Module):
 
 
 # --- B1: transit per-world AUC@32, identical held-out split ------------------
-def b1_transit(arms, wms=None, data_path=HOLDOUT, seed=0, pct=None, calib_n=CALIB_N):
+def b1_transit(
+    arms, wms=None, data_path=HOLDOUT, seed=0, pct=None, calib_n=CALIB_N, calib=None
+):
     from eval.eval_wm_checkpoint import evaluate_components
 
     wms = wms or {"champion": MODEL, "unified": UNIFIED}
     data = dict(np.load(data_path, allow_pickle=True))
-    calib = _calib_batch(n=calib_n)
+    calib = calib if calib is not None else _calib_batch(n=calib_n)
     out = {}
     for wname, ck in wms.items():
         out[wname] = {}
@@ -320,12 +333,12 @@ def b1_transit(arms, wms=None, data_path=HOLDOUT, seed=0, pct=None, calib_n=CALI
 
 
 # --- B2: indoor detection linear-probe AUC, identical frames -----------------
-def b2_detection(arms, ck=UNIFIED, n_rooms=6, seed0=600000):
+def b2_detection(arms, ck=UNIFIED, n_rooms=6, seed0=600000, calib=None):
     from eval.eval_target_probe import _linear_probe_auc, collect_target_frames
 
     d = collect_target_frames(n_rooms, seed0, ckpt=ck, return_frames=True)
     frames, y = d["frames"], d["label"]
-    calib = _calib_batch()
+    calib = calib if calib is not None else _calib_batch()
     out = {"n_frames": int(len(y)), "positive_rate": float(y.mean())}
     for arm in arms:
         enc, *_ = _arm_components(ck, arm, calib)
@@ -703,7 +716,7 @@ def _refit_head(name, lat_tr_q, y_tr):
     return head
 
 
-def b3_heads(retrain=False):
+def b3_heads(retrain=False, calib=None):
     """B3: each locked head — float stack vs the quantized stack (int8pc
     encoder + int8 head, the head calibrated on the quantized latents of
     its TRAIN block) on identical fresh-block frames. Bar: ΔAUC ≥ −0.015.
@@ -712,7 +725,7 @@ def b3_heads(retrain=False):
     from search.target_detector import DetectionHead, _auc
 
     q = QWM(UNIFIED, per_channel=True)
-    calibrate(q, *_calib_batch())
+    calibrate(q, *(calib if calib is not None else _calib_batch()))
     out = {}
     for name, head_path, kind, kw, ykey in HEAD_SETS:
         tr_seed, te_seed = (650000, 660000) if kind == "person" else (600000, 610000)
@@ -737,6 +750,80 @@ def b3_heads(retrain=False):
             f"  [B3] {name:7s} float={auc_f:.4f}  {tag}={auc_q:.4f}  "
             f"Δ={d:+.4f} (bar ≥ -0.015) -> {'PASS' if ok else 'FAIL'}"
         )
+    return out
+
+
+def low_calib_probe(low_n=256):
+    """low_head_int8_v1 K1: add the near-floor track to the calibration
+    corpus, then re-read B3 (shipped + refit), the B1/B2 guards, and the
+    mechanism meter (how far the low regime's activations sit outside
+    the STANDARD ranges). Bars live in the campaign journal."""
+    out = {"low_n": low_n}
+
+    # mechanism meter: calibrate one copy on the standard corpus and one
+    # on low-regime frames only; count encoder leaves whose low ranges
+    # escape the standard ranges, and the worst relative excursion
+    x_std, a_std = _calib_batch()
+    kw = HEAD_SETS[1][3]
+    tr = _collect_head_frames("alt", 600000, kw)
+    fr = np.asarray(tr["frames"])[:low_n]
+    x_low = torch.tensor(fr, dtype=torch.float32).permute(0, 3, 1, 2) / 255.0
+    q_std, q_low = QWM(UNIFIED), QWM(UNIFIED)
+    calibrate(q_std, x_std, a_std)
+    calibrate(q_low, x_low, a_std[: len(x_low)])
+    esc, worst = 0, 0.0
+    n_enc = 0
+    for (name_s, f_s), (_n, f_l) in zip(q_std.leaves, q_low.leaves):
+        if not name_s.startswith("enc."):
+            continue
+        n_enc += 1
+        span = max(f_s.hi - f_s.lo, 1e-9)
+        over = max(f_s.lo - f_l.lo, 0.0) + max(f_l.hi - f_s.hi, 0.0)
+        if over > 0:
+            esc += 1
+            worst = max(worst, over / span)
+    out["meter"] = {"enc_leaves": n_enc, "escaped": esc, "worst_excursion": worst}
+    print(
+        f"  [lowcal] meter: {esc}/{n_enc} encoder leaves see low-regime "
+        f"activations outside the standard ranges (worst +{worst:.1%})"
+    )
+
+    calib_aug = _calib_batch(low_n=low_n)
+    print("  [lowcal] B3 shipped heads @ augmented calibration")
+    out["B3_shipped"] = b3_heads(retrain=False, calib=calib_aug)
+    print("  [lowcal] B3 refit heads @ augmented calibration")
+    out["B3_refit"] = b3_heads(retrain=True, calib=calib_aug)
+    print("  [lowcal] B1 guard (unified, worst-world bar -0.010)")
+    out["B1"] = b1_transit(
+        ("float", "int8pc"), wms={"unified": UNIFIED}, calib=calib_aug
+    )
+    print("  [lowcal] B2 guard (bar -0.010)")
+    out["B2"] = b2_detection(("float", "int8pc"), calib=calib_aug)
+
+    primary = bool(out["B3_shipped"]["low"]["pass"] or out["B3_refit"]["low"]["pass"])
+    g_heads = bool(out["B3_refit"]["yaw"]["pass"] and out["B3_refit"]["person"]["pass"])
+    u = out["B1"]["unified"]
+    worlds = [k for k in u["float"] if k not in ("auc32", "now_auc")]
+    b1_worst = min(u["int8pc"][w] - u["float"][w] for w in worlds)
+    g_b1 = bool(b1_worst >= -0.010 - 1e-9)
+    b2_d = out["B2"]["int8pc"] - out["B2"]["float"]
+    g_b2 = bool(b2_d >= -0.010 - 1e-9)
+    out["bars"] = {
+        "primary_low": primary,
+        "guard_heads": g_heads,
+        "guard_b1_worst_world": float(b1_worst),
+        "guard_b1": g_b1,
+        "guard_b2_delta": float(b2_d),
+        "guard_b2": g_b2,
+    }
+    ok = primary and g_heads and g_b1 and g_b2
+    out["verdict"] = "PASS" if ok else "REFUTED"
+    print(
+        f"  [lowcal] primary(low) {'OK' if primary else 'FAIL'} | guards: "
+        f"heads {'OK' if g_heads else 'FAIL'} b1 {b1_worst:+.4f} "
+        f"{'OK' if g_b1 else 'FAIL'} b2 {b2_d:+.4f} "
+        f"{'OK' if g_b2 else 'FAIL'} -> VERDICT {out['verdict']}"
+    )
     return out
 
 
@@ -845,6 +932,10 @@ def selftest() -> None:
     assert inspect.signature(_cle).parameters["wm_kwargs"].default is None
     assert MARGIN_WM == 0.4  # the float constants the refit is measured against
     assert abs(FLOAT_REF_CRASH - 17 / 84) < 1e-12 and abs(FLOAT_REF_FE - 1 / 36) < 1e-12
+    # low_head_int8_v1 machinery is opt-in: defaults byte-identical
+    assert inspect.signature(_calib_batch).parameters["low_n"].default == 0
+    for fn in (b3_heads, b2_detection, b1_transit):
+        assert inspect.signature(fn).parameters["calib"].default is None
 
     # 1) per-tensor weight-quant error is bounded by half a step
     lin = nn.Linear(8, 4)
@@ -1000,6 +1091,11 @@ def main() -> None:
         action="store_true",
         help="transit_margin_v1 recheck: fresh block @4000, frozen thresholds",
     )
+    ap.add_argument(
+        "--low-calib",
+        action="store_true",
+        help="low_head_int8_v1: near-floor calibration track -> B3 + guards",
+    )
     ap.add_argument("--cl-seeds", type=int, default=60)
     ap.add_argument("--cl-seed0", type=int, default=1000)
     ap.add_argument(
@@ -1023,10 +1119,11 @@ def main() -> None:
         or args.b5
         or args.k2_margin
         or args.k2_recheck
+        or args.low_calib
     ):
         raise SystemExit(
             "pick --k0 / --closed-loop / --k1a / --rebake / --k1c / --b3 / --b5 "
-            "/ --k2-margin / --k2-recheck (or --selftest)"
+            "/ --k2-margin / --k2-recheck / --low-calib (or --selftest)"
         )
     res = {"device": DEVICE, "calib_n": CALIB_N, "calib_seed": CALIB_SEED}
     if args.k0:
@@ -1055,6 +1152,12 @@ def main() -> None:
             "pooled n=126 verdict ==="
         )
         res["K2M_recheck"] = k2m_recheck()
+    if args.low_calib:
+        print(
+            "=== low_head_int8_v1: near-floor calibration track "
+            "(B3 shipped+refit, B1/B2 guards, mechanism meter) ==="
+        )
+        res["LOWCAL"] = low_calib_probe()
     if args.k1a:
         rule = f"percentile {args.pct}" if args.pct > 0 else "min/max"
         print(f"=== K1a champion B1 @ {rule}, calib_n={args.calib_n} ===")
