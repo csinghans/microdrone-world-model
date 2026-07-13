@@ -555,6 +555,37 @@ its MECHANISM OF KILLING is now precisely known.
       remains open; pilot-side remedy aim sharpened to
       terminal-commit training**
 
+## K6 — the thread-commit oracle (pre-registered)
+
+**What K5 could not tell us: the causal direction.** Wrong-way ↔
+death is a correlation; the turn could be the MISTAKE (the pilot
+flees a threadable slot) or a rational SURRENDER (the slot is already
+unreachable and turning away is damage limitation). Forcing the
+commitment discriminates.
+
+**The probe — PRIVILEGED, ceiling-style, honestly labelled, never a
+contender** (it reads pillar positions via the runner's live
+`.pillars` refresh, like every oracle): `ThreadCommitOracle` wraps
+the deployed hybrid; inside a moving_gap stage, within the terminal
+window (≤ 1.0 m before the fence plane), it overrides the pilot with
+the veer TOWARD the gap centre (FORWARD when aligned within 0.10 m).
+Everywhere else it passes through, inner stacks kept warm.
+
+**Exam:** paired k=6 @140000. **Frozen reads:**
+1. **Causality:** deep mgap seam fail (baseline 27 %) —
+   ≤ 13.5 % ⇒ **MISTAKE** (the turn caused the deaths; the
+   terminal-commit training arm has a priced ceiling);
+   ≥ 20 % ⇒ **SURRENDER** (the deaths caused the turn — the slot was
+   already lost upstream of the terminal window, and the real cause
+   moves earlier in the approach); between ⇒ gray.
+2. All-seam mgap fail (baseline 15.1 %) + overall success: reported —
+   under MISTAKE these price the remedy's ceiling.
+3. Guard: non-mgap fails not worse by > 3 (the override never touches
+   other stages — should be free).
+
+- [x] K6 pre-registered (this section, before any number)
+- [ ] K6 run: paired @140000 with the oracle → verdict
+
 ## Status
 
 - [x] k=6 priced: **0.500** (the owner's question, answered)

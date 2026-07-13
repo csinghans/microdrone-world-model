@@ -164,6 +164,50 @@ class RecenterWrap:
         return a
 
 
+class ThreadCommitOracle:
+    """integration_k6_v1 K6 — PRIVILEGED probe, ceiling-style, honestly
+    labelled, NEVER a contender. Inside a moving_gap stage, within the
+    terminal window before the fence plane, override the inner pilot
+    with the veer toward the gap centre (FORWARD when aligned) —
+    forced commitment. It reads pillar positions via the runner's live
+    `.pillars` refresh, like every oracle. Discriminates K5's
+    mistake-vs-surrender and prices the terminal-commit ceiling."""
+
+    TERM_X = 1.0  # terminal window: metres before the fence plane
+    TOL = 0.10
+
+    def __init__(self, inner, names):
+        self.inner = inner
+        self.names = tuple(names)
+        self.pillars: list = []  # runner-refreshed (privileged)
+
+    def begin(self, pillars) -> None:
+        self.inner.begin(pillars)
+        self.pillars = [np.array(q) for q in pillars]
+
+    def decide(self, frame, state) -> int:
+        from planner.action_set import ACTION_NAMES, FORWARD
+
+        a = self.inner.decide(frame, state)  # keep the stack warm
+        x = float(state[0])
+        k = int(np.clip(x // STAGE_LEN, 0, len(self.names) - 1))
+        if self.names[k] != "moving_gap":
+            return a
+        lo, hi = k * STAGE_LEN - 0.2, (k + 1) * STAGE_LEN + 0.2
+        stage = [p for p in self.pillars if lo <= float(p[0]) < hi]
+        if len(stage) < 2:
+            return a
+        plane = float(np.median([float(p[0]) for p in stage]))
+        if not (0.0 < plane - x <= self.TERM_X):
+            return a
+        ys = sorted(float(p[1]) for p in stage)
+        _w, gap_y = max((b - a2, (a2 + b) / 2.0) for a2, b in zip(ys, ys[1:]))
+        err = gap_y - float(state[1])
+        if abs(err) <= self.TOL:
+            return FORWARD
+        return ACTION_NAMES.index("veer_left" if err > 0 else "veer_right")
+
+
 class Cruise:
     """FORWARD-only stand-in for artifact-less selftests."""
 
@@ -413,10 +457,15 @@ def make_factory(args):
             experts["slalom3_fixed"] = args.slalom_zip
         experts = _apply_swaps(experts, getattr(args, "swap", None))
         recenter = bool(getattr(args, "recenter", False))
+        commit = bool(getattr(args, "thread_commit", False))
 
-        def _mk(names, _e=experts, _r=recenter):
+        def _mk(names, _e=experts, _r=recenter, _c=commit):
             pol = PerStageExperts(names, 1.0, experts=_e)
-            return RecenterWrap(pol) if _r else pol
+            if _r:
+                pol = RecenterWrap(pol)
+            if _c:  # PRIVILEGED probe — never a contender (K6)
+                pol = ThreadCommitOracle(pol, names)
+            return pol
 
         return _mk
     raise SystemExit(f"unknown contender {args.contender!r} and no --zip given")
@@ -448,6 +497,12 @@ def main() -> None:
         "--ctrl-reset",
         action="store_true",
         help="reset the velocity commander at stage boundaries (k6 K4)",
+    )
+    ap.add_argument(
+        "--thread-commit",
+        action="store_true",
+        help="PRIVILEGED k6 K6 oracle: forced terminal commitment at "
+        "moving-gap fences (ceiling probe, never a contender)",
     )
     ap.add_argument("--zip", default=None)
     ap.add_argument("--video-seed", type=int, default=None)
@@ -519,6 +574,20 @@ def main() -> None:
         rc = inspect.signature(run_composite_episode).parameters
         assert rc["ctrl_reset"].default is False and rc["probe"].default is None
         assert inspect.signature(suite).parameters["ctrl_reset"].default is False
+
+        # K6 ThreadCommitOracle: terminal override toward the gap,
+        # pass-through elsewhere, FORWARD inside tolerance
+        tc = ThreadCommitOracle(_FakeInner(), ("gap", "moving_gap"))
+        tc.begin([])
+        tc.pillars = [np.array([4.8, -0.6]), np.array([4.8, 0.8])]
+        fi2 = tc.inner
+        fi2.next = hov
+        assert tc.decide(None, _st(0.5, 0.0)) == hov  # not an mgap stage
+        assert tc.decide(None, _st(3.2, 0.0)) == hov  # mgap, outside window
+        assert tc.decide(None, _st(4.0, -0.4)) == vl  # window: gap above
+        assert tc.decide(None, _st(4.0, 0.6)) == vr  # window: gap below
+        assert tc.decide(None, _st(4.0, 0.12)) == FORWARD  # aligned (gap 0.1)
+        assert tc.decide(None, _st(4.9, 0.6)) == hov  # past the plane
 
         _load_all_skills()
         from sim.composite import CompositeCourse  # noqa: F401 (registration path)
