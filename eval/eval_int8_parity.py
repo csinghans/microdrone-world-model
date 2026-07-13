@@ -827,19 +827,20 @@ def low_calib_probe(low_n=256):
     return out
 
 
-def b5_yaw_scan(n=20, seed0=620000, thr=0.65, confirm=2, retrain=False):
+def b5_yaw_scan(n=20, seed0=620000, thr=0.65, confirm=2, retrain=False, calib=None):
     """B5: the yaw_v1 flight gate flown by the QUANTIZED indoor stack
     (int8pc unified encoder + int8 yaw head; beams8 safety is geometry, no
     WM in the loop). Bars are yaw_v1's, absolute: correct ≥0.70, FA ≤0.20,
     collision ≤0.05, return ≥0.80 (float gate of record: 0.70/0.10/0.00/1.00).
-    `retrain` flies the K2c refit-on-quantized-latents yaw head."""
+    `retrain` flies the K2c refit-on-quantized-latents yaw head; `calib`
+    overrides the calibration batch (low_head_int8_v1 K2)."""
     from eval.eval_vision_search import _rates, run_yaw_scan_search
     from eval.eval_yaw_detect import collect_yaw_frames
     from sim.envs import make_env
     from sim.indoor.rooms import single_room
 
     q = QWM(UNIFIED, per_channel=True)
-    calibrate(q, *_calib_batch())
+    calibrate(q, *(calib if calib is not None else _calib_batch()))
     tr = collect_yaw_frames(6, 600000, ckpt=UNIFIED, return_frames=True)
     lat_tr_q = _encode(q.enc, tr["frames"])
     head = (
@@ -1096,6 +1097,11 @@ def main() -> None:
         action="store_true",
         help="low_head_int8_v1: near-floor calibration track -> B3 + guards",
     )
+    ap.add_argument(
+        "--low-calib-b5",
+        action="store_true",
+        help="low_head_int8_v1 K2: B5 flight gate @ augmented calib, shipped head",
+    )
     ap.add_argument("--cl-seeds", type=int, default=60)
     ap.add_argument("--cl-seed0", type=int, default=1000)
     ap.add_argument(
@@ -1120,10 +1126,11 @@ def main() -> None:
         or args.k2_margin
         or args.k2_recheck
         or args.low_calib
+        or args.low_calib_b5
     ):
         raise SystemExit(
             "pick --k0 / --closed-loop / --k1a / --rebake / --k1c / --b3 / --b5 "
-            "/ --k2-margin / --k2-recheck / --low-calib (or --selftest)"
+            "/ --k2-margin / --k2-recheck / --low-calib[-b5] (or --selftest)"
         )
     res = {"device": DEVICE, "calib_n": CALIB_N, "calib_seed": CALIB_SEED}
     if args.k0:
@@ -1158,6 +1165,12 @@ def main() -> None:
             "(B3 shipped+refit, B1/B2 guards, mechanism meter) ==="
         )
         res["LOWCAL"] = low_calib_probe()
+    if args.low_calib_b5:
+        print(
+            "=== low_head_int8_v1 K2: B5 flight gate @ augmented "
+            "calibration, SHIPPED yaw head (no refit) ==="
+        )
+        res["LOWCAL_B5"] = b5_yaw_scan(retrain=False, calib=_calib_batch(low_n=256))
     if args.k1a:
         rule = f"percentile {args.pct}" if args.pct > 0 else "min/max"
         print(f"=== K1a champion B1 @ {rule}, calib_n={args.calib_n} ===")

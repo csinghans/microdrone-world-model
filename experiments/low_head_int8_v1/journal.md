@@ -49,8 +49,59 @@ for the low regime, and the residual stays honest in the meantime.
 `low_n=0` (0 = today's batch, byte-identical); `b3_heads`/guard reads
 accept the augmented batch; `--low-calib` runs the whole read set.
 
+## K1 results (2026-07-13 — lowcal_results.json)
+
+**Mechanism meter: CONFIRMED** — 2 of 4 encoder leaves see low-regime
+activations outside the standard ranges (worst excursion +8.1 %): the
+clipping the hypothesis needed was real.
+
+| head | shipped Δ (old calib) | refit Δ (old calib) | **shipped Δ (aug calib)** | refit Δ (aug calib) |
+|---|---|---|---|---|
+| yaw | −0.017 | +0.001 | **+0.0001 ✓** | −0.0009 ✓ |
+| **low** | −0.044 | −0.114 | **−0.0086 ✓** | −0.0171 ✗ |
+| person | −0.024 | +0.025 | **+0.0059 ✓** | −0.0238 ✗ |
+
+Guards: B1 unified worst-world −0.0027 ✓, B2 +0.0000 ✓.
+
+**Verdict: REFUTED as written** — the frozen guard demanded the
+yaw/person REFIT rows hold (their Q1-era passing configuration), and
+person-refit reads −0.0238. The bar binds; no re-litigation.
+
+**What the table actually shows (recorded in full):** the primary
+hypothesis over-delivered — with the near-floor track in the corpus,
+**all three heads pass AS SHIPPED**, and the refit crutch (invented to
+compensate calibration damage) now HURTS where the damage is gone
+(person-refit overfits healthier quantized train latents that the
+float-trained head generalizes past). The letter of the guard broke on
+a row nobody would deploy; the configuration everyone would deploy —
+shipped heads, regime-complete calibration — passes every offline bar
+measured here, and simplifies the int8 recipe by deleting the
+per-head refit step entirely.
+
+## K2 (pre-registered before the run) — the one unread number: flight
+
+The offline table cannot certify a recipe change; Q1's B5 flight gate
+can. **K2: re-fly B5 (the yaw_v1 flight gate on the fully quantized
+indoor stack) with the AUGMENTED calibration and the SHIPPED yaw head
+(no refit).** Bars: B5's standing absolutes, unchanged — correct
+≥ 0.70, FA ≤ 0.20, collision ≤ 0.05, return ≥ 0.80 (float record
+0.70/0.10/0.00/1.00; Q1's refit-head B5 read 0.75/0.10/0.00/1.00).
+- PASS ⇒ the candidate int8 indoor recipe simplifies to **int8pc +
+  regime-complete calibration, shipped heads, zero refits** — recorded
+  as the measured alternative to the Q1 recipe; adopting it (lock/
+  packaging) stays the owner's call.
+- FAIL ⇒ the flight layer disagrees with the offline table; the Q1
+  recipe (refits) stands and this campaign closes as an honest
+  negative with the offline observation on file.
+
+**Machinery:** `b5_yaw_scan` gains `calib=None` (default = today's
+path, byte-identical); CLI `--low-calib-b5`.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [ ] K1: augmented calibration → B3 low (shipped + refit) + guards +
-      mechanism meter → verdict
+- [x] K1: **REFUTED as written** (person-refit guard −0.0238), with
+      the over-delivery recorded: all three heads pass AS SHIPPED
+      under regime-complete calibration; meter confirms the clipping
+- [x] K2 pre-registered (this section, before its number)
+- [ ] K2: B5 flight gate @ augmented calibration + shipped yaw head

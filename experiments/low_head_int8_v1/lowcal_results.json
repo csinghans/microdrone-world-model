@@ -1,0 +1,86 @@
+{
+ "device": "cpu",
+ "calib_n": 1024,
+ "calib_seed": 20260711,
+ "LOWCAL": {
+  "low_n": 256,
+  "meter": {
+   "enc_leaves": 4,
+   "escaped": 2,
+   "worst_excursion": 0.08108108975483048
+  },
+  "B3_shipped": {
+   "yaw": {
+    "float_auc": 0.9818381277425646,
+    "int8_auc": 0.9819825920508515,
+    "delta": 0.0001444643082868513,
+    "pass": true
+   },
+   "low": {
+    "float_auc": 0.8691514094739902,
+    "int8_auc": 0.8605453840937712,
+    "delta": -0.008606025380218929,
+    "pass": true
+   },
+   "person": {
+    "float_auc": 0.8931623931623932,
+    "int8_auc": 0.8990384615384616,
+    "delta": 0.005876068376068355,
+    "pass": true
+   }
+  },
+  "B3_refit": {
+   "yaw": {
+    "float_auc": 0.9818381277425646,
+    "int8+refit_auc": 0.9808968524838833,
+    "delta": -0.0009412752586813733,
+    "pass": true
+   },
+   "low": {
+    "float_auc": 0.8691514094739902,
+    "int8+refit_auc": 0.8520614162549647,
+    "delta": -0.01708999321902549,
+    "pass": false
+   },
+   "person": {
+    "float_auc": 0.8931623931623932,
+    "int8+refit_auc": 0.8693910256410257,
+    "delta": -0.023771367521367548,
+    "pass": false
+   }
+  },
+  "B1": {
+   "unified": {
+    "float": {
+     "classic": 0.821140350877193,
+     "dense": 0.9177170868347339,
+     "moving": 0.9557197067981318,
+     "auc32": 0.931406124739458,
+     "now_auc": 0.8088714228708944
+    },
+    "int8pc": {
+     "classic": 0.8716666666666667,
+     "dense": 0.9782913165266106,
+     "moving": 0.9530195900363259,
+     "auc32": 0.9373577040243707,
+     "now_auc": 0.8102712519392183
+    }
+   }
+  },
+  "B2": {
+   "n_frames": 601,
+   "positive_rate": 0.1713810316139767,
+   "float": 0.977948717948718,
+   "int8pc": 0.977948717948718
+  },
+  "bars": {
+   "primary_low": true,
+   "guard_heads": false,
+   "guard_b1_worst_world": -0.0027001167618059263,
+   "guard_b1": true,
+   "guard_b2_delta": 0.0,
+   "guard_b2": true
+  },
+  "verdict": "REFUTED"
+ }
+}
