@@ -123,12 +123,13 @@ def _verdict(rows, outcomes):
     }
 
 
-def probe_run(n=N, seed0=SEED0, out=OUT_JSON):
+def probe_run(n=N, seed0=SEED0, out=OUT_JSON, recenter=False):
     import torch  # noqa: F401
 
     from eval.eval_integration import (
         HYBRID,
         PerStageExperts,
+        RecenterWrap,
         _load_all_skills,
         run_composite_episode,
     )
@@ -149,9 +150,10 @@ def probe_run(n=N, seed0=SEED0, out=OUT_JSON):
         names = course_for_seed(seed, k=K)
         world = register_course(seed, k=K)
         pw.begin_course(seed, names)
+        pol = PerStageExperts(names, 1.0, experts=dict(HYBRID))
         ep = run_composite_episode(
             env,
-            PerStageExperts(names, 1.0, experts=dict(HYBRID)),
+            RecenterWrap(pol) if recenter else pol,
             seed,
             world,
             k=K,
@@ -168,13 +170,21 @@ def probe_run(n=N, seed0=SEED0, out=OUT_JSON):
         print(f"  [{i + 1}/{n}] seed={seed} entries={len(pw.rows)}", flush=True)
     env.close()
 
-    # instrument: the probe only reads — outcomes must match the record
+    # instrument: with the DEFAULT lineup the probe only reads, so
+    # outcomes must match the record; under --recenter the intervention
+    # CHANGES outcomes by design — the match is reported, not asserted
     with open(K6_RECORD) as f:
         rec = {r["seed"]: r["success"] for r in json.load(f)["records"]}
     match = float(np.mean([o["success"] == rec[o["seed"]] for o in outcomes]))
 
     res = _verdict(pw.rows, outcomes)
-    res["instrument"] = {"outcome_match": match, "n_entries": len(pw.rows)}
+    res["instrument"] = {
+        "outcome_match_vs_baseline": match,
+        "recenter": bool(recenter),
+        "n_entries": len(pw.rows),
+        "success_rate": float(np.mean([o["success"] for o in outcomes])),
+    }
+    res["outcomes"] = outcomes
     print(
         f"[pose-walk] instrument match {match:.3f} | spread ratios "
         f"y {res['ratios']['y']:.2f} / vy {res['ratios']['vy']:.2f} "
@@ -254,13 +264,14 @@ def main() -> None:
     ap.add_argument("--probe", action="store_true")
     ap.add_argument("--n", type=int, default=N)
     ap.add_argument("--out", default=OUT_JSON)
+    ap.add_argument("--recenter", action="store_true", help="k6 K2: fly the arm")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
     if args.probe:
-        probe_run(args.n, out=args.out)
+        probe_run(args.n, out=args.out, recenter=args.recenter)
         return
     ap.print_help()
 
