@@ -292,7 +292,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     articles: {
       eyebrow: "The article series / 費曼規則",
-      title: "十篇文章，每篇先講白話版。",
+      title: "十一篇文章，每篇先講白話版。",
       intro:
         "完整雙語系列在 repo 的 writing/ 目錄；每篇開頭都有一段零行話的白話版——這裡就是那十段。",
       linkLabel: "閱讀全文 →",
@@ -356,6 +356,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           simple:
             "保全不需要每一瞥都看對——他會再看一眼。我們的偵測器單幀會漏掉三分之一的目標，任務卻有 93% 找得到，因為搜索本身被設計成「多看幾眼、每眼刻意不同」。但反過來的招數會失敗：「把懷疑無限累積下去」的規則，最後會把每個路人都當成小偷——微小的誤差無上限地疊加。能用的配方是：多看幾次、記得短一點。",
           slug: "10-per-frame-recall-is-a-lie",
+        },
+        {
+          title: "那一秒的退縮：解剖一個瞬間",
+          simple:
+            "匯入高速公路時，緊張的駕駛會在最該踩油門的瞬間踩了剎車。我們的無人機在移動缺口前做一樣的事——這是當場抓到退縮、證明縫本來穿得過、然後發現「不退縮」為什麼教不會的故事：教練靠學生的後照鏡解析不了的東西判斷時機。殘餘有名字：感知稅。",
+          slug: "11-the-flinch",
         },
       ],
     },
@@ -577,7 +583,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     articles: {
       eyebrow: "The article series / the Feynman rule",
-      title: "Ten articles, each opening in plain language.",
+      title: "Eleven articles, each opening in plain language.",
       intro:
         "The full bilingual series lives in the repo's writing/ directory; every article opens with a jargon-free simple version — these are those ten.",
       linkLabel: "Read the article \u2192",
@@ -641,6 +647,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           simple:
             "A security guard doesn't need every glance to be right — they look again. Our detector misses the target in a third of single frames, yet the mission finds it 93 % of the time, because the search is built to take many deliberately different looks. But the opposite trick fails: a rule that accumulates suspicion FOREVER ends up flagging every passerby, because tiny errors pile up without limit. The working recipe: look many times, remember briefly.",
           slug: "10-per-frame-recall-is-a-lie",
+        },
+        {
+          title: "The flinch: anatomy of one second",
+          simple:
+            "Merging onto a highway, a nervous driver sometimes brakes at exactly the moment they should commit. Our drone does the same at moving gaps — this is the story of catching the flinch in the act, proving the gap was takeable, and discovering why not-flinching is so hard to teach: the instructor knows the moment by seeing things the student\u2019s mirrors cannot resolve. The residue has a name: the perception tax.",
+          slug: "11-the-flinch",
         },
       ],
     },
