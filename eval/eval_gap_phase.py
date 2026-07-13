@@ -239,6 +239,87 @@ def probe_run(n=N, seed0=SEED0, out=OUT_JSON):
     return res
 
 
+def analyze(npz=OUT_NPZ, record=K6_RECORD):
+    """K5: the approach-window divergence analysis (zero flights).
+    Aligns every moving_gap instance on its crossing tick and reads the
+    error trajectory, closure direction, the velocity race, and the
+    depth split. Questions + the falsifiable prediction are registered
+    in the journal before any number here was computed."""
+    z = np.load(npz)
+    rows = {k: z[k] for k in z.files}
+    with open(record) as f:
+        outs = {r["seed"]: r for r in json.load(f)["records"]}
+
+    inst: dict = {}
+    for i in range(len(rows["seed"])):
+        inst.setdefault((int(rows["seed"][i]), int(rows["pos"][i])), []).append(i)
+
+    groups: dict = {"broke": [], "cleared": []}
+    for (seed, pos), idx in sorted(inst.items()):
+        idx.sort(key=lambda i: rows["t"][i])
+        o = outs[seed]
+        stop = int(o.get("stage_break_at", K))
+        if (not o["success"]) and pos > stop:
+            continue
+        cross_list = [
+            j for j, i in enumerate(idx) if rows["x"][i] >= rows["plane_x"][i]
+        ]
+        c = cross_list[0] if cross_list else len(idx) - 1
+        err = [abs(rows["gap_y"][i] - rows["y"][i]) for i in idx]
+        gap_vy = 0.0
+        if len(idx) >= 2:
+            dt = (rows["t"][idx[1]] - rows["t"][idx[0]]) / 48.0
+            gap_vy = (rows["gap_y"][idx[1]] - rows["gap_y"][idx[0]]) / max(dt, 1e-9)
+        broke = (not o["success"]) and stop == pos
+        groups["broke" if broke else "cleared"].append(
+            {
+                "pos": pos,
+                "err": err,
+                "cross": c,
+                "gap_vy": float(gap_vy),
+                "deep": pos >= 3,
+            }
+        )
+
+    def err_at(g, tau):
+        """error at `tau` decisions before crossing (tau <= 0)."""
+        vals = []
+        for r in g:
+            j = r["cross"] + tau
+            if 0 <= j < len(r["err"]):
+                vals.append(r["err"][j])
+        return float(np.mean(vals)) if vals else float("nan")
+
+    taus = (-24, -18, -12, -6, 0)
+    print("mean |gap - drone| by decisions-to-crossing:")
+    print("  tau      " + "".join(f"{t:>8d}" for t in taus))
+    for name, g in groups.items():
+        print(f"  {name:8s}" + "".join(f"{err_at(g, t):8.3f}" for t in taus))
+        for d, label in ((False, "  early"), (True, "  deep ")):
+            sub = [r for r in g if r["deep"] == d]
+            print(
+                f"  {name[:5]}{label}" + "".join(f"{err_at(sub, t):8.3f}" for t in taus)
+            )
+
+    # the race: closure rate over the last 12 decisions vs |gap vy|
+    print("closure rate (m/s, last 12 decisions; +ve = error shrinking) vs |gap_vy|:")
+    for name, g in groups.items():
+        rates, vys, wrong = [], [], []
+        for r in g:
+            j0, j1 = max(r["cross"] - 12, 0), r["cross"]
+            if j1 > j0:
+                dtau = (j1 - j0) / 12.0  # decisions at 12 Hz -> seconds
+                rates.append((r["err"][j0] - r["err"][j1]) / dtau)
+                vys.append(abs(r["gap_vy"]))
+                steps = [r["err"][j + 1] - r["err"][j] for j in range(j0, j1)]
+                wrong.append(float(np.mean([s > 0 for s in steps])))
+        print(
+            f"  {name:8s} closure {np.mean(rates):+.3f}  |gap_vy| "
+            f"{np.mean(vys):.3f}  wrong-way share {np.mean(wrong):.2f}"
+        )
+    return groups
+
+
 def selftest() -> None:
     # gap-centre rule: widest spacing midpoint, at any slide
     assert abs(_gap_center([-2.0, -1.0, 0.5, 1.5]) - (-0.25)) < 1e-9
@@ -331,12 +412,16 @@ def selftest() -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--probe", action="store_true")
+    ap.add_argument("--analyze", action="store_true", help="K5: zero-flight")
     ap.add_argument("--n", type=int, default=N)
     ap.add_argument("--out", default=OUT_JSON)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
+        return
+    if args.analyze:
+        analyze()
         return
     if args.probe:
         probe_run(args.n, out=args.out)

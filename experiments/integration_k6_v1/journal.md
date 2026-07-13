@@ -481,10 +481,41 @@ per-cell n than k=6 affords); ctrl-reset priced as a free-but-gray
 remedy candidate. The k=3 gate of record was never touched by this
 campaign.
 
+## K5 — the approach-window divergence analysis (reopened per the named path; registered before looking)
+
+**Zero flights: the K3 npz holds per-decision (12 Hz) drone-vs-gap
+traces for every moving_gap stage.** Questions, declared before any
+number is computed:
+1. **Onset:** aligned on ticks-to-crossing, does the broke group's
+   error |gap_y − y| diverge from the START (never tracked) or LATE
+   (tracked, then lost it)?
+2. **Direction:** in the approach window, is the drone closing too
+   slowly (rate race) or moving the WRONG way (perception/decision)?
+3. **The race:** fence vy is 0.15–0.35 m/s; veer authority is larger.
+   Do broke cases lose because realized lateral closure < gap vy
+   (intermittent commitment — the policy alternates FORWARD/veer)?
+4. **Depth:** do these signatures differ early vs deep, or is the
+   divergence pattern depth-invariant (pushing the gradient's cause
+   back to encounter-geometry sampling)?
+
+**Falsifiable prediction (frozen):** the velocity race — broke cases
+are dominated by outward-moving gaps where mean d|err|/dt ≥ 0 through
+mid-approach despite available veer authority, while cleared cases
+shrink error monotonically after ~1 s. Diagnostic registration: no
+knob is being judged, so no pass/fail bar — the prediction is on
+record to be right or wrong.
+
+**Machinery:** `eval_gap_phase --analyze` (reads the persisted npz +
+the k6 record; every number rerunnable).
+
+- [x] K5 registered (this section, before any computed number)
+- [ ] K5 analysis → findings
+
 ## Status
 
 - [x] k=6 priced: **0.500** (the owner's question, answered)
 - [x] Mechanism arc: pose → rendezvous → controller, all eliminated
       by pre-registered probes/interventions; the mgap position
       gradient (10.7→26.7 % at k=3, n=271) stands REAL and UNSOLVED
-- [x] Campaign CLOSED with the open recorded honestly
+- [x] Campaign CLOSED with the open recorded honestly — then REOPENED
+      on the named path (K5, zero-flight trajectory analysis)
