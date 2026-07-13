@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.10.0 — 2026-07-13 (the seam turn: the gate rises to 79 and the mechanism gets a name)
 
 - **Article #9 published in-repo:** *The Seam Tax: The Teacher Always
   Drives Home* (bilingual, `writing/09-the-seam-tax/`) — the 72→79

@@ -4,11 +4,14 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.9.0+ — a second deployment gate opens (indoor missions
-GREEN at 91/100, beside transit's 79/100 — raised from 72 by a
-measured DAgger campaign), one command scores the whole system, and
-the int8 story is priced honestly (the indoor stack flies quantized;
-the transit trigger does not — yet).** The baseline shipped as
+**Status: v0.10.0 — the transit gate rises 72 → 79 by a measured
+DAgger campaign (the seam mechanism named — covariate shift at expert
+hand-offs — and paid down two pre-registered rounds), the
+lineup-coupling law and true-rate discipline enter the ledger, and
+article #9 tells the whole story. Indoor missions hold GREEN at
+91/100; one command scores the whole system; the int8 story stays
+priced honestly (the indoor stack flies quantized; the transit
+trigger does not — yet).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what
