@@ -4,18 +4,16 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.10.0+ — the transit gate rises 72 → 79 by a measured
-DAgger campaign (the seam mechanism named — covariate shift at expert
-hand-offs — and paid down two pre-registered rounds), the
-lineup-coupling law and true-rate discipline enter the ledger, and
-article #9 tells the whole story. Indoor missions hold GREEN at
-91/100; one command scores the whole system; and the int8 story now
-closes in-sim: the indoor stack flies quantized, the transit trigger
-reaches closed-loop parity too (quantile-matched thresholds on the
-int16-predictor arm, pooled n=126 — `experiments/transit_margin_v1/`),
-and both measured configs are ADOPTED as the `quantized` section of
-`artifacts.lock.json` (verified by `flight_mode --verify` and pinned
-to the campaign records by selftest).** The baseline shipped as
+**Status: v0.11.0 — the int8 ledger closes in-sim: both flight modes
+have measured quantized configs that pass their closed-loop gates
+(transit trigger PARITY via quantile-matched thresholds; indoor flies
+its best-ever gate with ZERO head refits under regime-complete
+calibration), both are ADOPTED as the `quantized` section of
+`artifacts.lock.json`, and the safety ring's sensor spec line is
+complete (σ < 5 cm, missed-returns < 5 %, latency ≲ 500 ms). Gates
+hold GREEN — transit 79/100 (the measured DAgger campaign of v0.10.0),
+indoor 91/100 — and every article now opens with a plain-language
+"simple version" (the Feynman rule), mirrored as cards on the site.** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what

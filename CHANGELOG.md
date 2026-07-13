@@ -1,6 +1,17 @@
 # Changelog
 
-## Unreleased
+## 0.11.0 — 2026-07-13 (the int8 close: parity flown, recipes adopted, sensors priced — and the Feynman rule)
+
+- **The Feynman rule, in the articles and on the site.** Every article
+  (all ten, bilingual) now opens with a boxed plain-language "simple
+  version" — a few sentences and one everyday analogy before any
+  number (the cyclist's running guess, the batter's swing, the
+  instructor who never drifts, the guard who looks again…);
+  `writing/README` records the convention: if we can't say it that
+  simply, we don't understand it yet. The landing page gains an
+  `#articles` section — ten cards, each summarized by its simple
+  version, linking to the locale's full text. `docs/safety.md` gains
+  the measured sensor-requirements table.
 
 - **The measured int8 configs are ADOPTED: `artifacts.lock.json` gains
   a `quantized` section (owner's call, 2026-07-13).** Two deployment
