@@ -223,4 +223,64 @@ substitution logic (only FORWARD replaced, threats respected, budget
 and tolerance honored).
 
 - [x] K2 pre-registered (this section, before any number)
-- [ ] K2 run: recenter arm @140000 → four reads → verdict
+- [x] K2 executed → **mechanism REFUTED interventionally** (below)
+
+## K2 results (2026-07-13 — k2_recenter_pose.json) — the pose story dies at the intervention's hands
+
+| frozen read | value | bar | verdict |
+|---|---|---|---|
+| manipulation: deep-entry mean \|y\| | **0.1021** (was 0.155; per-position 0.09–0.11, the walk profile GONE) | ≤ 0.11 | **PASSED** |
+| mechanism: deep-seam (3–5) fail rate | **15.3 %** (33/215; baseline 15.1 %) | ≤10 confirm / ≥13 refute | **REFUTED** |
+| remedy: k=6 success | 0.49 (baseline 0.500) | ≥ 0.58 | no remedy |
+| guard: early+cold delta | +1 | ≤ +3 | held |
+
+The intervention did exactly what it was built to do — entry pose
+tightened to position-1 levels at every depth — **and the deaths did
+not move at all.** Entry offset is a MARKER, not a CAUSE. The
+tell-tale: within the recentered arm, relatively-wide entries STILL
+die at ×1.8 — the correlation survives the removal of the variance,
+the signature of a confounder riding along. K1's correlational
+near-miss pointed one way; the intervention settled it the other.
+This is why interventions outrank ratio bars.
+
+## The free dissection that names the next suspect
+
+Per-type seam failure, early (1–2) vs deep (3–5), baseline block:
+gap (static) **7 % → 7 % flat**; slalom (static) 17 % → 25 %
+(z ≈ 0.9, noise); door 9 % → 11 %; opening_door 0 % → 4 %;
+**moving_gap 2 % → 27 % (1/45 → 13/48, z ≈ 3.3).**
+
+**The depth tax is essentially ONE type: the timing stage.**
+Refined suspect: **arrival-phase scrambling** — moving_gap demands
+phase alignment (v3's K2-swap measured that wall: even its own
+champion degrades 10.5 pts from cold to seam = random-phase arrival),
+and deeper positions are reached later with wider arrival-TIME
+variance, scrambling the phase distribution beyond anything the
+pilot practiced. This also explains K2's null (recentering pose does
+not change arrival time) and K1's death-link confound (late, messy
+flights arrive both wider AND phase-scrambled — pose rode along with
+time).
+
+Honest anomaly, flagged not resolved: this block's EARLY moving_gap
+seam rate (2.2 %) sits well below the k=3 historical 15–17 %
+(binomial p ≈ 0.004) — the position-1/2 structure of mgap seams
+deserves its own look before any phase campaign freezes bars.
+
+**Named next arm (fresh registration, owner's call): the phase
+probe** — persist per-entry arrival times (the pose probe already
+captures `t`; it needs only to SAVE rows) plus the moving gap's
+oscillation phase at entry, and correlate phase-at-arrival with
+death. If deaths concentrate in a phase band, the mechanism is
+nailed and the remedy menu is concrete (phase-aware entry timing —
+wait for the window — or phase-randomized training, v3's parked arm,
+now with a mechanism to aim it).
+
+## Status
+
+- [x] Pre-registration; k=6 read 0.500; depth trend z ≈ 3.4
+- [x] K1 pose probe: GRAY as written; walk real but saturating
+- [x] K2 recenter intervention: **manipulation PASSED, mechanism
+      REFUTED — pose is a marker, not a cause; guard held**
+- [x] Free dissection: **the depth tax is moving_gap's (2 % → 27 %,
+      z ≈ 3.3); arrival-phase scrambling named; phase probe = the
+      next arm (owner's call)**
