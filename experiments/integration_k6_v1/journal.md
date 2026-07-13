@@ -408,4 +408,41 @@ falls and the gradient becomes an honest open.
       n=271) — a standing property of every gate record**
 - [x] Suspects eliminated ×5; survivor: controller-state
       accumulation (collinear, needs intervention)
-- [ ] K4 (owner's call): controller-reset intervention
+- [x] K4 approved (owner:「go 修 composite builder」— note: the
+      fence-re-aim variant of a "builder fix" is measured moot, K3
+      premise refuted; the LIVE fix is the controller layer)
+
+## K4 — the controller-reset intervention (pre-registered)
+
+**The suspect's anatomy.** `VelCommander` carries two time
+accumulators: the PID's integrators, and the integrated REFERENCE
+position `ref` — during constant-command stretches it integrates the
+commanded velocity while the true aircraft lags, re-anchoring only on
+command changes. `cmd.reset(pos)` zeroes both. **One knob: reset the
+commander at every stage boundary** (`ctrl_reset` flag in the
+composite runner) — flight time keeps flowing, the accumulator does
+not. This separates the collinear pair.
+
+**Exam:** paired k=6 @140000, deployed lineup, `--ctrl-reset`.
+
+**Frozen reads:**
+1. **Mechanism:** deep (3–5) moving_gap seam fail ≤ 13.5 % (half the
+   baseline 27 %) ⇒ the accumulator is NAILED; ≥ 20 % ⇒ the last
+   named suspect FALLS and the gradient becomes an honest open;
+   between ⇒ gray.
+2. Remedy price: overall k=6 success ≥ 0.58 (K2's bar, for
+   comparability).
+3. Guard: early (1–2) + cold fails not worse by > 3 (a mid-flight
+   reset can wobble — priced).
+4. Declared: the full per-position, per-type table (if controller
+   state also taxed deep slalom, the reset should lift it too).
+
+**Consequences (frozen):** nailed ⇒ the remedy is FREE at deployment
+(resetting a commander at boundaries costs nothing) — but adopting it
+into the composite protocol re-defines the exam, an OWNER decision,
+and the k=3 gate of record is untouched regardless. Falls ⇒ five
+suspects dead and the survivor too; the gradient stands as a real,
+unexplained property, honestly recorded.
+
+- [x] K4 pre-registered (this section, before any number)
+- [ ] K4 run: paired @140000 with ctrl-reset → verdict

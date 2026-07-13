@@ -195,13 +195,23 @@ def _god_frame(env, span: float, res: int = 400) -> np.ndarray:
 
 
 def run_composite_episode(
-    env, policy, seed, world, k=K_STAGES, speed=1.0, record=None, probe=None
+    env,
+    policy,
+    seed,
+    world,
+    k=K_STAGES,
+    speed=1.0,
+    record=None,
+    probe=None,
+    ctrl_reset=False,
 ):
     """The episode runner, composite-scaled (goal k*L, tmax k*360), with
     min-clear step tracking (crash localization) and optional recording.
     Mirrors eval/episode.py's loop shape. `probe(t, frame, state, a,
     scenario)` fires after each decision (transit_gate_v2 R1); None is
-    bit-identical."""
+    bit-identical. `ctrl_reset` (integration_k6_v1 K4) resets the
+    velocity commander's accumulators (PID integrators + integrated
+    reference) at every stage boundary; False is bit-identical."""
     from planner.action_set import ACTION_VECS
     from planner.latent_mpc import DECIDE_EVERY
     from sim.envs import VelCommander, grab_frame, make_ctrl
@@ -218,7 +228,13 @@ def run_composite_episode(
     policy.begin(pillars0)
     a = 0
     path, min_clear, min_step = [state[0:3].copy()], 9.0, 0
+    stage_now = 0
     for t in range(tmax):
+        if ctrl_reset:
+            k_now = int(np.clip(float(state[0]) // STAGE_LEN, 0, k - 1))
+            if k_now != stage_now:
+                stage_now = k_now
+                cmd.reset(state[0:3])
         if t % DECIDE_EVERY == 0:
             frame = grab_frame(env)
             if hasattr(policy, "pillars"):
@@ -297,7 +313,14 @@ def record_video(
     return ep, stamp
 
 
-def suite(make_policy, n: int, seed0: int = SEED0, out: str | None = None, k=K_STAGES):
+def suite(
+    make_policy,
+    n: int,
+    seed0: int = SEED0,
+    out: str | None = None,
+    k=K_STAGES,
+    ctrl_reset=False,
+):
     from sim.envs import make_env
 
     env = make_env()
@@ -306,7 +329,9 @@ def suite(make_policy, n: int, seed0: int = SEED0, out: str | None = None, k=K_S
         seed = seed0 + i
         names = course_for_seed(seed, k=k)
         world = register_course(seed, k=k)
-        ep = run_composite_episode(env, make_policy(names), seed, world, k=k)
+        ep = run_composite_episode(
+            env, make_policy(names), seed, world, k=k, ctrl_reset=ctrl_reset
+        )
         ok = integration_success(ep)
         wins += int(ok)
         records.append(
@@ -419,6 +444,11 @@ def main() -> None:
         action="store_true",
         help="hybrid only: opportunistic inter-stage recentering (k6 K2)",
     )
+    ap.add_argument(
+        "--ctrl-reset",
+        action="store_true",
+        help="reset the velocity commander at stage boundaries (k6 K4)",
+    )
     ap.add_argument("--zip", default=None)
     ap.add_argument("--video-seed", type=int, default=None)
     ap.add_argument("--out", default=None)
@@ -483,6 +513,13 @@ def main() -> None:
             rw2.decide(None, _st(0.1, 0.5))
         assert rw2.decide(None, _st(0.2, 0.5)) == FORWARD  # budget spent
 
+        # K4 machinery is opt-in: defaults bit-identical
+        import inspect
+
+        rc = inspect.signature(run_composite_episode).parameters
+        assert rc["ctrl_reset"].default is False and rc["probe"].default is None
+        assert inspect.signature(suite).parameters["ctrl_reset"].default is False
+
         _load_all_skills()
         from sim.composite import CompositeCourse  # noqa: F401 (registration path)
         from sim.envs import make_env
@@ -519,7 +556,14 @@ def main() -> None:
         record_video(factory, args.video_seed)
         return
     if args.suite:
-        suite(factory, args.suite, args.seed0, args.out, k=args.k)
+        suite(
+            factory,
+            args.suite,
+            args.seed0,
+            args.out,
+            k=args.k,
+            ctrl_reset=args.ctrl_reset,
+        )
 
 
 if __name__ == "__main__":
