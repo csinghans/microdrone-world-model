@@ -41,7 +41,34 @@ speed 0.6 + beams8 (the P1 mission, verbatim).
 selftest: delay semantics on a scripted fake scenario, d0 passthrough
 identity, delegation untouched).
 
+## Block-1 execution note (recorded as it happened)
+
+The instrument-first clause FIRED: control find 0.767 < the 0.80 band
+(collision 0.000 ✓). The collision curve itself is textbook
+(0/0/0/0.033/0.100; find/return IDENTICAL across arms — delay touches
+only the safety veto, as designed, and P1's arms showed the same
+flat-find signature). The suspect is the BAND, not the harness: P1's
+clean arm read 0.833 on ITS block (740000); 0.767 on a fresh block is
+2 missions in 30 (−0.97σ) — a draw, not damage. The session's own law
+applies: a block is a draw, not a rate.
+
+**Recheck (frozen before running):**
+1. **Instrument exoneration:** the bare runner (no proxy) on the same
+   block must reproduce the d0 arm's numbers EXACTLY (deterministic
+   seeds; the selftest already proves d0 passthrough in vitro — this
+   proves it in vivo). Any mismatch = real harness suspicion → stop.
+2. **Pool, never replace:** a second fresh block @760000, all five
+   arms, n=60 pooled per arm. The control band (find ≥ 0.80,
+   collision ≤ 0.05) is judged on the POOLED control; knee and pocket
+   are read on pooled collisions. If the pooled control still misses
+   the band, the campaign records "control band unmet across two
+   blocks" and the footnote is issued WITH that caveat (the band
+   itself encoded P1's single-block draw — stated, not hidden).
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [ ] Price run: 5 arms × n=30 @750000 → knee + pocket + footnote
+- [x] Block 1 @750000: instrument-first fired on find 0.767 (band
+      0.80); collision curve clean (knee d8, pocket d4 ≈ 517 ms
+      provisional) → recheck registered above
+- [ ] Exoneration + block 2 @760000 → pooled verdict + footnote

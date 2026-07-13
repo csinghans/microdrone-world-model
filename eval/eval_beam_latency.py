@@ -171,6 +171,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--price", action="store_true")
     ap.add_argument("--n", type=int, default=N)
+    ap.add_argument("--seed0", type=int, default=SEED0)
     ap.add_argument("--out", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -178,7 +179,7 @@ def main() -> None:
         selftest()
         return
     if args.price:
-        price(args.n, out=args.out)
+        price(args.n, seed0=args.seed0, out=args.out)
         return
     ap.print_help()
 
