@@ -109,10 +109,46 @@ thresholds recover the operating point but not the distribution's
 shape near the trigger; the last named road is QAT (owner-gated), and
 the trigger-symmetry story gains its final panel.
 
+## K1 recheck results (2026-07-13 — k2m_recheck_results.json) — PARITY
+
+Fresh block @4000, paired seeds, thresholds frozen: float crash
+**11/42 (0.2619)**, p16-refit **9/42 (0.2143)** — the arm beat float
+by two crashes where the frozen arithmetic demanded one. Fresh FE
+1/18 for both arms. **Pooled n=126: crash 0.2381 vs float 0.2222,
+Δ+0.0159 ≤ +0.030 ✓; FE 3/54 = 0.0556 ≤ 0.10 ✓ → PARITY.**
+
+(The fresh float block read 0.262 vs the recorded blocks' 0.202 —
+block-to-block variance again, absorbed by the paired same-seed
+design; this is why the house flies float alongside on every new
+block.)
+
+## Campaign verdict — the cheap win was real, on the second-cheapest arm
+
+**The quantized transit trigger reaches closed-loop parity.** The
+measured transit int8 recipe, end to end: **int8pc weights +
+split-scale at the z‖action seam + int16 predictor activations +
+quantile-matched trigger thresholds (0.4204 / 0.5123)**. Combined
+with the indoor recipe (int8pc + two-track calibration + head refits
+on quantized latents), every closed-loop gate in the system now has a
+measured quantized configuration that passes.
+
+Honest boundaries, stated: p16 means 16-bit activations on the
+predictor path (NNTool's supported mode — a bridge-legal cost, not
+free); the refit thresholds are a DEPLOYMENT CONFIG that must ship
+with the quantized artifact (a lock/config entry when the owner
+packages it — not done here); and the split arm's refuted refit
+stands as the second measurement of K1c's distributional mechanism —
+thresholds recover an operating point, never a distribution's shape.
+The trigger-symmetry story's closing panel: the ANY-statistic was
+tamed not by removing noise but by moving the trigger off the sliver
+of clear-run margin mass the noise had parked on.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
 - [x] K1: refit + both blocks → **split REFUTED outright (refit
       no-op = threshold story dead for it); p16 borderline
       (FE 1.000 → 0.0556, Δcrash +0.048)** → house recheck
-- [ ] K1 recheck: fresh block @4000, frozen thresholds, pooled n=126
+- [x] K1 recheck: fresh block @4000, frozen thresholds → **pooled
+      Δ+0.0159 / FE 0.0556 → PARITY; campaign GREEN.** Deployment
+      packaging (lock entry for the quantized config) = owner's call.

@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+- **transit_margin_v1: the quantized transit trigger reaches
+  closed-loop PARITY — Q1's "likeliest cheap win" was real, on the
+  second-cheapest arm.** The knob was closed-form (no search):
+  transplant the float trigger's operating quantiles onto each
+  quantized arm's own (edge, imminent) trace distribution. Two deaths,
+  two mechanisms: the split arm's refit was a NO-OP (its quantiles
+  already sat on the float constants — its +0.083 crash excess is
+  distributional, K1c's ReLU-remix mechanism measured a second way);
+  the p16 arm's +0.02/+0.01 threshold shift collapsed false-evasion
+  from the all-or-nothing 1.000 to exactly the float 0.0556, went
+  borderline on crash (+0.048), and the house pooled recheck landed it:
+  **pooled n=126 Δcrash +0.0159 (bar +0.030), FE 0.0556 (bar 0.10) →
+  PARITY.** The measured transit int8 recipe: int8pc weights +
+  split-scale at the z‖action seam + int16 predictor activations +
+  quantile-matched thresholds (0.4204/0.5123, a deployment config that
+  must ship with the artifact — owner-gated packaging). With the indoor
+  recipe already green, every closed-loop gate in the system now has a
+  measured quantized configuration that passes. Tool:
+  `eval_int8_parity --k2-margin / --k2-recheck`; ledger:
+  `experiments/transit_margin_v1/journal.md`.
+
 - **Article #10 published in-repo:** *Per-Frame Recall Is a Lie:
   Detection as Sequential Evidence* (bilingual,
   `writing/10-per-frame-recall-is-a-lie/`) — the two-way lie (missions

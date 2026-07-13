@@ -1,0 +1,29 @@
+{
+ "device": "cpu",
+ "calib_n": 1024,
+ "calib_seed": 20260711,
+ "K2M_recheck": {
+  "float": {
+   "crash": 0.2619047619047619,
+   "min_clear": 0.41935787022123255,
+   "false_evasion": 0.05555555555555555,
+   "reached": 1.0,
+   "lead_ms": 186.5079365079365
+  },
+  "int8pc+split+p16": {
+   "crash": 0.21428571428571427,
+   "min_clear": 0.42279561862843323,
+   "false_evasion": 0.05555555555555555,
+   "reached": 1.0,
+   "lead_ms": 174.6031746031746
+  },
+  "pooled": {
+   "float_crashes": 28,
+   "arm_crashes": 30,
+   "n_ip": 126,
+   "delta_crash": 0.015873015873015872,
+   "false_evasion": 0.05555555555555555,
+   "pass": true
+  }
+ }
+}
