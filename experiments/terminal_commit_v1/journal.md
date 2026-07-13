@@ -169,4 +169,62 @@ judgments — wins ≥ 90/120; primary mgap seam ≤ 8 % pooled; slalom
 guard on the pooled conditional vs 0.867. Only a pooled guard trip
 fires the re-DAgger.**
 
-- [ ] K3 recheck @146000 → pooled verdict
+- [x] K3 recheck @146000 → pooled verdict (below)
+
+## K3 pooled verdict (2026-07-13 — grad_n60_b2.json) — the arm does not graduate as frozen
+
+| pooled read (n=120 courses) | value | bar | verdict |
+|---|---|---|---|
+| wins | 92/120 | ≥ 90 | ✓ |
+| **PRIMARY mgap seam** | **6/54 = 11.1 %** | ≤ 8 % | **missed** |
+| coupling guard: slalom | 0.855 (n=69) | ≥ 0.867 | tripped as written |
+| other guards | door .938 / gap .945 / odoor .958 | −0.05 | held |
+
+**The vision student captured about HALF the oracle's gain** — mgap
+seam true 17.2 % → 11.1 % (a real cut, z ≈ −1.8) against the oracle's
+~4 % ceiling — exactly what the terminal-fit ceiling (~0.86, the
+threshold-noise diagnosis) predicted. For once the meter and the
+flight agree: the BC student learned WHERE but only half of WHEN.
+
+**On the guard and the surcharge, recorded plainly:** the trip
+condition is met as written (twice, 0.850/0.855 vs 0.867), but both
+reads sit within noise of the TRUE slalom baseline (~0.87; the 0.867
+anchor was frozen off the exam's friendly 0.917) — and with the
+primary failed pooled, completing this arm's graduation is moot. The
+pre-authorized re-DAgger is HELD UNSPENT, explicitly: its object was
+to complete a graduating arm; if this arm is ever revived, the
+surcharge remains owed. Instrument lesson, SECOND occurrence
+(beam_latency's band was the first): **freeze guard anchors from
+pooled true rates, not one exam's draw.**
+
+## Campaign close — REFUTED at its bars, with the mechanism ledger paid in full
+
+The arm is refuted as frozen: 11.1 % > 8 %. What the campaign banked:
+1. **The BC ceiling for razor-threshold skills is real and now
+   understood:** flickering labels at a visually-unresolvable
+   boundary cap the terminal fit (~0.86 both teachers), and the
+   flight shortfall tracks the fit shortfall.
+2. **Hysteresis helps oracles, hurts students** (history-dependent
+   labels = partial unobservability) — the smoother oracle flies
+   +8 (0.583→0.665) and is the better teacher-CONTROLLER for any
+   future oracle use, but not for BC labels.
+3. **The named next arm sidesteps the disease entirely:**
+   RL-from-success on mgap terminal windows — RL needs no consistent
+   labels, only outcomes; it was already the 0.84 stack's partner
+   arm, and this campaign hands it the exact target (the terminal
+   second), the oracle warm-start option, and the priced ceiling
+   (~4 % seam). Owner-gated, fresh registration.
+4. mgap improvement to 11.1 % exists but ships nothing: the record
+   lineup keeps FT-v3 on the mgap slot; the k=3 gate of record was
+   never touched.
+
+## Status
+
+- [x] K1: floor refused; diagnosis = flickering teacher labels
+- [x] K2: hysteresis teacher — refused again; mechanism sharpened
+      (history-dependent labels); oracle itself flies better
+- [x] K3: instrument re-registered (flight bars untouched) →
+      graduation pooled: **REFUTED (mgap 11.1 % vs ≤8 %); guard
+      anchor lesson recorded; re-DAgger held unspent**
+- [x] Campaign CLOSED; RL-from-success (terminal-targeted, priced
+      ceiling ~4 %) = the named successor, owner's call

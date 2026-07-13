@@ -2,6 +2,29 @@
 
 ## Unreleased
 
+- **terminal_commit_v1: the distillation arm is REFUTED at its bars —
+  and the refusal is worth the price.** The thread-commit oracle's
+  skill would not clone cleanly into a vision-only student: two
+  teachers (razor threshold, then hysteresis) both capped the
+  terminal-region fit near 0.86, and the confusion diagnostic
+  localized why — direction confusion 1/104 (the student knows WHERE)
+  while 92 % of errors crowd the commit-timing boundary that no
+  visual estimate resolves (±2 cm on a moving slot); hysteresis made
+  the ORACLE fly better (+8) but the labels history-dependent, i.e.
+  worse. Flying anyway (instrument re-registered on the record,
+  flight bars untouched), the student captured HALF the oracle's
+  gain — mgap seam 17.2 % → 11.1 % pooled vs the frozen ≤ 8 % — so
+  the arm does not graduate and ships nothing; the pre-authorized
+  slalom re-DAgger is held unspent (its object mooted; the coupling
+  guard's trips sit within noise of the TRUE baseline, and the
+  guard-anchor lesson — freeze from pooled rates, not one exam's
+  draw — is recorded for the second time). Named successor:
+  RL-from-success on the terminal window, which needs outcomes, not
+  consistent labels — handed the exact target, an oracle warm-start
+  option, and the priced ~4 % ceiling. Tools: SeamProbe target/
+  thread-commit/hysteresis modes, `scripts/build_mgap_commit.py`;
+  ledger: `experiments/terminal_commit_v1/journal.md`.
+
 - **integration_k6_v1: the chain doubled — 6 stages fly at 0.500, and
   the investigation executed six suspects without convicting one.**
   The owner's question ("3 stages → 6, what's the rate?") is answered
