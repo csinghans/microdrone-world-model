@@ -143,4 +143,30 @@ re-DAgger), exam hygiene intact. **The candidate: the K1 clone**
 before flying — no fishing).
 
 - [x] K3 registered (this section, before the graduation flies)
-- [ ] K3: graduation @145000 with the K1 clone → flight verdict
+- [x] K3 graduation block 1 → three borderlines → pooled recheck
+      (below)
+
+## K3 graduation block 1 (2026-07-13 — grad_n60.json) — three borderlines
+
+| read | value | bar | as written |
+|---|---|---|---|
+| graduation wins | 45/60 | ≥ 45 | passes, at the bar |
+| PRIMARY mgap seam | 3/28 = 10.7 % | ≤ 8 % | missed by < 1 fail |
+| coupling guard: slalom | 0.850 | ≥ 0.867 | tripped by 0.017 |
+| other guards (door/gap/odoor) | 0.931/0.960/0.941 | −0.05 each | all held |
+
+**Before firing the expensive pre-authorized re-DAgger, the house
+recheck rule applies — and the guard's own anchor deserves a note:**
+the 0.867 bar was frozen from the 79-record's exam conditional
+(0.917), which the truth table later showed to be a ~1.3σ friendly
+draw; the r3 lineage's TRUE slalom conditional is ~0.87, so 0.850 may
+be block noise rather than coupling damage. The bar binds as written;
+the pooled recheck (the K1c/R2 law: pool, never replace) sharpens all
+three borderlines at once before any consequence fires.
+
+**Recheck (registered before flying): second block @146000, pooled
+judgments — wins ≥ 90/120; primary mgap seam ≤ 8 % pooled; slalom
+guard on the pooled conditional vs 0.867. Only a pooled guard trip
+fires the re-DAgger.**
+
+- [ ] K3 recheck @146000 → pooled verdict
