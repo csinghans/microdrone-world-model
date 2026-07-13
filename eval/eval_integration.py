@@ -261,16 +261,16 @@ def record_video(
     return ep, stamp
 
 
-def suite(make_policy, n: int, seed0: int = SEED0, out: str | None = None):
+def suite(make_policy, n: int, seed0: int = SEED0, out: str | None = None, k=K_STAGES):
     from sim.envs import make_env
 
     env = make_env()
     records, wins = [], 0
     for i in range(n):
         seed = seed0 + i
-        names = course_for_seed(seed)
-        world = register_course(seed)
-        ep = run_composite_episode(env, make_policy(names), seed, world)
+        names = course_for_seed(seed, k=k)
+        world = register_course(seed, k=k)
+        ep = run_composite_episode(env, make_policy(names), seed, world, k=k)
         ok = integration_success(ep)
         wins += int(ok)
         records.append(
@@ -283,7 +283,7 @@ def suite(make_policy, n: int, seed0: int = SEED0, out: str | None = None):
         )
         print(
             f"  [{i + 1}/{n}] seed={seed} {'PASS' if ok else 'fail'} "
-            f"{records[-1].get('stages_cleared', 0):.0f}/3 {list(names)}"
+            f"{records[-1].get('stages_cleared', 0):.0f}/{k} {list(names)}"
         )
     env.close()
     rate = wins / n
@@ -296,6 +296,7 @@ def suite(make_policy, n: int, seed0: int = SEED0, out: str | None = None):
     report = {
         "n": n,
         "seed0": seed0,
+        "k": int(k),
         "success_rate": round(rate, 4),
         "deployment_threshold": THRESHOLD,
         "deployment_gate": "PASS" if rate >= THRESHOLD else "FAIL",
@@ -358,6 +359,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--suite", type=int, default=0)
     ap.add_argument("--seed0", type=int, default=SEED0)
+    ap.add_argument("--k", type=int, default=K_STAGES, help="stages per course")
     ap.add_argument("--contender", default=None, choices=(None, "ceiling", "hybrid"))
     ap.add_argument(
         "--slalom-zip",
@@ -428,7 +430,7 @@ def main() -> None:
         record_video(factory, args.video_seed)
         return
     if args.suite:
-        suite(factory, args.suite, args.seed0, args.out)
+        suite(factory, args.suite, args.seed0, args.out, k=args.k)
 
 
 if __name__ == "__main__":
