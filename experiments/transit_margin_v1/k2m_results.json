@@ -1,0 +1,35 @@
+{
+ "device": "cpu",
+ "calib_n": 1024,
+ "calib_seed": 20260711,
+ "K2M": {
+  "train": {
+   "n_dec": 1483,
+   "q_edge": 0.04720161834120027,
+   "q_imm": 0.01820633850303439
+  },
+  "int8pc+split": {
+   "margin": 0.41158759907460735,
+   "imm_thr": 0.5645129838989782,
+   "crash": 0.2857142857142857,
+   "min_clear": 0.38610000944560036,
+   "false_evasion": 0.05555555555555555,
+   "reached": 1.0,
+   "lead_ms": 140.56224899598396,
+   "delta_crash": 0.08333333333333331,
+   "pass": false
+  },
+  "int8pc+split+p16": {
+   "margin": 0.4203931675597129,
+   "imm_thr": 0.512270654767088,
+   "crash": 0.25,
+   "min_clear": 0.3910468241272887,
+   "false_evasion": 0.05555555555555555,
+   "reached": 1.0,
+   "lead_ms": 160.64257028112453,
+   "delta_crash": 0.047619047619047616,
+   "pass": false
+  },
+  "verdict": "REFUTED"
+ }
+}

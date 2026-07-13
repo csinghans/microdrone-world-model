@@ -67,7 +67,52 @@ constants, no trace); `eval_closed_loop.evaluate` gains
 `wm_kwargs=None` passthrough; `eval_int8_parity` gains `--k2-margin`
 (trace collection → closed-form refit → B4 re-fly → verdict).
 
+## K1 results (2026-07-13 — k2m_results.json)
+
+Float operating point over 1,483 train decisions: P(edge ≥ 0.4) =
+0.0472, P(imm ≥ 0.5) = 0.0182.
+
+| arm | refit (margin / imm) | crash (Δ vs 0.202) | FE | verdict |
+|---|---|---|---|---|
+| int8pc+split | 0.4116 / 0.5645 | 0.2857 (**+0.083**) | 0.0556 ✓ | FAIL — and the refit was a NO-OP |
+| int8pc+split+p16 | 0.4204 / 0.5123 | 0.2500 (**+0.048**) | **0.0556 ✓ (was 1.000)** | FAIL as written — borderline |
+
+**Two deaths, two mechanisms:**
+- The split arm's trace quantiles sit almost exactly on the float
+  constants — its thresholds were never miscalibrated, so its +0.083
+  crash excess is confirmed as DISTRIBUTIONAL damage at dangerous
+  decision points (K1c's ReLU-remix mechanism, now measured a second
+  way). No recheck: its pooled estimate already came from K1c's own
+  pooling. REFUTED outright for this arm.
+- The p16 arm is the first configuration EVER to hold both clauses
+  near-simultaneously: a +0.02/+0.01 threshold shift collapsed
+  false-evasion from the all-or-nothing 1.000 to EXACTLY the float
+  value (the clear-run margin mass sat just above the old thresholds
+  — the ANY-statistic flips whole flights on that sliver), at the
+  price of +4 crashes in 84 (Δ+0.048, bar +0.030, inside the float
+  CI ±0.086). This is K1c-block-1's exact situation, and the house
+  rule applies: **borderline inside the reference CI → pool a fresh
+  block, never replace.**
+
+## K1 recheck (pre-registered before the block flies)
+
+One fresh block, seed0=4000, n=60 (42 in-path / 18 clear), FLOAT and
+the p16 arm flown same-run on paired seeds. **The refit thresholds
+are FROZEN at 0.4204 / 0.5123 — nothing is refit on new data.**
+Pooled verdict over n=126 in-path / 54 clear, same bars:
+- pooled Δcrash ≤ +0.030 — integer form: (21 + a) − (17 + f) ≤ 3.78,
+  i.e. the arm needs **a ≤ f − 1** on the fresh block (at least one
+  fewer crash than float);
+- pooled FE ≤ 0.10 — (2 + x)/54, i.e. x ≤ 3 fresh false-evasions.
+PASS ⇒ parity by pooling, the campaign lands. FAIL ⇒ REFUTED stands:
+thresholds recover the operating point but not the distribution's
+shape near the trigger; the last named road is QAT (owner-gated), and
+the trigger-symmetry story gains its final panel.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [ ] K1: traces → refit (reported) → B4 re-fly both blocks → verdict
+- [x] K1: refit + both blocks → **split REFUTED outright (refit
+      no-op = threshold story dead for it); p16 borderline
+      (FE 1.000 → 0.0556, Δcrash +0.048)** → house recheck
+- [ ] K1 recheck: fresh block @4000, frozen thresholds, pooled n=126

@@ -508,6 +508,64 @@ def k2_margin_refit(
     return out
 
 
+def k2m_recheck(
+    results="experiments/transit_margin_v1/k2m_results.json",
+    arm="int8pc+split+p16",
+    ck=UNIFIED,
+    seed0=4000,
+    n=60,
+):
+    """transit_margin_v1 K1 recheck (the house pool rule): one fresh
+    block, float and the borderline arm flown same-run on paired seeds,
+    thresholds FROZEN from the recorded refit — nothing refit on new
+    data. Pooled verdict over the recorded blocks + this one."""
+    from eval.eval_closed_loop import evaluate as cl_eval
+    from eval.eval_unified_wm_gate import wm_arm
+
+    with open(results) as f:
+        rec = json.load(f)["K2M"][arm]
+    m2, i2 = float(rec["margin"]), float(rec["imm_thr"])
+    rec_arm_crashes = round(rec["crash"] * 84)  # 21
+    rec_arm_fe = round(rec["false_evasion"] * 36)  # 2
+    print(f"  [k2m-rc] frozen thresholds {m2:.4f}/{i2:.4f}; fresh block @{seed0}")
+
+    calib = _calib_batch()
+    meta = load_model(ck, device=DEVICE)[4]
+    out = {}
+    for name, a, kw in (
+        ("float", "float", None),
+        (arm, arm, {"margin": m2, "imm_thr": i2}),
+    ):
+        enc, pred, cheads, nhead = _arm_components(ck, a, calib)
+        rows = cl_eval(n, seed0, enc, pred, cheads, nhead, meta, wm_kwargs=kw)
+        out[name] = wm_arm(rows)
+        print(f"  [k2m-rc] fresh {name:16s} " + _fmt(out[name]))
+
+    n_ip, n_cl = round(n * 0.7), n - round(n * 0.7)
+    f_new = round(out["float"]["crash"] * n_ip)
+    a_new = round(out[arm]["crash"] * n_ip)
+    fe_new = round(out[arm]["false_evasion"] * n_cl)
+    pooled_f = (17 + f_new) / (84 + n_ip)
+    pooled_a = (rec_arm_crashes + a_new) / (84 + n_ip)
+    pooled_fe = (rec_arm_fe + fe_new) / (36 + n_cl)
+    d = pooled_a - pooled_f
+    ok = d <= 0.03 + 1e-9 and pooled_fe <= 0.10 + 1e-9
+    out["pooled"] = {
+        "float_crashes": 17 + f_new,
+        "arm_crashes": rec_arm_crashes + a_new,
+        "n_ip": 84 + n_ip,
+        "delta_crash": float(d),
+        "false_evasion": float(pooled_fe),
+        "pass": bool(ok),
+    }
+    print(
+        f"  [k2m-rc] POOLED n={84 + n_ip}: crash {pooled_a:.4f} vs float "
+        f"{pooled_f:.4f} (Δ{d:+.4f}, bar +0.030)  FE {pooled_fe:.4f} "
+        f"(bar 0.10) -> {'PARITY' if ok else 'REFUTED stands'}"
+    )
+    return out
+
+
 # --- K1 knobs (pre-registered in the journal before these runs) --------------
 def _q_logit_stack(q, data, rolls, cf, vis):
     """calibrate_heads._logit_stack through QUANTIZED components: candidate
@@ -937,6 +995,11 @@ def main() -> None:
         action="store_true",
         help="transit_margin_v1: quantile-matched trigger refit + B4 re-fly (slow)",
     )
+    ap.add_argument(
+        "--k2-recheck",
+        action="store_true",
+        help="transit_margin_v1 recheck: fresh block @4000, frozen thresholds",
+    )
     ap.add_argument("--cl-seeds", type=int, default=60)
     ap.add_argument("--cl-seed0", type=int, default=1000)
     ap.add_argument(
@@ -959,10 +1022,11 @@ def main() -> None:
         or args.b3
         or args.b5
         or args.k2_margin
+        or args.k2_recheck
     ):
         raise SystemExit(
             "pick --k0 / --closed-loop / --k1a / --rebake / --k1c / --b3 / --b5 "
-            "/ --k2-margin (or --selftest)"
+            "/ --k2-margin / --k2-recheck (or --selftest)"
         )
     res = {"device": DEVICE, "calib_n": CALIB_N, "calib_seed": CALIB_SEED}
     if args.k0:
@@ -985,6 +1049,12 @@ def main() -> None:
             "(train 3000+/40) + B4 re-fly (1000+2000) ==="
         )
         res["K2M"] = k2_margin_refit()
+    if args.k2_recheck:
+        print(
+            "=== K2M recheck: fresh block @4000, frozen thresholds, "
+            "pooled n=126 verdict ==="
+        )
+        res["K2M_recheck"] = k2m_recheck()
     if args.k1a:
         rule = f"percentile {args.pct}" if args.pct > 0 else "min/max"
         print(f"=== K1a champion B1 @ {rule}, calib_n={args.calib_n} ===")
