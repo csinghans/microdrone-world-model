@@ -11,6 +11,9 @@ experiment was designed to ask. Everything reruns from
 
 ---
 
+> **The simple version.** Watching your driving instructor never teaches you how to recover after YOU drift out of lane — because the instructor never drifts. Our pilot kept dying at stage hand-offs, and better demonstrations couldn't fix it: a competent teacher steers back onto familiar roads within seconds, so the student's own mistakes never appear in the data. The cure — let the student drive while the teacher comments on every situation the student actually gets into — took the gate from 72 to 79.
+
+
 ## A gate is a chain, and chains die at the links
 
 Our transit deployment gate flies 100 random three-stage courses —

@@ -9,6 +9,9 @@ Everything reruns from
 
 ---
 
+> **The simple version.** Four sprint champions don't automatically make a relay team — batons drop at the hand-offs. Five flying skills, each green on its own test, scored 33/100 the first time they were chained into full missions. This article is the climb from 33 to a 72/100 deployment gate, where every point was bought the same way: find where the baton dropped, and why.
+
+
 ## The exam nobody had taken
 
 By mid-2026 this repo had five flying skills, each with its own gated

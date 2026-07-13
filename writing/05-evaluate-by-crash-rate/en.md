@@ -9,6 +9,9 @@ reruns from
 
 ---
 
+> **The simple version.** A student with better mock-exam scores can still fail the road test. We upgraded models that beat the old ones on every paper metric — and they flew worse. The only score this project trusts is the one that matters: does it crash less on the real mission? That rule has stopped us four measured times from shipping a downgrade dressed as an upgrade.
+
+
 ## The purchase we almost made
 
 This year we upgraded our drone's world model with metric supervision —

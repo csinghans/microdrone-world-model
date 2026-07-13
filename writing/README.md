@@ -3,6 +3,12 @@
 Long-form articles about this project, in English and 繁體中文. Every
 number in every article traces to a rerunnable script in this repo.
 
+**The Feynman rule (since 2026-07-13):** every article opens with a
+boxed **"The simple version"／「白話版」** — a few sentences and one
+everyday analogy that teach the core idea with zero jargon, before any
+number appears. If we can't say it that simply, we don't understand it
+yet. The technical body underneath stays precise and fully sourced.
+
 | # | title | EN | 繁中 | status |
 |---|---|---|---|---|
 | 1 | Why micro-drones need tiny world models | [en](01-why-tiny-world-models/en.md) | [繁中](01-why-tiny-world-models/zh-TW.md) | published in-repo |

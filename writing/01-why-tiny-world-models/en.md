@@ -7,6 +7,9 @@ nothing is a demo cherry-pick.*
 
 ---
 
+> **The simple version.** A palm-sized drone carries a brain smaller than one photo — 512 KB — and at speed, reflexes stop working: by the time something LOOKS close, it is already too late to dodge. A cyclist doesn't ride by reacting to what's under the front wheel; they carry a running guess of what happens next. This series builds that guess small enough to fit the drone: not sharper eyes — half a second of foresight. Measured here: pure reflexes crash 57–63 % of the time at double speed. Foresight is the cure.
+
+
 ## The cliff
 
 Take a 27-gram drone, give it a purely **reactive** vision policy — "if

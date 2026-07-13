@@ -11,6 +11,9 @@ law we keep meeting everywhere. Everything reruns from
 
 ---
 
+> **The simple version.** A security guard doesn't need every glance to be right — they look again. Our detector misses the target in a third of single frames, yet the mission finds it 93 % of the time, because the search is built to take many deliberately different looks. But the opposite trick fails: a rule that accumulates suspicion FOREVER ends up flagging every passerby, because tiny errors pile up without limit. The working recipe: look many times, remember briefly.
+
+
 ## The number that flies is not the number on the bench
 
 Our indoor missions find their target at ~0.93. The detection head

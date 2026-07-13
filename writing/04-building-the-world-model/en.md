@@ -8,6 +8,9 @@ choices that lost. Everything reruns from
 
 ---
 
+> **The simple version.** An experienced driver doesn't remember every frame of the road — they carry a compact "feel" for the situation, plus an instinct for where each move leads. We build exactly that in 81 KB of weights: squeeze the camera into 64 numbers, learn how each command changes those numbers, and ask a tiny judge "does this end in a crash?". Every design choice below is here because the alternative measurably flew worse.
+
+
 ## The parts list
 
 The whole stack is four small networks and one privileged teacher:

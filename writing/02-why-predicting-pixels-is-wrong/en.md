@@ -8,6 +8,9 @@ every number traces to a rerunnable script in
 
 ---
 
+> **The simple version.** To cross a road you don't paint a mental photograph of every car — you only track "will that one reach me". Training a tiny model to predict future PICTURES spends its whole budget on wallpaper; the one thing the drone needs predicted is: if I go left, do I get hurt? So we predict a small summary of the scene instead of the scene itself — and the crash numbers side with the summary.
+
+
 ## The seductive default
 
 Ask anyone to build a world model and the reflex is video prediction: feed

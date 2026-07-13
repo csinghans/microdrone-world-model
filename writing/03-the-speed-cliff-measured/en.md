@@ -8,6 +8,9 @@ makes the whole case in a single curve. Every number reruns from
 
 ---
 
+> **The simple version.** A batter doesn't swing when the ball reaches the plate — they swing at where it WILL be. Give two pilots the same eyes: one reacts to what it sees, the other acts on a half-second forecast. Same drone, same camera, same courses, double the speed — the reactive pilot falls off a cliff and the forecasting one doesn't. One curve carries the whole argument.
+
+
 ## Same drone, same camera, same courses — double the speed
 
 Take two policies. Both read the **same** 64×64 camera through the

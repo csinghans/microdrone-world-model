@@ -9,6 +9,9 @@ unclaimed one. Everything reruns from
 
 ---
 
+> **The simple version.** Tell a new employee "don't stray too far from how the old hands do it", then have them drill one new task for a month — a thousand small, individually-allowed steps later, they work like someone else. That is fine-tuning with a KL anchor: the leash bounds each step, not where you end up. This article is the measured safety law for improving one skill without erasing the rest — and an honest line about what no anchor can defend.
+
+
 ## The problem: repair without erasure
 
 Behavior cloning gave us a five-skill pilot in one 400 KB network.

@@ -9,6 +9,9 @@ would run it: quantized. Everything reruns from
 
 ---
 
+> **The simple version.** A 7 kg carry-on limit doesn't just constrain your packing — it decides what you own. Our chip's 512 KB decided the model's entire shape the same way. And "it fits on paper" is not "it flies": when we finally ran the stack the way the chip would — squeezed to int8 — the models survived, but the tripwire that decides "dodge NOW" did not. Weighing your luggage is not the same as boarding the plane.
+
+
 ## The budget as constitution
 
 A Crazyflie's AI-deck offers one GAP8-class chip: about **512 KB** of
