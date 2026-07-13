@@ -284,3 +284,54 @@ now with a mechanism to aim it).
 - [x] Free dissection: **the depth tax is moving_gap's (2 % → 27 %,
       z ≈ 3.3); arrival-phase scrambling named; phase probe = the
       next arm (owner's call)**
+
+## K3 — the rendezvous probe (pre-registered)
+
+**Reading the scenario sharpened the suspect before the probe flew.**
+`MovingGapFence` does not oscillate — it drifts LINEARLY (vy constant,
+0.15–0.35 m/s, no period, no bounce), and it is AIMED with a
+cold-start assumption: the gap centre is placed to pass near the
+centreline at `t_arr = x_gap / cruise`, computed from the stage's own
+origin. In a composite course every fence starts sliding at LAUNCH,
+so a stage at position j is reached ≈ 3j/cruise seconds late — the
+rendezvous is long past, and the displacement grows LINEARLY with
+position (≈ vy·3j/cruise: ~0.5–1.3 m at j=1, ~2.8–6.6 m at j=5,
+beyond the fence's ±3.2 m coverage). "Phase scrambling" refines to
+**rendezvous displacement**.
+
+**Instrument (read-only, baseline lineup, same block 140000):**
+`GapPhaseProbe` records, at every decision inside a moving_gap stage:
+t, drone (x, y), the fence plane x, the gap centre y (widest spacing
+midpoint among the stage-window pillars — the weave-gate rule, valid
+at any slide), and the fence's y-coverage (open-bypass detection).
+Rows PERSISTED. Per instance, the crossing tick = first tick with
+x ≥ plane (or the last tick if it broke short).
+
+**Frozen reads:**
+1. Instrument: per-seed outcomes match `k6_n100.json` at 1.000.
+2. **Premise:** mean |gap-centre y| at crossing grows with position —
+   CONFIRMED if deep (3–5) ≥ 2× early (1–2). Linear-drift arithmetic
+   predicts well above 2×.
+3. **Death link (the causal read):** mgap instances that broke vs
+   cleared — broke mean |gap offset at crossing/break| ≥ 1.5× cleared
+   ⇒ LINKED (deaths ride the displacement). Report the above/below
+   median split too (the K1 pattern; K1's boundary lesson noted —
+   point estimates govern, borderline goes gray, not fished).
+4. Bypass audit (declared): fraction of deep instances where the
+   slid fence leaves the corridor edge open (an accidental easy-out
+   would CUT deaths at extreme displacement — report, it shapes the
+   remedy).
+
+**Consequences (frozen):** premise + link confirmed ⇒ the depth tax
+mechanism is NAILED as a scenario-composition artifact (cold-start
+rendezvous reused at depth), and the remedy menu is concrete and
+CHEAP: re-aim each composite stage's fence at its own expected
+arrival (a composite-builder fix — the exam becomes what it was
+always meant to be), with "wait-for-the-window entry" and v3's
+phase-randomized training as pilot-side alternates. Refuted ⇒ the
+displacement is not the killer; back to arrival-time dissection.
+NOTE: any change to the composite builder re-defines the exam — the
+k=3 gate of record is untouched by this campaign regardless.
+
+- [x] K3 pre-registered (this section, before any number)
+- [ ] K3 run: rendezvous probe @140000 → four reads → verdict
