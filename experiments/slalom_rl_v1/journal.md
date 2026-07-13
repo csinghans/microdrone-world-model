@@ -49,7 +49,28 @@ from. Fresh machinery, its own frozen section when reached.
   0.84 stack registration; a near-miss banks as EVIDENCE (the
   mgap_rl_v1 precedent).
 
+## K1 block 1 (@149000, n=60) — BORDERLINE, pooling fires
+
+FT chain clean (450k, exit 0, `artifacts/ppo_slalom_rl.zip`).
+`grad_n60.json`:
+
+- Wins **46/60 = 0.767** (bar ≥45: PASS, and clears the 0.70
+  deployment threshold).
+- **PRIMARY slalom seam 3/20 = 15.0 %** vs frozen ≤12 % — one block,
+  0.6 of one failure over the line. Down from the 17.2 % true rate
+  but not through the bar. **Borderline → pool, never replace**: the
+  pre-named second block fires @153000.
+- Cold guard 0/9 = 0.0 % (bar ≤8 %): the 97 % cold skill was NOT
+  traded away — the honest open question of the prereg (does
+  solo-world FT transfer to seams without eroding cold?) is at least
+  half-answered: no erosion.
+- Coupling guards (single-block reads, pooled verdict pending):
+  door 32/32 = 1.000 (≥0.919 ✓), gap 33/35 = 0.943 (≥0.912 ✓),
+  moving_gap 34/42 = 0.8095 (≥0.805 ✓ by 0.0045 — a squeaker, watch
+  the pool), opening_door 28/29 = 0.966 (≥0.888 ✓).
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [ ] K1: crown FT 450k → graduation @149000 → primary + guards
+- [x] K1: crown FT 450k → block 1 @149000 (borderline primary)
+- [ ] Block 2 @153000 → pooled n=120 verdict on primary + guards
