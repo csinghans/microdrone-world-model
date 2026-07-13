@@ -56,5 +56,50 @@
    "track": "indoor_search",
    "what": "person detection head (AUC 0.918, shape-only probe 0.806; person_v1) — the find-a-person choreography head (find+return 0.933, n=15)"
   }
- ]
+ ],
+ "quantized": {
+  "note": "measured int8 deployment CONFIGS, adopted 2026-07-13 (owner's call). No separate binaries: each config is DERIVED at load by fake-quantizing the pinned float WM (NNTool SQ8 shape) with the recipe below — eval/eval_int8_parity.py owns the machinery, its selftest asserts these entries against the committed campaign records, and planner/flight_mode.py --verify checks the wm references. Honesty: the recipes calibrate on the training corpora (output/*.npz), which are regenerated, not shipped.",
+  "transit": {
+   "wm": "world_model_unified.pth",
+   "arm": "int8pc+split+p16",
+   "weights": "int8 symmetric, per-channel convs / per-tensor linears",
+   "activations": "uint8 min/max; split-scale quant node at the pred z||action concat seam; int16 activations on pred.* leaves",
+   "calibration": {
+    "corpus": "output/combined.npz",
+    "n": 1024,
+    "seed": 20260711
+   },
+   "trigger": {
+    "margin": 0.4203931675597129,
+    "imm_thr": 0.512270654767088,
+    "what": "WMPolicy thresholds quantile-matched to the float operating point on the quantized landscape (train seeds 3000+; float constants 0.4/0.5)"
+   },
+   "evidence": {
+    "ledger": "experiments/transit_margin_v1/journal.md",
+    "record": "experiments/transit_margin_v1/k2m_results.json",
+    "gate": "B4 closed-loop pooled n=126: delta-crash +0.0159 (bar +0.030), false-evasion 0.0556 -> PARITY"
+   },
+   "what": "the quantized transit WMPolicy arm (the unified WM is the embedded-path artifact per Q1's ruling; the float transit flight mode continues to fly the pinned champion)"
+  },
+  "indoor_search": {
+   "wm": "world_model_unified.pth",
+   "arm": "int8pc",
+   "weights": "int8 symmetric, per-channel convs / per-tensor linears",
+   "activations": "uint8 min/max, regime-complete calibration",
+   "calibration": {
+    "corpus": "output/combined.npz",
+    "n": 1024,
+    "seed": 20260711,
+    "low_n": 256,
+    "low_source": "eval_alt_detect.collect_alt_frames, train block 600000 (near-floor regime)"
+   },
+   "heads": "shipped heads as pinned above, ZERO refits (the qlat refit artifacts of int8_parity_v1 are retired by low_head_int8_v1)",
+   "evidence": {
+    "ledger": "experiments/low_head_int8_v1/journal.md",
+    "record": "experiments/low_head_int8_v1/lowcal_b5_results.json",
+    "gate": "B5 flight 0.80 correct / 0.00 FA / 0.00 collision / 0.95 return (best on record); B3 shipped heads all pass; B1/B2 guards green"
+   },
+   "what": "the quantized indoor stack: unified WM + shipped detection heads under regime-complete calibration"
+  }
+ }
 }

@@ -150,5 +150,8 @@ of clear-run margin mass the noise had parked on.
       no-op = threshold story dead for it); p16 borderline
       (FE 1.000 → 0.0556, Δcrash +0.048)** → house recheck
 - [x] K1 recheck: fresh block @4000, frozen thresholds → **pooled
-      Δ+0.0159 / FE 0.0556 → PARITY; campaign GREEN.** Deployment
-      packaging (lock entry for the quantized config) = owner's call.
+      Δ+0.0159 / FE 0.0556 → PARITY; campaign GREEN.**
+- [x] **ADOPTED (2026-07-13, owner's「go 1」):** the config ships as
+      `artifacts.lock.json → quantized.transit` (exact thresholds from
+      k2m_results.json; selftest pins lock == record; flight_mode
+      --verify covers the section).

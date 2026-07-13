@@ -129,6 +129,36 @@ def verify(mode: FlightMode) -> list:
     return lines
 
 
+def verify_quantized() -> list:
+    """Cross-check the lock's `quantized` deployment configs (adopted
+    2026-07-13): every config's `wm` names a pinned lock artifact, the
+    derivation recipe fields are present, the transit trigger carries
+    numeric thresholds, and each evidence ledger exists in the tree.
+    CI-safe (committed files only). Raises AssertionError on any hole."""
+    import json
+
+    with open(os.path.join(ROOT, "artifacts.lock.json")) as f:
+        lock = json.load(f)
+    q = lock.get("quantized")
+    assert q, "lock has no 'quantized' section"
+    by_name = {a["name"] for a in lock["artifacts"]}
+    lines = []
+    for mode in ("transit", "indoor_search"):
+        c = q[mode]
+        assert c["wm"] in by_name, f"quantized.{mode}: wm not a lock entry"
+        assert c["arm"] and c["weights"] and c["activations"]
+        cal = c["calibration"]
+        assert cal["corpus"] and int(cal["n"]) > 0 and int(cal["seed"])
+        led = c["evidence"]["ledger"]
+        assert os.path.exists(os.path.join(ROOT, led)), f"missing ledger {led}"
+        if mode == "transit":
+            trg = c["trigger"]
+            assert 0.0 < float(trg["margin"]) < 1.0
+            assert 0.0 < float(trg["imm_thr"]) < 1.0
+        lines.append(f"  [ok  ] quantized.{mode} ({c['arm']}, wm={c['wm']})")
+    return lines
+
+
 # --- transit: pinned champion WM + general transit champion policy ----------
 def _fly_transit(env, seed: int = 7, speed: float = 1.0, world: str = "dense"):
     from eval.episode import run_scenario_episode
@@ -211,6 +241,8 @@ def selftest() -> None:
     # lock consistency for both modes (CI-safe: sha layer skips missing files)
     for m in (t, i):
         verify(m)
+    # the adopted quantized deployment configs parse and reference the lock
+    assert len(verify_quantized()) == 2
     # negative: a head bound to the WRONG WM must fail the binding check
     bad = FlightMode(
         name="bad",
@@ -255,7 +287,13 @@ def main() -> None:
             print(f"[{name}]")
             for line in verify(m):
                 print(line)
-        print("FLIGHT-MODE VERIFY OK: every mode's WM+head bindings match the lock")
+        print("[quantized]")
+        for line in verify_quantized():
+            print(line)
+        print(
+            "FLIGHT-MODE VERIFY OK: every mode's WM+head bindings match the "
+            "lock, quantized configs consistent"
+        )
         return
     for name in list_modes():
         m = get_mode(name)

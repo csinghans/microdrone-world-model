@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- **The measured int8 configs are ADOPTED: `artifacts.lock.json` gains
+  a `quantized` section (owner's call, 2026-07-13).** Two deployment
+  configs, no new binaries — each is derived at load by fake-quantizing
+  the pinned float WM with its recorded recipe: `quantized.transit`
+  (int8pc + seam split + int16 predictor activations + the
+  quantile-matched trigger thresholds, exact values from
+  `k2m_results.json`) and `quantized.indoor_search` (int8pc +
+  regime-complete calibration + shipped heads, zero refits — Q1's
+  per-head refit recipe is superseded; its qlat artifacts retire).
+  Governance wiring: `flight_mode --verify` gains a quantized-section
+  consistency layer (runs in the scorecard's quick layer), and
+  `eval_int8_parity --selftest` pins the lock entries to the committed
+  campaign records — the lock is a pointer, never a second source.
+
 - **beam_latency_v1: the sensor spec line's last axis is priced — a
   beams8-safe ToF ring needs σ < 5 cm, missed-returns < 5 % (P1), and
   now report latency ≲ 500 ms at 0.6 m/s.** A delegating FIFO proxy

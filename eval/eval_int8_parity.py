@@ -938,6 +938,19 @@ def selftest() -> None:
     for fn in (b3_heads, b2_detection, b1_transit):
         assert inspect.signature(fn).parameters["calib"].default is None
 
+    # the lock's adopted quantized configs must equal the committed
+    # campaign records — the lock is a pointer, never a second source
+    with open("artifacts.lock.json") as f:
+        qlock = json.load(f)["quantized"]
+    with open("experiments/transit_margin_v1/k2m_results.json") as f:
+        k2m = json.load(f)["K2M"]["int8pc+split+p16"]
+    assert qlock["transit"]["arm"] == "int8pc+split+p16"
+    assert abs(qlock["transit"]["trigger"]["margin"] - k2m["margin"]) < 1e-12
+    assert abs(qlock["transit"]["trigger"]["imm_thr"] - k2m["imm_thr"]) < 1e-12
+    assert qlock["indoor_search"]["calibration"]["low_n"] == 256
+    assert qlock["indoor_search"]["calibration"]["seed"] == CALIB_SEED
+    assert qlock["transit"]["calibration"]["n"] == CALIB_N
+
     # 1) per-tensor weight-quant error is bounded by half a step
     lin = nn.Linear(8, 4)
     fq = FQLeaf(lin, per_channel=False)

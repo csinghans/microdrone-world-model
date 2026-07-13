@@ -132,4 +132,9 @@ recipe remains the recipe of record until then.
       under regime-complete calibration; meter confirms the clipping
 - [x] K2 pre-registered (this section, before its number)
 - [x] K2: **PASS — 0.80/0.00/0.00/0.95, the best B5 on record; the
-      zero-refit recipe is measured end to end. Adoption = owner.**
+      zero-refit recipe is measured end to end.**
+- [x] **ADOPTED (2026-07-13, owner's「go 1」):** the config ships as
+      `artifacts.lock.json → quantized.indoor_search` (regime-complete
+      calibration + shipped heads, zero refits; the int8_parity_v1
+      qlat refit artifacts are retired; flight_mode --verify covers
+      the section). Q1's refit recipe is superseded as of this entry.

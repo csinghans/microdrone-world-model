@@ -10,10 +10,12 @@ hand-offs — and paid down two pre-registered rounds), the
 lineup-coupling law and true-rate discipline enter the ledger, and
 article #9 tells the whole story. Indoor missions hold GREEN at
 91/100; one command scores the whole system; and the int8 story now
-closes in-sim: the indoor stack flies quantized, and the transit
-trigger reaches closed-loop parity too (quantile-matched thresholds
-on the int16-predictor arm, pooled n=126 — `experiments/
-transit_margin_v1/`; deployment packaging pending).** The baseline shipped as
+closes in-sim: the indoor stack flies quantized, the transit trigger
+reaches closed-loop parity too (quantile-matched thresholds on the
+int16-predictor arm, pooled n=126 — `experiments/transit_margin_v1/`),
+and both measured configs are ADOPTED as the `quantized` section of
+`artifacts.lock.json` (verified by `flight_mode --verify` and pinned
+to the campaign records by selftest).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what
