@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- **Article #10 published in-repo:** *Per-Frame Recall Is a Lie:
+  Detection as Sequential Evidence* (bilingual,
+  `writing/10-per-frame-recall-is-a-lie/`) — the two-way lie (missions
+  find at 0.93 on 0.5–0.76 per-frame recall; the stationary bench's
+  0.9818 collapses to 0.8888 on in-flight frames with the operating
+  point broken, not the ranking), the CUSUM-SPRT duel refuted both
+  directions (FA 0.85/0.60 vs confirm-k's 0.25/0.10), and the horizon
+  law — bounded lookback beats accumulation optimality — unified with
+  article 8's trigger symmetry: choose who may fire over how much
+  history, and you have chosen which error explodes.
+
 ## 0.10.0 — 2026-07-13 (the seam turn: the gate rises to 79 and the mechanism gets a name)
 
 - **Article #9 published in-repo:** *The Seam Tax: The Teacher Always
