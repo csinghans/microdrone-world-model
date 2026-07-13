@@ -65,10 +65,48 @@ applies: a block is a draw, not a rate.
    blocks" and the footnote is issued WITH that caveat (the band
    itself encoded P1's single-block draw — stated, not hidden).
 
+## Recheck results (2026-07-13 — price_results_b2.json)
+
+**Exoneration PASS:** the bare runner reproduces the d0 arm
+bit-exactly (0.7667 / 0.7333 / 0.000) — the proxy is inert in vivo,
+the harness is clean, and the block-1 band miss was what it looked
+like: a draw.
+
+**Pooled n=60/arm:** find flat at 0.783 across every arm; collisions
+d0 0.017 · d1 0.000 · d2 0.000 · d4 0.017 · **d8 0.100** (6× the
+control's own rate). Pooled control find 0.783 < 0.80 → **the band
+stays UNMET across two blocks and the caveat is carried as frozen:**
+the config's true find sits at ~0.78–0.83 and the 0.80 band encoded
+P1's above-average single-block draw (0.833). The axis being priced —
+collision — was clean in the control throughout.
+
+## Campaign verdict — the footnote, with its caveat
+
+**The sensor BOM spec line is complete: a beams8-safe ToF ring needs
+σ < 5 cm, missed-returns < 5 % (P1), and report latency ≲ 500 ms at
+0.6 m/s** — the pocket is d4 (~517 ms; ~31 cm of stale geometry) and
+collisions cross the 0.05 bar at d8 (~1033 ms). Deployment reading:
+real multiranger-class rings report in tens of milliseconds — **an
+order of magnitude inside the pocket**; latency is the least binding
+of the three axes. Find/return never moved under any delay (the ring
+feeds only the safety veto in this stack — the P1 signature,
+reconfirmed).
+
+Caveat, stated plainly: the pricing rides a control arm whose find
+(0.783 pooled) sits below the pre-registered 0.80 instrument band —
+the band was mis-frozen from a single-block prior, the exoneration
+check cleared the harness, and the collision instrument this campaign
+actually prices was clean throughout. Instrument lesson for the
+ledger: **freeze instrument bands from pooled priors, not from one
+block's draw** — the session's a-block-is-a-draw law applies to
+instrument clauses too.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
 - [x] Block 1 @750000: instrument-first fired on find 0.767 (band
       0.80); collision curve clean (knee d8, pocket d4 ≈ 517 ms
       provisional) → recheck registered above
-- [ ] Exoneration + block 2 @760000 → pooled verdict + footnote
+- [x] Exoneration (bit-exact) + block 2 @760000 → **pooled footnote:
+      pocket ~517 ms, knee ~1033 ms; band UNMET caveat carried;
+      spec line complete — σ < 5 cm, drop < 5 %, latency ≲ 500 ms**

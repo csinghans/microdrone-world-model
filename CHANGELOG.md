@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+- **beam_latency_v1: the sensor spec line's last axis is priced — a
+  beams8-safe ToF ring needs σ < 5 cm, missed-returns < 5 % (P1), and
+  now report latency ≲ 500 ms at 0.6 m/s.** A delegating FIFO proxy
+  (readings keep their old positions — the report lags the aircraft)
+  delayed exactly what the safety filter reads; pooled n=60/arm:
+  collisions flat to d4 (~517 ms, ~31 cm of stale geometry) and 0.100
+  at d8 (~1033 ms) — real multiranger-class rings report in tens of
+  milliseconds, an order of magnitude inside the pocket, so latency is
+  the least binding axis. Find/return never moved under any delay (the
+  ring feeds only the safety veto — P1's flat-find signature,
+  reconfirmed). Ledger honesty carried in full: the pre-registered
+  instrument band fired on a block draw (control find 0.767/0.783 vs a
+  0.80 band frozen from P1's single-block 0.833), the bare-runner
+  exoneration cleared the harness bit-exactly, and the footnote ships
+  with the caveat plus an instrument lesson — freeze instrument bands
+  from pooled priors, not one block's draw. Tool:
+  `eval/eval_beam_latency.py`; ledger:
+  `experiments/beam_latency_v1/journal.md`.
+
 - **low_head_int8_v1: the int8 story's last red cell closes — and the
   recipe gets SIMPLER.** The near-floor head's quantization hostility
   (−0.044 shipped, −0.114 after refit) was regime ABSENCE, not regime
