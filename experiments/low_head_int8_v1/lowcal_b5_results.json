@@ -1,0 +1,16 @@
+{
+ "device": "cpu",
+ "calib_n": 1024,
+ "calib_seed": 20260711,
+ "LOWCAL_B5": {
+  "thr": 0.65,
+  "confirm": 2,
+  "n": 20,
+  "correct_find_rate": 0.8,
+  "false_alarm_rate": 0.0,
+  "miss_rate": 0.2,
+  "collision_rate": 0.0,
+  "return_rate": 0.95,
+  "pass": true
+ }
+}

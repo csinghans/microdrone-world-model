@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+- **low_head_int8_v1: the int8 story's last red cell closes — and the
+  recipe gets SIMPLER.** The near-floor head's quantization hostility
+  (−0.044 shipped, −0.114 after refit) was regime ABSENCE, not regime
+  hardness: the calibration corpus contained no near-floor frames, and
+  the mechanism meter shows 2/4 encoder leaves clipping that regime
+  (worst +8.1 %). Appending 256 train-block near-floor frames
+  (calibration is monotone — added frames only widen ranges) recovers
+  ALL THREE heads AS SHIPPED (yaw +0.0001 / low −0.0086 / person
+  +0.0059, B1/B2 guards green), and the flight read lands it: **B5 on
+  the zero-refit stack flies 0.80 correct / 0.00 FA — the best B5 on
+  record, beating both the float gate (0.70/0.10) and the refit
+  recipe (0.75/0.10).** The measured alternative recipe: int8pc +
+  regime-complete calibration + shipped heads, zero per-head refits —
+  "calibrate on every regime you fly, and the crutches delete
+  themselves." Ledger honesty: K1's pre-registered guard REFUTED the
+  knob as written (the person-REFIT row broke — a configuration the
+  simpler recipe no longer contains); the letter-verdict stands on
+  file beside the flight PASS, and adopting the new recipe
+  (lock/packaging) is the owner's call. Tool:
+  `eval_int8_parity --low-calib / --low-calib-b5`; ledger:
+  `experiments/low_head_int8_v1/journal.md`.
+
 - **transit_margin_v1: the quantized transit trigger reaches
   closed-loop PARITY — Q1's "likeliest cheap win" was real, on the
   second-cheapest arm.** The knob was closed-form (no search):

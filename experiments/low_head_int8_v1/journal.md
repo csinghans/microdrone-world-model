@@ -97,6 +97,33 @@ indoor stack) with the AUGMENTED calibration and the SHIPPED yaw head
 **Machinery:** `b5_yaw_scan` gains `calib=None` (default = today's
 path, byte-identical); CLI `--low-calib-b5`.
 
+## K2 results (2026-07-13 — lowcal_b5_results.json) — PASS, best B5 on record
+
+**correct 0.80 / FA 0.00 / miss 0.20 / collision 0.00 / return 0.95**
+— every standing bar passed (0.70/0.20/0.05/0.80), and the zero-refit
+stack beats both the float record (0.70/0.10) and Q1's refit-head B5
+(0.75/0.10) on correct-find AND false alarms. Honest note: return
+0.95 vs the float record's 1.00 — one return miss, inside the
+standing absolute bar.
+
+## Campaign verdict — the last red cell closes, and the recipe gets simpler
+
+The low head's quantization hostility was never about the regime
+being hard; it was about the regime being ABSENT from the calibration
+corpus (meter: 2/4 encoder leaves clipping, worst +8.1 %). With the
+regime present, **the measured int8 indoor recipe simplifies to:
+int8pc weights + regime-complete calibration (two-track union + 256
+near-floor frames) + SHIPPED heads — zero per-head refits** — and it
+flies better than the refit recipe it replaces. The embedded lesson,
+one line: **calibrate on every regime you fly, and the crutches
+delete themselves.** K1's letter-verdict (REFUTED on the person-refit
+guard row) stands on the record beside this: the guard broke on a
+configuration the simpler recipe no longer contains.
+
+Adoption (lock/packaging of the calibration recipe + retiring the
+qlat refit artifacts) is the owner's call — not done here. Q1's
+recipe remains the recipe of record until then.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
@@ -104,4 +131,5 @@ path, byte-identical); CLI `--low-calib-b5`.
       the over-delivery recorded: all three heads pass AS SHIPPED
       under regime-complete calibration; meter confirms the clipping
 - [x] K2 pre-registered (this section, before its number)
-- [ ] K2: B5 flight gate @ augmented calibration + shipped yaw head
+- [x] K2: **PASS — 0.80/0.00/0.00/0.95, the best B5 on record; the
+      zero-refit recipe is measured end to end. Adoption = owner.**
