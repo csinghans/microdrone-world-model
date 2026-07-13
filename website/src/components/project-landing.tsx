@@ -328,6 +328,36 @@ export function ProjectLanding({ locale }: ProjectLandingProps) {
           </div>
         </section>
 
+        <section className="section" id="articles" aria-labelledby="articles-title">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">{copy.articles.eyebrow}</p>
+              <h2 id="articles-title">{copy.articles.title}</h2>
+            </div>
+            <p>{copy.articles.intro}</p>
+          </div>
+          <div className="finding-grid">
+            {copy.articles.items.map((item, index) => (
+              <article className="finding-card" key={item.slug}>
+                <span className="finding-card__number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3>{item.title}</h3>
+                <p>{item.simple}</p>
+                <p>
+                  <a
+                    href={`${GITHUB_URL}/blob/main/writing/${item.slug}/${
+                      isZh ? "zh-TW" : "en"
+                    }.md`}
+                  >
+                    {copy.articles.linkLabel}
+                  </a>
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="section" id="method" aria-labelledby="method-title">
           <div className="section-heading">
             <div>

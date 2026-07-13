@@ -90,6 +90,13 @@ export type SiteCopy = {
     intro: string;
     items: Array<{ title: string; description: string }>;
   };
+  articles: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    linkLabel: string;
+    items: Array<{ title: string; simple: string; slug: string }>;
+  };
   research: {
     eyebrow: string;
     title: string;
@@ -138,6 +145,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       { label: "證據", href: "#evidence" },
       { label: "研究方法", href: "#method" },
       { label: "限制", href: "#limits" },
+      { label: "文章", href: "#articles" },
     ],
     hero: {
       eyebrow: "Embedded world model / simulation records",
@@ -282,6 +290,75 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         },
       ],
     },
+    articles: {
+      eyebrow: "The article series / 費曼規則",
+      title: "十篇文章，每篇先講白話版。",
+      intro:
+        "完整雙語系列在 repo 的 writing/ 目錄；每篇開頭都有一段零行話的白話版——這裡就是那十段。",
+      linkLabel: "閱讀全文 →",
+      items: [
+        {
+          title: "為什麼微型無人機需要「小小的」世界模型",
+          simple:
+            "一台手掌大的無人機，腦容量比一張照片還小——512 KB——而且速度一快，反射就失靈：等到東西「看起來很近」，閃避已經來不及。騎腳踏車的人不是盯著前輪底下反應，而是隨時在心裡預演下一秒。這個系列就是把那份預演做小到裝得進無人機：不是更利的眼睛，而是半秒鐘的預知。本篇量到：純反射在兩倍速下摔 57–63%。解藥是預判。",
+          slug: "01-why-tiny-world-models",
+        },
+        {
+          title: "為什麼預測像素是錯的目標",
+          simple:
+            "過馬路時，你不會在腦中畫出每台車的照片——你只追蹤「那台會不會開到我面前」。讓一顆小模型去預測未來的「畫面」，等於把全部預算花在壁紙上；無人機真正需要預測的只有一件事：往左飛，會不會受傷？所以我們預測場景的精簡摘要、而不是場景本身——摔機數字站在摘要這一邊。",
+          slug: "02-why-predicting-pixels-is-wrong",
+        },
+        {
+          title: "反應式 vs 預判式：實測那道速度懸崖",
+          simple:
+            "打者不會等球到本壘才揮棒——他朝球「將要到的位置」揮。給兩個飛行員同一雙眼睛：一個對看到的東西做反應、一個照半秒後的預測行動。同一台機、同一顆相機、同樣的賽道、速度加倍——反應式的直接摔下懸崖，預測式的沒有。一條曲線講完整個論點。",
+          slug: "03-the-speed-cliff-measured",
+        },
+        {
+          title: "打造動作條件化的 latent 世界模型（81 KB 權重）",
+          simple:
+            "老司機不會記得路上的每一幀畫面——他帶著一份精簡的「路感」，加上每個動作會通往哪裡的直覺。我們把這件事做進 81 KB 的權重裡：把相機壓成 64 個數字、學會每個指令會怎麼改變這些數字、再問一個小小的裁判「這樣飛下去會不會撞」。下面每一個設計決定都有同一個理由：另一個選項實測飛得更差。",
+          slug: "04-building-the-world-model",
+        },
+        {
+          title: "用撞毀率評估，不用 loss",
+          simple:
+            "模擬考分數更高的學生，路考照樣可能被當。我們升級過在每一項紙面指標上都更漂亮的模型——飛起來反而更糟。這個專案唯一信任的分數，是唯一算數的那個：真任務上有沒有少摔？這條規則有四次量測在案，四次都攔下了「包裝成升級的降級」。",
+          slug: "05-evaluate-by-crash-rate",
+        },
+        {
+          title: "單元測試全綠，整合測試全紅：爬向佈署門檻",
+          simple:
+            "四個短跑冠軍湊在一起，不會自動變成接力金牌隊——掉棒都掉在交接區。五個飛行技能各自考試全綠，第一次串成完整任務只考出 33/100。這篇講的就是從 33 爬到 72/100 部署門的過程：每一分都用同一個方法買回來——找出棒掉在哪裡、為什麼掉。",
+          slug: "06-the-integration-climb",
+        },
+        {
+          title: "KL 錨守不住的東西",
+          simple:
+            "跟新員工說「做法不要偏離老師傅太多」，然後讓他整個月只操練一項新任務——一千步「每步都沒偏太多」之後，他做起事來已經是另一個人。這就是帶 KL 錨的微調：鏈子綁的是每一步、不是你最後走到哪。本篇是「升級一個技能而不磨掉其他技能」的量測版安全法——外加誠實的一句：有些東西，任何錨都守不住。",
+          slug: "07-what-anchors-cannot-defend",
+        },
+        {
+          title: "從模擬走向 Crazyflie：嵌入式預算",
+          simple:
+            "行李限重 7 公斤不只限制你怎麼打包——它決定你能擁有什麼。晶片的 512 KB 就是這樣決定了模型的整個長相。而「帳面上裝得下」不等於「飛得起來」：當我們終於用晶片的方式（壓成 int8）跑整套系統，模型都活了下來，但決定「現在閃！」的那條引線斷了。過磅，不等於登機。",
+          slug: "08-the-embedded-budget",
+        },
+        {
+          title: "縫的代價：老師總是把車開回家",
+          simple:
+            "看教練開車，永遠學不會「自己壓線之後怎麼救回來」——因為教練不會壓線。我們的飛行員老是死在關卡交接的瞬間，而再多的示範都治不好：稱職的老師幾秒內就把車開回熟悉的路，學生自己犯錯之後的世界從不出現在教材裡。解法——讓學生開、教練對他實際遇到的每個處境逐一點評——把考試從 72 分帶到 79 分。",
+          slug: "09-the-seam-tax",
+        },
+        {
+          title: "單幀 recall 是謊言：把偵測當成序列證據",
+          simple:
+            "保全不需要每一瞥都看對——他會再看一眼。我們的偵測器單幀會漏掉三分之一的目標，任務卻有 93% 找得到，因為搜索本身被設計成「多看幾眼、每眼刻意不同」。但反過來的招數會失敗：「把懷疑無限累積下去」的規則，最後會把每個路人都當成小偷——微小的誤差無上限地疊加。能用的配方是：多看幾次、記得短一點。",
+          slug: "10-per-frame-recall-is-a-lie",
+        },
+      ],
+    },
     research: {
       eyebrow: "Flight skills / autonomous research loop",
       title: "把研究紀律寫進 runner。",
@@ -353,6 +430,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       { label: "Evidence", href: "#evidence" },
       { label: "Method", href: "#method" },
       { label: "Limits", href: "#limits" },
+      { label: "Articles", href: "#articles" },
     ],
     hero: {
       eyebrow: "Embedded world model / simulation records",
@@ -494,6 +572,75 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         {
           title: "Negative results stay on record",
           description: "Under clutter, world-model coverage lost to grid-only and Frontier. The verdict remains published instead of being rerun until green.",
+        },
+      ],
+    },
+    articles: {
+      eyebrow: "The article series / the Feynman rule",
+      title: "Ten articles, each opening in plain language.",
+      intro:
+        "The full bilingual series lives in the repo's writing/ directory; every article opens with a jargon-free simple version — these are those ten.",
+      linkLabel: "Read the article \u2192",
+      items: [
+        {
+          title: "Why micro-drones need tiny world models",
+          simple:
+            "A palm-sized drone carries a brain smaller than one photo — 512 KB — and at speed, reflexes stop working: by the time something LOOKS close, it is already too late to dodge. A cyclist doesn't ride by reacting to what's under the front wheel; they carry a running guess of what happens next. This series builds that guess small enough to fit the drone: not sharper eyes — half a second of foresight. Measured here: pure reflexes crash 57–63 % of the time at double speed. Foresight is the cure.",
+          slug: "01-why-tiny-world-models",
+        },
+        {
+          title: "Why predicting pixels is the wrong target",
+          simple:
+            "To cross a road you don't paint a mental photograph of every car — you only track \"will that one reach me\". Training a tiny model to predict future PICTURES spends its whole budget on wallpaper; the one thing the drone needs predicted is: if I go left, do I get hurt? So we predict a small summary of the scene instead of the scene itself — and the crash numbers side with the summary.",
+          slug: "02-why-predicting-pixels-is-wrong",
+        },
+        {
+          title: "Reactive vs proactive: the speed cliff, measured",
+          simple:
+            "A batter doesn't swing when the ball reaches the plate — they swing at where it WILL be. Give two pilots the same eyes: one reacts to what it sees, the other acts on a half-second forecast. Same drone, same camera, same courses, double the speed — the reactive pilot falls off a cliff and the forecasting one doesn't. One curve carries the whole argument.",
+          slug: "03-the-speed-cliff-measured",
+        },
+        {
+          title: "Building an action-conditioned latent world model",
+          simple:
+            "An experienced driver doesn't remember every frame of the road — they carry a compact \"feel\" for the situation, plus an instinct for where each move leads. We build exactly that in 81 KB of weights: squeeze the camera into 64 numbers, learn how each command changes those numbers, and ask a tiny judge \"does this end in a crash?\". Every design choice below is here because the alternative measurably flew worse.",
+          slug: "04-building-the-world-model",
+        },
+        {
+          title: "Evaluate by crash rate, not loss",
+          simple:
+            "A student with better mock-exam scores can still fail the road test. We upgraded models that beat the old ones on every paper metric — and they flew worse. The only score this project trusts is the one that matters: does it crash less on the real mission? That rule has stopped us four measured times from shipping a downgrade dressed as an upgrade.",
+          slug: "05-evaluate-by-crash-rate",
+        },
+        {
+          title: "Unit-green is not integration-green",
+          simple:
+            "Four sprint champions don't automatically make a relay team — batons drop at the hand-offs. Five flying skills, each green on its own test, scored 33/100 the first time they were chained into full missions. This article is the climb from 33 to a 72/100 deployment gate, where every point was bought the same way: find where the baton dropped, and why.",
+          slug: "06-the-integration-climb",
+        },
+        {
+          title: "What a KL anchor cannot defend",
+          simple:
+            "Tell a new employee \"don't stray too far from how the old hands do it\", then have them drill one new task for a month — a thousand small, individually-allowed steps later, they work like someone else. That is fine-tuning with a KL anchor: the leash bounds each step, not where you end up. This article is the measured safety law for improving one skill without erasing the rest — and an honest line about what no anchor can defend.",
+          slug: "07-what-anchors-cannot-defend",
+        },
+        {
+          title: "From sim toward Crazyflie: the embedded budget",
+          simple:
+            "A 7 kg carry-on limit doesn't just constrain your packing — it decides what you own. Our chip's 512 KB decided the model's entire shape the same way. And \"it fits on paper\" is not \"it flies\": when we finally ran the stack the way the chip would — squeezed to int8 — the models survived, but the tripwire that decides \"dodge NOW\" did not. Weighing your luggage is not the same as boarding the plane.",
+          slug: "08-the-embedded-budget",
+        },
+        {
+          title: "The seam tax: the teacher always drives home",
+          simple:
+            "Watching your driving instructor never teaches you how to recover after YOU drift out of lane — because the instructor never drifts. Our pilot kept dying at stage hand-offs, and better demonstrations couldn't fix it: a competent teacher steers back onto familiar roads within seconds, so the student's own mistakes never appear in the data. The cure — let the student drive while the teacher comments on every situation the student actually gets into — took the gate from 72 to 79.",
+          slug: "09-the-seam-tax",
+        },
+        {
+          title: "Per-frame recall is a lie",
+          simple:
+            "A security guard doesn't need every glance to be right — they look again. Our detector misses the target in a third of single frames, yet the mission finds it 93 % of the time, because the search is built to take many deliberately different looks. But the opposite trick fails: a rule that accumulates suspicion FOREVER ends up flagging every passerby, because tiny errors pile up without limit. The working recipe: look many times, remember briefly.",
+          slug: "10-per-frame-recall-is-a-lie",
         },
       ],
     },
