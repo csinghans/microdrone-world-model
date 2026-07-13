@@ -584,7 +584,54 @@ Everywhere else it passes through, inner stacks kept warm.
    other stages — should be free).
 
 - [x] K6 pre-registered (this section, before any number)
-- [ ] K6 run: paired @140000 with the oracle → verdict
+- [x] K6 executed → **MISTAKE, overwhelmingly** (below)
+
+## K6 results (2026-07-13 — k6_threadcommit_n100.json) — the turn was the mistake
+
+| frozen read | value | bar | verdict |
+|---|---|---|---|
+| causality: deep mgap seam | **4.2 %** (2/48; baseline 27 %) | ≤13.5 MISTAKE / ≥20 SURRENDER | **MISTAKE** |
+| mgap everywhere | early 0/49, cold 0/20 — **2 deaths in 117 mgap stages** (baseline 16) | reported | erased |
+| ceiling: k=6 success | **0.610** (baseline 0.500) | reported | **+11 from one behavior** |
+| guard: non-mgap fails | 37 vs 34 | ≤ +3 | holds at the letter |
+
+**The slots were threadable all along.** Forcing commitment in the
+final metre erased the deaths — the terminal wrong-way turn is a
+pilot MISTAKE (the evasion machinery hijacking the thread), not a
+surrender to a lost cause. The oracle prices the remedy's ceiling:
+fixing ONE second of ONE stage type buys +11 composite points at
+k=6, and back-of-envelope ~+3–4 on the standing k=3 gate (mgap seam
+17.2 % → ~4 % over ~30 instances/100) — material to the parked 0.84
+ambition.
+
+## Final campaign close — the detective story, complete
+
+- **The question answered:** 6 stages fly at 0.500.
+- **Six suspects executed** by pre-registered probe or intervention;
+  none convicted.
+- **The kill mechanism nailed** (K5): terminal wrong-way divergence,
+  0.90 in the last second.
+- **The causality settled** (K6): MISTAKE — the pilot flees
+  threadable slots; forced commitment erases mgap deaths (27→4.2 %
+  deep) and lifts the composite +11.
+- **The remedy, priced and aimed** (owner-gated training, fresh
+  registration): terminal-commit training for the deployed pilot —
+  v3's parked mgap arm with a precise target, a measured ceiling,
+  and a deployment-legal path (the oracle is privileged; the trained
+  behavior must earn it from perception).
+- **The honest residual open:** why the terminal trap fires more at
+  depth — now a detail of the mistake's trigger distribution rather
+  than a mystery mechanism (the remedy targets the mistake itself,
+  which kills at all depths).
+
+## Status
+
+- [x] k=6 priced: **0.500** bare · 0.570 ctrl-reset · **0.610
+      thread-commit oracle ceiling**
+- [x] Kill mechanism nailed (K5) · causality = MISTAKE (K6) ·
+      remedy ceiling priced (+11 k=6, ~+3–4 k=3 est.)
+- [x] Campaign CLOSED (again, now with the cause in hand); the
+      terminal-commit TRAINING arm awaits the owner
 
 ## Status
 

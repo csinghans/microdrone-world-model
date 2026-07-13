@@ -18,9 +18,18 @@
   the position gradient predates k=6 entirely — 10.7 % → 26.7 %
   across positions 1→2 in every k=3 gate record on disk (n=271). The
   cause stands as an honest open, recorded, not narrated over; the
-  k=3 gate of record is untouched. Tools: `--k`, `--recenter`,
-  `--ctrl-reset` on the integration suite, `eval_pose_walk.py`,
-  `eval_gap_phase.py`; ledger: `experiments/integration_k6_v1/`.
+  k=3 gate of record is untouched. The reopened trajectory analysis
+  then NAILED the kill mechanism — broke pilots track the moving slot
+  fine and turn the WRONG WAY in the terminal second (0.90 wrong-way
+  share) — and a privileged thread-commit oracle settled causality:
+  **the turn is the pilot's MISTAKE, not a surrender** (forced
+  commitment erases mgap deaths 27 % → 4.2 % deep and lifts the
+  composite 0.500 → 0.610: one second of one stage type is worth +11).
+  The terminal-commit TRAINING arm is priced, aimed, and owner-gated.
+  Tools: `--k`, `--recenter`, `--ctrl-reset`, `--thread-commit`
+  (privileged, labelled) on the integration suite, `eval_pose_walk.py`,
+  `eval_gap_phase.py --analyze`; ledger:
+  `experiments/integration_k6_v1/`.
 
 ## 0.11.0 — 2026-07-13 (the int8 close: parity flown, recipes adopted, sensors priced — and the Feynman rule)
 
