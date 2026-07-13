@@ -445,4 +445,46 @@ suspects dead and the survivor too; the gradient stands as a real,
 unexplained property, honestly recorded.
 
 - [x] K4 pre-registered (this section, before any number)
-- [ ] K4 run: paired @140000 with ctrl-reset → verdict
+- [x] K4 executed → **the last suspect FALLS** (below)
+
+## K4 results (2026-07-13 — k4_ctrlreset_n100.json)
+
+| frozen read | value | bar | verdict |
+|---|---|---|---|
+| mechanism: deep mgap seam | **21.3 %** (10/47; baseline 27 %) | ≤13.5 nail / ≥20 fall | **FALLS** |
+| remedy: k=6 success | 0.570 (baseline 0.500) | ≥ 0.58 | misses by one course |
+| guard: early+cold fails | 13 (baseline 17) | ≤ 20 | held, improved |
+
+The controller accumulator is NOT the gradient's cause: zeroing it at
+every boundary left deep mgap seams at 21.3 % (vs 27 %, z ≈ 0.65 —
+noise). Honest side-note: the reset lifted the composite +7 (0.500 →
+0.570, p ≈ 0.16 one-sided — suggestive, free at deployment, but not
+the mechanism and short of the remedy bar as frozen).
+
+## Campaign close — six executions, one survivor: the gradient itself
+
+**Eliminated by measurement or intervention:** entry pose (K2),
+rendezvous displacement (K3), open bypass (K3), entry conditions
+(K3 addendum), upstream-composition selection (history), controller
+accumulator (K4). **Established:** k=6 flies at 0.500; every mgap
+death is a failure to align by crossing (×2.52, razor median split);
+outward-drifting encounters are ×3.4 deadlier; and the position
+gradient predates k=6 — **10.7 % → 26.7 % across positions 1→2 in
+every k=3 record on disk (n=271)**. The cause is an honest open —
+recorded as such, not narrated over.
+
+**What remains if reopened (fresh registrations):** the approach-
+window trajectory analysis (the K3 npz holds full per-tick
+drone-vs-gap traces — the divergence ONSET during approach is
+unexamined); a positions-1-vs-2 paired intervention at k=3 (bigger
+per-cell n than k=6 affords); ctrl-reset priced as a free-but-gray
+remedy candidate. The k=3 gate of record was never touched by this
+campaign.
+
+## Status
+
+- [x] k=6 priced: **0.500** (the owner's question, answered)
+- [x] Mechanism arc: pose → rendezvous → controller, all eliminated
+      by pre-registered probes/interventions; the mgap position
+      gradient (10.7→26.7 % at k=3, n=271) stands REAL and UNSOLVED
+- [x] Campaign CLOSED with the open recorded honestly

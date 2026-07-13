@@ -1,5 +1,27 @@
 # Changelog
 
+## Unreleased
+
+- **integration_k6_v1: the chain doubled — 6 stages fly at 0.500, and
+  the investigation executed six suspects without convicting one.**
+  The owner's question ("3 stages → 6, what's the rate?") is answered
+  and under-runs the conditional^k prediction (0.55–0.65); the
+  dissection finds the depth tax concentrated in moving_gap, and the
+  campaign then eliminates, by pre-registered probe or intervention:
+  entry pose (recentered — pose tightened, deaths unmoved),
+  rendezvous displacement (the composite lazy-steps; the theory was
+  shot by its own instrument), open bypass, entry conditions,
+  upstream-composition selection, and the controller's time
+  accumulators (reset at every boundary — gradient stands). What IS
+  established: every moving-gap death is a failure to align by
+  crossing time (×2.52, a razor median split: 29.8 % vs 0.0 %), and
+  the position gradient predates k=6 entirely — 10.7 % → 26.7 %
+  across positions 1→2 in every k=3 gate record on disk (n=271). The
+  cause stands as an honest open, recorded, not narrated over; the
+  k=3 gate of record is untouched. Tools: `--k`, `--recenter`,
+  `--ctrl-reset` on the integration suite, `eval_pose_walk.py`,
+  `eval_gap_phase.py`; ledger: `experiments/integration_k6_v1/`.
+
 ## 0.11.0 — 2026-07-13 (the int8 close: parity flown, recipes adopted, sensors priced — and the Feynman rule)
 
 - **The Feynman rule, in the articles and on the site.** Every article

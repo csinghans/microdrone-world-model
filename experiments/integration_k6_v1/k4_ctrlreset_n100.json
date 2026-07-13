@@ -1,0 +1,1461 @@
+{
+ "n": 100,
+ "seed0": 140000,
+ "k": 6,
+ "success_rate": 0.57,
+ "deployment_threshold": 0.7,
+ "deployment_gate": "FAIL",
+ "break_histogram": {
+  "0.0": 4,
+  "1.0": 2,
+  "2.0": 7,
+  "3.0": 14,
+  "4.0": 6,
+  "5.0": 10
+ },
+ "records": [
+  {
+   "seed": 140000,
+   "course": [
+    "slalom3_fixed",
+    "gap",
+    "moving_gap",
+    "gap",
+    "slalom3_fixed",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140001,
+   "course": [
+    "moving_gap",
+    "opening_door",
+    "gap",
+    "opening_door",
+    "opening_door",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140002,
+   "course": [
+    "gap",
+    "moving_gap",
+    "opening_door",
+    "moving_gap",
+    "slalom3_fixed",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140003,
+   "course": [
+    "gap",
+    "door",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "door",
+    "opening_door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140004,
+   "course": [
+    "door",
+    "opening_door",
+    "moving_gap",
+    "slalom3_fixed",
+    "door",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140005,
+   "course": [
+    "moving_gap",
+    "door",
+    "opening_door",
+    "door",
+    "door",
+    "door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 4.0,
+   "stage_break_at": 4.0
+  },
+  {
+   "seed": 140006,
+   "course": [
+    "moving_gap",
+    "moving_gap",
+    "gap",
+    "opening_door",
+    "moving_gap",
+    "door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140007,
+   "course": [
+    "gap",
+    "opening_door",
+    "opening_door",
+    "gap",
+    "slalom3_fixed",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140008,
+   "course": [
+    "moving_gap",
+    "door",
+    "moving_gap",
+    "gap",
+    "slalom3_fixed",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 1.0,
+   "stage_break_at": 1.0
+  },
+  {
+   "seed": 140009,
+   "course": [
+    "gap",
+    "door",
+    "moving_gap",
+    "opening_door",
+    "opening_door",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140010,
+   "course": [
+    "moving_gap",
+    "slalom3_fixed",
+    "moving_gap",
+    "moving_gap",
+    "slalom3_fixed",
+    "door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140011,
+   "course": [
+    "gap",
+    "door",
+    "opening_door",
+    "gap",
+    "gap",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140012,
+   "course": [
+    "moving_gap",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "door",
+    "opening_door",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140013,
+   "course": [
+    "door",
+    "moving_gap",
+    "door",
+    "door",
+    "gap",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140014,
+   "course": [
+    "door",
+    "opening_door",
+    "slalom3_fixed",
+    "door",
+    "opening_door",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140015,
+   "course": [
+    "gap",
+    "opening_door",
+    "gap",
+    "moving_gap",
+    "slalom3_fixed",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140016,
+   "course": [
+    "door",
+    "moving_gap",
+    "slalom3_fixed",
+    "opening_door",
+    "opening_door",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140017,
+   "course": [
+    "door",
+    "door",
+    "gap",
+    "opening_door",
+    "slalom3_fixed",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140018,
+   "course": [
+    "door",
+    "gap",
+    "opening_door",
+    "moving_gap",
+    "slalom3_fixed",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140019,
+   "course": [
+    "slalom3_fixed",
+    "door",
+    "door",
+    "opening_door",
+    "gap",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140020,
+   "course": [
+    "door",
+    "slalom3_fixed",
+    "moving_gap",
+    "gap",
+    "opening_door",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140021,
+   "course": [
+    "moving_gap",
+    "gap",
+    "slalom3_fixed",
+    "gap",
+    "moving_gap",
+    "opening_door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 1.0,
+   "stage_break_at": 1.0
+  },
+  {
+   "seed": 140022,
+   "course": [
+    "door",
+    "opening_door",
+    "moving_gap",
+    "opening_door",
+    "door",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140023,
+   "course": [
+    "door",
+    "door",
+    "door",
+    "opening_door",
+    "slalom3_fixed",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140024,
+   "course": [
+    "opening_door",
+    "moving_gap",
+    "opening_door",
+    "door",
+    "opening_door",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140025,
+   "course": [
+    "moving_gap",
+    "gap",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140026,
+   "course": [
+    "door",
+    "slalom3_fixed",
+    "gap",
+    "opening_door",
+    "opening_door",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140027,
+   "course": [
+    "slalom3_fixed",
+    "moving_gap",
+    "gap",
+    "slalom3_fixed",
+    "gap",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140028,
+   "course": [
+    "gap",
+    "door",
+    "door",
+    "moving_gap",
+    "slalom3_fixed",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140029,
+   "course": [
+    "opening_door",
+    "opening_door",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "moving_gap",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 4.0,
+   "stage_break_at": 4.0
+  },
+  {
+   "seed": 140030,
+   "course": [
+    "gap",
+    "moving_gap",
+    "opening_door",
+    "door",
+    "slalom3_fixed",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140031,
+   "course": [
+    "gap",
+    "moving_gap",
+    "moving_gap",
+    "opening_door",
+    "moving_gap",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140032,
+   "course": [
+    "door",
+    "slalom3_fixed",
+    "opening_door",
+    "opening_door",
+    "moving_gap",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 2.0,
+   "stage_break_at": 2.0
+  },
+  {
+   "seed": 140033,
+   "course": [
+    "opening_door",
+    "moving_gap",
+    "gap",
+    "opening_door",
+    "door",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140034,
+   "course": [
+    "door",
+    "opening_door",
+    "gap",
+    "moving_gap",
+    "gap",
+    "door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140035,
+   "course": [
+    "opening_door",
+    "slalom3_fixed",
+    "moving_gap",
+    "moving_gap",
+    "gap",
+    "door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140036,
+   "course": [
+    "gap",
+    "gap",
+    "door",
+    "moving_gap",
+    "moving_gap",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140037,
+   "course": [
+    "door",
+    "moving_gap",
+    "moving_gap",
+    "gap",
+    "moving_gap",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140038,
+   "course": [
+    "door",
+    "gap",
+    "door",
+    "gap",
+    "opening_door",
+    "gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 2.0,
+   "stage_break_at": 2.0
+  },
+  {
+   "seed": 140039,
+   "course": [
+    "gap",
+    "door",
+    "slalom3_fixed",
+    "gap",
+    "moving_gap",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140040,
+   "course": [
+    "gap",
+    "gap",
+    "moving_gap",
+    "gap",
+    "moving_gap",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140041,
+   "course": [
+    "slalom3_fixed",
+    "gap",
+    "door",
+    "slalom3_fixed",
+    "gap",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140042,
+   "course": [
+    "moving_gap",
+    "gap",
+    "moving_gap",
+    "gap",
+    "opening_door",
+    "gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 2.0,
+   "stage_break_at": 2.0
+  },
+  {
+   "seed": 140043,
+   "course": [
+    "moving_gap",
+    "gap",
+    "moving_gap",
+    "slalom3_fixed",
+    "moving_gap",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140044,
+   "course": [
+    "door",
+    "opening_door",
+    "door",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140045,
+   "course": [
+    "opening_door",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "moving_gap",
+    "opening_door",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140046,
+   "course": [
+    "moving_gap",
+    "moving_gap",
+    "opening_door",
+    "door",
+    "moving_gap",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140047,
+   "course": [
+    "opening_door",
+    "door",
+    "gap",
+    "moving_gap",
+    "opening_door",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140048,
+   "course": [
+    "opening_door",
+    "moving_gap",
+    "moving_gap",
+    "opening_door",
+    "opening_door",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140049,
+   "course": [
+    "door",
+    "opening_door",
+    "door",
+    "opening_door",
+    "moving_gap",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140050,
+   "course": [
+    "gap",
+    "opening_door",
+    "gap",
+    "slalom3_fixed",
+    "opening_door",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140051,
+   "course": [
+    "opening_door",
+    "gap",
+    "door",
+    "gap",
+    "door",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140052,
+   "course": [
+    "opening_door",
+    "gap",
+    "gap",
+    "slalom3_fixed",
+    "moving_gap",
+    "gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140053,
+   "course": [
+    "slalom3_fixed",
+    "gap",
+    "moving_gap",
+    "slalom3_fixed",
+    "gap",
+    "gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 4.0,
+   "stage_break_at": 4.0
+  },
+  {
+   "seed": 140054,
+   "course": [
+    "moving_gap",
+    "gap",
+    "gap",
+    "moving_gap",
+    "moving_gap",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140055,
+   "course": [
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "moving_gap",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140056,
+   "course": [
+    "gap",
+    "door",
+    "door",
+    "moving_gap",
+    "gap",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140057,
+   "course": [
+    "moving_gap",
+    "moving_gap",
+    "moving_gap",
+    "moving_gap",
+    "moving_gap",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 0.0,
+   "stage_break_at": 0.0
+  },
+  {
+   "seed": 140058,
+   "course": [
+    "opening_door",
+    "opening_door",
+    "gap",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140059,
+   "course": [
+    "door",
+    "gap",
+    "slalom3_fixed",
+    "door",
+    "slalom3_fixed",
+    "opening_door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140060,
+   "course": [
+    "slalom3_fixed",
+    "door",
+    "moving_gap",
+    "opening_door",
+    "gap",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140061,
+   "course": [
+    "moving_gap",
+    "opening_door",
+    "gap",
+    "door",
+    "slalom3_fixed",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140062,
+   "course": [
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "moving_gap",
+    "opening_door",
+    "opening_door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 2.0,
+   "stage_break_at": 2.0
+  },
+  {
+   "seed": 140063,
+   "course": [
+    "slalom3_fixed",
+    "moving_gap",
+    "gap",
+    "opening_door",
+    "slalom3_fixed",
+    "opening_door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 4.0,
+   "stage_break_at": 4.0
+  },
+  {
+   "seed": 140064,
+   "course": [
+    "moving_gap",
+    "opening_door",
+    "door",
+    "door",
+    "opening_door",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140065,
+   "course": [
+    "gap",
+    "moving_gap",
+    "opening_door",
+    "door",
+    "gap",
+    "door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140066,
+   "course": [
+    "moving_gap",
+    "door",
+    "slalom3_fixed",
+    "opening_door",
+    "door",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140067,
+   "course": [
+    "opening_door",
+    "door",
+    "gap",
+    "gap",
+    "door",
+    "door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 0.0,
+   "stage_break_at": 0.0
+  },
+  {
+   "seed": 140068,
+   "course": [
+    "opening_door",
+    "moving_gap",
+    "opening_door",
+    "moving_gap",
+    "opening_door",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140069,
+   "course": [
+    "gap",
+    "moving_gap",
+    "door",
+    "slalom3_fixed",
+    "opening_door",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140070,
+   "course": [
+    "gap",
+    "gap",
+    "slalom3_fixed",
+    "opening_door",
+    "moving_gap",
+    "gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 4.0,
+   "stage_break_at": 4.0
+  },
+  {
+   "seed": 140071,
+   "course": [
+    "door",
+    "gap",
+    "moving_gap",
+    "gap",
+    "opening_door",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140072,
+   "course": [
+    "moving_gap",
+    "gap",
+    "moving_gap",
+    "opening_door",
+    "door",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140073,
+   "course": [
+    "gap",
+    "moving_gap",
+    "opening_door",
+    "opening_door",
+    "gap",
+    "opening_door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140074,
+   "course": [
+    "door",
+    "moving_gap",
+    "slalom3_fixed",
+    "gap",
+    "opening_door",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 2.0,
+   "stage_break_at": 2.0
+  },
+  {
+   "seed": 140075,
+   "course": [
+    "door",
+    "door",
+    "gap",
+    "slalom3_fixed",
+    "opening_door",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140076,
+   "course": [
+    "slalom3_fixed",
+    "opening_door",
+    "moving_gap",
+    "slalom3_fixed",
+    "gap",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140077,
+   "course": [
+    "slalom3_fixed",
+    "moving_gap",
+    "moving_gap",
+    "slalom3_fixed",
+    "gap",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140078,
+   "course": [
+    "door",
+    "opening_door",
+    "moving_gap",
+    "slalom3_fixed",
+    "gap",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140079,
+   "course": [
+    "gap",
+    "opening_door",
+    "door",
+    "gap",
+    "moving_gap",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140080,
+   "course": [
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "gap",
+    "gap",
+    "opening_door",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140081,
+   "course": [
+    "slalom3_fixed",
+    "moving_gap",
+    "gap",
+    "moving_gap",
+    "moving_gap",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140082,
+   "course": [
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "opening_door",
+    "door",
+    "gap",
+    "opening_door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 4.0,
+   "stage_break_at": 4.0
+  },
+  {
+   "seed": 140083,
+   "course": [
+    "slalom3_fixed",
+    "moving_gap",
+    "slalom3_fixed",
+    "gap",
+    "opening_door",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140084,
+   "course": [
+    "gap",
+    "opening_door",
+    "gap",
+    "door",
+    "slalom3_fixed",
+    "moving_gap"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 5.0,
+   "stage_break_at": 5.0
+  },
+  {
+   "seed": 140085,
+   "course": [
+    "opening_door",
+    "moving_gap",
+    "slalom3_fixed",
+    "gap",
+    "gap",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140086,
+   "course": [
+    "door",
+    "door",
+    "gap",
+    "opening_door",
+    "moving_gap",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140087,
+   "course": [
+    "moving_gap",
+    "slalom3_fixed",
+    "gap",
+    "gap",
+    "opening_door",
+    "door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 0.0,
+   "stage_break_at": 0.0
+  },
+  {
+   "seed": 140088,
+   "course": [
+    "opening_door",
+    "moving_gap",
+    "gap",
+    "opening_door",
+    "moving_gap",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140089,
+   "course": [
+    "opening_door",
+    "slalom3_fixed",
+    "door",
+    "gap",
+    "door",
+    "door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 2.0,
+   "stage_break_at": 2.0
+  },
+  {
+   "seed": 140090,
+   "course": [
+    "opening_door",
+    "gap",
+    "slalom3_fixed",
+    "opening_door",
+    "opening_door",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140091,
+   "course": [
+    "gap",
+    "moving_gap",
+    "opening_door",
+    "door",
+    "door",
+    "opening_door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  },
+  {
+   "seed": 140092,
+   "course": [
+    "moving_gap",
+    "door",
+    "moving_gap",
+    "slalom3_fixed",
+    "gap",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140093,
+   "course": [
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "gap",
+    "opening_door",
+    "slalom3_fixed",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 2.0,
+   "stage_break_at": 2.0
+  },
+  {
+   "seed": 140094,
+   "course": [
+    "opening_door",
+    "gap",
+    "slalom3_fixed",
+    "door",
+    "door",
+    "opening_door"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 0.0,
+   "stage_break_at": 0.0
+  },
+  {
+   "seed": 140095,
+   "course": [
+    "opening_door",
+    "door",
+    "opening_door",
+    "slalom3_fixed",
+    "opening_door",
+    "moving_gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140096,
+   "course": [
+    "gap",
+    "opening_door",
+    "opening_door",
+    "moving_gap",
+    "gap",
+    "gap"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140097,
+   "course": [
+    "slalom3_fixed",
+    "opening_door",
+    "gap",
+    "gap",
+    "gap",
+    "door"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140098,
+   "course": [
+    "opening_door",
+    "door",
+    "gap",
+    "moving_gap",
+    "moving_gap",
+    "slalom3_fixed"
+   ],
+   "success": true,
+   "stages_cleared": 6.0,
+   "stage_break_at": 6.0
+  },
+  {
+   "seed": 140099,
+   "course": [
+    "moving_gap",
+    "moving_gap",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "slalom3_fixed",
+    "slalom3_fixed"
+   ],
+   "success": false,
+   "stages_cleared": 6.0,
+   "crash_stage": 3.0,
+   "stage_break_at": 3.0
+  }
+ ]
+}
