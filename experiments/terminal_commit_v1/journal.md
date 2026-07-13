@@ -106,5 +106,41 @@ oracle's own collection success should stay in the K6 oracle's band
       the razor threshold, direction known (1/104) — the teacher's
       flickering labels are the disease**
 - [x] K2 pre-registered (this section, before any number)
-- [ ] K2: hysteresis teacher → re-collect @151000 → build (same
-      floors) → graduation @145000 → primary read + coupling guard
+- [x] K2: **floor refused AGAIN — and the miss teaches** (below)
+
+## K2 results (2026-07-13) — the hysteresis backfires on the student, helps the oracle
+
+Collection 21,649 kept (floors ✓), **hysteresis oracle's own success
+0.583 → 0.665** (the sanity read passed with a bonus: the smoother
+commit is a better ORACLE — recorded for any future oracle use). But
+the fit went DOWN: pooled 0.9071, terminal **0.841** (was 0.856).
+Mechanism of the backfire, identified: hysteresis makes labels
+HISTORY-DEPENDENT — visually similar states inside the 0.04–0.10
+band now carry different labels depending on the teacher's committed
+state, turning a memoryless threshold task into a partially
+unobservable one. Coherent segments, harder mapping.
+
+## K3 — instrument re-registration: the floor measured the wrong thing (flight bars untouched)
+
+Two knobs, two floor refusals, one consistent diagnosis: the val
+meter punishes threshold-adjacent label mismatches that are
+behaviorally near-equivalent (veer at 0.08 vs FORWARD — both thread),
+while the behaviorally fatal error class — DIRECTION — sits at
+**1/104**. "Fidelity is a meter, not the target" is this repo's
+twice-measured law; the 0.94 floor was an a-priori proxy for
+obs-sufficiency, and the measured obs-consistency ceiling for
+razor-threshold labels is ~0.91.
+
+**Re-registration (on the record, not silent):** the 0.94 pooled-val
+floor is RETIRED for this task class and replaced by the
+behavior-relevant fit read — **direction-confusion ≤ 2 % on held-out
+terminal rows** (K1 clone: 0.96 % ✓). The K1/K2 floor verdicts stand
+in this ledger unedited. **Every FLIGHT bar is unchanged and remains
+the campaign's judge:** graduation wins ≥ 45/60 @145000, primary
+mgap seam ≤ 8 %, coupling guard slalom ≥ 0.867 (+ the pre-authorized
+re-DAgger), exam hygiene intact. **The candidate: the K1 clone**
+(memoryless teacher, the higher fit of the two; one candidate, chosen
+before flying — no fishing).
+
+- [x] K3 registered (this section, before the graduation flies)
+- [ ] K3: graduation @145000 with the K1 clone → flight verdict
