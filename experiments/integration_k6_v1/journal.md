@@ -44,7 +44,49 @@ position (0–5), type, and seam-vs-cold; per-seam rate vs the 3-stage
 lineage table (slalom seam true 17.2 %); position trend of seam
 failures (flat = no accumulation).
 
+## Results (2026-07-13 — k6_n100.json)
+
+**k=6 success: 50/100 = 0.500** — below the frozen 0.55–0.65 band
+(borderline as a composite number at ±5 pts, but the declared
+position read settles it decisively).
+
+**The finding — depth compounds.** Pooled seam failure rate BY
+POSITION: 1→ 3.2 % (3/95), 2→ 9.8 %, 3→ 13.3 %, 4→ 12.5 %, 5→
+**20.6 %** (13/63). Position 1 vs position 5 is z ≈ 3.4 — the
+per-seam rate is NOT independent of chain depth. In hindsight the
+k=3 record already whispered it (r3_formal: stage-1 seams 5.3 %,
+stage-2 12.2 %); at k=6 the whisper is a trend. Chain arithmetic
+(conditional^k) is REFUTED as a pricing model for deep chains.
+
+Per-type seam rates at k=6: slalom 21.6 % (true 17.2 % at k=3),
+moving_gap 15.1 %, **door 10.0 % (≈0–3 % at k=3 — the generalist
+suffers at depth too; this is not clone-specific)**, gap 7.2 %,
+odoor 2.4 %. Cold (position-0) fails 5/100, unchanged.
+
+**Mechanism hypothesis (recorded, not asserted): the entry-state
+random walk.** StageLocal resets the POLICY's memory at every stage
+— but nothing resets the AIRCRAFT: exit pose (y offset, velocity,
+attitude) carries variance into the next stage, and over depth that
+variance accumulates like a random walk. Deeper seams therefore
+sample wider, more-OOD entry distributions — and the DAgger diet was
+collected on 3-STAGE courses (seam positions 1–2 only), so its
+coverage thins exactly where depth begins. Every cut coheres: all
+types degrade at depth (not just the clone), and the trend is in
+position, not time-in-flight per se.
+
+**Named next arms (owner's call, each a fresh registration):**
+1. Cheap probe: record pose-at-entry (y, vy) vs position on a k=6
+   re-fly (the SeamProbe hook pattern) — measure the walk directly;
+   if entry spread does NOT widen with depth, the hypothesis dies
+   and something else compounds (e.g. controller integrator state).
+2. Depth-DAgger: collect student states on 6-stage courses (deep
+   seam entries enter the diet) — the v2 playbook, one level deeper.
+3. Accept: the 3-stage gate remains the gate of record; six stages
+   are now priced at 0.500 with the mechanism named.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [ ] k=6 read: n=100 @140000 → rate + dissection vs the prediction
+- [x] k=6 read: **0.500, below the band; depth-compounding CONFIRMED
+      via the position trend (3.2 % → 20.6 %, z ≈ 3.4); entry-state
+      random walk hypothesized; arms named for the owner**
