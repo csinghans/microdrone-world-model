@@ -36,6 +36,24 @@ The suite flies in `scripts/gate.py`'s quick layer, so every
 whole-system scorecard re-certifies it; manual override and the
 GO/NO-GO checklist stay honestly in the hardware column.
 
+## Sensor requirements (measured in sim, priced axis by axis)
+
+The beams8 safety ring's tolerance envelope, priced by delegating
+proxies that perturb exactly what the safety filter reads while the
+judge, the planner context and the beacon stay clean:
+
+| axis | safe pocket | knee (collision crosses 0.05) | ledger |
+|---|---|---|---|
+| range noise σ | ≤ 0.05 m | σ = 0.10 | `experiments/beam_noise_v1/` |
+| missed returns (read "far") | ≤ 5 % | p = 0.10 | `experiments/beam_noise_v1/` |
+| report latency @ 0.6 m/s | ≲ 500 ms (~31 cm of stale geometry) | ~1 s | `experiments/beam_latency_v1/` (control-band caveat in the ledger) |
+
+A VL53-class multiranger (σ < 5 cm, report latency in the tens of
+milliseconds) sits an order of magnitude inside every pocket; the
+binding axis for part selection is missed returns. Under every
+perturbation find/return never moved — the ring feeds only the safety
+veto, so these axes price SAFETY, not mission performance.
+
 ## Design principle
 
 The safety filter wraps *every* policy — scripted, MPC, learned — behind the
