@@ -4,16 +4,16 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.11.0 — the int8 ledger closes in-sim: both flight modes
-have measured quantized configs that pass their closed-loop gates
-(transit trigger PARITY via quantile-matched thresholds; indoor flies
-its best-ever gate with ZERO head refits under regime-complete
-calibration), both are ADOPTED as the `quantized` section of
-`artifacts.lock.json`, and the safety ring's sensor spec line is
-complete (σ < 5 cm, missed-returns < 5 %, latency ≲ 500 ms). Gates
-hold GREEN — transit 79/100 (the measured DAgger campaign of v0.10.0),
-indoor 91/100 — and every article now opens with a plain-language
-"simple version" (the Feynman rule), mirrored as cards on the site.** The baseline shipped as
+**Status: v0.12.0 — one second, dissected. Doubling the integration
+chain to six stages (0.500) opened a six-suspect investigation that
+ended with the moving-gap flinch proven a MISTAKE (+11 composite under
+a privileged oracle), an apprenticeship that taught WHERE (direction
+errors 1/104) but could not teach WHEN (flickering labels at a
+visually-unresolvable boundary), and the naming of the perception tax
+(BC 11.1 % / RL 8.9 % converging against the oracle's ~4 %). Article
+#11, *The Flinch*, tells it start to finish. Gates unchanged and
+GREEN — transit 79/100, indoor 91/100; the int8 configs remain
+adopted in the lock (v0.11.0).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what

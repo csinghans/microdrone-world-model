@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.12.0 — 2026-07-14 (the anatomy turn: one second dissected, six suspects executed, a tax named)
 
 - **Article #11 published in-repo:** *The Flinch: Anatomy of One
   Second* (bilingual, `writing/11-the-flinch/`) — the three-act story
