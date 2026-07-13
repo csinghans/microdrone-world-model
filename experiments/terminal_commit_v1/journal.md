@@ -66,8 +66,45 @@ instrument is asserted only when the oracle is OFF (with it on, the
 executed-vs-inner mismatch IS the override rate — reported).
 `scripts/build_mgap_commit.py`: pot filter + floors + bc_train.
 
+## K1 results (2026-07-13) — the val floor refused, and the diagnostic names the teacher
+
+Collection delivered (23,792 rows, 19,849 kept, 7,511 terminal —
+quantity floors passed; oracle-wrapped k=6 success 0.583). **BC val
+0.9143 < the 0.94 floor — the build refused, the graduation never
+ran.** The per-region meter localizes it: approach 0.948, **terminal
+0.856**.
+
+**The free confusion diagnostic (held-out terminal rows, n=724):
+direction confusion is ONE error in 104** — the student knows WHERE
+the slot is. The errors are TIMING: 60 % "teacher veers, student
+flies forward" + 32 % the reverse, all crowding the oracle's razor
+0.10 m threshold. Mechanism: tracking a MOVING slot, |err| oscillates
+around 0.10, so the teacher's labels FLICKER (veer/forward/veer)
+faster than any visual estimate can resolve ±2 cm — the labels
+themselves are inconsistent at the boundary. **The disease is the
+teaching, not the student.**
+
+## K2 — the hysteresis teacher (pre-registered)
+
+**One knob: label coherence.** `ThreadCommitOracle` gains commit
+HYSTERESIS (opt-in, default bit-identical — the K6 record's oracle is
+untouched): once |err| > 0.10 it commits and KEEPS veering until
+|err| ≤ 0.04, then flies FORWARD until the 0.10 boundary is crossed
+again. Labels become temporally coherent segments instead of boundary
+flicker. Everything else identical: same seeds machinery (fresh block
+**151000+**, n=400 k=6), same quantity floors, **the same 0.94 val
+floor** (the bar does not move; the teacher does), same graduation
+plan and coupling guard. Sanity read declared: the hysteresis
+oracle's own collection success should stay in the K6 oracle's band
+(~0.58–0.61 at k=6) — a smoother commit must not fly worse.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [ ] Collect (400 @150000, oracle-wrapped) → pot floors → BC →
-      graduation @145000 → primary read + coupling guard → verdict
+- [x] K1: collect + build → **val floor REFUSED (0.9143 < 0.94);
+      terminal region 0.856; confusion diagnostic = commit-TIMING at
+      the razor threshold, direction known (1/104) — the teacher's
+      flickering labels are the disease**
+- [x] K2 pre-registered (this section, before any number)
+- [ ] K2: hysteresis teacher → re-collect @151000 → build (same
+      floors) → graduation @145000 → primary read + coupling guard

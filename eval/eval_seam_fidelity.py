@@ -160,6 +160,7 @@ def capture(
     target_stage: str = "slalom3_fixed",
     thread_commit: bool = False,
     course_k: int = 3,
+    commit_hysteresis: bool = False,
 ) -> int:
     import torch  # noqa: F401  (torch before SB3 policies)
 
@@ -203,7 +204,7 @@ def capture(
         if thread_commit:  # terminal_commit_v1: the privileged teacher
             from eval.eval_integration import ThreadCommitOracle
 
-            pol = ThreadCommitOracle(pol, names)
+            pol = ThreadCommitOracle(pol, names, hysteresis=commit_hysteresis)
         ep = run_composite_episode(
             env,
             pol,
@@ -527,6 +528,7 @@ def main() -> None:
     ap.add_argument("--slalom-zip", default=None)
     ap.add_argument("--target", default="slalom3_fixed")
     ap.add_argument("--thread-commit", action="store_true")
+    ap.add_argument("--commit-hysteresis", action="store_true")
     ap.add_argument("--course-k", type=int, default=3)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -544,6 +546,7 @@ def main() -> None:
                 args.target,
                 args.thread_commit,
                 args.course_k,
+                args.commit_hysteresis,
             )
         )
     ap.print_help()

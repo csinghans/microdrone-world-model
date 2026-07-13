@@ -175,14 +175,18 @@ class ThreadCommitOracle:
 
     TERM_X = 1.0  # terminal window: metres before the fence plane
     TOL = 0.10
+    EXIT_TOL = 0.04  # hysteresis mode: keep veering until this tight
 
-    def __init__(self, inner, names):
+    def __init__(self, inner, names, hysteresis=False):
         self.inner = inner
         self.names = tuple(names)
+        self.hysteresis = bool(hysteresis)
+        self._committed = False
         self.pillars: list = []  # runner-refreshed (privileged)
 
     def begin(self, pillars) -> None:
         self.inner.begin(pillars)
+        self._committed = False
         self.pillars = [np.array(q) for q in pillars]
 
     def decide(self, frame, state) -> int:
@@ -192,6 +196,7 @@ class ThreadCommitOracle:
         x = float(state[0])
         k = int(np.clip(x // STAGE_LEN, 0, len(self.names) - 1))
         if self.names[k] != "moving_gap":
+            self._committed = False
             return a
         lo, hi = k * STAGE_LEN - 0.2, (k + 1) * STAGE_LEN + 0.2
         stage = [p for p in self.pillars if lo <= float(p[0]) < hi]
@@ -199,10 +204,23 @@ class ThreadCommitOracle:
             return a
         plane = float(np.median([float(p[0]) for p in stage]))
         if not (0.0 < plane - x <= self.TERM_X):
+            self._committed = False
             return a
         ys = sorted(float(p[1]) for p in stage)
         _w, gap_y = max((b - a2, (a2 + b) / 2.0) for a2, b in zip(ys, ys[1:]))
         err = gap_y - float(state[1])
+        if self.hysteresis:
+            # terminal_commit_v1 K2: temporally coherent labels — once
+            # committed, keep veering until tightly aligned
+            if self._committed:
+                if abs(err) <= self.EXIT_TOL:
+                    self._committed = False
+                    return FORWARD
+            elif abs(err) <= self.TOL:
+                return FORWARD
+            else:
+                self._committed = True
+            return ACTION_NAMES.index("veer_left" if err > 0 else "veer_right")
         if abs(err) <= self.TOL:
             return FORWARD
         return ACTION_NAMES.index("veer_left" if err > 0 else "veer_right")
@@ -588,6 +606,21 @@ def main() -> None:
         assert tc.decide(None, _st(4.0, 0.6)) == vr  # window: gap below
         assert tc.decide(None, _st(4.0, 0.12)) == FORWARD  # aligned (gap 0.1)
         assert tc.decide(None, _st(4.9, 0.6)) == hov  # past the plane
+
+        # K2 hysteresis: default off is bit-identical; on, the commit
+        # holds through the 0.10 boundary until the 0.04 exit
+        import inspect
+
+        tci = inspect.signature(ThreadCommitOracle.__init__).parameters
+        assert tci["hysteresis"].default is False
+        th = ThreadCommitOracle(_FakeInner(), ("gap", "moving_gap"), hysteresis=True)
+        th.begin([])
+        th.pillars = [np.array([4.8, -0.6]), np.array([4.8, 0.8])]
+        th.inner.next = hov
+        assert th.decide(None, _st(4.0, -0.4)) == vl  # commit engages (err .5)
+        assert th.decide(None, _st(4.1, 0.04)) == vl  # err .06 > exit: HOLDS
+        assert th.decide(None, _st(4.2, 0.08)) == FORWARD  # err .02 <= exit
+        assert th.decide(None, _st(4.3, 0.04)) == FORWARD  # err .06 < enter: stays off
 
         _load_all_skills()
         from sim.composite import CompositeCourse  # noqa: F401 (registration path)
