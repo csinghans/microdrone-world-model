@@ -69,8 +69,33 @@ FT chain clean (450k, exit 0, `artifacts/ppo_slalom_rl.zip`).
   moving_gap 34/42 = 0.8095 (≥0.805 ✓ by 0.0045 — a squeaker, watch
   the pool), opening_door 28/29 = 0.966 (≥0.888 ✓).
 
+## K1 pooled verdict (n=120) — PRIMARY REFUTED, cleanly
+
+Block 2 @153000 (`grad_n60_recheck.json`): wins 51/60, seam 5/20 =
+25.0 %, cold 1/11. Pooled:
+
+- **PRIMARY: seam 8/40 = 20.0 % vs frozen ≤12 % — REFUTED.** Not a
+  squeaker this time: the pooled rate sits ABOVE the 17.2 % true
+  baseline (within noise of it, z ≈ 0.5 — consistent with zero
+  transfer, not with damage). Block 1's 15.0 % was a friendly draw;
+  the pool told the truth. The a-block-is-a-draw law, again.
+- Wins 97/120 = 0.808 (≥90 ✓) — identical to the mgap arm's pooled
+  composite, coincidentally. Cold 1/20 = 5.0 % (≤8 % ✓). All four
+  coupling guards pass pooled (door 1.000, gap 0.972, mgap 0.857,
+  odoor 0.984 — the block-1 mgap squeaker resolved upward).
+
+**Verdict:** solo-world crown FT does not transfer to seam entries —
+the frozen prediction's mechanism confirmed as written: PPO from
+clean resets explores off-centre states at mid-stage x, never at low
+stage-local x where seam entries live. The policy got better at what
+it practised (cold intact, no coupling damage) and never saw what it
+needed. **"Solo RL for seam diseases" is closed.** The pre-named K2
+(entry-matched RL) fires.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [x] K1: crown FT 450k → block 1 @149000 (borderline primary)
-- [ ] Block 2 @153000 → pooled n=120 verdict on primary + guards
+- [x] K1: crown FT 450k → pooled n=120 → PRIMARY REFUTED (20 % vs
+      ≤12 %); solo RL closed for seam diseases; guards all green
+- [ ] K2 (pre-named): entry-matched RL — frozen section below when
+      machinery lands
