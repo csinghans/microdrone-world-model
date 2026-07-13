@@ -1,0 +1,36 @@
+{
+ "premise": {
+  "early_mean_gap_abs": 0.1268274609415568,
+  "deep_mean_gap_abs": 0.16500771233443393,
+  "ratio": 1.3010408874342356,
+  "verdict": "REFUTED",
+  "by_pos": {
+   "0": 0.15904683078349377,
+   "1": 0.12761516207296708,
+   "2": 0.12592723107708786,
+   "3": 0.1676860392962053,
+   "4": 0.10147072896759804,
+   "5": 0.24363717442119853
+  }
+ },
+ "death_link": {
+  "broke_mean_gap_rel": 0.37950408037649236,
+  "cleared_mean_gap_rel": 0.1505314535163186,
+  "ratio": 2.521094904164674,
+  "linked": true,
+  "median_split": {
+   "fail_wide": 0.2978723404255319,
+   "fail_narrow": 0.0
+  },
+  "n_broke": 14,
+  "n_cleared": 79
+ },
+ "bypass": {
+  "deep_bypass_frac": 0.0,
+  "early_bypass_frac": 0.0
+ },
+ "instrument": {
+  "outcome_match": 1.0,
+  "n_instances": 113
+ }
+}

@@ -334,4 +334,78 @@ NOTE: any change to the composite builder re-defines the exam — the
 k=3 gate of record is untouched by this campaign regardless.
 
 - [x] K3 pre-registered (this section, before any number)
-- [ ] K3 run: rendezvous probe @140000 → four reads → verdict
+- [x] K3 executed → split verdict + the campaign's biggest
+      generalization (below)
+
+## K3 results (2026-07-13 — k3_rendezvous.json + rows npz)
+
+Instrument 1.000. **Premise REFUTED — my displacement theory was shot
+by the instrument:** gap-centre offset at crossing is FLAT with depth
+(0.13 → 0.17 m, ×1.3 vs the 2.0 bar; per-position 0.10–0.24 ≈ the
+designed yc_hit ±0.3 expectation). The composite LAZY-STEPS its
+stages — `CompositeCourse.step()` advances only the stage the drone
+is inside, "its first step() call IS its clock zero, so baked aim
+math holds" (the comment was there; I theorized from the skill file
+without reading the composite). Bypass 0.00 everywhere.
+
+**Death link LINKED, hard: ×2.52** (broke instances cross at
+drone-gap offset 0.38 m vs cleared 0.15 m), and the median split is a
+razor — **29.8 % of wide-half instances die, 0.0 % of the narrow
+half.** Every mgap death is a failure to ALIGN by crossing time.
+
+## Exploratory addendum (labelled as such; free dissections of the rows)
+
+- **Outward encounters kill:** when the gap drifts AWAY from the
+  centreline during approach, fail 35.3 % vs 10.4 % inward (×3.4);
+  broke instances' gap sits off-centre at crossing (0.343 vs 0.117).
+- **Entry conditions are FLAT at every depth and non-predictive:**
+  entry misalignment 0.52–0.58 everywhere (broke entries were
+  slightly BETTER aligned, ×0.82); entry |vy| ~0.02; approach time
+  2.6–3.0 s. The misalignment develops DURING the approach.
+- **★ The gradient was never a k=6 phenomenon:** pooling every k=3
+  record on disk (10 files, n=271 mgap seam instances):
+  **position 1 = 10.7 %, position 2 = 26.7 % (z ≈ 3.4).** The
+  position gradient has been in every gate record since the first
+  hybrid — k=6 merely extended the axis (and this block's early
+  cells, 2.2 %, were the lucky draw the anomaly flag suspected).
+- **Upstream-composition selection ELIMINATED:** per-upstream mgap
+  seam rates sit in a modest 10.8–24.6 % band (mgap-after-mgap is
+  the SAFEST, curiously), and the upstream mix at position 1 vs 2 is
+  nearly identical — survival selection does not build the gradient.
+- **Time and position are collinear:** stages take ~4.4 s each with
+  tiny within-position arrival variance (late-vs-early split within
+  position: 14.9 % vs 13.0 %, no leverage). Observation cannot
+  separate flight-time from position; only an intervention can.
+
+## Campaign state — the elimination table
+
+| suspect | verdict | by |
+|---|---|---|
+| entry pose (y) | eliminated | K2 intervention (manipulated, deaths unmoved) |
+| rendezvous displacement | eliminated | K3 premise (flat; composite lazy-steps) |
+| open bypass | eliminated | K3 audit (0.00) |
+| entry conditions (misalignment, vy, approach time) | eliminated | K3 addendum (flat, non-predictive) |
+| upstream-composition selection | eliminated | history dissection (mix flat) |
+| **time-accumulated controller state** | **SURVIVING — collinear with position; separable only by intervention** | — |
+
+Positive facts: deaths = failure to align by crossing (×2.52, razor
+median split); outward drift ×3.4; the gradient is position/time-
+indexed and pre-dates k=6 (10.7 → 26.7 % at k=3, n=271).
+
+**Named next arm (K4, owner's call): the controller-reset
+intervention.** A runner flag that resets the VelCommander/PID state
+at every stage boundary (costless to deploy if it works), paired k=6
+re-fly: if the position gradient flattens, the accumulator is nailed
+AND remedied in the same run; if it stands, the last named suspect
+falls and the gradient becomes an honest open.
+
+## Status
+
+- [x] k=6 priced: **0.500** (the owner's question, answered)
+- [x] K1 pose GRAY → K2 intervention: pose ELIMINATED
+- [x] K3: rendezvous ELIMINATED; death = crossing misalignment
+      (×2.52); **the gradient generalizes to k=3 (10.7→26.7 %,
+      n=271) — a standing property of every gate record**
+- [x] Suspects eliminated ×5; survivor: controller-state
+      accumulation (collinear, needs intervention)
+- [ ] K4 (owner's call): controller-reset intervention
