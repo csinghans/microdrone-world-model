@@ -509,7 +509,51 @@ record to be right or wrong.
 the k6 record; every number rerunnable).
 
 - [x] K5 registered (this section, before any computed number)
-- [ ] K5 analysis → findings
+- [x] K5 analysis → **the terminal wrong-way turn** (below)
+
+## K5 findings (2026-07-13 — `eval_gap_phase --analyze`, zero flights)
+
+**The registered prediction was HALF WRONG, usefully.** Broke cases do
+not lose a sustained velocity race — they track BETTER than cleared
+cases through mid-approach (|err| 0.216 → 0.148 → 0.155 at τ = −24…
+−12, vs cleared 0.408 → 0.273 → 0.158) and then **diverge in the
+terminal second**: 0.155 → 0.261 → 0.392 across the last 12
+decisions, with closure −0.237 m/s and a **wrong-way share of 0.90**
+(cleared: +0.012, 0.50). Deaths also over-sample faster fences
+(|gap_vy| 0.293 vs 0.241).
+
+**The signature: track-then-lose.** In the final ~1 s, with the fence
+looming, the broke pilot actively moves AWAY from the gap nine
+decisions out of ten — consistent with the evasion machinery treating
+the gap's edge pillars as a threat to dodge rather than a slot to
+thread, exactly when commitment is required, and hardest when the
+slot is moving fast. The failure trajectory shape is depth-invariant
+within power (honest note: the early-broke row is n=1 — the k=6
+block's early cells were the lucky draw; the deep-broke signature
+rides n≈13).
+
+**What this buys:** the pilot-side remedy now has a PRECISE aim —
+v3's parked "mgap phase training" arm sharpens to **terminal-commit
+training** (the last second before a moving slot, fast-vy
+oversampled), and any rule-side candidate ("thread-commit": suppress
+evasion flips within the terminal window when a trackable slot
+exists) is registrable with this signature as its target. **What
+stays open, honestly:** why the terminal trap fires more often at
+deeper positions remains unexplained — the divergence pattern itself
+is depth-invariant, encounter parameters are iid by construction,
+and six suspects are dead. The gradient's cause is still at large;
+its MECHANISM OF KILLING is now precisely known.
+
+## Status
+
+- [x] k=6 priced: **0.500** (the owner's question, answered)
+- [x] Mechanism arc: pose → rendezvous → controller, all eliminated
+      by pre-registered probes/interventions; the mgap position
+      gradient (10.7→26.7 % at k=3, n=271) stands REAL and UNSOLVED
+- [x] K5: **the kill mechanism is nailed — terminal wrong-way
+      divergence (0.90) in the last second; the gradient's cause
+      remains open; pilot-side remedy aim sharpened to
+      terminal-commit training**
 
 ## Status
 
