@@ -54,7 +54,52 @@ and flies 11.1 % seam; RL's job is the remaining WHEN.
   goes under review (as a review, on the record; never a silent bar
   move), with the vision-information constraint as the named suspect.
 
+## K1 results (2026-07-14 — grad_n60.json + grad_n60_b2.json, pooled n=120)
+
+| pooled read | value | bar | verdict |
+|---|---|---|---|
+| wins | **97/120 = 0.808** | ≥ 90 | ✓ — the best graduation-level composite this line has seen |
+| **PRIMARY mgap seam** | **4/45 = 8.9 %** | ≤ 8 % | **missed by 0.4 of a fail** |
+| guard slalom (true-rate anchor) | 0.855 | ≥ 0.82 | ✓ comfortable |
+| guard door | 0.926 | ≥ 0.930 | tripped by 0.004 |
+| guards gap / odoor | 1.000 / 0.960 | | ✓ |
+| mgap conditional | **0.938** (true baseline ~0.887) | reported | real lift |
+
+**REFUTED as written.** The anchor schedule landed (kl 1.0 → 0.103),
+no coupling damage appeared (slalom 0.855 ≥ the mis-anchored old bar
+too), and the arm is a genuine improvement — but 8.9 > 8.
+
+## The pre-named review (open, on the record)
+
+Two independent deployment-legal methods have now converged:
+**BC 11.1 %, RL 8.9 %**, against the privileged oracle's ~4 %. The
+residual is the **perception tax** — the oracle reads pillars; the
+camera at terminal range resolves the slot's position but not the
+±2 cm commit boundary (the same info-constraint the confusion
+diagnostic measured). The frozen 8 % assumed a student could capture
+~¾ of the oracle's gain; two methods captured 47 % and 63 %. Review
+verdict: **the target sat inside the perception tax. No bar moves;
+the arm does not bank under THIS registration.** Its measured value
+(mgap seam 17.2 → 8.9 %, conditional 0.887 → 0.938, est. +2.5–3 true
+points on the k=3 gate) is banked as EVIDENCE; adoption is deferred
+to the 0.84 stack's own registration, which will judge components by
+the stack's exam, not by this arm's missed ambition.
+
+Also recorded: the door guard tripped by 0.004 on an anchor frozen
+from the 79-record's friendly door draws (0.980/1.000) — **the
+guard-anchor disease, third occurrence** (beam_latency band, the
+slalom guard, now door). Standing rule going forward: every guard
+anchor in a new registration must cite a pooled true rate or be
+flagged as draw-anchored.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [ ] K1: anchored FT 450k → graduation @147000 → primary + guards
+- [x] K1: anchored FT (kl 1.0→0.1, 450k) → pooled graduation:
+      **REFUTED as written (8.9 % vs ≤8 %) — with wins 0.808, mgap
+      conditional 0.938, no coupling damage; the pre-named review
+      names the perception tax; the arm banks as EVIDENCE for the
+      0.84 stack registration; no bar moves**
+- [x] Campaign CLOSED; re-DAgger ticket still unspent (no coupling
+      damage ever materialized); slalom RL-from-success remains the
+      stack's other named component
