@@ -58,10 +58,27 @@ def _frame_tensor(frame: np.ndarray) -> torch.Tensor:
 
 
 class WMPolicy:
-    """Latent MPC from vision alone. Never sees the pillar positions."""
+    """Latent MPC from vision alone. Never sees the pillar positions.
 
-    def __init__(self, enc, pred, cheads, meta, speed: float = 1.0):
+    `margin`/`imm_thr` override the trigger thresholds (transit_margin_v1:
+    refit on the quantized landscape); None keeps today's constants.
+    `trace`, if a list, receives (edge, imminent) per consulted decision."""
+
+    def __init__(
+        self,
+        enc,
+        pred,
+        cheads,
+        meta,
+        speed: float = 1.0,
+        margin=None,
+        imm_thr=None,
+        trace=None,
+    ):
         self.enc, self.pred, self.cheads = enc, pred, cheads
+        self.margin = MARGIN_WM if margin is None else float(margin)
+        self.imm_thr = 0.5 if imm_thr is None else float(imm_thr)
+        self.trace = trace
         names = list(meta["action_names"])
         vecs = float(speed) * np.array(meta["action_vecs"], dtype=np.float32)
         # The planner's menu. The corridor task is planar and `climb` games the
@@ -131,7 +148,9 @@ class WMPolicy:
         # *collapses* — so an absolute near-term backstop ("straight ahead hits
         # within ~170 ms") forces the evasion the margin can no longer see
         imminent = float(p[self.i_fwd, :2, 1].max())
-        if edge < MARGIN_WM and imminent < 0.5:
+        if self.trace is not None:
+            self.trace.append((edge, imminent))
+        if edge < self.margin and imminent < self.imm_thr:
             self.evade = FORWARD  # ahead is no worse than aside — keep flying
             return FORWARD
         danger = 0.25 * warn + 0.75 * crit  # crit carries the in-ring gradient

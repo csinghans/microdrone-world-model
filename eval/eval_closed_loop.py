@@ -121,7 +121,9 @@ def load_or_train(device: str = "cpu"):
     return load_model(MODEL, device=device)
 
 
-def evaluate(n_seeds: int, seed0: int, enc, pred, cheads, nhead, meta) -> list:
+def evaluate(
+    n_seeds: int, seed0: int, enc, pred, cheads, nhead, meta, wm_kwargs=None
+) -> list:
     env = make_env()
     rows = []
     for i in range(n_seeds):
@@ -131,7 +133,10 @@ def evaluate(n_seeds: int, seed0: int, enc, pred, cheads, nhead, meta) -> list:
             env, ReactivePolicy(enc, nhead), seed, in_path=in_path
         )
         row["wm"] = run_episode(
-            env, WMPolicy(enc, pred, cheads, meta), seed, in_path=in_path
+            env,
+            WMPolicy(enc, pred, cheads, meta, **(wm_kwargs or {})),
+            seed,
+            in_path=in_path,
         )
         rows.append(row)
         r, w = row["reactive"], row["wm"]

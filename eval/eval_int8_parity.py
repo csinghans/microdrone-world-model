@@ -414,6 +414,100 @@ def _fmt(d):
     )
 
 
+# --- K2M (transit_margin_v1): quantile-matched trigger refit -----------------
+# the RECORDED pooled float reference (b4_results + b4_block2_results):
+# crash 17/84 in-path, false-evasion 1/36 clear runs
+FLOAT_REF_CRASH = 17 / 84
+FLOAT_REF_FE = 1 / 36
+
+
+def k2_margin_refit(
+    arms=("int8pc+split", "int8pc+split+p16"),
+    ck=UNIFIED,
+    train_seed0=3000,
+    train_n=40,
+    blocks=((1000, 60), (2000, 60)),
+):
+    """transit_margin_v1 K1: closed-form quantile-matched refit of the
+    WMPolicy trigger thresholds per quantized arm (marginal matching of
+    the float operating point on TRAIN traces — no search), then the B4
+    exam re-flown on both recorded blocks against the recorded float
+    reference. Train seeds are disjoint from both exam blocks and from
+    every calibration corpus."""
+    from eval.eval_closed_loop import evaluate as cl_eval
+    from eval.eval_closed_loop import run_episode
+    from eval.eval_unified_wm_gate import wm_arm
+    from planner.latent_mpc import MARGIN_WM, WMPolicy
+    from sim.envs import make_env
+
+    calib = _calib_batch()
+    meta = load_model(ck, device=DEVICE)[4]
+    comps = {a: _arm_components(ck, a, calib) for a in ("float", *arms)}
+
+    traces: dict = {a: [] for a in comps}
+    env = make_env()
+    for i in range(train_n):
+        seed, in_path = train_seed0 + i, (i % 10) < 7
+        for a, (enc, pred, cheads, _n) in comps.items():
+            run_episode(
+                env,
+                WMPolicy(enc, pred, cheads, meta, trace=traces[a]),
+                seed,
+                in_path=in_path,
+            )
+    env.close()
+
+    fl = np.asarray(traces["float"], dtype=np.float64)
+    q_edge = float((fl[:, 0] >= MARGIN_WM).mean())
+    q_imm = float((fl[:, 1] >= 0.5).mean())
+    # a zero quantile would send a refit threshold to max(trace) = a
+    # trigger that never fires on train — instrument failure, die loudly
+    assert q_edge > 0 and q_imm > 0, f"degenerate operating point {q_edge}/{q_imm}"
+    print(
+        f"  [k2m] float operating point over {len(fl)} train decisions: "
+        f"P(edge>=0.4)={q_edge:.4f}  P(imm>=0.5)={q_imm:.4f}"
+    )
+
+    out = {"train": {"n_dec": len(fl), "q_edge": q_edge, "q_imm": q_imm}}
+    for a in arms:
+        t = np.asarray(traces[a], dtype=np.float64)
+        m2 = float(np.quantile(t[:, 0], 1.0 - q_edge))
+        i2 = float(np.quantile(t[:, 1], 1.0 - q_imm))
+        print(f"  [k2m] {a}: refit margin {m2:.4f}  imm_thr {i2:.4f}")
+        enc, pred, cheads, nhead = comps[a]
+        rows = []
+        for s0, n in blocks:
+            rows += cl_eval(
+                n,
+                s0,
+                enc,
+                pred,
+                cheads,
+                nhead,
+                meta,
+                wm_kwargs={"margin": m2, "imm_thr": i2},
+            )
+        m = wm_arm(rows)
+        d = m["crash"] - FLOAT_REF_CRASH
+        ok = d <= 0.03 + 1e-9 and m["false_evasion"] <= 0.10 + 1e-9
+        out[a] = {
+            "margin": m2,
+            "imm_thr": i2,
+            **m,
+            "delta_crash": float(d),
+            "pass": bool(ok),
+        }
+        print(
+            f"  [k2m] {a}: crash {m['crash']:.4f} (Δ{d:+.4f}, bar +0.030)  "
+            f"FE {m['false_evasion']:.4f} (bar 0.10) -> "
+            f"{'PASS' if ok else 'FAIL'}"
+        )
+    passing = [a for a in arms if out[a]["pass"]]
+    out["verdict"] = ("PARITY: " + ",".join(passing)) if passing else "REFUTED"
+    print(f"  [k2m] VERDICT {out['verdict']}")
+    return out
+
+
 # --- K1 knobs (pre-registered in the journal before these runs) --------------
 def _q_logit_stack(q, data, rolls, cf, vis):
     """calibrate_heads._logit_stack through QUANTIZED components: candidate
@@ -678,9 +772,21 @@ def k1c_split_seam(ck=UNIFIED, n=60, seed0=1000):
 
 def selftest() -> None:
     torch.manual_seed(0)
+    # 0) K2M machinery is opt-in: every new default must be inert
+    import inspect
+
+    from eval.eval_closed_loop import evaluate as _cle
+    from planner.latent_mpc import MARGIN_WM, WMPolicy
     from world_model.collision_head import CollisionHeads, DangerNowHead
     from world_model.encoder import Encoder
     from world_model.predictor import ACTION_D, MultiPredictor
+
+    wp = inspect.signature(WMPolicy.__init__).parameters
+    assert wp["margin"].default is None and wp["imm_thr"].default is None
+    assert wp["trace"].default is None
+    assert inspect.signature(_cle).parameters["wm_kwargs"].default is None
+    assert MARGIN_WM == 0.4  # the float constants the refit is measured against
+    assert abs(FLOAT_REF_CRASH - 17 / 84) < 1e-12 and abs(FLOAT_REF_FE - 1 / 36) < 1e-12
 
     # 1) per-tensor weight-quant error is bounded by half a step
     lin = nn.Linear(8, 4)
@@ -826,6 +932,11 @@ def main() -> None:
         action="store_true",
         help="K2c: refit heads on the quantized latents before B3/B5",
     )
+    ap.add_argument(
+        "--k2-margin",
+        action="store_true",
+        help="transit_margin_v1: quantile-matched trigger refit + B4 re-fly (slow)",
+    )
     ap.add_argument("--cl-seeds", type=int, default=60)
     ap.add_argument("--cl-seed0", type=int, default=1000)
     ap.add_argument(
@@ -847,10 +958,11 @@ def main() -> None:
         or args.k1c
         or args.b3
         or args.b5
+        or args.k2_margin
     ):
         raise SystemExit(
             "pick --k0 / --closed-loop / --k1a / --rebake / --k1c / --b3 / --b5 "
-            "(or --selftest)"
+            "/ --k2-margin (or --selftest)"
         )
     res = {"device": DEVICE, "calib_n": CALIB_N, "calib_seed": CALIB_SEED}
     if args.k0:
@@ -867,6 +979,12 @@ def main() -> None:
             f"(n={args.cl_seeds}, seed0={args.cl_seed0}, arms={arms}) ==="
         )
         res["B4"] = b4_closed_loop(arms=arms, n=args.cl_seeds, seed0=args.cl_seed0)
+    if args.k2_margin:
+        print(
+            "=== K2M transit_margin_v1: quantile-matched trigger refit "
+            "(train 3000+/40) + B4 re-fly (1000+2000) ==="
+        )
+        res["K2M"] = k2_margin_refit()
     if args.k1a:
         rule = f"percentile {args.pct}" if args.pct > 0 else "min/max"
         print(f"=== K1a champion B1 @ {rule}, calib_n={args.calib_n} ===")
