@@ -996,6 +996,7 @@ def finetune(
     anchor_dagger_ball: float = None,
     ewc: float = 0.0,
     freeze_trunk: bool = False,
+    entry_match: float = 0.0,
 ):
     """PPO fine-tune from the BC init; `world` may be a comma-separated
     diet (round-robin, the training-env convention). station_tick passes
@@ -1019,6 +1020,7 @@ def finetune(
             station_tick=station_tick,
             gate_bonus=gate_bonus,
             edge_bias=edge_bias,
+            entry_match=entry_match,
         ),
         n_envs=1,
     )
@@ -1217,6 +1219,7 @@ def main() -> None:
     ap.add_argument("--anchor-dagger-ball", type=float, default=None)
     ap.add_argument("--ewc", type=float, default=0.0)
     ap.add_argument("--freeze-trunk", action="store_true")
+    ap.add_argument("--entry-match", type=float, default=0.0)
     ap.add_argument("--ft-gate-bonus", type=float, default=0.0)
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--ft-smoke", action="store_true")
@@ -1469,6 +1472,7 @@ def main() -> None:
             anchor_dagger_ball=args.anchor_dagger_ball,
             ewc=args.ewc,
             freeze_trunk=args.freeze_trunk,
+            entry_match=args.entry_match,
         )
         return
     if args.collect:

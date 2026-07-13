@@ -182,6 +182,18 @@ def gate_bonus_hits(prev_xy, xy, fences, spent, pillar_r) -> list:
     return hits
 
 
+# entry-matched RL (slalom_rl_v1 K2): the seam-entry state distribution as
+# MEASURED by eval_pose_walk on the k6 block (599 entries, instrument 1.000;
+# positions >= 2 pooled): |y| mean_abs ~0.145 saturating ~0.15 (p90 0.27),
+# |vy| mean_abs ~0.042 (p90 0.07). Zero-mean normals matched to those
+# moments (sigma = mean_abs / sqrt(2/pi)), clipped just above the measured
+# p90s; y and vy sampled independently (the table records abs moments only).
+ENTRY_SIGMA_Y = 0.182
+ENTRY_CLIP_Y = 0.30
+ENTRY_SIGMA_VY = 0.053
+ENTRY_CLIP_VY = 0.10
+
+
 class WMPolicyEnv(gym.Env):
     """Gymnasium wrapper around the project's own closed-loop harness: the sim
     steps at 48 Hz under the PID VelCommander, the agent decides at 12 Hz, and
@@ -205,8 +217,17 @@ class WMPolicyEnv(gym.Env):
         stop_hover: int = 0,
         aug_wm_path: str = None,
         aug_p: float = 0.5,
+        entry_match: float = 0.0,
     ):
         super().__init__()
+        # entry-matched hot starts (slalom_rl_v1 K2): with this per-episode
+        # probability, teleport the aircraft at reset to a SEAM-ENTRY state
+        # (lateral offset + lateral velocity from the measured k6 entry
+        # distributions, forward velocity at cruise) before control and
+        # reward hand over — solo RL from clean resets never visits these
+        # states (K1's measured refutation). 0.0 keeps every existing
+        # recipe bit-identical (the gate below short-circuits: no rng draw).
+        self.entry_match = float(entry_match)
         # stop-and-observe training (slalom_stopobserve follow-up): after a
         # fence is threaded, open a `stop_hover`-decision window that PAYS the
         # policy for choosing HOVER (and penalises moving), suppressing the
@@ -370,6 +391,38 @@ class WMPolicyEnv(gym.Env):
         self.lat = int(self.rng.integers(0, 3)) if self.randomize else 0
         self.pending = [FORWARD] * max(self.lat, 1)
         self.state = obs[0]
+        if self.entry_match > 0.0 and self.rng.random() < self.entry_match:
+            # hot start: the house teleport pattern (eval_low_hover);
+            # attitude level, altitude/x untouched — the measured table
+            # records y/vy only, and the forward state at a seam is cruise
+            import pybullet as p
+
+            y0 = float(
+                np.clip(
+                    self.rng.normal(0.0, ENTRY_SIGMA_Y), -ENTRY_CLIP_Y, ENTRY_CLIP_Y
+                )
+            )
+            vy0 = float(
+                np.clip(
+                    self.rng.normal(0.0, ENTRY_SIGMA_VY),
+                    -ENTRY_CLIP_VY,
+                    ENTRY_CLIP_VY,
+                )
+            )
+            p.resetBasePositionAndOrientation(
+                self.env.DRONE_IDS[0],
+                [float(self.state[0]), y0, float(self.state[2])],
+                p.getQuaternionFromEuler([0.0, 0.0, 0.0]),
+                physicsClientId=self.env.CLIENT,
+            )
+            p.resetBaseVelocity(
+                self.env.DRONE_IDS[0],
+                linearVelocity=[speed, vy0, 0.0],
+                physicsClientId=self.env.CLIENT,
+            )
+            self.env._updateAndStoreKinematicInformation()
+            self.state = self.env._getDroneStateVector(0)
+            self.cmd.reset(self.state[0:3])
         self.prev_x = float(self.state[0])
         self.prev_y = float(self.state[1])
         self.decisions = 0

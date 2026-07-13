@@ -92,10 +92,44 @@ it practised (cold intact, no coupling damage) and never saw what it
 needed. **"Solo RL for seam diseases" is closed.** The pre-named K2
 (entry-matched RL) fires.
 
+## K2 (frozen before any number): entry-matched RL
+
+**The one knob vs K1:** `entry_match = 0.5` — with per-episode
+probability 0.5, `WMPolicyEnv.reset` teleports the aircraft to a
+SEAM-ENTRY state before control and reward hand over: lateral offset
+y ~ N(0, 0.182) clipped ±0.30 and lateral velocity vy ~ N(0, 0.053)
+clipped ±0.10 (zero-mean normals matched to the k6 pose-walk table's
+measured abs moments — seam positions ≥2: |y| ~0.145/p90 0.27, |vy|
+~0.042/p90 0.07; y ⊥ vy, the table records abs moments only), forward
+velocity at the episode's cruise speed, attitude level. The other
+half of the episodes stay clean resets — the cold skill keeps its
+training signal. Machinery: `entry_match` on `WMPolicyEnv` (0.0 =
+bit-identical, gate short-circuits so no rng draw), threaded through
+`finetune()`/`--entry-match`; smoke-verified (bit-identity @0.0,
+entry |y| mean 0.153 on 12 draws, episodes step cleanly).
+
+**Everything else identical to K1 (one knob per run):** warm-start
+the deployed R3 clone, `slalom3_fixed`, unmodified success reward,
+KL 1.0 → 0.1 over 450k, training seed 0.
+
+**Bars: the campaign bars above, unchanged.** Graduation block 1
+@**154000** (n=60); borderline → pool block 2 @**155000** (the
+pooling convention; 149000/153000 are spent on K1). Exam hygiene:
+110000 untouched.
+
+**Prediction (frozen):** the mechanism says this is the right knob —
+K1 failed for want of seam-entry states in the visitation
+distribution, and entry_match puts them there directly. But
+mgap_rl_v1 prices the perception ceiling: if the slalom seam disease
+has a perception-tax component (entry states the camera cannot
+distinguish), RL will capture only what perception permits.
+Uncertain-to-moderate; a pass banks the arm for the 0.84 stack, a
+near-miss banks as evidence (the mgap precedent).
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
 - [x] K1: crown FT 450k → pooled n=120 → PRIMARY REFUTED (20 % vs
       ≤12 %); solo RL closed for seam diseases; guards all green
-- [ ] K2 (pre-named): entry-matched RL — frozen section below when
-      machinery lands
+- [x] K2 machinery + frozen section (entry_match, one knob)
+- [ ] K2: entry-matched FT 450k → graduation @154000 → primary + guards
