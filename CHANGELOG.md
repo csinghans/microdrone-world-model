@@ -2,6 +2,35 @@
 
 ## Unreleased
 
+- **Article #11 published in-repo:** *The Flinch: Anatomy of One
+  Second* (bilingual, `writing/11-the-flinch/`) — the three-act story
+  of one second: the six-suspect investigation (k=6 at 0.500, the
+  depth gradient, every suspect executed by probe or intervention, the
+  oracle proving the flinch a MISTAKE worth +11), the failed
+  apprenticeship (the student learns WHERE at 1/104 but not WHEN —
+  flickering labels at a visually-unresolvable boundary; hysteresis
+  helps oracles and hurts students), and the naming of the perception
+  tax (BC 11.1 % and RL 8.9 % converging against the oracle's ~4 %).
+  Closing lessons: intervention beats observation; a skill can be
+  unteachable in the student's senses; bars are for decisions,
+  evidence outlives them.
+
+- **mgap_rl_v1: the RL arm lands at 8.9 % vs the frozen ≤ 8 % —
+  refuted by four-tenths of a failure, and the perception tax is
+  named.** Warm-start the BC clone, AnchoredPPO on the unmodified
+  success reward with the crowned KL 1.0→0.1 schedule: pooled n=120
+  gives the line's best graduation composite (0.808), mgap
+  conditional 0.887 → 0.938, no coupling damage (the re-DAgger ticket
+  stays unspent) — and the primary misses by 0.4 of a fail. The
+  pre-named review concludes: two deployment-legal methods converged
+  (BC 11.1 %, RL 8.9 %) against the privileged ~4 % — the residue is
+  the PERCEPTION tax (the camera resolves the slot's position, not
+  the ±2 cm commit boundary). No bar moves; the arm banks as EVIDENCE
+  for the future 0.84 stack registration. The guard-anchor disease
+  bit a third time (door, by 0.004, on a draw-frozen anchor) and
+  became a standing rule: every new guard anchor cites a pooled true
+  rate. Ledger: `experiments/mgap_rl_v1/journal.md`.
+
 - **terminal_commit_v1: the distillation arm is REFUTED at its bars —
   and the refusal is worth the price.** The thread-commit oracle's
   skill would not clone cleanly into a vision-only student: two
