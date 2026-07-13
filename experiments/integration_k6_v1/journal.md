@@ -128,4 +128,58 @@ z=state[2], vx=state[10], vy=state[11].
       via the position trend (3.2 % → 20.6 %, z ≈ 3.4); entry-state
       random walk hypothesized; arms named for the owner**
 - [x] K1 pre-registered (this section, before any probe number)
-- [ ] K1 pose-walk probe: re-fly @140000 with the probe → verdict
+- [x] K1 executed → **GRAY as written, with the mechanism sharpened**
+      (results below)
+
+## K1 results (2026-07-13 — k1_pose_walk.json) — GRAY as written; the walk is real but SATURATING
+
+Instrument 1.000 (599 entries, probe inert in vivo). The frozen reads:
+
+| read | value | bar | as written |
+|---|---|---|---|
+| spread ratio R(y), deep/early | **1.466** | ≥ 1.5 | GRAY |
+| spread ratio R(vy) | 1.173 | ≥ 1.5 | — |
+| death link (wide vs narrow \|y\|) | **×1.992** (0.120 vs 0.060) | ≥ 2.0 | not linked, by 0.008 |
+
+Both effects sit a hair under their bars — and both are statistically
+solid on their own terms: per-position mean |y| climbs **0.090 →
+0.121 → 0.143 → 0.159** (positions 1→4, z ≈ 5 on ~120 entries per
+position) then **saturates** (0.150 at position 5), and wide entries
+die at twice the rate of narrow ones (z ≈ 2.5). The bars were frozen
+as instrument guesses; reality landed at 1.47 and 1.99. The letter
+binds: **the walk hypothesis is NOT confirmed as registered.** The
+observation stands on file in full.
+
+**The mechanism, sharpened by the miss:** the entry-state process is
+not a pure random walk — the corridor-centering prior acts as a
+restoring force, so spread grows for ~3 stages and then SATURATES
+around |y| ≈ 0.15 (an Ornstein–Uhlenbeck signature, which is exactly
+why the deep/early ratio undershoots a pure-walk prediction). The
+saturated wide regime is itself the danger zone (×2 death rate), and
+within statistical power the failure-vs-position trend is compatible
+with the spread trend (positions 4→5: 12.5 % vs 20.6 % is z ≈ 1.2 —
+not evidence of a second mechanism).
+
+**Options (owner's call):**
+1. Recheck by pooling a second k=6 block (~2 h) — but both point
+   estimates sit just under their bars, so pooling most likely buys a
+   tighter gray, not a verdict.
+2. **Intervention beats observation (recommended):** price the
+   RECENTER behavior — actively drive y→0 at stage boundaries — and
+   read the position trend under it. If the depth trend flattens, the
+   mechanism is confirmed interventionally (stronger than any ratio
+   bar) and the remedy is priced in the same run. Fresh registration.
+3. Accept: 6 stages priced at 0.500, mechanism recorded as
+   "saturating entry-spread, death-linked ×2, formally gray".
+
+## Status
+
+- [x] Pre-registration (this file, before any number)
+- [x] k=6 read: **0.500, below the band; depth-compounding CONFIRMED
+      via the position trend (3.2 % → 20.6 %, z ≈ 3.4); entry-state
+      random walk hypothesized; arms named for the owner**
+- [x] K1 pre-registered (this section, before any probe number)
+- [x] K1 pose-walk probe: **GRAY as written (R(y) 1.466 vs 1.5, link
+      ×1.992 vs 2.0) — the walk is real, saturating (OU signature),
+      and death-linked at ×2 within a hair of the bar; intervention
+      probe (RECENTER) named as the recommended next arm**
