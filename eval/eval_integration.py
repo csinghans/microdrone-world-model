@@ -128,6 +128,42 @@ class PerStageExperts:
         return a
 
 
+class RecenterWrap:
+    """integration_k6_v1 K2: opportunistic inter-stage recentering.
+    At each stage entry, for a budget of decisions, whenever the inner
+    pilot would fly FORWARD and |y| exceeds the tolerance, substitute
+    the veer toward y=0; any non-FORWARD inner decision is respected —
+    a threat response is never overridden. Own-odometry only (y), the
+    same information the planner's centering prior already uses."""
+
+    TOL = 0.05
+    BUDGET = 12  # decisions (~1 s) armed per stage entry
+
+    def __init__(self, inner):
+        self.inner = inner
+        self._stage, self._left = 0, 0
+
+    def begin(self, pillars) -> None:
+        self.inner.begin(pillars)
+        self._stage, self._left = 0, self.BUDGET
+
+    def decide(self, frame, state) -> int:
+        from planner.action_set import ACTION_NAMES, FORWARD
+
+        k = int(np.clip(float(state[0]) // STAGE_LEN, 0, len(self.inner.names) - 1))
+        if k != self._stage:
+            self._stage, self._left = k, self.BUDGET
+        a = self.inner.decide(frame, state)
+        if self._left > 0:
+            self._left -= 1
+            y = float(state[1])
+            if a == FORWARD and abs(y) > self.TOL:
+                return ACTION_NAMES.index("veer_right" if y > 0 else "veer_left")
+            if abs(y) <= self.TOL:
+                self._left = 0
+        return a
+
+
 class Cruise:
     """FORWARD-only stand-in for artifact-less selftests."""
 
@@ -351,7 +387,13 @@ def make_factory(args):
             # transit_gate_v2: swap ONLY the slalom slot (K1's one change)
             experts["slalom3_fixed"] = args.slalom_zip
         experts = _apply_swaps(experts, getattr(args, "swap", None))
-        return lambda names: PerStageExperts(names, 1.0, experts=experts)
+        recenter = bool(getattr(args, "recenter", False))
+
+        def _mk(names, _e=experts, _r=recenter):
+            pol = PerStageExperts(names, 1.0, experts=_e)
+            return RecenterWrap(pol) if _r else pol
+
+        return _mk
     raise SystemExit(f"unknown contender {args.contender!r} and no --zip given")
 
 
@@ -371,6 +413,11 @@ def main() -> None:
         action="append",
         default=None,
         help="hybrid only: STAGE=ZIP slot swap, repeatable (transit_gate_v3)",
+    )
+    ap.add_argument(
+        "--recenter",
+        action="store_true",
+        help="hybrid only: opportunistic inter-stage recentering (k6 K2)",
     )
     ap.add_argument("--zip", default=None)
     ap.add_argument("--video-seed", type=int, default=None)
@@ -393,6 +440,48 @@ def main() -> None:
                 raise AssertionError(f"swap accepted {bad!r}")
             except SystemExit:
                 pass
+
+        # RecenterWrap: only FORWARD is substituted, threats respected,
+        # tolerance disarms, budget expires, stage entry re-arms
+        from planner.action_set import ACTION_NAMES, FORWARD
+
+        class _FakeInner:
+            names = ("a", "b")
+
+            def __init__(self):
+                self.next = FORWARD
+
+            def begin(self, pillars):
+                pass
+
+            def decide(self, frame, state):
+                return self.next
+
+        vl, vr = ACTION_NAMES.index("veer_left"), ACTION_NAMES.index("veer_right")
+        hov = ACTION_NAMES.index("hover")
+
+        def _st(x, y):
+            s = np.zeros(20)
+            s[0], s[1] = x, y
+            return s
+
+        fi = _FakeInner()
+        rw = RecenterWrap(fi)
+        rw.begin([])
+        assert rw.decide(None, _st(0.1, 0.3)) == vr  # y>0 -> veer right
+        assert rw.decide(None, _st(0.2, -0.3)) == vl  # y<0 -> veer left
+        fi.next = hov
+        assert rw.decide(None, _st(0.3, 0.3)) == hov  # threat respected
+        fi.next = FORWARD
+        assert rw.decide(None, _st(0.4, 0.02)) == FORWARD  # inside tol
+        assert rw._left == 0  # ...and disarmed
+        assert rw.decide(None, _st(0.5, 0.4)) == FORWARD  # stays disarmed
+        assert rw.decide(None, _st(3.2, 0.4)) == vr  # new stage re-arms
+        rw2 = RecenterWrap(_FakeInner())
+        rw2.begin([])
+        for _ in range(RecenterWrap.BUDGET):
+            rw2.decide(None, _st(0.1, 0.5))
+        assert rw2.decide(None, _st(0.2, 0.5)) == FORWARD  # budget spent
 
         _load_all_skills()
         from sim.composite import CompositeCourse  # noqa: F401 (registration path)

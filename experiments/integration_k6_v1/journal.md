@@ -183,3 +183,44 @@ not evidence of a second mechanism).
       ×1.992 vs 2.0) — the walk is real, saturating (OU signature),
       and death-linked at ×2 within a hair of the bar; intervention
       probe (RECENTER) named as the recommended next arm**
+
+## K2 — the RECENTER intervention (pre-registered)
+
+**One knob.** `RecenterWrap` around the deployed hybrid: at each
+stage entry, for a budget of 12 decisions, whenever the inner pilot
+would fly FORWARD (no perceived threat) and |y| > 0.05, substitute
+the veer toward y=0 instead; any non-FORWARD inner decision (evade /
+slow / hover) is always respected — recentering is opportunistic and
+never overrides a threat response. Own-odometry only (y), the same
+information the W_CENTER prior already uses — flight-plan legal.
+This is NOT the refuted brake: the brake stilled velocity in place;
+this actively removes the lateral offset K1 measured as ×2 deadly.
+
+**Exam:** the SAME k=6 block (140000, n=100 — paired seeds against
+the 0.500 record read). The PoseWalkProbe rides along (read-only).
+
+**Frozen reads, in dependency order:**
+1. **Manipulation check (gates everything):** deep-entry (positions
+   4–5) mean |y| must drop to ≤ 0.11 (K1 measured 0.155; position-1
+   level is 0.090). If recentering fails to actually tighten entry
+   pose, the mechanism read is VOID — an intervention that did not
+   manipulate the variable proves nothing either way.
+2. **Mechanism read:** deep-seam (positions 3–5) pooled failure rate
+   ≤ 10 % (the record read: 33/218 = 15.1 %) ⇒ the entry-spread
+   mechanism is CONFIRMED interventionally. ≥ 13 % with the
+   manipulation check passed ⇒ the mechanism is REFUTED (pose was
+   tightened, deaths did not move). Between ⇒ gray.
+3. **Remedy price:** overall k=6 success ≥ 0.58 (record 0.500) ⇒ the
+   recenter behavior is a real remedy candidate (adoption = a
+   separate lineup decision, owner's).
+4. **Guard:** early seams (1–2) + cold fails must not worsen by more
+   than 3 total (blind-veer risk priced; the opportunistic design
+   should make this free).
+
+**Machinery (defaults inert):** `RecenterWrap` + `--recenter` flag on
+the hybrid contender in `eval_integration`; selftest pins the
+substitution logic (only FORWARD replaced, threats respected, budget
+and tolerance honored).
+
+- [x] K2 pre-registered (this section, before any number)
+- [ ] K2 run: recenter arm @140000 → four reads → verdict
