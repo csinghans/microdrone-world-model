@@ -71,12 +71,16 @@ def _row_outcome(k: int, success: bool, break_at: int) -> str:
 
 
 class SeamProbe:
-    """run_composite_episode probe: mirrors the slalom pilot's own view
-    (StageLocal reset, executed-prev, stage-local x) and queries weave
-    counterfactually with the relay's stage-window pillars."""
+    """run_composite_episode probe: mirrors the target pilot's own view
+    (StageLocal reset, executed-prev, stage-local x). For the slalom
+    target it also queries weave counterfactually with the relay's
+    stage-window pillars; for other targets (terminal_commit_v1) the
+    weave column mirrors the executed action — the pot labels are the
+    EXECUTED behavior."""
 
-    def __init__(self, enc, pred, cheads, meta):
+    def __init__(self, enc, pred, cheads, meta, target="slalom3_fixed"):
         self._stack = (enc, pred, cheads, meta)
+        self.target = str(target)
         self.rows: list = []
         self.vecs: list = []
 
@@ -86,6 +90,7 @@ class SeamProbe:
         self.seed, self.names = int(seed), tuple(names)
         self.ob = ObsBuilder(*self._stack, 1.0, x_progress=True)
         self._stage, self._prev, self._weave, self._dec = -1, 0, None, 0
+        self._active = False
 
     def __call__(self, t, frame, state, a, scenario) -> None:
         x = float(state[0])
@@ -93,16 +98,25 @@ class SeamProbe:
         if k != self._stage:
             self._stage, self._prev, self._weave, self._dec = k, 0, None, 0
             self.ob.reset()
-            if self.names[k] == "slalom3_fixed":
+            self._active = self.names[k] == self.target
+            if self._active and self.target == "slalom3_fixed":
                 from eval.eval_arena_ceiling import OracleWeave
 
                 self._weave = OracleWeave()
                 self._weave.begin(_stage_window(scenario.positions(), k))
-        if self._weave is None:
-            return  # only slalom stages are recorded
+        if not self._active:
+            return  # only target stages are recorded
         vec = self.ob.push(frame, float(state[1]), self._prev, x=x - k * STAGE_LEN)
         menu_exec = self.ob.ids.index(int(a))
-        menu_weave = self.ob.ids.index(int(self._weave.decide(frame, state)))
+        menu_weave = (
+            self.ob.ids.index(int(self._weave.decide(frame, state)))
+            if self._weave is not None
+            else menu_exec
+        )
+        stage_pil = _stage_window(scenario.positions(), k)
+        plane = (
+            float(np.median([float(p[0]) for p in stage_pil])) if stage_pil else -1.0
+        )
         self.rows.append(
             {
                 "seed": self.seed,
@@ -112,6 +126,8 @@ class SeamProbe:
                 "upstream": self.names[k - 1] if k > 0 else "",
                 "exec": menu_exec,
                 "weave": menu_weave,
+                "x": x,
+                "plane_x": plane,
             }
         )
         self.vecs.append(vec)
@@ -141,6 +157,9 @@ def capture(
     out_json: str = OUT_JSON,
     out_npz: str = OUT_NPZ,
     slalom_zip: str | None = None,
+    target_stage: str = "slalom3_fixed",
+    thread_commit: bool = False,
+    course_k: int = 3,
 ) -> int:
     import torch  # noqa: F401  (torch before SB3 policies)
 
@@ -164,7 +183,7 @@ def capture(
     assert float(REAL_L) == STAGE_LEN, "stage length drifted"
     _load_all_skills()
     enc, pred, cheads, _n, meta = load_or_train()
-    probe = SeamProbe(enc, pred, cheads, meta)
+    probe = SeamProbe(enc, pred, cheads, meta, target=target_stage)
     from planner.learned_policy import ObsBuilder
 
     ids = ObsBuilder(enc, pred, cheads, meta, 1.0, x_progress=True).ids
@@ -177,14 +196,20 @@ def capture(
     outcomes = []
     for i in range(n):
         seed = seed0 + i
-        names = course_for_seed(seed)
-        world = register_course(seed)
+        names = course_for_seed(seed, k=course_k)
+        world = register_course(seed, k=course_k)
         probe.begin_course(seed, names)
+        pol = PerStageExperts(names, 1.0, experts=dict(experts))
+        if thread_commit:  # terminal_commit_v1: the privileged teacher
+            from eval.eval_integration import ThreadCommitOracle
+
+            pol = ThreadCommitOracle(pol, names)
         ep = run_composite_episode(
             env,
-            PerStageExperts(names, 1.0, experts=dict(experts)),
+            pol,
             seed,
             world,
+            k=course_k,
             probe=probe,
         )
         ok = integration_success(ep)
@@ -205,9 +230,57 @@ def capture(
             flush=True,
         )
     env.close()
+    if probe.target != "slalom3_fixed" or thread_commit:
+        # collection mode (terminal_commit_v1): no R1 verdict semantics
+        return _save_collection(probe, outcomes, n, seed0, out_json, out_npz)
     return _score(
         probe, outcomes, n, seed0, out_json, out_npz, experts["slalom3_fixed"]
     )
+
+
+def _save_collection(probe, outcomes, n, seed0, out_json, out_npz) -> int:
+    """Persist a pot-collection capture: rows with a cleared-stage kept
+    mask (only stages cleared before any crash feed a pot — the
+    collect_hot rule), outcomes, and basic stats. No contrasts."""
+    by_seed = {o["seed"]: o for o in outcomes}
+    for r in probe.rows:
+        o = by_seed[r["seed"]]
+        r["outcome"] = _row_outcome(r["k"], o["success"], o["stage_break_at"])
+    kept = [r["outcome"] == "cleared" for r in probe.rows]
+    os.makedirs(os.path.dirname(out_npz), exist_ok=True)
+    np.savez_compressed(
+        out_npz,
+        vecs=np.asarray(probe.vecs, dtype=np.float32),
+        seed=np.asarray([r["seed"] for r in probe.rows]),
+        k=np.asarray([r["k"] for r in probe.rows]),
+        t=np.asarray([r["t"] for r in probe.rows]),
+        dec=np.asarray([r["dec"] for r in probe.rows]),
+        exec_menu=np.asarray([r["exec"] for r in probe.rows]),
+        weave_menu=np.asarray([r["weave"] for r in probe.rows]),
+        upstream=np.asarray([r["upstream"] for r in probe.rows]),
+        x=np.asarray([r["x"] for r in probe.rows]),
+        plane_x=np.asarray([r["plane_x"] for r in probe.rows]),
+        kept=np.asarray(kept),
+        outcome=np.asarray([r["outcome"] for r in probe.rows]),
+    )
+    report = {
+        "mode": "collection",
+        "target": probe.target,
+        "n": n,
+        "seed0": seed0,
+        "n_rows": len(probe.rows),
+        "n_kept": int(sum(kept)),
+        "success_rate": float(np.mean([o["success"] for o in outcomes])),
+        "outcomes": outcomes,
+    }
+    with open(out_json, "w") as f:
+        json.dump(report, f, indent=1)
+    print(
+        f"[collect] target={probe.target} rows={len(probe.rows)} "
+        f"kept={sum(kept)} success={report['success_rate']:.3f} | "
+        f"saved {out_json} + npz"
+    )
+    return 0
 
 
 def _score(
@@ -366,6 +439,8 @@ def _score(
         exec_menu=np.asarray([r["exec"] for r in probe.rows]),
         weave_menu=np.asarray([r["weave"] for r in probe.rows]),
         upstream=np.asarray([r["upstream"] for r in probe.rows]),
+        x=np.asarray([r["x"] for r in probe.rows]),
+        plane_x=np.asarray([r["plane_x"] for r in probe.rows]),
         kept=np.asarray(["outcome" in r for r in probe.rows]),
         outcome=np.asarray([r.get("outcome", "postmortem") for r in probe.rows]),
     )
@@ -392,6 +467,13 @@ def selftest() -> None:
     # student-slot override and mirror target are opt-in (R3 machinery)
     assert inspect.signature(capture).parameters["slalom_zip"].default is None
     assert inspect.signature(_score).parameters["flew_zip"].default is None
+    # terminal_commit_v1 machinery is opt-in: defaults bit-identical
+    cp = inspect.signature(capture).parameters
+    assert cp["target_stage"].default == "slalom3_fixed"
+    assert cp["thread_commit"].default is False and cp["course_k"].default == 3
+    assert inspect.signature(SeamProbe.__init__).parameters["target"].default == (
+        "slalom3_fixed"
+    )
 
     # stage-window filter, relay semantics (±0.2 overlap at boundaries
     # is BY DESIGN — near-edge obstacles belong to both stages)
@@ -443,6 +525,9 @@ def main() -> None:
     ap.add_argument("--out-json", default=OUT_JSON)
     ap.add_argument("--out-npz", default=OUT_NPZ)
     ap.add_argument("--slalom-zip", default=None)
+    ap.add_argument("--target", default="slalom3_fixed")
+    ap.add_argument("--thread-commit", action="store_true")
+    ap.add_argument("--course-k", type=int, default=3)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
@@ -450,7 +535,16 @@ def main() -> None:
         return
     if args.capture:
         raise SystemExit(
-            capture(args.n, args.seed0, args.out_json, args.out_npz, args.slalom_zip)
+            capture(
+                args.n,
+                args.seed0,
+                args.out_json,
+                args.out_npz,
+                args.slalom_zip,
+                args.target,
+                args.thread_commit,
+                args.course_k,
+            )
         )
     ap.print_help()
 
