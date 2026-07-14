@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.13.0 — 2026-07-14 (the exchange rate: the bank pays out, the correlation pays half)
 
 - **Article #12 published in-repo:** *The Exchange Rate: How Much of
   a Measured Number Is Real?* (bilingual,
@@ -32,10 +32,14 @@
   middle case at n=301 pairs: **a real +6 pp hand-off tax (0.086 →
   0.146, McNemar z 2.25, replicated) at HALF the observational size
   (1.69x causal vs 3.4x conditioned)** — the predecessor table
-  overstates causation ~2x, and the carrier lives in nothing the
-  probes record (leading suspect: frame-level perception). Machinery
-  kept: eval_pred_ab, pose-walk pred column + rows dump, SeamProbe
-  y/vy + --collect-rows.
+  overstates causation ~2x. P4 (free sweeps) then executed the last
+  named suspect: a linear probe on the policy's OWN observations
+  reads chance (AUC 0.42, zero death-link) — the tax does not enter
+  through the lens; the carrier hypothesis narrows to distributional
+  tails of the hand-off dynamics, unpriced and owner-gated. The
+  campaign closes with an empty suspect list. Machinery kept:
+  eval_pred_ab, pose-walk pred column + rows dump, SeamProbe y/vy +
+  --collect-rows.
 
 - **The transit gate re-anchors 79 → 85/100 — the mgap RL arm is
   adopted by the stack's own registration**

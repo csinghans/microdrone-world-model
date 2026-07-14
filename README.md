@@ -4,18 +4,19 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.12.0 — one second, dissected. Doubling the integration
-chain to six stages (0.500) opened a six-suspect investigation that
-ended with the moving-gap flinch proven a MISTAKE (+11 composite under
-a privileged oracle), an apprenticeship that taught WHERE (direction
-errors 1/104) but could not teach WHEN (flickering labels at a
-visually-unresolvable boundary), and the naming of the perception tax
-(BC 11.1 % / RL 8.9 % converging against the oracle's ~4 %). Article
-#11, *The Flinch*, tells it start to finish. Since the tag, the tax
-was priced INTO the lineup: the mgap RL arm — refuted by 0.4 at its
-own ambition — was adopted by the stack's own registration and the
-transit gate re-anchored **79 → 85/100** (indoor 91/100; the int8
-configs remain adopted in the lock, v0.11.0).** The baseline shipped as
+**Status: v0.13.0 — the bank pays out, and correlation pays half.
+The RL arm that missed its own bar by 0.4 was adopted by the stack's
+own registration and the transit gate re-anchored **79 → 85/100**
+(deep moving-gap failures halved on the six-stage instrument, 0.500
+→ 0.570 — the predicted half of the oracle's ceiling). The slalom
+seam then resisted RL twice (clean and entry-matched — an honest
+double negative), and the deep-slalom investigation ended in a
+measured exchange rate: the 3.4× predecessor death multiplier is a
+REAL +6 pp hand-off tax under paired-geometry intervention — at
+HALF the observational size (1.69×), with the suspect list emptied
+(the policy's own eyes read chance). Article #12, *The Exchange
+Rate*, tells both stories. Indoor 91/100; int8 configs in the lock
+(v0.11.0).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what
