@@ -67,7 +67,55 @@ memory at scale.
 **Seeds:** corpus gen seed 160 (its own namespace); no exam seeds
 touched.
 
+## K0 verdict — all three FAIL as frozen; campaign CLOSED, and the sign flips
+
+**Instrument repair (documented):** the frozen tercile spec
+degenerated (the clutter count is mostly 0 — val histogram
+684/277/138/101 for 0/1/2/≥3), emptying bin 0 to NaN. Repaired to
+fixed integer bins {0}/{1–2}/{≥3} — deterministic, no fitting;
+verdict semantics unchanged. A stale-variable crash at the JSON
+writer cost one rerun (seeded corpus, bit-reproducible). Per-frame
+arrays now persist (`k0_results_repaired_frames.npz`) so every
+future recut is free.
+
+- **K0a FAIL (clean):** clutter → dense separation AUC **0.736** vs
+  the frozen 0.80. Informative, not label-grade.
+- **K0b FAIL — and ANTI-monotone:** signed warn gap by clutter bin =
+  **+0.121 / +0.074 / −0.034**. The over-report is largest in OPEN
+  space and flips to UNDER-report in high clutter. The conditioning
+  C0 named is real but points the OPPOSITE way from the hypothesis.
+- **K0c FAIL (the C0 shape again):** dense warn ECE improves
+  slightly (0.0414 → 0.0390 — note it was already under C0's 0.09
+  target) but the guards trip hard: worst slice worsening +0.0254,
+  worst AUC drop +0.0260 (crit ring). A clutter-binned temperature
+  buys nothing and breaks ranking.
+
+**Premise update (the campaign's most valuable output):** C0's big
+dense warn inflation (ECE 0.1225) was the GROUNDED arm's disease.
+The deployed CHAMPION's dense warn is mildly calibrated (0.041);
+its crit ring is worse (0.130). The dense 17–27 % crash floor is
+NOT primarily a warn-calibration problem on the deployed stack.
+
+**The mechanism note this leaves behind (unpriced, recorded):** the
+sign flip — over-warn where the world is empty, under-warn where it
+is thickest — is exactly what an information limit predicts: in
+clutter, the killer object is often outside or sliding out of the
+FOV (the known dense death signature: 13/14 side objects leaving
+FOV), so the visual heads go quiet precisely where geometric clutter
+peaks. That is another face of the perception tax, not a
+recalibration knob: no output-side transform fixes an input that
+does not contain the threat. The honest remaining routes for the
+dense frontier stay what the ROADMAP says — representation or
+memory at scale (the temporal_wm oracle-memory probe is the named
+next rung, quarterly-gated).
+
+**Campaign CLOSED (2026-07-14). Cost: two offline corpus passes,
+zero flights. C0's verdict stands, now with the champion's own
+numbers under it and the conditioning's direction measured.**
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [ ] K0: corpus + clutter instrument → K0a/K0b/K0c verdicts
+- [x] K0: corpus + clutter instrument → **K0a/K0b/K0c all FAIL as
+      frozen; anti-monotone sign flip measured; premise updated
+      (champion warn ≈ calibrated on dense); campaign CLOSED**

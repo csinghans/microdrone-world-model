@@ -122,12 +122,15 @@ def run(n_rollouts: int, length: int, out: str = OUT_JSON) -> dict:
     Pva, lva, mva, wva, cva = flat(va_rolls)
     wn = ["classic", "dense", "moving"]
 
-    # bins: terciles of the TRAIN clutter distribution (frozen from train)
-    q1, q2 = np.quantile(ctr, [1 / 3, 2 / 3])
-    edges = (q1, q2)
+    # bins — INSTRUMENT REPAIR (documented in the journal): the frozen
+    # tercile spec degenerates on this corpus (the clutter count is
+    # mostly low, so tercile edges collapse and bin 0 empties to NaN).
+    # Fixed integer bins replace it: {0}, {1-2}, {>=3}. Deterministic,
+    # no fitting; the K0a/K0c verdict semantics are unchanged.
+    edges = (0.5, 2.5)
 
     def binof(c):
-        return np.digitize(c, edges)  # 0/1/2
+        return np.digitize(c, edges)  # 0 / 1-2 / >=3
 
     # K0a — separation on val frames
     k0a = _auc(cva.astype(float), (wva == wn.index("dense")).astype(float))
@@ -204,7 +207,7 @@ def run(n_rollouts: int, length: int, out: str = OUT_JSON) -> dict:
     res = {
         "n_rollouts": n_rollouts,
         "len": length,
-        "bin_edges": [float(q1), float(q2)],
+        "bin_edges": list(edges),
         "k0a_auc": k0a,
         "k0b_gaps_by_bin": gaps,
         "k0b_monotone": bool(monotone),
@@ -219,6 +222,20 @@ def run(n_rollouts: int, length: int, out: str = OUT_JSON) -> dict:
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w") as f:
         json.dump(res, f, indent=1)
+    # per-frame arrays: future recuts are free (no corpus regeneration)
+    np.savez_compressed(
+        out.replace(".json", "_frames.npz"),
+        clut_tr=ctr,
+        world_tr=wtr,
+        clut_va=cva,
+        world_va=wva,
+        p_va=Pva,
+        y_va=lva,
+        m_va=mva,
+        p_tr=Ptr,
+        y_tr=ltr,
+        m_tr=mtr,
+    )
     print(
         f"[k0a] clutter->dense AUC {k0a:.3f} (bar >= {K0A_AUC}) -> "
         f"{'PASS' if verdict['k0a'] else 'FAIL'}"

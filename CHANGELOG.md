@@ -1,5 +1,28 @@
 # Changelog
 
+## Unreleased
+
+- **dense_recal_v1 closed — the deployable-context wedge is refuted,
+  and the sign flips** (`experiments/dense_recal_v1/`): C0's blocking
+  objection ("conditional recalibration needs a world label the
+  flying drone doesn't have") was retested against the now-priced
+  sensor ring: an 8-ray local-clutter count as the context signal,
+  judged offline on C0's own instrument, zero flights. All three
+  frozen bars FAIL: separation 0.736 < 0.80; the conditional warn
+  inflation is ANTI-monotone in clutter (+0.121 open-space →
+  −0.034 high-clutter — over-warn where empty, UNDER-warn where
+  thick); a clutter-binned temperature trips both guards (slice
+  worsening +0.025, AUC drop +0.026). Premise update banked: the big
+  dense inflation (0.1225) was the grounded arm's disease — the
+  deployed champion's dense warn is mildly calibrated (0.041), so
+  the 17–27 % dense floor is not primarily warn calibration. The
+  sign flip matches the known FOV death signature (13/14 side
+  objects leaving view): the heads go quiet exactly where geometric
+  clutter peaks — an information limit, not a knob. The frontier
+  keeps its crown; the honest routes remain representation / memory
+  at scale. Machinery kept: `eval/eval_dense_recal.py` (+ per-frame
+  npz so recuts are free).
+
 ## 0.13.0 — 2026-07-14 (the exchange rate: the bank pays out, the correlation pays half)
 
 - **Article #12 published in-repo:** *The Exchange Rate: How Much of
