@@ -217,3 +217,26 @@ says), or an untested interaction. Next moves are owner-gated:
 predecessor — the intervention that would settle carrier-vs-noise),
 (ii) frame-level diff probe, (iii) park as residual with the k=6
 instrument watching it.
+
+## P3 (frozen before any number): the paired-geometry A/B — owner's word「go 1」
+
+**The intervention:** `eval_pred_ab` flies 2-stage courses
+`[PRED, slalom3_fixed]` at the SAME course seed with only the
+predecessor name swapped (odoor vs door). Mechanism: each stage
+consumes exactly ONE course-rng draw, so the slalom stage's geometry
+is bit-identical across arms — asserted per pair at runtime, and the
+selftest proves the assert has teeth (a different seed fails it).
+`register_course` gains `names`/`tag` overrides (defaults
+bit-identical; composite selftest green). This kills every
+composition/position/geometry confound at once: what survives
+pairing lives in the hand-off dynamics.
+
+**Frozen bars:** 160 pairs @**158000**, deployed HYBRID, analysis on
+pairs where BOTH arms reach the slalom. **CONFIRMED** = odoor/door
+slalom-death ratio ≥ 2.0 AND McNemar z ≥ 2.0 (the carrier is real
+and lives in the hand-off). **REFUTED** = ratio < 1.5 (the P1/P2
+multiplier was a composition confound wearing a predecessor
+costume). GRAY between. Expected under H-carrier: door ~0.05–0.10,
+odoor ~0.20–0.30 at seam position 1.
+
+**Seeds:** 158000–158159 spent here. Exam 110000 untouched.

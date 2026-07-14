@@ -132,17 +132,21 @@ def course_for_seed(seed: int, pool=POOL, k: int = 3) -> tuple:
     return tuple(pool[int(rng.integers(len(pool)))] for _ in range(k))
 
 
-def register_course(seed: int, pool=POOL, k: int = 3) -> str:
+def register_course(seed: int, pool=POOL, k: int = 3, names=None, tag: str = "") -> str:
     """Register the seed's course as a throwaway world; returns its name.
     The composition is fixed by the seed; per-episode geometry still draws
-    from the episode rng (same-seed spawns reproduce, as everywhere)."""
-    names = course_for_seed(seed, pool, k)
+    from the episode rng (same-seed spawns reproduce, as everywhere).
+    `names` overrides the composition (slalom_depth_v1 paired A/B: each
+    stage consumes exactly ONE course-rng draw, so swapping a stage NAME
+    at the same seed leaves every other stage's geometry bit-identical);
+    `tag` keeps same-seed variants from clobbering each other's world."""
+    names = tuple(names) if names is not None else course_for_seed(seed, pool, k)
 
     def spawn(env, rng, *, speed=1.0, randomize=False, in_path=True, _names=names):
         del randomize, in_path
         return CompositeCourse(env, rng, stages=_names, speed=speed)
 
-    world = f"_integration_{seed}"
+    world = f"_integration_{seed}{tag}"
     register(world, spawn)
     return world
 
