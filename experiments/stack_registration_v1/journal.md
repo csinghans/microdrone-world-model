@@ -99,9 +99,28 @@ registration refused it by 0.4 — and THIS registration, judging by
 the stack's exam instead of the arm's ambition, banked the half of
 the oracle's gain that perception permits: **79 → 85**.
 
+## Follow-up read (frozen before the number): k=6 under the promoted lineup
+
+The k=6 instrument's 0.500 was measured on the OLD lineup, and the
+integration_k6_v1 dissection concentrated the depth tax in exactly
+the slot this campaign swapped (deep mgap seam 2 % → 27 % by
+position; the K6 oracle erased it to 4.2 % and bought the composite
+0.500 → 0.610). This read re-flies the SAME k=6 block — n=100
+@140000, bit-comparable courses — with the promoted lineup. An
+instrument read, not a gate: no bars, honest report.
+
+**Frozen predictions:** the arm captured ~half the oracle's k=3 gain,
+so IF the better commit behavior transfers to depth: composite
+**0.53–0.58** (half of the oracle's +11), deep-position mgap seam
+**27 % → ~13–18 %**. Below 0.53 = the depth tax has a component the
+k=3 improvement does not reach (entry-state depth drift beyond what
+the arm saw); at/above 0.61 would beat the oracle's own ceiling and
+demand an instrument audit before belief.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
 - [x] Instrument: selftest + wiring smoke @156000 (9/10, loads clean)
 - [x] Formal n=100 @110000: **85/100 PASS, guards all green →
       PROMOTED; gate of record re-anchors 79 → 85**
+- [ ] k=6 follow-up read @140000 (frozen above)
