@@ -165,4 +165,55 @@ odoor-preceded vs door-preceded is the primary contrast):
 All three are reported with honest n (expect only ~10–20 odoor
 deaths pooled); any medicine stays owner-gated. No new seeds.
 
-- [ ] P2 blocks A (@140000) + B (@157000) → (a)/(b)/(c) verdicts
+- [x] P2 blocks A+B → **(a)/(b)/(c) all REFUTED as frozen; the true
+      anatomy below; the carrier remains unidentified**
+
+## P2 verdict — three refutations, and the disease changes shape
+
+**Instrument lesson first (recorded):** the composite flies the FULL
+course and judges crash post-hoc by minimum clearance — `crash_t`
+precedes the last recorded row by 38–173 ticks. A "last row = death
+point" read gives a false boundary-death story (every broke visit's
+rows end at stage-frac ~0.99). All death localization below maps
+`crash_t` to the nearest row. (My first pass fell into exactly this
+trap and printed deaths at x≈2.95 where the world is EMPTY — the
+fences sit at 0.9/1.6/2.3.)
+
+**The frozen calls:**
+
+- **(a) REFUTED.** Post-brake (dec 5–7) |y| identical (0.208 vs
+  0.205, z 0.17); |vy| slightly LOWER after odoor (z −1.99, wrong
+  direction). The settle brake equalizes the hand-off; the entry
+  story stays dead post-brake.
+- **(b) REFUTED (barely, and instructively).** odoor-broke early
+  agreement 0.788 vs door-cleared 0.875 — drop 0.087 < 0.10. The
+  honest grid: EVERY predecessor's broke visits show depressed
+  agreement in BOTH windows (early 0.72–0.80, late 0.71–0.82) vs
+  cleared (0.82–0.88 / 0.91–0.93). Dying pilots are off-oracle-path
+  THROUGHOUT the stage — slalom death is not mgap's one-second
+  flinch; it has no single commit moment.
+- **(c) REFUTED.** True crash points sit ON the fences (±0.21 m of
+  a plane, all 36) and are SPREAD: fence1 16 / fence2 9 / fence3 11;
+  odoor-preceded 4/4/5 — not entry-adjacent (first-fence share 0.31
+  < 0.6). Ordinary missed-gap weave failures.
+
+**What P2 actually established:** the odoor multiplier is a RATE
+effect, not a SHAPE effect — odoor-preceded deaths (13/39 = 0.333 vs
+23/167 = 0.138 for the rest, z ≈ 3.0) look exactly like everyone
+else's deaths (same fences, same y-range, same agreement
+depression), there are just MORE of them. Every recorded coordinate
+(entry state, post-brake state, fence choice, agreement window) is
+now exonerated as the carrier. One thread flagged: the only two
+blow-out crashes (|y| 0.57, 0.81 — far outside the gap zone) are
+both odoor-preceded; n=2, noted not judged.
+
+**Campaign state:** predecessor effect measured, replicated
+(z ≈ 3.0), and — after two probe rounds — carried by nothing the
+entry-state recorder or the per-tick trajectory records. Remaining
+suspects, honestly unpriced: frame-level perceptual content at the
+hand-off (what the camera actually sees, not what the state vector
+says), or an untested interaction. Next moves are owner-gated:
+(i) paired-geometry A/B (same slalom spawn, odoor vs door
+predecessor — the intervention that would settle carrier-vs-noise),
+(ii) frame-level diff probe, (iii) park as residual with the k=6
+instrument watching it.
