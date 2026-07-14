@@ -291,3 +291,42 @@ are rate-amplified ordinary failures, not a new failure mode.**
 Medicine (if any) is unpriced and owner-gated; the leading probe
 candidate if reopened: frame-level perceptual diff at the hand-off.
 Seeds spent: 157000, 158000–159159. Exam 110000 untouched.
+
+## P4 — free diagnostic sweeps (exploratory, recorded honestly, no flights)
+
+Owner's「go next」spent on the leading suspect. All from data on
+disk; every read below is conditioning/probing, NOT intervention —
+and after article #12's own lesson, the multiple-comparisons caveat
+is stamped on top: six-plus cuts were made, so isolated +0.1 gaps
+are presumption, not finding.
+
+- **The perceptual suspect is EXECUTED.** A linear probe on the
+  policy's OWN observation vectors (P2 npz, slalom early window
+  dec ≤ 5, 234 odoor vs 186 door, grouped 5-fold): **AUC 0.420 ±
+  0.102 — chance.** The policy's eyes cannot tell who handed off;
+  and the probe's "odoor-ness" score carries ZERO death-link (0.229
+  vs 0.229 by median split). Geometry agrees: in P3's k=2 courses
+  the forward camera never images the predecessor stage, and the
+  causal tax was measured THERE. Whatever carries +6 pp, it does not
+  enter through the lens at slalom entry.
+- **Signed-y / gap-side alignment: flat.** Entry mean y by pred is
+  a few cm everywhere (odoor +0.076, door +0.056); the alignment
+  razor (enter on gap's side vs opposite) reads 0.189 vs 0.158 —
+  noise. The signed interaction P1's marginals could have hidden is
+  not there.
+- **Surviving texture (unpriced, exploratory):** in P3's paired
+  frame, the odoor excess concentrates on slalom draws with
+  fence-1's gap on the RIGHT (+0.097 vs left +0.026) and CENTRED
+  (+0.113 vs off-centre +0.007). n ≈ 150/cell, six cuts made —
+  suggestive at best; recorded so a future registration can freeze
+  against it rather than rediscover it.
+- **Where this leaves the carrier:** not in any recorded mean, not
+  in the policy's view, yet causally real (P3). The remaining
+  hypothesis class is DISTRIBUTIONAL — tails of the hand-off
+  dynamics (the odoor timing gate occasionally produces entry states
+  no marginal mean captures) interacting with particular slalom
+  draws. Pricing that needs a tail-resolved probe with its own
+  frozen design — owner-gated, and honestly of diminishing return:
+  the whole tax is +6 pp at one seam of one stage type.
+
+**Campaign closed (second time, now with the suspect list empty).**
