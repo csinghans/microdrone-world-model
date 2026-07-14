@@ -126,10 +126,34 @@ distinguish), RL will capture only what perception permits.
 Uncertain-to-moderate; a pass banks the arm for the 0.84 stack, a
 near-miss banks as evidence (the mgap precedent).
 
+## K2 verdict (@154000, n=60) — PRIMARY REFUTED, single block
+
+`k2_grad_n60.json`: wins 47/60 = 0.783 (≥45 ✓), **PRIMARY seam 7/30
+= 23.3 % vs ≤12 % — 3.4 failures over the line, NOT borderline, no
+pool fires** (155000 stays unspent). Within noise of the 17.2 % true
+baseline (z ≈ 0.9): zero transfer again, not damage. Cold 0/13 ✓,
+all four coupling guards pass (gap 36/36, odoor 27/27).
+
+**Verdict:** putting the measured seam-entry states INTO the training
+distribution was necessary-but-not-sufficient — the policy practised
+from hot entries for 225k steps' worth of episodes and the seam rate
+did not move. The visitation hypothesis (K1's mechanism) is now
+EXHAUSTED as a lone explanation. What remains, honestly open:
+(a) a slalom perception-tax component — entry states the camera
+cannot distinguish (no priced oracle ceiling exists for slalom, so
+this is unpriced, stated not implied); (b) entry-state mismatch
+beyond the y/vy table (attitude/yaw components the pose-walk did not
+record). Either way, **the campaign closes: the slalom seam residue
+resists RL under both clean and entry-matched visitation.** The 0.84
+stack's slalom half does not materialize by this route; both arms
+bank as evidence (the mgap precedent). Exam hygiene intact: 110000
+untouched; seeds spent 149000/153000/154000.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
 - [x] K1: crown FT 450k → pooled n=120 → PRIMARY REFUTED (20 % vs
       ≤12 %); solo RL closed for seam diseases; guards all green
 - [x] K2 machinery + frozen section (entry_match, one knob)
-- [ ] K2: entry-matched FT 450k → graduation @154000 → primary + guards
+- [x] K2: entry-matched FT 450k → @154000 → PRIMARY REFUTED (23.3 %,
+      single block, no pool); campaign CLOSED — honest double negative

@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+- **slalom_rl_v1 closed — an honest double negative that exhausts the
+  visitation hypothesis** (`experiments/slalom_rl_v1/`): K1, solo-world
+  crown FT of the deployed R3 clone (one knob: the world), pooled
+  n=120 seam 8/40 = 20 % vs the frozen ≤12 % — REFUTED at the true
+  baseline (zero transfer; block 1's 15 % was a friendly draw, the
+  a-block-is-a-draw law again). K2, pre-named entry-matched RL (one
+  knob: `entry_match=0.5` — `WMPolicyEnv` hot starts teleported to the
+  k6 pose-walk's MEASURED seam-entry distribution; 0.0 bit-identical,
+  smoke-verified), seam 7/30 = 23.3 % — REFUTED single-block, no pool.
+  Both arms: cold skill intact, all coupling guards green, wins
+  97/120 and 47/60. Verdict: putting the missing states into the
+  training distribution was necessary-but-not-sufficient; the slalom
+  seam residue resists RL under both clean and entry-matched
+  visitation — remaining suspects (unpriced): a slalom perception-tax
+  component, or entry components beyond the measured y/vy table. The
+  0.84 stack's slalom half does not materialize by this route.
+  Machinery kept: `--entry-match` on `scripts/distill.py`.
+
 ## 0.12.0 — 2026-07-14 (the anatomy turn: one second dissected, six suspects executed, a tax named)
 
 - **Article #11 published in-repo:** *The Flinch: Anatomy of One
