@@ -128,6 +128,8 @@ class SeamProbe:
                 "weave": menu_weave,
                 "x": x,
                 "plane_x": plane,
+                "y": float(state[1]),
+                "vy": float(state[11]),
             }
         )
         self.vecs.append(vec)
@@ -161,6 +163,7 @@ def capture(
     thread_commit: bool = False,
     course_k: int = 3,
     commit_hysteresis: bool = False,
+    collect_only: bool = False,
 ) -> int:
     import torch  # noqa: F401  (torch before SB3 policies)
 
@@ -231,8 +234,9 @@ def capture(
             flush=True,
         )
     env.close()
-    if probe.target != "slalom3_fixed" or thread_commit:
-        # collection mode (terminal_commit_v1): no R1 verdict semantics
+    if probe.target != "slalom3_fixed" or thread_commit or collect_only:
+        # collection mode (terminal_commit_v1 / slalom_depth_v1 P2):
+        # raw rows + outcomes, no R1 verdict semantics
         return _save_collection(probe, outcomes, n, seed0, out_json, out_npz)
     return _score(
         probe, outcomes, n, seed0, out_json, out_npz, experts["slalom3_fixed"]
@@ -261,6 +265,8 @@ def _save_collection(probe, outcomes, n, seed0, out_json, out_npz) -> int:
         upstream=np.asarray([r["upstream"] for r in probe.rows]),
         x=np.asarray([r["x"] for r in probe.rows]),
         plane_x=np.asarray([r["plane_x"] for r in probe.rows]),
+        y=np.asarray([r["y"] for r in probe.rows]),
+        vy=np.asarray([r["vy"] for r in probe.rows]),
         kept=np.asarray(kept),
         outcome=np.asarray([r["outcome"] for r in probe.rows]),
     )
@@ -442,6 +448,8 @@ def _score(
         upstream=np.asarray([r["upstream"] for r in probe.rows]),
         x=np.asarray([r["x"] for r in probe.rows]),
         plane_x=np.asarray([r["plane_x"] for r in probe.rows]),
+        y=np.asarray([r["y"] for r in probe.rows]),
+        vy=np.asarray([r["vy"] for r in probe.rows]),
         kept=np.asarray(["outcome" in r for r in probe.rows]),
         outcome=np.asarray([r.get("outcome", "postmortem") for r in probe.rows]),
     )
@@ -530,6 +538,7 @@ def main() -> None:
     ap.add_argument("--thread-commit", action="store_true")
     ap.add_argument("--commit-hysteresis", action="store_true")
     ap.add_argument("--course-k", type=int, default=3)
+    ap.add_argument("--collect-rows", action="store_true")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
@@ -547,6 +556,7 @@ def main() -> None:
                 args.thread_commit,
                 args.course_k,
                 args.commit_hysteresis,
+                args.collect_rows,
             )
         )
     ap.print_help()

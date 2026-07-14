@@ -134,3 +134,35 @@ Any medicine remains owner-gated.
 - [x] P1 blocks A+B → **H1/H2 both REFUTED; state vector exonerated;
       predecessor effect survives matching; timeout executed; P2
       (trajectory divergence) is the pre-named next probe**
+
+## P2 (frozen before any number): per-tick divergence by predecessor
+
+**Instrument:** SeamProbe gains y/vy per decision row (both npz
+writers), `--collect-rows` routes the slalom target to collection
+mode (raw rows + outcomes, no R1 verdict semantics; defaults
+bit-identical, selftest green). Two blocks, k=6 n=100, DEPLOYED
+lineup, same seeds as P1 (140000 / 157000 — no new randomness);
+every decision on every slalom stage recorded with (dec, upstream,
+exec, weave, x, plane_x, y, vy) + outcome.
+
+**The three frozen directional calls** (slalom SEAM stages, pooled;
+odoor-preceded vs door-preceded is the primary contrast):
+
+- **(a) The settle-brake window:** the entry brake spans the first
+  SETTLE_K=5 decisions. If the post-brake state (|y|, |vy| at
+  dec 5–7) differs odoor-vs-door at z ≥ 2, the brake fails
+  differentially → the entry story revives POST-brake.
+- **(b) Decision divergence:** weave-agreement in the early window
+  (dec 0–11) for odoor-preceded BROKE stages vs door-preceded
+  cleared. Drop ≥ 0.10 confined to the early window → perceptual /
+  history contamination at hand-off; drop only late → in-weave
+  rhythm story.
+- **(c) Fence localization:** death x (last recorded row) vs the
+  stage's fence planes. ≥ 0.6 of odoor-preceded deaths at the FIRST
+  fence → an entry-adjacent kill (whatever crosses the boundary does
+  its damage immediately); majority mid/late → accumulated rhythm.
+
+All three are reported with honest n (expect only ~10–20 odoor
+deaths pooled); any medicine stays owner-gated. No new seeds.
+
+- [ ] P2 blocks A (@140000) + B (@157000) → (a)/(b)/(c) verdicts
