@@ -22,6 +22,7 @@ yet. The technical body underneath stays precise and fully sourced.
 | 9 | The seam tax: the teacher always drives home | [en](09-the-seam-tax/en.md) | [繁中](09-the-seam-tax/zh-TW.md) | published in-repo |
 | 10 | Per-frame recall is a lie: detection as sequential evidence | [en](10-per-frame-recall-is-a-lie/en.md) | [繁中](10-per-frame-recall-is-a-lie/zh-TW.md) | published in-repo |
 | 11 | The flinch: anatomy of one second | [en](11-the-flinch/en.md) | [繁中](11-the-flinch/zh-TW.md) | published in-repo |
+| 12 | The exchange rate: how much of a measured number is real? | [en](12-the-exchange-rate/en.md) | [繁中](12-the-exchange-rate/zh-TW.md) | published in-repo |
 
 Cadence: roughly one bilingual article per month. The English long-form is
 the canonical version; the 繁體中文 version is a faithful re-write, not a

@@ -292,7 +292,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     articles: {
       eyebrow: "The article series / 費曼規則",
-      title: "十一篇文章，每篇先講白話版。",
+      title: "十二篇文章，每篇先講白話版。",
       intro:
         "完整雙語系列在 repo 的 writing/ 目錄；每篇開頭都有一段零行話的白話版——這裡就是那十段。",
       linkLabel: "閱讀全文 →",
@@ -362,6 +362,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           simple:
             "匯入高速公路時，緊張的駕駛會在最該踩油門的瞬間踩了剎車。我們的無人機在移動缺口前做一樣的事——這是當場抓到退縮、證明縫本來穿得過、然後發現「不退縮」為什麼教不會的故事：教練靠學生的後照鏡解析不了的東西判斷時機。殘餘有名字：感知稅。",
           slug: "11-the-flinch",
+        },
+        {
+          title: "證據的匯率：你量到的數字，有多少是真的？",
+          simple:
+            "健身房會員比較健康——但辦卡造成了多少？做成對實驗，差距通常剩一半：本來就健康的人才去辦卡。相關性自帶匯率、不介入不知道。這篇在同一架無人機上量了兩次匯率：一個落榜的 8.9% 在對的考試下值六分（門檻 79→85）；一個嚇人的 3.4× 死亡倍率，被「同一條賽道只換前一關」的配對介入砍到 1.69×——真的，但只有帳面的一半。",
+          slug: "12-the-exchange-rate",
         },
       ],
     },
@@ -583,7 +589,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     articles: {
       eyebrow: "The article series / the Feynman rule",
-      title: "Eleven articles, each opening in plain language.",
+      title: "Twelve articles, each opening in plain language.",
       intro:
         "The full bilingual series lives in the repo's writing/ directory; every article opens with a jargon-free simple version — these are those ten.",
       linkLabel: "Read the article \u2192",
@@ -653,6 +659,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           simple:
             "Merging onto a highway, a nervous driver sometimes brakes at exactly the moment they should commit. Our drone does the same at moving gaps — this is the story of catching the flinch in the act, proving the gap was takeable, and discovering why not-flinching is so hard to teach: the instructor knows the moment by seeing things the student\u2019s mirrors cannot resolve. The residue has a name: the perception tax.",
           slug: "11-the-flinch",
+        },
+        {
+          title: "The exchange rate: how much of a measured number is real?",
+          simple:
+            "Gym members are healthier \u2014 but how much does JOINING cause? Run the paired experiment and the gap usually halves: the healthy were the ones buying memberships. Correlations carry an exchange rate you can\u2019t know without intervening. This article measures it twice on one drone: a rejected 8.9% training result worth six points at the right exam (gate 79\u219285), and a scary 3.4\u00d7 death multiplier cut to 1.69\u00d7 by flying the same course with only the previous stage\u2019s name swapped \u2014 real, but half of what the table claimed.",
+          slug: "12-the-exchange-rate",
         },
       ],
     },

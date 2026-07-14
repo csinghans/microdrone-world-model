@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- **Article #12 published in-repo:** *The Exchange Rate: How Much of
+  a Measured Number Is Real?* (bilingual,
+  `writing/12-the-exchange-rate/`) — two numbers from the flinch
+  story, re-priced by the right judgment: the refuted 8.9 % arm
+  adopted by the stack's own registration (79 → 85, deep mgap
+  halved), and the 3.4× predecessor multiplier shrunk to a causal
+  1.69× by the paired-geometry intervention. Lessons: correlations
+  carry an exchange rate you must measure; bars are for decisions,
+  evidence outlives them; instruments lie in your favorite direction
+  (the boundary-death illusion). Feynman box: the gym-membership
+  experiment.
+
 - **slalom_depth_v1 closed — the deep slalom seam, dissected to a
   causal number** (`experiments/slalom_depth_v1/`): the k=6 frontier
   (slalom 16.2 %, largest single type) investigated in four rounds.
