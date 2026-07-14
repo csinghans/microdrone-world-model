@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+- **clutter_governor_v1 closed — the dense frontier's cheap-knob era
+  ends with three oracle corpses** (`experiments/clutter_governor_v1/`):
+  the last mechanism-matched cheap knob (slow down where the world is
+  thick — privileged 8-ray clutter >= 2 triggers a SLOW interleave,
+  the dense_recal signal reused verbatim) is REFUTED at its frozen
+  bar: pooled paired dcrash **-0.010** vs <= -0.07, non-vacuous (8.7
+  fires/flight, +14 % flight time honestly paid), guards green. The
+  refutation sharpens the mechanism: the across-episode speed-crash
+  slope does not transfer to within-episode local slowing — by the
+  time ANY signal fires the conflict is committed. Trilogy complete:
+  perfect memory -0.035 (oracle_memory_v1), the calibration knife
+  dead (dense_recal_v1), the speed oracle -0.010 — **the dense wall
+  is kinematic, not informational**; remaining roads are quarterly-
+  class representation or the accepted floor. (Also recorded: fresh-
+  block base levels 0.500/0.595 vs historical 0.267/0.467 — dense
+  cells are seed-set sensitive; the paired delta is the read.)
+
 - **dense_recal_v1 closed — the deployable-context wedge is refuted,
   and the sign flips** (`experiments/dense_recal_v1/`): C0's blocking
   objection ("conditional recalibration needs a world label the

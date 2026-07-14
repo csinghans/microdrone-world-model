@@ -1,0 +1,50 @@
+{
+ "n": 200,
+ "seed0": 162000,
+ "cells": [
+  {
+   "speed": 1.5,
+   "n": 200,
+   "crash": 0.5,
+   "reached": 0.5,
+   "fires_per_flight": 0.0,
+   "mean_steps": 155.335,
+   "arm": "base"
+  },
+  {
+   "speed": 2.0,
+   "n": 200,
+   "crash": 0.595,
+   "reached": 0.355,
+   "fires_per_flight": 0.0,
+   "mean_steps": 142.935,
+   "arm": "base"
+  },
+  {
+   "speed": 1.5,
+   "n": 200,
+   "crash": 0.49,
+   "reached": 0.51,
+   "fires_per_flight": 10.745,
+   "mean_steps": 177.38,
+   "arm": "gov"
+  },
+  {
+   "speed": 2.0,
+   "n": 200,
+   "crash": 0.585,
+   "reached": 0.38,
+   "fires_per_flight": 6.625,
+   "mean_steps": 143.37,
+   "arm": "gov"
+  }
+ ],
+ "pooled_crash": {
+  "base": 0.5475,
+  "gov": 0.5375
+ },
+ "delta_crash": -0.010000000000000009,
+ "fires_per_flight": 8.684999999999999,
+ "reached_guard_ok": true,
+ "verdict": "REFUTED"
+}

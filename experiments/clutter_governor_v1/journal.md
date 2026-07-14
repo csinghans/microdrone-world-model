@@ -63,7 +63,50 @@ seed0 **162000** (fresh block; paired across arms).
 
 **Seeds:** 162000–162199 per cell (spent here). Exam seeds untouched.
 
+## G0 verdict — REFUTED; the cheap-knob era of the dense frontier ends
+
+`g0_results.json` (n=200/arm/cell, paired @162000):
+
+| cell | base crash / reached | gov crash / reached | fires/flight | steps |
+|---|---|---|---|---|
+| dense@1.5 | 0.500 / 0.500 | 0.490 / 0.510 | 10.7 | 155 → 177 |
+| dense@2.0 | 0.595 / 0.355 | 0.585 / 0.380 | 6.6 | 143 → 143 |
+
+**Pooled Δcrash −0.010 vs the frozen ≤ −0.07 — REFUTED.** Non-vacuous
+(8.7 fires/flight), guards green, and the governor genuinely paid the
+price (+14 % flight time at 1.5×) — it just bought one point.
+
+Honest level note (the oracle_memory precedent, again): this fresh
+block flies the base at 0.500/0.595 vs the historical 0.267/0.467 —
+dense cells are seed-set sensitive; the PAIRED Δ is the read.
+
+**Mechanism refinement the refutation buys:** the across-episode
+speed–crash slope (0.167 @×1.0 → 0.467 @×2.0) does NOT transfer to
+WITHIN-episode local slowing — a ~12 % effective-speed cut where
+clutter is thick bought ~1 point, not the ~5 the slope predicts. This
+sharpens oracle_memory's autopsy: by the time ANY signal fires —
+warn heads, remembered pillars, or a privileged clutter count — the
+conflict is already committed; local slowing inside the thicket
+mostly rearranges the crash. The speed that matters is chosen BEFORE
+the thicket, i.e., at mission level — which is the speed-cell exam
+itself, already measured.
+
+**The trilogy, complete:** perfect memory −0.035 (`oracle_memory_v1`),
+the calibration knife dead (`dense_recal_v1`), the speed oracle
+−0.010 (this file). Three privileged oracles, three pre-registered
+bars, three clean corpses in three campaigns: **the dense wall is not
+made of information, and not of locally-reducible speed. It is the
+world's geometry against the platform's dynamics at any speed worth
+flying** — a kinematic floor. The honest remaining roads: quarterly-
+class representation work, or the accepted floor with the speed-cell
+scoreboard as its honest price list. Article #13 material is complete
+("The wall that wasn't information").
+
+**Seeds spent:** 162000–162199 ×2 cells. Exam seeds untouched.
+
 ## Status
 
 - [x] Pre-registration (this file, before any number)
-- [ ] G0: base/gov × dense@{1.5, 2.0} → Δcrash verdict
+- [x] G0: **REFUTED (Δ −0.010 vs ≤ −0.07, non-vacuous, guards green);
+      the dense cheap-knob era closes with three oracle corpses; the
+      wall is kinematic**
