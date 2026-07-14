@@ -390,7 +390,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       intro:
         "目前所有 deployment gates 都是模擬中的硬體解凍前置條件。限制不是附註，而是每個數字的一部分。",
       items: [
-        { title: "仍是 simulation", description: "真機硬體仍 parked；79/100 與 91/100 不能寫成實機可靠度。" },
+        { title: "仍是 simulation", description: "真機硬體仍 parked；85/100 與 91/100 不能寫成實機可靠度。" },
         { title: "Latency 是推算", description: "約 8 ms 來自 MAC count 與吞吐量假設，不是 GAP8 實測。" },
         { title: "Indoor safety 不是 vision-only", description: "空間避撞由 beams8 rangefinder ring 負責。" },
         { title: "量化尚未完全閉環", description: "Indoor stack 可量化飛行；transit trigger 目前仍保留 float。" },
@@ -681,7 +681,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       intro:
         "Every deployment gate today is a simulated precondition for unfreezing hardware. Limits are part of the number, not a footnote underneath it.",
       items: [
-        { title: "Still simulation", description: "Hardware remains parked; 79/100 and 91/100 are not real-flight reliability." },
+        { title: "Still simulation", description: "Hardware remains parked; 85/100 and 91/100 are not real-flight reliability." },
         { title: "Latency is estimated", description: "About 8 ms comes from MAC count and assumed throughput, not a GAP8 measurement." },
         { title: "Indoor safety is not vision-only", description: "A beams8 rangefinder ring owns spatial collision avoidance." },
         { title: "Quantization is not closed end to end", description: "The indoor stack flies quantized; the transit trigger still remains float." },

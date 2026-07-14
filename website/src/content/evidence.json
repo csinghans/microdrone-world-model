@@ -1,10 +1,10 @@
 {
   "gateOfRecord": "2026-07",
   "transit": {
-    "successes": 79,
+    "successes": 85,
     "missions": 100,
-    "successRate": 0.79,
-    "source": "experiments/transit_gate_v2/r3_formal_n100.json"
+    "successRate": 0.85,
+    "source": "experiments/stack_registration_v1/formal_n100.json"
   },
   "indoor": {
     "successes": 91,
