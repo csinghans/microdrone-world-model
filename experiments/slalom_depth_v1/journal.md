@@ -254,3 +254,40 @@ only — if the pooled ratio settles in [1.5, 2.0) with z ≥ 2, the
 honest reading is "roughly half the observational multiplier was
 confound, the remainder is a real hand-off carrier, possibly
 depth-amplified".
+
+### P3 pooled verdict (n=301 pairs) — the pre-named middle reading, exactly
+
+Block 2 @159000: 1.67× / z 1.41 — the blocks replicate (1.71 / 1.67).
+**Pooled: odoor 44/301 = 0.146 vs door 26/301 = 0.086, ratio 1.69,
+McNemar 41/23, z 2.25.** As frozen: GRAY (ratio < 2.0). As
+pre-named one section up: **the causal middle case landed** —
+
+- **The hand-off carrier is REAL**: +6 pp of slalom death caused by
+  WHO hands off, with geometry, position, and composition all
+  bit-controlled (z 2.25 on discordant pairs, replicated across
+  blocks). This is intervention-grade evidence, not conditioning.
+- **It is HALF the observational story**: 1.69× causal at position 1
+  vs 3.4× observational across pooled seam positions. The other half
+  was confound (depth mixing and friends) — the pooled-history
+  ratios of P0 overstate what the predecessor DOES.
+- The carrier still lives in nothing we record (P1: entry state;
+  P2: post-brake state, fence choice, agreement windows). What
+  survives every probe: something in the odoor hand-off dynamics —
+  the leading unpriced suspect is frame-level perceptual content.
+
+## Campaign close
+
+The deep slalom seam investigation, end to end: the k=6 read named
+the frontier (16.2 %, largest single type) → P0 found the
+predecessor signature free → P1 executed vy and exonerated the
+entry-state vector → P2 executed the boundary-death illusion (an
+instrument trap now banked), found deaths are ordinary weave
+failures at elevated RATE, and exonerated the trajectory shape →
+P3's paired intervention causally confirmed a real hand-off carrier
+at HALF the observational size. **Measured legacy: the observational
+predecessor table overstates causation ~2×; a real +6 pp odoor
+hand-off tax exists with no recorded carrier; slalom depth deaths
+are rate-amplified ordinary failures, not a new failure mode.**
+Medicine (if any) is unpriced and owner-gated; the leading probe
+candidate if reopened: frame-level perceptual diff at the hand-off.
+Seeds spent: 157000, 158000–159159. Exam 110000 untouched.

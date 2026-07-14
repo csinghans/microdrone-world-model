@@ -2,6 +2,29 @@
 
 ## Unreleased
 
+- **slalom_depth_v1 closed — the deep slalom seam, dissected to a
+  causal number** (`experiments/slalom_depth_v1/`): the k=6 frontier
+  (slalom 16.2 %, largest single type) investigated in four rounds.
+  P0: the predecessor signature, free (after door 9.7 % vs after
+  opening_door 33.3 %, fresh blocks). P1: the entry-state vector
+  exonerated (|vy| refuted at 0.88x; |y| real at z 5 but
+  marker-not-cause by the matched-band razor — odoor kills 3.2x door
+  within the narrow band). P2: the boundary-death illusion executed
+  (an instrument lesson — the composite judges crash post-hoc by min
+  clearance; crash_t precedes the last row by 38–173 ticks); true
+  deaths sit ON the fences, spread 16/9/11; dying pilots are
+  off-oracle-path in BOTH windows — slalom death has no single commit
+  moment; the odoor effect is rate-not-shape. P3: the paired-geometry
+  A/B (register_course gains names/tag; one rng draw per stage makes
+  the slalom draw bit-identical across arms) lands the pre-named
+  middle case at n=301 pairs: **a real +6 pp hand-off tax (0.086 →
+  0.146, McNemar z 2.25, replicated) at HALF the observational size
+  (1.69x causal vs 3.4x conditioned)** — the predecessor table
+  overstates causation ~2x, and the carrier lives in nothing the
+  probes record (leading suspect: frame-level perception). Machinery
+  kept: eval_pred_ab, pose-walk pred column + rows dump, SeamProbe
+  y/vy + --collect-rows.
+
 - **The transit gate re-anchors 79 → 85/100 — the mgap RL arm is
   adopted by the stack's own registration**
   (`experiments/stack_registration_v1/`): the mgap_rl_v1 review had
