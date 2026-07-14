@@ -8,8 +8,9 @@ WM+head binding verification. The SLOW layers (the two n=100 gates)
 default to INGESTING the committed gate-of-record JSONs with their
 provenance, and re-fly on request:
 
-  transit        79/100 of record: experiments/transit_gate_v2/r3_formal_n100.json
-                 (promoted 2026-07-12; lineage 72/100 hybrid4_n100.json)
+  transit        85/100 of record: experiments/stack_registration_v1/formal_n100.json
+                 (promoted 2026-07-14, mgap RL arm; lineage 79/100
+                 r3_formal_n100.json, 72/100 hybrid4_n100.json)
                  (--run-transit N re-flies eval.eval_integration --suite)
   indoor_search  91/100 of record: experiments/indoor_gate_v1/gate_results.json
                  (--run-indoor N re-flies eval.eval_indoor_gate --gate)
@@ -31,7 +32,9 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TRANSIT_RECORD = os.path.join("experiments", "transit_gate_v2", "r3_formal_n100.json")
+TRANSIT_RECORD = os.path.join(
+    "experiments", "stack_registration_v1", "formal_n100.json"
+)
 TRANSIT_SCRATCH = os.path.join(
     "experiments", "transit_gate_v2", "scorecard_transit.json"
 )
@@ -153,8 +156,8 @@ def scorecard(run_transit=0, run_indoor=0, out=None):
 def selftest() -> None:
     # the committed gates-of-record parse, and their verdicts hold
     t = ingest_transit()
-    assert t["pass"] and t["n"] == 100 and abs(t["success_rate"] - 0.79) < 1e-9
-    assert t["gate"] == "79/100"
+    assert t["pass"] and t["n"] == 100 and abs(t["success_rate"] - 0.85) < 1e-9
+    assert t["gate"] == "85/100"
     # the re-fly scratch path must never shadow the record itself
     assert TRANSIT_SCRATCH != TRANSIT_RECORD
     i = ingest_indoor()

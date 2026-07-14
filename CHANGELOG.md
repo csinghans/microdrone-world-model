@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+- **The transit gate re-anchors 79 → 85/100 — the mgap RL arm is
+  adopted by the stack's own registration**
+  (`experiments/stack_registration_v1/`): the mgap_rl_v1 review had
+  deferred adoption to "the stack's own registration, judging
+  components by the stack's exam, not the arm's missed ambition" —
+  this is that registration, pre-registered before any number. Formal
+  n=100 @110000 (the one exam read): **85/100**, all guards green on
+  pooled-true-rate anchors, the swapped slot's conditional 0.9455 vs
+  the old slot's 0.887 true rate — the adoption claim shows on the
+  exam. Promoted per the R3 precedent: `HYBRID["moving_gap"]` →
+  `ppo_mgap_rl.zip` (sha in the journal), `gate.py` re-anchored,
+  scorecard GREEN. Honest notes: the 85 is a ~+1σ draw of a true
+  ~0.80–0.81 composite (the arm's pooled n=120 is the truth; the exam
+  is the ceremony); the k=6 instrument (0.500) is unpromoted and does
+  not move.
+
 - **slalom_rl_v1 closed — an honest double negative that exhausts the
   visitation hypothesis** (`experiments/slalom_rl_v1/`): K1, solo-world
   crown FT of the deployed R3 clone (one knob: the world), pooled

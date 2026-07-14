@@ -11,9 +11,11 @@ a privileged oracle), an apprenticeship that taught WHERE (direction
 errors 1/104) but could not teach WHEN (flickering labels at a
 visually-unresolvable boundary), and the naming of the perception tax
 (BC 11.1 % / RL 8.9 % converging against the oracle's ~4 %). Article
-#11, *The Flinch*, tells it start to finish. Gates unchanged and
-GREEN — transit 79/100, indoor 91/100; the int8 configs remain
-adopted in the lock (v0.11.0).** The baseline shipped as
+#11, *The Flinch*, tells it start to finish. Since the tag, the tax
+was priced INTO the lineup: the mgap RL arm — refuted by 0.4 at its
+own ambition — was adopted by the stack's own registration and the
+transit gate re-anchored **79 → 85/100** (indoor 91/100; the int8
+configs remain adopted in the lock, v0.11.0).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what
@@ -250,11 +252,13 @@ composed 3-stage course flown end to end (`docs/TDD-FLIGHT.md`). The
 **deployment gate** — the standing precondition for real hardware — is
 integration success ≥ 0.70 at n = 100 random courses.
 
-Current state: **GREEN — 79/100** (promoted 2026-07-12: the
-transit_gate_v2 campaign measured the slalom seam's mechanism —
-covariate shift at expert handoffs — and two pre-registered DAgger
-rounds cut seam failures 30 % → 9.5 %; lineage 72/100 of 2026-07-07,
-re-verified per-seed at 1.000 after a full toolchain rebuild). Since
+Current state: **GREEN — 85/100** (promoted 2026-07-14: the
+moving-gap slot adopted the RL-from-success arm by the stack's own
+registration — mgap true seam 17.2 % → 8.9 %, conditional 0.887 →
+0.938, every guard anchored to a pooled true rate; lineage 79/100 of
+2026-07-12 — the transit_gate_v2 DAgger rounds, slalom seam 30 % →
+9.5 % — and 72/100 of 2026-07-07, re-verified per-seed at 1.000 after
+a full toolchain rebuild). Since
 v0.9.0 the indoor track has its own gate —
 **GREEN, 91/100**: a seeded pool of four mission families (single-room /
 multi-room / vertical / person) at the track's robust config, composite
