@@ -57,6 +57,7 @@ class PoseWalkProbe:
                     "vx": float(state[10]),
                     "vy": float(state[11]),
                     "t": int(t),
+                    "pred": self.names[k - 1] if k >= 1 else None,
                 }
             )
 
@@ -175,7 +176,12 @@ def probe_run(n=N, seed0=SEED0, out=OUT_JSON, recenter=False):
     # CHANGES outcomes by design — the match is reported, not asserted
     with open(K6_RECORD) as f:
         rec = {r["seed"]: r["success"] for r in json.load(f)["records"]}
-    match = float(np.mean([o["success"] == rec[o["seed"]] for o in outcomes]))
+    overlap = [o for o in outcomes if o["seed"] in rec]
+    match = (
+        float(np.mean([o["success"] == rec[o["seed"]] for o in overlap]))
+        if overlap
+        else -1.0  # fresh block: no baseline to match against
+    )
 
     res = _verdict(pw.rows, outcomes)
     res["instrument"] = {
@@ -185,6 +191,7 @@ def probe_run(n=N, seed0=SEED0, out=OUT_JSON, recenter=False):
         "success_rate": float(np.mean([o["success"] for o in outcomes])),
     }
     res["outcomes"] = outcomes
+    res["rows"] = pw.rows  # per-entry dump (slalom_depth_v1: predecessor reads)
     print(
         f"[pose-walk] instrument match {match:.3f} | spread ratios "
         f"y {res['ratios']['y']:.2f} / vy {res['ratios']['vy']:.2f} "
@@ -224,6 +231,7 @@ def selftest() -> None:
         pw(0, None, st(x, y, vy), 0, None)
     assert [r["pos"] for r in pw.rows] == [0, 1, 2]
     assert abs(pw.rows[1]["y"] - 0.4) < 1e-9 and abs(pw.rows[2]["vy"] - 0.3) < 1e-9
+    assert [r["pred"] for r in pw.rows] == [None, "gap", "door"]
 
     # verdict arithmetic on a synthetic walk (spread doubles, deaths wide)
     rows = []
@@ -263,6 +271,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--probe", action="store_true")
     ap.add_argument("--n", type=int, default=N)
+    ap.add_argument("--seed0", type=int, default=SEED0)
     ap.add_argument("--out", default=OUT_JSON)
     ap.add_argument("--recenter", action="store_true", help="k6 K2: fly the arm")
     ap.add_argument("--selftest", action="store_true")
@@ -271,7 +280,7 @@ def main() -> None:
         selftest()
         return
     if args.probe:
-        probe_run(args.n, out=args.out, recenter=args.recenter)
+        probe_run(args.n, seed0=args.seed0, out=args.out, recenter=args.recenter)
         return
     ap.print_help()
 
