@@ -240,3 +240,17 @@ costume). GRAY between. Expected under H-carrier: door ~0.05–0.10,
 odoor ~0.20–0.30 at seam position 1.
 
 **Seeds:** 158000–158159 spent here. Exam 110000 untouched.
+
+### P3 block 1 (@158000) — GRAY, pooling fires
+
+`p3_pred_ab.json`: both-reached 151/160; slalom death **odoor
+24/151 = 0.159 vs door 14/151 = 0.093** — ratio **1.71** (confirm
+≥ 2.0), McNemar 21/11, z **1.77** (confirm ≥ 2.0). Direction right,
+both lines short → GRAY as frozen. Borderline → pool, never replace:
+block 2, 160 pairs @**159000** (spent). Note for the pooled verdict:
+the observational multiplier (3.4×, P1) was measured across ALL seam
+positions including deep; the paired causal read is at position 1
+only — if the pooled ratio settles in [1.5, 2.0) with z ≥ 2, the
+honest reading is "roughly half the observational multiplier was
+confound, the remainder is a real hand-off carrier, possibly
+depth-amplified".
