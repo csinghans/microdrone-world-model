@@ -292,7 +292,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     articles: {
       eyebrow: "The article series / 費曼規則",
-      title: "十二篇文章，每篇先講白話版。",
+      title: "十三篇文章，每篇先講白話版。",
       intro:
         "完整雙語系列在 repo 的 writing/ 目錄；每篇開頭都有一段零行話的白話版——這裡就是那十段。",
       linkLabel: "閱讀全文 →",
@@ -368,6 +368,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           simple:
             "健身房會員比較健康——但辦卡造成了多少？做成對實驗，差距通常剩一半：本來就健康的人才去辦卡。相關性自帶匯率、不介入不知道。這篇在同一架無人機上量了兩次匯率：一個落榜的 8.9% 在對的考試下值六分（門檻 79→85）；一個嚇人的 3.4× 死亡倍率，被「同一條賽道只換前一關」的配對介入砍到 1.69×——真的，但只有帳面的一半。",
           slug: "12-the-exchange-rate",
+        },
+        {
+          title: "不是資訊做的牆",
+          simple:
+            "騎腳踏車過擁擠的菜市場、一直擦撞到人——是看不到他們嗎？裝上永不遺忘的後照鏡：還是撞。換上完美警報器：還是撞。人多就自動放慢：還是撞。三個完美外掛全死之後、誠實只剩一個結論：巷子比你的車在任何值得騎的速度下轉得過去的空間更窄。這是用三個作弊 oracle 證明「一堵長得像資訊問題的牆、其實是運動學做的」的排除法故事。",
+          slug: "13-the-wall",
         },
       ],
     },
@@ -589,7 +595,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     articles: {
       eyebrow: "The article series / the Feynman rule",
-      title: "Twelve articles, each opening in plain language.",
+      title: "Thirteen articles, each opening in plain language.",
       intro:
         "The full bilingual series lives in the repo's writing/ directory; every article opens with a jargon-free simple version — these are those ten.",
       linkLabel: "Read the article \u2192",
@@ -665,6 +671,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           simple:
             "Gym members are healthier \u2014 but how much does JOINING cause? Run the paired experiment and the gap usually halves: the healthy were the ones buying memberships. Correlations carry an exchange rate you can\u2019t know without intervening. This article measures it twice on one drone: a rejected 8.9% training result worth six points at the right exam (gate 79\u219285), and a scary 3.4\u00d7 death multiplier cut to 1.69\u00d7 by flying the same course with only the previous stage\u2019s name swapped \u2014 real, but half of what the table claimed.",
           slug: "12-the-exchange-rate",
+        },
+        {
+          title: "The wall that wasn\u2019t information",
+          simple:
+            "Riding a bike through a crowded market, always clipping people \u2014 surely you just can\u2019t see them? Add a mirror that never forgets: still clipping. A perfect proximity alarm: still clipping. Auto-slowing in crowds: STILL clipping. When three perfect cheats all fail, honesty forces a new conclusion: the street is tighter than what your bike can turn through at any speed worth riding. An elimination story \u2014 three oracles prove a wall that looked like an information problem is really made of kinematics.",
+          slug: "13-the-wall",
         },
       ],
     },

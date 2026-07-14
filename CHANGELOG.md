@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- **Article #13 published in-repo:** *The Wall That Wasn't
+  Information* (bilingual, `writing/13-the-wall/`) — the dense
+  frontier's elimination trilogy: three privileged oracles (perfect
+  memory −3.5 pts, the calibration knife with its sign flip, the
+  speed governor −1.0 pt), three pre-registered bars, three corpses;
+  the wall is a kinematic floor, not an information problem. Feynman
+  box: the bicycle in the market street. Lessons: let a cheater price
+  the ceiling before you train; a signature that looks like X is not
+  a mechanism; paired deltas, never levels, on seed-sensitive ground.
+
 - **clutter_governor_v1 closed — the dense frontier's cheap-knob era
   ends with three oracle corpses** (`experiments/clutter_governor_v1/`):
   the last mechanism-matched cheap knob (slow down where the world is
