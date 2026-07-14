@@ -123,4 +123,31 @@ demand an instrument audit before belief.
 - [x] Instrument: selftest + wiring smoke @156000 (9/10, loads clean)
 - [x] Formal n=100 @110000: **85/100 PASS, guards all green →
       PROMOTED; gate of record re-anchors 79 → 85**
-- [ ] k=6 follow-up read @140000 (frozen above)
+- [x] k=6 follow-up read @140000: **0.570 — inside the frozen band**
+
+## k=6 follow-up verdict (k6_newlineup_n100.json, same block @140000)
+
+**Composite 50/100 → 57/100 = 0.570 — inside the frozen 0.53–0.58.**
+The promotion transfers to depth at just the predicted rate: the arm
+bought about half of what the oracle proved available (oracle ceiling
+0.610). Dissection, old → new on bit-comparable courses:
+
+- **mgap type overall 16/113 = 14.2 % → 9/115 = 7.8 %**; deep
+  (positions 2–5) **14/69 = 20.3 % → 7/70 = 10.0 %** — the depth tax
+  on the swapped slot is HALVED, slightly better than the frozen
+  13–18 % (which was quoted off the deepest-position 27 % figure;
+  same dissection both sides here). Shallow mgap unchanged
+  (0.045 → 0.044) — the improvement is where the disease was.
+- Residual vs the oracle: 10.0 % deep vs the oracle's 4.2 % — the
+  perception tax at depth, same ~half split as k=3.
+- **The position gradient survives** (p2–p5 fails 8/8/9/13): depth
+  still compounds, now dominated by **slalom (16/99 = 16.2 %,
+  largest single type)** with residual mgap second. The k=6
+  frontier's next name is the slalom seam at depth — the exact
+  residue slalom_rl_v1 just measured as RL-resistant.
+- Honest footnote: K4's ctrl-reset also read 0.570 on this block —
+  different mechanism, same draw value; coincidence, noted so nobody
+  later "replicates" one with the other.
+
+k=6 remains an unpromoted instrument; the k=3 gate of record (85) is
+untouched by this read.
