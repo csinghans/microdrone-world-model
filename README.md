@@ -4,19 +4,19 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.13.0 — the bank pays out, and correlation pays half.
-The RL arm that missed its own bar by 0.4 was adopted by the stack's
-own registration and the transit gate re-anchored **79 → 85/100**
-(deep moving-gap failures halved on the six-stage instrument, 0.500
-→ 0.570 — the predicted half of the oracle's ceiling). The slalom
-seam then resisted RL twice (clean and entry-matched — an honest
-double negative), and the deep-slalom investigation ended in a
-measured exchange rate: the 3.4× predecessor death multiplier is a
-REAL +6 pp hand-off tax under paired-geometry intervention — at
-HALF the observational size (1.69×), with the suspect list emptied
-(the policy's own eyes read chance). Article #12, *The Exchange
-Rate*, tells both stories. Indoor 91/100; int8 configs in the lock
-(v0.11.0).** The baseline shipped as
+**Status: v0.14.0 — the wall is named. The dense frontier (crash
+17–47 % by speed, the repo's oldest open number) wore a perfect
+information-problem disguise — 13/14 deaths were objects that slid
+out of view — and three privileged oracles took it off: perfect
+memory bought −3.5 pts (bar −5), the calibration knife found the
+sign FLIPS (over-warn where empty, under-warn where thick — an
+information limit, not a knob), and the speed governor bought −1 pt
+(bar −7) because by the time ANY signal fires the conflict is
+already committed. **The dense wall is a kinematic floor** — the
+world's geometry against the platform's dynamics at any speed worth
+flying. Article #13, *The Wall That Wasn't Information*, tells the
+trilogy. Gates unchanged and GREEN — transit 85/100 (v0.13.0's
+adoption), indoor 91/100; int8 configs in the lock (v0.11.0).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what

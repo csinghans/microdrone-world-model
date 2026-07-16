@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.14.0 — 2026-07-16 (the kinematic floor: three oracles, three corpses, one wall named)
 
 - **Article #13 published in-repo:** *The Wall That Wasn't
   Information* (bilingual, `writing/13-the-wall/`) — the dense
