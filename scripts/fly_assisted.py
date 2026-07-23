@@ -234,7 +234,17 @@ def fly(
             if gif:
                 from eval.eval_integration import _god_frame
 
-                frames.append(_god_frame(env, GOAL_X))
+                # TINY_RENDERER ignores debug text, so the authority state
+                # is baked in as a border tint: green PILOT / red OVERRIDE
+                # / blue AUTO — the GIF narrates the ladder by itself
+                f = _god_frame(env, GOAL_X).copy()
+                tint = np.array(
+                    [int(c * 255) for c in HUD_RGB[rec["authority"]]],
+                    dtype=np.uint8,
+                )
+                b = 10
+                f[:b, :] = f[-b:, :] = f[:, :b] = f[:, -b:] = tint
+                frames.append(f)
         obs, *_ = env.step(cmd.rpm(state, vecs[a_id]).reshape(1, 4))
         state = obs[0]
         scenario.step()
