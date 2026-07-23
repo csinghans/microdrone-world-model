@@ -91,3 +91,59 @@ certification, never a silent swap.
 ---
 
 (verdict lands below when the probe completes)
+
+---
+
+## Probe verdict — 2026-07-23: P3/P4 confirmed, P1/P2 refuted; no certification; the law holds at cell granularity
+
+Flown as pre-registered (n=20 paired, the same seeds, single arm
+ladder_champion; probe_champion_takeover.json).
+
+| prediction | bar | read | verdict |
+|---|---|---|---|
+| P1 classic: takeover flips the sign | added <= 4 AND dcrash <= 0 | **11**, +0.058 | **REFUTED** |
+| P2 net value on classic@1.5/novice | prev >= 2 AND add <= 1 | 2 / **2** | **REFUTED** (by one crash) |
+| P3 dense still fails | added >= 5 | 16 | **CONFIRMED** |
+| P4 moving no-worse | add == 0 AND dcrash <= 0 | 0, -0.150 | **CONFIRMED** |
+
+Certification: NOT released (classic added 11 != 0; the frac_auto
+clause goes untested — the added clause already fails; classic means
+0.24-0.51 reported for the record). K1: NOT released (P1 refuted).
+
+### What the third campaign bought
+
+1. **The takeover-quality monotone, on identical seeds** (classic
+   pooled added): weak-takeover ladder 22-30 (v1) -> no ladder 14 (v2)
+   -> champion ladder **11** (v3). Harm falls monotonically with
+   takeover quality — the law's direction confirmed — but the sacred
+   guard stays unmet: the residual classic harm is the veto window +
+   authority transitions, the same magnitude v2 measured with no
+   ladder at all. Closing IT is an eyes problem, not an authority
+   problem.
+2. **The sign follows the pilot-vs-relief differential, cell by
+   cell.** dense@1.5/novice (pilot 0.80 vs champion 0.45 — the relief
+   is STRONGER): dcrash -0.200, prevented 5, added 1, lead 1479 ms —
+   the chapter's first genuinely helped hard cell. dense@1.5/average
+   (pilot 0.25 vs 0.45 — the relief is WEAKER): +0.200, added 5. The
+   guardian helps exactly where its relief pilot outflies THIS pilot,
+   not where the world is easy. That is the banked law, now visible at
+   cell granularity.
+3. **Moving stays a quiet win for champion-eyes arms** (v1 -0.200,
+   v3 -0.150, prevented 3, added 0 — diagnostic column, logged).
+4. The measured "who is it FOR" pocket: with today's stack, assistance
+   pays for pilots WORSE than the relief artifact in that context
+   (the novice-at-speed-in-clutter cell), and taxes pilots better than
+   it. Deployment would need an online estimate of BOTH context and
+   pilot quality — named, not claimed.
+
+### Disposition
+
+assist_v3 closes as the third recorded negative. The authority side of
+the chapter is now exhausted honestly: ladder off/on and takeover
+weak/strong are all priced on identical seeds. Every remaining road
+runs through the EYES — the dense over-report and a guardian-specific
+trigger operating point are representation-class work (v0.14's named
+quarterly road). The chapter's law survives its third test and gains
+its finest-grained evidence.
+
+Run-to-run caveat: mechanisms reproduce, third decimals don't; n=20.

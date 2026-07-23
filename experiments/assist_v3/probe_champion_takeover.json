@@ -1,0 +1,417 @@
+{
+ "config": {
+  "n": 20,
+  "seed0": 800000,
+  "arms": [
+   "ladder_champion"
+  ],
+  "margin": null,
+  "escalate": true,
+  "worlds": [
+   "classic",
+   "dense"
+  ],
+  "speeds": [
+   1.0,
+   1.5
+  ],
+  "personas": [
+   "novice",
+   "average",
+   "expert"
+  ]
+ },
+ "cells": [
+  {
+   "cell": "classic@1.0/novice",
+   "world": "classic",
+   "speed": 1.0,
+   "persona": "novice",
+   "seed0": 800000,
+   "diagnostic": false,
+   "crash_u": 0.1,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.1,
+     "crash_a": 0.0,
+     "dcrash": -0.1,
+     "prevented": 2,
+     "added": 0,
+     "rel_cut": null,
+     "n_clean_u": 18,
+     "fi": 0.5,
+     "override_rate": 0.2053,
+     "override_rate_clean": 0.1848,
+     "escalations": 10,
+     "frac_auto": 0.3108,
+     "lead_ms": 677.1,
+     "lead_n": 2,
+     "goal_pct": 0.023
+    }
+   }
+  },
+  {
+   "cell": "classic@1.0/average",
+   "world": "classic",
+   "speed": 1.0,
+   "persona": "average",
+   "seed0": 801000,
+   "diagnostic": false,
+   "crash_u": 0.0,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.0,
+     "crash_a": 0.05,
+     "dcrash": 0.05,
+     "prevented": 0,
+     "added": 1,
+     "rel_cut": null,
+     "n_clean_u": 20,
+     "fi": 0.45,
+     "override_rate": 0.162,
+     "override_rate_clean": 0.162,
+     "escalations": 9,
+     "frac_auto": 0.2372,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0467
+    }
+   }
+  },
+  {
+   "cell": "classic@1.0/expert",
+   "world": "classic",
+   "speed": 1.0,
+   "persona": "expert",
+   "seed0": 802000,
+   "diagnostic": false,
+   "crash_u": 0.0,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.0,
+     "crash_a": 0.05,
+     "dcrash": 0.05,
+     "prevented": 0,
+     "added": 1,
+     "rel_cut": null,
+     "n_clean_u": 20,
+     "fi": 0.6,
+     "override_rate": 0.1719,
+     "override_rate_clean": 0.1719,
+     "escalations": 11,
+     "frac_auto": 0.2499,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0052
+    }
+   }
+  },
+  {
+   "cell": "classic@1.5/novice",
+   "world": "classic",
+   "speed": 1.5,
+   "persona": "novice",
+   "seed0": 803000,
+   "diagnostic": false,
+   "crash_u": 0.15,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.15,
+     "crash_a": 0.15,
+     "dcrash": 0.0,
+     "prevented": 2,
+     "added": 2,
+     "rel_cut": 0.0,
+     "n_clean_u": 17,
+     "fi": 0.8235,
+     "override_rate": 0.3273,
+     "override_rate_clean": 0.3032,
+     "escalations": 17,
+     "frac_auto": 0.5136,
+     "lead_ms": 802.1,
+     "lead_n": 2,
+     "goal_pct": 0.0007
+    }
+   }
+  },
+  {
+   "cell": "classic@1.5/average",
+   "world": "classic",
+   "speed": 1.5,
+   "persona": "average",
+   "seed0": 804000,
+   "diagnostic": false,
+   "crash_u": 0.0,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.0,
+     "crash_a": 0.25,
+     "dcrash": 0.25,
+     "prevented": 0,
+     "added": 5,
+     "rel_cut": null,
+     "n_clean_u": 20,
+     "fi": 0.8,
+     "override_rate": 0.301,
+     "override_rate_clean": 0.301,
+     "escalations": 16,
+     "frac_auto": 0.4657,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0114
+    }
+   }
+  },
+  {
+   "cell": "classic@1.5/expert",
+   "world": "classic",
+   "speed": 1.5,
+   "persona": "expert",
+   "seed0": 805000,
+   "diagnostic": false,
+   "crash_u": 0.05,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.05,
+     "crash_a": 0.15,
+     "dcrash": 0.1,
+     "prevented": 0,
+     "added": 2,
+     "rel_cut": null,
+     "n_clean_u": 19,
+     "fi": 0.6316,
+     "override_rate": 0.2217,
+     "override_rate_clean": 0.1966,
+     "escalations": 12,
+     "frac_auto": 0.358,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0195
+    }
+   }
+  },
+  {
+   "cell": "dense@1.0/novice",
+   "world": "dense",
+   "speed": 1.0,
+   "persona": "novice",
+   "seed0": 806000,
+   "diagnostic": false,
+   "crash_u": 0.3,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.3,
+     "crash_a": 0.4,
+     "dcrash": 0.1,
+     "prevented": 3,
+     "added": 5,
+     "rel_cut": -0.3333,
+     "n_clean_u": 14,
+     "fi": 1.0,
+     "override_rate": 0.451,
+     "override_rate_clean": 0.4305,
+     "escalations": 20,
+     "frac_auto": 0.6817,
+     "lead_ms": 1090.3,
+     "lead_n": 3,
+     "goal_pct": 0.0736
+    }
+   }
+  },
+  {
+   "cell": "dense@1.0/average",
+   "world": "dense",
+   "speed": 1.0,
+   "persona": "average",
+   "seed0": 807000,
+   "diagnostic": false,
+   "crash_u": 0.15,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.15,
+     "crash_a": 0.15,
+     "dcrash": 0.0,
+     "prevented": 2,
+     "added": 2,
+     "rel_cut": 0.0,
+     "n_clean_u": 17,
+     "fi": 0.9412,
+     "override_rate": 0.3564,
+     "override_rate_clean": 0.3363,
+     "escalations": 19,
+     "frac_auto": 0.5616,
+     "lead_ms": 1093.8,
+     "lead_n": 2,
+     "goal_pct": 0.0714
+    }
+   }
+  },
+  {
+   "cell": "dense@1.0/expert",
+   "world": "dense",
+   "speed": 1.0,
+   "persona": "expert",
+   "seed0": 808000,
+   "diagnostic": false,
+   "crash_u": 0.3,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.3,
+     "crash_a": 0.3,
+     "dcrash": 0.0,
+     "prevented": 1,
+     "added": 1,
+     "rel_cut": 0.0,
+     "n_clean_u": 14,
+     "fi": 0.8571,
+     "override_rate": 0.3607,
+     "override_rate_clean": 0.3316,
+     "escalations": 18,
+     "frac_auto": 0.5328,
+     "lead_ms": 1208.3,
+     "lead_n": 1,
+     "goal_pct": 0.0462
+    }
+   }
+  },
+  {
+   "cell": "dense@1.5/novice",
+   "world": "dense",
+   "speed": 1.5,
+   "persona": "novice",
+   "seed0": 809000,
+   "diagnostic": false,
+   "crash_u": 0.8,
+   "reach_u": 0.85,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.8,
+     "crash_a": 0.6,
+     "dcrash": -0.2,
+     "prevented": 5,
+     "added": 1,
+     "rel_cut": 0.25,
+     "n_clean_u": 4,
+     "fi": 1.0,
+     "override_rate": 0.5348,
+     "override_rate_clean": 0.528,
+     "escalations": 20,
+     "frac_auto": 0.7114,
+     "lead_ms": 1479.2,
+     "lead_n": 5,
+     "goal_pct": -0.0351
+    }
+   }
+  },
+  {
+   "cell": "dense@1.5/average",
+   "world": "dense",
+   "speed": 1.5,
+   "persona": "average",
+   "seed0": 810000,
+   "diagnostic": false,
+   "crash_u": 0.25,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.25,
+     "crash_a": 0.45,
+     "dcrash": 0.2,
+     "prevented": 1,
+     "added": 5,
+     "rel_cut": -0.8,
+     "n_clean_u": 15,
+     "fi": 1.0,
+     "override_rate": 0.4894,
+     "override_rate_clean": 0.448,
+     "escalations": 20,
+     "frac_auto": 0.671,
+     "lead_ms": 2333.3,
+     "lead_n": 1,
+     "goal_pct": 0.0197
+    }
+   }
+  },
+  {
+   "cell": "dense@1.5/expert",
+   "world": "dense",
+   "speed": 1.5,
+   "persona": "expert",
+   "seed0": 811000,
+   "diagnostic": false,
+   "crash_u": 0.65,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.65,
+     "crash_a": 0.65,
+     "dcrash": 0.0,
+     "prevented": 2,
+     "added": 2,
+     "rel_cut": 0.0,
+     "n_clean_u": 7,
+     "fi": 1.0,
+     "override_rate": 0.3758,
+     "override_rate_clean": 0.4221,
+     "escalations": 17,
+     "frac_auto": 0.4782,
+     "lead_ms": 395.8,
+     "lead_n": 2,
+     "goal_pct": 0.0091
+    }
+   }
+  },
+  {
+   "cell": "moving@1.0/average",
+   "world": "moving",
+   "speed": 1.0,
+   "persona": "average",
+   "seed0": 812000,
+   "diagnostic": true,
+   "crash_u": 0.5,
+   "reach_u": 1.0,
+   "arms": {
+    "ladder_champion": {
+     "n": 20,
+     "crash_u": 0.5,
+     "crash_a": 0.35,
+     "dcrash": -0.15,
+     "prevented": 3,
+     "added": 0,
+     "rel_cut": 0.3,
+     "n_clean_u": 10,
+     "fi": 0.2,
+     "override_rate": 0.1682,
+     "override_rate_clean": 0.0745,
+     "escalations": 9,
+     "frac_auto": 0.1997,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0061
+    }
+   }
+  }
+ ],
+ "full_auto_ref": {}
+}
