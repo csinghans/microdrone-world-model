@@ -168,14 +168,20 @@ def make_pilot_factory(persona: str, seed: int):
 
 
 def guardian_factory(
-    arm: str, speed: float, margin: float = None, escalate: bool = True
+    arm: str,
+    speed: float,
+    margin: float = None,
+    escalate: bool = True,
+    imm_thr: float = None,
 ):
     """-> make_guardian(pilot) for one arm. WM arms ride the real artifacts;
     the oracle arm is artifact-free (privileged scorer + near-perfect
     scripted takeover pilot). `margin` overrides the escalation edge for the
     LABELLED characterization sweep only — the gate always flies None (the
     deployed constant). `escalate=False` is assist_v2's veto-only ablation:
-    the momentary hard veto stays, the AUTO rung never arms."""
+    the momentary hard veto stays, the AUTO rung never arms. `imm_thr`
+    overrides the hard-veto trigger for assist_v4's dose-response sweep
+    (None = the deployed 0.5)."""
     from planner.authority import AuthorityMachine, Guardian
 
     def machine():
@@ -197,6 +203,7 @@ def guardian_factory(
                 speed=speed,
                 scorer=OracleScorer(meta, speed=speed),
                 margin=margin,
+                imm_thr=imm_thr,
                 machine=machine(),
             )
 
@@ -226,6 +233,7 @@ def guardian_factory(
                 meta,
                 speed=speed,
                 margin=margin,
+                imm_thr=imm_thr,
                 machine=machine(),
             )
 
@@ -245,6 +253,7 @@ def guardian_factory(
             meta,
             speed=speed,
             margin=margin,
+            imm_thr=imm_thr,
             machine=machine(),
         )
 
@@ -270,6 +279,7 @@ def probe(
     margin: float = None,
     escalate: bool = True,
     ref: bool = True,
+    imm_thr: float = None,
 ) -> dict:
     """Stage A + Stage B in one sweep: per cell, fly the unassisted arm once
     per seed, then pair every guardian arm against it; the champion
@@ -283,6 +293,7 @@ def probe(
         f"cells={len(CELLS)}+{len(DIAG_CELLS)}diag arms={arms} "
         f"speeds={ASSIST_SPEEDS} worlds={ASSIST_WORLDS}+moving "
         f"margin={'deployed' if margin is None else margin} "
+        f"imm_thr={'deployed' if imm_thr is None else imm_thr} "
         f"(escalation ladder {'ON' if escalate else 'OFF — veto only'})",
         flush=True,  # background queues watch the log; never buffer a header
     )
@@ -301,6 +312,7 @@ def probe(
                         "seed0": SEED0,
                         "arms": list(arms),
                         "margin": margin,
+                        "imm_thr": imm_thr,
                         "escalate": escalate,
                         "worlds": list(ASSIST_WORLDS),
                         "speeds": list(ASSIST_SPEEDS),
@@ -317,7 +329,9 @@ def probe(
         for idx, (world, speed, persona) in enumerate(CELLS + DIAG_CELLS):
             s0 = SEED0 + idx * 1000
             makers = {
-                a: guardian_factory(a, speed, margin=margin, escalate=escalate)
+                a: guardian_factory(
+                    a, speed, margin=margin, escalate=escalate, imm_thr=imm_thr
+                )
                 for a in arms
             }
             eps_u, recs = [], {a: [] for a in arms}
@@ -528,6 +542,13 @@ def main() -> None:
         action="store_true",
         help="skip the full-auto reference (a sibling probe already flew it)",
     )
+    ap.add_argument(
+        "--imm-thr",
+        type=float,
+        default=None,
+        help="hard-veto trigger override (assist_v4 dose-response sweep; "
+        "None = the deployed 0.5)",
+    )
     args = ap.parse_args()
     if args.selftest:
         selftest()
@@ -545,6 +566,7 @@ def main() -> None:
             margin=args.margin,
             escalate=(args.ladder == "on"),
             ref=not args.no_ref,
+            imm_thr=args.imm_thr,
         )
         return
     if args.gate:
