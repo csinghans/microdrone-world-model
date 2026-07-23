@@ -76,3 +76,76 @@ meter, not a harm meter (the harm meter is `added`).
 ---
 
 (verdict lands below when the probe completes)
+
+---
+
+## Probe verdict — 2026-07-23: P2 confirmed, P1/P3/P4 refuted; no certification; the rungs are priced
+
+Flown as pre-registered (n=20 paired, the SAME v1 seeds, arms
+wm_unified/oracle, ladder OFF; probe_veto_only.json). The unassisted arm
+reproduced v1's crash_u BIT-FOR-BIT on all 13 cells — the paired
+protocol's cross-campaign determinism is itself now a measured fact.
+
+| prediction | bar | read | verdict |
+|---|---|---|---|
+| P1 takeover-dominant | pooled added <= 3 (12 static cells) | **29** | **REFUTED** |
+| P2 trigger-level over-report | dense FI > 0.5 everywhere | 0.57-1.00 | **CONFIRMED** |
+| P3 modest guardian on primary cells | added==0 AND prev>=1 | 2/6 and 3/2 (prev/add) | **REFUTED** |
+| P4 braking unsafe vs movers (wm arm) | moving added >= 1 | added=0, prev=1 | **REFUTED** |
+
+Prereg drafting flaw, recorded: P1's annotation ("~20% of v1's 18")
+mis-scoped the v1 baseline — 18 was the primary-cells pool; the 12-cell
+full-ladder pool is 64. The BAR (<= 3) is what binds, and the verdict is
+identical under any reading (29 > 13 > 3).
+
+### The attribution, priced
+
+- **The ladder owns roughly half the harm:** full-ladder added 64 ->
+  veto-only 29 on identical seeds. Removing the takeover also removed the
+  catastrophic tail (dense@1.0/average: 10 added -> 0).
+- **The naked veto's price scales with speed:** veto_unified @1.0 =
+  prevented 7 / added 5 (near break-even, added 0 across ALL of
+  classic@1.0); @1.5 = prevented 9 / **added 24**. A 0.5 s substitution
+  hold at 1.2 m/s displaces ~0.6 m mid-thread — the intervention is
+  itself a speed-class trajectory perturbation.
+- **Perfect eyes flip the ladder's sign:** on dense@1.0 the full-ladder
+  ORACLE (added 0/3/0 by persona) beat the veto-only ORACLE (3/4/1) —
+  when the takeover pilot is good, escalation is protective; when it is
+  bad (v1's vision-only WMPolicy), it is the dominant poison. **The
+  guardian is only as good as (a) its eyes in context and (b) the pilot
+  it swaps in.** That sentence is the chapter's measured law.
+- **P4's inversion is honest blindness:** the WM arm barely fires on
+  movers (override_rate 0.06 — the v2 single-frame latent carries no
+  velocity), so it barely harms and occasionally brakes usefully
+  (dcrash -0.05). The predicted brake-into-crosser mechanism surfaced in
+  the ORACLE arm instead (added 3): its constant-velocity forward sim is
+  wrong geometry for movers — the instrument's static-only label, now
+  measured. Preventions with leads 552-632 ms on the primary cells show
+  the anticipation channel works when the eyes are right.
+
+### Disposition (per the frozen decision rules)
+
+Certification rule: NOT released (added 29 != 0; classic FI 0.25-0.94 vs
+<= 0.15). K1: NOT released (P1 refuted). **assist_v2 closes with the
+attribution complete and no deployable configuration.** The assisted
+chapter's honest state after two campaigns: the authority ladder is
+mechanically sound (safety rows green; the oracle proves the ceiling),
+but at today's calibration and takeover quality NO WM-triggered
+intervention clears the added==0 sacred guard on transit worlds. The
+priced follow-up roads, each its own future campaign:
+
+1. **A certified takeover artifact** — the champion policy on the
+   champion WM (latent-consistent wm_champion stack) as the AUTO rung,
+   gated on the full-auto reference for the context; the oracle contrast
+   says this is where the ladder's sign lives.
+2. **Eyes before authority** — the dense over-report is the same
+   context-conditional miscalibration head_calibration measured;
+   a guardian-specific operating point is representation-class work
+   (v0.14's named quarterly road), not a threshold sweep (v1's margin
+   sweeps already refuted the cheap version).
+3. **Speed-scoped assistance** — the veto is near-break-even at 0.8 m/s
+   and harmful at 1.2 m/s; any future deployment claim scopes to the
+   measured speed pocket, mirroring the indoor track's ROBUST_SPEED
+   discipline.
+
+Run-to-run caveat: mechanisms reproduce, third decimals don't; n=20/cell.
