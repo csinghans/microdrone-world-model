@@ -1,0 +1,418 @@
+{
+ "config": {
+  "n": 20,
+  "seed0": 800000,
+  "arms": [
+   "wm_unified"
+  ],
+  "margin": null,
+  "imm_thr": 0.9,
+  "escalate": false,
+  "worlds": [
+   "classic",
+   "dense"
+  ],
+  "speeds": [
+   1.0,
+   1.5
+  ],
+  "personas": [
+   "novice",
+   "average",
+   "expert"
+  ]
+ },
+ "cells": [
+  {
+   "cell": "classic@1.0/novice",
+   "world": "classic",
+   "speed": 1.0,
+   "persona": "novice",
+   "seed0": 800000,
+   "diagnostic": false,
+   "crash_u": 0.1,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.1,
+     "crash_a": 0.1,
+     "dcrash": 0.0,
+     "prevented": 0,
+     "added": 0,
+     "rel_cut": null,
+     "n_clean_u": 18,
+     "fi": 0.0,
+     "override_rate": 0.0,
+     "override_rate_clean": 0.0,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0
+    }
+   }
+  },
+  {
+   "cell": "classic@1.0/average",
+   "world": "classic",
+   "speed": 1.0,
+   "persona": "average",
+   "seed0": 801000,
+   "diagnostic": false,
+   "crash_u": 0.0,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.0,
+     "crash_a": 0.0,
+     "dcrash": 0.0,
+     "prevented": 0,
+     "added": 0,
+     "rel_cut": null,
+     "n_clean_u": 20,
+     "fi": 0.0,
+     "override_rate": 0.0,
+     "override_rate_clean": 0.0,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0
+    }
+   }
+  },
+  {
+   "cell": "classic@1.0/expert",
+   "world": "classic",
+   "speed": 1.0,
+   "persona": "expert",
+   "seed0": 802000,
+   "diagnostic": false,
+   "crash_u": 0.0,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.0,
+     "crash_a": 0.0,
+     "dcrash": 0.0,
+     "prevented": 0,
+     "added": 0,
+     "rel_cut": null,
+     "n_clean_u": 20,
+     "fi": 0.0,
+     "override_rate": 0.0,
+     "override_rate_clean": 0.0,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0
+    }
+   }
+  },
+  {
+   "cell": "classic@1.5/novice",
+   "world": "classic",
+   "speed": 1.5,
+   "persona": "novice",
+   "seed0": 803000,
+   "diagnostic": false,
+   "crash_u": 0.15,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.15,
+     "crash_a": 0.15,
+     "dcrash": 0.0,
+     "prevented": 0,
+     "added": 0,
+     "rel_cut": 0.0,
+     "n_clean_u": 17,
+     "fi": 0.2353,
+     "override_rate": 0.06,
+     "override_rate_clean": 0.0471,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0653
+    }
+   }
+  },
+  {
+   "cell": "classic@1.5/average",
+   "world": "classic",
+   "speed": 1.5,
+   "persona": "average",
+   "seed0": 804000,
+   "diagnostic": false,
+   "crash_u": 0.0,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.0,
+     "crash_a": 0.0,
+     "dcrash": 0.0,
+     "prevented": 0,
+     "added": 0,
+     "rel_cut": null,
+     "n_clean_u": 20,
+     "fi": 0.15,
+     "override_rate": 0.0231,
+     "override_rate_clean": 0.0231,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0297
+    }
+   }
+  },
+  {
+   "cell": "classic@1.5/expert",
+   "world": "classic",
+   "speed": 1.5,
+   "persona": "expert",
+   "seed0": 805000,
+   "diagnostic": false,
+   "crash_u": 0.05,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.05,
+     "crash_a": 0.1,
+     "dcrash": 0.05,
+     "prevented": 0,
+     "added": 1,
+     "rel_cut": null,
+     "n_clean_u": 19,
+     "fi": 0.1579,
+     "override_rate": 0.0223,
+     "override_rate_clean": 0.0235,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0108
+    }
+   }
+  },
+  {
+   "cell": "dense@1.0/novice",
+   "world": "dense",
+   "speed": 1.0,
+   "persona": "novice",
+   "seed0": 806000,
+   "diagnostic": false,
+   "crash_u": 0.3,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.3,
+     "crash_a": 0.4,
+     "dcrash": 0.1,
+     "prevented": 0,
+     "added": 2,
+     "rel_cut": -0.3333,
+     "n_clean_u": 14,
+     "fi": 0.2857,
+     "override_rate": 0.1791,
+     "override_rate_clean": 0.1888,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0418
+    }
+   }
+  },
+  {
+   "cell": "dense@1.0/average",
+   "world": "dense",
+   "speed": 1.0,
+   "persona": "average",
+   "seed0": 807000,
+   "diagnostic": false,
+   "crash_u": 0.15,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.15,
+     "crash_a": 0.15,
+     "dcrash": 0.0,
+     "prevented": 0,
+     "added": 0,
+     "rel_cut": 0.0,
+     "n_clean_u": 17,
+     "fi": 0.2353,
+     "override_rate": 0.0888,
+     "override_rate_clean": 0.0759,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0378
+    }
+   }
+  },
+  {
+   "cell": "dense@1.0/expert",
+   "world": "dense",
+   "speed": 1.0,
+   "persona": "expert",
+   "seed0": 808000,
+   "diagnostic": false,
+   "crash_u": 0.3,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.3,
+     "crash_a": 0.35,
+     "dcrash": 0.05,
+     "prevented": 0,
+     "added": 1,
+     "rel_cut": -0.1667,
+     "n_clean_u": 14,
+     "fi": 0.3571,
+     "override_rate": 0.1126,
+     "override_rate_clean": 0.1329,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0471
+    }
+   }
+  },
+  {
+   "cell": "dense@1.5/novice",
+   "world": "dense",
+   "speed": 1.5,
+   "persona": "novice",
+   "seed0": 809000,
+   "diagnostic": false,
+   "crash_u": 0.8,
+   "reach_u": 0.85,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.8,
+     "crash_a": 0.6,
+     "dcrash": -0.2,
+     "prevented": 4,
+     "added": 0,
+     "rel_cut": 0.25,
+     "n_clean_u": 4,
+     "fi": 0.5,
+     "override_rate": 0.2033,
+     "override_rate_clean": 0.1091,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": 1114.6,
+     "lead_n": 4,
+     "goal_pct": 0.1375
+    }
+   }
+  },
+  {
+   "cell": "dense@1.5/average",
+   "world": "dense",
+   "speed": 1.5,
+   "persona": "average",
+   "seed0": 810000,
+   "diagnostic": false,
+   "crash_u": 0.25,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.25,
+     "crash_a": 0.35,
+     "dcrash": 0.1,
+     "prevented": 1,
+     "added": 3,
+     "rel_cut": -0.4,
+     "n_clean_u": 15,
+     "fi": 0.4,
+     "override_rate": 0.1433,
+     "override_rate_clean": 0.1109,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": 812.5,
+     "lead_n": 1,
+     "goal_pct": 0.1416
+    }
+   }
+  },
+  {
+   "cell": "dense@1.5/expert",
+   "world": "dense",
+   "speed": 1.5,
+   "persona": "expert",
+   "seed0": 811000,
+   "diagnostic": false,
+   "crash_u": 0.65,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.65,
+     "crash_a": 0.7,
+     "dcrash": 0.05,
+     "prevented": 1,
+     "added": 2,
+     "rel_cut": -0.0769,
+     "n_clean_u": 7,
+     "fi": 0.5714,
+     "override_rate": 0.0977,
+     "override_rate_clean": 0.0935,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": 687.5,
+     "lead_n": 1,
+     "goal_pct": 0.1114
+    }
+   }
+  },
+  {
+   "cell": "moving@1.0/average",
+   "world": "moving",
+   "speed": 1.0,
+   "persona": "average",
+   "seed0": 812000,
+   "diagnostic": true,
+   "crash_u": 0.5,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.5,
+     "crash_a": 0.5,
+     "dcrash": 0.0,
+     "prevented": 0,
+     "added": 0,
+     "rel_cut": 0.0,
+     "n_clean_u": 10,
+     "fi": 0.0,
+     "override_rate": 0.0,
+     "override_rate_clean": 0.0,
+     "escalations": 0,
+     "frac_auto": 0.0,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0
+    }
+   }
+  }
+ ],
+ "full_auto_ref": {}
+}

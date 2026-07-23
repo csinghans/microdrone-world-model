@@ -76,3 +76,51 @@ not by taste.
 ---
 
 (verdict lands below when the probe completes)
+
+---
+
+## Probe verdict — 2026-07-23: P1/P2 confirmed, P3/P4 refuted; no operating point; the cheap-knob era closes
+
+Flown as pre-registered (n=20 paired, same seeds, veto-only wm_unified
+at imm_thr 0.7 and 0.9; probe_imm07.json / probe_imm09.json; v2's
+committed record is the 0.5 dose point).
+
+| prediction | bar | read | verdict |
+|---|---|---|---|
+| P1 harm monotone | added(0.9) <= added(0.7) <= 29 | 9 <= 21 <= 29 | **CONFIRMED** |
+| P2 saves survive 0.7 | prevented(0.7) >= 8 | 9 | **CONFIRMED** |
+| P3 the pocket exists | some level: added <= 2 AND prev >= 3 | 21/9, 9/6 | **REFUTED** (per the honest prior) |
+| P4 moving stays quiet | added == 0 at every level | 1 @0.7, 0 @0.9 | **REFUTED** (one crash, noise-scale, bar is the bar) |
+
+Selection rule: NO level achieves pooled added == 0 with prevented >= 3
+— **no certification. The assisted chapter's cheap-knob era closes.**
+
+### The dose-response, read
+
+- The trigger can be made QUIET, not ACCURATE: harm falls 29 -> 21 -> 9
+  but never reaches 0 — at 0.9 the dense cells still add 6 (the
+  saturation mechanism confirmed: clutter pushes clean threading's crit
+  past any threshold). Prevention falls with comparable elasticity
+  (16 -> 9 -> 6): there is no separating operating region on this
+  ROC. At 0.9 classic goes fully quiet (override_rate 0.00-0.06,
+  added 0-1) — and prevents nothing there either.
+- The recurring pocket signature, third appearance: dense@1.5/novice
+  reads prevented 4 / added 0 at 0.9 (v3's champion ladder read -0.200
+  on the same cell; v2 read 2/2). For the WORST pilot in the WORST
+  place, even imperfect help pays; everywhere else it taxes. A single
+  n=20 cell is reported, never cherry-picked into a bar.
+- Freedom side for the record (override_rate, dense@1.5 range):
+  0.33-0.46 @0.5 -> 0.20-0.37 @0.7 -> 0.10-0.20 @0.9.
+
+### Disposition — the chapter's standing verdict becomes final for this WM generation
+
+Four campaigns, four honest negatives, every cheap knob priced on one
+paired seed set: the ladder shape (v1), the takeover rung (v2, v3), and
+the trigger operating point (v4). The law survived every test and
+gained cell-level and dose-level evidence. What remains is exactly what
+v0.14 named for the autonomy chapter: REPRESENTATION — eyes that do not
+saturate in clutter. Until that generation of WM exists, the assisted
+chapter ships what it has: a certified authority machine, a keyboard
+cockpit, a paired-seed instrument set, and a law with a price list.
+
+Run-to-run caveat: mechanisms reproduce, third decimals don't; n=20.
