@@ -21,5 +21,17 @@
     "assumedThroughputGmacs": 0.5,
     "estimatedLatencyMs": 8,
     "source": "docs/embedded_budget.md"
+  },
+  "assisted": {
+    "campaigns": 2,
+    "verdict": "no-certification",
+    "oraclePreventedPrimary": 7,
+    "oracleAddedPrimary": 0,
+    "oracleLeadMsRange": [333, 880],
+    "wmAddedPrimaryOf40": 18,
+    "vetoOnlyAddedStatic": 29,
+    "fullLadderAddedStatic": 64,
+    "guardianWeightsKb": 0.0,
+    "source": "experiments/assist_v2/journal.md"
   }
 }

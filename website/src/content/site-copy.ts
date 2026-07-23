@@ -375,6 +375,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
             "騎腳踏車過擁擠的菜市場、一直擦撞到人——是看不到他們嗎？裝上永不遺忘的後照鏡：還是撞。換上完美警報器：還是撞。人多就自動放慢：還是撞。三個完美外掛全死之後、誠實只剩一個結論：巷子比你的車在任何值得騎的速度下轉得過去的空間更窄。這是用三個作弊 oracle 證明「一堵長得像資訊問題的牆、其實是運動學做的」的排除法故事。",
           slug: "13-the-wall",
         },
+        {
+          title: "共享座艙：守護者到底值多少",
+          simple:
+            "駕訓班教練帶著第二副煞車踏板：好教練一堂課救你兩次、然後方向盤還你；壞教練見到路邊停車就狂踩、緊張起來還搶方向盤——偏偏那些路段他看得沒你清楚、開得比你差。我們把教練做了出來、同一堂課開兩次數撞擊：我們的教練讓撞擊變多、眼睛完美的教練讓它變少。本章存進銀行的定律：守護者的好壞、取決於它在該情境的眼睛、和它換上場的那位飛行員。",
+          slug: "14-the-shared-cockpit",
+        },
       ],
     },
     research: {
@@ -677,6 +683,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           simple:
             "Riding a bike through a crowded market, always clipping people \u2014 surely you just can\u2019t see them? Add a mirror that never forgets: still clipping. A perfect proximity alarm: still clipping. Auto-slowing in crowds: STILL clipping. When three perfect cheats all fail, honesty forces a new conclusion: the street is tighter than what your bike can turn through at any speed worth riding. An elimination story \u2014 three oracles prove a wall that looked like an information problem is really made of kinematics.",
           slug: "13-the-wall",
+        },
+        {
+          title: "The shared cockpit: what the guardian is worth",
+          simple:
+            "A driving instructor with a second brake pedal: a good one saves you twice a lesson and hands the wheel back; a bad one stomps it at every parked car and, when nervous, grabs the wheel — in exactly the streets where they see worse than you and drive worse too. We built the instructor, ran every lesson twice, and counted crashes: ours added them, one with perfect eyes prevented them. The law the chapter banks: a guardian is only as good as its eyes in context and the pilot it swaps in.",
+          slug: "14-the-shared-cockpit",
         },
       ],
     },

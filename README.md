@@ -221,7 +221,28 @@ furniture (`python -m scripts.demo_person`):
 
 ![find a person](docs/media/demo_person.gif)
 
-## One embedded pair, two flight modes
+**The Level-3 chapter — a pilot in the loop (assisted flight).** The third
+track wraps a PILOT (keyboard human or seeded synthetic persona) in an
+authority ladder: momentary veto on the imminent backstop, escalation to
+AUTO on sustained danger, danger-latched handback (`planner/authority.py`;
+mechanics certified by four safety rows, +0.0 KB on the embedded budget —
+the guardian rides the MPC's own sweep). Two pre-registered campaigns
+priced every rung on paired seeds: the full ladder is a recorded NO-GO
+(the WM arms ADD crashes — pooled added 18-20/40 on the primary cells —
+while the same-ladder privileged oracle prevents 7 with 0 added and
+333-880 ms of lead), and the veto-only ablation split the blame — half
+the harm is the takeover rung swapping a privileged pilot for a worse
+vision-only autopilot, the rest is the veto itself, near break-even at
+0.8 m/s and harmful at 1.2 m/s. The chapter's measured law: **a guardian
+is only as good as its eyes in context and the pilot it swaps in.** No
+WM-triggered intervention clears the added==0 sacred guard today; the
+authority machine, the cockpit and the honest map ship anyway
+(`experiments/assist_v1/`, `experiments/assist_v2/`). Fly it yourself —
+green border PILOT, red OVERRIDE, blue AUTO:
+
+![assisted flight — the authority ladder](docs/media/assisted_demo.gif)
+
+## One embedded pair, three flight modes
 
 A *unified* world model (trained on the union of transit + indoor rollouts)
 matches-or-beats the specialist on every job the WM directly owns — transit
@@ -230,11 +251,14 @@ champion breaks the distilled skill zoo (slalom 80 %→0 %; the encoder shift
 compounds over its ~40-decision chain). So the unified WM ships **alongside**
 the champion, not over it: a flight mode set at start binds each mission to
 its own stack (`planner/flight_mode.py`), two WMs resident at ~163 KB int8
-(32 % of the 512 KB budget), only one running per mode.
+(32 % of the 512 KB budget), only one running per mode. The assisted mode
+adds ZERO lock entries — the guardian has no weights of its own.
 
 ```bash
 python -m scripts.fly --mode transit        # pinned champion WM + skill policy
 python -m scripts.fly --mode indoor_search  # unified WM + frontier + beams8
+python -m scripts.fly --mode assisted       # unified WM guardian over a pilot
+python -m scripts.fly_assisted --gui        # the keyboard cockpit (T=auto, K=kill)
 ```
 
 | `transit` (dense pillars, 1.4 m/s) | `indoor_search` (3 rooms, cluttered, find + return) |

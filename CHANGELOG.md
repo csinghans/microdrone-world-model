@@ -1,5 +1,60 @@
 # Changelog
 
+## 0.15.0 — 2026-07-23 (the shared cockpit: every rung of the ladder, priced) — PROPOSED
+
+- **Article #14 published in-repo:** *The Shared Cockpit: What the
+  Guardian Is Worth* (bilingual, `writing/14-the-shared-cockpit/`) —
+  the Level-3 chapter's opening arc: an authority ladder built and
+  certified in a day, then two pre-registered campaigns that killed
+  its own deployment and banked a law instead. Feynman box: the
+  driving instructor with the second brake pedal. Lessons: wrap the
+  pilot, never the runner; price the ceiling with perfect eyes before
+  blaming the ladder; an intervention is itself a trajectory
+  perturbation — its price scales with speed.
+
+- **The Assisted Flight Track opens (Level 3): pilot in the loop,
+  guardian on the stick** (`planner/authority.py`, `assist/`,
+  `eval/assist_episode.py`, `eval/eval_assist_gate.py`,
+  `scripts/fly_assisted.py`): a 3-state authority ladder
+  (PILOT/OVERRIDE/AUTO — same-decision imminent veto, 3-of-5
+  escalation, danger-latched handback with refractory), three frozen
+  synthetic pilot personas over an OracleField core, a paired-seed
+  runner (the unassisted arm reproduced BIT-FOR-BIT across two
+  campaigns), an `assisted` flight mode (zero lock entries) and a
+  keyboard cockpit with an authority-tinted GIF. Four new guardian
+  rows in the safety suite (10/10); budget +0.0 KB — the deployed
+  guardian IS the MPC's own shared-encoder sweep (~3.9 M MACs).
+
+- **gate(assist_v1): probe — NO-GO for K0** (`experiments/assist_v1/`):
+  the full ladder ADDS crashes on the pre-registered primary cells
+  (wm arms pooled added 18-20/40 vs the frozen added==0 sacred guard;
+  FI 0.82-1.00) while the SAME ladder with privileged eyes prevents 7
+  with 0 added and 333-880 ms of lead — anticipation-for-a-pilot
+  survives; the WM's dense eyes and the takeover asymmetry do not.
+  dense@1.5 is the kinematic floor seen from the assistance side (the
+  oracle cannot halve a 0.80 pilot crash rate). Margin sweeps 0.3/0.5
+  refute the cheap-threshold rescue. Bars were never frozen, no gate
+  seeds burned — the probe-first pattern working as designed.
+
+- **gate(assist_v2): probe — the rungs are priced, no certification**
+  (`experiments/assist_v2/`): the veto-only ablation on v1's exact
+  seeds splits the blame — the takeover rung owns ~half the harm
+  (added 64 → 29; it was handing a privileged pilot to a vision-only
+  autopilot that crashes at 0.40-0.45 in dense), and the naked veto's
+  price scales with speed (near break-even at 0.8 m/s: added 0 across
+  all of classic@1.0; prevented 9 / added 24 at 1.2 m/s — a 0.5 s
+  substitution hold displaces ~0.6 m mid-thread). Perfect eyes FLIP
+  the ladder's sign (full-ladder oracle beats veto-only oracle in
+  dense@1.0). P2 confirmed (the dense over-report is trigger-level:
+  FI 0.57-1.00 with the ladder off), P1/P3/P4 refuted as written —
+  P4's inversion honestly measured (the velocity-blind v2 latent
+  barely fires on movers, so barely harms; the brake-into-crosser
+  hazard surfaced in the static-geometry oracle instead). **The
+  chapter's measured law: a guardian is only as good as its eyes in
+  context and the pilot it swaps in.** Priced roads: a certified
+  takeover artifact, eyes-before-authority (representation-class),
+  speed-scoped assistance.
+
 ## 0.14.0 — 2026-07-16 (the kinematic floor: three oracles, three corpses, one wall named)
 
 - **Article #13 published in-repo:** *The Wall That Wasn't

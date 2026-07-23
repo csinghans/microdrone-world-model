@@ -23,6 +23,19 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
+- **assist_v1 + assist_v2 (the Level-3 chapter opens, and every rung
+  gets a price): two recorded negatives, one measured law.** The
+  authority ladder shipped and certified in one commit-arc (pilot
+  personas, WM guardian, paired-seed runner, keyboard cockpit, four
+  safety rows, +0.0 KB budget); the full-ladder probe was NO-GO (WM
+  arms add crashes where the same-ladder oracle prevents 7 with 0
+  added), and the veto-only ablation on identical seeds split the
+  blame: half the harm is the takeover rung handing a privileged pilot
+  to a worse vision-only autopilot, the rest is the veto itself, whose
+  price scales with speed. The law the chapter banks: **a guardian is
+  only as good as its eyes in context and the pilot it swaps in.**
+  Full arcs: `experiments/assist_v1/`, `experiments/assist_v2/`; track
+  section below.
 - **opening-door (price hesitation): champion promoted at n=200.** The
   fourth skill and the onboarding stack's first live exercise (backlog
   idea → `new_skill` scaffold → operator-mode campaign). Its title arc
@@ -336,6 +349,54 @@ CHANGELOG (0.8.0) and `experiments/{yaw,alt,height,lowfly,unified_wm,slalom_stop
   to N rooms; a visual-detection branch (widen the observation channel —
   the big perception step, where the world model re-enters); static-
   person SAR framing with safety bounds.
+
+## The Assisted Flight Track (Level 3) (new, 2026-07-23)
+
+Transit and indoor search fly Level-4 — the AI holds the stick end to
+end. This track puts a PILOT in the loop (a human at a keyboard, or a
+seeded synthetic stand-in) and spends the repo's wedge on someone else's
+intent: the world model watches every command ("and if THIS command is
+held?") and an authority ladder intervenes. The automotive analogy is
+deliberate: the previous chapters were the self-driving car; this one is
+driver assistance.
+
+- **The ladder** (`planner/authority.py`): PILOT → OVERRIDE → AUTO.
+  The absolute imminent backstop + geofence fire a same-decision
+  momentary substitution (~0.5 s commit); the relative margin only
+  accumulates escalation evidence (3-of-5) — it never grabs a human's
+  stick on a single decision. Toggle TO auto is instant; a handback
+  DURING danger is latched and granted after 12 clear decisions.
+  Mechanics certified: four guardian rows in `eval/safety_selftest.py`
+  (same-decision veto/toggle, gated handback, geofence-vs-pilot, flown);
+  budget +0.0 KB weights, the deployed decision path IS the MPC's own
+  sweep. `python -m scripts.fly --mode assisted`; the keyboard cockpit
+  is `python -m scripts.fly_assisted --gui`.
+- **The instrument**: three frozen pilot personas (reaction delay /
+  fat-thumb / distraction / deadband over an OracleField core), a
+  paired-seed protocol (same pilot, same course, bare vs guarded — the
+  unassisted arm reproduced BIT-FOR-BIT across two campaigns), and a
+  privileged oracle guardian that prices what perfect eyes could buy.
+- **assist_v1 (full ladder): NO-GO.** Both WM arms add crashes (pooled
+  added 18-20 of 40 on the primary cells vs the frozen added==0 guard)
+  while the same-ladder oracle prevents 7 with 0 added and 333-880 ms
+  of lead. dense@1.5 is the kinematic floor seen from the assistance
+  side (the oracle cannot halve a 0.80 pilot crash rate). Margin sweeps
+  refute the cheap-threshold rescue (`experiments/assist_v1/`).
+- **assist_v2 (veto-only ablation, same seeds): the rungs are priced.**
+  The takeover rung owns ~half the harm (added 64 → 29); the naked
+  veto's price scales with speed (near break-even at 0.8 m/s, prevented
+  9 / added 24 at 1.2 m/s — a 0.5 s hold displaces ~0.6 m mid-thread);
+  and perfect eyes FLIP the ladder's sign (full-ladder oracle beats
+  veto-only oracle in dense@1.0). **The chapter's measured law: a
+  guardian is only as good as (a) its eyes in context and (b) the pilot
+  it swaps in** (`experiments/assist_v2/`).
+- **Standing verdict:** the ladder is mechanically sound; at today's
+  calibration and takeover quality NO WM-triggered intervention clears
+  the added==0 sacred guard on transit worlds. Priced roads, each its
+  own future campaign: a certified takeover artifact (champion policy
+  on champion WM as the AUTO rung), eyes-before-authority (the dense
+  over-report is representation-class, per v0.14), speed-scoped
+  assistance (deploy only in the measured 0.8 m/s pocket).
 
 ## How we work
 
