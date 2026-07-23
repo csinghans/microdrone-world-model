@@ -1,0 +1,437 @@
+{
+ "config": {
+  "n": 20,
+  "seed0": 800000,
+  "arms": [
+   "wm_unified"
+  ],
+  "margin": 0.3,
+  "worlds": [
+   "classic",
+   "dense"
+  ],
+  "speeds": [
+   1.0,
+   1.5
+  ],
+  "personas": [
+   "novice",
+   "average",
+   "expert"
+  ]
+ },
+ "cells": [
+  {
+   "cell": "classic@1.0/novice",
+   "world": "classic",
+   "speed": 1.0,
+   "persona": "novice",
+   "seed0": 800000,
+   "diagnostic": false,
+   "crash_u": 0.1,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.1,
+     "crash_a": 0.0,
+     "dcrash": -0.1,
+     "prevented": 2,
+     "added": 0,
+     "rel_cut": null,
+     "n_clean_u": 18,
+     "fi": 0.7778,
+     "override_rate": 0.26,
+     "override_rate_clean": 0.251,
+     "escalations": 12,
+     "frac_auto": 0.4253,
+     "lead_ms": 1135.4,
+     "lead_n": 2,
+     "goal_pct": 0.0354
+    }
+   }
+  },
+  {
+   "cell": "classic@1.0/average",
+   "world": "classic",
+   "speed": 1.0,
+   "persona": "average",
+   "seed0": 801000,
+   "diagnostic": false,
+   "crash_u": 0.0,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.0,
+     "crash_a": 0.0,
+     "dcrash": 0.0,
+     "prevented": 0,
+     "added": 0,
+     "rel_cut": null,
+     "n_clean_u": 20,
+     "fi": 0.65,
+     "override_rate": 0.125,
+     "override_rate_clean": 0.125,
+     "escalations": 8,
+     "frac_auto": 0.2576,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0265
+    }
+   }
+  },
+  {
+   "cell": "classic@1.0/expert",
+   "world": "classic",
+   "speed": 1.0,
+   "persona": "expert",
+   "seed0": 802000,
+   "diagnostic": false,
+   "crash_u": 0.0,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.0,
+     "crash_a": 0.2,
+     "dcrash": 0.2,
+     "prevented": 0,
+     "added": 4,
+     "rel_cut": null,
+     "n_clean_u": 20,
+     "fi": 0.45,
+     "override_rate": 0.2127,
+     "override_rate_clean": 0.2127,
+     "escalations": 12,
+     "frac_auto": 0.3733,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0015
+    }
+   }
+  },
+  {
+   "cell": "classic@1.5/novice",
+   "world": "classic",
+   "speed": 1.5,
+   "persona": "novice",
+   "seed0": 803000,
+   "diagnostic": false,
+   "crash_u": 0.15,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.15,
+     "crash_a": 0.35,
+     "dcrash": 0.2,
+     "prevented": 3,
+     "added": 7,
+     "rel_cut": -1.3333,
+     "n_clean_u": 17,
+     "fi": 1.0,
+     "override_rate": 0.4686,
+     "override_rate_clean": 0.4764,
+     "escalations": 20,
+     "frac_auto": 0.7061,
+     "lead_ms": 465.3,
+     "lead_n": 3,
+     "goal_pct": 0.0744
+    }
+   }
+  },
+  {
+   "cell": "classic@1.5/average",
+   "world": "classic",
+   "speed": 1.5,
+   "persona": "average",
+   "seed0": 804000,
+   "diagnostic": false,
+   "crash_u": 0.0,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.0,
+     "crash_a": 0.3,
+     "dcrash": 0.3,
+     "prevented": 0,
+     "added": 6,
+     "rel_cut": null,
+     "n_clean_u": 20,
+     "fi": 0.95,
+     "override_rate": 0.4952,
+     "override_rate_clean": 0.4952,
+     "escalations": 18,
+     "frac_auto": 0.5763,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.1111
+    }
+   }
+  },
+  {
+   "cell": "classic@1.5/expert",
+   "world": "classic",
+   "speed": 1.5,
+   "persona": "expert",
+   "seed0": 805000,
+   "diagnostic": false,
+   "crash_u": 0.05,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.05,
+     "crash_a": 0.25,
+     "dcrash": 0.2,
+     "prevented": 1,
+     "added": 5,
+     "rel_cut": null,
+     "n_clean_u": 19,
+     "fi": 1.0,
+     "override_rate": 0.4837,
+     "override_rate_clean": 0.4868,
+     "escalations": 19,
+     "frac_auto": 0.7074,
+     "lead_ms": 1604.2,
+     "lead_n": 1,
+     "goal_pct": 0.1042
+    }
+   }
+  },
+  {
+   "cell": "dense@1.0/novice",
+   "world": "dense",
+   "speed": 1.0,
+   "persona": "novice",
+   "seed0": 806000,
+   "diagnostic": false,
+   "crash_u": 0.3,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.3,
+     "crash_a": 0.7,
+     "dcrash": 0.4,
+     "prevented": 0,
+     "added": 8,
+     "rel_cut": -1.3333,
+     "n_clean_u": 14,
+     "fi": 1.0,
+     "override_rate": 0.4697,
+     "override_rate_clean": 0.4153,
+     "escalations": 20,
+     "frac_auto": 0.7928,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.1043
+    }
+   }
+  },
+  {
+   "cell": "dense@1.0/average",
+   "world": "dense",
+   "speed": 1.0,
+   "persona": "average",
+   "seed0": 807000,
+   "diagnostic": false,
+   "crash_u": 0.15,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.15,
+     "crash_a": 0.65,
+     "dcrash": 0.5,
+     "prevented": 0,
+     "added": 10,
+     "rel_cut": -3.3333,
+     "n_clean_u": 17,
+     "fi": 0.9412,
+     "override_rate": 0.3444,
+     "override_rate_clean": 0.3387,
+     "escalations": 19,
+     "frac_auto": 0.5905,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0744
+    }
+   }
+  },
+  {
+   "cell": "dense@1.0/expert",
+   "world": "dense",
+   "speed": 1.0,
+   "persona": "expert",
+   "seed0": 808000,
+   "diagnostic": false,
+   "crash_u": 0.3,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.3,
+     "crash_a": 0.65,
+     "dcrash": 0.35,
+     "prevented": 0,
+     "added": 7,
+     "rel_cut": -1.1667,
+     "n_clean_u": 14,
+     "fi": 1.0,
+     "override_rate": 0.3336,
+     "override_rate_clean": 0.3415,
+     "escalations": 18,
+     "frac_auto": 0.5742,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0869
+    }
+   }
+  },
+  {
+   "cell": "dense@1.5/novice",
+   "world": "dense",
+   "speed": 1.5,
+   "persona": "novice",
+   "seed0": 809000,
+   "diagnostic": false,
+   "crash_u": 0.8,
+   "reach_u": 0.85,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.8,
+     "crash_a": 0.85,
+     "dcrash": 0.05,
+     "prevented": 2,
+     "added": 3,
+     "rel_cut": -0.0625,
+     "n_clean_u": 4,
+     "fi": 1.0,
+     "override_rate": 0.5525,
+     "override_rate_clean": 0.5,
+     "escalations": 20,
+     "frac_auto": 0.7989,
+     "lead_ms": 1645.8,
+     "lead_n": 2,
+     "goal_pct": 0.1578
+    }
+   }
+  },
+  {
+   "cell": "dense@1.5/average",
+   "world": "dense",
+   "speed": 1.5,
+   "persona": "average",
+   "seed0": 810000,
+   "diagnostic": false,
+   "crash_u": 0.25,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.25,
+     "crash_a": 0.8,
+     "dcrash": 0.55,
+     "prevented": 1,
+     "added": 12,
+     "rel_cut": -2.2,
+     "n_clean_u": 15,
+     "fi": 1.0,
+     "override_rate": 0.5044,
+     "override_rate_clean": 0.4955,
+     "escalations": 20,
+     "frac_auto": 0.7753,
+     "lead_ms": 1208.3,
+     "lead_n": 1,
+     "goal_pct": 0.1853
+    }
+   }
+  },
+  {
+   "cell": "dense@1.5/expert",
+   "world": "dense",
+   "speed": 1.5,
+   "persona": "expert",
+   "seed0": 811000,
+   "diagnostic": false,
+   "crash_u": 0.65,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.65,
+     "crash_a": 0.8,
+     "dcrash": 0.15,
+     "prevented": 2,
+     "added": 5,
+     "rel_cut": -0.2308,
+     "n_clean_u": 7,
+     "fi": 0.8571,
+     "override_rate": 0.4969,
+     "override_rate_clean": 0.491,
+     "escalations": 19,
+     "frac_auto": 0.6179,
+     "lead_ms": 1260.4,
+     "lead_n": 2,
+     "goal_pct": 0.1567
+    }
+   }
+  },
+  {
+   "cell": "moving@1.0/average",
+   "world": "moving",
+   "speed": 1.0,
+   "persona": "average",
+   "seed0": 812000,
+   "diagnostic": true,
+   "crash_u": 0.5,
+   "reach_u": 1.0,
+   "arms": {
+    "wm_unified": {
+     "n": 20,
+     "crash_u": 0.5,
+     "crash_a": 0.6,
+     "dcrash": 0.1,
+     "prevented": 0,
+     "added": 2,
+     "rel_cut": -0.2,
+     "n_clean_u": 10,
+     "fi": 0.3,
+     "override_rate": 0.1223,
+     "override_rate_clean": 0.0748,
+     "escalations": 7,
+     "frac_auto": 0.1392,
+     "lead_ms": null,
+     "lead_n": 0,
+     "goal_pct": 0.0331
+    }
+   }
+  }
+ ],
+ "full_auto_ref": {
+  "classic@1.0": {
+   "crash": 0.0,
+   "reach": 1.0
+  },
+  "classic@1.5": {
+   "crash": 0.0,
+   "reach": 1.0
+  },
+  "dense@1.0": {
+   "crash": 0.4,
+   "reach": 1.0
+  },
+  "dense@1.5": {
+   "crash": 0.45,
+   "reach": 0.95
+  },
+  "moving@1.0": {
+   "crash": 0.35,
+   "reach": 1.0
+  }
+ }
+}

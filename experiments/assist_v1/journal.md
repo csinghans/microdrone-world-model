@@ -136,3 +136,106 @@ the gap is perception, and the next knob is eyes, not authority.
 ---
 
 (verdict blocks land below as the campaign runs)
+
+---
+
+## Probe verdict — 2026-07-23: NO-GO for K0 (no qualifying WM arm); the oracle prices two recoverable cells
+
+Flown as pre-registered: n=20 paired/cell, seeds 800000+, three arms +
+full-auto reference, deployed triggers; margin {0.3, 0.5} characterization
+sweeps on `wm_unified` (probe_results.json, probe_margin03/05.json).
+
+### Stage A — the pilot map
+
+| cell | crash_u | | cell | crash_u |
+|---|---|---|---|---|
+| classic@1.0 nov/avg/exp | 0.10 / 0.00 / 0.00 | | dense@1.0 nov/avg/exp | 0.30 / 0.15 / 0.30 |
+| classic@1.5 nov/avg/exp | 0.15 / 0.00 / 0.05 | | dense@1.5 nov/avg/exp | 0.80 / 0.25 / 0.65 |
+
+Usable band [0.15, 0.85]: **7 cells** (classic@1.5/novice + all six dense).
+COHERENCE VIOLATION (reported, per prereg): expert > average in BOTH dense
+speeds — the tight deadband (0.12 m) tracks gap centres aggressively and
+buys more lateral exposure than average's slack (0.18 m); the "skill"
+dial inverts in clutter. The instrument is honest about it; personas stay
+frozen.
+
+### Rule 1 — primary cells (oracle must halve the crash mass)
+
+Qualify: **classic@1.5/novice** (oracle dcrash -0.100 <= -0.075) and
+**dense@1.0/novice** (-0.250 <= -0.150). Everything else fails the halving
+rule — notably dense@1.5/novice (crash_u 0.80, oracle only -0.200 vs the
+required -0.400): at 1.2 m/s in dense, most pilot crashes are
+kinematically committed before ANY 0.67 s trigger can help — the v0.14
+floor, now measured from the assistance side. dense@1.5/average is worse:
+even the PERFECT-EYES ladder adds crashes (+0.200, added=5).
+
+### Rule 2 — gate-WM qualification: BOTH ARMS DISQUALIFIED
+
+Pooled on the primary cells (n=40 paired):
+
+| arm | prevented | added | FI | override_rate_clean |
+|---|---|---|---|---|
+| wm_unified | 2 | **18** | 0.93-1.00 | 0.41-0.48 |
+| wm_champion | 3 | **20** | 0.82-1.00 | 0.42-0.47 |
+| oracle (ceiling) | 7 | 0 | 0.53-0.57 | 0.08-0.16 |
+
+The frozen rule demands pooled added == 0 and FI <= 0.15. Neither WM arm
+comes close; **K0 never opens**. Margin 0.3/0.5 sweeps barely move any of
+it (added stays 3-12 across dense cells at every margin) — this is not a
+threshold artifact.
+
+### What failed, named from the traces we do have
+
+1. **The takeover rung hands a better flyer to a worse one.** Escalations
+   ran 15-20/20 seeds in the hot cells (frac_auto 0.45-0.77). The pilots
+   are privileged by construction (a human sees the scene); the takeover
+   autopilot is vision-only, and vision-only autonomy crashes at 0.40-0.45
+   in dense (the full-auto reference, same seeds) — WORSE than every
+   unassisted persona at dense@1.0 (0.15-0.30). The ladder converts
+   sustained warn-edge into a pilot swap that lowers the cockpit's skill.
+   The oracle arm masks this by construction (its takeover pilot is also
+   privileged) — and still over-escalates at dense@1.5/average.
+2. **The dense over-report drives the triggers.** head_calibration
+   measured the miscalibration as context-conditional (dense over-reports);
+   here that surfaces as imminent fires on normal gap-threading veers:
+   override_rate_clean 0.29-0.50 and FI 0.82-1.00 across dense for both WM
+   arms, vs the oracle's 0.02-0.16.
+3. **Anticipation itself is NOT refuted.** Where the oracle prevented
+   crashes it moved 333-880 ms before the counterfactual impact (7
+   preventions, added=0, on the primary cells) — inside the WM's own
+   horizon budget. Per the pre-registered refutation clause: the gap is
+   PERCEPTION (and the takeover asymmetry), not guardianship.
+4. classic@1.0/novice is the one cell where the contender behaved as
+   designed (dcrash -0.050, added=0, lead 396 ms) — sparse world, low
+   speed; it sits below the usable band, so it seeds no bar.
+5. moving@1.0 diagnostic: wm_champion HELPED (-0.200, prevented=4,
+   added=0, FI=0.20) with modest overrides — a single-cell curiosity
+   consistent with the champion's moving-world training diet; logged, not
+   interpreted further (n=20, diagnostic column).
+
+### Disposition (per pre-registration)
+
+K0 cannot fly: no bars are frozen, no gate seeds are spent. K1's release
+condition (a K0 trace signature) is unevaluable — K1 stays unreleased.
+**assist_v1 closes as a recorded negative with a priced map.** What the
+map buys the next campaign (its own prereg, new version):
+
+- **Veto-only ladder** (escalate=False): the probe's confound-free
+  discriminator between "eyes fire too often" and "takeover makes it
+  worse" — the machine already supports it as a constructor flag.
+- **A humility gate on escalation**: only hand over when the autopilot is
+  EXPECTED to outfly the pilot in this context (dense says it is not) —
+  e.g. gate the AUTO rung on the full-auto reference for the world class.
+- **Eyes before authority**: the dense over-report is the same wall
+  head_calibration hit; a guardian-specific operating point (per-context
+  trigger, or the wall clears only with representation work) is the
+  quarterly-class road v0.14 already named.
+- The interactive demo and the `assisted` FlightMode stay shipped and
+  green — the authority LADDER is sound (10/10 safety rows, zero added
+  crashes for the silent/oracle configurations on classic@1.0); what is
+  not deployable is the WM-triggered escalation in dense at these
+  calibrations, and the mode's default world/persona demo remains honest
+  (it flies, with visible over-intervention — the article's point).
+
+Run-to-run caveat: single probe, n=20/cell, MPS-class variance — the
+MECHANISMS above reproduce (sign and structure); third decimals will not.
