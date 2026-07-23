@@ -48,7 +48,7 @@ CELLS = tuple(
     (w, s, per) for w in ASSIST_WORLDS for s in ASSIST_SPEEDS for per in PERSONA_GRID
 )  # 12 barred-candidate cells; +1 labelled diagnostic:
 DIAG_CELLS = (("moving", 1.0, "average"),)  # movers: WM v2 sees no velocity
-ARMS = ("wm_unified", "wm_champion", "oracle")
+ARMS = ("wm_unified", "wm_champion", "oracle", "ladder_champion")
 OUT_DIR = os.path.join("experiments", "assist_v1")
 
 # Frozen AFTER the probe, in their own commit (never edited once the gate
@@ -139,6 +139,27 @@ class OracleScorer:
         return p
 
 
+class ChampionTakeover:
+    """assist_v3's AUTO rung: the transit champion policy, wrapped so its
+    12-decision history stack rides the EXECUTED command (`exec_feedback`,
+    the dispatch `_prev_menu` law) — never its own unexecuted suggestion.
+    Latent-consistent by construction: champion policy on champion WM."""
+
+    def __init__(self, model, enc, pred, cheads, meta, speed: float = 1.0):
+        from planner.learned_policy import LearnedPolicy
+
+        self.inner = LearnedPolicy(model, enc, pred, cheads, meta, speed=speed)
+
+    def begin(self, pillars) -> None:
+        self.inner.begin(pillars)
+
+    def decide(self, frame, state) -> int:
+        return int(self.inner.decide(frame, state))
+
+    def exec_feedback(self, exec_id: int) -> None:
+        self.inner.prev = self.inner.ob.ids.index(int(exec_id))
+
+
 # --- arm factories ------------------------------------------------------------
 def make_pilot_factory(persona: str, seed: int):
     from assist.pilot import SyntheticPilot
@@ -184,6 +205,31 @@ def guardian_factory(
     from planner.flight_mode import UNIFIED_WM, load_wm_cached
     from planner.latent_mpc import WMPolicy
     from world_model.training import MODEL
+
+    if arm == "ladder_champion":
+        # assist_v3: the certified-takeover arm — the transit champion
+        # (LearnedPolicy) as the AUTO rung, latent-consistent on the
+        # champion WM for both the guardian's eyes and the autopilot.
+        from planner.learned_policy import load_policy, zip_path
+
+        enc, pred, cheads, _n, meta = load_wm_cached(MODEL)
+        model = load_policy(zip_path(hard=True, xp=True, edge=True))
+
+        def make(pilot):
+            auto = ChampionTakeover(model, enc, pred, cheads, meta, speed=speed)
+            return Guardian(
+                pilot,
+                auto,
+                enc,
+                pred,
+                cheads,
+                meta,
+                speed=speed,
+                margin=margin,
+                machine=machine(),
+            )
+
+        return make
 
     wm_path = {"wm_unified": UNIFIED_WM, "wm_champion": MODEL}[arm]
     enc, pred, cheads, _n, meta = load_wm_cached(wm_path)
@@ -384,7 +430,14 @@ def selftest() -> None:
     assert len(CELLS) == 12 and len(DIAG_CELLS) == 1
     assert all(w in ASSIST_WORLDS for w, _s, _p in CELLS)
     assert DIAG_CELLS[0][0] == "moving"
-    assert set(ARMS) == {"wm_unified", "wm_champion", "oracle"}
+    assert set(ARMS) == {
+        "wm_unified",
+        "wm_champion",
+        "oracle",
+        "ladder_champion",
+    }
+    # the certified-takeover wrapper exposes the executed-command seam
+    assert callable(getattr(ChampionTakeover, "exec_feedback", None))
     # the assist seed block is virgin and self-contained
     lo, hi = SEED0, SEED0 + _BLOCK_SPAN
     assert not any(lo <= s < hi for s in _SEED_LEDGER), "seed block collision"

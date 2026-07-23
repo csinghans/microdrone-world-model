@@ -243,6 +243,9 @@ class Guardian:
         if event == "override_fire":
             self._sub = self._substitute(p, j, fence)
         a_exec = {PILOT: a_pilot, OVERRIDE: self._sub, AUTO: a_auto}[authority]
+        fb = getattr(self.autopilot, "exec_feedback", None)
+        if fb is not None:  # history-bearing autopilots ride the EXECUTED
+            fb(int(a_exec))  # command, never their own unexecuted suggestion
         if self.trace is not None:
             self.trace.append((edge, imminent))
         self.log.append(
@@ -398,12 +401,17 @@ def _guardian_asserts() -> None:
 
     # clear scene: the pilot's command passes through untouched
     auto = _Insist(HOVER)
+    auto.fed = []
+    auto.exec_feedback = auto.fed.append  # the history-stack seam, observed
     g = Guardian(_Insist(FORWARD), auto, None, None, None, meta, scorer=_Sched())
     g.begin([])
     for _ in range(8):
         assert g.decide(frame, state) == FORWARD
     assert summarize_log(g.log)["n_overridden"] == 0
     assert auto.d == 8, "autopilot must stay warm every tick (dispatch law)"
+    assert (
+        auto.fed == [FORWARD] * 8
+    ), "exec_feedback must carry the EXECUTED command every tick"
 
     # imminent on the pilot's chosen VEER (not forward) triggers substitution
     hot = np.zeros((n_menu, n_h, 2))
