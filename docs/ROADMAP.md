@@ -390,13 +390,34 @@ driver assistance.
   veto-only oracle in dense@1.0). **The chapter's measured law: a
   guardian is only as good as (a) its eyes in context and (b) the pilot
   it swaps in** (`experiments/assist_v2/`).
-- **Standing verdict:** the ladder is mechanically sound; at today's
-  calibration and takeover quality NO WM-triggered intervention clears
-  the added==0 sacred guard on transit worlds. Priced roads, each its
-  own future campaign: a certified takeover artifact (champion policy
-  on champion WM as the AUTO rung), eyes-before-authority (the dense
-  over-report is representation-class, per v0.14), speed-scoped
-  assistance (deploy only in the measured 0.8 m/s pocket).
+- **assist_v3 (the certified takeover, same seeds): the law at cell
+  granularity.** Swapping the AUTO rung to the transit champion cuts
+  classic harm monotonically (weak-takeover ladder 22-30 → no ladder
+  14 → champion ladder 11) but the sacred added==0 stays unmet; the
+  per-cell sign follows the pilot-vs-relief differential exactly
+  (dense@1.5/novice, pilot 0.80 vs champion 0.45: the chapter's first
+  genuinely helped hard cell, dcrash -0.200, lead 1479 ms;
+  dense@1.5/average, 0.25 vs 0.45: taxed +0.200). Assistance pays for
+  pilots worse than the relief artifact in context, and taxes the
+  rest (`experiments/assist_v3/`).
+- **assist_v4 (the hard-veto operating point): the cheap-knob era
+  closes.** The trigger dose-response (imm_thr 0.5/0.7/0.9, identical
+  seeds) shows the veto can be made QUIET, not ACCURATE: harm falls
+  29 → 21 → 9 but never reaches 0 (dense saturation crosses any
+  threshold) while prevention falls with comparable elasticity
+  (16 → 9 → 6) — no separating region on the ROC
+  (`experiments/assist_v4/`).
+- **Standing verdict (final for this WM generation):** four campaigns,
+  four honest negatives, every cheap knob priced on one paired seed
+  set — ladder shape, takeover rung, trigger threshold. The ladder is
+  mechanically sound and ships (mode, cockpit, instrument set, the
+  law with its price list); NO WM-triggered intervention clears the
+  added==0 sacred guard. The road is REPRESENTATION — eyes that do
+  not saturate in clutter — exactly the quarterly-class road v0.14
+  named for the autonomy chapter; the two chapters now wait on the
+  same wall. Recurring pocket signature (reported, never barred):
+  help pays only for the worst pilot in the worst place
+  (dense@1.5/novice, three independent appearances).
 
 ## How we work
 
