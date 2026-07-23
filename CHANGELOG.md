@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.15.0 — 2026-07-23 (the shared cockpit: every rung of the ladder, priced) — PROPOSED
+## 0.15.0 — 2026-07-23 (the shared cockpit: every rung of the ladder, priced)
 
 - **Article #14 published in-repo:** *The Shared Cockpit: What the
   Guardian Is Worth* (bilingual, `writing/14-the-shared-cockpit/`) —
