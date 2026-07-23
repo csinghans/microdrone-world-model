@@ -17,11 +17,18 @@ from planner.flight_mode import get_mode, list_modes
 
 
 def _report(name: str, r: dict) -> None:
-    if "reached" in r:  # transit scorecard
+    if "reached" in r:  # transit scorecard (assisted adds the authority line)
         print(
             f"[{name}] reached={r['reached']} crashed={r['crashed']} "
             f"min_clear={r['min_clear']:.2f}m steps={r['steps']}"
         )
+        au = r.get("authority")
+        if au:
+            print(
+                f"[{name}] overrides={au['n_overridden']}/{au['n_decisions']} "
+                f"escalations={au['n_escalations']} "
+                f"handbacks={au['n_handbacks']} frac_auto={au['frac_auto']}"
+            )
     else:  # indoor search scorecard
         print(
             f"[{name}] found={r['target_found']} returned={r['returned']} "
@@ -32,7 +39,7 @@ def _report(name: str, r: dict) -> None:
 
 def selftest() -> None:
     modes = list_modes()
-    assert {"transit", "indoor_search"} <= set(modes), modes
+    assert {"transit", "indoor_search", "assisted"} <= set(modes), modes
     for n in modes:
         m = get_mode(n)
         assert callable(m.build) and m.wm_path

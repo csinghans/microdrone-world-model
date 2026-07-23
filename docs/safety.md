@@ -21,7 +21,7 @@ the first incident.
 | Geofence | `planner.safety_filter` soft box (own odometry) | Hard box + altitude ceiling, enforced below the AI layer |
 | Vertical envelope | vz commanded for altitude/floor search (`planner.nav_action_set` up/down) | Floor bound + capped descent rate near the ground, enforced below the AI layer — the near-surface / ground-effect regime is a sim-to-real unknown (`docs/sim_to_real.md`, lowfly_v1), so hardware must bound it independently |
 | Imminent-collision backstop | `planner.safety_filter.imminent` | Same head, on-board, cannot be overridden by the policy |
-| Manual override | n/a | RC/app kill-switch takes the link at any moment |
+| Manual override | `planner.authority` — the Level-3 assistance layer: pilot toggle to AUTO granted in ≤1 decision; a handback DURING danger is latched, granted after 12 clear decisions; imminent veto substitutes on the trigger decision (guardian_* rows) | RC/app kill-switch takes the link at any moment, BELOW the AI layer — the human kill stays above this whole machine |
 | Emergency land | n/a | One command, spiral-descend, no AI in the loop |
 | Low-battery behaviour | n/a | Land-now threshold with hysteresis, logged |
 | Log replay | episode dicts (`eval.eval_closed_loop.run_episode`) | Full-flight black box, replayable against the sim |
@@ -31,10 +31,13 @@ Since 2026-07-12 the sim-gateable rows are EXECUTABLE — one
 deterministic scenario each, asserted green:
 `python -m eval.safety_selftest --all` (geofence steered into the
 fence, forced-forward imminent veto, vertical envelope, capped-rate
-emergency land, budget-return choreography, bit-exact log replay).
-The suite flies in `scripts/gate.py`'s quick layer, so every
-whole-system scorecard re-certifies it; manual override and the
-GO/NO-GO checklist stay honestly in the hardware column.
+emergency land, budget-return choreography, bit-exact log replay;
+since the assisted chapter, four guardian rows: same-decision veto,
+same-decision toggle-to-AUTO, the danger-latched handback, and the
+geofence flown against a fence-seeking PILOT). The suite flies in
+`scripts/gate.py`'s quick layer, so every whole-system scorecard
+re-certifies it; the RC kill-switch and the GO/NO-GO checklist stay
+honestly in the hardware column.
 
 ## Sensor requirements (measured in sim, priced axis by axis)
 
@@ -58,4 +61,8 @@ veto, so these axes price SAFETY, not mission performance.
 
 The safety filter wraps *every* policy — scripted, MPC, learned — behind the
 same interface, so no future "smarter" policy can bypass it. Learned
-components propose; the envelope disposes.
+components propose; the envelope disposes. The assisted chapter extends the
+sentence: the pilot proposes, the envelope disposes — whether the pilot is
+silicon or human. Within the assistance layer, safety holds the stick (a
+mid-danger handback is latched, the AEB that will not release the brake
+mid-event); above the layer, the human's hardware kill remains absolute.

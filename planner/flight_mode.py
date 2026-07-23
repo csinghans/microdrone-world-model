@@ -14,6 +14,12 @@ controller, safety filter, runner), set once when the flight starts.
                       (`world_model_unified.pth`): frontier strategy + the
                       beams8 geometric safety veto; the unified WM rides this
                       mode as the detection brain (its indoor home).
+  * `assisted`      — Level-3 assisted transit on the UNIFIED WM: a pilot
+                      (scripted here; a human at the demo keyboard) proposes,
+                      the WM guardian disposes (planner/authority — imminent
+                      veto, geofence, escalate-to-AUTO, gated handback). The
+                      guardian has no weights of its own, so the mode adds
+                      ZERO lock entries.
 
 Both WMs stay resident (~163 KB int8 total, 32% of the 512 KB budget), but
 only one runs per mode, so latency does not double. New modes register with
@@ -229,17 +235,58 @@ register(
 )
 
 
+# --- assisted: Level-3 — a pilot proposes, the unified-WM guardian disposes --
+def _fly_assisted(
+    env,
+    seed: int = 800000,
+    speed: float = 1.0,
+    world: str = "dense",
+    persona: str = "average",
+):
+    from assist.pilot import SyntheticPilot
+    from eval.assist_episode import run_assist_episode
+    from planner.authority import Guardian
+    from planner.latent_mpc import WMPolicy
+
+    enc, pred, cheads, _n, meta = load_wm_cached(UNIFIED_WM)
+    guardian = Guardian(
+        SyntheticPilot(persona, seed),
+        WMPolicy(enc, pred, cheads, meta, speed=speed),
+        enc,
+        pred,
+        cheads,
+        meta,
+        speed=speed,
+    )
+    return run_assist_episode(env, guardian, seed, world, speed=speed)
+
+
+register(
+    FlightMode(
+        name="assisted",
+        wm_path=UNIFIED_WM,
+        description="Level-3 assisted transit — the pilot proposes, the WM "
+        "guardian disposes (imminent veto, geofence, escalate-to-AUTO, gated "
+        "handback; planner/authority)",
+        build=_fly_assisted,
+    )
+)
+
+
 def selftest() -> None:
-    assert set(list_modes()) == {"transit", "indoor_search"}, list_modes()
+    assert set(list_modes()) == {"transit", "indoor_search", "assisted"}, list_modes()
     t, i = get_mode("transit"), get_mode("indoor_search")
+    a = get_mode("assisted")
     assert t.wm_path == MODEL, "transit rides the pinned champion"
     assert i.wm_path == UNIFIED_WM, "indoor rides the unified WM"
     assert t.wm_path != i.wm_path, "each mode binds a DISTINCT WM (alongside)"
-    assert callable(t.build) and callable(i.build)
+    assert a.wm_path == UNIFIED_WM, "the guardian rides the deployment WM"
+    assert callable(t.build) and callable(i.build) and callable(a.build)
     assert t.heads == {}, "transit has no detection heads"
+    assert a.heads == {}, "the v1 guardian has no learned weights of its own"
     assert set(i.heads) == {"yaw", "low", "person"}, i.heads
-    # lock consistency for both modes (CI-safe: sha layer skips missing files)
-    for m in (t, i):
+    # lock consistency for every mode (CI-safe: sha layer skips missing files)
+    for m in (t, i, a):
         verify(m)
     # the adopted quantized deployment configs parse and reference the lock
     assert len(verify_quantized()) == 2
@@ -263,8 +310,9 @@ def selftest() -> None:
         pass
     print(
         f"FLIGHT-MODE OK: modes {list_modes()}, transit->champion, "
-        f"indoor->unified (distinct WMs, alongside); lock bindings verified "
-        f"({len(i.heads)} indoor heads), wrong-WM head refused"
+        f"indoor->unified, assisted->unified guardian (champion stays "
+        f"alongside); lock bindings verified ({len(i.heads)} indoor heads), "
+        "wrong-WM head refused"
     )
 
 

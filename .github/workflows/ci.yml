@@ -111,6 +111,12 @@ jobs:
           python -m scripts.demo_two_mode --selftest
           python -m scripts.demo_vertical --selftest
           python -m scripts.demo_person --selftest
+          # assisted flight (Level 3): the authority ladder + pilot family
+          python -m planner.authority
+          python -m assist.pilot
+          python -m eval.assist_episode
+          python -m eval.eval_assist_gate --selftest
+          python -m eval.safety_selftest --selftest
       - name: Sim-in-the-loop selftests (headless)
         run: |
           python -m sim.envs
@@ -125,6 +131,7 @@ jobs:
           python -m scripts.distill --selftest
           python -m eval.eval_integration --selftest
           python -m eval.search_episode --sim
+          python -m eval.assist_episode --sim
           python -m eval.eval_search --selftest
           python -m eval.eval_beam_ablation --selftest
           python -m search.coverage_policy
