@@ -214,7 +214,8 @@ def probe(n: int = 20, arms=ARMS, out_json: str = None, margin: float = None) ->
         f"cells={len(CELLS)}+{len(DIAG_CELLS)}diag arms={arms} "
         f"speeds={ASSIST_SPEEDS} worlds={ASSIST_WORLDS}+moving "
         f"margin={'deployed' if margin is None else margin} "
-        f"(escalation ladder ON)"
+        f"(escalation ladder ON)",
+        flush=True,  # background queues watch the log; never buffer a header
     )
     env = make_env()
     cells_out, ref_out = [], {}
@@ -272,7 +273,10 @@ def probe(n: int = 20, arms=ARMS, out_json: str = None, margin: float = None) ->
                 f"ov={row['arms'][a]['override_rate']}"
                 for a in arms
             )
-            print(f"  [{row['cell']:24s}] crash_u={row['crash_u']:.2f}  {arms_txt}")
+            print(
+                f"  [{row['cell']:24s}] crash_u={row['crash_u']:.2f}  {arms_txt}",
+                flush=True,
+            )
             if (world, speed) not in ref_out:
                 ref = champion_reference(speed)
                 eps = [
@@ -284,7 +288,8 @@ def probe(n: int = 20, arms=ARMS, out_json: str = None, margin: float = None) ->
                 }
                 print(
                     f"  [{world}@{speed} full-auto ref ] "
-                    f"crash={ref_out[(world, speed)]['crash']:.2f}"
+                    f"crash={ref_out[(world, speed)]['crash']:.2f}",
+                    flush=True,
                 )
             _dump()  # finished cells survive a killed run
     finally:
