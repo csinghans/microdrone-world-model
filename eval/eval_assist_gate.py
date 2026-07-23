@@ -146,10 +146,12 @@ def make_pilot_factory(persona: str, seed: int):
     return lambda: SyntheticPilot(persona, seed)
 
 
-def guardian_factory(arm: str, speed: float):
+def guardian_factory(arm: str, speed: float, margin: float = None):
     """-> make_guardian(pilot) for one arm. WM arms ride the real artifacts;
     the oracle arm is artifact-free (privileged scorer + near-perfect
-    scripted takeover pilot)."""
+    scripted takeover pilot). `margin` overrides the escalation edge for the
+    LABELLED characterization sweep only — the gate always flies None (the
+    deployed constant)."""
     from planner.authority import Guardian
 
     if arm == "oracle":
@@ -167,6 +169,7 @@ def guardian_factory(arm: str, speed: float):
                 meta,
                 speed=speed,
                 scorer=OracleScorer(meta, speed=speed),
+                margin=margin,
             )
 
         return make
@@ -180,7 +183,9 @@ def guardian_factory(arm: str, speed: float):
 
     def make(pilot):
         auto = WMPolicy(enc, pred, cheads, meta, speed=speed)
-        return Guardian(pilot, auto, enc, pred, cheads, meta, speed=speed)
+        return Guardian(
+            pilot, auto, enc, pred, cheads, meta, speed=speed, margin=margin
+        )
 
     return make
 
@@ -197,24 +202,50 @@ def champion_reference(speed: float):
 
 
 # --- the probe ----------------------------------------------------------------
-def probe(n: int = 20, arms=ARMS, out_json: str = None) -> dict:
+def probe(n: int = 20, arms=ARMS, out_json: str = None, margin: float = None) -> dict:
     """Stage A + Stage B in one sweep: per cell, fly the unassisted arm once
     per seed, then pair every guardian arm against it; the champion
-    reference flies per (world, speed) — it is persona-free."""
+    reference flies per (world, speed) — it is persona-free. Cells dump to
+    `out_json` incrementally, so a killed run keeps its finished cells."""
     from sim.envs import make_env
 
     print(
         f"[assist-probe] config: n={n}/cell seed0={SEED0} "
         f"cells={len(CELLS)}+{len(DIAG_CELLS)}diag arms={arms} "
         f"speeds={ASSIST_SPEEDS} worlds={ASSIST_WORLDS}+moving "
-        f"(deployed triggers, escalation ladder ON)"
+        f"margin={'deployed' if margin is None else margin} "
+        f"(escalation ladder ON)"
     )
     env = make_env()
     cells_out, ref_out = [], {}
+
+    def _dump():
+        if not out_json:
+            return
+        os.makedirs(os.path.dirname(out_json), exist_ok=True)
+        with open(out_json, "w") as f:
+            json.dump(
+                {
+                    "config": {
+                        "n": n,
+                        "seed0": SEED0,
+                        "arms": list(arms),
+                        "margin": margin,
+                        "worlds": list(ASSIST_WORLDS),
+                        "speeds": list(ASSIST_SPEEDS),
+                        "personas": list(PERSONA_GRID),
+                    },
+                    "cells": cells_out,
+                    "full_auto_ref": {f"{w}@{s}": v for (w, s), v in ref_out.items()},
+                },
+                f,
+                indent=1,
+            )
+
     try:
         for idx, (world, speed, persona) in enumerate(CELLS + DIAG_CELLS):
             s0 = SEED0 + idx * 1000
-            makers = {a: guardian_factory(a, speed) for a in arms}
+            makers = {a: guardian_factory(a, speed, margin=margin) for a in arms}
             eps_u, recs = [], {a: [] for a in arms}
             for i in range(n):
                 seed = s0 + i
@@ -255,26 +286,16 @@ def probe(n: int = 20, arms=ARMS, out_json: str = None) -> dict:
                     f"  [{world}@{speed} full-auto ref ] "
                     f"crash={ref_out[(world, speed)]['crash']:.2f}"
                 )
+            _dump()  # finished cells survive a killed run
     finally:
         env.close()
-    out = {
-        "config": {
-            "n": n,
-            "seed0": SEED0,
-            "arms": list(arms),
-            "worlds": list(ASSIST_WORLDS),
-            "speeds": list(ASSIST_SPEEDS),
-            "personas": list(PERSONA_GRID),
-        },
+    _dump()
+    if out_json:
+        print(f"[assist-probe] wrote {out_json}")
+    return {
         "cells": cells_out,
         "full_auto_ref": {f"{w}@{s}": v for (w, s), v in ref_out.items()},
     }
-    if out_json:
-        os.makedirs(os.path.dirname(out_json), exist_ok=True)
-        with open(out_json, "w") as f:
-            json.dump(out, f, indent=1)
-        print(f"[assist-probe] wrote {out_json}")
-    return out
 
 
 def gate(n: int = 30) -> None:
@@ -394,6 +415,15 @@ def main() -> None:
     ap.add_argument("--budget", action="store_true")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--out", default=os.path.join(OUT_DIR, "probe_results.json"))
+    ap.add_argument(
+        "--arms", default=",".join(ARMS), help="comma list, e.g. wm_unified"
+    )
+    ap.add_argument(
+        "--margin",
+        type=float,
+        default=None,
+        help="LABELLED characterization sweep only — the gate flies deployed",
+    )
     args = ap.parse_args()
     if args.selftest:
         selftest()
@@ -402,7 +432,9 @@ def main() -> None:
         budget()
         return
     if args.probe:
-        probe(n=args.probe, out_json=args.out)
+        arms = tuple(a for a in args.arms.split(",") if a)
+        assert all(a in ARMS for a in arms), f"unknown arm in {arms}"
+        probe(n=args.probe, arms=arms, out_json=args.out, margin=args.margin)
         return
     if args.gate:
         gate(n=args.gate)
