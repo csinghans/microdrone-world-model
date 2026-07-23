@@ -146,13 +146,19 @@ def make_pilot_factory(persona: str, seed: int):
     return lambda: SyntheticPilot(persona, seed)
 
 
-def guardian_factory(arm: str, speed: float, margin: float = None):
+def guardian_factory(
+    arm: str, speed: float, margin: float = None, escalate: bool = True
+):
     """-> make_guardian(pilot) for one arm. WM arms ride the real artifacts;
     the oracle arm is artifact-free (privileged scorer + near-perfect
     scripted takeover pilot). `margin` overrides the escalation edge for the
     LABELLED characterization sweep only — the gate always flies None (the
-    deployed constant)."""
-    from planner.authority import Guardian
+    deployed constant). `escalate=False` is assist_v2's veto-only ablation:
+    the momentary hard veto stays, the AUTO rung never arms."""
+    from planner.authority import AuthorityMachine, Guardian
+
+    def machine():
+        return AuthorityMachine(escalate=escalate)
 
     if arm == "oracle":
         from assist.pilot import PERFECT, SyntheticPilot
@@ -170,6 +176,7 @@ def guardian_factory(arm: str, speed: float, margin: float = None):
                 speed=speed,
                 scorer=OracleScorer(meta, speed=speed),
                 margin=margin,
+                machine=machine(),
             )
 
         return make
@@ -184,7 +191,15 @@ def guardian_factory(arm: str, speed: float, margin: float = None):
     def make(pilot):
         auto = WMPolicy(enc, pred, cheads, meta, speed=speed)
         return Guardian(
-            pilot, auto, enc, pred, cheads, meta, speed=speed, margin=margin
+            pilot,
+            auto,
+            enc,
+            pred,
+            cheads,
+            meta,
+            speed=speed,
+            margin=margin,
+            machine=machine(),
         )
 
     return make
@@ -202,11 +217,19 @@ def champion_reference(speed: float):
 
 
 # --- the probe ----------------------------------------------------------------
-def probe(n: int = 20, arms=ARMS, out_json: str = None, margin: float = None) -> dict:
+def probe(
+    n: int = 20,
+    arms=ARMS,
+    out_json: str = None,
+    margin: float = None,
+    escalate: bool = True,
+    ref: bool = True,
+) -> dict:
     """Stage A + Stage B in one sweep: per cell, fly the unassisted arm once
     per seed, then pair every guardian arm against it; the champion
-    reference flies per (world, speed) — it is persona-free. Cells dump to
-    `out_json` incrementally, so a killed run keeps its finished cells."""
+    reference flies per (world, speed) — it is persona-free (`ref=False`
+    skips it when a sibling probe already priced the same seeds). Cells dump
+    to `out_json` incrementally, so a killed run keeps its finished cells."""
     from sim.envs import make_env
 
     print(
@@ -214,7 +237,7 @@ def probe(n: int = 20, arms=ARMS, out_json: str = None, margin: float = None) ->
         f"cells={len(CELLS)}+{len(DIAG_CELLS)}diag arms={arms} "
         f"speeds={ASSIST_SPEEDS} worlds={ASSIST_WORLDS}+moving "
         f"margin={'deployed' if margin is None else margin} "
-        f"(escalation ladder ON)",
+        f"(escalation ladder {'ON' if escalate else 'OFF — veto only'})",
         flush=True,  # background queues watch the log; never buffer a header
     )
     env = make_env()
@@ -232,6 +255,7 @@ def probe(n: int = 20, arms=ARMS, out_json: str = None, margin: float = None) ->
                         "seed0": SEED0,
                         "arms": list(arms),
                         "margin": margin,
+                        "escalate": escalate,
                         "worlds": list(ASSIST_WORLDS),
                         "speeds": list(ASSIST_SPEEDS),
                         "personas": list(PERSONA_GRID),
@@ -246,7 +270,10 @@ def probe(n: int = 20, arms=ARMS, out_json: str = None, margin: float = None) ->
     try:
         for idx, (world, speed, persona) in enumerate(CELLS + DIAG_CELLS):
             s0 = SEED0 + idx * 1000
-            makers = {a: guardian_factory(a, speed, margin=margin) for a in arms}
+            makers = {
+                a: guardian_factory(a, speed, margin=margin, escalate=escalate)
+                for a in arms
+            }
             eps_u, recs = [], {a: [] for a in arms}
             for i in range(n):
                 seed = s0 + i
@@ -277,10 +304,10 @@ def probe(n: int = 20, arms=ARMS, out_json: str = None, margin: float = None) ->
                 f"  [{row['cell']:24s}] crash_u={row['crash_u']:.2f}  {arms_txt}",
                 flush=True,
             )
-            if (world, speed) not in ref_out:
-                ref = champion_reference(speed)
+            if ref and (world, speed) not in ref_out:
+                pol = champion_reference(speed)
                 eps = [
-                    run_assist_episode(env, ref, s0 + i, world, speed) for i in range(n)
+                    run_assist_episode(env, pol, s0 + i, world, speed) for i in range(n)
                 ]
                 ref_out[(world, speed)] = {
                     "crash": round(float(np.mean([e["crashed"] for e in eps])), 4),
@@ -406,6 +433,14 @@ def selftest() -> None:
     g.pillars = [(0.30, 0.0)]
     a = g.decide(np.zeros((64, 64, 3), np.uint8), state)
     assert a != FORWARD and g.log[0]["event"] == "override_fire"
+    # the assist_v2 ablation: ladder off -> vetoes fire, AUTO never arms
+    gv = guardian_factory("oracle", 1.0, escalate=False)(_Charge())
+    gv.begin([(0.30, 0.0)])
+    gv.pillars = [(0.30, 0.0)]
+    for _ in range(12):  # sustained hard danger, far past the 3-of-5 window
+        gv.decide(np.zeros((64, 64, 3), np.uint8), state)
+    assert all(r["authority"] != "auto" for r in gv.log), "veto-only escalated"
+    assert any(r["exec"] != r["pilot"] for r in gv.log), "veto-only never vetoed"
     print(
         f"ASSIST-GATE OK (env-free): {len(CELLS)}+1 cells, seed block "
         f"[{lo}, {hi}) disjoint from the ledger, oracle geometry sane, "
@@ -429,6 +464,17 @@ def main() -> None:
         default=None,
         help="LABELLED characterization sweep only — the gate flies deployed",
     )
+    ap.add_argument(
+        "--ladder",
+        choices=("on", "off"),
+        default="on",
+        help="off = assist_v2 veto-only ablation (escalation never arms)",
+    )
+    ap.add_argument(
+        "--no-ref",
+        action="store_true",
+        help="skip the full-auto reference (a sibling probe already flew it)",
+    )
     args = ap.parse_args()
     if args.selftest:
         selftest()
@@ -439,7 +485,14 @@ def main() -> None:
     if args.probe:
         arms = tuple(a for a in args.arms.split(",") if a)
         assert all(a in ARMS for a in arms), f"unknown arm in {arms}"
-        probe(n=args.probe, arms=arms, out_json=args.out, margin=args.margin)
+        probe(
+            n=args.probe,
+            arms=arms,
+            out_json=args.out,
+            margin=args.margin,
+            escalate=(args.ladder == "on"),
+            ref=not args.no_ref,
+        )
         return
     if args.gate:
         gate(n=args.gate)
