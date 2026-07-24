@@ -141,3 +141,66 @@ campaign's own instruments.
 
 Committed before any candidate trains; the queue's sha verification
 brackets the sacred artifacts.
+
+---
+
+## Verdict — 2026-07-24: NO-GO (0/3 bars on both knobs); the wall is deeper than pooling, and it points at DATA
+
+Queue completed as pre-registered (sha checks green before and after;
+logs `output/rep_train_*.log`, `output/rep_grade_*`; budget bill in
+`output/rep_budget.log`).
+
+### The control arm's gift
+
+`wm_control` reproduced the unified checkpoint **to four decimals on
+every instrument** (AUC rows, veer, saturation, gaps, separation) —
+seed-0 training is deterministic on this machine, the new meta-driven
+plumbing is EXACT, and the G3 draw-noise floor is 0.000: every candidate
+delta below counts at face value.
+
+### The bars, applied
+
+| bar | wm_s8 (8,64) | wm_d128 (4,128) |
+|---|---|---|
+| B1 dense >= 0.9335 AND all >= 0.9264 | 0.7265 / 0.8997 **FAIL** | 0.7619 / 0.9100 **FAIL** |
+| B2 dense saturation <= 0.4658 | 0.7123 **FAIL** (worse) | 0.5662 **FAIL** |
+| B3 |gap{>=3}| <= 0.0284 (& sep) | 0.0173 ✓ (half) | 0.0289 (miss by 5e-4) |
+| G1 veer == 1.00 | 1.0000 ✓ (widened 1.0000) | 1.0000 ✓ |
+| G4 classic / moving | 0.8693 ✓ / 0.9301 ✗ | 0.8851 ✓ / 0.9149 ✗ |
+| G2 budget | 153.3 KB ✓ | 194.2 KB ✓ |
+
+K1 and K2: **0/3 primary bars each.** K3 (combo) not released. **NO-GO**
+— representation_v2 (closed-loop) does not open on this tier.
+
+Prereg drafting flaw, recorded: B3's separation-AUC clause is
+instrument-constant (the clutter count is geometric — 0.7358 for every
+arm including the baselines); the |gap| clause is the model-dependent
+half and is what binds. No verdict changes under any reading.
+
+### What the brick taught us (the mechanisms, named)
+
+1. **Finer strips made saturation WORSE** (0.6211 -> 0.7123): sharper
+   per-bin evidence pins the heads harder in clutter. The coarse 4-strip
+   average was quietly acting as a regularizer, not only a bottleneck.
+2. **Both capacity knobs traded dense for classic at frozen data.**
+   classic +0.05/+0.06 and veer-ranking perfected (widened 1.0000, a
+   first) while dense collapsed 0.16-0.19. With 120 transit rollouts,
+   extra representational freedom reallocates toward the easy world's
+   features — the knob is not wrong, it is UNDERDETERMINED. Architecture
+   and data must move together.
+3. **Budget was never the constraint** (153/194 KB << 512). The binding
+   resource on this wall is DATA, not silicon.
+
+### Disposition (per the frozen GO/NO-GO)
+
+The cheap-architecture tier is priced dead — and unusually, the corpse
+points somewhere specific: the next campaign is the DATA tier
+(representation_v2: scale the frozen diet 3-5x at FIXED architecture
+first — the clean single knob; architecture re-enters only after data
+alone is priced). Input resolution and depth features remain named
+alternates. This is what "quarterly-class" turns out to mean here: not
+a bigger net, but a bigger world to learn from.
+
+Run-to-run caveat: training proved deterministic on this machine (the
+control), so these deltas are exact for this seed; cross-seed variance
+remains unpriced (a v2 concern if data-tier deltas are small).
