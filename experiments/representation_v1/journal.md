@@ -107,3 +107,37 @@ load, forward, and sha-match the lock).
 ---
 
 (Stage A row, bar freeze, and per-knob verdicts land below)
+
+---
+
+## Stage A — the baseline row (2026-07-24, zero training)
+
+Instruments exactly as frozen; logs `output/rep_stageA_*.log`, JSONs in
+this directory.
+
+| metric (instrument config of record) | unified | champion |
+|---|---|---|
+| holdout AUC@32 all | **0.9314** | 0.8963 |
+| holdout AUC@32 classic / dense / moving | 0.8211 / 0.9177 / 0.9557 | 0.6572 / **0.9335** / 0.9314 |
+| veer-ranking val (n=8) / widened (n=143) | **1.0000** / 0.9720 | 0.3750 / 0.8252 |
+| dense warn saturation / ECE / contrast | **0.6211** / 0.0687 / 0.1751 | 0.6046 / 0.0702 / 0.1482 |
+| dense-recal separation AUC (k0a) | **0.7358** | 0.7358 (v0.14 record) |
+| dense-recal warn gap by clutter bin {0}/{1-2}/{>=3} | +0.1647 / +0.1407 / **-0.0567** | +0.121 / +0.074 / -0.034 |
+
+The anti-monotone signature reproduces on the unified WM — over-warn in
+open space, UNDER-warn in thick clutter — and 62% of dense warn
+predictions sit pinned past 0.95/0.05. The wall, quantified on the
+campaign's own instruments.
+
+## Bar freeze (from the Stage A row, per the pre-registered delta-rules)
+
+- **B1**: dense AUC@32 >= **0.9335** AND overall AUC@32 >= **0.9264**.
+- **B2**: dense warn saturation <= **0.4658** (0.75 x 0.6211).
+- **B3**: high-clutter |warn gap| <= **0.0284** (0.5 x 0.0567) AND
+  separation AUC >= **0.7658** (0.7358 + 0.03).
+- **G1**: veer val == 1.00. **G2**: budget < 512 KB. **G4**: classic >=
+  **0.8011**, moving >= **0.9357**. **G3**: per-metric deltas must
+  exceed the K0a control's |delta vs unified|.
+
+Committed before any candidate trains; the queue's sha verification
+brackets the sacred artifacts.
