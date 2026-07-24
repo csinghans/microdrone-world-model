@@ -16,9 +16,12 @@ LATENT_D = 64  # embedding size (the conv stack already outputs 64 channels)
 
 
 class Encoder(nn.Module):
-    """(B, 3, 64, 64) -> (B, LATENT_D), bearing-aware."""
+    """(B, 3, 64, 64) -> (B, d), bearing-aware. `strips` sets the lateral
+    resolution of the pooling (default 4 = today's deployed architecture;
+    the representation campaign varies it — 60°/strips of bearing per bin).
+    Old checkpoints carry no `strips` in meta and reconstruct at 4."""
 
-    def __init__(self, d=LATENT_D):
+    def __init__(self, d=LATENT_D, strips=4):
         super().__init__()
         self.features = nn.Sequential(
             nn.Conv2d(3, 16, 5, stride=2, padding=2),
@@ -28,8 +31,8 @@ class Encoder(nn.Module):
             nn.Conv2d(32, 64, 3, stride=2, padding=1),
             nn.ReLU(),  # 16 -> 8
         )
-        self.pool = nn.AdaptiveAvgPool2d((1, 4))  # 4 horizontal strips
-        self.proj = nn.Sequential(nn.Flatten(), nn.Linear(64 * 4, d))
+        self.pool = nn.AdaptiveAvgPool2d((1, int(strips)))  # horizontal strips
+        self.proj = nn.Sequential(nn.Flatten(), nn.Linear(64 * int(strips), d))
 
     def forward(self, x):  # x: (B, 3, 64, 64)
         return self.proj(self.pool(self.features(x)))  # (B, LATENT_D)

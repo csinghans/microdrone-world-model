@@ -86,7 +86,12 @@ def _fit_T(logit: np.ndarray, y: np.ndarray) -> float:
     return best_t
 
 
-def run(n_rollouts: int, length: int, out: str = OUT_JSON) -> dict:
+def run(
+    n_rollouts: int,
+    length: int,
+    out: str = OUT_JSON,
+    ckpt: str = "output/world_model.pth",
+) -> dict:
     from datasets.generate_rollouts import gen
     from datasets.intervention_labels import counterfactual_labels
     from skills.gap_flight.skill import PILLAR_R
@@ -98,7 +103,7 @@ def run(n_rollouts: int, length: int, out: str = OUT_JSON) -> dict:
     cf, vis = counterfactual_labels(data)
 
     def flat(rolls):
-        P = _surface("output/world_model.pth", data, rolls, device)
+        P = _surface(ckpt, data, rolls, device)
         L = data["frames"].shape[1]
         lbl = np.concatenate([cf[r, :, :, -1, :] for r in rolls])
         msk = np.concatenate([vis[r] for r in rolls]).astype(bool)
@@ -290,12 +295,17 @@ def main() -> None:
     ap.add_argument("--rollouts", type=int, default=48)
     ap.add_argument("--len", type=int, default=120, dest="length")
     ap.add_argument("--out", default=OUT_JSON)
+    ap.add_argument(
+        "--ckpt",
+        default="output/world_model.pth",
+        help="checkpoint to grade (representation candidates park elsewhere)",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    run(args.rollouts, args.length, args.out)
+    run(args.rollouts, args.length, args.out, ckpt=args.ckpt)
 
 
 if __name__ == "__main__":

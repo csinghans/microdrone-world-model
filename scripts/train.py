@@ -46,6 +46,11 @@ def train_world_model(args) -> None:
     leash = args.temporal or args.ground
     epochs = (120 if leash else 60) if args.selftest else args.epochs
     data = _load_or_make(args.selftest, args.data)
+    rep = {}  # representation knobs ride explicit flags only (defaults stay)
+    if args.latent_d is not None:
+        rep["latent_d"] = args.latent_d
+    if args.strips is not None:
+        rep["strips"] = args.strips
     ckpt, m = train(
         data,
         epochs=epochs,
@@ -55,6 +60,7 @@ def train_world_model(args) -> None:
         temporal=args.temporal,
         ground=args.ground,
         ground_lambda=args.ground_lambda,
+        **rep,
     )
 
     # a selftest must not clobber a real trained checkpoint with its toy one
@@ -162,6 +168,9 @@ def main() -> None:
     ap.add_argument("--out", default=None, help="world-model save path override")
     ap.add_argument("--seed", type=int, default=0)  # borderline reruns use seed+1
     ap.add_argument("--data", default=None, help="dataset npz override (e.g. search)")
+    # representation knobs (defaults = the deployed architecture)
+    ap.add_argument("--latent-d", type=int, default=None, help="latent width")
+    ap.add_argument("--strips", type=int, default=None, help="lateral pool bins")
     # policy knobs
     ap.add_argument("--timesteps", type=int, default=300_000)
     ap.add_argument("--recurrent", action="store_true")

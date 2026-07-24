@@ -37,7 +37,7 @@ from planner.action_set import A_NORM, ACTION_NAMES, ACTION_VECS, FORWARD
 from sim.envs import CTRL_HZ
 from sim.scenarios import DANGER_R, FOV_HALF_DEG, RADII
 from world_model.collision_head import CollisionHeads, DangerNowHead
-from world_model.encoder import Encoder
+from world_model.encoder import LATENT_D, Encoder
 from world_model.grounding import GroundingHead
 from world_model.losses import augment_torch, ema_update, roc_auc, variance_guard
 from world_model.predictor import MultiPredictor
@@ -196,6 +196,8 @@ def train(
     temporal: bool = False,
     ground: bool = False,
     ground_lambda: float = LAMBDA_GND,
+    latent_d: int = LATENT_D,
+    strips: int = 4,
 ) -> tuple:
     """Train the nano world model on a sequence-format dataset dict and return
     (checkpoint dict, metrics dict). `robust=True` adds appearance
@@ -263,15 +265,19 @@ def train(
     def frames_at(flat_idx):  # uint8 (N,64,64,3) -> float (N,3,64,64)
         return flat[flat_idx].permute(0, 3, 1, 2).float() / 255.0
 
-    enc, tgt = Encoder().to(device), Encoder().to(device)
+    d, strips = int(latent_d), int(strips)
+    enc, tgt = (
+        Encoder(d=d, strips=strips).to(device),
+        Encoder(d=d, strips=strips).to(device),
+    )
     tgt.load_state_dict(enc.state_dict())
     for p in tgt.parameters():
         p.requires_grad_(False)
-    pred = MultiPredictor().to(device)
-    cheads = CollisionHeads().to(device)
-    nhead = DangerNowHead().to(device)
-    tgru = TemporalEncoder().to(device) if temporal else None
-    ghead = GroundingHead().to(device) if ground else None
+    pred = MultiPredictor(d=d).to(device)
+    cheads = CollisionHeads(d=d).to(device)
+    nhead = DangerNowHead(d=d).to(device)
+    tgru = TemporalEncoder(d=d).to(device) if temporal else None
+    ghead = GroundingHead(d=d).to(device) if ground else None
 
     k_offs = torch.arange(K_WIN - 1, -1, -1, device=device)
 
@@ -428,6 +434,7 @@ def train(
         "meta": {
             "version": 3 if temporal else 2,
             "D": int(z_t.shape[1]),
+            "strips": strips,  # lateral pooling bins; absent in old ckpts (=4)
             "A": int(acts.shape[1]),
             "horizons": [int(k) for k in HORIZONS],
             "radii": [float(rad) for rad in RADII],
@@ -473,15 +480,21 @@ def load_model(path: str = MODEL, device: str = "cpu"):
     meta = ckpt["meta"]
     if meta.get("version") not in (2, 3):
         raise SystemExit(f"{path} is not a v2/v3 checkpoint; re-train first.")
-    enc, pred = Encoder().to(device), MultiPredictor().to(device)
-    cheads, nhead = CollisionHeads().to(device), DangerNowHead().to(device)
+    # architecture dims come from meta; the defaults (D=64, strips=4) are
+    # today's deployed architecture, so every pre-representation checkpoint
+    # (which carries D=64 and no strips key) reconstructs BIT-IDENTICALLY
+    d = int(meta.get("D", 64))
+    strips = int(meta.get("strips", 4))
+    enc = Encoder(d=d, strips=strips).to(device)
+    pred = MultiPredictor(d=d).to(device)
+    cheads, nhead = CollisionHeads(d=d).to(device), DangerNowHead(d=d).to(device)
     enc.load_state_dict(ckpt["encoder"])
     pred.load_state_dict(ckpt["predictor"])
     cheads.load_state_dict(ckpt["collision_heads"])
     nhead.load_state_dict(ckpt["now_head"])
     mods = [enc, pred, cheads, nhead]
     if "temporal" in ckpt:
-        tgru = TemporalEncoder().to(device)
+        tgru = TemporalEncoder(d=d).to(device)
         tgru.load_state_dict(ckpt["temporal"])
         enc.temporal = tgru  # registered submodule: budgets count it too
         mods.append(tgru)
