@@ -1,0 +1,109 @@
+# representation_v1 — the wall's first brick: lateral resolution vs latent capacity
+
+Opened 2026-07-24. Two chapters now wait on the same wall: the autonomy
+dense frontier closed at v0.14 ("the remaining roads are quarterly-class
+representation or the accepted floor") and the assisted chapter closed
+its cheap-knob era at assist_v4 ("the trigger can be made quiet, not
+accurate"). The shared mechanism, measured three ways: **the collision
+heads cannot separate clean gap-threading from about-to-hit in clutter**
+— dense saturation (head_calibration), the anti-monotone warn gap
+(dense_recal: over-warn where empty, UNDER-warn where thick), and the
+assist chapter's false imminent fires.
+
+The architecture suspect is concrete: the encoder pools the entire scene
+into **4 horizontal strips** — 15° of bearing per bin at a 60° FOV. In a
+dense field several pillars share a bin; the latent cannot say which one
+is on the flight line. This campaign asks the cheapest representation
+question first, OFFLINE (no closed-loop flights until a GO):
+**does lateral resolution (strips 4→8) or latent capacity (64→128) buy
+clutter separation, inside the embedded budget?**
+
+## Pre-registration (committed before any number)
+
+### Knobs (one 80-epoch train each; diet FROZEN = the unified recipe)
+
+Every arm trains on the bit-identical `output/combined.npz` (the
+unified WM's 120 transit + 80 room mix), epochs 80, batch 64, seed 0,
+via `scripts.train --out experiments/representation_v1/artifacts/...`
+— the sacred checkpoints are read-only baselines
+(`flight_mode --verify` runs before and after the queue).
+
+- **K0a `wm_control`** (strips 4, D 64): the unified recipe through the
+  NEW meta-driven plumbing. Validates the harness (its Stage-A-metric
+  deltas vs the unified checkpoint ARE the retrain-draw noise floor —
+  the two-tier claim language made operational).
+- **K1 `wm_s8`** (strips 8, D 64): the mechanism-matched knob — 7.5°
+  of bearing per bin, +16 KB int8 in the projection.
+- **K2 `wm_d128`** (strips 4, D 128): the capacity control — separates
+  "resolution" from "just more parameters".
+- **K3 `wm_s8d128`** (conditional): released only if K1 or K2
+  individually passes >= 2 of the three primary bars.
+
+### Instruments (all frozen, all checkpoint-parametrized)
+
+1. `eval_wm_checkpoint --ckpt --data output/transit_eval_holdout.npz`
+   — per-world AUC@32 + veer-ranking on the seed-777 held-out set.
+2. `eval_head_calibration --ckpt-a <unified> --ckpt-b <candidate>` —
+   dense warn/crit contrast, SATURATION (frac pinned past 0.95/0.05),
+   ECE, per world.
+3. `eval_dense_recal --ckpt <candidate>` — clutter-context suite on
+   seed-160 rollouts: K0a clutter->dense separation AUC, K0b signed
+   warn gap per clutter bin {0}/{1-2}/{>=3} + monotonicity.
+4. `eval_latency_budget.onboard_budget` on the candidate modules.
+5. Diagnostics (reported, never barred): indoor `det_probe` /
+   `fwd_probe` on the candidate latent (detection heads are invalidated
+   by any new latent BY DESIGN — lock `wm` bindings; a retrain is the
+   later, gated step).
+
+### Stage A — the baseline row (zero training)
+
+Grade the UNIFIED and CHAMPION checkpoints through instruments 1-3
+first; freeze the absolute bars FROM that row in their own commit
+(the indoor-gate pattern) before any candidate trains. Known priors
+(from journals, to be re-pinned by Stage A on these exact instrument
+configs): unified holdout AUC@32 all 0.931 / dense 0.918; champion
+dense 0.933; champion dense-recal separation 0.736, high-clutter warn
+gap -0.034 (anti-monotone).
+
+### Primary bars (delta-rules frozen NOW; absolutes at the bar-freeze)
+
+- **B1 (ranking in clutter):** candidate dense AUC@32 >= the CHAMPION's
+  Stage-A dense row (recover the specialist) AND overall AUC@32 >=
+  unified - 0.005.
+- **B2 (saturation):** candidate dense warn saturation <= 0.75 x
+  unified's Stage-A row.
+- **B3 (calibration structure):** candidate high-clutter |warn gap| <=
+  0.5 x unified's Stage-A row, AND clutter-separation AUC >= unified
+  + 0.03.
+
+### Guards (sacred)
+
+- **G1:** veer-ranking (val) == 1.00.
+- **G2:** `onboard_budget` total < 512 KB; the dual-residency bill
+  (candidate + champion) reported.
+- **G3 (draw-noise floor):** a candidate's delta on any bar metric
+  counts only if it also exceeds |K0a control - unified| on that
+  metric. No claim inside the retrain noise.
+- **G4:** classic and moving AUC@32 each >= unified - 0.02.
+
+### GO / NO-GO (frozen)
+
+GO — any candidate passes B1+B2+B3 with all guards green: opens
+representation_v2 (closed-loop phase: the dense probe arms and the
+assist guardian arms re-flown with the new eyes; its own prereg).
+NO-GO — no candidate passes: the cheap-architecture tier is priced
+dead, and the honest verdict names the next tier (input resolution,
+depth features, data scale) — the wall is deeper than pooling.
+
+### Honesty clauses
+
+MPS retrain draws vary — mechanisms reproduce, third decimals don't;
+that is exactly why K0a exists (G3). The offline instruments predict,
+they do not certify: closed-loop truth stays gated behind
+representation_v2. Old checkpoints reconstruct bit-identically through
+the new plumbing (verified pre-registration: both sacred artifacts
+load, forward, and sha-match the lock).
+
+---
+
+(Stage A row, bar freeze, and per-knob verdicts land below)
