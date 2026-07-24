@@ -4,22 +4,25 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.15.0 — the shared cockpit. The third chapter opens:
-after two Level-4 tracks (transit, indoor search), a PILOT takes the
-stick and the world model spends its 0.67 s of anticipation on
-someone else's intent. An authority ladder (momentary veto →
-escalation → gated handback) shipped, certified and budget-free
-(+0.0 KB) — and then two pre-registered campaigns killed its own
-deployment honestly: the full ladder ADDS crashes (the takeover rung
-swaps a privileged pilot for a worse vision-only autopilot; the dense
-over-report fires vetoes on ordinary threading), while the
-same-ladder privileged oracle prevents 7 with 0 added at 333–880 ms
-of lead. The veto-only ablation split the blame and priced every
-rung. **The chapter's banked law: a guardian is only as good as its
-eyes in context and the pilot it swaps in.** Article #14, *The Shared
-Cockpit*, tells the arc; v0.14's kinematic floor stands (re-measured
-from the assistance side). Gates unchanged and GREEN — transit
-85/100, indoor 91/100; int8 configs in the lock (v0.11.0).** The baseline shipped as
+**Status: v0.16.0 — contrast is the curriculum. Both chapters' wall
+(dense separation — the kinematic floor's eyes, the guardian's false
+alarms) was attacked in one pre-registered offline program: sharper
+pooling, a bigger latent, 3× data, a dense-heavy curriculum, and a
+pure dense specialist. Eight trained arms, frozen bars, ZERO passes —
+and the failures drew one curve: dense skill vs dense share is an
+inverted U peaking at LOW share (0.918 at 22 % → 0.644 at 100 %). The
+mixed diet was never dilution; it was the supply of negatives.
+**Dense discrimination is a contrastive property of the curriculum**
+— the cheap tier (architecture, data, composition, isolation) closes
+by exhaustion, and the perception tier (resolution/depth, carrying
+the mixed curriculum with it) is the proven remaining road. Article
+#15 tells it. The Level-3 assisted chapter (v0.15, article #14)
+banked its own law on the same eyes: a guardian is only as good as
+its eyes in context and the pilot it swaps in — its authority ladder,
+cockpit and instrument set stay shipped. Gates unchanged and GREEN —
+transit 85/100, indoor 91/100; int8 configs in the lock (v0.11.0);
+sacred checkpoints untouched through eight retrains (sha-bracketed
+queues).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what

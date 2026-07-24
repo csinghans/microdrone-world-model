@@ -23,7 +23,7 @@
     "source": "docs/embedded_budget.md"
   },
   "assisted": {
-    "campaigns": 2,
+    "campaigns": 4,
     "verdict": "no-certification",
     "oraclePreventedPrimary": 7,
     "oracleAddedPrimary": 0,
@@ -33,5 +33,19 @@
     "fullLadderAddedStatic": 64,
     "guardianWeightsKb": 0.0,
     "source": "experiments/assist_v2/journal.md"
+  },
+  "representation": {
+    "campaigns": 4,
+    "trainedArms": 8,
+    "barsPassed": 0,
+    "denseAucByShare": {
+      "0.22": 0.9177,
+      "0.33": 0.8417,
+      "0.5": 0.8652,
+      "1.0": 0.6436
+    },
+    "bestGeneralAllWorldAuc": 0.9512,
+    "verdict": "cheap-tier-exhausted; contrast is the curriculum",
+    "source": "experiments/specialist_v1/journal.md"
   }
 }

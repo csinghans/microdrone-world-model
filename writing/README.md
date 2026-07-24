@@ -25,6 +25,7 @@ yet. The technical body underneath stays precise and fully sourced.
 | 12 | The exchange rate: how much of a measured number is real? | [en](12-the-exchange-rate/en.md) | [繁中](12-the-exchange-rate/zh-TW.md) | published in-repo |
 | 13 | The wall that wasn't information | [en](13-the-wall/en.md) | [繁中](13-the-wall/zh-TW.md) | published in-repo |
 | 14 | The shared cockpit: what the guardian is worth | [en](14-the-shared-cockpit/en.md) | [繁中](14-the-shared-cockpit/zh-TW.md) | published in-repo |
+| 15 | Contrast is the curriculum: the specialist that couldn't | [en](15-contrast-is-the-curriculum/en.md) | [繁中](15-contrast-is-the-curriculum/zh-TW.md) | published in-repo |
 
 Cadence: roughly one bilingual article per month. The English long-form is
 the canonical version; the 繁體中文 version is a faithful re-write, not a

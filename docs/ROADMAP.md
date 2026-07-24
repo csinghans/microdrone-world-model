@@ -23,6 +23,26 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
+- **The Representation Program (four campaigns, one day): the cheap
+  tier closes by exhaustion, and the mechanism gets a name.** Both
+  chapters' wall (dense separation) was attacked offline with every
+  cheap knob under frozen bars: architecture (strips 8 / D 128 — both
+  trade dense for classic; the coarse pooling was quietly a
+  regularizer), uniform 3x data (best GENERAL model ever, all-world
+  0.951 — and dense FELL to 0.842: outcompeted, not starved),
+  composition (dense share 50% recovers a third, breaks the veer
+  guard), and the org chart (a dense-ONLY specialist collapses to
+  0.644 with +0.56 open-space over-warn). The one figure: dense share
+  22/33/50/100 % gives dense skill 0.918/0.842/0.865/0.644 — an
+  inverted U peaking at LOW share. **The mixed diet was supplying the
+  negatives; dense discrimination is a CONTRASTIVE property of the
+  curriculum.** The perception tier (resolution/depth) is now the
+  proven-by-exhaustion remaining road, and it must carry the mixed
+  curriculum with it. Article #15 tells it; journals:
+  `experiments/{representation_v1,representation_v2,representation_v3,specialist_v1}/`.
+  Parked: wm_3x (the record general row) as a future general-WM
+  upgrade candidate; the meta-driven dims plumbing (old checkpoints
+  bit-identical) ships as standing harness.
 - **assist_v1 + assist_v2 (the Level-3 chapter opens, and every rung
   gets a price): two recorded negatives, one measured law.** The
   authority ladder shipped and certified in one commit-arc (pilot

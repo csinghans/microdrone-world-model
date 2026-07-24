@@ -381,6 +381,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
             "駕訓班教練帶著第二副煞車踏板：好教練一堂課救你兩次、然後方向盤還你；壞教練見到路邊停車就狂踩、緊張起來還搶方向盤——偏偏那些路段他看得沒你清楚、開得比你差。我們把教練做了出來、同一堂課開兩次數撞擊：我們的教練讓撞擊變多、眼睛完美的教練讓它變少。本章存進銀行的定律：守護者的好壞、取決於它在該情境的眼睛、和它換上場的那位飛行員。",
           slug: "14-the-shared-cockpit",
         },
+        {
+          title: "對比才是課程：那位當不成專家的專家",
+          simple:
+            "只用癌症片訓練放射科醫師、他讀癌症片反而變差——因為「生病」要對照「健康」才成立。我們對無人機最難的場景砸下每一顆便宜旋鈕：更利的視覺、更大的腦、三倍的飛行、加重困難配比、最後一位只讀困難場景的專家。八個訓練臂、零過欄、一條倒 U 曲線：dense 份額越高技能越差、純專家最慘。簡單場景從來不是填充物——它們是「安全」的定義、危險拿它來量。對比不是配菜、對比才是課程。",
+          slug: "15-contrast-is-the-curriculum",
+        },
       ],
     },
     research: {
@@ -689,6 +695,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           simple:
             "A driving instructor with a second brake pedal: a good one saves you twice a lesson and hands the wheel back; a bad one stomps it at every parked car and, when nervous, grabs the wheel — in exactly the streets where they see worse than you and drive worse too. We built the instructor, ran every lesson twice, and counted crashes: ours added them, one with perfect eyes prevented them. The law the chapter banks: a guardian is only as good as its eyes in context and the pilot it swaps in.",
           slug: "14-the-shared-cockpit",
+        },
+        {
+          title: "Contrast is the curriculum: the specialist that couldn't",
+          simple:
+            "Train a radiologist only on cancer scans and they get WORSE at reading cancer scans — sick only means something against healthy. We threw every cheap knob at our drone's hardest scenes: sharper vision, a bigger brain, triple the flying, a hard-scene-heavy mix, and finally a pure specialist. Eight trained arms, zero bars passed, one inverted-U curve: the more dense the diet, the worse the dense skill — the specialist worst of all. The easy scenes were never padding; they are the definition of safe that danger is measured against. Contrast is not the garnish. Contrast is the curriculum.",
+          slug: "15-contrast-is-the-curriculum",
         },
       ],
     },

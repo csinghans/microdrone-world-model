@@ -1,5 +1,76 @@
 # Changelog
 
+## 0.16.0 — 2026-07-24 (contrast is the curriculum: the cheap tier closes by exhaustion) — PROPOSED
+
+- **Article #15 published in-repo:** *Contrast Is the Curriculum: The
+  Specialist That Couldn't* (bilingual,
+  `writing/15-contrast-is-the-curriculum/`) — one day, four
+  pre-registered campaigns, eight trained arms, zero bars passed, one
+  mechanism named. Feynman box: the radiologist trained only on cancer
+  scans. Lessons: a control arm prices your noise floor; a skill that
+  degrades under every enrichment is telling you what it is made of;
+  specialization is not isolation; exhaustion is a result.
+
+- **gate(assist_v3): the certified takeover — the law at cell
+  granularity** (`experiments/assist_v3/`): swapping the AUTO rung to
+  the transit champion cuts classic harm monotonically on identical
+  seeds (weak-takeover 22-30 → no ladder 14 → champion ladder 11) but
+  the sacred added==0 stays unmet; the per-cell sign follows the
+  pilot-vs-relief differential exactly (dense@1.5/novice becomes the
+  chapter's first genuinely helped hard cell: dcrash −0.200, lead
+  1479 ms). Assistance pays for pilots worse than the relief artifact
+  in context, and taxes the rest. Harness: the Guardian's
+  `exec_feedback` seam (history-bearing autopilots ride the EXECUTED
+  command — the dispatch law).
+
+- **gate(assist_v4): the trigger dose-response — quiet is not
+  accurate** (`experiments/assist_v4/`): imm_thr 0.5/0.7/0.9 on
+  identical seeds: harm falls 29 → 21 → 9 but never reaches 0 (dense
+  saturation crosses any threshold) while prevention falls with
+  comparable elasticity (16 → 9 → 6) — no separating region on the
+  ROC. The assisted chapter's cheap-knob era closes; every road runs
+  through the eyes.
+
+- **gate(representation_v1): the architecture tier** (`experiments/
+  representation_v1/`): strips 4→8 makes dense saturation WORSE
+  (0.62→0.71 — the coarse pooling was a regularizer); D 64→128 and
+  strips both trade dense for classic at 1× data (dense 0.918 →
+  0.727/0.762). The control arm reproduced the unified checkpoint to
+  four decimals — seed-0 training is deterministic here; the
+  draw-noise floor is 0.000. Standing harness shipped: meta-driven
+  architecture dims (old checkpoints reconstruct bit-identically),
+  `--latent-d/--strips` on scripts.train, `--ckpt` on
+  eval_dense_recal.
+
+- **gate(representation_v2): the data tier — dense is outcompeted,
+  not starved** (`experiments/representation_v2/`): uniform 3× data
+  produces the best GENERAL model ever measured offline (all-world
+  AUC@32 0.9512, classic +0.10, high-clutter calibration 4.7×
+  tighter) and dense FALLS 0.918 → 0.842 with dense rollouts tripled.
+  wm_3x parked as a future general-WM upgrade candidate (its own
+  campaign, no claim).
+
+- **gate(representation_v3): the composition tier — the inverted U**
+  (`experiments/representation_v3/`): dense share 50 % at constant 3×
+  total recovers a third of the scale-up's loss (0.865), breaks the
+  program's first veer guard (0.875) and the moving bar, and inflates
+  open-space over-warn 1.4-2×. Dense share 22/33/50 % → dense skill
+  0.918/0.842/0.865. Harness: `--worlds` repeat-weights on
+  combine_rollouts (the composition knob).
+
+- **gate(specialist_v1): the org-chart road dies at birth and names
+  the mechanism** (`experiments/specialist_v1/`): a dense-ONLY
+  specialist (all budget, all data, one world) collapses to dense
+  0.6436 — worse than every mixed model — with open-space over-warn
+  exploding to +0.56 and PERFECT veer rows (relative judgments learn
+  anywhere; absolute close-but-safe vs about-to-hit needs contrast).
+  **The mixed diet was supplying the negatives: dense discrimination
+  is a contrastive property of the curriculum.** The cheap tier
+  (architecture, data, composition, isolation) closes by exhaustion;
+  the perception tier is the proven remaining road and must carry the
+  mixed curriculum with it. Three-resident budget bill recorded
+  (299.9 KB < 512). Harness: `--out` on generate_rollouts.
+
 ## 0.15.0 — 2026-07-23 (the shared cockpit: every rung of the ladder, priced)
 
 - **Article #14 published in-repo:** *The Shared Cockpit: What the
