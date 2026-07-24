@@ -66,13 +66,14 @@ def combine(transit: dict, indoor: dict) -> dict:
     return out
 
 
-def build(n_transit, n_indoor, length, seed=0):
+def build(n_transit, n_indoor, length, seed=0, worlds=("classic", "dense", "moving")):
+    """`worlds` cycles per transit rollout; REPEATS are weights (the
+    representation composition knob: ("dense","dense","classic","moving")
+    gives a 2:1:1 mix). Default = the frozen uniform mix."""
     from datasets.generate_rollouts import gen as gen_transit
     from datasets.search_rollouts import gen as gen_indoor
 
-    transit = gen_transit(
-        n_transit, length, seed=seed, worlds=("classic", "dense", "moving")
-    )
+    transit = gen_transit(n_transit, length, seed=seed, worlds=tuple(worlds))
     indoor = gen_indoor(n_indoor, length, seed=seed + 100000)
     return combine(transit, indoor)
 
@@ -123,12 +124,18 @@ def main() -> None:
     ap.add_argument("--len", type=int, default=120)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default=OUT)
+    ap.add_argument(
+        "--worlds",
+        default="classic,dense,moving",
+        help="transit world cycle; repeats are weights (composition knob)",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    data = build(args.n_transit, args.n_indoor, args.len, args.seed)
+    worlds = tuple(w for w in args.worlds.split(",") if w)
+    data = build(args.n_transit, args.n_indoor, args.len, args.seed, worlds=worlds)
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     np.savez_compressed(args.out, **data)
     wid = data["world_id"]
