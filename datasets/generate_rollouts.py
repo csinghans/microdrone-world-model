@@ -215,6 +215,7 @@ def main() -> None:
         default="classic",
         help="'classic' | 'hard' | comma-list of registered worlds",
     )
+    ap.add_argument("--out", default=OUT, help="npz save path override")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     n_roll, length = (12, 100) if args.selftest else (args.rollouts, args.length)
@@ -225,8 +226,9 @@ def main() -> None:
     tag = (" (randomized)" if args.randomize else "") + f" [{args.worlds}]"
     print(f"[INFO] flying {n_roll} intervention rollouts x {length} steps{tag} ...")
     data = gen(n_roll, length, seed=args.seed, randomize=args.randomize, worlds=worlds)
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    np.savez_compressed(OUT, **data)
+    out = OUT if args.selftest else args.out  # a selftest never redirects
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    np.savez_compressed(out, **data)
 
     rates = {}
     for k in HORIZONS:
