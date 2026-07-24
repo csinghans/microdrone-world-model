@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.16.0 — 2026-07-24 (contrast is the curriculum: the cheap tier closes by exhaustion) — PROPOSED
+## 0.16.0 — 2026-07-24 (contrast is the curriculum: the cheap tier closes by exhaustion)
 
 - **Article #15 published in-repo:** *Contrast Is the Curriculum: The
   Specialist That Couldn't* (bilingual,
