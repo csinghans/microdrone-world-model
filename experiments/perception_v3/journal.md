@@ -85,3 +85,45 @@ nearest FEASIBLE divisor — `strips 6` (10°/bin vs the baseline's
 direction confirms). Single knob vs wm_96d128 unchanged. The repaired
 queue grades K0's corpse through the registered instruments for the
 record, then flies K1'.
+
+---
+
+## Final verdict — 2026-07-25: NO-GO (both hypotheses dead); the residue gets its name
+
+Repaired queue under `set -e` (logs `output/pv3_*`, `pv3b_verify_*`).
+
+| arm | dense | classic | moving | veer val/widened | sat | gap3 | verdict |
+|---|---|---|---|---|---|---|---|
+| baseline wm_96d128 | 0.9965 | 0.7882 | 0.8891 | 1.00/1.00 | 0.3080 | -0.0658 | (near-miss) |
+| K0 e160 (registered row) | 0.9170 | 0.8851 | 0.7694 | 0.875/**0.539** | — | — | **destabilized** (scale x13; rows self-inconsistent) |
+| K1' s6 | **0.6250** | 0.7568 | 0.8208 | 1.00/**0.546** | 0.1656 | **-0.1740** | **refuted** |
+
+- **The under-training hypothesis is dead twice over**: the 160-epoch
+  run's latent-scale explosion (one-sided variance guard + EMA chase)
+  stands as a banked mechanism finding; its registered-instrument rows
+  are internally inconsistent — an unstable model, not a better one.
+- **The lateral-pooling hypothesis is now refuted at TWO operating
+  points**: strips 8 @ 64/D64 cost dense -0.19 (representation_v1);
+  strips 6 @ 96/D128 costs dense -0.37 and breaks veer-widened. Finer
+  horizontal pooling has never once helped this program. (Its
+  saturation 0.17 is confidence about nothing — low saturation only
+  matters next to ranking.)
+- Budget never binds (280 KB / 17 ms).
+
+**perception_v3 closes NO-GO. The pincer's residue keeps its four
+clauses (moving ~0.89 since 96-res, classic by 0.013, open-space
+over-warn, the all-row) and now has a NAME with evidence behind it:
+the moving/temporal hypothesis** — every 96-res arm trades motion for
+detail, and a single-frame latent cannot rank what it cannot see move.
+That is not a pooling knob or a recipe knob; it is the next real
+question (temporal input under the stability finding above — the
+one-sided variance guard must be fixed before any long-memory recipe).
+
+### The tier's honest standing state
+
+`wm_96d128` remains the program's offline dense apex (0.9965 dense,
+double-perfect veer, saturation 0.31, 264 KB / 17 ms) — NOT deployable
+(full bars unmet; no closed-loop row exists; the instruments predict,
+never certify). The perception tier's offline landscape is mapped:
+one sweet spot, one governing ratio, one validated design law, one
+named residue. The 0.17 narrative ships next (user-directed).
