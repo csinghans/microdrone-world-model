@@ -46,6 +46,14 @@ def train_world_model(args) -> None:
     leash = args.temporal or args.ground
     epochs = (120 if leash else 60) if args.selftest else args.epochs
     data = _load_or_make(args.selftest, args.data)
+    if args.strips:  # MPS AdaptiveAvgPool needs divisible sizes — fail LOUD
+        feat_cols = int(data["frames"].shape[2]) // 8  # three stride-2 blocks
+        if feat_cols % int(args.strips):
+            raise SystemExit(
+                f"--strips {args.strips} does not divide the {feat_cols}-column "
+                f"feature map (input res {data['frames'].shape[2]}); valid: "
+                f"{[s for s in range(1, feat_cols + 1) if feat_cols % s == 0]}"
+            )
     rep = {}  # representation knobs ride explicit flags only (defaults stay)
     if args.latent_d is not None:
         rep["latent_d"] = args.latent_d

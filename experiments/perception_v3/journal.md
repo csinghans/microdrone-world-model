@@ -50,3 +50,38 @@ determinism per seed continues to make single-seed deltas exact.
 ---
 
 (verdicts land below when the queue completes)
+
+---
+
+## Mid-campaign record — 2026-07-25: K0 destabilizes, K1 is harness-blocked; K1' deviation registered
+
+The queue autopsy (logs `output/pv3_*`, plus an empirical exit-code
+repro):
+
+- **K0 `e160` — the under-training hypothesis INVERTS.** The 160-epoch
+  run destabilized: the target-latent scale exploded ~13x (no-op MSE
+  7.6 at 80 epochs -> 99.4 at 160 — the variance guard bounds the
+  latent's spread from BELOW only, and the EMA target chases the
+  inflating online encoder; at 2x duration the drift compounds), and
+  the heads' operating points collapsed with it (train-val AUC@32 0.62,
+  veer 0.69). The recipe does not under-train at 80 — it destabilizes
+  before 160 helps. Mechanism finding, banked: the one-sided variance
+  guard is a named suspect for any long-duration recipe work.
+- **K1 `strips 8 @ 96` — HARNESS-BLOCKED, not refuted.** MPS's
+  AdaptiveAvgPool requires divisible sizes: 96 px -> a 12-column
+  feature map, and 8 does not divide 12 (empirical exit-1 repro; the
+  64-res feature map is 8 columns, which is why strips 8 ran fine in
+  representation_v1). Harness fixed: `scripts.train` now fails LOUD
+  with the valid divisor list before training.
+- **Queue-hygiene lesson, recorded:** the budget heredoc broke the `&&`
+  chain — everything after `EOF` ran unconditionally, so the DONE
+  marker fired despite the K1 crash killing the chain. All queues from
+  here run under `set -e` (CLAUDE.md's own background-queue rule,
+  now applied to heredoc-bearing chains).
+
+**K1' deviation, registered with rationale:** same aliasing hypothesis,
+nearest FEASIBLE divisor — `strips 6` (10°/bin vs the baseline's
+15°/bin; 12 divides evenly; 12-strips/5° stays available if the
+direction confirms). Single knob vs wm_96d128 unchanged. The repaired
+queue grades K0's corpse through the registered instruments for the
+record, then flies K1'.
