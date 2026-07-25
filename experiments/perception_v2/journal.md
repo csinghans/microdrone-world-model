@@ -58,3 +58,50 @@ not offline-grading concerns).
 ---
 
 (verdict lands below when the queue completes)
+
+---
+
+## K0 verdict — 2026-07-25: NO-GO (1/3 primary bars; K1 not released) — and the pincer's three predictions all landed
+
+Queue as pre-registered (sha brackets green; logs `output/pv2_*`).
+
+| clause | wm_96 (D64) | wm_96d128 | bar | verdict |
+|---|---|---|---|---|
+| dense AUC@32 | 0.9947 | **0.9965** | >= 0.9335 | pass (held AND rose) |
+| all AUC@32 | 0.8912 | 0.8807 | >= 0.9264 | FAIL |
+| veer val / widened | 0.375 / 0.923 | **1.000 / 1.000** | == 1.00 | **PASS — capacity bought it back** |
+| dense saturation | 0.5205 | **0.3080** | <= 0.4658 | **PASS — smashed** |
+| high-clutter |gap| (open bins) | 0.0278 (+0.23/+0.14) | 0.0658 (+0.32/+0.24) | <= 0.0284 | FAIL (open-space over-warn inflated) |
+| classic / moving | 0.7386 / 0.8948 | 0.7882 / 0.8891 | >= 0.8011 / 0.9357 | FAIL by 0.013 / FAIL |
+| budget | 207.3 KB / 17 ms | 264.2 KB / 17 ms | < 512 / < 83 | pass |
+
+Primary bars: B2 PASS, B1 FAIL (dense-clause pass, all-clause fail),
+B3 FAIL -> 1/3. **K1 (strips 8) NOT released** by the frozen rule.
+**perception_v2 closes NO-GO.**
+
+### The design point validated, the deficit rotated
+
+Match-capacity-to-input predicted three recoveries and got all three:
+veer snapped back to double-perfect, dense held at its ceiling
+(0.9965), and saturation fell through its bar (0.62 -> 0.52 -> 0.31
+across the three operating points). What remains is a DIFFERENT
+failure cluster than any previous arm's: moving-world ranking (stuck
+~0.89 since 96-res arrived) and open-space over-warn (+0.32/+0.24 —
+the wide latent spends its new confidence in the wrong bins), dragging
+the all-row; classic misses its guard by 0.013 — the closest full-pass
+approach in fifteen trained arms.
+
+### What a perception_v3 would weigh (named, not claimed)
+
+- **Lateral resolution at width** (96 x D128 x strips 8): K1's shape,
+  re-registrable fresh — the open-space over-warn is a bearing-
+  resolution story in part.
+- **Moving is its own axis**: no perception knob has touched moving's
+  bar since 64-res (0.9557 -> ~0.89 at every 96/128 arm) — the
+  temporal information lost to higher spatial res is a v3 hypothesis
+  (moving needs motion; the single-frame latent trades it for detail).
+- **The steps-vs-size control**: 80 epochs may under-train the 2.4x
+  parameter model — recipe-frozen here, priceable there.
+- Or bank the tier's curve and the near-miss as the honest state.
+
+Run-to-run caveat: deterministic seed-0; single-seed operating points.
