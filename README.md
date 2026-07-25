@@ -4,24 +4,25 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.16.0 — contrast is the curriculum. Both chapters' wall
-(dense separation — the kinematic floor's eyes, the guardian's false
-alarms) was attacked in one pre-registered offline program: sharper
-pooling, a bigger latent, 3× data, a dense-heavy curriculum, and a
-pure dense specialist. Eight trained arms, frozen bars, ZERO passes —
-and the failures drew one curve: dense skill vs dense share is an
-inverted U peaking at LOW share (0.918 at 22 % → 0.644 at 100 %). The
-mixed diet was never dilution; it was the supply of negatives.
-**Dense discrimination is a contrastive property of the curriculum**
-— the cheap tier (architecture, data, composition, isolation) closes
-by exhaustion, and the perception tier (resolution/depth, carrying
-the mixed curriculum with it) is the proven remaining road. Article
-#15 tells it. The Level-3 assisted chapter (v0.15, article #14)
-banked its own law on the same eyes: a guardian is only as good as
-its eyes in context and the pilot it swaps in — its authority ladder,
-cockpit and instrument set stay shipped. Gates unchanged and GREEN —
+**Status: v0.17.0 — the wall eats pixels. The perception tier's
+offline program moved the number nothing else could: pixels alone
+(64→96, same seeds, same recipe) took dense separation from 0.918 to
+**0.9947**, drew the tier's governing curve (an inverted U ruled by
+the compression ratio — 128 px drowns the same net), and the
+capacity pincer at the sweet spot (96×D128) landed all three
+pre-registered recoveries (veer double-perfect, dense 0.9965,
+saturation 0.31), missing a full pass by 0.013 on classic — the
+closest in fifteen retrains. The residue is NAMED: the moving world
+and the open-space over-warn are single-frame symptoms; the next
+question is the previous glance (temporal input), gated behind
+closing the one-sided variance guard the 160-epoch instability
+exposed. Also banked: v0.5's law one level down — the record offline
+generalist (wm_3x) flies catastrophically (false-evasion 100 %);
+instruments predict, only the closed loop certifies, so wm_96d128
+stands as the offline dense apex (264 KB / ~17 ms) — surveyed, not
+deployed. Articles #15-#16 tell the arc. Gates unchanged and GREEN —
 transit 85/100, indoor 91/100; int8 configs in the lock (v0.11.0);
-sacred checkpoints untouched through eight retrains (sha-bracketed
+sacred checkpoints untouched through fifteen retrains (sha-bracketed
 queues).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire

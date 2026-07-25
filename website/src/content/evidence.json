@@ -47,5 +47,19 @@
     "bestGeneralAllWorldAuc": 0.9512,
     "verdict": "cheap-tier-exhausted; contrast is the curriculum",
     "source": "experiments/specialist_v1/journal.md"
+  },
+  "perception": {
+    "campaigns": 4,
+    "denseAucByRes": { "64": 0.9177, "96": 0.9947, "128": 0.6999 },
+    "pincer96xD128": {
+      "dense": 0.9965,
+      "veerVal": 1.0,
+      "denseSaturation": 0.308,
+      "classicMissBy": 0.013,
+      "totalKb": 264.2,
+      "estLatencyMs": 17
+    },
+    "verdict": "offline apex surveyed, not deployed; residue named: temporal input",
+    "source": "experiments/perception_v3/journal.md"
   }
 }

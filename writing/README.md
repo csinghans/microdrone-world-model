@@ -26,6 +26,7 @@ yet. The technical body underneath stays precise and fully sourced.
 | 13 | The wall that wasn't information | [en](13-the-wall/en.md) | [繁中](13-the-wall/zh-TW.md) | published in-repo |
 | 14 | The shared cockpit: what the guardian is worth | [en](14-the-shared-cockpit/en.md) | [繁中](14-the-shared-cockpit/zh-TW.md) | published in-repo |
 | 15 | Contrast is the curriculum: the specialist that couldn't | [en](15-contrast-is-the-curriculum/en.md) | [繁中](15-contrast-is-the-curriculum/zh-TW.md) | published in-repo |
+| 16 | The wall eats pixels: a sweet spot, a pincer, and the residue's name | [en](16-the-wall-eats-pixels/en.md) | [繁中](16-the-wall-eats-pixels/zh-TW.md) | published in-repo |
 
 Cadence: roughly one bilingual article per month. The English long-form is
 the canonical version; the 繁體中文 version is a faithful re-write, not a

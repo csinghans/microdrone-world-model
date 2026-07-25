@@ -23,6 +23,27 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
+- **The Perception Tier (three campaigns + one refusal): the wall eats
+  pixels, the pincer lands three-for-three, and the residue is named
+  TIME.** general_wm_v2 first re-measured v0.5's law one level down
+  (the record offline generalist wm_3x flies catastrophically —
+  false-evasion 100 %: instruments predict, only the closed loop
+  certifies). Then pixels-only sweeps drew the tier's governing curve
+  — dense 0.9177 / **0.9947** / 0.6999 at 64/96/128, an inverted U
+  ruled by the compression ratio, with the latent TRIAGING (veer
+  returns exactly where dense drowns) — and the capacity pincer at the
+  sweet spot (96 x D128) landed all three pre-registered recoveries
+  (veer double-perfect, dense 0.9965, saturation 0.31) while missing
+  classic by 0.013: the closest full pass in fifteen retrains. The
+  last two cheap hypotheses died with mechanisms attached (160 epochs
+  destabilizes — the one-sided variance guard is a slow explosion;
+  finer lateral pooling refuted at a second operating point). The
+  surviving residue has one name: the moving world and the open-space
+  over-warn are single-frame symptoms — **the previous glance**, i.e.
+  temporal input, gated behind closing the variance guard. wm_96d128
+  stands as the offline dense apex (264 KB / 17 ms), not deployed,
+  not certified. Article #16; journals:
+  `experiments/{general_wm_v2,perception_v1,perception_v2,perception_v3}/`.
 - **The Representation Program (four campaigns, one day): the cheap
   tier closes by exhaustion, and the mechanism gets a name.** Both
   chapters' wall (dense separation) was attacked offline with every

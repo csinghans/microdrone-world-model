@@ -387,6 +387,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
             "只用癌症片訓練放射科醫師、他讀癌症片反而變差——因為「生病」要對照「健康」才成立。我們對無人機最難的場景砸下每一顆便宜旋鈕：更利的視覺、更大的腦、三倍的飛行、加重困難配比、最後一位只讀困難場景的專家。八個訓練臂、零過欄、一條倒 U 曲線：dense 份額越高技能越差、純專家最慘。簡單場景從來不是填充物——它們是「安全」的定義、危險拿它來量。對比不是配菜、對比才是課程。",
           slug: "15-contrast-is-the-curriculum",
         },
+        {
+          title: "牆吃像素：一個甜點、一次合圍、以及殘差的名字",
+          simple:
+            "給近視的飛行員第一副對的眼鏡（96 像素）、雜亂街道瞬間清晰——十五次重訓推不動的數字一舉近乎滿分。改給望遠鏡（128）、他撞上路燈：影像多過腦子。眼鏡加上更大的視覺記憶（96×D128）、幾乎一切回歸——只差 0.013 全過。但有一樣東西再利的眼鏡也換不回：會動的東西。看見運動需要的不是解析度、是記得上一眼。殘差的名字是時間。",
+          slug: "16-the-wall-eats-pixels",
+        },
       ],
     },
     research: {
@@ -701,6 +707,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           simple:
             "Train a radiologist only on cancer scans and they get WORSE at reading cancer scans — sick only means something against healthy. We threw every cheap knob at our drone's hardest scenes: sharper vision, a bigger brain, triple the flying, a hard-scene-heavy mix, and finally a pure specialist. Eight trained arms, zero bars passed, one inverted-U curve: the more dense the diet, the worse the dense skill — the specialist worst of all. The easy scenes were never padding; they are the definition of safe that danger is measured against. Contrast is not the garnish. Contrast is the curriculum.",
           slug: "15-contrast-is-the-curriculum",
+        },
+        {
+          title: "The wall eats pixels: a sweet spot, a pincer, and the residue's name",
+          simple:
+            "Give a near-sighted pilot their first real glasses (96 px) and the cluttered street snaps into focus — the number fifteen retrains couldn't move jumps to near-perfect. Hand them binoculars (128) and they walk into a lamppost: too much image for the brain. Glasses plus a bigger visual memory (96×D128) brings almost everything back — a full pass missed by 0.013. But one thing sharper glasses never return: things that MOVE. Seeing motion isn't resolution; it's remembering the previous glance. The residue's name is time.",
+          slug: "16-the-wall-eats-pixels",
         },
       ],
     },

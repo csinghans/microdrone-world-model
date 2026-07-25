@@ -1,5 +1,55 @@
 # Changelog
 
+## 0.17.0 — 2026-07-25 (the wall eats pixels: a sweet spot, a pincer, and the residue's name) — PROPOSED
+
+- **Article #16 published in-repo:** *The Wall Eats Pixels* (bilingual,
+  `writing/16-the-wall-eats-pixels/`) — the perception tier's arc: the
+  refusal that re-banked v0.5's law, the pixels-only breakthrough, the
+  inverted U, the pincer's three-for-three, two cheap deaths with
+  mechanisms, and the residue renamed from "the wall" to "the previous
+  glance". Feynman box: the near-sighted pilot's first real glasses.
+
+- **gate(general_wm_v2): REFUSED — the record offline row is a far
+  worse flyer** (`experiments/general_wm_v2/`): wm_3x through the full
+  v0.8 gate: indoor arms pass (det 0.978, fwd +0.048), closed loop
+  catastrophic (crash 0.524 vs 0.214, false-evasion 100 % — the global
+  over-warn meets the relative trigger), speed sweep worse at
+  0.8-1.2 m/s. v0.5's law one level down: a better-ranking world model
+  is not a better-flying one. The unified WM keeps its crown.
+
+- **gate(perception_v1): the breakthrough and the cliff**
+  (`experiments/perception_v1/`): pixels only (same seeds, recipe,
+  architecture) — dense AUC@32 0.9177 → **0.9947** at 96 px (+0.077
+  over the best row ever; saturation, ECE and the high-clutter gap all
+  move toward their bars) and 0.6999 at 128: an inverted U governed by
+  the compression ratio (192/432/768 : 1), the latent TRIAGING as the
+  dose rises (veer snaps back to perfect exactly where dense drowns).
+  Formally NO-GO both knobs (the fixed 64-d latent pays with the easy
+  worlds). Standing harness: the img_res knob end to end (env,
+  generators, meta, budget, dense_recal), defaults bit-identical.
+
+- **gate(perception_v2): the pincer — match capacity to input**
+  (`experiments/perception_v2/`): 96 × D128 lands all three
+  pre-registered recoveries (veer 0.375 → 1.000/1.000, dense held at
+  0.9965, saturation 0.62 → 0.31 through its bar) and closes NO-GO at
+  1/3 primary bars with classic missed by 0.013 — the closest full
+  pass in fifteen retrains; the deficit rotates to moving (~0.89 in
+  every 96-res arm) and open-space over-warn. Budget 264 KB / ~17 ms.
+
+- **gate(perception_v3): two cheap deaths, mechanisms attached**
+  (`experiments/perception_v3/`): epochs 80→160 DESTABILIZES (target
+  latent scale ×13 — the variance guard bounds spread from below only
+  while the EMA chases; banked as the gate on any temporal recipe);
+  finer lateral pooling refuted at a second operating point (strips 6
+  @ 96×D128: dense −0.37, veer-widened broken — it has never once
+  helped). Harness: scripts.train fails loud on non-divisible strips
+  (the MPS pool constraint that blocked the registered strips-8 arm);
+  queue hygiene moved to `set -e` after a heredoc broke an && chain.
+  **The residue is named: TIME** — the moving world and the open-space
+  over-warn are single-frame symptoms; the next real question is
+  temporal input, gated behind closing the variance guard. wm_96d128
+  stands as the offline dense apex — surveyed, not deployed.
+
 ## 0.16.0 — 2026-07-24 (contrast is the curriculum: the cheap tier closes by exhaustion)
 
 - **Article #15 published in-repo:** *Contrast Is the Curriculum: The
