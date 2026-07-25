@@ -120,3 +120,34 @@ same seeds; budget pre-estimate ~305 KB / ~30 ms — inside bounds).
 The reading to watch: does dense hold ~0.99 while the easy-world trade
 steepens (resolution-capacity imbalance confirmed), or does 128 lift
 everything (pure-resolution road still open)?
+
+---
+
+## K1 verdict — 2026-07-25: NO-GO (dense collapses at 128); resolution is an inverted U peaking at 96 — the compression ratio governs
+
+| res (pixels : latent dims) | dense | classic | moving | all | veer val | dense sat |
+|---|---|---|---|---|---|---|
+| 64 (192:1) | 0.9177 | 0.8211 | 0.9557 | 0.9314 | 1.000 | 0.6211 |
+| **96 (432:1)** | **0.9947** | 0.7386 | 0.8948 | 0.8912 | 0.375 | **0.5205** |
+| 128 (768:1) | **0.6999** | 0.6499 | 0.9292 | 0.8585 | **1.000** | 0.6509 |
+
+K1 fails every bar that matters (budget passes: 305.3 KB / ~29 ms).
+**perception_v1 closes: both knobs formally NO-GO** — and the campaign
+banks the tier's governing curve. The wall eats pixels AT THE RIGHT
+DOSE: 96-res is a sharp sweet spot for dense under the fixed 64-d
+latent; at 128 the compression ratio crosses a cliff and everything
+drowns (while veer — the relative judgment — snaps back to perfect:
+the latent triages, and what it keeps rotates with the dose).
+
+### The two-campaign triangulation, now three-legged
+
+1. Trilogy: at 64-res input, adding capacity only reallocates.
+2. K0: at 96-res input, the 64-d latent starves the easy worlds.
+3. K1: at 128-res input, it starves everything.
+
+One design point survives all three: **match capacity to input.**
+perception_v2's prereg writes itself — hold the measured sweet spot
+(96), widen the latent (the trilogy's knob, returning WITH input worth
+spending on), and demand the FULL original bar set: dense >= 0.9335
+AND all >= 0.9264 AND saturation AND gap AND veer == 1.00 AND G4 —
+the first arm in the program required to pass everything at once.
