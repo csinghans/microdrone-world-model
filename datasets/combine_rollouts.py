@@ -66,15 +66,27 @@ def combine(transit: dict, indoor: dict) -> dict:
     return out
 
 
-def build(n_transit, n_indoor, length, seed=0, worlds=("classic", "dense", "moving")):
+def build(
+    n_transit,
+    n_indoor,
+    length,
+    seed=0,
+    worlds=("classic", "dense", "moving"),
+    img_res=None,
+):
     """`worlds` cycles per transit rollout; REPEATS are weights (the
     representation composition knob: ("dense","dense","classic","moving")
-    gives a 2:1:1 mix). Default = the frozen uniform mix."""
+    gives a 2:1:1 mix). Default = the frozen uniform mix. `img_res` is the
+    perception tier's camera knob (None = the deployed 64)."""
     from datasets.generate_rollouts import gen as gen_transit
     from datasets.search_rollouts import gen as gen_indoor
+    from sim.envs import IMG_RES
 
-    transit = gen_transit(n_transit, length, seed=seed, worlds=tuple(worlds))
-    indoor = gen_indoor(n_indoor, length, seed=seed + 100000)
+    res = int(img_res) if img_res else IMG_RES
+    transit = gen_transit(
+        n_transit, length, seed=seed, worlds=tuple(worlds), img_res=res
+    )
+    indoor = gen_indoor(n_indoor, length, seed=seed + 100000, img_res=res)
     return combine(transit, indoor)
 
 
@@ -129,13 +141,23 @@ def main() -> None:
         default="classic,dense,moving",
         help="transit world cycle; repeats are weights (composition knob)",
     )
+    ap.add_argument(
+        "--img-res", type=int, default=None, help="camera res (perception knob)"
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
     worlds = tuple(w for w in args.worlds.split(",") if w)
-    data = build(args.n_transit, args.n_indoor, args.len, args.seed, worlds=worlds)
+    data = build(
+        args.n_transit,
+        args.n_indoor,
+        args.len,
+        args.seed,
+        worlds=worlds,
+        img_res=args.img_res,
+    )
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     np.savez_compressed(args.out, **data)
     wid = data["world_id"]

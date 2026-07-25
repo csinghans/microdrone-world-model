@@ -16,9 +16,11 @@ CTRL_HZ = 48  # control steps per second (the AI decides at CTRL_HZ / 4)
 START = np.array([0.0, 0.0, 1.0])  # every rollout starts here, 1 m up
 
 
-def make_env(gui: bool = False):
-    """CtrlAviary at 48 Hz with the 64x64 on-board camera (shared by the
-    dataset generator, the planners and every eval)."""
+def make_env(gui: bool = False, img_res: int = IMG_RES):
+    """CtrlAviary at 48 Hz with the on-board camera (shared by the dataset
+    generator, the planners and every eval). `img_res` is the perception
+    tier's knob — the default is the deployed 64, and every existing
+    caller is bit-identical."""
     from gym_pybullet_drones.envs.CtrlAviary import CtrlAviary
     from gym_pybullet_drones.utils.enums import DroneModel, Physics
 
@@ -31,7 +33,7 @@ def make_env(gui: bool = False):
         ctrl_freq=CTRL_HZ,
         gui=gui,
     )
-    env.IMG_RES = np.array([IMG_RES, IMG_RES])
+    env.IMG_RES = np.array([int(img_res), int(img_res)])
     return env
 
 
@@ -88,9 +90,11 @@ class VelCommander:
 
 
 def grab_frame(env) -> np.ndarray:
-    """One 64x64x3 uint8 frame from the on-board camera."""
+    """One (res, res, 3) uint8 frame from the on-board camera, at the
+    env's own IMG_RES (64 everywhere deployed today)."""
+    r = int(env.IMG_RES[0])
     rgb, _dep, _seg = env._getDroneImages(0, segmentation=False)
-    return rgb[:IMG_RES, :IMG_RES, :3].astype(np.uint8)
+    return rgb[:r, :r, :3].astype(np.uint8)
 
 
 def selftest() -> None:

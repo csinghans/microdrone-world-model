@@ -103,13 +103,13 @@ def _safe_start(sc, rng):
     return sc.start_xy
 
 
-def gen(n_rollouts, length, seed=0, fov_honest=False):
-    env = make_env()
+def gen(n_rollouts, length, seed=0, fov_honest=False, img_res=IMG_RES):
+    env = make_env(img_res=img_res)
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
     rng = np.random.default_rng(seed)
     R, L = n_rollouts, length
 
-    frames = np.zeros((R, L, IMG_RES, IMG_RES, 3), dtype=np.uint8)
+    frames = np.zeros((R, L, int(img_res), int(img_res), 3), dtype=np.uint8)
     actions = np.zeros((R, L, 4), dtype=np.float32)
     act_id = np.zeros((R, L), dtype=np.int16)
     seg = np.zeros((R, L), dtype=np.int16)

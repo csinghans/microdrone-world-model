@@ -28,15 +28,19 @@ from world_model.training import GAP8_BUDGET_KB
 GAP8_GMACS = 0.5  # assumed effective int8 throughput (GMAC/s), stated not hidden
 
 
-def onboard_budget(enc, pred, cheads, nhead) -> dict:
+def onboard_budget(enc, pred, cheads, nhead, img_res: int = IMG_RES) -> dict:
     """int8 weights + the peak pair of live activation tensors + a
     double-buffer workspace (DMA staging) estimate — all three share the
-    GAP8's 512 KB L2. Also counts MACs analytically for the latency estimate."""
+    GAP8's 512 KB L2. Also counts MACs analytically for the latency
+    estimate. `img_res` bills a perception-tier candidate at its own
+    camera resolution (default = the deployed 64; every existing caller
+    unchanged)."""
     mods = (enc, pred, cheads, nhead)
     n_params = sum(p.numel() for m in mods for p in m.parameters())
 
-    sizes, macs_enc = [3 * IMG_RES * IMG_RES], 0
-    x = torch.zeros(1, 3, IMG_RES, IMG_RES)
+    r = int(img_res)
+    sizes, macs_enc = [3 * r * r], 0
+    x = torch.zeros(1, 3, r, r)
     with torch.no_grad():
         for mod in enc.features:
             x = mod(x)

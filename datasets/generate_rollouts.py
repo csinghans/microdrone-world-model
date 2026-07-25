@@ -85,6 +85,7 @@ def gen(
     seed: int = 0,
     randomize: bool = False,
     worlds: tuple = ("classic",),
+    img_res: int = IMG_RES,
 ) -> dict:
     """Fly `n_rollouts` fresh intervention trials and return the raw sequences:
     frames (uint8), held commands, nearest-pillar distances, drone positions,
@@ -103,12 +104,12 @@ def gen(
     per-step actuation noise on the executed command. The RECORDED action
     stays the clean commanded one — the model conditions on intent, reality
     wobbles, and the labels come from where the drone really went."""
-    env = make_env()
+    env = make_env(img_res=img_res)
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
     rng = np.random.default_rng(seed)
 
     R, L = n_rollouts, length
-    frames = np.zeros((R, L, IMG_RES, IMG_RES, 3), dtype=np.uint8)
+    frames = np.zeros((R, L, int(img_res), int(img_res), 3), dtype=np.uint8)
     actions = np.zeros((R, L, 4), dtype=np.float32)
     act_id = np.zeros((R, L), dtype=np.int16)
     seg = np.zeros((R, L), dtype=np.int16)
@@ -216,6 +217,7 @@ def main() -> None:
         help="'classic' | 'hard' | comma-list of registered worlds",
     )
     ap.add_argument("--out", default=OUT, help="npz save path override")
+    ap.add_argument("--img-res", type=int, default=IMG_RES, help="camera res")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     n_roll, length = (12, 100) if args.selftest else (args.rollouts, args.length)
@@ -225,7 +227,14 @@ def main() -> None:
 
     tag = (" (randomized)" if args.randomize else "") + f" [{args.worlds}]"
     print(f"[INFO] flying {n_roll} intervention rollouts x {length} steps{tag} ...")
-    data = gen(n_roll, length, seed=args.seed, randomize=args.randomize, worlds=worlds)
+    data = gen(
+        n_roll,
+        length,
+        seed=args.seed,
+        randomize=args.randomize,
+        worlds=worlds,
+        img_res=IMG_RES if args.selftest else args.img_res,
+    )
     out = OUT if args.selftest else args.out  # a selftest never redirects
     os.makedirs(os.path.dirname(out), exist_ok=True)
     np.savez_compressed(out, **data)

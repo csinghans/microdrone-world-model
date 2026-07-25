@@ -435,6 +435,7 @@ def train(
             "version": 3 if temporal else 2,
             "D": int(z_t.shape[1]),
             "strips": strips,  # lateral pooling bins; absent in old ckpts (=4)
+            "img_res": int(data["frames"].shape[2]),  # camera res of the diet
             "A": int(acts.shape[1]),
             "horizons": [int(k) for k in HORIZONS],
             "radii": [float(rad) for rad in RADII],

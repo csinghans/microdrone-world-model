@@ -91,12 +91,20 @@ def run(
     length: int,
     out: str = OUT_JSON,
     ckpt: str = "output/world_model.pth",
+    img_res: int = None,
 ) -> dict:
     from datasets.generate_rollouts import gen
     from datasets.intervention_labels import counterfactual_labels
+    from sim.envs import IMG_RES
     from skills.gap_flight.skill import PILLAR_R
 
-    data = gen(n_rollouts, length, seed=160, worlds=("classic", "dense", "moving"))
+    data = gen(
+        n_rollouts,
+        length,
+        seed=160,
+        worlds=("classic", "dense", "moving"),
+        img_res=int(img_res) if img_res else IMG_RES,
+    )
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     rng = np.random.default_rng(0)
     tr_rolls, va_rolls = _split_rollouts(data, rng)
@@ -300,12 +308,15 @@ def main() -> None:
         default="output/world_model.pth",
         help="checkpoint to grade (representation candidates park elsewhere)",
     )
+    ap.add_argument(
+        "--img-res", type=int, default=None, help="camera res (perception knob)"
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
-    run(args.rollouts, args.length, args.out, ckpt=args.ckpt)
+    run(args.rollouts, args.length, args.out, ckpt=args.ckpt, img_res=args.img_res)
 
 
 if __name__ == "__main__":
