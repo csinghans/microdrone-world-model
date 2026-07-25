@@ -248,7 +248,7 @@ def main() -> None:
     held = sorted({ACTION_NAMES[i] for r in range(n_roll) for i in data["act_id"][r]})
     print(
         f"WM-DATA OK: {n_roll} rollouts x {length} steps @ {CTRL_HZ} Hz, "
-        f"{n_seg} held intervention segments, labels [{rate_str}], saved {OUT}"
+        f"{n_seg} held intervention segments, labels [{rate_str}], saved {out}"
     )
     print(f"  commands held: {held}")
 
