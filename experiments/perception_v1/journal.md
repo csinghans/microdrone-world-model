@@ -68,3 +68,55 @@ ONLY pixels (same rollouts, same seeds, same length, same count).
 ---
 
 (verdict lands below when the queue completes)
+
+---
+
+## K0 verdict — 2026-07-25: NO-GO on the bars as written (1/3, G1/G4 broken) — and the program's first breakthrough: THE WALL EATS PIXELS
+
+Queue as pre-registered (sha brackets green; a plugin-reload kill at the
+train step was repaired and the chain resumed from the completed data
+gens — logs `output/pv1_*`; the saved-path print bug found in the
+autopsy is fixed in `3ec4c95`'s follow-up).
+
+| metric | 64-res baseline | wm_96 (pixels only) | bar | verdict |
+|---|---|---|---|---|
+| dense AUC@32 | 0.9177 (unified) / 0.9335 (champion) | **0.9947** | >= 0.9335 | **pass, +0.061 over the best row ever** |
+| all AUC@32 | 0.9314 | 0.8912 | >= 0.9264 | FAIL |
+| classic / moving | 0.8211 / 0.9557 | 0.7386 / 0.8948 | G4 | **both broken** |
+| veer val / widened | 1.0000 / 0.9720 | **0.3750** / 0.9231 | == 1.00 | **G1 broken** |
+| dense warn saturation / ECE | 0.6211 / 0.0687 | 0.5205 / 0.0556 | <= 0.4658 | FAIL (right direction) |
+| high-clutter |warn gap| | 0.0567 | **0.0278** | <= 0.0284 | **PASS** |
+| budget | 137.3 KB / ~8 ms | 207.3 KB / ~17 ms | < 512 / < 83 | pass |
+
+B1 dense-clause smashed, all-clause failed; B2 failed while moving the
+right way; B3 passed. **Formally NO-GO** — no closed-loop phase opens
+from this arm. **K1 (128-res) RELEASES** per the frozen rule (0.9947 >
+0.9277, the direction confirmed).
+
+### What the breakthrough says (and what the breakage says)
+
+Same seeds, same recipe, same architecture — only pixels — and dense
+ranking jumped +0.077 to near-perfect while every dense-side
+calibration metric moved toward its bar (saturation 0.62->0.52, ECE
+0.069->0.056, high-clutter gap 0.057->0.028). After eight arms of
+reallocation failures, the FIRST information-adding knob moved the one
+number nothing else could: **the sensor was the bottleneck. The wall
+eats pixels.**
+
+The breakage is the same finding read backwards: at a fixed 64-d
+latent, reading 2.25x richer input costs the easy worlds their
+features (classic -0.08, moving -0.06, veer val collapsed) — the
+representation trilogy showed capacity reallocates when input is
+starved; K0 shows the latent STARVES when input is rich. The two
+results triangulate one design point: **capacity was never the wrong
+knob — it was waiting for input worth spending it on.** That pairing
+(resolution x width) is perception_v2's natural prereg if K1's reading
+concurs; nothing is claimed for it here.
+
+### Disposition
+
+K1 `wm_128` flies as pre-registered (holdout/diet regenerated at 128,
+same seeds; budget pre-estimate ~305 KB / ~30 ms — inside bounds).
+The reading to watch: does dense hold ~0.99 while the easy-world trade
+steepens (resolution-capacity imbalance confirmed), or does 128 lift
+everything (pure-resolution road still open)?
