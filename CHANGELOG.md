@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.17.0 — 2026-07-25 (the wall eats pixels: a sweet spot, a pincer, and the residue's name) — PROPOSED
+## 0.17.0 — 2026-07-28 (the wall eats pixels: a sweet spot, a pincer, and the residue's name)
 
 - **Article #16 published in-repo:** *The Wall Eats Pixels* (bilingual,
   `writing/16-the-wall-eats-pixels/`) — the perception tier's arc: the
