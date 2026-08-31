@@ -40,7 +40,10 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
   finer lateral pooling refuted at a second operating point). The
   surviving residue has one name: the moving world and the open-space
   over-warn are single-frame symptoms — **the previous glance**, i.e.
-  temporal input, gated behind closing the variance guard. wm_96d128
+  temporal input (2026-08-31 postscript: the latent-level reading died
+  in `temporal_probe_v1`; the live form is pixel-level two-frame input,
+  and the variance-guard prerequisite was re-scoped by the stability
+  arc — see "Open" below). wm_96d128
   stands as the offline dense apex (264 KB / 17 ms), not deployed,
   not certified. Article #16; journals:
   `experiments/{general_wm_v2,perception_v1,perception_v2,perception_v3}/`.
@@ -112,16 +115,24 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Open, in order of pull
 
-1. **Time — the perception tier's named residue.** Every 96-res arm
-   trades motion for detail: the moving world sticks at ~0.89 and the
-   open-space over-warn inflates — single-frame symptoms
-   (perception_v3: "the previous glance"). Its stated prerequisite —
-   closing the one-sided variance guard the 160-epoch instability
-   exposed — is under measurement as `stability_v1` (the hinge became
-   a band [1.0, 4.0], set read-only from every champion's std ≤ 2.53).
-   Then `temporal_probe_v1`: Δz and GRU probe heads on the FROZEN
-   wm_96d128 latent arbitrate two-frame-diff vs recurrence for
-   +0.03 moving AUC before any WM retrain is proposed.
+1. **Time — now at the pixel level.** The latent-level reading of "the
+   previous glance" is measured DEAD (`temporal_probe_v1`, 2026-08-31):
+   on the frozen wm_96d128, a Δz head reads moving BELOW the
+   single-frame control and a GRU head gains +0.003 where +0.03 was the
+   bar — the single-frame encoder destroys motion before any probe can
+   read it. What survives is `temporal_v1_pixel`: two-frame INPUT to
+   the encoder (stacked frames / frame-difference channel), an
+   80-epoch knob NOT gated by the still-open 160-epoch stability
+   problem, but subject to the measured draw-noise discipline below.
+   Separately, the stability arc (stability_v1/v2/v3, three honest
+   negatives) closed the variance-guard route and named the real
+   160-epoch runaway: CENTER drift (|z| 42 vs std ~5.5) — a std hinge
+   cannot constrain it; the open levers are a center hinge,
+   target-side normalization, or an EMA momentum schedule. The guard
+   ships two-sided [1, 8] (free at healthy points). New instrument
+   law, measured: dead ops reshuffle the seed-0 draw (recipe identity
+   includes the op graph), 96-res single-draw spread reaches ~0.02
+   dense — model-axis certification needs ≥3 draws or flight gates.
 2. **The dense frontier — the cheap tier is CLOSED by exhaustion**
    (kept here so nobody re-digs): not metric grounding at λ∈{0.1, 0.5}
    (v0.5 M2), not a global calibration error (head_calibration C0),

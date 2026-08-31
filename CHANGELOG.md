@@ -9,16 +9,48 @@
   now restores all three policy champions, not two. Release body refreshed
   to list every asset, locked and journal-side alike.
 
-- **stability_v1: the variance guard closes (two-sided)** — the 2026-08-20
-  review's BLOCKER and perception_v3's gate on all temporal work. The hinge
-  becomes a band [`VAR_LO`=1.0, `VAR_HI`=4.0], set by a read-only std
-  measurement (every shipped champion ≤ 2.53 — the band is dead, zero loss
-  and zero gradient, at their operating points; the exploding 160-epoch
-  96d128 run reached 12.05). Instruments shipped alongside: per-epoch val
-  z-std med/max + |z| in the train print (the ×13 was only ever inferred
-  from no-op MSE), and `eval_latency_budget --ckpt/--img-res` replaces the
-  uncommitted budget heredoc. Campaign verdict lands below when the
-  pre-registered K0/K1 queue completes.
+- **The stability arc (three campaigns, three honest negatives, one
+  afternoon)** — the 2026-08-20 review's BLOCKER, attacked and mapped:
+  - `gate(stability_v1)`: band [1,4] **NO-GO** — a ceiling that binds at
+    the recipe's own healthy point (std max 6.44) re-equilibrates the
+    whole space onto the lower hinge (med 2.66→1.00); moving pays 0.054.
+    Rule: the band must clear the recipe's OWN operating point.
+  - `gate(stability_v2)`: band [1,8] **NO-GO on the bar — and the C0
+    control turns it into an instrument finding**: same-code seed-0
+    training is bit-deterministic at the TENSOR level (file-sha was the
+    wrong instrument — torch's zip container drifted), but a provably
+    dead op reshuffles the draw on MPS (recipe identity includes the op
+    graph). First measured 96-res draw spread: ~0.02 dense / ~0.07
+    classic between two fair draws — single-draw apex-preservation bars
+    are un-gradable, and the apex row itself sits inside that noise.
+  - `gate(stability_v3)`: 160 epochs under [1,8] **NO-GO** — no-op 275.9
+    (worse than the one-sided 99.4), the hinge overpowered (std max
+    15.85), and the runaway finally shows its face: **|z| = 42 against
+    std ~5.5 — the explosion is CENTER drift**, which no std hinge
+    constrains by construction. The temporal-training prerequisite stays
+    OPEN; named next levers: a center hinge, target-side normalization,
+    an EMA momentum schedule.
+  The two-sided guard ships at [`VAR_LO`=1.0, `VAR_HI`=8.0] (zero
+  loss-level cost at healthy points, strictly safer than one-sided).
+  Instruments shipped: per-epoch val z-std med/max + |z| in the train
+  print (the ×13 was only ever inferred from no-op MSE — no std logger
+  existed), and `eval_latency_budget --ckpt/--img-res` replaces the
+  uncommitted budget heredoc. Harness lessons banked: bar-gates parse
+  logs (in-process reloads OOM), queues are bash script files (zsh does
+  not word-split `$PY`), bit-identity compares tensors (not file shas).
+
+- **gate(temporal_probe_v1): NO-GO — the previous glance is not IN the
+  latent.** Probe heads on the frozen wm_96d128 (3 head seeds, reference
+  fit power; the registered validity bar caught an under-powered first
+  fit and the control then landed 0.0095 from the frozen heads): the
+  two-frame diff arm reads moving 0.8810 (below the control 0.8986), the
+  GRU arm 0.9015 (+0.003, needed +0.03). Latent-level motion at 96 px is
+  refuted — the single-frame encoder destroys motion before any probe
+  can read it; the GRU's broad small gains are head stabilization, not
+  velocity. The hypothesis moves DOWN a level: two-frame PIXEL input to
+  the encoder (`temporal_v1_pixel`, an 80-epoch knob the stability arc's
+  open 160-epoch problem does not gate, subject to the measured ~0.02
+  draw-noise discipline).
 
 - **Docs de-drifted**: CI is manual `workflow_dispatch` (since `d9e8e85`) —
   CLAUDE/AGENTS/ONBOARDING/CONTRIBUTING now say so; ROADMAP's "Open, in

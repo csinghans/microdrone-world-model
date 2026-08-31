@@ -14,9 +14,11 @@ pre-registered recoveries (veer double-perfect, dense 0.9965,
 saturation 0.31), missing a full pass by 0.013 on classic — the
 closest in fifteen retrains. The residue is NAMED: the moving world
 and the open-space over-warn are single-frame symptoms; the next
-question is the previous glance (temporal input), gated behind
-closing the one-sided variance guard the 160-epoch instability
-exposed. Also banked: v0.5's law one level down — the record offline
+question is the previous glance (temporal input) — measured at the
+latent level and refuted there (temporal_probe_v1: a frozen latent
+carries no readable motion), so the live form is two-frame pixel
+input; the 160-epoch instability itself was mapped by the stability
+arc to CENTER drift, which no variance hinge constrains. Also banked: v0.5's law one level down — the record offline
 generalist (wm_3x) flies catastrophically (false-evasion 100 %);
 instruments predict, only the closed loop certifies, so wm_96d128
 stands as the offline dense apex (264 KB / ~17 ms) — surveyed, not
