@@ -16,8 +16,9 @@ contribution in [docs/RESEARCH-IDEAS.md](docs/RESEARCH-IDEAS.md).
 - [ ] any referenced policy artifacts pinned by sha256 (the runner
       records them in results.json; large files go to a Release, not git)
 - [ ] the skill's selftest line added to `.github/workflows/ci.yml`,
-      and CI green — `doctor` and a `--dry` gate must pass on a clone
-      with nothing but `fetch_champions` run
+      and CI green (CI is manual `workflow_dispatch` — dispatch the run
+      yourself; nothing triggers on push) — `doctor` and a `--dry` gate
+      must pass on a clone with nothing but `fetch_champions` run
 - [ ] plots, if the campaign is a benchmark/duel (committed under
       `experiments/<name>/`, force-added past the global `*.png` ignore)
 

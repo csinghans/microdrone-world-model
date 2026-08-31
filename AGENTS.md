@@ -21,7 +21,9 @@ python -m scripts.demo / -m scripts.evaluate / -m eval.<scoreboard>
 python -m scripts.research skills/<name>         # autonomous research loop
 ```
 
-CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
+CI: manual `workflow_dispatch` ONLY (lint + fast selftests; the ~2h training
+smoke is an opt-in input) — nothing runs on push/PR, so dispatch it yourself
+around any push.
 
 ## Architecture (one line each)
 
@@ -83,7 +85,8 @@ CI: lint + fast selftests on push/PR; training smoke is manual/weekly.
   `experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip`; slalom-v2 =
   `experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip`
   (BC2 + anchored-schedule FT + edge_bias; crowned at pooled 84/120,
-  all guards green — the eleventh sitting).
+  all guards green — the eleventh sitting; pinned in `artifacts.lock.json`
+  + champions release since 2026-08-31, so `fetch_champions` restores it).
 - Two WM artifacts, both SACRED (verify sha before/after any WM touch):
   the pinned champion `output/world_model.pth` (transit) and the unified
   `output/world_model_unified.pth` (transit+indoor). v0.8 ships them

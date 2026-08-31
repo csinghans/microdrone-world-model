@@ -35,7 +35,8 @@ pip install -e .
 chokes on it under some versions. If you use uv/venv instead, mirror
 `environment.yml`'s package list.)
 
-**Smoke it** (~2 min, matches the push-CI battery):
+**Smoke it** (~2 min, matches CI's fast battery — CI itself is manual
+`workflow_dispatch`, nothing runs on push):
 
 ```bash
 python -m skills.base && python -m sim.scenario_registry && python -m sim.envs

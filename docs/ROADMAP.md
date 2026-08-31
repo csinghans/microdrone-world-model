@@ -112,20 +112,26 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Open, in order of pull
 
-1. **The skill catalog.** Each new flight capability is a plugin +
-   pre-registered campaign the runner executes end-to-end. Next
-   candidates after moving-gap: dense-speedrun (fly the dense world
-   fast — deliberately collides with the known frontier),
-   corridor-slalom (sustained weaving), narrow-moving-gap (compose the
-   hard ends of both axes).
-2. **The dense frontier, 17-27 %.** What we now *know it is not*
-   (measured, so nobody re-digs these): not fixable by metric grounding
-   at λ∈{0.1, 0.5} (v0.5 M2), not a global calibration error
-   (head_calibration C0 — the warn heads over-report *conditionally*,
-   in dense geometry specifically). What remains is retraining-class:
-   conditional recalibration (needs a context signal the flying drone
-   actually has), representation work, or memory at a data scale the
-   GRU never got. Any attempt must respect the instrument lesson below.
+1. **Time — the perception tier's named residue.** Every 96-res arm
+   trades motion for detail: the moving world sticks at ~0.89 and the
+   open-space over-warn inflates — single-frame symptoms
+   (perception_v3: "the previous glance"). Its stated prerequisite —
+   closing the one-sided variance guard the 160-epoch instability
+   exposed — is under measurement as `stability_v1` (the hinge became
+   a band [1.0, 4.0], set read-only from every champion's std ≤ 2.53).
+   Then `temporal_probe_v1`: Δz and GRU probe heads on the FROZEN
+   wm_96d128 latent arbitrate two-frame-diff vs recurrence for
+   +0.03 moving AUC before any WM retrain is proposed.
+2. **The dense frontier — the cheap tier is CLOSED by exhaustion**
+   (kept here so nobody re-digs): not metric grounding at λ∈{0.1, 0.5}
+   (v0.5 M2), not a global calibration error (head_calibration C0),
+   not architecture / data scale / composition / organization
+   (representation_v1-v3 + specialist_v1 — v0.16, "contrast is the
+   curriculum"), not pixels alone (perception_v1-v3: resolution is an
+   inverted U peaking at 96, and the pincer's residue is temporal).
+   What remains is item 1 above, and a closed-loop pricing of
+   wm_96d128 (the offline dense apex is surveyed, NOT deployed — the
+   instruments predict, never certify).
 3. **Instrument discipline.** Single-seed per-world val AUC spreads
    ~0.5 on the dense slice (five same-draw trainings: 0.47..0.99).
    Model-axis gates therefore need ≥3-seed means, bigger stratified val
@@ -140,9 +146,10 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
    (GAP8, the on-board story the whole budget discipline points at).
    Status 2026-07-07: the original unfreeze criteria are MET (six
    bilingual articles in `writing/`; the Flight-TDD deployment gate —
-   ≥ 0.70 over 100 random 3-stage courses — passed at 72/100 with
-   committed videos of record), and v0.6.0 shipped as the imitation
-   turn instead. Hardware remains parked by explicit standing
+   ≥ 0.70 over 100 random 3-stage courses — first passed at 72/100
+   with committed videos of record; the gate of record is now 85/100,
+   stack_registration_v1, promoted 2026-07-14, lineage 79 → 72), and
+   v0.6.0 shipped as the imitation turn instead. Hardware remains parked by explicit standing
    instruction; unfreezing is the owner's call, not a schedule's.
    The shopping list is priced and ready; nothing here blocks on it.
 

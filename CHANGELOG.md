@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased
+
+- **slalom-v2 champion enters the lock** (the 2026-08-20 review's YELLOW):
+  `ppo_anchor_sched_edge.zip` uploaded to the `champions-2026-07` release
+  (download-back bit-identical, sha256 `8d3acad0…e443ba` recorded in the
+  promotion journal) and pinned in `artifacts.lock.json` — `fetch_champions`
+  now restores all three policy champions, not two. Release body refreshed
+  to list every asset, locked and journal-side alike.
+
+- **stability_v1: the variance guard closes (two-sided)** — the 2026-08-20
+  review's BLOCKER and perception_v3's gate on all temporal work. The hinge
+  becomes a band [`VAR_LO`=1.0, `VAR_HI`=4.0], set by a read-only std
+  measurement (every shipped champion ≤ 2.53 — the band is dead, zero loss
+  and zero gradient, at their operating points; the exploding 160-epoch
+  96d128 run reached 12.05). Instruments shipped alongside: per-epoch val
+  z-std med/max + |z| in the train print (the ×13 was only ever inferred
+  from no-op MSE), and `eval_latency_budget --ckpt/--img-res` replaces the
+  uncommitted budget heredoc. Campaign verdict lands below when the
+  pre-registered K0/K1 queue completes.
+
+- **Docs de-drifted**: CI is manual `workflow_dispatch` (since `d9e8e85`) —
+  CLAUDE/AGENTS/ONBOARDING/CONTRIBUTING now say so; ROADMAP's "Open, in
+  order of pull" caught up with three closed items (corridor-slalom crowned,
+  the dense-frontier cheap tier closed by exhaustion, transit gate 85/100).
+
 ## 0.17.0 — 2026-07-28 (the wall eats pixels: a sweet spot, a pincer, and the residue's name)
 
 - **Article #16 published in-repo:** *The Wall Eats Pixels* (bilingual,
