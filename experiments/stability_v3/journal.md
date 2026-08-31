@@ -61,3 +61,50 @@ limited and out of scope by measurement, not by convenience.
 ---
 
 (verdict lands below when the run completes)
+
+---
+
+## Final verdict — 2026-08-31: NO-GO — the ceiling is the wrong lever, and the runaway finally shows its face
+
+(One harness note first, rule 6: the first queue launch silently no-oped —
+zsh does not word-split an unquoted `$PY`, so every stage printed "command
+not found" and nothing trained. Rewritten as a bash script file, rerun,
+same knob. The reads below are from the real run, logs `output/sv3_*`.)
+
+| read (160 ep, band [1.0, 8.0]) | value | bar | verdict |
+|---|---|---|---|
+| no-op MSE@32 | **275.9** | <= 11.86 (2x g3) | **FAIL** — worse than the one-sided run's 99.4 |
+| val z-std max (med) | **15.85** (5.48) | <= 8.5 | **FAIL** — the hinge is overpowered, not obeyed |
+| holdout dense / veer val | 0.5917 / **0.125** | both >= 0.90 | FAIL (widened veer 0.46; rows destroyed) |
+| budget | 264.2 KB / 17 ms | unchanged | pass (irrelevant) |
+| **mean abs z** (recorded) | **42.15** | — | g3 pair was 4.31; the apex 6.7 |
+
+**The mechanism, finally named:** |z| = 42 against std ~5.5-15.9 — the
+runaway is DOMINATED by the latent's CENTER drifting, which no std hinge
+constrains by construction. This is exactly the suspect stability_v1's
+honesty clause pre-registered ("the latent's CENTER wanders"). The
+LAMBDA_VAR=1.0 hinge at 8 is a soft penalty the EMA-chase gradient simply
+out-pulls (std max 15.85 with the hinge ACTIVE the whole way) — and the
+chase itself appears to ride on the mean, not the spread. Two-sided
+variance guarding is the wrong lever for the dominant failure mode.
+
+**stability_v3 closes NO-GO.** The two-sided guard stays in the code
+(pre-registered clause: strictly safer than one-sided, zero loss-level
+cost at healthy operating points) but the temporal gate's prerequisite —
+a 160-epoch-stable recipe — remains OPEN. The named next registrations
+(each its own campaign, none flown here): a center hinge (|z.mean(dim=0)|
+penalty — the symmetric twin of the std hinge), target-side latent
+normalization, or an EMA momentum schedule.
+
+### The stability arc's standing state (three campaigns, three honest negatives)
+
+- v1 [1,4]: ceiling binds at the recipe's healthy point -> space contracts
+  onto the lower hinge; apex ranking pays. Rule: the band must clear the
+  recipe's own operating point.
+- v2 [1,8] + C0: dead ops are not draw-neutral on MPS (recipe identity
+  includes the op graph); same-code determinism reconfirmed at the tensor
+  level; first measured 96-res draw spread (~0.02 dense) — single-draw
+  apex-preservation bars are un-gradable.
+- v3 [1,8] @ 160: the explosion is center-drift dominated (|z| 42), the
+  std hinge is overpowered and orthogonal to the main mode. The lever for
+  "duration stability" lives on the MEAN / the EMA target, not the spread.
