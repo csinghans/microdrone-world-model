@@ -13,6 +13,7 @@ Run:
 """
 
 import argparse
+import os
 import sys
 import time
 
@@ -93,7 +94,37 @@ def measure_latency(policy, n: int = 50) -> float:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument(
+        "--ckpt",
+        default=None,
+        help="bill a candidate checkpoint (analytic [budget] line only; "
+        "replaces the ad-hoc heredoc the perception campaigns used)",
+    )
+    ap.add_argument(
+        "--img-res",
+        type=int,
+        default=None,
+        help="camera resolution to bill at (default: the checkpoint's meta)",
+    )
     args = ap.parse_args()
+
+    if args.ckpt:
+        from world_model.training import load_model
+
+        enc, pred, cheads, nhead, meta = load_model(args.ckpt, device="cpu")
+        res = int(args.img_res or meta.get("img_res", IMG_RES))
+        budget = onboard_budget(enc, pred, cheads, nhead, img_res=res)
+        gap8_ms = budget["macs_decision"] / (GAP8_GMACS * 1e9) * 1000
+        name = os.path.splitext(os.path.basename(args.ckpt))[0]
+        fits = "OK" if budget["total_kb"] < GAP8_BUDGET_KB else "OVER"
+        print(
+            f"[budget] {name}: total={budget['total_kb']:.1f}KB "
+            f"macs={budget['macs_decision'] / 1e6:.1f}M est={gap8_ms:.0f}ms "
+            f"(D={meta.get('D', 64)} img_res={res}) {fits}"
+        )
+        if args.selftest:
+            assert budget["total_kb"] < GAP8_BUDGET_KB, "over the GAP8 budget"
+        return
 
     from eval.eval_closed_loop import load_or_train
 

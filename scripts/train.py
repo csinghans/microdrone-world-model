@@ -99,6 +99,8 @@ def train_world_model(args) -> None:
     print(
         f"WORLD-MODEL OK: {m['n_train']} train seqs, "
         f"latent MSE@32={m['mse'][-1]:.3f} (no-op {m['noop'][-1]:.3f}), "
+        f"z-std med/max={m['zstd_med']:.2f}/{m['zstd_max']:.2f} "
+        f"(|z| {m['zabs']:.2f}), "
         f"AUC@{h_str}={auc_str}{world_str}, now-AUC={m['now_auc']:.2f}{gnd_str}, "
         f"veer-ranking={m['side']:.2f} (n={m['n_side']}), "
         f"int8 weights={m['int8_kb']:.1f} KB (<{GAP8_BUDGET_KB} fits), saved {out}"

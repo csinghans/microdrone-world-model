@@ -376,6 +376,12 @@ def train(
         noop_h = (
             ((z_val_last.unsqueeze(1) - z_tgt) ** 2).mean(dim=(0, 2)).cpu().numpy()
         )  # predictor does nothing: "the future frame looks like this frame"
+        # latent-scale instruments (stability_v1): the x13 explosion was only
+        # ever inferred from no-op MSE — report the scale directly
+        z_std = z_val_last.std(dim=0)
+        zstd_med = float(z_std.median())
+        zstd_max = float(z_std.max())
+        zabs = float(z_val_last.abs().mean())
         scores = torch.sigmoid(cheads(z_hat)).cpu().numpy()[:, :, 0]  # warn ring
     auc_h = [roc_auc(scores[:, i], c_h[va][:, i, 0]) for i in range(len(HORIZONS))]
     # v0.2: the slice that matters — AUC@32 per world kind, when worlds exist
@@ -449,6 +455,9 @@ def train(
     metrics = {
         "mse": mse_h,
         "noop": noop_h,
+        "zstd_med": zstd_med,
+        "zstd_max": zstd_max,
+        "zabs": zabs,
         "auc": auc_h,
         "auc_by_world": auc_by_world,
         "now_auc": now_auc,
