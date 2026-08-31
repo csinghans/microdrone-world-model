@@ -106,3 +106,51 @@ Fix: `_fit` moves to the reference power (600 full-batch steps, lr 0.02,
 wd 1e-3, unchanged); same registration, same arms, same bars, rerun.
 (The first run's numbers are recorded above for the log's sake and carry
 no verdict weight.)
+
+---
+
+## Final verdict — 2026-08-31: NO-GO at the latent level — the previous glance is not IN the latent
+
+Rerun at reference fit power (log `output/tp1_run2.log`,
+`probe_results.json`; 3 head seeds, mean with spread):
+
+| arm | all | classic | dense | moving | +KB int8 | vs bars |
+|---|---|---|---|---|---|---|
+| A0 frozen heads | 0.8807 | 0.7882 | 0.9965 | 0.8891 | 0 | reproduces wmck digit-for-digit |
+| A single-frame head | 0.8916 | 0.8014 | 0.8284 (spread 0.22) | 0.8986 (0.015) | +4.1 | validity: |A−A0| moving 0.0095 <= 0.02 — **instrument VALID** |
+| B diff (z_t − z_{t−4}) | 0.8739 | 0.8258 | 0.9266 | 0.8810 (0.057) | +8.1 | moving −0.018 vs A — FAIL |
+| C gru (K=8, ~167 ms) | 0.8941 | 0.8248 | 0.9309 | 0.9015 (0.007) | +104.8 | moving +0.003 vs A — FAIL (needed +0.03) |
+
+**Neither temporal arm reaches A + 0.03 -> NO-GO, per the frozen bar: the
+moving residue is NOT recoverable from latent-level motion at 96 px.**
+
+Mechanism reading (recorded, two-tier language): a single-frame encoder
+trained with single-frame objectives has already destroyed the motion —
+Δz between two encodings of a sub-pixel-shifted scene is encoder noise
+(B's moving spread 0.057 is the widest in the table), and the GRU's small,
+BROAD gains (dense +0.10, classic +0.02 over A) are it stabilizing a weak
+fresh head, not reading velocity. The frozen cheads' dense 0.9965 towering
+over every fresh head's dense (0.83–0.93, spreads to 0.22) is the same
+lesson from the head side: dense discrimination lives in deep training,
+not in the probe.
+
+**What survives, named:** the temporal hypothesis moves DOWN a level — to
+the pixels. A two-frame INPUT (e.g. 6-channel stacked frames, or a frame
++ frame-difference channel) lets the ENCODER see motion before the latent
+bottleneck discards it. That is an 80-epoch recipe knob and is therefore
+NOT gated by the stability arc's open 160-epoch problem; it IS subject to
+the draw-noise discipline stability_v2 measured (single-draw spread ~0.02
+dense — effects must be large or arms must be >=3 draws). Candidate name:
+`temporal_v1_pixel`. The higher-frame-rate axis (finer stride at the
+sensor) stays parked behind it.
+
+Probe heads stay journal-side, unlocked; nothing is adopted (the
+instruments predict, never certify).
+
+## Status
+
+- [x] Pre-registered before any number (9be8a7b)
+- [x] Validity bar tripped once, harness fixed at reference power (rule 6, bf40fef)
+- [x] Instrument valid on rerun (A0 exact; |A − A0| moving 0.0095)
+- [x] NO-GO recorded — latent-level motion refuted; pixel-level named
+- [ ] `temporal_v1_pixel` — awaits its own pre-registration
