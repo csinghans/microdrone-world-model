@@ -34,8 +34,12 @@ def ema_update(target: nn.Module, online: nn.Module, m: float = EMA_M) -> None:
 
 
 VAR_LO = 1.0  # collapse hinge: per-dim std must not fall below this
-VAR_HI = 4.0  # inflation hinge: healthy champions sit <= 2.53; the exploding
-# 160-epoch 96d128 run reached 12.0 (stability_v1 pre-registration)
+VAR_HI = 8.0  # inflation hinge. stability_v1 measured the design rule the
+# hard way: a ceiling must clear the RECIPE'S OWN healthy operating point
+# (96d128 @ 80 ep: std max 6.44), not just other recipes' (64-res champions
+# <= 2.53) — at 4.0 the whole space re-equilibrated onto the lower hinge and
+# moving ranking paid 0.054. 8.0 sits above 6.44 and below the measured
+# explosion (12.05). Revision pre-registered as stability_v2.
 
 
 def variance_guard(z: torch.Tensor) -> torch.Tensor:
