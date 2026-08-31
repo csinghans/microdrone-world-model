@@ -115,24 +115,33 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Open, in order of pull
 
-1. **Time — now at the pixel level.** The latent-level reading of "the
-   previous glance" is measured DEAD (`temporal_probe_v1`, 2026-08-31):
-   on the frozen wm_96d128, a Δz head reads moving BELOW the
-   single-frame control and a GRU head gains +0.003 where +0.03 was the
-   bar — the single-frame encoder destroys motion before any probe can
-   read it. What survives is `temporal_v1_pixel`: two-frame INPUT to
-   the encoder (stacked frames / frame-difference channel), an
-   80-epoch knob NOT gated by the still-open 160-epoch stability
-   problem, but subject to the measured draw-noise discipline below.
+1. **Time — closed at this generation's diet; what remains is the
+   instrument.** Both readings of "the previous glance" are measured
+   dead (2026-08-31): from the frozen latent (`temporal_probe_v1` — a
+   Δz head reads moving BELOW the single-frame control, a GRU gains
+   +0.003 vs a +0.03 bar) and fed to the eyes (`temporal_v1_pixel` —
+   the two-frame arm's 3-draw moving mean lands 0.027 below the
+   single-frame mean, one draw breaks the veer guard). The pixel
+   campaign's 3-draw design produced the tier's re-framing finding:
+   per-world draw spreads run 0.14–0.23 at this diet, the apex row of
+   record is the TOP of its own draw distribution, and +0.03-scale
+   offline questions are measurably unanswerable here. The honest ways
+   forward, each its own campaign: a BIGGER diet/holdout (data is the
+   binding resource), or the 96-px closed-loop flight gate the
+   "instruments predict, never certify" law always pointed at.
+   Post-hoc lead, recorded without claim: two-frame input lifts the
+   dense FLOOR (min 0.949 vs 0.769) — a regularizer-shaped question
+   for whoever returns with a resolving instrument.
    Separately, the stability arc (stability_v1/v2/v3, three honest
    negatives) closed the variance-guard route and named the real
    160-epoch runaway: CENTER drift (|z| 42 vs std ~5.5) — a std hinge
    cannot constrain it; the open levers are a center hinge,
    target-side normalization, or an EMA momentum schedule. The guard
-   ships two-sided [1, 8] (free at healthy points). New instrument
-   law, measured: dead ops reshuffle the seed-0 draw (recipe identity
-   includes the op graph), 96-res single-draw spread reaches ~0.02
-   dense — model-axis certification needs ≥3 draws or flight gates.
+   ships two-sided [1, 8] (free at healthy points). Instrument laws,
+   measured: dead ops reshuffle the seed-0 draw (recipe identity
+   includes the op graph); model-axis certification needs ≥3 draws or
+   flight gates — and at this diet, even 3 draws resolve only large
+   effects.
 2. **The dense frontier — the cheap tier is CLOSED by exhaustion**
    (kept here so nobody re-digs): not metric grounding at λ∈{0.1, 0.5}
    (v0.5 M2), not a global calibration error (head_calibration C0),

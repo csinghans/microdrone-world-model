@@ -52,6 +52,24 @@
   open 160-epoch problem does not gate, subject to the measured ~0.02
   draw-noise discipline).
 
+- **gate(temporal_v1_pixel): NO-GO — the temporal hypothesis dies at both
+  levels, and the tier's first 3-draw gate re-frames the instrument.**
+  The two-frame input knob (`--two-frame`: 6-channel stacked frames at
+  the planner's ~83 ms stride, threaded end to end through encoder /
+  training / meta / instruments / budget) flew the tier's first
+  pre-registered ≥3-draw model-axis gate: 2f seeds {0,1,2} vs 1f seeds
+  {1,2} + the apex row. Primary FAIL (2f moving mean 0.7899, 0.027 BELOW
+  the 1f mean; one 2f draw breaks the veer guard at 0.267). The deeper
+  finding: honest 3-draw rows show per-world draw spreads of 0.14
+  (moving) to 0.23 (dense) — **the apex row of record is the top of its
+  own draw distribution**, and +0.03-scale offline questions are
+  measurably unanswerable at this diet. The tier's LARGE effects
+  (+0.077 pixels, −0.37 strips, −0.19 at 128) survive the re-read; its
+  fine-grained residue clauses do not. Post-hoc, recorded without claim:
+  2f lifts the dense floor (min 0.949 vs 0.769). Budget honest:
+  319.3 KB / est 23 ms. What remains for "time": a bigger diet or a
+  96-px closed-loop gate — each its own campaign.
+
 - **Docs de-drifted**: CI is manual `workflow_dispatch` (since `d9e8e85`) —
   CLAUDE/AGENTS/ONBOARDING/CONTRIBUTING now say so; ROADMAP's "Open, in
   order of pull" caught up with three closed items (corridor-slalom crowned,

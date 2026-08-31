@@ -13,12 +13,16 @@ capacity pincer at the sweet spot (96×D128) landed all three
 pre-registered recoveries (veer double-perfect, dense 0.9965,
 saturation 0.31), missing a full pass by 0.013 on classic — the
 closest in fifteen retrains. The residue is NAMED: the moving world
-and the open-space over-warn are single-frame symptoms; the next
-question is the previous glance (temporal input) — measured at the
-latent level and refuted there (temporal_probe_v1: a frozen latent
-carries no readable motion), so the live form is two-frame pixel
-input; the 160-epoch instability itself was mapped by the stability
-arc to CENTER drift, which no variance hinge constrains. Also banked: v0.5's law one level down — the record offline
+and the open-space over-warn are single-frame symptoms; the previous
+glance (temporal input) was then measured dead at BOTH levels — a
+frozen latent carries no readable motion (temporal_probe_v1), and a
+second glance at the pixels buys nothing the draw noise can't explain
+(temporal_v1_pixel, the tier's first 3-draw gate: per-world spreads
+0.14-0.23 dwarf +0.03 questions at this diet, and the apex row is the
+top of its own draw distribution). The 160-epoch instability was
+mapped by the stability arc to CENTER drift, which no variance hinge
+constrains. What remains for time: a bigger diet, or the 96-px
+closed-loop gate. Also banked: v0.5's law one level down — the record offline
 generalist (wm_3x) flies catastrophically (false-evasion 100 %);
 instruments predict, only the closed loop certifies, so wm_96d128
 stands as the offline dense apex (264 KB / ~17 ms) — surveyed, not
