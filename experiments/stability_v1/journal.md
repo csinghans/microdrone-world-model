@@ -165,3 +165,19 @@ explosion's 12.05 — with the K0 control re-run as a REGISTERED bit-identity
 prediction: if the ceiling truly never binds at 80 epochs, seed-0
 determinism should reproduce the apex, which makes "the band is dead where
 it claims to be" an empirically checkable claim, not a design assertion).
+
+---
+
+## Addendum — 2026-08-31 (post stability_v2/C0): the attribution, re-scoped
+
+stability_v2's C0 control measured that ANY code change — even a dead,
+exactly-zero term — reshuffles the seed-0 draw on MPS (chaotic trajectory
+divergence), and that the 96-res recipe's draw spread between two fair
+draws reaches ~0.02 dense / ~0.02 moving / ~0.07 classic. This K0's
+"causal, not statistical" attribution is therefore re-scoped: the
+MECHANISM stands on physical evidence (the [1,4] ceiling was ACTIVE — the
+std profile collapsed onto the lower hinge, med 2.66 -> 1.00, energy
+halved; no fair re-draw looks like that), but the moving -0.054 MAGNITUDE
+carries draw-noise error bars of order +-0.02 that this campaign could not
+see. The NO-GO verdict is unaffected (the bar is the bar); the effect-size
+language is corrected here for the record.

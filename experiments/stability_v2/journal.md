@@ -135,3 +135,56 @@ diet/seed/flags, `--out experiments/stability_v2/artifacts/wm_96d128_c0.pth`.
   gets re-scoped, and single-run model-axis reads at 96-res inherit the
   ≥3-draw rule immediately.
 No bars move; K1' stays unreleased; the C0 read cannot rescue K0'.
+
+---
+
+## Final verdict — 2026-08-31: NO-GO on the frozen bar — and the C0 control turns the campaign into an instrument finding
+
+C0 (exact v0.17.0 code, worktree at `b250267`, same diet/seed/flags):
+
+| comparison | tensors differing | max abs diff | training print |
+|---|---|---|---|
+| apex vs C0 (same code) | **0** | 0.0 | MSE 5.289 / no-op 7.563 — digit-for-digit the pv2 log |
+| apex vs g3 (band [1,8]) | 28 | 0.692 | MSE 3.750 / no-op 5.930 |
+
+- **Bit-determinism RECONFIRMED at the tensor level** on today's
+  environment. The registered sha-of-FILE check was the wrong instrument:
+  torch's zip container drifted since July (576,275 -> 576,377 bytes,
+  identical tensors, identical meta) — bit-identity claims compare
+  state_dict tensors from here on (rule 6, banked).
+- **Mechanism 1 confirmed, mechanism 2 refuted**: with the C0 control
+  clean, g3's divergence is caused by the PRESENCE of the dead
+  `relu(std - 8)` term — exactly-zero value and gradient, but a different
+  MPS kernel schedule; one ulp compounds chaotically over 80 epochs.
+  K0' is therefore a fair re-draw of the frozen recipe, and the
+  apex-vs-g3 deltas (dense 0.9965 -> 0.9779, moving 0.8891 -> 0.8701,
+  classic 0.7882 -> 0.8555) are a DRAW-NOISE measurement at 96-res:
+  the first one this tier has. The ROADMAP instrument rule (single-seed
+  model-axis reads spread; use >=3-draw means or flight gates) now has
+  direct 96-res evidence — and it covers the apex row itself.
+
+**K0' stays NO-GO** (dense 0.9779 < 0.985 — bars are immutable), but the
+bar FRAMEWORK is what the campaign actually measured: a single-draw
+apex-preservation bar cannot price a recipe change at 96-res, because any
+code change — even a provably dead term — reshuffles the draw. The
+two-sided guard stays in the code at [1.0, 8.0] per the pre-registered
+clause, with its reasoning updated: its loss-level effect at healthy
+operating points is exactly zero, its measured single-draw cost is
+inside draw noise (mixed signs across worlds), and it caps the explosion
+path. K1' remains unflown here (its release condition failed).
+
+Banked findings:
+1. Same-code seed-0 training is tensor-level bit-deterministic (2nd
+   confirmation, new environment). File-sha is not the instrument.
+2. Dead ops are not draw-neutral on MPS: recipe identity includes the
+   op graph, not just the math.
+3. First measured 96-res draw spread: dense +-~0.02, moving ~0.02,
+   classic ~0.07 between two draws. Single-draw rows at this tier carry
+   at least that uncertainty — the apex included.
+
+**Disposition**: the BLOCKER's actual question — does the ceiling stop the
+160-epoch explosion? — is still unmeasured (K1' was never released, twice,
+by its own registration). It goes to stability_v3 with STABILITY-level
+bars only, since apex-preservation at n=1 is now measured to be
+un-gradable. stability_v2 closes NO-GO with the instrument re-scope as its
+finding.
