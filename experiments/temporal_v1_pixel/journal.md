@@ -101,3 +101,62 @@ Graded by `eval_wm_checkpoint` on `output/transit_eval_holdout_96.npz`
 ---
 
 (verdicts land below when the queue completes)
+
+---
+
+## Final verdict — 2026-08-31: NO-GO — and the 3-draw design turns the bar itself into the finding
+
+Queue clean (logs `output/tvp_*`; sha brackets green; all five arms flew).
+
+| arm (seed) | classic | dense | moving | veer val/widened |
+|---|---|---|---|---|
+| 2f s0 | 0.8075 | 0.9758 | 0.8727 | 1.000 / 0.972 |
+| 2f s1 | 0.8650 | 0.9490 | 0.7466 | **0.267** / 0.706 |
+| 2f s2 | 0.7155 | 0.9842 | 0.7504 | 1.000 / 1.000 |
+| **2f mean (spread)** | 0.7960 (0.150) | **0.9697 (0.035)** | **0.7899 (0.126)** | 0.756 |
+| 1f s0 = apex (record) | 0.7882 | 0.9965 | 0.8891 | 1.000 / 1.000 |
+| 1f s1 | 0.7397 | 0.7689 | 0.7459 | 1.000 / 0.958 |
+| 1f s2 | 0.8228 | 0.9340 | 0.8143 | 1.000 / 1.000 |
+| **1f mean (spread)** | 0.7836 (0.083) | 0.8998 (**0.228**) | 0.8164 (**0.143**) | 1.000 |
+
+- **Primary FAIL**: mean moving(2f) 0.7899 vs bar 0.8464 (1f mean + 0.03) —
+  the two-frame arm sits 0.027 BELOW the single-frame mean, well inside
+  the measured spread. **Veer guard FAIL** too (2f s1 collapses to 0.267;
+  the per-seed-disagreement clause fires: moving spread 0.126 > 0.05).
+- Budget, honest: 319.3 KB / 11.4 M MACs / est 23 ms per decision
+  (<= 512 KB, <= 83 ms) — affordability was never the blocker.
+- z-std sane in every draw (max <= 3.28; the [1,8] band never bound).
+
+**temporal_v1_pixel closes NO-GO: the temporal hypothesis is now dead at
+BOTH levels for this generation** — read from the latent
+(temporal_probe_v1) and fed to the eyes (here). At ~83 ms of baseline,
+96 px, and this diet, a second glance does not buy the moving world.
+
+**The deeper finding is instrumental, and it re-frames the tier.** The
+first honest 3-draw measurement of the frozen recipe shows per-world
+draw spreads of 0.14 (moving) and 0.23 (dense) — the **apex row of
+record (seed 0) is the TOP of its own draw distribution on both dense
+and moving**, i.e. partly a lucky draw. A +0.03 question is therefore
+UNANSWERABLE by offline per-world AUC at this diet size (160/40
+rollouts, 1137 val samples) at any affordable draw count. The
+perception tier's LARGE effects survive this re-read (+0.077 pixels,
+-0.37 strips, -0.19 at 128 res — all outside even this spread); its
+fine-grained residue claims (moving "stuck at ~0.89", classic "by
+0.013") do not — "~0.89" was one draw of a 0.75-0.89 distribution.
+
+Post-hoc observation (recorded, no claim): the 2f arms' dense FLOOR is
+much higher than 1f's (min 0.949 vs 0.769; spread 0.035 vs 0.228) — the
+motion channel may act as a training regularizer for dense ranking.
+If anyone returns here, that is the registered-question-shaped thing to
+chase — with a diet or gate that can actually resolve it.
+
+### What remains for "time", named
+- Offline, this diet: nothing — the axis is measured unanswerable at
+  the effect sizes on the table.
+- The honest instruments left: a BIGGER holdout/diet (more rollouts =
+  tighter means; data is the binding resource, per representation_v1),
+  or the closed-loop flight gate (which is what "the instruments
+  predict, never certify" always pointed at — but no 96-px flight
+  harness exists yet; building one is its own campaign).
+- Sensor axes (frame rate, stride) inherit the same instrument problem
+  and stay parked behind it.
