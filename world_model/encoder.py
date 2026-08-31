@@ -21,10 +21,10 @@ class Encoder(nn.Module):
     the representation campaign varies it — 60°/strips of bearing per bin).
     Old checkpoints carry no `strips` in meta and reconstruct at 4."""
 
-    def __init__(self, d=LATENT_D, strips=4):
+    def __init__(self, d=LATENT_D, strips=4, in_ch=3):
         super().__init__()
         self.features = nn.Sequential(
-            nn.Conv2d(3, 16, 5, stride=2, padding=2),
+            nn.Conv2d(int(in_ch), 16, 5, stride=2, padding=2),
             nn.ReLU(),  # 64 -> 32
             nn.Conv2d(16, 32, 3, stride=2, padding=1),
             nn.ReLU(),  # 32 -> 16
@@ -52,6 +52,9 @@ def selftest() -> None:
     x[..., :32] = 1.0
     dz = (enc(x) - enc(x.flip(-1))).abs().max()
     assert float(dz) > 1e-6, "pooling erased left/right"
+    # the perception tier's two-frame input variant must reconstruct too
+    enc6 = Encoder(in_ch=6)
+    assert enc6(torch.rand(2, 6, 64, 64)).shape == (2, LATENT_D)
     print(f"ENCODER OK: (B,3,64,64)->(B,{LATENT_D}), {n_params} params, side-aware")
 
 

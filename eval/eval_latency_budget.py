@@ -40,8 +40,9 @@ def onboard_budget(enc, pred, cheads, nhead, img_res: int = IMG_RES) -> dict:
     n_params = sum(p.numel() for m in mods for p in m.parameters())
 
     r = int(img_res)
-    sizes, macs_enc = [3 * r * r], 0
-    x = torch.zeros(1, 3, r, r)
+    c_in = int(enc.features[0].in_channels)  # 6 for two-frame input models
+    sizes, macs_enc = [c_in * r * r], 0
+    x = torch.zeros(1, c_in, r, r)
     with torch.no_grad():
         for mod in enc.features:
             x = mod(x)

@@ -39,11 +39,14 @@ def _load_or_make(selftest: bool, data_path: str = None) -> dict:
 
 
 def train_world_model(args) -> None:
-    # the temporal and grounded smokes get a longer leash: an extra objective
-    # moves the shared trunk while the EMA target chases it (GRU: a new
-    # mapping; grounding: metric structure pulled into the latent), so they
-    # converge later — but the predictive-gain claim itself is never waived
-    leash = args.temporal or args.ground
+    # the temporal / grounded / two-frame smokes get a longer leash: a new
+    # mapping moves the shared trunk while the EMA target chases it (GRU: a
+    # new state; grounding: metric structure; two-frame: a 6-channel input
+    # the encoder must relearn from scratch), so they converge later at toy
+    # scale — but the predictive-gain claim itself is never waived
+    # (measured 2026-08-31: the 2f smoke reads AUC@32 0.66 at 60 epochs,
+    # with AUC@8 already 0.98 — slow convergence, not a dead head)
+    leash = args.temporal or args.ground or args.two_frame
     epochs = (120 if leash else 60) if args.selftest else args.epochs
     data = _load_or_make(args.selftest, args.data)
     if args.strips:  # MPS AdaptiveAvgPool needs divisible sizes — fail LOUD
@@ -59,6 +62,11 @@ def train_world_model(args) -> None:
         rep["latent_d"] = args.latent_d
     if args.strips is not None:
         rep["strips"] = args.strips
+    if args.two_frame:  # perception-tier temporal input (one knob at a time)
+        if args.temporal:
+            raise SystemExit("--two-frame and --temporal are separate knobs")
+        rep["in_frames"] = 2
+        rep["frame_stride"] = args.frame_stride
     ckpt, m = train(
         data,
         epochs=epochs,
@@ -79,6 +87,8 @@ def train_world_model(args) -> None:
         out = base.replace(".pth", "_robust.pth")
     if args.ground and not args.selftest:
         out = out.replace(".pth", "_ground.pth")
+    if args.two_frame and not args.selftest:
+        out = out.replace(".pth", "_2f.pth")
     if args.out and not args.selftest:  # gate runs park checkpoints elsewhere
         out = args.out
     os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -181,6 +191,10 @@ def main() -> None:
     # representation knobs (defaults = the deployed architecture)
     ap.add_argument("--latent-d", type=int, default=None, help="latent width")
     ap.add_argument("--strips", type=int, default=None, help="lateral pool bins")
+    # perception-tier temporal input (v0.18 knob): stack the frame taken
+    # frame-stride control steps earlier as 3 extra input channels
+    ap.add_argument("--two-frame", action="store_true")
+    ap.add_argument("--frame-stride", type=int, default=4)  # = DECIDE_EVERY
     # policy knobs
     ap.add_argument("--timesteps", type=int, default=300_000)
     ap.add_argument("--recurrent", action="store_true")

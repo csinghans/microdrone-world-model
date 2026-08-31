@@ -45,11 +45,22 @@ def evaluate(ckpt_path: str, data: dict, seed: int = 0) -> dict:
     per-world AUC@32, overall AUC per horizon, danger-now AUC (all at val),
     and veer-ranking on val rollouts + widened to all rollouts."""
     device = "mps" if torch.backends.mps.is_available() else "cpu"
-    enc, pred, cheads, nhead, _meta = load_model(ckpt_path, device)
-    return evaluate_components(enc, pred, cheads, nhead, data, seed, device)
+    enc, pred, cheads, nhead, meta = load_model(ckpt_path, device)
+    return evaluate_components(
+        enc,
+        pred,
+        cheads,
+        nhead,
+        data,
+        seed,
+        device,
+        frame_stride=int(meta.get("frame_stride", 4)),
+    )
 
 
-def evaluate_components(enc, pred, cheads, nhead, data, seed=0, device="cpu"):
+def evaluate_components(
+    enc, pred, cheads, nhead, data, seed=0, device="cpu", frame_stride=4
+):
     """The same scoring loop on already-loaded modules — the seam through
     which candidate/quantized components are graded on the identical split
     without any checkpoint swap (int8_parity_v1). `evaluate` is a thin
@@ -63,8 +74,16 @@ def evaluate_components(enc, pred, cheads, nhead, data, seed=0, device="cpu"):
     va = np.where(np.isin(idx[:, 0], va_rolls))[0]
     R, L = data["frames"].shape[:2]
 
-    def frames_at(pairs):  # (n,2) [r,t] -> (n,3,64,64) float on device
+    # two-frame checkpoints (in_ch=6) get the same stacked input the
+    # training side builds: current frame + the clamped previous frame
+    in_frames = int(enc.features[0].in_channels) // 3
+    stride = int(frame_stride)
+
+    def frames_at(pairs):  # (n,2) [r,t] -> (n,C,H,W) float on device
         x = np.stack([data["frames"][r, t] for r, t in pairs])
+        if in_frames == 2:
+            xp = np.stack([data["frames"][r, max(t - stride, 0)] for r, t in pairs])
+            x = np.concatenate([x, xp], axis=-1)
         x = torch.tensor(x, dtype=torch.float32, device=device)
         return x.permute(0, 3, 1, 2) / 255.0
 
@@ -112,8 +131,26 @@ def evaluate_components(enc, pred, cheads, nhead, data, seed=0, device="cpu"):
                 auc_by_world[wn[w] if w < len(wn) else str(w)] = roc_auc(
                     scores[m][:, -1], c_h[va][m][:, -1, 0]
                 )
-    side_val, n_val = veer_ranking(data, va_rolls, enc, pred, cheads, device)
-    side_all, n_all = veer_ranking(data, range(R), enc, pred, cheads, device)
+    side_val, n_val = veer_ranking(
+        data,
+        va_rolls,
+        enc,
+        pred,
+        cheads,
+        device,
+        in_frames=in_frames,
+        frame_stride=stride,
+    )
+    side_all, n_all = veer_ranking(
+        data,
+        range(R),
+        enc,
+        pred,
+        cheads,
+        device,
+        in_frames=in_frames,
+        frame_stride=stride,
+    )
     return {
         "auc_h": auc_h,
         "auc_by_world": auc_by_world,

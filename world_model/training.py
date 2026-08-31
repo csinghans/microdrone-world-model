@@ -108,7 +108,17 @@ def _split_rollouts(data: dict, rng: np.random.Generator) -> tuple:
     return sorted(tr), sorted(va)
 
 
-def veer_ranking(data: dict, rolls, enc, pred, cheads, device, tgru=None) -> tuple:
+def veer_ranking(
+    data: dict,
+    rolls,
+    enc,
+    pred,
+    cheads,
+    device,
+    tgru=None,
+    in_frames: int = 1,
+    frame_stride: int = 4,
+) -> tuple:
     """The action-conditioning acceptance check, scored against a *geometric*
     ground truth. On held-out cruise frames, roll each veer command forward
     kinematically for the longest horizon and measure the true minimum
@@ -153,7 +163,11 @@ def veer_ranking(data: dict, rolls, enc, pred, cheads, device, tgru=None) -> tup
             if rel[0] <= float(np.linalg.norm(rel)) * cos_fov:
                 continue  # threat outside the camera FOV: unanswerable from vision
             if tgru is None:
-                frames.append(data["frames"][r, t])
+                if int(in_frames) == 1:
+                    frames.append(data["frames"][r, t])
+                else:  # two-frame pixel input: current + clamped previous
+                    fp = data["frames"][r, max(t - int(frame_stride), 0)]
+                    frames.append(np.concatenate([data["frames"][r, t], fp], axis=-1))
             else:  # the memory model judges from its K-frame window
                 ws = [
                     data["frames"][r, max(t - K_WIN + 1 + j, 0)] for j in range(K_WIN)
@@ -198,6 +212,8 @@ def train(
     ground_lambda: float = LAMBDA_GND,
     latent_d: int = LATENT_D,
     strips: int = 4,
+    in_frames: int = 1,
+    frame_stride: int = 4,
 ) -> tuple:
     """Train the nano world model on a sequence-format dataset dict and return
     (checkpoint dict, metrics dict). `robust=True` adds appearance
@@ -262,13 +278,23 @@ def train(
     )
     cands = torch.tensor(ACTION_VECS / A_NORM).to(device)
 
-    def frames_at(flat_idx):  # uint8 (N,64,64,3) -> float (N,3,64,64)
-        return flat[flat_idx].permute(0, 3, 1, 2).float() / 255.0
+    in_frames, f_stride = int(in_frames), int(frame_stride)
+
+    def frames_at(flat_idx):  # uint8 (N,H,W,3) -> float (N,C,H,W)
+        x = flat[flat_idx].permute(0, 3, 1, 2).float() / 255.0
+        if in_frames == 1:
+            return x
+        # two-frame pixel input: stack the frame f_stride steps earlier,
+        # clamped at the rollout start (the training-side window convention)
+        start = (flat_idx // L) * L
+        prev = torch.maximum(flat_idx - f_stride, start)
+        xp = flat[prev].permute(0, 3, 1, 2).float() / 255.0
+        return torch.cat([x, xp], dim=1)
 
     d, strips = int(latent_d), int(strips)
     enc, tgt = (
-        Encoder(d=d, strips=strips).to(device),
-        Encoder(d=d, strips=strips).to(device),
+        Encoder(d=d, strips=strips, in_ch=3 * in_frames).to(device),
+        Encoder(d=d, strips=strips, in_ch=3 * in_frames).to(device),
     )
     tgt.load_state_dict(enc.state_dict())
     for p in tgt.parameters():
@@ -422,11 +448,29 @@ def train(
             else None
         )
     now_auc = roc_auc(now_scores, now_lbl)
-    side, n_side = veer_ranking(data, va_rolls, enc, pred, cheads, device, tgru=tgru)
+    side, n_side = veer_ranking(
+        data,
+        va_rolls,
+        enc,
+        pred,
+        cheads,
+        device,
+        tgru=tgru,
+        in_frames=in_frames,
+        frame_stride=f_stride,
+    )
     if n_side < 20:  # tiny val sets may lack decision-relevant geometry; the
         # probe never trains on labels, so widening it stays meaningful
         side, n_side = veer_ranking(
-            data, range(data["frames"].shape[0]), enc, pred, cheads, device, tgru=tgru
+            data,
+            range(data["frames"].shape[0]),
+            enc,
+            pred,
+            cheads,
+            device,
+            tgru=tgru,
+            in_frames=in_frames,
+            frame_stride=f_stride,
         )
         print("[INFO] veer-ranking widened to all rollouts (val had too few frames)")
 
@@ -450,6 +494,8 @@ def train(
             "action_names": list(ACTION_NAMES),
             "action_vecs": [[float(v) for v in row] for row in ACTION_VECS],
             "seed": int(seed),
+            "in_frames": in_frames,  # 2 = two-frame pixel input (v0.18 knob)
+            "frame_stride": f_stride,
         },
     }
     metrics = {
@@ -495,7 +541,8 @@ def load_model(path: str = MODEL, device: str = "cpu"):
     # (which carries D=64 and no strips key) reconstructs BIT-IDENTICALLY
     d = int(meta.get("D", 64))
     strips = int(meta.get("strips", 4))
-    enc = Encoder(d=d, strips=strips).to(device)
+    in_frames = int(meta.get("in_frames", 1))  # absent in old ckpts (=1)
+    enc = Encoder(d=d, strips=strips, in_ch=3 * in_frames).to(device)
     pred = MultiPredictor(d=d).to(device)
     cheads, nhead = CollisionHeads(d=d).to(device), DangerNowHead(d=d).to(device)
     enc.load_state_dict(ckpt["encoder"])
