@@ -33,6 +33,13 @@
    "what": "the moving-gap v2 champion (also threads the closing door zero-shot)"
   },
   {
+   "name": "ppo_anchor_sched_edge.zip",
+   "dest": "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip",
+   "sha256": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+   "track": "slalom_v2",
+   "what": "the slalom-v2 champion (BC2 + anchored-schedule FT + edge_bias; crowned at pooled 84/120, all guards green — the eleventh sitting; bit-identical twin graded from experiments/anchor_dial/artifacts_local/)"
+  },
+  {
    "name": "target_head_yaw.pt",
    "dest": "output/target_head_yaw.pt",
    "sha256": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",

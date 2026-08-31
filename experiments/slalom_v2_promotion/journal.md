@@ -142,3 +142,22 @@ Measured-only observation (no cross-skill claim): the champion's
 guard reads (gap 0.967, mgap 0.883) sit at-or-above those skills' own
 champion records — the first five-world artifact with no red cell on
 this gate. Cross-skill promotion, if ever, is each skill's own gate.
+
+---
+
+## Lock entry — 2026-08-31 (the crown becomes restorable)
+
+The champion zip enters `artifacts.lock.json` and the standing
+`champions-2026-07` release (the 2026-08-20 review's YELLOW item):
+
+- `experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip`,
+  1,511,904 bytes, sha256
+  `8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba`.
+- Identity note: the promotion's graded artifact path in
+  `eleventh_sitting_results.json` / `eleventh_recheck_block.json` is the
+  anchor_dial twin (`experiments/anchor_dial/artifacts_local/…`) — verified
+  bit-identical (same sha) before upload, so the lock's provenance claim
+  holds via that identity.
+- Upload verified by download-back (bit-identical);
+  `fetch_champions --check` / `--selftest` and `flight_mode --verify` green
+  (9 pinned artifacts). No flight-mode binding: a policy zip, no `wm` field.
