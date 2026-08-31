@@ -106,3 +106,62 @@ both arms — the perception-tier instruments keep the record comparable.
 ---
 
 (verdicts land below when the queue completes)
+
+---
+
+## Final verdict — 2026-08-31: K0 NO-GO (the band is wrong, and now we know exactly how)
+
+Queue record (logs `output/sv1_*`): sha bracket pre green; K0 trained and
+was graded by all four instruments; the K0 bar-gate STAGE was then killed
+by the OS (SIGKILL, out-of-memory — the heredoc re-ran `evaluate()` with a
+full model + dataset load in-process). `set -e` did its job: K1 never ran.
+Harness error recorded per rule 6 — the gate is rebuilt to PARSE the
+already-written instrument logs instead of re-running the instrument
+(stability_v2's queue). The reads below come from the instruments that ran
+to completion; the frozen bars are applied to them unchanged.
+
+| read (K0, 80 ep, band [1.0, 4.0]) | value | bar | verdict |
+|---|---|---|---|
+| dense AUC@32 (holdout) | 0.9902 | >= 0.985 | pass |
+| classic | 0.8339 | >= 0.7682 | pass (+0.046 vs baseline) |
+| **moving** | **0.8348** | >= 0.8691 | **FAIL (-0.054 vs baseline)** |
+| veer val / widened | 1.0000 / 0.9790 | both >= 0.95 | pass |
+| val z-std max | 1.74 | <= 4.5 | pass |
+| budget | 264.2 KB / 17 ms | unchanged | pass |
+| all@32 (recorded) | 0.8411 | — | baseline 0.8807 |
+| latent MSE / no-op (recorded) | 2.162 / 2.845 | — | baseline pair 5.289 / 7.563 |
+| secondary: dense warn saturation | 0.2747 | — | baseline 0.3080 (improved) |
+| secondary: recal K0b/K0c | FAIL rows | — | recorded, non-gating |
+
+**K0 is NO-GO on one bar, and the attribution is clean.** Seed-0 training
+is bit-deterministic on this harness (measured in representation_v1:
+control == unified, draw-noise floor 0), so the moving deficit is CAUSED by
+the single knob — the ceiling at 4.0 — not by run variance.
+
+**The mechanism, named:** the ceiling did not clip the top of the latent
+scale; it re-equilibrated the WHOLE space onto the lower hinge. Baseline
+per-dim std med/max 2.66/6.44 -> K0 1.00/1.74, |z| 6.7 -> 3.9, latent
+energy halved (no-op 7.56 -> 2.85). Stability was bought (z-std bounded,
+scale sane) — but the apex's moving ranking LIVED in the spread between
+~2.5 and ~6.4 that the band forbade. A guard set to be "dead at every
+shipped champion's operating point" was dead for the 64-res champions and
+BINDING at the 96d128 recipe's own healthy operating point (max 6.44 > 4.0)
+— the design rule was right, the reference set was wrong: the ceiling must
+be dead at THIS recipe's healthy point, not at some other recipe's.
+
+Banked findings:
+1. Two-sided variance guard at [1, 4] on the 96-res/D128 recipe: stability
+   yes, apex no — moving pays 0.054, all pays 0.040, classic gains 0.046,
+   dense holds. The trade is real and now priced.
+2. The upper hinge acts globally (space contraction), not locally (tail
+   clipping) — any revised band must clear the recipe's own measured
+   healthy maximum with margin.
+
+Per the pre-registration: VAR_HI is NOT tuned into passing inside this
+campaign. K1 stays unflown (its release condition failed). **stability_v1
+closes NO-GO**; the revised band goes through a NEW pre-registration
+(stability_v2: ceiling 8.0 — above this recipe's healthy 6.44, below the
+explosion's 12.05 — with the K0 control re-run as a REGISTERED bit-identity
+prediction: if the ceiling truly never binds at 80 epochs, seed-0
+determinism should reproduce the apex, which makes "the band is dead where
+it claims to be" an empirically checkable claim, not a design assertion).
