@@ -18,7 +18,8 @@ import torch.nn as nn
 
 from world_model.encoder import LATENT_D
 
-K_WIN = 8  # training window (~0.67 s @ 12 Hz decisions on 48 Hz frames)
+K_WIN = 8  # training window: 8 consecutive 48 Hz frames = ~167 ms
+# (the old "~0.67 s" comment was wrong — that would be K=32)
 
 
 class TemporalEncoder(nn.Module):
