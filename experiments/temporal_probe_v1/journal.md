@@ -86,3 +86,23 @@ Stated out loud, before any number:
 ## Results
 
 (land below when the run completes)
+
+---
+
+## Mid-campaign record — 2026-08-31: the validity bar trips (as designed); the fit was under-powered
+
+First run of record (log `output/tp1_run.log`): A0 reproduces the
+eval_wm_checkpoint row EXACTLY (all 0.8807 / classic 0.7882 / dense 0.9965
+/ moving 0.8891) — the scoring pipeline is right. But A (the fresh-head
+control) reads moving 0.8615, which is 0.0276 from A0 — outside the
+registered ±0.02 — with dense 0.7494 at a 0.21 head-seed spread. Per the
+frozen bar: STOP, no science read.
+
+Root cause (rule 6, harness): `_fit` trained ~96 minibatch steps at
+lr 1e-3 — far below the repo's reference frozen-latent head recipe
+(`search/target_detector.py`: 600 FULL-batch steps at lr 0.02). The
+control head is under-trained, so every arm's read is noise-limited.
+Fix: `_fit` moves to the reference power (600 full-batch steps, lr 0.02,
+wd 1e-3, unchanged); same registration, same arms, same bars, rerun.
+(The first run's numbers are recorded above for the log's sake and carry
+no verdict weight.)

@@ -124,21 +124,21 @@ def _features(z, pairs):
     return z_t, dz, win
 
 
-def _fit(model, feats, y, device, epochs=8, batch=512, lr=1e-3, wd=1e-3):
+def _fit(model, feats, y, device, steps=600, lr=2e-2, wd=1e-3):
+    """The repo's reference frozen-latent head recipe (target_detector.fit:
+    full-batch Adam, 600 steps, lr 0.02). The first run of record used a
+    ~96-step minibatch variant and under-trained the control arm — the
+    campaign's validity bar caught it (rule 6)."""
     model.to(device).train()
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
     lossf = nn.BCEWithLogitsLoss()
-    yt = torch.tensor(y, dtype=torch.float32)
-    n = len(yt)
-    for _ in range(epochs):
-        order = torch.randperm(n)
-        for i in range(0, n, batch):
-            b = order[i : i + batch]
-            fb = {k: v[b].to(device) for k, v in feats.items()}
-            opt.zero_grad()
-            loss = lossf(model(fb), yt[b].to(device))
-            loss.backward()
-            opt.step()
+    fb = {k: v.to(device) for k, v in feats.items()}
+    yt = torch.tensor(y, dtype=torch.float32, device=device)
+    for _ in range(steps):
+        opt.zero_grad()
+        loss = lossf(model(fb), yt)
+        loss.backward()
+        opt.step()
     model.eval()
     return model
 
@@ -168,7 +168,7 @@ def _world_names(data):
     return ["classic", "dense", "moving"]
 
 
-def run(ckpt, train_data, score_data, seeds, device, fit_epochs=8):
+def run(ckpt, train_data, score_data, seeds, device, fit_steps=600):
     """Grade all arms; returns the results dict (the campaign's record)."""
     enc, pred, cheads, nhead, meta = load_model(ckpt, device=device)
     dtr = train_data if hasattr(train_data, "keys") else np.load(train_data)
@@ -212,7 +212,7 @@ def run(ckpt, train_data, score_data, seeds, device, fit_epochs=8):
             "split_seed": seed_split,
             "n_train": int(len(pairs_tr)),
             "n_score": int(len(pairs_sc)),
-            "fit_epochs": fit_epochs,
+            "fit_steps": fit_steps,
         },
         "a0_frozen_heads": _auc_by_world(a0, y_sc, wid_sc, wn_sc),
         "arms": {},
@@ -239,7 +239,7 @@ def run(ckpt, train_data, score_data, seeds, device, fit_epochs=8):
         per_seed = {}
         for s in seeds:
             torch.manual_seed(s)
-            model = _fit(mk(), feats_tr, y_tr, device, epochs=fit_epochs)
+            model = _fit(mk(), feats_tr, y_tr, device, steps=fit_steps)
             per_seed[str(s)] = _auc_by_world(
                 _score(model, feats_sc, device), y_sc, wid_sc, wn_sc
             )
@@ -275,7 +275,7 @@ def main() -> None:
     ap.add_argument("--train-data", default="output/combined_96.npz")
     ap.add_argument("--score-data", default="output/transit_eval_holdout_96.npz")
     ap.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2])
-    ap.add_argument("--fit-epochs", type=int, default=8)
+    ap.add_argument("--fit-steps", type=int, default=600)
     ap.add_argument("--out", default=None)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
@@ -292,7 +292,7 @@ def main() -> None:
         ckpt, _ = train(data_tr, epochs=2, batch=64, seed=0)
         path = os.path.join(tempfile.mkdtemp(), "wm_tprobe_selftest.pth")
         torch.save(ckpt, path)
-        r = run(path, data_tr, data_sc, seeds=[0], device=device, fit_epochs=2)
+        r = run(path, data_tr, data_sc, seeds=[0], device=device, fit_steps=50)
         for arm, rec in r["arms"].items():
             for w, v in rec["mean"].items():
                 assert 0.0 <= v <= 1.0, f"{arm}/{w} AUC out of range ({v})"
@@ -316,7 +316,7 @@ def main() -> None:
         args.score_data,
         seeds=args.seeds,
         device=device,
-        fit_epochs=args.fit_epochs,
+        fit_steps=args.fit_steps,
     )
     if args.out:
         os.makedirs(os.path.dirname(args.out), exist_ok=True)
