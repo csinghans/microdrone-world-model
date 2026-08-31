@@ -89,3 +89,49 @@ drift, MPS two-tier language, journal-side artifacts only), plus:
 ---
 
 (verdicts land below when the queue completes)
+
+---
+
+## Mid-campaign record — 2026-08-31: K0' NO-GO on the bars, the sha prediction falsified — and the falsification is the finding
+
+Queue record (logs `output/sv2_*`): the log-parse gate ran cleanly (rule 6
+fix verified — no OOM) and correctly held K1' back.
+
+| read (K0', 80 ep, band [1.0, 8.0]) | value | bar | verdict |
+|---|---|---|---|
+| **dense** | **0.9779** | >= 0.985 | **FAIL** (baseline 0.9965) |
+| classic | 0.8555 | >= 0.7682 | pass (+0.067) |
+| moving | 0.8701 | >= 0.8691 | pass (by 0.001) |
+| veer val / widened | 1.0000 / 0.9860 | >= 0.95 | pass |
+| val z-std max | 4.00 | <= 8.5 | pass |
+| budget | 264.2 KB / 17 ms | unchanged | pass |
+| sha(g3) vs sha(apex) | c0f02362… vs 52df88a3… | predicted equal | **PREDICTION FALSIFIED** |
+| latent MSE / no-op (recorded) | 3.750 / 5.930 | — | baseline pair 5.289 / 7.563 |
+
+Two candidate mechanisms, distinguishable by one cheap control:
+
+1. **The dead term is not bit-neutral.** `relu(std - 8).mean()` evaluates
+   to exactly 0 with exactly-0 gradients, but its PRESENCE changes the MPS
+   kernel schedule / accumulation order; a one-ulp divergence compounds
+   chaotically over 80 epochs into a different endpoint. Then K0' is a
+   numerically perturbed re-draw of the frozen recipe — and the spread it
+   reveals (dense 0.9965 vs 0.9779, moving 0.8891 vs 0.8701 across two
+   draws of the same diet/seed) says **the apex row itself sits inside
+   draw noise**, resurrecting the ROADMAP instrument lesson at 96-res.
+2. **The ceiling touched the trajectory** (std transiently above 8 mid-run,
+   invisible to the endpoint logger).
+
+**C0 diagnostic, registered before running** (instrument validation, not a
+knob): re-run the EXACT frozen recipe under the EXACT v0.17.0 code (git
+worktree at `b250267` — the one-sided guard, byte-for-byte) with the same
+diet/seed/flags, `--out experiments/stability_v2/artifacts/wm_96d128_c0.pth`.
+- Prediction: sha(c0) == sha(apex) (`52df88a3…`) — re-verifying the
+  representation_v1 bit-determinism finding on today's environment.
+- c0 == apex  -> mechanism 1 stands: same-code determinism holds, the dead
+  term's numeric perturbation is real, and the K0'-vs-apex delta is a
+  DRAW-NOISE measurement, banked as such.
+- c0 != apex  -> bit-determinism itself no longer holds on this
+  environment (drift since 2026-07): every same-code determinism claim
+  gets re-scoped, and single-run model-axis reads at 96-res inherit the
+  ≥3-draw rule immediately.
+No bars move; K1' stays unreleased; the C0 read cannot rescue K0'.
