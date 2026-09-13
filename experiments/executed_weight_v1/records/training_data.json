@@ -1,0 +1,217 @@
+{
+  "stage": "training_data",
+  "started_unix": 1789342588.308692,
+  "elapsed_seconds": 0.9592080116271973,
+  "manifest_sha256": "9e20b5a431627afad157e5a09c70e16299bf4e0176feaf100457c10bc07dcdf4",
+  "result": {
+    "source": {
+      "path": "output/schedule_layout_v1/world_balanced_train/data.npz",
+      "sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+    },
+    "coverage": {
+      "classic": {
+        "rollouts": 32,
+        "passive": 10,
+        "clear": 16,
+        "positive": 590,
+        "negative": 880,
+        "frame_std": 59.88089216445349
+      },
+      "dense": {
+        "rollouts": 32,
+        "passive": 10,
+        "clear": 0,
+        "positive": 1384,
+        "negative": 106,
+        "frame_std": 79.15418644076857
+      },
+      "moving": {
+        "rollouts": 32,
+        "passive": 10,
+        "clear": 0,
+        "positive": 896,
+        "negative": 610,
+        "frame_std": 50.77572465736158
+      },
+      "room": {
+        "rollouts": 96,
+        "passive": 0,
+        "clear": 0,
+        "positive": 1141,
+        "negative": 2821,
+        "frame_std": 72.46471386298643
+      }
+    },
+    "executed_loss_weights": {
+      "0": {
+        "unit": {
+          "moving_weight": 1.0,
+          "normalizer": 1.0,
+          "train_windows": 6893,
+          "by_world": {
+            "classic": {
+              "windows": 1185,
+              "window_share": 0.17191353547076746,
+              "weight_mass_share": 0.17191353547076746
+            },
+            "dense": {
+              "windows": 1205,
+              "window_share": 0.17481502974031626,
+              "weight_mass_share": 0.17481502974031626
+            },
+            "moving": {
+              "windows": 1225,
+              "window_share": 0.17771652400986507,
+              "weight_mass_share": 0.17771652400986507
+            },
+            "room": {
+              "windows": 3278,
+              "window_share": 0.4755549107790512,
+              "weight_mass_share": 0.4755549107790512
+            }
+          }
+        },
+        "moving_2p25": {
+          "moving_weight": 2.25,
+          "normalizer": 1.2221456550123313,
+          "train_windows": 6893,
+          "by_world": {
+            "classic": {
+              "windows": 1185,
+              "window_share": 0.17191353547076746,
+              "weight_mass_share": 0.14066534112829035
+            },
+            "dense": {
+              "windows": 1205,
+              "window_share": 0.17481502974031626,
+              "weight_mass_share": 0.14303943971273408
+            },
+            "moving": {
+              "windows": 1225,
+              "window_share": 0.17771652400986507,
+              "weight_mass_share": 0.32718046116865
+            },
+            "room": {
+              "windows": 3278,
+              "window_share": 0.4755549107790512,
+              "weight_mass_share": 0.3891147579903255
+            }
+          }
+        }
+      },
+      "1": {
+        "unit": {
+          "moving_weight": 1.0,
+          "normalizer": 1.0,
+          "train_windows": 6796,
+          "by_world": {
+            "classic": {
+              "windows": 1184,
+              "window_share": 0.17422012948793408,
+              "weight_mass_share": 0.17422012948793408
+            },
+            "dense": {
+              "windows": 1201,
+              "window_share": 0.17672160094173042,
+              "weight_mass_share": 0.17672160094173042
+            },
+            "moving": {
+              "windows": 1223,
+              "window_share": 0.17995879929370218,
+              "weight_mass_share": 0.17995879929370218
+            },
+            "room": {
+              "windows": 3188,
+              "window_share": 0.4690994702766333,
+              "weight_mass_share": 0.4690994702766333
+            }
+          }
+        },
+        "moving_2p25": {
+          "moving_weight": 2.25,
+          "normalizer": 1.2249484991171278,
+          "train_windows": 6796,
+          "by_world": {
+            "classic": {
+              "windows": 1184,
+              "window_share": 0.17422012948793408,
+              "weight_mass_share": 0.14222649328808673
+            },
+            "dense": {
+              "windows": 1201,
+              "window_share": 0.17672160094173042,
+              "weight_mass_share": 0.1442685966545542
+            },
+            "moving": {
+              "windows": 1223,
+              "window_share": 0.17995879929370218,
+              "weight_mass_share": 0.33055046698099044
+            },
+            "room": {
+              "windows": 3188,
+              "window_share": 0.4690994702766333,
+              "weight_mass_share": 0.38295444307636867
+            }
+          }
+        }
+      },
+      "2": {
+        "unit": {
+          "moving_weight": 1.0,
+          "normalizer": 1.0,
+          "train_windows": 6753,
+          "by_world": {
+            "classic": {
+              "windows": 1190,
+              "window_share": 0.1762179771953206,
+              "weight_mass_share": 0.1762179771953206
+            },
+            "dense": {
+              "windows": 1194,
+              "window_share": 0.17681030653043092,
+              "weight_mass_share": 0.17681030653043092
+            },
+            "moving": {
+              "windows": 1214,
+              "window_share": 0.17977195320598252,
+              "weight_mass_share": 0.17977195320598252
+            },
+            "room": {
+              "windows": 3155,
+              "window_share": 0.46719976306826594,
+              "weight_mass_share": 0.46719976306826594
+            }
+          }
+        },
+        "moving_2p25": {
+          "moving_weight": 2.25,
+          "normalizer": 1.224714941507478,
+          "train_windows": 6753,
+          "by_world": {
+            "classic": {
+              "windows": 1190,
+              "window_share": 0.1762179771953206,
+              "weight_mass_share": 0.14388489208633093
+            },
+            "dense": {
+              "windows": 1194,
+              "window_share": 0.17681030653043092,
+              "weight_mass_share": 0.14436853878241945
+            },
+            "moving": {
+              "windows": 1214,
+              "window_share": 0.17977195320598252,
+              "weight_mass_share": 0.3302702375914395
+            },
+            "room": {
+              "windows": 3155,
+              "window_share": 0.46719976306826594,
+              "weight_mass_share": 0.38147633153981014
+            }
+          }
+        }
+      }
+    }
+  },
+  "files": {}
+}

@@ -97,3 +97,32 @@ and CF hard-pool size, increased moving weight mass, and finite probe
 outputs. All destinations include `_selftest`; these are integration
 checks, not research-model comparisons. The shared-runner and both closed
 study report selftests pass. Whole-repo Black/Ruff passes for 161 files.
+
+## Launch and preflight — 2026-09-14
+
+The queue launched after registration commit `2362756`. Its initial shell
+PID (18400), timestamp, command and full log path are saved in
+`output/executed_weight_v1/queue.json`. PIDs can be reused; check the live
+command and receipts before any resume. The [manifest](manifest.json)
+freezes source files, runtime, input corpus and protected WM hashes.
+
+All four preflight stages passed and their files were hash-verified.
+Scene-present/removed images were inspected; the moving fixture observes
+the centreline crossing at step 158. Both arms' train-partition weight
+plans are recorded in [training_data.json](records/training_data.json).
+
+The new exam has **186 courses / 12,179 overlapping valid windows**:
+
+| World | Courses | Positive @32 | Negative @32 |
+|---|---:|---:|---:|
+| classic | 42 | 993 | 1,903 |
+| dense | 42 | 2,558 | 321 |
+| moving | 42 | 1,680 | 1,309 |
+| room | 60 | 1,561 | 1,854 |
+
+Each transit world has 14 passive courses and classic has 21 clear
+courses. [Exam SHA](records/holdout.json):
+`e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1`.
+All class-support requirements pass. The first unit-control fit has
+started; no research-model verdict is available at this entry. All six
+fits and scores remain required before interpretation.

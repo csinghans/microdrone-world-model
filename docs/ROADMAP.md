@@ -51,6 +51,14 @@ ranking probe meets its registered support bar (208 frames / 23 courses),
 but only two courses are moving and none are room; retain that scope limit.
 Do not expand this exam or use the favorable seed 2 as a promotion gate.
 
+The active [executed_weight_v1 study](../experiments/executed_weight_v1/journal.md)
+tests the other identified allocation issue: moving executed-window share
+fell from about 33% to 18%. A normalized per-window loss weight of 2.25
+is compared with 1.0, leaving batches, epochs and CF/now recipes fixed.
+This changes objective weight mass, not independent data support. Six
+fresh fits and a new exam must meet moving improvement and every per-seed
+guard before any later flight study can be registered. Benefit is pending.
+
 Other closed research arcs:
 
 - **The Perception Tier (three campaigns + one refusal): a promising

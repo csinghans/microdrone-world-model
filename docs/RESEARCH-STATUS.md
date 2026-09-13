@@ -149,6 +149,14 @@ before starting. When launched, sources freeze and cannot be edited during
 the queue. Persistent launch receipt: `output/executed_weight_v1/queue.json`.
 Completion markers: `EXECUTED-WEIGHT-DONE` and `EXECUTED-WEIGHT-EXIT=0`.
 
+The executed-weight queue is now launched from `2362756` (initial shell
+PID 18400). All four preflight receipts and files are verified; the first
+unit-control fit is active at this snapshot. The new exam has 186 courses,
+12,179 valid windows and both classes in every world. SHA:
+`e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1`.
+Research results are pending. Do not edit Python sources until this queue
+finishes, and do not restart an existing/incomplete stage without inspection.
+
 Restoring moving executed-window exposure is a separate possible knob;
 do not change it together with the hard pool. Do not infer the cause from
 balanced seed 2's endpoint offset alone: seed 1 also loses without that
