@@ -1,0 +1,46 @@
+{
+  "stage": "vision",
+  "started_unix": 1789319981.2486248,
+  "elapsed_seconds": 0.19934320449829102,
+  "manifest_sha256": "ba3372d72fd8944250232788e3c42d61b5343420bfaedd647b9a5879d4dde356",
+  "result": {
+    "classic": {
+      "world": "classic",
+      "fixture_steps": 0,
+      "bodies": 3,
+      "frame_std": 76.32623063553018,
+      "render_difference": 36.528564453125
+    },
+    "dense": {
+      "world": "dense",
+      "fixture_steps": 0,
+      "bodies": 7,
+      "frame_std": 84.97318859462895,
+      "render_difference": 56.87060546875
+    },
+    "moving": {
+      "world": "moving",
+      "fixture_steps": 155,
+      "bodies": 2,
+      "frame_std": 65.79800729671365,
+      "render_difference": 21.477783203125
+    },
+    "room": {
+      "world": "room",
+      "fixture_steps": 0,
+      "bodies": 6,
+      "frame_std": 64.3300094470034,
+      "render_difference": 20.573323567708332
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/vision/classic.png": "4999d1eb1c92c4849977702fe48ccbcb669db329d2c2ee6c3e25fbee316faf41",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/vision/classic_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/vision/dense.png": "d3207df9c0292f4cc9e0580a7219dff24878bb12ef8c080409a287019f07d70a",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/vision/dense_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/vision/moving.png": "93b67cdd130b894cb6676988ecd53d2ddcfd4d5b4081a8b499f50bf3bff50bc6",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/vision/moving_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/vision/room.png": "c993e3e7b780abd8aa8c6fb0fa09ccf66b4496c00254797b273aa812da068896",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/vision/room_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed"
+  }
+}

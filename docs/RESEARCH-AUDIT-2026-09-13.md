@@ -127,8 +127,11 @@ The same audit finds 8.49–9.32% of legacy and 11.83–13.01% of balanced
 training hard-pool frames have no disagreement between answerable candidate
 labels: zero masking itself creates their vector contrast. This does not
 mean the CF loss trains on masked labels; that loss still masks correctly.
-Changing the sampling pool is a separate, untested knob, and may also affect
-danger-now because both losses consume the same sampled frames.
+Changing the sampling pool may also affect danger-now because both losses
+consume the same sampled frames. The subsequently registered
+[cf_hard_pool_v1 comparison](../experiments/cf_hard_pool_v1/journal.md) tests
+that one knob with fresh matched fits and a new confirmation exam. The
+default sampler remains unchanged while its benefit is unmeasured.
 
 ## Research explanations that needed narrowing
 
@@ -226,6 +229,9 @@ hashes, checkpoint metadata and evaluation runtime. Existing output files
 are refused. Missing veer probes serialize as `null` with sample count zero.
 Class counts accompany the legacy AUC fields, so a 0.5 fallback from an
 absent class can be distinguished from a measured chance-level ranking.
+Since the CF sampler registration, exports also retain eligible veer probe
+course/time pairs, geometric truth, world identity and per-frame correctness.
+The aggregate includes both probe-frame and independent-course counts.
 
 The comparison refuses mismatched datasets, sample order, labels, horizons
 or metric versions. It reports candidate-minus-control AUC@32 and paired
@@ -233,6 +239,10 @@ world-stratified rollout-bootstrap percentile intervals. Resampling whole
 rollouts preserves within-flight dependence. These intervals describe
 test-course uncertainty conditional on the two fixed models; they do not
 measure training-draw uncertainty, establish causation or promote a model.
+New exports also receive paired veer-accuracy intervals, grouping all probe
+frames from a course together. Legacy exports without veer samples retain
+their AUC-only comparison. A world stratum with fewer than two probe courses
+has no estimated interval; a missing probe has no measured accuracy.
 
 Before another temporal training campaign, freeze a diagnostic manifest:
 exact checkpoint hashes and training recipes, independent holdout generation

@@ -97,3 +97,32 @@ together. The shared-runner selftest rejects per-seed guard failures,
 negative ranking draws hidden by a good mean, insufficient probe support,
 classless/nonfinite metrics and incomplete/duplicate seed sets. It also
 checks stage receipts cannot overwrite or silently repeat a measurement.
+
+## Launch and instrument evidence — 2026-09-14
+
+The background queue started from committed registration/source revision
+`19106b2`. Its PID and timestamp are saved in
+`output/cf_hard_pool_v1/queue.json`; inspect the live process before any
+resume, since PIDs are not permanent identities. The immutable
+[manifest](manifest.json) freezes code, runtime, training corpus and both WMs.
+
+All four scene-present/removed checks pass, with images inspected. The
+moving fixture observes its centreline crossing at step 155. The existing
+training corpus passes role/label coverage and both hard pools match the
+audited counts. The new exam contains **186 courses / 12,147 overlapping
+valid windows**, with both label classes in every world:
+
+| World | Courses | Positive @32 | Negative @32 |
+|---|---:|---:|---:|
+| classic | 42 | 1,060 | 1,881 |
+| dense | 42 | 2,469 | 442 |
+| moving | 42 | 1,376 | 1,520 |
+| room | 60 | 1,573 | 1,826 |
+
+All three transit worlds have 14 passive courses; classic has 21 clear
+courses. [The exam receipt](records/holdout.json) records dataset SHA-256
+`16986ffa08f24bac9ca3f5775ed8f8fa419aa5eb54851f123b1dd7f0416ebf53`.
+The four preflight receipts and their files have been hash-verified.
+The first control fit has started; this entry contains no research-model
+evaluation or verdict. All six draws and their common-exam evaluations
+remain required before the study is interpreted.

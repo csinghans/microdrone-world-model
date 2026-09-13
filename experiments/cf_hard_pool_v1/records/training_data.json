@@ -1,0 +1,61 @@
+{
+  "stage": "training_data",
+  "started_unix": 1789319981.549355,
+  "elapsed_seconds": 1.0625829696655273,
+  "manifest_sha256": "ba3372d72fd8944250232788e3c42d61b5343420bfaedd647b9a5879d4dde356",
+  "result": {
+    "source": {
+      "path": "output/schedule_layout_v1/world_balanced_train/data.npz",
+      "sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+    },
+    "coverage": {
+      "classic": {
+        "rollouts": 32,
+        "passive": 10,
+        "clear": 16,
+        "positive": 590,
+        "negative": 880,
+        "frame_std": 59.88089216445349
+      },
+      "dense": {
+        "rollouts": 32,
+        "passive": 10,
+        "clear": 0,
+        "positive": 1384,
+        "negative": 106,
+        "frame_std": 79.15418644076857
+      },
+      "moving": {
+        "rollouts": 32,
+        "passive": 10,
+        "clear": 0,
+        "positive": 896,
+        "negative": 610,
+        "frame_std": 50.77572465736158
+      },
+      "room": {
+        "rollouts": 96,
+        "passive": 0,
+        "clear": 0,
+        "positive": 1141,
+        "negative": 2821,
+        "frame_std": 72.46471386298643
+      }
+    },
+    "hard_pools": {
+      "0": {
+        "legacy_masked": 2562,
+        "answerable": 2259
+      },
+      "1": {
+        "legacy_masked": 2590,
+        "answerable": 2253
+      },
+      "2": {
+        "legacy_masked": 2613,
+        "answerable": 2289
+      }
+    }
+  },
+  "files": {}
+}

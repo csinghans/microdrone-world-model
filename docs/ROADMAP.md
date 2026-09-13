@@ -31,9 +31,26 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
   performance without that symptom, so a mean-offset explanation is not
   established. The 137.29 KB architecture bill is unchanged. Keep the
   coverage fix separate from a performance endorsement; no model promotion
-  or remeasurement follows. Next inspect effective training-window and
-  action/label support in these saved corpora before choosing another knob.
+  or remeasurement follows. The follow-up support audit is complete below.
   [Complete report](../experiments/schedule_layout_v1/summary.md).
+- **schedule_support_v1: supervision audit complete.** Moving executed
+  windows fell 2,816→1,506 while action diversity increased. All six fit
+  counts reconcile; a dense internal AUC 0.5 was classless, while the common
+  exam retained both classes. In the balanced training partitions,
+  11.83–13.01% of hard frames had contrast created solely by zero masking;
+  the CF loss itself still masks unknown labels correctly. These are support
+  findings, not causal explanations for the learning NO-GO.
+  [Audit](../experiments/schedule_support_v1/journal.md).
+
+The active [cf_hard_pool_v1 comparison](../experiments/cf_hard_pool_v1/journal.md)
+tests only that sampler choice on one shared training corpus. Three paired
+seeds score a new independent exam; mean action-ranking improvement must
+reach +.05 with no seed regressing, and every world/now AUC guard must hold.
+The deployed architecture bill stays fixed. This offline test can motivate
+a later registered flight study; it cannot promote a champion.
+
+Other closed research arcs:
+
 - **The Perception Tier (three campaigns + one refusal): a promising
   offline checkpoint, with its explanation still open.**
   general_wm_v2 first re-measured v0.5's law one level down

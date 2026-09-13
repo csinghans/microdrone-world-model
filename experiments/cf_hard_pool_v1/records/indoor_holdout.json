@@ -1,0 +1,19 @@
+{
+  "stage": "indoor_holdout",
+  "started_unix": 1789319982.856135,
+  "elapsed_seconds": 16.306504249572754,
+  "manifest_sha256": "ba3372d72fd8944250232788e3c42d61b5343420bfaedd647b9a5879d4dde356",
+  "result": {
+    "room": {
+      "rollouts": 60,
+      "passive": 0,
+      "clear": 0,
+      "positive": 1573,
+      "negative": 1826,
+      "frame_std": 72.33277475846121
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/indoor_holdout/data.npz": "0d8a808aacdf26f6677e34b348a8ed4a55aaa821f675be29420b558b58cd75fa"
+  }
+}

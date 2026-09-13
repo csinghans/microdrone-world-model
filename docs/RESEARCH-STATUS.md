@@ -111,6 +111,13 @@ Do not edit Python sources while this queue is active. Incomplete stage
 directories require inspection and cannot be silently retried. Expected
 completion markers are `CF-HARD-POOL-DONE` and `CF-HARD-POOL-EXIT=0`.
 
+The queue has now launched from `19106b2` (initial shell PID 63607). All four
+preflight stages passed and their receipts/files were verified. New exam:
+186 courses, 12,147 valid windows; every world has both classes. Exam SHA:
+`16986ffa08f24bac9ca3f5775ed8f8fa419aa5eb54851f123b1dd7f0416ebf53`.
+The first control fit was active at this snapshot; inspect current state
+before acting. Results are pending, and Python sources must remain frozen.
+
 Restoring moving executed-window exposure is a separate possible knob;
 do not change it together with the hard pool. Do not infer the cause from
 balanced seed 2's endpoint offset alone: seed 1 also loses without that

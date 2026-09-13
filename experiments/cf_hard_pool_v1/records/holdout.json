@@ -1,0 +1,43 @@
+{
+  "stage": "holdout",
+  "started_unix": 1789319999.379203,
+  "elapsed_seconds": 34.18239378929138,
+  "manifest_sha256": "ba3372d72fd8944250232788e3c42d61b5343420bfaedd647b9a5879d4dde356",
+  "result": {
+    "classic": {
+      "rollouts": 42,
+      "passive": 14,
+      "clear": 21,
+      "positive": 1060,
+      "negative": 1881,
+      "frame_std": 55.14373235940106
+    },
+    "dense": {
+      "rollouts": 42,
+      "passive": 14,
+      "clear": 0,
+      "positive": 2469,
+      "negative": 442,
+      "frame_std": 77.29723625797635
+    },
+    "moving": {
+      "rollouts": 42,
+      "passive": 14,
+      "clear": 0,
+      "positive": 1376,
+      "negative": 1520,
+      "frame_std": 52.41632163271864
+    },
+    "room": {
+      "rollouts": 60,
+      "passive": 0,
+      "clear": 0,
+      "positive": 1573,
+      "negative": 1826,
+      "frame_std": 72.33277475846121
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/holdout/data.npz": "16986ffa08f24bac9ca3f5775ed8f8fa419aa5eb54851f123b1dd7f0416ebf53"
+  }
+}
