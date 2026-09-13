@@ -11,6 +11,11 @@ def roc_auc(scores: np.ndarray, labels: np.ndarray) -> float:
     Labels above/below 0.5 are positive/negative; exactly 0.5 is ignored.
     Preserve the project's 0.5 fallback when either class is absent.
     """
+    scores, labels = np.asarray(scores), np.asarray(labels)
+    if scores.shape != labels.shape:
+        raise ValueError("AUC scores and labels must have matching shapes")
+    if not np.isfinite(scores).all() or not np.isfinite(labels).all():
+        raise ValueError("AUC scores and labels must be finite")
     pos, neg = scores[labels > 0.5], scores[labels < 0.5]
     if len(pos) == 0 or len(neg) == 0:
         return 0.5
@@ -56,7 +61,18 @@ def selftest() -> None:
     for y in (np.array([]), np.ones(4), np.zeros(4), np.full(4, 0.5)):
         assert roc_auc(np.zeros(len(y)), y) == 0.5, "missing class fallback changed"
     assert roc_auc(np.array([1.0, 0.0, 9.0]), np.array([1.0, 0.0, 0.5])) == 1.0
-    print("METRICS OK: tie-aware AUC, pairwise oracle, permutations, missing classes")
+    for s, y in (
+        ([float("nan"), 0], [1, 0]),
+        ([1, 0], [float("inf"), 0]),
+        ([1], [1, 0]),
+    ):
+        try:
+            roc_auc(np.asarray(s), np.asarray(y))
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("malformed AUC input produced a plausible metric")
+    print("METRICS OK: tied ranks, pairwise oracle, missing classes, malformed inputs")
 
 
 if __name__ == "__main__":
