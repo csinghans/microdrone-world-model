@@ -39,6 +39,8 @@ from sim.scenarios import DANGER_R, FOV_HALF_DEG, RADII
 from world_model.cf_sampling import CF_HARD_POOLS, hard_pool_mask
 from world_model.collision_head import CollisionHeads, DangerNowHead
 from world_model.encoder import LATENT_D, Encoder
+from world_model.executed_weighting import plan as executed_plan
+from world_model.executed_weighting import weighted_mean
 from world_model.grounding import GroundingHead
 from world_model.losses import augment_torch, ema_update, roc_auc, variance_guard
 from world_model.metrics import auc_support
@@ -230,6 +232,7 @@ def train(
     in_frames: int = 1,
     frame_stride: int = 4,
     cf_hard_pool: str = "legacy_masked",
+    executed_moving_weight: float = 1.0,
 ) -> tuple:
     """Train the nano world model on a sequence-format dataset dict and return
     (checkpoint dict, metrics dict). `robust=True` adds appearance
@@ -252,6 +255,12 @@ def train(
     tr_rolls, va_rolls = _split_rollouts(data, rng)
     tr = np.where(np.isin(idx[:, 0], tr_rolls))[0]
     va = np.where(np.isin(idx[:, 0], va_rolls))[0]
+    sample_weights, executed_info = executed_plan(data, idx, tr, executed_moving_weight)
+    executed_weights = None
+    if float(executed_moving_weight) != 1.0:
+        full_weights = np.zeros(len(idx), dtype=np.float32)
+        full_weights[tr] = sample_weights
+        executed_weights = torch.tensor(full_weights, device=device)
     print(
         f"[INFO] training on {device}: {len(tr)} train / {len(va)} val samples "
         f"({len(tr_rolls)}/{len(va_rolls)} rollouts)"
@@ -365,9 +374,15 @@ def train(
                 z_tgt = torch.stack(
                     [tgt(frames_at(base[b] + k)) for k in offs], dim=1
                 )  # (B,H,D)
-            pred_loss = ((z_hat - z_tgt) ** 2).mean()
+            ew = executed_weights[b] if executed_weights is not None else None
+            pred_loss = weighted_mean((z_hat - z_tgt) ** 2, ew)
             var_loss = variance_guard(z_last)
-            col_loss = bce(cheads(z_hat), c_h_t[b])
+            col_logits = cheads(z_hat)
+            col_loss = (
+                bce(col_logits, c_h_t[b])
+                if ew is None
+                else weighted_mean(bce_none(col_logits, c_h_t[b]), ew)
+            )
             # counterfactual batch: half random frames, half decision-relevant
             half = max(1, len(b) // 2)
             cb = torch.cat(
@@ -516,6 +531,7 @@ def train(
             "action_vecs": [[float(v) for v in row] for row in ACTION_VECS],
             "seed": int(seed),
             "cf_hard_pool": cf_hard_pool,
+            "executed_moving_weight": float(executed_moving_weight),
             "transit_schedule_layout": str(
                 data.get(
                     "schedule_layout", data.get("transit_schedule_layout", "unrecorded")
@@ -555,6 +571,7 @@ def train(
         "n_val": len(va),
         "cf_hard_pool_frames": int(disagree.sum()),
         "cf_hard_pool_fallback": not bool(disagree.any()),
+        "executed_loss_weighting": executed_info,
     }
     return ckpt, metrics
 

@@ -1,0 +1,22 @@
+{
+  "campaign": "executed_weight_v1",
+  "kind": "executed_weight",
+  "version": 1,
+  "arms": ["unit", "moving_2p25"],
+  "weights": {"unit": 1.0, "moving_2p25": 2.25},
+  "seeds": [0, 1, 2],
+  "order": [["unit", 0], ["moving_2p25", 0], ["moving_2p25", 1], ["unit", 1], ["unit", 2], ["moving_2p25", 2]],
+  "training_source": {"path": "output/schedule_layout_v1/world_balanced_train/data.npz", "sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"},
+  "train_data": {"n_transit": 96, "n_indoor": 96, "length": 120, "transit_seed": 2026091301, "indoor_seed": 2026091302, "schedule_layout": "world_balanced"},
+  "holdout": {"n_transit": 126, "n_indoor": 60, "length": 160, "transit_seed": 2026091403, "indoor_seed": 2026091404, "schedule_layout": "world_balanced"},
+  "worlds": ["classic", "dense", "moving"],
+  "img_res": 64,
+  "train": {"epochs": 80, "batch": 64, "latent_d": 64, "strips": 4, "in_frames": 1, "frame_stride": 4, "robust": false, "temporal": false, "ground": false, "ground_lambda": 0.5, "cf_hard_pool": "legacy_masked"},
+  "training_device": "mps",
+  "evaluation_device": "cpu",
+  "bootstrap": {"n_boot": 2000, "seed": 0},
+  "instrument": {"fixture_seed": 2026091405, "minimum_frame_std": 1.0, "minimum_render_difference": 1.0, "minimum_labels_per_class_per_world": 20, "minimum_veer_samples": 20, "minimum_veer_rollouts": 6},
+  "bars": {"moving_mean_delta_min": 0.03, "moving_each_delta_min_exclusive": 0.0, "guard_worlds": ["classic", "dense", "room"], "guard_each_auc_delta_min": -0.02, "guard_each_now_auc_delta_min": -0.02, "guard_each_veer_delta_min": -0.05, "budget_kb_max": 512.0},
+  "completion_marker": "EXECUTED-WEIGHT-STUDY COMPLETE",
+  "interpretation": "Offline single-scalar executed-loss weighting study, not restoration of missing independent data. All six fresh fits are unconditional after instrument checks. No replacement seeds, optional rechecks, early stopping or exam expansion. Every seed must pass every guard. GO only permits registering a later flight study, not champion promotion. Rollout-bootstrap intervals condition on each fixed checkpoint pair; the three-draw mean/range is not training-population uncertainty."
+}

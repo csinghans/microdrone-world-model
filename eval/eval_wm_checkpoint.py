@@ -366,6 +366,20 @@ def main() -> None:
         assert cm["cf_hard_pool_fallback"] == (cm["cf_hard_pool_frames"] == 0)
         cr = evaluate(candidate_path, data)
         assert np.isfinite(cr["now_auc"])
+        weighted, wm = train(
+            data, epochs=2, batch=64, seed=0, executed_moving_weight=2.25
+        )
+        weighted_path = os.path.join(os.path.dirname(path), "wm_weighted_selftest.pth")
+        torch.save(weighted, weighted_path)
+        assert load_model(weighted_path, "cpu")[4]["executed_moving_weight"] == 2.25
+        assert weighted["meta"]["cf_hard_pool"] == "legacy_masked"
+        assert (m["n_train"], m["n_val"]) == (wm["n_train"], wm["n_val"])
+        assert wm["cf_hard_pool_frames"] == m["cf_hard_pool_frames"]
+        before = m["executed_loss_weighting"]["by_world"]["moving"]["weight_mass_share"]
+        after = wm["executed_loss_weighting"]["by_world"]["moving"]["weight_mass_share"]
+        assert after > before
+        wr = evaluate(weighted_path, data)
+        assert np.isfinite(wr["now_auc"])
         print(
             f"WM-PROBE OK: probe AUC@32={r['auc_h'][-1]:.4f} == "
             f"train val {m['auc'][-1]:.4f}, veer widened n={r['veer_all'][1]}"

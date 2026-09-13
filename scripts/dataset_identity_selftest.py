@@ -58,6 +58,7 @@ def selftest():
             robust=False,
             ground_lambda=0.5,
             cf_hard_pool="legacy_masked",
+            executed_moving_weight=1.0,
             out=str(directory / "world_model_identity_selftest.pth"),
         )
         with patch("scripts.train.train", side_effect=train_fixture) as fit:

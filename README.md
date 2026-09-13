@@ -127,6 +127,12 @@ checkpoint's recorded SHA; file-backed `scripts.train` now saves this
 identity. A different file hash does not establish disjoint rollouts
 (subsets and repacked corpora can still overlap).
 
+`--executed-moving-weight` defaults to 1.0. The registered
+[weighting study](experiments/executed_weight_v1/journal.md) tests 2.25 on
+moving executed prediction/collision losses, with a fixed training-only
+normalizer and unchanged batch/CF recipes. This is an experimental option;
+it has not established a performance improvement.
+
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
 

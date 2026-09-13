@@ -3,6 +3,7 @@
     python -m scripts.schedule_layout_study --selftest
     bash experiments/schedule_layout_v1/run.sh
     bash experiments/cf_hard_pool_v1/run.sh
+    bash experiments/executed_weight_v1/run.sh
 
 Each stage owns a fresh directory and an immutable hashed receipt. A stage
 left without a receipt requires inspection, never automatic remeasurement.
@@ -329,6 +330,16 @@ def verdict(pairs, config):
     """All registered draws and per-draw guards are required; NaN cannot pass."""
     if config.get("kind") == "cf_hard_pool":
         return cf_verdict(pairs, config)
+    if config.get("kind") == "executed_weight":
+        for pair in pairs:
+            for arm in (pair["baseline"], pair["candidate"]):
+                if arm["veer_rollouts"] < config["instrument"]["minimum_veer_rollouts"]:
+                    raise ValueError("insufficient independent veer rollouts")
+                counts = [arm["now_label_counts"]] + [
+                    arm["label_counts_by_world"][w] for w in config["worlds"] + ["room"]
+                ]
+                if any(min(c["positive"], c["negative"]) == 0 for c in counts):
+                    raise ValueError("classless guarded AUC")
     bars = config["bars"]
     if [p["seed"] for p in pairs] != config["seeds"]:
         raise ValueError("missing, duplicate, or out-of-order registered seeds")
@@ -390,6 +401,24 @@ def execute(stage, directory, config):
         with np.load(path, allow_pickle=False) as blob:
             data = dict(blob)
         stats = coverage(data, config, config["train_data"]["schedule_layout"])
+        if config.get("kind") == "executed_weight":
+            from world_model.executed_weighting import plan
+            from world_model.training import _index_samples
+
+            pairs, _ = _index_samples(data)
+            weights = {}
+            for seed in config["seeds"]:
+                train_rolls, _ = _split_rollouts(data, np.random.default_rng(seed))
+                tr = np.flatnonzero(np.isin(pairs[:, 0], train_rolls))
+                weights[str(seed)] = {
+                    arm: plan(data, pairs, tr, config["weights"][arm])[1]
+                    for arm in config["arms"]
+                }
+            return {
+                "source": config["training_source"],
+                "coverage": stats,
+                "executed_loss_weights": weights,
+            }
         cf, vis = counterfactual_labels(data)
         masks = {arm: hard_pool_mask(cf, vis, arm) for arm in config["arms"]}
         assert not (masks["answerable"] & ~masks["legacy_masked"]).any()
@@ -421,14 +450,25 @@ def execute(stage, directory, config):
         with np.load(path, allow_pickle=False) as blob:
             data = dict(blob)
         knob = {"cf_hard_pool": arm} if config.get("kind") == "cf_hard_pool" else {}
+        if config.get("kind") == "executed_weight":
+            knob = {"executed_moving_weight": config["weights"][arm]}
         checkpoint, metrics = train(data, seed=int(seed), **config["train"], **knob)
-        if knob:
+        if config.get("kind") == "cf_hard_pool":
             pool = read(CAMPAIGN / "records/training_data.json")["result"][
                 "hard_pools"
             ][seed][arm]
             assert checkpoint["meta"]["cf_hard_pool"] == arm
             assert metrics["cf_hard_pool_frames"] == pool
             assert metrics["cf_hard_pool_fallback"] == (pool == 0)
+        if config.get("kind") == "executed_weight":
+            expected = read(CAMPAIGN / "records/training_data.json")["result"][
+                "executed_loss_weights"
+            ][seed][arm]
+            assert (
+                checkpoint["meta"]["executed_moving_weight"] == config["weights"][arm]
+            )
+            assert checkpoint["meta"]["cf_hard_pool"] == "legacy_masked"
+            assert metrics["executed_loss_weighting"] == expected
         checkpoint["meta"]["training_dataset_sha256"] = sha(path)
         with (directory / "model.pth").open("xb") as stream:
             torch.save(checkpoint, stream)
@@ -490,7 +530,7 @@ def execute(stage, directory, config):
             comparisons[str(seed)] = compare(
                 *[_load(p) for p in score_paths], **config["bootstrap"]
             )
-            if config.get("kind") == "cf_hard_pool":
+            if config.get("kind") in ("cf_hard_pool", "executed_weight"):
                 probe = comparisons[str(seed)]["veer"]
                 for name, arm in (("baseline", a), ("candidate", b)):
                     scores = arm["scores"]
@@ -532,7 +572,7 @@ def stages(config):
         "world_balanced_train",
         "holdout",
     ]
-    if config.get("kind") == "cf_hard_pool":
+    if config.get("training_source"):
         data = ["vision", "training_data", "indoor_holdout", "holdout"]
     fits = [f"train_{arm}_{seed}" for arm, seed in config["order"]]
     scores = [
@@ -679,6 +719,23 @@ def selftest():
     assert training_path("legacy_masked", cf_config) == training_path(
         "answerable", cf_config
     )
+    weight_config = read(ROOT / "experiments/executed_weight_v1/registration.json")
+    assert verdict(cf_pairs, weight_config)["verdict"] == "GO"
+    bad = deepcopy(cf_pairs)
+    bad[0]["candidate"]["auc_by_world"]["moving"] -= 0.05
+    assert verdict(bad, weight_config)["verdict"] == "NO-GO"
+    bad = deepcopy(cf_pairs)
+    bad[0]["candidate"]["veer_rollouts"] = 5
+    try:
+        verdict(bad, weight_config)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("unsupported weight-study veer accepted")
+    assert len(stages(weight_config)) == len(set(stages(weight_config))) == 17
+    assert training_path("unit", weight_config) == training_path(
+        "moving_2p25", weight_config
+    )
     with tempfile.TemporaryDirectory(prefix="schedule_layout_selftest_") as tmp:
         path = Path(tmp) / "record.json"
         write_new(path, {"value": np.float32(0.7)})
@@ -744,7 +801,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument(
         "--campaign",
-        choices=("schedule_layout_v1", "cf_hard_pool_v1"),
+        choices=("schedule_layout_v1", "cf_hard_pool_v1", "executed_weight_v1"),
         default="schedule_layout_v1",
     )
     mode = ap.add_mutually_exclusive_group(required=True)

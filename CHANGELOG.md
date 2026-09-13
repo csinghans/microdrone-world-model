@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- **Executed-loss weighting registered:** `--executed-moving-weight`
+  defaults to 1.0, preserving the original reductions. A matched six-fit
+  study compares 1.0 with 2.25, normalized over eligible training windows,
+  for executed prediction/collision losses only. Batches, optimizer counts,
+  CF/now sampling, architecture and deployment cost remain fixed. This
+  tests objective allocation, not added independent data; benefit is pending.
+  [Registration](experiments/executed_weight_v1/journal.md).
+
 - **Reject a known training file passed as an independent exam:** checkpoint
   evaluation now passes the dataset SHA into the probe, and paired-score
   comparison checks each model's recorded training SHA. Equal hashes fail

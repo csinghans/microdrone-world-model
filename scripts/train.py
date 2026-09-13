@@ -86,6 +86,7 @@ def train_world_model(args) -> None:
         ground=args.ground,
         ground_lambda=args.ground_lambda,
         cf_hard_pool=args.cf_hard_pool,
+        executed_moving_weight=args.executed_moving_weight,
         **rep,
     )
     if source:
@@ -202,6 +203,7 @@ def main() -> None:
     ap.add_argument("--ground", action="store_true")  # v0.5 metric-grounding aux
     ap.add_argument("--ground-lambda", type=float, default=0.5)  # the N-knob
     ap.add_argument("--cf-hard-pool", choices=CF_HARD_POOLS, default="legacy_masked")
+    ap.add_argument("--executed-moving-weight", type=float, default=1.0)
     ap.add_argument("--out", default=None, help="world-model save path override")
     ap.add_argument("--seed", type=int, default=0)  # borderline reruns use seed+1
     ap.add_argument("--data", default=None, help="dataset npz override (e.g. search)")

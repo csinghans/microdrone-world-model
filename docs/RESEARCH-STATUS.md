@@ -128,6 +128,27 @@ loss already masks unknown labels correctly; changing allocation also
 changes the danger-now samples. The study failed the registered joint
 improvement test, not an assertion that every contrast curriculum must fail.
 
+The next registered study is
+[executed_weight_v1](../experiments/executed_weight_v1/journal.md). It keeps
+the same balanced corpus, permutation batches, 80 epochs and CF/now/variance
+recipes, changing only a moving per-window coefficient from 1.0 to 2.25 in
+executed latent prediction MSE and collision BCE. A training-only global
+normalizer keeps mean coefficient one. This raises moving weight mass from
+about 18% to 33%; it does not add windows, courses or measured gradient mass.
+The default factor remains 1.0, with the exact original reductions.
+
+Six fresh fits at seeds 0/1/2 and a fresh 186-course exam are registered.
+Primary moving AUC delta mean ≥+.03 and every seed >0; classic/dense/room
+and danger-now guards ≥−.02, pooled veer ≥−.05, unchanged ≤512 KB bill.
+Every veer reading needs 20 frames / six independent courses. No optional
+recheck, seed replacement or exam expansion. Both earlier NO-GOs stay closed.
+Pure weighting, short training integration, shared-runner and historical
+report tests passed before research execution. The profile is selected with
+`bash experiments/executed_weight_v1/run.sh`; inspect processes/receipts
+before starting. When launched, sources freeze and cannot be edited during
+the queue. Persistent launch receipt: `output/executed_weight_v1/queue.json`.
+Completion markers: `EXECUTED-WEIGHT-DONE` and `EXECUTED-WEIGHT-EXIT=0`.
+
 Restoring moving executed-window exposure is a separate possible knob;
 do not change it together with the hard pool. Do not infer the cause from
 balanced seed 2's endpoint offset alone: seed 1 also loses without that
