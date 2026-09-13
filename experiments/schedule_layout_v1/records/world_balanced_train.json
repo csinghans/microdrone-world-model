@@ -1,0 +1,43 @@
+{
+  "stage": "world_balanced_train",
+  "started_unix": 1789283285.560425,
+  "elapsed_seconds": 20.565310955047607,
+  "manifest_sha256": "8dbb5e79c0f1488d17c3da52b0d47cf2a78e2e581d9e7826e4119dd3ae8ba145",
+  "result": {
+    "classic": {
+      "rollouts": 32,
+      "passive": 10,
+      "clear": 16,
+      "positive": 590,
+      "negative": 880,
+      "frame_std": 59.88089216445349
+    },
+    "dense": {
+      "rollouts": 32,
+      "passive": 10,
+      "clear": 0,
+      "positive": 1384,
+      "negative": 106,
+      "frame_std": 79.15418644076857
+    },
+    "moving": {
+      "rollouts": 32,
+      "passive": 10,
+      "clear": 0,
+      "positive": 896,
+      "negative": 610,
+      "frame_std": 50.77572465736158
+    },
+    "room": {
+      "rollouts": 96,
+      "passive": 0,
+      "clear": 0,
+      "positive": 1141,
+      "negative": 2821,
+      "frame_std": 72.46471386298643
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/world_balanced_train/data.npz": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+  }
+}

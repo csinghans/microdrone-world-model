@@ -1,0 +1,19 @@
+{
+  "stage": "indoor_train",
+  "started_unix": 1789283227.299926,
+  "elapsed_seconds": 20.11321997642517,
+  "manifest_sha256": "8dbb5e79c0f1488d17c3da52b0d47cf2a78e2e581d9e7826e4119dd3ae8ba145",
+  "result": {
+    "room": {
+      "rollouts": 96,
+      "passive": 0,
+      "clear": 0,
+      "positive": 1141,
+      "negative": 2821,
+      "frame_std": 72.46471386298643
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/indoor_train/data.npz": "02ac1e5038b822dcf21f8dbc0c5590cda01339d3220c8eafcd03bcb522383740"
+  }
+}

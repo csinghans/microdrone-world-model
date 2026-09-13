@@ -1,0 +1,19 @@
+{
+  "stage": "indoor_holdout",
+  "started_unix": 1789283247.673723,
+  "elapsed_seconds": 16.82831907272339,
+  "manifest_sha256": "8dbb5e79c0f1488d17c3da52b0d47cf2a78e2e581d9e7826e4119dd3ae8ba145",
+  "result": {
+    "room": {
+      "rollouts": 60,
+      "passive": 0,
+      "clear": 0,
+      "positive": 1563,
+      "negative": 1875,
+      "frame_std": 72.61362026789757
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/indoor_holdout/data.npz": "ff9add297eec5fcc5ae74e25c2c5322e966ee40b2e885ffbeab139c36381bac4"
+  }
+}

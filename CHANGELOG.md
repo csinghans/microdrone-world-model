@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- **Data-layout study registered:** `schedule_layout_v1` compares fresh
+  matched controls/candidates across three training seeds, with one shared
+  independent holdout, per-seed guards and immutable stage receipts. The
+  background queue preserves incomplete attempts and checks source/data/WM
+  hashes before resumption. Training/evaluation results are pending; this
+  entry makes no learned-performance claim.
+
 - **Data role aliasing repaired (2026-09-13):** new transit datasets cycle
   passive/intervention and classic threat roles within each world's visits.
   Previously the three-world cycle made moving entirely passive, and a

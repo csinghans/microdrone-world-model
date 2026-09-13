@@ -107,6 +107,9 @@ courses. To reproduce a historical corpus, explicitly use
 global-index schedule aliased moving with passive-only flight in the
 three-world diet. [Evidence and migration notes](docs/RESEARCH-AUDIT-2026-09-13.md)
 explain the fix; existing corpora and checkpoints are unchanged.
+The registered [schedule_layout_v1 comparison](experiments/schedule_layout_v1/journal.md)
+tests its learned effect with three paired training seeds and one independent
+common exam; results are pending.
 
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.

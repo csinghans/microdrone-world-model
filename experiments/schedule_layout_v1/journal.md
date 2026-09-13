@@ -100,3 +100,42 @@ unchanged. No research corpus or checkpoint existed at the failure. Preserve
 the first manifest/log/failure in `harness_attempt_1/`, and the original PNGs
 under `output/schedule_layout_v1/harness_attempt_1/vision/`; begin a fresh
 manifest for the corrected harness. No completed measurement is repeated.
+
+## Preparation complete — 2026-09-13
+
+All six preparation stages completed with immutable receipts. The corrected
+[vision record](records/vision.json) passes for classic, dense, moving and
+room; the saved images were also inspected. Generation proceeded only after
+that instrument passed. The frozen source/environment manifest is
+[manifest.json](manifest.json), at harness revision `e4053e8`.
+
+Realized transit role coverage (passive / total rollouts):
+
+| World | Legacy training | Balanced training | Common holdout |
+|---|---:|---:|---:|
+| classic | 0 / 32 | 10 / 32 | 14 / 42 |
+| dense | 0 / 32 | 10 / 32 | 14 / 42 |
+| moving | 32 / 32 | 10 / 32 | 14 / 42 |
+
+Classic has 16 clear courses in each training arm and 21 in the holdout.
+The shared indoor component has 96 training and 60 holdout rollouts; its
+nav-command schedules are separate from the transit passive/intervention
+classification. These are realized coverage findings, not model scores.
+Evidence: [legacy](records/legacy_train.json),
+[balanced](records/world_balanced_train.json), [holdout](records/holdout.json).
+
+Every world passed the registered positive/negative label-support minimum.
+The common exam has horizon-32 positive/negative window counts of
+classic 1,003/1,875; dense 2,694/189; moving 1,649/1,269; room 1,563/1,875.
+These overlapping windows are not independent courses; the registered
+bootstrap still resamples entire rollouts. Dense has relatively sparse
+negative support. Keep the registered draw and report its uncertainty;
+do not enlarge it after seeing model readings.
+
+The independent combined exam SHA256 is
+`038a537ee4b9249c594bed937fba0f674a7ee2667716180b421446e90e189321`.
+The legacy and balanced training corpus hashes are respectively
+`7af21a770889041354847de26f14a37a5151ac1fb9282bec7cad2093c720a5c6`
+and `d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3`.
+All preparation receipt hashes and protected WM hashes were verified before
+continuing. The six-fit queue is active; no learned-effect verdict yet.

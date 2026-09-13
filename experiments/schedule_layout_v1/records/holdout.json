@@ -1,0 +1,43 @@
+{
+  "stage": "holdout",
+  "started_unix": 1789283306.361058,
+  "elapsed_seconds": 35.011895179748535,
+  "manifest_sha256": "8dbb5e79c0f1488d17c3da52b0d47cf2a78e2e581d9e7826e4119dd3ae8ba145",
+  "result": {
+    "classic": {
+      "rollouts": 42,
+      "passive": 14,
+      "clear": 21,
+      "positive": 1003,
+      "negative": 1875,
+      "frame_std": 55.27940510361691
+    },
+    "dense": {
+      "rollouts": 42,
+      "passive": 14,
+      "clear": 0,
+      "positive": 2694,
+      "negative": 189,
+      "frame_std": 76.04733482697439
+    },
+    "moving": {
+      "rollouts": 42,
+      "passive": 14,
+      "clear": 0,
+      "positive": 1649,
+      "negative": 1269,
+      "frame_std": 50.476672741189645
+    },
+    "room": {
+      "rollouts": 60,
+      "passive": 0,
+      "clear": 0,
+      "positive": 1563,
+      "negative": 1875,
+      "frame_std": 72.61362026789757
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/holdout/data.npz": "038a537ee4b9249c594bed937fba0f674a7ee2667716180b421446e90e189321"
+  }
+}

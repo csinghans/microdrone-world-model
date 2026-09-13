@@ -1,0 +1,43 @@
+{
+  "stage": "legacy_train",
+  "started_unix": 1789283264.71965,
+  "elapsed_seconds": 20.592246055603027,
+  "manifest_sha256": "8dbb5e79c0f1488d17c3da52b0d47cf2a78e2e581d9e7826e4119dd3ae8ba145",
+  "result": {
+    "classic": {
+      "rollouts": 32,
+      "passive": 0,
+      "clear": 16,
+      "positive": 341,
+      "negative": 569,
+      "frame_std": 59.30775117122021
+    },
+    "dense": {
+      "rollouts": 32,
+      "passive": 0,
+      "clear": 0,
+      "positive": 769,
+      "negative": 76,
+      "frame_std": 78.8946857057181
+    },
+    "moving": {
+      "rollouts": 32,
+      "passive": 32,
+      "clear": 0,
+      "positive": 1656,
+      "negative": 1160,
+      "frame_std": 49.23602726559091
+    },
+    "room": {
+      "rollouts": 96,
+      "passive": 0,
+      "clear": 0,
+      "positive": 1141,
+      "negative": 2821,
+      "frame_std": 72.46471386298643
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/legacy_train/data.npz": "7af21a770889041354847de26f14a37a5151ac1fb9282bec7cad2093c720a5c6"
+  }
+}
