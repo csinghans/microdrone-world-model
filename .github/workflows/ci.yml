@@ -60,6 +60,7 @@ jobs:
           python -m scripts.research_selftest
           python -m scripts.schedule_layout_study --selftest
           python -m eval.eval_schedule_report --selftest
+          python -m eval.eval_dataset_support --selftest
           python -m sim.domain_randomization
           python -m planner.safety_filter
           python -m sim.scenario_registry

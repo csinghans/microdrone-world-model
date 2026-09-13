@@ -1,0 +1,559 @@
+{
+  "scope": "Retrospective metadata/label audit, not a causal test or new gate. Only train partitions describe recorded optimization. All/val step counts are hypothetical. CF frame expectations also describe now-head sampling; not observed draws or gradient weights (CF normalizes by each batch's visible labels).",
+  "horizons": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "batch": 64,
+  "epochs": 80,
+  "all": {
+    "rollouts": 186,
+    "valid_windows": 12117,
+    "nominal_optimizer_steps_per_epoch": 190,
+    "nominal_optimizer_steps_total": 15200,
+    "nominal_executed_window_presentations_total": 969360,
+    "cf_draws_per_half_per_epoch": 6058,
+    "hard_pool_falls_back_to_all_frames": false,
+    "worlds": {
+      "classic": {
+        "rollout_ids": [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          27,
+          30,
+          33,
+          36,
+          39,
+          42,
+          45,
+          48,
+          51,
+          54,
+          57,
+          60,
+          63,
+          66,
+          69,
+          72,
+          75,
+          78,
+          81,
+          84,
+          87,
+          90,
+          93,
+          96,
+          99,
+          102,
+          105,
+          108,
+          111,
+          114,
+          117,
+          120,
+          123
+        ],
+        "rollouts": 42,
+        "passive_rollouts": 14,
+        "rollouts_with_actual_action_changes": 28,
+        "frames": 6720,
+        "valid_windows": 2878,
+        "eligible_fraction": 0.5353422619047619,
+        "executed_window_share": 0.23751753734422712,
+        "labels_at_32": {
+          "positive": 1003,
+          "negative": 1875,
+          "positive_rollouts": 21,
+          "negative_rollouts": 41,
+          "auc_defined": true
+        },
+        "now_labels": {
+          "positive": 1471,
+          "negative": 5249,
+          "positive_rollouts": 21,
+          "negative_rollouts": 42,
+          "auc_defined": true
+        },
+        "actions": {
+          "forward": {
+            "windows": 2021,
+            "positive": 656,
+            "negative": 1365,
+            "positive_rollouts": 12,
+            "negative_rollouts": 35,
+            "auc_defined": true
+          },
+          "slow": {
+            "windows": 114,
+            "positive": 55,
+            "negative": 59,
+            "positive_rollouts": 3,
+            "negative_rollouts": 6,
+            "auc_defined": true
+          },
+          "veer_left": {
+            "windows": 268,
+            "positive": 139,
+            "negative": 129,
+            "positive_rollouts": 8,
+            "negative_rollouts": 8,
+            "auc_defined": true
+          },
+          "veer_right": {
+            "windows": 171,
+            "positive": 52,
+            "negative": 119,
+            "positive_rollouts": 3,
+            "negative_rollouts": 9,
+            "auc_defined": true
+          },
+          "climb": {
+            "windows": 144,
+            "positive": 74,
+            "negative": 70,
+            "positive_rollouts": 4,
+            "negative_rollouts": 5,
+            "auc_defined": true
+          },
+          "hover": {
+            "windows": 160,
+            "positive": 27,
+            "negative": 133,
+            "positive_rollouts": 2,
+            "negative_rollouts": 7,
+            "auc_defined": true
+          }
+        },
+        "counterfactual": {
+          "visible_frame_candidates": 32406,
+          "positive_at_32": 3876,
+          "negative_at_32": 28530,
+          "current_hard_frames": 861,
+          "answerable_contrast_frames": 838,
+          "hard_without_answerable_contrast": 23,
+          "expected_sampled_frames_per_epoch": 2574.4906538917867
+        }
+      },
+      "dense": {
+        "rollout_ids": [
+          1,
+          4,
+          7,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          31,
+          34,
+          37,
+          40,
+          43,
+          46,
+          49,
+          52,
+          55,
+          58,
+          61,
+          64,
+          67,
+          70,
+          73,
+          76,
+          79,
+          82,
+          85,
+          88,
+          91,
+          94,
+          97,
+          100,
+          103,
+          106,
+          109,
+          112,
+          115,
+          118,
+          121,
+          124
+        ],
+        "rollouts": 42,
+        "passive_rollouts": 14,
+        "rollouts_with_actual_action_changes": 28,
+        "frames": 6720,
+        "valid_windows": 2883,
+        "eligible_fraction": 0.5362723214285714,
+        "executed_window_share": 0.2379301807378064,
+        "labels_at_32": {
+          "positive": 2694,
+          "negative": 189,
+          "positive_rollouts": 42,
+          "negative_rollouts": 16,
+          "auc_defined": true
+        },
+        "now_labels": {
+          "positive": 4663,
+          "negative": 2057,
+          "positive_rollouts": 42,
+          "negative_rollouts": 42,
+          "auc_defined": true
+        },
+        "actions": {
+          "forward": {
+            "windows": 2038,
+            "positive": 1907,
+            "negative": 131,
+            "positive_rollouts": 32,
+            "negative_rollouts": 12,
+            "auc_defined": true
+          },
+          "slow": {
+            "windows": 193,
+            "positive": 176,
+            "negative": 17,
+            "positive_rollouts": 10,
+            "negative_rollouts": 2,
+            "auc_defined": true
+          },
+          "veer_left": {
+            "windows": 138,
+            "positive": 126,
+            "negative": 12,
+            "positive_rollouts": 8,
+            "negative_rollouts": 1,
+            "auc_defined": true
+          },
+          "veer_right": {
+            "windows": 172,
+            "positive": 166,
+            "negative": 6,
+            "positive_rollouts": 12,
+            "negative_rollouts": 1,
+            "auc_defined": true
+          },
+          "climb": {
+            "windows": 240,
+            "positive": 221,
+            "negative": 19,
+            "positive_rollouts": 11,
+            "negative_rollouts": 1,
+            "auc_defined": true
+          },
+          "hover": {
+            "windows": 102,
+            "positive": 98,
+            "negative": 4,
+            "positive_rollouts": 7,
+            "negative_rollouts": 1,
+            "auc_defined": true
+          }
+        },
+        "counterfactual": {
+          "visible_frame_candidates": 20469,
+          "positive_at_32": 11998,
+          "negative_at_32": 8471,
+          "current_hard_frames": 2931,
+          "answerable_contrast_frames": 2306,
+          "hard_without_answerable_contrast": 625,
+          "expected_sampled_frames_per_epoch": 5475.267891920933
+        }
+      },
+      "moving": {
+        "rollout_ids": [
+          2,
+          5,
+          8,
+          11,
+          14,
+          17,
+          20,
+          23,
+          26,
+          29,
+          32,
+          35,
+          38,
+          41,
+          44,
+          47,
+          50,
+          53,
+          56,
+          59,
+          62,
+          65,
+          68,
+          71,
+          74,
+          77,
+          80,
+          83,
+          86,
+          89,
+          92,
+          95,
+          98,
+          101,
+          104,
+          107,
+          110,
+          113,
+          116,
+          119,
+          122,
+          125
+        ],
+        "rollouts": 42,
+        "passive_rollouts": 14,
+        "rollouts_with_actual_action_changes": 28,
+        "frames": 6720,
+        "valid_windows": 2918,
+        "eligible_fraction": 0.5427827380952381,
+        "executed_window_share": 0.24081868449286126,
+        "labels_at_32": {
+          "positive": 1649,
+          "negative": 1269,
+          "positive_rollouts": 37,
+          "negative_rollouts": 41,
+          "auc_defined": true
+        },
+        "now_labels": {
+          "positive": 1960,
+          "negative": 4760,
+          "positive_rollouts": 37,
+          "negative_rollouts": 42,
+          "auc_defined": true
+        },
+        "actions": {
+          "forward": {
+            "windows": 2046,
+            "positive": 1150,
+            "negative": 896,
+            "positive_rollouts": 21,
+            "negative_rollouts": 34,
+            "auc_defined": true
+          },
+          "slow": {
+            "windows": 260,
+            "positive": 149,
+            "negative": 111,
+            "positive_rollouts": 10,
+            "negative_rollouts": 8,
+            "auc_defined": true
+          },
+          "veer_left": {
+            "windows": 95,
+            "positive": 78,
+            "negative": 17,
+            "positive_rollouts": 5,
+            "negative_rollouts": 2,
+            "auc_defined": true
+          },
+          "veer_right": {
+            "windows": 187,
+            "positive": 99,
+            "negative": 88,
+            "positive_rollouts": 8,
+            "negative_rollouts": 7,
+            "auc_defined": true
+          },
+          "climb": {
+            "windows": 204,
+            "positive": 131,
+            "negative": 73,
+            "positive_rollouts": 8,
+            "negative_rollouts": 6,
+            "auc_defined": true
+          },
+          "hover": {
+            "windows": 126,
+            "positive": 42,
+            "negative": 84,
+            "positive_rollouts": 3,
+            "negative_rollouts": 7,
+            "auc_defined": true
+          }
+        },
+        "counterfactual": {
+          "visible_frame_candidates": 24698,
+          "positive_at_32": 2553,
+          "negative_at_32": 22145,
+          "current_hard_frames": 531,
+          "answerable_contrast_frames": 531,
+          "hard_without_answerable_contrast": 0,
+          "expected_sampled_frames_per_epoch": 2112.047905800184
+        }
+      },
+      "room": {
+        "rollout_ids": [
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185
+        ],
+        "rollouts": 60,
+        "passive_rollouts": 0,
+        "rollouts_with_actual_action_changes": 59,
+        "frames": 9600,
+        "valid_windows": 3438,
+        "eligible_fraction": 0.44765625,
+        "executed_window_share": 0.28373359742510523,
+        "labels_at_32": {
+          "positive": 1563,
+          "negative": 1875,
+          "positive_rollouts": 34,
+          "negative_rollouts": 41,
+          "auc_defined": true
+        },
+        "now_labels": {
+          "positive": 3619,
+          "negative": 5981,
+          "positive_rollouts": 35,
+          "negative_rollouts": 54,
+          "auc_defined": true
+        },
+        "actions": {
+          "forward": {
+            "windows": 633,
+            "positive": 242,
+            "negative": 391,
+            "positive_rollouts": 11,
+            "negative_rollouts": 17,
+            "auc_defined": true
+          },
+          "reverse": {
+            "windows": 598,
+            "positive": 387,
+            "negative": 211,
+            "positive_rollouts": 15,
+            "negative_rollouts": 11,
+            "auc_defined": true
+          },
+          "strafe_left": {
+            "windows": 679,
+            "positive": 359,
+            "negative": 320,
+            "positive_rollouts": 16,
+            "negative_rollouts": 16,
+            "auc_defined": true
+          },
+          "strafe_right": {
+            "windows": 564,
+            "positive": 274,
+            "negative": 290,
+            "positive_rollouts": 15,
+            "negative_rollouts": 13,
+            "auc_defined": true
+          },
+          "slow": {
+            "windows": 468,
+            "positive": 188,
+            "negative": 280,
+            "positive_rollouts": 7,
+            "negative_rollouts": 14,
+            "auc_defined": true
+          },
+          "hover": {
+            "windows": 496,
+            "positive": 113,
+            "negative": 383,
+            "positive_rollouts": 5,
+            "negative_rollouts": 19,
+            "auc_defined": true
+          }
+        },
+        "counterfactual": {
+          "visible_frame_candidates": 0,
+          "positive_at_32": 0,
+          "negative_at_32": 0,
+          "current_hard_frames": 0,
+          "answerable_contrast_frames": 0,
+          "hard_without_answerable_contrast": 0,
+          "expected_sampled_frames_per_epoch": 1954.1935483870968
+        }
+      }
+    }
+  },
+  "splits": {},
+  "provenance": {
+    "dataset": {
+      "path": "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/holdout/data.npz",
+      "sha256": "038a537ee4b9249c594bed937fba0f674a7ee2667716180b421446e90e189321"
+    },
+    "sources": {
+      "/Users/hans.chen/microdrone-world-model/eval/eval_dataset_support.py": "d46409d1d02ef6e75ea039363af67dfc3155492b5ad2413ad1974a0dd43b8223",
+      "/Users/hans.chen/microdrone-world-model/world_model/training.py": "08f9df98a1dd4f5fcbc94c756f9747256aca1d0641cb93eaba1abaef3600dbc6",
+      "/Users/hans.chen/microdrone-world-model/datasets/intervention_labels.py": "bcf0b7508eef7c5c32181082b3e3598310f46f9659766549c574ce037d5dc803",
+      "/Users/hans.chen/microdrone-world-model/planner/action_set.py": "3c794fd1eacf9b5c7a009b444a957cb6a9348f59cf6482361dc162b7f998bcb4",
+      "/Users/hans.chen/microdrone-world-model/planner/nav_action_set.py": "6be74b3dd60cbdc344cc9578b3ac815cc605bc33e0ac7865585ab13ee716a120"
+    },
+    "numpy": "2.5.3"
+  }
+}

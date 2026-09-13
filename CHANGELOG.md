@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- **Supervision support audited:** the saved schedule-layout corpora gain
+  moving action diversity while eligible executed windows fall 2,816→1,506.
+  All six fit counts reconcile; a dense internal AUC 0.5 is identified as
+  classless (158 positive / zero negative). Future training metrics include
+  label counts and undefined-AUC warnings without changing numeric fallback,
+  optimization or historical results. The audit also distinguishes actual
+  answerable action contrast from zero-mask contrast in the existing hard
+  sampler. [Evidence](experiments/schedule_support_v1/journal.md).
+
 - **schedule_layout_v1 closes NO-GO:** six matched 80-epoch fits scored
   on the same 186 independent courses. Moving candidate-minus-control AUC
   deltas are +0.0133 / −0.0745 / −0.1042 (mean −0.0551; required +0.0300),

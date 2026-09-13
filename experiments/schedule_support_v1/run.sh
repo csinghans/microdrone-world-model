@@ -11,4 +11,5 @@ done
 python -m eval.eval_dataset_support \
   --data output/schedule_layout_v1/holdout/data.npz \
   --out experiments/schedule_support_v1/holdout.json --independent-holdout
+bash experiments/schedule_support_v1/verify.sh
 echo SCHEDULE-SUPPORT-DONE

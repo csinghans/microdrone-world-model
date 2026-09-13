@@ -1,0 +1,51 @@
+{
+  "scope": "Saved audit versus original fit and exam receipts",
+  "fits": [
+    {
+      "arm": "legacy",
+      "seed": 0,
+      "n_train": 6987,
+      "n_val": 1546,
+      "classless_val_worlds": [
+        "dense"
+      ]
+    },
+    {
+      "arm": "legacy",
+      "seed": 1,
+      "n_train": 6880,
+      "n_val": 1653,
+      "classless_val_worlds": []
+    },
+    {
+      "arm": "legacy",
+      "seed": 2,
+      "n_train": 6858,
+      "n_val": 1675,
+      "classless_val_worlds": []
+    },
+    {
+      "arm": "world_balanced",
+      "seed": 0,
+      "n_train": 6893,
+      "n_val": 1535,
+      "classless_val_worlds": []
+    },
+    {
+      "arm": "world_balanced",
+      "seed": 1,
+      "n_train": 6796,
+      "n_val": 1632,
+      "classless_val_worlds": []
+    },
+    {
+      "arm": "world_balanced",
+      "seed": 2,
+      "n_train": 6753,
+      "n_val": 1675,
+      "classless_val_worlds": []
+    }
+  ],
+  "holdout_windows": 12117,
+  "status": "PASS"
+}

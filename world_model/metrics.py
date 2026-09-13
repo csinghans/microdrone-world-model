@@ -5,6 +5,20 @@ import numpy as np
 AUC_METHOD = "mann_whitney_average_ranks_v2"
 
 
+def auc_support(labels: np.ndarray) -> dict:
+    """Class support under roc_auc's label convention, without ranking scores."""
+    labels = np.asarray(labels)
+    if not np.isfinite(labels).all():
+        raise ValueError("AUC labels must be finite")
+    positive, negative = int((labels > 0.5).sum()), int((labels < 0.5).sum())
+    return {
+        "positive": positive,
+        "negative": negative,
+        "ignored": int((labels == 0.5).sum()),
+        "auc_defined": positive > 0 and negative > 0,
+    }
+
+
 def roc_auc(scores: np.ndarray, labels: np.ndarray) -> float:
     """Mann-Whitney AUC with half credit for tied positive/negative scores.
 
@@ -60,6 +74,19 @@ def selftest() -> None:
 
     for y in (np.array([]), np.ones(4), np.zeros(4), np.full(4, 0.5)):
         assert roc_auc(np.zeros(len(y)), y) == 0.5, "missing class fallback changed"
+        assert not auc_support(y)["auc_defined"], "fallback misreported as ranking"
+    assert auc_support([1, 0, 0.5]) == {
+        "positive": 1,
+        "negative": 1,
+        "ignored": 1,
+        "auc_defined": True,
+    }
+    try:
+        auc_support([float("nan")])
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("nonfinite label counted as absent")
     assert roc_auc(np.array([1.0, 0.0, 9.0]), np.array([1.0, 0.0, 0.5])) == 1.0
     for s, y in (
         ([float("nan"), 0], [1, 0]),

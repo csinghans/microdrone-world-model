@@ -320,6 +320,13 @@ def main() -> None:
             *modules, data, seed=19, independent_holdout=True, sample_output=sample_b
         )
         assert _json_ready(a) == _json_ready(b), "holdout exam drifted"
+        for world, support in m["label_counts_by_world"].items():
+            assert {key: support[key] for key in ("positive", "negative")} == r[
+                "label_counts_by_world"
+            ][world], "train/probe label support differs"
+            assert support["auc_defined"] == (
+                support["positive"] > 0 and support["negative"] > 0
+            )
         assert a["va_rolls"] == list(range(8))
         assert _json_ready((float("nan"), 0)) == [None, 0]
         json.dumps(_json_ready(a), allow_nan=False)

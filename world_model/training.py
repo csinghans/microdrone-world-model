@@ -40,6 +40,7 @@ from world_model.collision_head import CollisionHeads, DangerNowHead
 from world_model.encoder import LATENT_D, Encoder
 from world_model.grounding import GroundingHead
 from world_model.losses import augment_torch, ema_update, roc_auc, variance_guard
+from world_model.metrics import auc_support
 from world_model.predictor import MultiPredictor
 from world_model.temporal import K_WIN, TemporalEncoder
 
@@ -266,9 +267,10 @@ def train(
     )
     tr_frames = np.array([r * L + t for r in tr_rolls for t in range(L)])
     c_all = torch.tensor(tr_frames).to(device)
-    # frames where the *visible* candidate labels disagree carry the ranking
-    # signal; most frames are far from any pillar and teach nothing about
-    # choice, so half of every counterfactual batch oversamples the former
+    # Legacy hard-pool heuristic: zero-masked candidate vectors disagree.
+    # This includes some frames with identical answerable labels but a masked
+    # candidate (schedule_support_v1). Preserve the measured sampling recipe;
+    # selecting only answerable contrast is a separate research knob.
     cfv = (cf_np * vis_np[:, :, None, None])[tr_frames].reshape(
         len(tr_frames), n_a, n_h * n_r
     )
@@ -411,7 +413,7 @@ def train(
         scores = torch.sigmoid(cheads(z_hat)).cpu().numpy()[:, :, 0]  # warn ring
     auc_h = [roc_auc(scores[:, i], c_h[va][:, i, 0]) for i in range(len(HORIZONS))]
     # v0.2: the slice that matters — AUC@32 per world kind, when worlds exist
-    auc_by_world = {}
+    auc_by_world, label_counts_by_world = {}, {}
     if "world_id" in data:
         if "world_names" in data:  # self-describing dataset (v0.4+)
             wn = [str(x) for x in np.asarray(data["world_names"])]
@@ -421,10 +423,17 @@ def train(
         sw = np.asarray(data["world_id"])[idx[va][:, 0]]
         for w in sorted({int(x) for x in sw}):
             m = sw == w
-            if int(m.sum()) >= 20:
-                auc_by_world[names.get(w, str(w))] = roc_auc(
-                    scores[m][:, -1], c_h[va][m][:, -1, 0]
+            name = names.get(w, str(w))
+            support = auc_support(c_h[va][m][:, -1, 0])
+            label_counts_by_world[name] = support
+            if not support["auc_defined"]:
+                print(
+                    f"[WARN] AUC@32/{name} undefined: "
+                    f"{support['positive']} positive / {support['negative']} negative; "
+                    "numeric 0.5 is a compatibility fallback, not measured ranking"
                 )
+            if int(m.sum()) >= 20:
+                auc_by_world[name] = roc_auc(scores[m][:, -1], c_h[va][m][:, -1, 0])
     # danger-now needs no held future window, so score it on *every* val frame
     now_idx = torch.tensor([r * L + t for r in va_rolls for t in range(L)]).to(device)
     now_lbl = np.array(
@@ -511,6 +520,9 @@ def train(
         "zabs": zabs,
         "auc": auc_h,
         "auc_by_world": auc_by_world,
+        "label_counts_by_world": label_counts_by_world,
+        "label_counts_h": [auc_support(c_h[va][:, i, 0]) for i in range(len(HORIZONS))],
+        "now_label_counts": auc_support(now_lbl),
         "now_auc": now_auc,
         "side": side,
         "n_side": n_side,

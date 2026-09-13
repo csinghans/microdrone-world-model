@@ -115,6 +115,21 @@ effect of balanced roles: generator RNG consumption, valid-window support
 and internal splits also change. New default data is role-complete, not a
 certified checkpoint upgrade. The negative remains closed without retries.
 
+The subsequent metadata-only [schedule_support_v1 audit](../experiments/schedule_support_v1/journal.md)
+reconciles the saved corpora with all six fits. Moving's eligible executed
+windows fall from 2,816 to 1,506 while action diversity increases; total
+optimizer steps change by only 0.9–1.9%. Internal legacy seed-0 dense AUC
+0.5 was a classless fallback (158 positive / zero negative windows), not a
+chance-ranking measurement. The independent final exam retains both classes.
+Future training output now records support and warns on undefined world AUC.
+
+The same audit finds 8.49–9.32% of legacy and 11.83–13.01% of balanced
+training hard-pool frames have no disagreement between answerable candidate
+labels: zero masking itself creates their vector contrast. This does not
+mean the CF loss trains on masked labels; that loss still masks correctly.
+Changing the sampling pool is a separate, untested knob, and may also affect
+danger-now because both losses consume the same sampled frames.
+
 ## Research explanations that needed narrowing
 
 ### Perception results are checkpoint observations

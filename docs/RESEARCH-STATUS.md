@@ -67,16 +67,40 @@ its geometric centreline crossing, with unchanged thresholds, seeds and
 training recipe. All four rendered-scene checks passed; the original
 failure and manifest remain in `harness_attempt_1/`.
 
-The next bounded investigation should inspect **effective training-window,
-action and label support** in the already saved legacy/balanced corpora,
-including the per-seed rollout splits and any classless validation buckets.
-Use a read-only, rerunnable diagnostic before choosing a new training knob.
-Do not assume fewer passive moving rollouts means more useful supervised
-moving windows: held-segment eligibility changes too, and the old oracle
-already provided counterfactual action labels. Do not infer the cause from
-balanced seed 2's large endpoint absolute latent value alone; seed 1 also
-loses performance without that symptom. Keep optimization exposure, latent
-scale, course uncertainty and training-draw spread distinct.
+The metadata-only [schedule_support_v1 audit](../experiments/schedule_support_v1/journal.md)
+is also complete. All six train/validation window counts and the common
+exam's class counts reconcile. Moving executed windows fall 2,816→1,506
+while non-forward categories appear. The legacy seed-0 dense internal
+validation AUC 0.5 was undefined: 158 positive / zero negative windows.
+Training now records class support and warns on such fallbacks; numeric
+values and all archived results remain unchanged. The two-epoch checkpoint
+selftest passed training/probe count agreement and exercised a warning.
+
+`python -m eval.eval_dataset_support --selftest` checks exact window/split
+counts, room/transit action-id separation, classless labels and masked
+contrast. `bash experiments/schedule_support_v1/verify.sh` checks saved
+audit/fit/exam agreement without fitting or rewriting outputs. The audit's
+raw data is under its campaign directory; no experiment worker is active.
+Original manifest source hashes describe the historical training revision;
+the new class-support logging was added only after both studies completed.
+
+The next candidate knob is **CF hard-pool selection**: the current
+zero-masked-vector rule versus disagreement between answerable candidate
+labels. The audit measured masked-only contrast in 8.49–9.32% of legacy
+and 11.83–13.01% of balanced training hard frames. The CF loss masks labels
+correctly; the issue is allocation, and these frames may still help
+danger-now, which consumes the same sample pool. Benefit from changing the
+pool is unmeasured. Prepare an explicit recipe flag preserving current
+behavior, matched controls and immutable per-seed bars before fitting.
+Use an independently generated confirmation exam; do not tune against
+the already inspected schedule-layout holdout and call it confirmation.
+
+Restoring moving executed-window exposure is a separate possible knob;
+do not change it together with the hard pool. Do not infer the cause from
+balanced seed 2's endpoint offset alone: seed 1 also loses without that
+symptom. Keep optimization exposure, latent scale, course uncertainty and
+training-draw spread distinct. Any next fit needs its own registration and
+frozen bars; this retrospective audit does not pass a flight or promotion gate.
 
 The coverage repair remains a structural data fix, **not a demonstrated
 performance upgrade**. README, roadmap, changelog and the evidence audit
