@@ -55,6 +55,7 @@ jobs:
           python -m world_model.collision_head
           python -m world_model.losses
           python -m world_model.metrics
+          python -m world_model.cf_sampling
           python -m eval.compare_wm_scores --selftest
           python -m eval.eval_auc_audit --selftest
           python -m scripts.research_selftest

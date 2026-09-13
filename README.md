@@ -113,6 +113,12 @@ common exam, moving AUC changed by −0.055 on average and guards failed.
 The new default fixes role coverage; it is not a validated performance
 upgrade. Freeze the layout explicitly in every training recipe.
 
+Training also exposes `--cf-hard-pool legacy_masked|answerable`. The default
+preserves the existing sampler; `answerable` selects frames whose visible
+candidate actions have different collision labels at the same horizon/ring.
+The registered [CF sampler comparison](experiments/cf_hard_pool_v1/journal.md)
+uses matched fresh fits and a new exam; its benefit is not yet measured.
+
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
 

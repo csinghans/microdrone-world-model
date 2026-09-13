@@ -61,6 +61,50 @@ def _validate(a, b):
         raise ValueError("comparison requires horizon 32 as the final score column")
 
 
+def _compare_veer(a, b, n_boot, seed):
+    """Conditional accuracy uncertainty; correlated probe frames stay together."""
+    for key in ("veer_pairs", "veer_gt_left", "veer_world_id"):
+        if not np.array_equal(a[key], b[key]):
+            raise ValueError(f"paired veer exam mismatch: {key}")
+    pairs, worlds = a["veer_pairs"], a["veer_world_id"]
+    n = len(pairs)
+    if pairs.shape != (n, 2) or len(np.unique(pairs, axis=0)) != n:
+        raise ValueError("invalid or duplicate veer pairs")
+    if not np.issubdtype(pairs.dtype, np.integer) or (pairs < 0).any():
+        raise ValueError("veer pairs must be nonnegative integer indices")
+    for arm in (a, b):
+        for key in ("veer_correct", "veer_gt_left", "veer_world_id"):
+            if arm[key].shape != (n,):
+                raise ValueError("inconsistent veer sample shape")
+        if not np.isin(arm["veer_correct"], [0, 1]).all():
+            raise ValueError("veer correctness must be binary")
+    rows = {r: np.flatnonzero(pairs[:, 0] == r) for r in np.unique(pairs[:, 0])}
+    if any(len(np.unique(worlds[ix])) != 1 for ix in rows.values()):
+        raise ValueError("veer rollout belongs to multiple worlds")
+    out = {"n_samples": n, "n_rollouts": len(rows), "ci95": None}
+    if not n:
+        return dict(out, delta=None, reason="no eligible veer probe frames")
+    correct_a, correct_b = a["veer_correct"].astype(float), b["veer_correct"].astype(
+        float
+    )
+    out.update(
+        accuracy_baseline=float(correct_a.mean()),
+        accuracy_candidate=float(correct_b.mean()),
+        delta=float(correct_b.mean() - correct_a.mean()),
+    )
+    strata = [np.unique(pairs[worlds == w, 0]) for w in np.unique(worlds)]
+    if any(len(s) < 2 for s in strata):
+        return dict(out, reason="fewer than two probe rollouts in a world stratum")
+    rng, deltas = np.random.default_rng(seed), []
+    for _ in range(n_boot):
+        picked = np.concatenate([rng.choice(s, size=len(s)) for s in strata])
+        ix = np.concatenate([rows[r] for r in picked])
+        deltas.append(float((correct_b[ix] - correct_a[ix]).mean()))
+    return dict(
+        out, ci95=np.quantile(deltas, [0.025, 0.975]).tolist(), valid_bootstraps=n_boot
+    )
+
+
 def compare(a, b, n_boot=2000, seed=0):
     """Report candidate minus baseline AUC; no threshold-based verdict."""
     _validate(a, b)
@@ -123,6 +167,11 @@ def compare(a, b, n_boot=2000, seed=0):
             undefined_bootstraps=n_boot - len(deltas),
         )
         result[name] = row
+    extra = {}
+    if "veer_pairs" in a or "veer_pairs" in b:
+        if "veer_pairs" not in a or "veer_pairs" not in b:
+            raise ValueError("only one model exports veer samples")
+        extra["veer"] = _compare_veer(a, b, n_boot, seed)
     return {
         "method": "paired_world_stratified_rollout_percentile_bootstrap",
         "auc_method": AUC_METHOD,
@@ -133,6 +182,7 @@ def compare(a, b, n_boot=2000, seed=0):
         "baseline": a["metadata"],
         "candidate": b["metadata"],
         "worlds": result,
+        **extra,
     }
 
 
@@ -199,6 +249,29 @@ def selftest():
     flat = deepcopy(a)
     flat["labels"][:] = 0
     assert compare(flat, flat, n_boot=10)["worlds"]["all"]["ci95"] is None
+    aa, bb = deepcopy(a), deepcopy(a)
+    for arm in (aa, bb):
+        arm.update(
+            veer_pairs=pairs.copy(),
+            veer_gt_left=np.zeros(len(pairs), dtype=bool),
+            veer_world_id=a["world_id"].copy(),
+            veer_correct=np.zeros(len(pairs), dtype=bool),
+        )
+    bb["veer_correct"][:] = True
+    vr = compare(aa, bb, n_boot=20)["veer"]
+    assert vr["delta"] == 1 and vr["ci95"] == [1, 1]
+    assert vr["n_rollouts"] == 8
+    # Doubling frames within each course cannot add independent evidence.
+    bb["veer_correct"][pairs[:, 0] % 2 == 0] = False
+    coarse_veer = compare(aa, bb, n_boot=40, seed=3)["veer"]
+    doubled = []
+    for arm in (aa, bb):
+        dense = deepcopy(arm)
+        for key in ("veer_pairs", "veer_gt_left", "veer_world_id", "veer_correct"):
+            dense[key] = np.repeat(arm[key], 2, axis=0)
+        dense["veer_pairs"][:, 1] = np.tile(np.arange(4), 8)
+        doubled.append(dense)
+    assert compare(*doubled, n_boot=40, seed=3)["veer"]["ci95"] == coarse_veer["ci95"]
     print(
         "WM-COMPARISON OK: paired course bootstrap, identity, alignment, undefined AUC"
     )

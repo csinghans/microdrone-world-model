@@ -1,0 +1,21 @@
+{
+  "campaign": "cf_hard_pool_v1",
+  "kind": "cf_hard_pool",
+  "version": 1,
+  "arms": ["legacy_masked", "answerable"],
+  "seeds": [0, 1, 2],
+  "order": [["legacy_masked", 0], ["answerable", 0], ["answerable", 1], ["legacy_masked", 1], ["legacy_masked", 2], ["answerable", 2]],
+  "training_source": {"path": "output/schedule_layout_v1/world_balanced_train/data.npz", "sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"},
+  "train_data": {"n_transit": 96, "n_indoor": 96, "length": 120, "transit_seed": 2026091301, "indoor_seed": 2026091302, "schedule_layout": "world_balanced"},
+  "holdout": {"n_transit": 126, "n_indoor": 60, "length": 160, "transit_seed": 2026091401, "indoor_seed": 2026091402, "schedule_layout": "world_balanced"},
+  "worlds": ["classic", "dense", "moving"],
+  "img_res": 64,
+  "train": {"epochs": 80, "batch": 64, "latent_d": 64, "strips": 4, "in_frames": 1, "frame_stride": 4, "robust": false, "temporal": false, "ground": false, "ground_lambda": 0.5},
+  "training_device": "mps",
+  "evaluation_device": "cpu",
+  "bootstrap": {"n_boot": 2000, "seed": 0},
+  "instrument": {"fixture_seed": 2026091400, "minimum_frame_std": 1.0, "minimum_render_difference": 1.0, "minimum_labels_per_class_per_world": 20, "minimum_veer_samples": 20, "minimum_veer_rollouts": 6},
+  "bars": {"veer_mean_delta_min": 0.05, "veer_each_delta_min": 0.0, "guard_worlds": ["classic", "dense", "moving", "room"], "guard_each_auc_delta_min": -0.02, "guard_each_now_auc_delta_min": -0.02, "budget_kb_max": 512.0},
+  "completion_marker": "CF-HARD-POOL-STUDY COMPLETE",
+  "interpretation": "Offline comparison of one training-sampler knob on a new confirmation exam. All six fits are unconditional after instrument checks; no replacement draws, optional rechecks, sample expansion, or changed bars. GO only permits registering a later flight study, never promotion. Paired rollout-bootstrap intervals condition on fixed checkpoints, not training randomness."
+}

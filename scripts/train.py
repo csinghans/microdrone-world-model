@@ -22,6 +22,7 @@ import torch
 from datasets.generate_rollouts import OUT as DATA
 from datasets.generate_rollouts import gen
 from datasets.intervention_labels import HORIZONS
+from world_model.cf_sampling import CF_HARD_POOLS
 from world_model.training import GAP8_BUDGET_KB, MODEL, MODEL_GRU, train
 
 
@@ -76,6 +77,7 @@ def train_world_model(args) -> None:
         temporal=args.temporal,
         ground=args.ground,
         ground_lambda=args.ground_lambda,
+        cf_hard_pool=args.cf_hard_pool,
         **rep,
     )
 
@@ -185,6 +187,7 @@ def main() -> None:
     ap.add_argument("--temporal", action="store_true")  # model-side GRU (v3)
     ap.add_argument("--ground", action="store_true")  # v0.5 metric-grounding aux
     ap.add_argument("--ground-lambda", type=float, default=0.5)  # the N-knob
+    ap.add_argument("--cf-hard-pool", choices=CF_HARD_POOLS, default="legacy_masked")
     ap.add_argument("--out", default=None, help="world-model save path override")
     ap.add_argument("--seed", type=int, default=0)  # borderline reruns use seed+1
     ap.add_argument("--data", default=None, help="dataset npz override (e.g. search)")

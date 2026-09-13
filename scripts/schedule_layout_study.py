@@ -1,7 +1,8 @@
-"""Run the frozen schedule_layout_v1 study, or its simulator-free selftest.
+"""Run registered paired WM studies, or their simulator-free selftests.
 
     python -m scripts.schedule_layout_study --selftest
     bash experiments/schedule_layout_v1/run.sh
+    bash experiments/cf_hard_pool_v1/run.sh
 
 Each stage owns a fresh directory and an immutable hashed receipt. A stage
 left without a receipt requires inspection, never automatic remeasurement.
@@ -92,6 +93,11 @@ def provenance():
         text=True,
     ).splitlines()
     paths += [str(REGISTRATION.relative_to(ROOT))]
+    extra = {}
+    source = read(REGISTRATION).get("training_source")
+    if source:
+        extra["training_input"] = {str(ROOT / source["path"]): source["sha256"]}
+        verify_files(extra["training_input"])
     return {
         "sources": {str(ROOT / p): sha(ROOT / p) for p in paths},
         "protected": protected(),
@@ -103,6 +109,7 @@ def provenance():
                 for p in ("torch", "numpy", "pybullet", "gym-pybullet-drones")
             },
         },
+        **extra,
     }
 
 
@@ -121,6 +128,61 @@ def data_path(stage):
 def load_data(stage):
     with np.load(data_path(stage), allow_pickle=False) as blob:
         return dict(blob)
+
+
+def training_path(arm, config):
+    source = config.get("training_source")
+    return ROOT / source["path"] if source else data_path(f"{arm}_train")
+
+
+def cf_verdict(pairs, config):
+    bars, checks, deltas = config["bars"], {}, []
+    if [p["seed"] for p in pairs] != config["seeds"]:
+        raise ValueError("requires every registered seed, exactly once and in order")
+    for pair in pairs:
+        seed, a, b = pair["seed"], pair["baseline"], pair["candidate"]
+        values = [a["veer_all"][0], b["veer_all"][0], a["now_auc"], b["now_auc"]]
+        values += [
+            arm["auc_by_world"][w] for arm in (a, b) for w in bars["guard_worlds"]
+        ]
+        if any(v is None or not np.isfinite(v) for v in values):
+            raise ValueError("missing or nonfinite decision metric")
+        for arm in (a, b):
+            if arm["veer_all"][1] < config["instrument"]["minimum_veer_samples"]:
+                raise ValueError("insufficient veer frames")
+            if arm["veer_rollouts"] < config["instrument"]["minimum_veer_rollouts"]:
+                raise ValueError("insufficient independent veer rollouts")
+            counts = [arm["now_label_counts"]] + [
+                arm["label_counts_by_world"][w] for w in bars["guard_worlds"]
+            ]
+            if any(min(c["positive"], c["negative"]) == 0 for c in counts):
+                raise ValueError("classless guarded AUC")
+        delta = b["veer_all"][0] - a["veer_all"][0]
+        deltas.append(delta)
+        checks[f"seed{seed}/veer_nonnegative"] = delta >= bars["veer_each_delta_min"]
+        for world in bars["guard_worlds"]:
+            checks[f"seed{seed}/{world}_guard"] = (
+                b["auc_by_world"][world] - a["auc_by_world"][world]
+                >= bars["guard_each_auc_delta_min"]
+            )
+        checks[f"seed{seed}/now_auc_guard"] = (
+            b["now_auc"] - a["now_auc"] >= bars["guard_each_now_auc_delta_min"]
+        )
+        ab, bb = pair["baseline_budget"], pair["candidate_budget"]
+        if not all(np.isfinite(v) for budget in (ab, bb) for v in budget.values()):
+            raise ValueError("nonfinite deployment bill")
+        checks[f"seed{seed}/budget"] = (
+            ab == bb and bb["total_kb"] <= bars["budget_kb_max"]
+        )
+    checks["veer_mean"] = float(np.mean(deltas)) >= bars["veer_mean_delta_min"]
+    return {
+        "verdict": "GO" if all(checks.values()) else "NO-GO",
+        "checks": checks,
+        "veer_deltas": deltas,
+        "veer_mean": float(np.mean(deltas)),
+        "veer_range": [min(deltas), max(deltas)],
+        "scope": config["interpretation"],
+    }
 
 
 def coverage(data, config, layout=None):
@@ -265,6 +327,8 @@ def make_data(stage, config):
 
 def verdict(pairs, config):
     """All registered draws and per-draw guards are required; NaN cannot pass."""
+    if config.get("kind") == "cf_hard_pool":
+        return cf_verdict(pairs, config)
     bars = config["bars"]
     if [p["seed"] for p in pairs] != config["seeds"]:
         raise ValueError("missing, duplicate, or out-of-order registered seeds")
@@ -317,6 +381,29 @@ def verdict(pairs, config):
 def execute(stage, directory, config):
     if stage == "vision":
         return vision(config, directory)
+    if stage == "training_data":
+        from datasets.intervention_labels import counterfactual_labels
+        from world_model.cf_sampling import hard_pool_mask
+        from world_model.training import _split_rollouts
+
+        path = training_path(None, config)
+        with np.load(path, allow_pickle=False) as blob:
+            data = dict(blob)
+        stats = coverage(data, config, config["train_data"]["schedule_layout"])
+        cf, vis = counterfactual_labels(data)
+        masks = {arm: hard_pool_mask(cf, vis, arm) for arm in config["arms"]}
+        assert not (masks["answerable"] & ~masks["legacy_masked"]).any()
+        pools = {}
+        for seed in config["seeds"]:
+            train_rolls, _ = _split_rollouts(data, np.random.default_rng(seed))
+            pools[str(seed)] = {
+                arm: int(mask[train_rolls].sum()) for arm, mask in masks.items()
+            }
+        return {
+            "source": config["training_source"],
+            "coverage": stats,
+            "hard_pools": pools,
+        }
     if stage.endswith("_train") or stage in ("holdout", "indoor_holdout"):
         data, layout = make_data(stage, config)
         stats = coverage(data, config, layout)
@@ -330,10 +417,19 @@ def execute(stage, directory, config):
 
         arm, seed = stage[6:].rsplit("_", 1)
         assert torch.backends.mps.is_available(), "registered training requires MPS"
-        checkpoint, metrics = train(
-            load_data(f"{arm}_train"), seed=int(seed), **config["train"]
-        )
-        checkpoint["meta"]["training_dataset_sha256"] = sha(data_path(f"{arm}_train"))
+        path = training_path(arm, config)
+        with np.load(path, allow_pickle=False) as blob:
+            data = dict(blob)
+        knob = {"cf_hard_pool": arm} if config.get("kind") == "cf_hard_pool" else {}
+        checkpoint, metrics = train(data, seed=int(seed), **config["train"], **knob)
+        if knob:
+            pool = read(CAMPAIGN / "records/training_data.json")["result"][
+                "hard_pools"
+            ][seed][arm]
+            assert checkpoint["meta"]["cf_hard_pool"] == arm
+            assert metrics["cf_hard_pool_frames"] == pool
+            assert metrics["cf_hard_pool_fallback"] == (pool == 0)
+        checkpoint["meta"]["training_dataset_sha256"] = sha(path)
         with (directory / "model.pth").open("xb") as stream:
             torch.save(checkpoint, stream)
         return {"metrics": metrics, "meta": checkpoint["meta"]}
@@ -394,6 +490,16 @@ def execute(stage, directory, config):
             comparisons[str(seed)] = compare(
                 *[_load(p) for p in score_paths], **config["bootstrap"]
             )
+            if config.get("kind") == "cf_hard_pool":
+                probe = comparisons[str(seed)]["veer"]
+                for name, arm in (("baseline", a), ("candidate", b)):
+                    scores = arm["scores"]
+                    assert probe["n_samples"] == scores["veer_all"][1]
+                    assert probe["n_rollouts"] == scores["veer_rollouts"]
+                    if probe["n_samples"]:
+                        assert np.isclose(
+                            probe[f"accuracy_{name}"], scores["veer_all"][0]
+                        ), "veer raw sample/aggregate mismatch"
         try:
             decision = verdict(pairs, config)
         except (ValueError, TypeError, KeyError) as exc:
@@ -426,6 +532,8 @@ def stages(config):
         "world_balanced_train",
         "holdout",
     ]
+    if config.get("kind") == "cf_hard_pool":
+        data = ["vision", "training_data", "indoor_holdout", "holdout"]
     fits = [f"train_{arm}_{seed}" for arm, seed in config["order"]]
     scores = [
         f"score_{arm}_{seed}" for seed in config["seeds"] for arm in config["arms"]
@@ -529,6 +637,48 @@ def selftest():
             pass
         else:
             raise AssertionError("nonfinite guard accepted")
+    cf_config = read(ROOT / "experiments/cf_hard_pool_v1/registration.json")
+    cf_pairs = deepcopy(pairs)
+    for pair in cf_pairs:
+        for arm in (pair["baseline"], pair["candidate"]):
+            arm["veer_rollouts"] = 8
+            arm["now_label_counts"] = {"positive": 100, "negative": 100}
+            arm["label_counts_by_world"] = {
+                w: {"positive": 40, "negative": 40}
+                for w in cf_config["bars"]["guard_worlds"]
+            }
+        pair["candidate"]["veer_all"][0] = 0.86
+    assert verdict(cf_pairs, cf_config)["verdict"] == "GO"
+    bad = deepcopy(cf_pairs)
+    bad[1]["candidate"]["auc_by_world"]["room"] -= 0.021
+    assert verdict(bad, cf_config)["verdict"] == "NO-GO"
+    bad = deepcopy(cf_pairs)
+    bad[0]["candidate"]["veer_all"][0] = 0.79
+    bad[1]["candidate"]["veer_all"][0] = 1.0
+    assert verdict(bad, cf_config)["verdict"] == "NO-GO", "negative seed hidden"
+    invalids = [cf_pairs[:2], cf_pairs + cf_pairs[:1]]
+    for key, value in (("veer_rollouts", 5), ("veer_all", [0.86, 19])):
+        bad = deepcopy(cf_pairs)
+        bad[0]["candidate"][key] = value
+        invalids.append(bad)
+    bad = deepcopy(cf_pairs)
+    bad[0]["candidate"]["label_counts_by_world"]["moving"]["negative"] = 0
+    invalids.append(bad)
+    bad = deepcopy(cf_pairs)
+    bad[0]["candidate"]["now_auc"] = float("nan")
+    invalids.append(bad)
+    for bad in invalids:
+        try:
+            verdict(bad, cf_config)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("invalid CF evidence accepted")
+    assert len(stages(cf_config)) == len(set(stages(cf_config))) == 17
+    assert sum(s.startswith("train_") for s in stages(cf_config)) == 6
+    assert training_path("legacy_masked", cf_config) == training_path(
+        "answerable", cf_config
+    )
     with tempfile.TemporaryDirectory(prefix="schedule_layout_selftest_") as tmp:
         path = Path(tmp) / "record.json"
         write_new(path, {"value": np.float32(0.7)})
@@ -590,7 +740,13 @@ def selftest():
 
 
 def main():
+    global CAMPAIGN, OUT, REGISTRATION
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument(
+        "--campaign",
+        choices=("schedule_layout_v1", "cf_hard_pool_v1"),
+        default="schedule_layout_v1",
+    )
     mode = ap.add_mutually_exclusive_group(required=True)
     mode.add_argument("--run", action="store_true")
     mode.add_argument("--stage")
@@ -599,6 +755,9 @@ def main():
     if args.selftest:
         selftest()
         return
+    CAMPAIGN = ROOT / "experiments" / args.campaign
+    OUT = ROOT / "output" / args.campaign
+    REGISTRATION = CAMPAIGN / "registration.json"
     config = read(REGISTRATION)
     OUT.mkdir(parents=True, exist_ok=True)
     with (OUT / "run.lock").open("a") as lock:
@@ -630,6 +789,8 @@ def main():
                         "-u",
                         "-m",
                         "scripts.schedule_layout_study",
+                        "--campaign",
+                        args.campaign,
                         "--stage",
                         stage,
                     ],
@@ -640,7 +801,10 @@ def main():
                     check=True,
                 )
         check_manifest()
-        print("SCHEDULE-LAYOUT-STUDY COMPLETE", flush=True)
+        print(
+            config.get("completion_marker", "SCHEDULE-LAYOUT-STUDY COMPLETE"),
+            flush=True,
+        )
 
 
 if __name__ == "__main__":

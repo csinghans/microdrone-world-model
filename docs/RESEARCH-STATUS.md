@@ -1,4 +1,4 @@
-# Research continuation state — 2026-09-13
+# Research continuation state — 2026-09-14
 
 The ongoing objective is to improve this project's implementation, content
 and research with rerunnable evidence. An hourly follow-up is active in the
@@ -84,16 +84,32 @@ raw data is under its campaign directory; no experiment worker is active.
 Original manifest source hashes describe the historical training revision;
 the new class-support logging was added only after both studies completed.
 
-The next candidate knob is **CF hard-pool selection**: the current
-zero-masked-vector rule versus disagreement between answerable candidate
-labels. The audit measured masked-only contrast in 8.49–9.32% of legacy
-and 11.83–13.01% of balanced training hard frames. The CF loss masks labels
-correctly; the issue is allocation, and these frames may still help
-danger-now, which consumes the same sample pool. Benefit from changing the
-pool is unmeasured. Prepare an explicit recipe flag preserving current
-behavior, matched controls and immutable per-seed bars before fitting.
-Use an independently generated confirmation exam; do not tune against
-the already inspected schedule-layout holdout and call it confirmation.
+The next registered study is [cf_hard_pool_v1](../experiments/cf_hard_pool_v1/journal.md):
+the current zero-masked-vector rule versus disagreement between answerable
+candidate labels. The explicit recipe flag preserves `legacy_masked` by
+default. The audit measured masked-only contrast in 11.83–13.01% of balanced
+training hard frames; both implemented masks reconcile with that audit.
+Two-epoch integration tests pass for both recipes using selftest artifacts.
+Veer exports now retain individual course/time/truth/correctness for paired
+rollout-bootstrap intervals; frame and independent-course counts are separate.
+
+Six new 80-epoch fits reuse the identical hashed balanced training corpus.
+A fresh 186-course confirmation exam uses new generation seeds. The frozen
+bar is mean veer improvement ≥+.05 with every seed nondecreasing; each
+world AUC and danger-now guard is ≥−.02 at every seed, with identical ≤512 KB
+analytic bills. All six draws run after instrument checks, with no optional
+rechecks or replacement draws. The historical schedule-layout NO-GO stays
+closed. The CF loss already masks labels correctly; benefit from changing
+the sampling allocation is still unmeasured. Danger-now consumes the same
+sample pool, so its downstream effect belongs to this one knob.
+
+Run `bash experiments/cf_hard_pool_v1/run.sh` only after checking existing
+processes and receipts. A background launch receipt, when present, is
+`output/cf_hard_pool_v1/queue.json`; the full queue log is in the campaign's
+`run.log`. Sources, runtime, corpus SHA and protected WMs freeze at launch.
+Do not edit Python sources while this queue is active. Incomplete stage
+directories require inspection and cannot be silently retried. Expected
+completion markers are `CF-HARD-POOL-DONE` and `CF-HARD-POOL-EXIT=0`.
 
 Restoring moving executed-window exposure is a separate possible knob;
 do not change it together with the hard pool. Do not infer the cause from

@@ -36,6 +36,7 @@ from datasets.metric_labels import polar_occupancy
 from planner.action_set import A_NORM, ACTION_NAMES, ACTION_VECS, FORWARD
 from sim.envs import CTRL_HZ
 from sim.scenarios import DANGER_R, FOV_HALF_DEG, RADII
+from world_model.cf_sampling import CF_HARD_POOLS, hard_pool_mask
 from world_model.collision_head import CollisionHeads, DangerNowHead
 from world_model.encoder import LATENT_D, Encoder
 from world_model.grounding import GroundingHead
@@ -119,6 +120,7 @@ def veer_ranking(
     tgru=None,
     in_frames: int = 1,
     frame_stride: int = 4,
+    sample_output: dict | None = None,
 ) -> tuple:
     """The action-conditioning acceptance check, scored against a *geometric*
     ground truth. On held-out cruise frames, roll each veer command forward
@@ -132,7 +134,7 @@ def veer_ranking(
     tau1 = np.arange(HORIZONS[-1] + 1) / CTRL_HZ  # (k+1,)
     i_l, i_r = ACTION_NAMES.index("veer_left"), ACTION_NAMES.index("veer_right")
     cos_fov = np.cos(np.radians(FOV_HALF_DEG))
-    frames, gt_left_safer, svs = [], [], []
+    frames, gt_left_safer, svs, probe_pairs = [], [], [], []
     L = data["frames"].shape[1]
     all_vel = data["pillar_vel"] if "pillar_vel" in data else None
     for r in rolls:
@@ -176,6 +178,16 @@ def veer_ranking(
                 frames.append(np.stack(ws))
             gt_left_safer.append(d_l > d_r)
             svs.append(sv)
+            probe_pairs.append((r, t))
+    if sample_output is not None:
+        pairs = np.asarray(probe_pairs, dtype=np.int64).reshape(-1, 2)
+        world_ids = np.asarray(data.get("world_id", np.zeros(len(data["frames"]))))
+        sample_output.update(
+            veer_pairs=pairs,
+            veer_gt_left=np.asarray(gt_left_safer, dtype=bool),
+            veer_world_id=world_ids[pairs[:, 0]],
+            veer_correct=np.empty(0, dtype=bool),
+        )
     if not frames:
         return float("nan"), 0
     x = torch.tensor(np.array(frames), dtype=torch.float32, device=device)
@@ -199,6 +211,8 @@ def veer_ranking(
         p_r = torch.sigmoid(cheads(pred(z, a_r, base=zb))[:, -1, 0])
     gt = torch.tensor(np.array(gt_left_safer), device=device)
     correct = torch.where(gt, p_l < p_r, p_r < p_l)
+    if sample_output is not None:
+        sample_output["veer_correct"] = correct.cpu().numpy()
     return float(correct.float().mean()), len(frames)
 
 
@@ -215,6 +229,7 @@ def train(
     strips: int = 4,
     in_frames: int = 1,
     frame_stride: int = 4,
+    cf_hard_pool: str = "legacy_masked",
 ) -> tuple:
     """Train the nano world model on a sequence-format dataset dict and return
     (checkpoint dict, metrics dict). `robust=True` adds appearance
@@ -227,6 +242,8 @@ def train(
     auxiliary: a train-only head regressing the FOV-honest polar occupancy
     grid from the frame latent (privileged labels = the perfect-4D-GS upper
     bound); the head is dropped at deploy, so the flight budget is unmoved."""
+    if cf_hard_pool not in CF_HARD_POOLS:
+        raise ValueError(f"unknown CF hard-pool recipe: {cf_hard_pool}")
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
@@ -267,14 +284,9 @@ def train(
     )
     tr_frames = np.array([r * L + t for r in tr_rolls for t in range(L)])
     c_all = torch.tensor(tr_frames).to(device)
-    # Legacy hard-pool heuristic: zero-masked candidate vectors disagree.
-    # This includes some frames with identical answerable labels but a masked
-    # candidate (schedule_support_v1). Preserve the measured sampling recipe;
-    # selecting only answerable contrast is a separate research knob.
-    cfv = (cf_np * vis_np[:, :, None, None])[tr_frames].reshape(
-        len(tr_frames), n_a, n_h * n_r
-    )
-    disagree = (cfv.max(axis=1) != cfv.min(axis=1)).any(axis=1)
+    # The default preserves the legacy pool. The optional answerable recipe
+    # excludes contrast created solely by zero masking (one research knob).
+    disagree = hard_pool_mask(cf_np[tr_frames], vis_np[tr_frames], cf_hard_pool)
     c_hard = torch.tensor(tr_frames[disagree] if disagree.any() else tr_frames).to(
         device
     )
@@ -503,6 +515,7 @@ def train(
             "action_names": list(ACTION_NAMES),
             "action_vecs": [[float(v) for v in row] for row in ACTION_VECS],
             "seed": int(seed),
+            "cf_hard_pool": cf_hard_pool,
             "transit_schedule_layout": str(
                 data.get(
                     "schedule_layout", data.get("transit_schedule_layout", "unrecorded")
@@ -540,6 +553,8 @@ def train(
         ),
         "n_train": len(tr),
         "n_val": len(va),
+        "cf_hard_pool_frames": int(disagree.sum()),
+        "cf_hard_pool_fallback": not bool(disagree.any()),
     }
     return ckpt, metrics
 

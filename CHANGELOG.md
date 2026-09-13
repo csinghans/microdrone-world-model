@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- **CF sampler comparison registered:** an explicit `--cf-hard-pool` recipe
+  preserves `legacy_masked` by default and exposes `answerable` contrast as
+  one training knob. Six matched fits and a new confirmation exam are
+  registered before execution. Veer probe exports now retain rollout/time,
+  geometric truth and correctness for paired rollout-bootstrap intervals.
+  The sampler adds no deployed parameters or computation; a performance
+  benefit remains unmeasured. [Registration](experiments/cf_hard_pool_v1/journal.md).
+
 - **Supervision support audited:** the saved schedule-layout corpora gain
   moving action diversity while eligible executed windows fall 2,816→1,506.
   All six fit counts reconcile; a dense internal AUC 0.5 is identified as

@@ -232,6 +232,7 @@ def evaluate_components(
         in_frames=in_frames,
         frame_stride=stride,
     )
+    veer_samples = {}
     side_all, n_all = veer_ranking(
         data,
         range(R),
@@ -241,8 +242,10 @@ def evaluate_components(
         device,
         in_frames=in_frames,
         frame_stride=stride,
+        sample_output=veer_samples,
     )
     if sample_output is not None:
+        sample_output.update(veer_samples)
         sample_output.update(
             pairs=idx[va].copy(),
             scores=scores.copy(),
@@ -270,6 +273,7 @@ def evaluate_components(
         },
         "veer_val": (side_val, n_val),
         "veer_all": (side_all, n_all),
+        "veer_rollouts": int(len(np.unique(veer_samples["veer_pairs"][:, 0]))),
         "n_val_samples": int(len(va)),
         "va_rolls": list(map(int, va_rolls)),
         "split": "independent_holdout_all" if independent_holdout else "training_val",
@@ -332,6 +336,12 @@ def main() -> None:
         json.dumps(_json_ready(a), allow_nan=False)
         assert np.array_equal(sample_a["pairs"], sample_b["pairs"])
         assert np.array_equal(sample_a["scores"], sample_b["scores"])
+        for key in ("veer_pairs", "veer_gt_left", "veer_correct", "veer_world_id"):
+            assert np.array_equal(sample_a[key], sample_b[key]), key
+        assert len(sample_a["veer_correct"]) == a["veer_all"][1]
+        if a["veer_all"][1]:
+            assert np.isclose(sample_a["veer_correct"].mean(), a["veer_all"][0])
+        assert a["veer_rollouts"] == len(np.unique(sample_a["veer_pairs"][:, 0]))
         assert _evaluation_seed(19, None, False) == 19
         for meta_seed, supplied_seed, holdout in ((19, 0, False), (19, 0, True)):
             try:
@@ -341,6 +351,22 @@ def main() -> None:
             else:
                 raise AssertionError("conflicting split request accepted")
         assert _evaluation_seed(19, None, True) == 0
+        # Exercise the optional recipe through optimization and checkpoint
+        # serialization. This is a wiring test, not a performance comparison.
+        assert ckpt["meta"]["cf_hard_pool"] == "legacy_masked"
+        candidate, cm = train(
+            data, epochs=2, batch=64, seed=0, cf_hard_pool="answerable"
+        )
+        candidate_path = os.path.join(
+            os.path.dirname(path), "wm_answerable_selftest.pth"
+        )
+        torch.save(candidate, candidate_path)
+        assert load_model(candidate_path, "cpu")[4]["cf_hard_pool"] == "answerable"
+        assert (m["n_train"], m["n_val"]) == (cm["n_train"], cm["n_val"])
+        assert cm["cf_hard_pool_frames"] <= m["cf_hard_pool_frames"]
+        assert cm["cf_hard_pool_fallback"] == (cm["cf_hard_pool_frames"] == 0)
+        cr = evaluate(candidate_path, data)
+        assert np.isfinite(cr["now_auc"])
         print(
             f"WM-PROBE OK: probe AUC@32={r['auc_h'][-1]:.4f} == "
             f"train val {m['auc'][-1]:.4f}, veer widened n={r['veer_all'][1]}"
