@@ -22,17 +22,24 @@ import torch
 from datasets.generate_rollouts import OUT as DATA
 from datasets.generate_rollouts import gen
 from datasets.intervention_labels import HORIZONS
+from datasets.provenance import file_identity
 from world_model.cf_sampling import CF_HARD_POOLS
 from world_model.training import GAP8_BUDGET_KB, MODEL, MODEL_GRU, train
 
 
-def _load_or_make(selftest: bool, data_path: str = None) -> dict:
+def _load_or_make(selftest: bool, data_path: str = None, source_identity=None) -> dict:
     if selftest:
         return gen(20, 110)  # self-contained tiny set (no prior npz needed)
     path = data_path or DATA
     if os.path.exists(path):
-        blob = np.load(path)
-        return {k: blob[k] for k in blob.files}
+        source = file_identity(path)
+        with np.load(path, allow_pickle=False) as blob:
+            data = {k: blob[k] for k in blob.files}
+        if file_identity(path) != source:
+            raise ValueError("training dataset changed while loading")
+        if source_identity is not None:
+            source_identity.update(source)
+        return data
     if data_path:  # an explicit dataset was named but is missing — fail loud
         raise SystemExit(f"--data {data_path} not found")
     print(f"[INFO] no dataset at {DATA}; generating a default one ...")
@@ -49,7 +56,8 @@ def train_world_model(args) -> None:
     # with AUC@8 already 0.98 — slow convergence, not a dead head)
     leash = args.temporal or args.ground or args.two_frame
     epochs = (120 if leash else 60) if args.selftest else args.epochs
-    data = _load_or_make(args.selftest, args.data)
+    source = {}
+    data = _load_or_make(args.selftest, args.data, source)
     if args.strips:  # MPS AdaptiveAvgPool needs divisible sizes — fail LOUD
         feat_cols = int(data["frames"].shape[2]) // 8  # three stride-2 blocks
         if feat_cols % int(args.strips):
@@ -80,6 +88,12 @@ def train_world_model(args) -> None:
         cf_hard_pool=args.cf_hard_pool,
         **rep,
     )
+    if source:
+        if file_identity(source["path"]) != source:
+            raise ValueError(
+                "training dataset changed during fitting; no checkpoint saved"
+            )
+        ckpt["meta"]["training_dataset_sha256"] = source["sha256"]
 
     # a selftest must not clobber a real trained checkpoint with its toy one
     # (robust / temporal / grounded experiments get their own files)

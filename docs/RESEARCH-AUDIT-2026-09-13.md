@@ -207,9 +207,45 @@ set, restored and verified using `scripts.fetch_champions`.
 
 Use `--independent-holdout` only with a dataset generated independently of
 **every** compared checkpoint's training data. This is a caller assertion:
-old checkpoint metadata cannot prove dataset disjointness. The default
+old checkpoint metadata cannot prove dataset disjointness. Known exact
+training-file reuse is now rejected when both hashes are available. The default
 training-validation mode still follows the checkpoint's own seed and
 rejects contradictory seeds, including through the Python API.
+
+The 2026-09-14 identity regression reproduced a concrete contradiction:
+paired-score comparison accepted `independent_holdout_all` even when its
+checkpoint metadata and exam provenance named the same SHA-256. The probe
+also lacked an input for comparing its loaded dataset identity. A caller
+assertion must not override an identity already known to be the training file.
+
+`datasets.provenance.reject_training_file` now enforces this check in the
+probe and paired comparison. The CLI supplies the hash computed from the
+dataset it loads; Python file callers should pass `dataset_sha256` to
+`evaluate`. Rejection happens before model scoring or output publication.
+Ordinary training-validation mode still accepts the training dataset.
+
+File-backed `scripts.train` now freezes the NPZ identity before loading,
+verifies it after loading and fitting, and saves `training_dataset_sha256`
+in checkpoint metadata. Source mutation prevents checkpoint publication.
+This changes metadata only, not tensors, optimizer steps or RNG calls.
+Generated in-memory corpora and legacy checkpoints may lack file identity.
+Different SHA values can result from repacking or selecting overlapping
+rollouts, so passing this check does **not** establish independence.
+
+Reproduce the synthetic acceptance-boundary and publication checks with
+`python -m datasets.provenance`,
+`python -m scripts.dataset_identity_selftest` and
+`python -m eval.compare_wm_scores --selftest`. The fixtures require no saved
+model: they check renamed identical files, both comparison arms, API/CLI
+rejection before inference/writes, source mutation during load/fit, original
+validation mode and legacy compatibility. No closed study is rescored.
+
+Validation also exercised the actual CLI with a saved CF control and its
+recorded training NPZ: it exited with the identical-SHA rejection and wrote
+neither scores JSON nor NPZ. The two-epoch checkpoint integration selftest
+passed, including training/probe metric agreement; both completed-study
+report checks and all nine locked-artifact hashes remain valid. Full-repo
+Black/Ruff passed for 160 Python files. These are local validations.
 
 ```bash
 python -m eval.eval_wm_checkpoint --ckpt path/to/control.pth \

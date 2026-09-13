@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- **Reject a known training file passed as an independent exam:** checkpoint
+  evaluation now passes the dataset SHA into the probe, and paired-score
+  comparison checks each model's recorded training SHA. Equal hashes fail
+  before model scoring or result publication; renaming the file cannot
+  bypass the check. File-backed training now records its source SHA and
+  refuses checkpoint publication if that file changes during loading/fitting.
+  Legacy metadata remains supported; different hashes do not prove that
+  repacked, subset or mixed corpora have disjoint rollouts. No loss, sample
+  split, frozen bar or historical measurement changed.
+
 - **cf_hard_pool_v1 closes NO-GO:** six matched 80-epoch fits on one shared
   corpus, scored on a new 186-course exam. Answerable-contrast sampling gives
   veer deltas +0.0481 / −0.0913 / +0.1635; mean +0.0401 misses +0.0500,

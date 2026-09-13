@@ -18,6 +18,18 @@ on resumption rather than assuming this snapshot is still current.
   legacy-metric audit. Core, indoor-wrapper, checkpoint, head-calibration,
   temporal-probe and int8-parity selftests passed locally. The real-checkpoint
   CLI export/compare roundtrip also passed identity and no-overwrite checks.
+- Independent-exam identity: the probe API/CLI and paired comparison now
+  reject known exact training-file reuse. File-backed training records its
+  source SHA and rejects a file changed during load/fit before publishing
+  a checkpoint. Synthetic tests cover both comparison arms, renamed copies,
+  no scoring/writes on rejection and compatibility with original validation
+  and legacy metadata. This is not a proof of rollout independence: missing
+  or different file hashes cannot exclude overlap from repacking/subsets.
+  The two-epoch checkpoint integration test passed. A saved CF control
+  paired deliberately with its own training file was rejected by the real
+  CLI before result files appeared. All 160 Python files pass Black/Ruff;
+  both completed-study report selftests and all nine locked-artifact hashes
+  also pass. No research model was fitted or rescored for this repair.
 - Registered [metric_integrity_v1](../experiments/metric_integrity_v1/journal.md)
   is complete: 60 rollouts, 4,083 valid samples, zero cross-class ties and
   zero legacy-to-corrected AUC change for both locked float WMs. Do not

@@ -17,6 +17,7 @@ from pathlib import Path
 
 import numpy as np
 
+from datasets.provenance import reject_training_file
 from world_model.metrics import AUC_METHOD, roc_auc
 
 
@@ -34,6 +35,10 @@ def _validate(a, b):
             raise ValueError(f"{name}: requires an explicitly independent holdout")
         if meta.get("auc_method") != AUC_METHOD:
             raise ValueError(f"{name}: incompatible AUC method; export fresh scores")
+        reject_training_file(
+            meta.get("checkpoint_meta", {}).get("training_dataset_sha256"),
+            meta["provenance"]["dataset"]["sha256"],
+        )
         scores, labels, pairs = arm["scores"], arm["labels"], arm["pairs"]
         if (
             scores.ndim != 2
@@ -246,6 +251,17 @@ def selftest():
         pass
     else:
         raise AssertionError("different dataset accepted")
+    for side in (0, 1):
+        arms = [deepcopy(a), deepcopy(b)]
+        arms[side]["metadata"]["checkpoint_meta"] = {
+            "training_dataset_sha256": "synthetic-selftest"
+        }
+        try:
+            compare(*arms, n_boot=1)
+        except ValueError as exc:
+            assert "training dataset" in str(exc)
+        else:
+            raise AssertionError("known training file accepted as independent exam")
     flat = deepcopy(a)
     flat["labels"][:] = 0
     assert compare(flat, flat, n_boot=10)["worlds"]["all"]["ci95"] is None

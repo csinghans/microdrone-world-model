@@ -121,6 +121,12 @@ closed **NO-GO**: mean ranking delta +0.0401 missed +0.0500, seed 1's
 ranking regressed, and seed 0 broke collision guards. The default stays
 `legacy_masked`; the candidate is not a validated upgrade.
 
+`eval.eval_wm_checkpoint --independent-holdout` requires a separately
+generated exam. Known exact training-file reuse is rejected using the
+checkpoint's recorded SHA; file-backed `scripts.train` now saves this
+identity. A different file hash does not establish disjoint rollouts
+(subsets and repacked corpora can still overlap).
+
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
 

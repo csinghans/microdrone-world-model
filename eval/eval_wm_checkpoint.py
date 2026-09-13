@@ -14,9 +14,10 @@ same rule training.py itself applies when val is thin).
 
 For a dataset generated independently of ALL compared checkpoints, use
 --independent-holdout to score every rollout on the same exam, regardless
-of training seed. This flag is an assertion by the caller: old checkpoints
-do not store training-dataset identities, so disjointness cannot be proved
-here. --out records provenance; --scores-out saves aligned per-sample scores
+of training seed. Known exact training-file reuse is rejected by SHA-256.
+This flag still asserts independently generated rollouts: missing/different
+file hashes cannot exclude overlap from subsets or repacking.
+--out records provenance; --scores-out saves aligned per-sample scores
 for paired, rollout-level uncertainty analysis. Neither mode changes gates.
 
 Honest limit: the latent-MSE-vs-no-op check is *not* recomputable here —
@@ -29,7 +30,6 @@ Run:
 """
 
 import argparse
-import hashlib
 import json
 import sys
 from pathlib import Path
@@ -39,6 +39,8 @@ import torch
 
 from datasets.generate_rollouts import OUT as DATA
 from datasets.intervention_labels import HORIZONS
+from datasets.provenance import file_identity as _file_identity
+from datasets.provenance import reject_training_file
 from planner.action_set import A_NORM
 from sim.scenarios import DANGER_R
 from world_model.losses import roc_auc
@@ -59,12 +61,17 @@ def evaluate(
     independent_holdout: bool = False,
     sample_output: dict | None = None,
     device: str | None = None,
+    dataset_sha256: str | None = None,
 ) -> dict:
     """Rebuild the seed-`seed` train/val split and score the checkpoint:
     per-world AUC@32, overall AUC per horizon, danger-now AUC (all at val),
-    and veer-ranking on val rollouts + widened to all rollouts."""
+    and veer-ranking on val rollouts + widened to all rollouts. File callers
+    should pass dataset_sha256 for the known-training-file rejection. An
+    in-memory dict alone carries no verifiable file identity."""
     device = device or ("mps" if torch.backends.mps.is_available() else "cpu")
     enc, pred, cheads, nhead, meta = load_model(ckpt_path, device)
+    if independent_holdout:
+        reject_training_file(meta.get("training_dataset_sha256"), dataset_sha256)
     seed = _evaluation_seed(meta.get("seed"), seed, independent_holdout)
     result = evaluate_components(
         enc,
@@ -97,14 +104,6 @@ def _json_ready(value):
     if isinstance(value, float) and not np.isfinite(value):
         return None
     return value
-
-
-def _file_identity(path):
-    hasher = hashlib.sha256()
-    with open(path, "rb") as stream:
-        for chunk in iter(lambda: stream.read(1 << 20), b""):
-            hasher.update(chunk)
-    return {"path": str(Path(path).resolve()), "sha256": hasher.hexdigest()}
 
 
 def _evaluation_seed(training_seed, requested_seed, independent_holdout):
@@ -391,6 +390,7 @@ def main() -> None:
             independent_holdout=args.independent_holdout,
             sample_output=samples,
             device=args.device,
+            dataset_sha256=provenance["dataset"]["sha256"],
         )
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
