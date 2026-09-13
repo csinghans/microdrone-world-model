@@ -49,3 +49,49 @@ Rerun from the persistent `run.sh` alongside this journal. The script
 requires new output files, checks the locked artifact hashes, records full
 logs, and stops on any failed stage. Re-running a completed diagnostic
 requires an explicit new registration, not overwriting these outputs.
+
+## Result — 2026-09-13: no tie-induced change on this float sample
+
+Registration commit: `4aeac99`. The queue completed with `EXIT=0` and
+`METRIC-AUDIT-DONE`; the full log is `run.log` (git-ignored). Vision
+preflight and all nine locked artifact checks passed before/after.
+CPU inference used torch 2.14.0 and NumPy 2.5.3.
+
+Both checkpoints were scored on the same 60 rollouts / 4,083 valid
+held-command samples (2,195 positive, 1,888 negative). Dataset SHA-256:
+`4d33c09da99d5d793200341d0ce2102f64167b983256d8f38ca599dab894772f`.
+The JSON exports record the checkpoint SHA-256 values and full provenance.
+
+| checkpoint | world | legacy AUC@32 | corrected AUC@32 | difference | tied cross-class pairs |
+|---|---|---:|---:|---:|---:|
+| transit | all | 0.820471 | 0.820471 | 0 | 0 |
+| transit | classic | 0.783918 | 0.783918 | 0 | 0 |
+| transit | dense | 0.869508 | 0.869508 | 0 | 0 |
+| transit | moving | 0.774451 | 0.774451 | 0 | 0 |
+| unified | all | 0.818842 | 0.818842 | 0 | 0 |
+| unified | classic | 0.838850 | 0.838850 | 0 | 0 |
+| unified | dense | 0.811430 | 0.811430 | 0 | 0 |
+| unified | moving | 0.773229 | 0.773229 | 0 | 0 |
+
+Sources: `transit_audit.json`, `unified_audit.json`, with scoring metadata
+in `transit_scores.json` / `unified_scores.json`; full arrays remain in
+`output/metric_integrity_v1/`. The reported difference is exactly zero,
+not merely a rounded nonzero change. The analytical tie-bias bound is
+also zero for each row because no opposite-label pair tied.
+
+### Researcher notes
+
+The implementation bug is real on tied-score fixtures, but it does not
+explain any ranking difference on these two float checkpoints and this
+registered draw. Record the negative; do not enlarge the sample or hunt
+for a checkpoint where it appears. Saturated 96-pixel and int8 outputs
+remain outside this diagnostic's scope. These offline rows do not grade
+flight behavior or replace an earlier scoreboard.
+
+The raw dataset also exposed a separate, post-hoc instrument issue:
+with the default three-world order, `r % 3` selects both the world and
+passive schedule. The 20 moving rollouts here are all passive, and neither
+classic nor dense has passive rollouts. That limits the diet represented
+by this negative result. Audit and repair this schedule aliasing as a
+separate data-generation change; preserve this completed dataset and its
+registered audit outputs.

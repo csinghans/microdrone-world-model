@@ -1,0 +1,260 @@
+{
+  "auc_method": "mann_whitney_average_ranks_v2",
+  "legacy_method": "positive_then_negative_argsort_distinct_ranks",
+  "legacy_numpy_version": "2.5.3",
+  "scope": "deterministic metric audit on these fixed scores; legacy tie ordering can vary with NumPy implementation",
+  "source": {
+    "auc_h": [
+      0.8441247746830169,
+      0.8533411146191408,
+      0.8489393160632636,
+      0.8204709760240917
+    ],
+    "auc_by_world": {
+      "classic": 0.7839183957544913,
+      "dense": 0.8695077197738619,
+      "moving": 0.7744514474949258
+    },
+    "label_counts_by_world": {
+      "classic": {
+        "positive": 291,
+        "negative": 474
+      },
+      "dense": {
+        "positive": 609,
+        "negative": 149
+      },
+      "moving": {
+        "positive": 1295,
+        "negative": 1265
+      }
+    },
+    "label_counts_h": [
+      {
+        "positive": 1522,
+        "negative": 2561
+      },
+      {
+        "positive": 1627,
+        "negative": 2456
+      },
+      {
+        "positive": 1816,
+        "negative": 2267
+      },
+      {
+        "positive": 2195,
+        "negative": 1888
+      }
+    ],
+    "now_auc": 0.8360282365696964,
+    "now_label_counts": {
+      "positive": 3678,
+      "negative": 5922
+    },
+    "veer_val": [
+      0.7021276354789734,
+      47
+    ],
+    "veer_all": [
+      0.7021276354789734,
+      47
+    ],
+    "n_val_samples": 4083,
+    "va_rolls": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59
+    ],
+    "split": "independent_holdout_all",
+    "split_seed": null,
+    "auc_method": "mann_whitney_average_ranks_v2",
+    "training_seed": null,
+    "checkpoint_meta": {
+      "version": 2,
+      "D": 64,
+      "A": 4,
+      "horizons": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "radii": [
+        0.7,
+        0.35
+      ],
+      "danger_r": 0.7,
+      "a_norm": [
+        1.600000023841858,
+        1.0,
+        0.800000011920929,
+        9.999999974752427e-07
+      ],
+      "action_names": [
+        "forward",
+        "slow",
+        "veer_left",
+        "veer_right",
+        "climb",
+        "hover"
+      ],
+      "action_vecs": [
+        [
+          0.800000011920929,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.30000001192092896,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          -0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.4000000059604645,
+          0.0,
+          0.4000000059604645,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    "runtime": {
+      "device": "cpu",
+      "torch": "2.14.0",
+      "numpy": "2.5.3"
+    },
+    "provenance": {
+      "checkpoint": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/world_model.pth",
+        "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf"
+      },
+      "dataset": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/metric_integrity_v1/holdout_64.npz",
+        "sha256": "4d33c09da99d5d793200341d0ce2102f64167b983256d8f38ca599dab894772f"
+      }
+    }
+  },
+  "worlds": {
+    "all": {
+      "positive": 2195,
+      "negative": 1888,
+      "legacy_auc": 0.8204709760240917,
+      "corrected_auc": 0.8204709760240917,
+      "delta": 0.0,
+      "tied_cross_class_pairs": 0,
+      "total_cross_class_pairs": 4144160,
+      "tied_pair_fraction": 0.0,
+      "max_absolute_tie_bias": 0.0
+    },
+    "classic": {
+      "positive": 291,
+      "negative": 474,
+      "legacy_auc": 0.7839183957544913,
+      "corrected_auc": 0.7839183957544913,
+      "delta": 0.0,
+      "tied_cross_class_pairs": 0,
+      "total_cross_class_pairs": 137934,
+      "tied_pair_fraction": 0.0,
+      "max_absolute_tie_bias": 0.0
+    },
+    "dense": {
+      "positive": 609,
+      "negative": 149,
+      "legacy_auc": 0.8695077197738619,
+      "corrected_auc": 0.8695077197738619,
+      "delta": 0.0,
+      "tied_cross_class_pairs": 0,
+      "total_cross_class_pairs": 90741,
+      "tied_pair_fraction": 0.0,
+      "max_absolute_tie_bias": 0.0
+    },
+    "moving": {
+      "positive": 1295,
+      "negative": 1265,
+      "legacy_auc": 0.7744514474949258,
+      "corrected_auc": 0.7744514474949258,
+      "delta": 0.0,
+      "tied_cross_class_pairs": 0,
+      "total_cross_class_pairs": 1638175,
+      "tied_pair_fraction": 0.0,
+      "max_absolute_tie_bias": 0.0
+    }
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "auc_h": [
+    0.8749610682013278,
+    0.8824058187467592,
+    0.8594446220334273,
+    0.8188421779081889
+  ],
+  "auc_by_world": {
+    "classic": 0.8388504647150087,
+    "dense": 0.8114303346888396,
+    "moving": 0.7732287454026584
+  },
+  "label_counts_by_world": {
+    "classic": {
+      "positive": 291,
+      "negative": 474
+    },
+    "dense": {
+      "positive": 609,
+      "negative": 149
+    },
+    "moving": {
+      "positive": 1295,
+      "negative": 1265
+    }
+  },
+  "label_counts_h": [
+    {
+      "positive": 1522,
+      "negative": 2561
+    },
+    {
+      "positive": 1627,
+      "negative": 2456
+    },
+    {
+      "positive": 1816,
+      "negative": 2267
+    },
+    {
+      "positive": 2195,
+      "negative": 1888
+    }
+  ],
+  "now_auc": 0.8351681796286288,
+  "now_label_counts": {
+    "positive": 3678,
+    "negative": 5922
+  },
+  "veer_val": [
+    0.6382978558540344,
+    47
+  ],
+  "veer_all": [
+    0.6382978558540344,
+    47
+  ],
+  "n_val_samples": 4083,
+  "va_rolls": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+  ],
+  "split": "independent_holdout_all",
+  "split_seed": null,
+  "auc_method": "mann_whitney_average_ranks_v2",
+  "training_seed": 0,
+  "checkpoint_meta": {
+    "version": 2,
+    "D": 64,
+    "A": 4,
+    "horizons": [
+      4,
+      8,
+      16,
+      32
+    ],
+    "radii": [
+      0.7,
+      0.35
+    ],
+    "danger_r": 0.7,
+    "a_norm": [
+      1.600000023841858,
+      1.0,
+      0.800000011920929,
+      9.999999974752427e-07
+    ],
+    "action_names": [
+      "forward",
+      "slow",
+      "veer_left",
+      "veer_right",
+      "climb",
+      "hover"
+    ],
+    "action_vecs": [
+      [
+        0.800000011920929,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.30000001192092896,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.5,
+        0.5,
+        0.0,
+        0.0
+      ],
+      [
+        0.5,
+        -0.5,
+        0.0,
+        0.0
+      ],
+      [
+        0.4000000059604645,
+        0.0,
+        0.4000000059604645,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "seed": 0
+  },
+  "runtime": {
+    "device": "cpu",
+    "torch": "2.14.0",
+    "numpy": "2.5.3"
+  },
+  "provenance": {
+    "checkpoint": {
+      "path": "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth",
+      "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4"
+    },
+    "dataset": {
+      "path": "/Users/hans.chen/microdrone-world-model/output/metric_integrity_v1/holdout_64.npz",
+      "sha256": "4d33c09da99d5d793200341d0ce2102f64167b983256d8f38ca599dab894772f"
+    }
+  }
+}

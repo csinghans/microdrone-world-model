@@ -35,6 +35,13 @@ ties, but the size of the historical impact has **not** been established
 by these fixtures. Preserve old records and audit saved score arrays in a
 new diagnostic before making any numerical correction to published claims.
 
+The subsequently registered [metric_integrity_v1 diagnostic](../experiments/metric_integrity_v1/journal.md)
+scored both locked float WMs on a common 60-rollout dataset. Neither had
+cross-class ties among its 4,083 valid samples; the corrected-minus-legacy
+AUC difference was exactly zero in pooled and per-world rows. This negative
+is limited to those models and that recorded diet, not the unavailable
+96-pixel or quantized historical outputs.
+
 ### Gate verdicts and their evidence must agree
 
 `python -m scripts.research_selftest` exercises these failure cases in
