@@ -107,9 +107,11 @@ courses. To reproduce a historical corpus, explicitly use
 global-index schedule aliased moving with passive-only flight in the
 three-world diet. [Evidence and migration notes](docs/RESEARCH-AUDIT-2026-09-13.md)
 explain the fix; existing corpora and checkpoints are unchanged.
-The registered [schedule_layout_v1 comparison](experiments/schedule_layout_v1/journal.md)
-tests its learned effect with three paired training seeds and one independent
-common exam; results are pending.
+The registered [schedule_layout_v1 comparison](experiments/schedule_layout_v1/summary.md)
+closed **NO-GO**: across three paired training seeds on one independent
+common exam, moving AUC changed by −0.055 on average and guards failed.
+The new default fixes role coverage; it is not a validated performance
+upgrade. Freeze the layout explicitly in every training recipe.
 
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.

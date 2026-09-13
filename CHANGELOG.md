@@ -2,12 +2,15 @@
 
 ## Unreleased
 
-- **Data-layout study registered:** `schedule_layout_v1` compares fresh
-  matched controls/candidates across three training seeds, with one shared
-  independent holdout, per-seed guards and immutable stage receipts. The
-  background queue preserves incomplete attempts and checks source/data/WM
-  hashes before resumption. Training/evaluation results are pending; this
-  entry makes no learned-performance claim.
+- **schedule_layout_v1 closes NO-GO:** six matched 80-epoch fits scored
+  on the same 186 independent courses. Moving candidate-minus-control AUC
+  deltas are +0.0133 / −0.0745 / −0.1042 (mean −0.0551; required +0.0300),
+  with room/now guards broken at seed 1 and all behavioral guards broken
+  at seed 2. Coverage improved, but the registered learning recipe did not
+  meet its improvement test. All models retain the same analytic 137.29 KB
+  budget; no champion promotion, sample expansion or retry. The generated
+  [report](experiments/schedule_layout_v1/summary.md) and figure separate
+  training-draw spread from conditional course-bootstrap uncertainty.
 
 - **Data role aliasing repaired (2026-09-13):** new transit datasets cycle
   passive/intervention and classic threat roles within each world's visits.

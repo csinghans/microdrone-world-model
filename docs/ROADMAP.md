@@ -23,6 +23,17 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
+- **schedule_layout_v1: role coverage repaired, learning recipe NO-GO.**
+  Three paired training seeds on a common 186-course exam give moving AUC
+  deltas +0.0133 / −0.0745 / −0.1042 (mean −0.0551; required +0.0300).
+  Room/now guards fail at seed 1; every behavioral guard fails at seed 2.
+  The latter also has a large absolute latent endpoint, but seed 1 loses
+  performance without that symptom, so a mean-offset explanation is not
+  established. The 137.29 KB architecture bill is unchanged. Keep the
+  coverage fix separate from a performance endorsement; no model promotion
+  or remeasurement follows. Next inspect effective training-window and
+  action/label support in these saved corpora before choosing another knob.
+  [Complete report](../experiments/schedule_layout_v1/summary.md).
 - **The Perception Tier (three campaigns + one refusal): a promising
   offline checkpoint, with its explanation still open.**
   general_wm_v2 first re-measured v0.5's law one level down

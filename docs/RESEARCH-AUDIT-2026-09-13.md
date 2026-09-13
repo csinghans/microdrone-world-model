@@ -105,6 +105,16 @@ any performance comparison needs a newly registered, single-knob study.
 The generator's simulator selftest now requires both flight roles in each
 world and saves to `wm_dataset_selftest.npz`, protecting the real corpus.
 
+The subsequent registered [schedule_layout_v1 study](../experiments/schedule_layout_v1/summary.md)
+closed **NO-GO** on six fresh 80-epoch fits and a shared independent exam.
+Moving AUC deltas across the three matched seeds were +0.0133, −0.0745 and
+−0.1042; several per-seed guards failed. This is evidence against the tested
+fixed-rollout/epoch learning recipe meeting its improvement bar. It does
+not undo the demonstrated coverage repair or isolate a universal causal
+effect of balanced roles: generator RNG consumption, valid-window support
+and internal splits also change. New default data is role-complete, not a
+certified checkpoint upgrade. The negative remains closed without retries.
+
 ## Research explanations that needed narrowing
 
 ### Perception results are checkpoint observations

@@ -41,47 +41,47 @@ release was tagged or remote push performed.
 
 ## Next research work
 
-The new [schedule_layout_v1 study](../experiments/schedule_layout_v1/journal.md)
-is **running in a detached background queue**. Registration committed at
-`765b917`; harness correction at `e4053e8`. Six unconditional 80-epoch fits
-compare `legacy` with `world_balanced` at training seeds 0, 1, 2, with the
-same 96-rollout room corpus in both 96-transit + 96-room diets. All fits use
-the same independently generated 126-transit + 60-room exam. These counts
-have now been generated: all six preparation stages and their hashes passed
-verification. The queue has entered `train_legacy_0`; no fitted-model result
-or final verdict has yet been recorded in this snapshot.
+The [schedule_layout_v1 study](../experiments/schedule_layout_v1/summary.md)
+is **complete: NO-GO**. Six 80-epoch fits, three paired training seeds, one
+186-course independent exam. Moving AUC deltas are +0.0133 / −0.0745 /
+−0.1042 (mean −0.0551; required +0.0300). Room/now guards fail at seed 1;
+all behavioral guards fail at seed 2. Budget is unchanged at 137.29 KB.
+No model was promoted or valid measurement repeated. Do not restart or
+expand this completed study and do not select its favorable seed 0 alone.
 
-On resumption, inspect `output/schedule_layout_v1/queue.json`, the current
-PID/process tree, `experiments/schedule_layout_v1/run.log` and stage logs.
-Do not launch another queue while it is alive. Completed stages have hashed
-receipts in `experiments/schedule_layout_v1/records/`; the final result is
-`records/report.json`. A real success marker requires `SCHEDULE-LAYOUT-DONE`
-and `SCHEDULE-LAYOUT-EXIT=0`. A scientific NO-GO still completes normally.
-If a process is gone, inspect its complete log and any `failure.json` before
-using `bash experiments/schedule_layout_v1/run.sh` to resume. The runner
-skips verified receipts and refuses incomplete directories; inspect/recover
-an interrupted stage rather than automatically retraining its seed.
+All 19 stage receipts and artifacts were hash-verified before closing;
+the full log ends in `SCHEDULE-LAYOUT-DONE` and `SCHEDULE-LAYOUT-EXIT=0`.
+No experiment worker remained at the completion check. Recheck processes
+on every wakeup rather than assuming that remains true. Raw data, models
+and scores stay under `output/schedule_layout_v1/`; committed receipts are
+in `experiments/schedule_layout_v1/records/`, including `report.json`.
+`python -m eval.eval_schedule_report` regenerates the summary/figure from
+committed records alone, with no scoring, fitting or resampling. Its
+selftest rejects altered decisions or summaries. The original training
+sources are pinned in the manifest at `e4053e8`; new report code was added
+only after the training/evaluation queue completed.
 
-**Do not change Python source, the registration, environment or protected
-models during this campaign.** The manifest freezes all tracked Python
-files and rejects drift at stage boundaries. Documentation can continue.
-The new pure selftest covers per-seed guard failure, incomplete/duplicate
-draws, nonfinite metrics, no-overwrite publication and actual resume refusal.
-All 154 Python files passed whole-repository Black/Ruff before launch.
+The first vision attempt stopped before data generation because the moving
+crosser starts outside the camera cone. The corrected instrument observes
+its geometric centreline crossing, with unchanged thresholds, seeds and
+training recipe. All four rendered-scene checks passed; the original
+failure and manifest remain in `harness_attempt_1/`.
 
-The first instrument attempt stopped before data generation: the moving
-crosser begins outside the camera cone. The corrected fixture observes its
-geometric centreline crossing with the camera fixed. All four rendered
-versus removed-scene checks then passed and their images were inspected.
-The original manifest/failure and PNGs are preserved; no training recipe,
-pixel threshold or outcome bar changed. See the journal's harness note.
+The next bounded investigation should inspect **effective training-window,
+action and label support** in the already saved legacy/balanced corpora,
+including the per-seed rollout splits and any classless validation buckets.
+Use a read-only, rerunnable diagnostic before choosing a new training knob.
+Do not assume fewer passive moving rollouts means more useful supervised
+moving windows: held-segment eligibility changes too, and the old oracle
+already provided counterfactual action labels. Do not infer the cause from
+balanced seed 2's large endpoint absolute latent value alone; seed 1 also
+loses performance without that symptom. Keep optimization exposure, latent
+scale, course uncertainty and training-draw spread distinct.
 
-After all planned draws finish, interpret every seed and guard, append the
-researcher notes, and commit new records. Report the three-draw mean/range
-separately from the per-seed paired rollout bootstrap intervals. An offline
-GO only permits registering a subsequent closed-loop study; no automatic
-promotion. Neither the coverage fix nor the float AUC audit establishes a
-learned-policy improvement. Keep any honest NO-GO without sample expansion.
+The coverage repair remains a structural data fix, **not a demonstrated
+performance upgrade**. README, roadmap, changelog and the evidence audit
+now carry the measured negative. Any next training study needs a new
+registration and frozen bars; this NO-GO does not authorize a flight gate.
 
 The 96-pixel research models/corpora are absent from this checkout and
 are not assets in the inspected `champions-2026-07` release. Do not silently

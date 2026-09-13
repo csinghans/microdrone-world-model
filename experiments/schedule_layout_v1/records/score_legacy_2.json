@@ -1,0 +1,367 @@
+{
+  "stage": "score_legacy_2",
+  "started_unix": 1789284634.939301,
+  "elapsed_seconds": 9.901533126831055,
+  "manifest_sha256": "8dbb5e79c0f1488d17c3da52b0d47cf2a78e2e581d9e7826e4119dd3ae8ba145",
+  "result": {
+    "scores": {
+      "auc_h": [
+        0.7630119199240016,
+        0.7613206027701294,
+        0.7525717031390781,
+        0.7388746540221475
+      ],
+      "auc_by_world": {
+        "classic": 0.7550271851113327,
+        "dense": 0.7840429250971196,
+        "moving": 0.7294035451913211,
+        "room": 0.5345334186393688
+      },
+      "label_counts_by_world": {
+        "classic": {
+          "positive": 1003,
+          "negative": 1875
+        },
+        "dense": {
+          "positive": 2694,
+          "negative": 189
+        },
+        "moving": {
+          "positive": 1649,
+          "negative": 1269
+        },
+        "room": {
+          "positive": 1563,
+          "negative": 1875
+        }
+      },
+      "label_counts_h": [
+        {
+          "positive": 5123,
+          "negative": 6994
+        },
+        {
+          "positive": 5363,
+          "negative": 6754
+        },
+        {
+          "positive": 5872,
+          "negative": 6245
+        },
+        {
+          "positive": 6909,
+          "negative": 5208
+        }
+      ],
+      "now_auc": 0.7206443995321871,
+      "now_label_counts": {
+        "positive": 11713,
+        "negative": 18047
+      },
+      "veer_val": [
+        0.8535031676292419,
+        157
+      ],
+      "veer_all": [
+        0.8535031676292419,
+        157
+      ],
+      "n_val_samples": 12117,
+      "va_rolls": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ],
+      "split": "independent_holdout_all",
+      "split_seed": null,
+      "auc_method": "mann_whitney_average_ranks_v2",
+      "training_seed": 2,
+      "checkpoint_meta": {
+        "version": 2,
+        "D": 64,
+        "strips": 4,
+        "img_res": 64,
+        "A": 4,
+        "horizons": [
+          4,
+          8,
+          16,
+          32
+        ],
+        "radii": [
+          0.7,
+          0.35
+        ],
+        "danger_r": 0.7,
+        "a_norm": [
+          1.600000023841858,
+          1.0,
+          0.800000011920929,
+          9.999999974752427e-07
+        ],
+        "action_names": [
+          "forward",
+          "slow",
+          "veer_left",
+          "veer_right",
+          "climb",
+          "hover"
+        ],
+        "action_vecs": [
+          [
+            0.800000011920929,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.30000001192092896,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.5,
+            0.5,
+            0.0,
+            0.0
+          ],
+          [
+            0.5,
+            -0.5,
+            0.0,
+            0.0
+          ],
+          [
+            0.4000000059604645,
+            0.0,
+            0.4000000059604645,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "seed": 2,
+        "transit_schedule_layout": "legacy",
+        "in_frames": 1,
+        "frame_stride": 4,
+        "training_dataset_sha256": "7af21a770889041354847de26f14a37a5151ac1fb9282bec7cad2093c720a5c6"
+      },
+      "runtime": {
+        "device": "cpu",
+        "torch": "2.14.0",
+        "numpy": "2.5.3"
+      },
+      "provenance": {
+        "checkpoint": {
+          "path": "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/train_legacy_2/model.pth",
+          "sha256": "3cc0b646ab66641b7f1b372fb1e0156d5eac601f5eeea5d2921a798cd73d01f7"
+        },
+        "dataset": {
+          "path": "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/holdout/data.npz",
+          "sha256": "038a537ee4b9249c594bed937fba0f674a7ee2667716180b421446e90e189321"
+        }
+      }
+    },
+    "budget": {
+      "weights_kb": 81.2900390625,
+      "peak_act_kb": 28.0,
+      "workspace_kb": 28.0,
+      "total_kb": 137.2900390625,
+      "macs_frame": 3646528,
+      "macs_decision": 3856768
+    },
+    "estimated_gap8_ms": 7.713536
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/score_legacy_2/scores.json": "726a51d497896993b272be9dda1f14b0ba573998b476b10dfac6729cda643330",
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/score_legacy_2/scores.npz": "0518f8e6feec7cce136f5a4b39dab8c61770b8ed612fce476fb19e23055bbd14"
+  }
+}

@@ -139,3 +139,65 @@ The legacy and balanced training corpus hashes are respectively
 and `d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3`.
 All preparation receipt hashes and protected WM hashes were verified before
 continuing. The six-fit queue is active; no learned-effect verdict yet.
+
+## Final result — NO-GO, 2026-09-13
+
+All six registered fits, six common-exam evaluations and the final report
+completed. The full queue log contains `SCHEDULE-LAYOUT-DONE` and
+`SCHEDULE-LAYOUT-EXIT=0`; no worker remains. All 19 stage receipts and their
+artifact hashes were verified, together with the frozen sources/environment
+and all nine locked champions. This is a completed negative result, not a
+failed process. No seed was replaced and no valid measurement was repeated.
+
+The [raw report](records/report.json) is authoritative. The generated
+[readable summary](summary.md) includes every seed, guard, endpoint
+instrument and memory bill; reproduce it and the figure with
+`python -m eval.eval_schedule_report` using the committed JSON records.
+That command performs no new fitting, scoring or bootstrapping.
+
+| Seed | Moving legacy AUC | Balanced AUC | Paired delta | Failed guards |
+|---|---:|---:|---:|---|
+| 0 | 0.7440 | 0.7572 | +0.0133 | none |
+| 1 | 0.7323 | 0.6578 | −0.0745 | room, danger-now |
+| 2 | 0.7294 | 0.6252 | −0.1042 | classic, dense, room, danger-now, veer |
+
+Mean moving delta is **−0.0551**, against the registered minimum **+0.0300**;
+only seed 0 has a positive moving delta. Guard tolerances were not moved.
+Every model has the same 137.29 KB analytic int8 memory bill, including
+activations/workspace, and 3,856,768 MACs per decision: approximately 7.71 ms
+at the existing assumed 0.5 GMAC/s. Budget passes. This is not a hardware
+timing result or an int8/closed-loop certification.
+
+![Paired AUC changes and fixed-model course uncertainty](../../docs/figures/schedule_layout_v1.png)
+
+### Researcher notes
+
+The complete role coverage is real; the tested learning recipe does not
+deliver a consistent gain. A seed-0-only study would have shown positive
+deltas on every reported world and every guard. The three-seed registration
+prevents that row from being presented as a robust recipe improvement.
+It does not establish how often either recipe wins over a wider population
+of data and training draws.
+
+The paired rollout intervals price test-course variation for each fixed
+checkpoint pair. Moving intervals include zero at seeds 0 and 1; seed 2's
+interval is entirely negative. None is a confidence interval for the
+three-seed recipe mean, and overlapping windows do not become independent
+samples. Preserve both kinds of uncertainty without exchanging them.
+
+Balanced seed 2 ends with mean absolute latent 16.1382 (control 2.5288),
+while its maximum std is 6.5142. This motivates an offset/scale diagnostic,
+but does not identify why the recipe failed: balanced seed 1 also loses
+moving, room and now performance with mean absolute latent only 1.2783.
+All six fits beat their own no-op at internal MSE@32, so that diagnostic
+alone cannot certify generalization of the decision heads. Cross-model MSE
+numbers also live in differently learned latent scales.
+
+Keep the `world_balanced` coverage repair distinct from any performance
+endorsement. The shipped champions remain unchanged, and the new default
+must be frozen explicitly as part of future recipes. The comparison
+includes changed RNG consumption, internal rollout splits and effective
+held-window support; it is not an isolated causal test of passive fraction.
+Before choosing a new training knob, inspect action/label support and
+realized optimization exposure in the saved corpora. Do not rerun this
+study, expand its sample, promote seed 0 or launch a flight gate from it.
