@@ -6,11 +6,21 @@ pilot; article 14 found the assisted chapter blocked by the same eyes.
 This one is the story of one day spent throwing every cheap thing we had
 at those eyes — sharper pooling, a bigger latent, three times the data,
 a rebalanced curriculum, and finally a pure specialist — and watching
-the dense skill fall after every single one. The last corpse named the
-mechanism. Everything reruns from
+the dense skill fall after every single one. The final negative motivated
+a curriculum hypothesis. Everything reruns from
 [microdrone-world-model](https://github.com/csinghans/microdrone-world-model).*
 
 ---
+
+*Evidence update, 2026-09-13.* The campaign rows and NO-GOs below remain
+historical observations. The [research audit](../../docs/RESEARCH-AUDIT-2026-09-13.md)
+found that the old generator's global index also coupled world identity
+to passive/intervention and classic threatened/clear roles. Changing the
+world mixture could therefore change these roles too. The curriculum and
+capacity explanations below are hypotheses, not isolated causal findings;
+they need matched role coverage and common independent holdouts before a
+new training comparison. New generation uses `world_balanced`; reproduce
+these older recipes explicitly with `schedule_layout="legacy"`.
 
 > **The simple version.** Train a radiologist only on cancer scans and
 > something strange happens: they get WORSE at reading cancer scans.
@@ -54,8 +64,9 @@ specialist's ranking); saturation ≤ 0.4658; high-clutter |gap| ≤
 
 One gift arrived before any science: the control arm — the same recipe
 through the new plumbing — reproduced the baseline checkpoint **to four
-decimals on every instrument**. Training is deterministic on this
-machine. Every delta below is exact, not a draw.
+decimals on every instrument**. That establishes repeatability for that
+seed, recipe and environment; it does not measure variation across training
+seeds or establish the expected effect of a recipe change.
 
 ## Tier 1: sharper eyes, bigger brain (architecture)
 

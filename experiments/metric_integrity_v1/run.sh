@@ -16,7 +16,7 @@ out.mkdir(parents=True, exist_ok=True)
 path = out / 'holdout_64.npz'
 if path.exists():
     raise SystemExit('registered dataset already exists; resume scoring manually')
-fixture = gen(1, 90, seed=20260912, worlds=('classic',))
+fixture = gen(1, 90, seed=20260912, worlds=('classic',), schedule_layout='legacy')
 frame = fixture['frames'][0, 45]
 assert frame.std() > 1, 'blank preflight frame'
 # The fixed fixture contains a red pillar, visually checked before this run.
@@ -26,7 +26,8 @@ rendered = (red > 1.5 * frame[:, :, 1]) & (red > 1.5 * frame[:, :, 2])
 assert rendered.mean() > .05, 'registered obstacle not visible in the camera'
 Image.fromarray(frame).save(out / 'instrument_frame.png')
 print('METRIC-AUDIT-VISION OK: nonblank frame, rendered red obstacle')
-data = gen(60, 160, seed=20260913, worlds=('classic', 'dense', 'moving'))
+data = gen(60, 160, seed=20260913, worlds=('classic', 'dense', 'moving'),
+           schedule_layout='legacy')
 assert np.std(data['frames']) > 1, 'blank vision data'
 with path.open('xb') as stream:
     np.savez_compressed(stream, **data)

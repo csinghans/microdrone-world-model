@@ -494,6 +494,11 @@ def train(
             "action_names": list(ACTION_NAMES),
             "action_vecs": [[float(v) for v in row] for row in ACTION_VECS],
             "seed": int(seed),
+            "transit_schedule_layout": str(
+                data.get(
+                    "schedule_layout", data.get("transit_schedule_layout", "unrecorded")
+                )
+            ),
             "in_frames": in_frames,  # 2 = two-frame pixel input (v0.18 knob)
             "frame_stride": f_stride,
         },

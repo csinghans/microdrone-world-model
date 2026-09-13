@@ -45,22 +45,24 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
   stands as the offline dense apex (264 KB / 17 ms), not deployed,
   not certified. Article #16; journals:
   `experiments/{general_wm_v2,perception_v1,perception_v2,perception_v3}/`.
-- **The Representation Program (four campaigns, one day): the cheap
-  tier closes by exhaustion, and the mechanism gets a name.** Both
+- **The Representation Program (four campaigns, one day): recorded
+  negatives and a curriculum hypothesis.** Both
   chapters' wall (dense separation) was attacked offline with every
   cheap knob under frozen bars: architecture (strips 8 / D 128 — both
   trade dense for classic; the coarse pooling was quietly a
   regularizer), uniform 3x data (best GENERAL model ever, all-world
-  0.951 — and dense FELL to 0.842: outcompeted, not starved),
+  0.951 — and dense FELL to 0.842),
   composition (dense share 50% recovers a third, breaks the veer
   guard), and the org chart (a dense-ONLY specialist collapses to
   0.644 with +0.56 open-space over-warn). The one figure: dense share
   22/33/50/100 % gives dense skill 0.918/0.842/0.865/0.644 — an
-  inverted U peaking at LOW share. **The mixed diet was supplying the
-  negatives; dense discrimination is a CONTRASTIVE property of the
-  curriculum.** The perception tier (resolution/depth) is now the
-  proven-by-exhaustion remaining road, and it must carry the mixed
-  curriculum with it. Article #15 tells it; journals:
+  inverted U peaking at LOW share in the recorded rows. The proposed
+  contrast/curriculum explanation remains a hypothesis: the September
+  generator audit found that world mixtures also changed intervention and
+  classic threatened/clear coverage under the old index schedule.
+  New comparisons must hold those roles and the independent exam fixed.
+  The historical negatives stand; they do not prove all data-side options
+  exhausted. Article #15 carries the evidence update; journals:
   `experiments/{representation_v1,representation_v2,representation_v3,specialist_v1}/`.
   Parked: wm_3x (the record general row) as a future general-WM
   upgrade candidate; the meta-driven dims plumbing (old checkpoints
@@ -144,12 +146,12 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
    transient upper-hinge activation in the changed-code run, so the
    claimed dead-op/MPS causal mechanism remains unverified. Details and
    source limitations: [research audit](RESEARCH-AUDIT-2026-09-13.md).
-2. **The dense frontier — the cheap tier is CLOSED by exhaustion**
-   (kept here so nobody re-digs): not metric grounding at λ∈{0.1, 0.5}
-   (v0.5 M2), not a global calibration error (head_calibration C0),
-   not architecture / data scale / composition / organization
+2. **The dense frontier — retain the tested negatives and fix data controls.**
+   Historical unsuccessful options include metric grounding at λ∈{0.1, 0.5}
+   (v0.5 M2), global calibration (head_calibration C0),
+   and the tested architecture / data scale / composition / organization knobs
    (representation_v1-v3 + specialist_v1 — v0.16, "contrast is the
-   curriculum"), not pixels alone (perception_v1-v3: the recorded seed-0
+   curriculum"), plus pixels alone (perception_v1-v3: the recorded seed-0
    resolution sweep peaks at 96; its generality and residual cause remain open).
    What remains is item 1 above, and a closed-loop pricing of
    wm_96d128 (the offline dense apex is surveyed, NOT deployed — the

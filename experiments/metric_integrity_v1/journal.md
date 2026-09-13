@@ -95,3 +95,11 @@ classic nor dense has passive rollouts. That limits the diet represented
 by this negative result. Audit and repair this schedule aliasing as a
 separate data-generation change; preserve this completed dataset and its
 registered audit outputs.
+
+### Reproduction note after the generator repair
+
+New generator calls now default to `world_balanced`. `run.sh` explicitly
+selects `schedule_layout='legacy'` to preserve the already-registered
+recipe above; the original data/results were not regenerated. Legacy
+replay was checked against the pre-repair `8de0e75` implementation on a
+separate six-rollout fixture, comparing every array and metadata field.

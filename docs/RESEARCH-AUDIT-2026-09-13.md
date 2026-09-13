@@ -21,6 +21,8 @@ the following checks reproduce the error:
 `world_model.metrics.roc_auc` assigns average ranks, matching a direct
 positive–negative comparison that awards half a point for a tie. It is
 shared by training validation and the four indoor detection/probe wrappers.
+Nonfinite scores/labels and mismatched shapes fail loudly, so a numerically
+invalid predictor cannot acquire a plausible AUC through sorting alone.
 Existing missing-class behavior is preserved: the core returns 0.5, while
 the indoor wrappers return `nan`. The new comparison report instead marks
 undefined AUC as missing and counts undefined bootstrap draws explicitly.
@@ -68,6 +70,40 @@ temporary repositories and synthetic cells:
 Atomic JSON replacement preserves earlier evidence on serialization failure.
 If a journal or commit fails after measurement, repair those saved outputs;
 do not repeat the flight measurement. These changes apply prospectively.
+
+### World identity must not select the intervention label
+
+The completed metric diagnostic exposed a generator alias: both world
+selection and passive-flight selection used the global rollout index
+modulo three. In the legacy `(classic, dense, moving)` recipe, all moving
+rollouts were passive and the other worlds had no passive trials. Its
+60-rollout dataset confirmed 20 passive moving rollouts and zero passive
+classic/dense rollouts. With `(dense, dense, classic, moving)`, classic
+always occupied an even index, so its threatened/clear flag was always
+threatened. These are corpus coverage defects, not proof of their impact
+on any historical trained model.
+
+`datasets.rollout_schedule.plan` now cycles roles on each world's own visit
+count. Every complete six visits contain four intervention and two passive
+trials; classic crosses those with threatened/clear courses. World order
+and explicit repetition weights remain intact. Partial cycles can still
+be incomplete and must be reported.
+
+Both data generators and their Python APIs default to `world_balanced` for
+new corpora. **Historical reproduction requires `--schedule-layout legacy`
+or `schedule_layout="legacy"`.** The pure schedule test covers all world
+permutations, repeated weights and legacy parity. A six-rollout simulator
+fixture additionally compared every output array and metadata field against
+the old `8de0e75` generator. Legacy mode retains the old blob schema and
+consumes randomness in the same order; the completed metric audit script
+now pins this mode explicitly. Its saved dataset and results were not touched.
+
+New balanced corpora carry `schedule_layout`; combined corpora carry
+`transit_schedule_layout`. Future checkpoints preserve that field, or say
+`unrecorded` for data lacking it. This changes the prospective data recipe;
+any performance comparison needs a newly registered, single-knob study.
+The generator's simulator selftest now requires both flight roles in each
+world and saves to `wm_dataset_selftest.npz`, protecting the real corpus.
 
 ## Research explanations that needed narrowing
 

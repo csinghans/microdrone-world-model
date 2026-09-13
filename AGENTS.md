@@ -118,6 +118,13 @@ around any push.
   crash rate as a false "N-room doesn't scale" — a scary retraction that
   evaporated at 0.6 (search_nroom_v1, 2026-07-08). Default fixed to 0.6.
   Match the established, verified config before interpreting a number.
+- Rollout generation now defaults to `schedule_layout="world_balanced"`
+  (`--schedule-layout world_balanced` in both dataset CLIs). Freeze this
+  recipe field before training. Use explicit `legacy` to reproduce older
+  corpora: the old shared modulo index made all moving-world rollouts
+  passive in a three-world cycle, and could remove clear classic courses
+  from weighted four-slot diets (metric_integrity_v1, 2026-09-13).
+  Verify world-by-role coverage before attributing a failure to perception.
 - Scripted string replacement (`python - <<` + `str.replace`) fails
   SILENTLY on zero matches — black reformatting invalidates pasted
   old-strings. Use the Edit tool (loud no-match) for code surgery, and

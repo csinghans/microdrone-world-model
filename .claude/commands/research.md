@@ -33,6 +33,11 @@ gates:
 3. Verify prerequisites exist: the skill's zero-shot policy zip and
    `output/world_model.pth`. Verify `git status` is clean enough that
    path-scoped gate commits won't tangle with unrelated work.
+4. If generating a corpus, freeze its schedule layout and generation seed,
+   then record its hash. New transit data uses `world_balanced`; historical
+   reproduction must explicitly choose `legacy`. Inspect per-world passive,
+   intervention and threatened/clear coverage before training or interpreting
+   an information-limit claim.
 
 ## 3. The gate loop
 

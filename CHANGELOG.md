@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- **Data role aliasing repaired (2026-09-13):** new transit datasets cycle
+  passive/intervention and classic threat roles within each world's visits.
+  Previously the three-world cycle made moving entirely passive, and a
+  four-slot weighted diet could give classic no clear courses. Both
+  generators expose `--schedule-layout legacy` for exact historical recipe
+  replay. New data/checkpoints record the layout; the generator selftest
+  now writes `wm_dataset_selftest.npz` instead of the real corpus. This
+  fixes demonstrated coverage, with no claim of trained-policy improvement.
+
+- **metric_integrity_v1 closes with an honest negative:** the repaired
+  AUC differs by exactly zero for both locked float WMs on a common new
+  60-rollout / 4,083-sample dataset; no cross-class ties occurred. Historical
+  96-pixel and int8 results remain outside this diagnostic's scope.
+
 - **Research integrity audit (2026-09-13):** tie-aware AUC shared across
   collision and indoor probes; pooled criteria judged consistently;
   append-only campaign resume, atomic results, scoped commits and protected

@@ -99,6 +99,15 @@ python -m scripts.train --policy --timesteps 300000  # 6. learn the policy
 python -m scripts.evaluate --seeds 60                # 7. every policy, same courses
 ```
 
+New rollout datasets use `world_balanced` scheduling: every world gets
+intervention and passive trials, and classic gets threatened and clear
+courses. To reproduce a historical corpus, explicitly use
+`--schedule-layout legacy` with `datasets.generate_rollouts` or
+`datasets.combine_rollouts` (Python: `schedule_layout="legacy"`). The old
+global-index schedule aliased moving with passive-only flight in the
+three-world diet. [Evidence and migration notes](docs/RESEARCH-AUDIT-2026-09-13.md)
+explain the fix; existing corpora and checkpoints are unchanged.
+
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
 
