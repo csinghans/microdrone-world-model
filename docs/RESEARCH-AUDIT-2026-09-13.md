@@ -129,9 +129,12 @@ labels: zero masking itself creates their vector contrast. This does not
 mean the CF loss trains on masked labels; that loss still masks correctly.
 Changing the sampling pool may also affect danger-now because both losses
 consume the same sampled frames. The subsequently registered
-[cf_hard_pool_v1 comparison](../experiments/cf_hard_pool_v1/journal.md) tests
-that one knob with fresh matched fits and a new confirmation exam. The
-default sampler remains unchanged while its benefit is unmeasured.
+[cf_hard_pool_v1 comparison](../experiments/cf_hard_pool_v1/summary.md) tested
+that one knob with fresh matched fits and a new confirmation exam and closed
+NO-GO: mean ranking +0.0401 missed +0.0500, with seed 1 ranking regression
+and seed 0 collision-guard failures. The default sampler remains unchanged.
+The pooled ranking probe's 208 frames span 23 courses, including only two
+moving courses and no rooms; it does not establish all-world ranking gains.
 
 ## Research explanations that needed narrowing
 

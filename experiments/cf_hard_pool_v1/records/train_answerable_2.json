@@ -1,0 +1,182 @@
+{
+  "stage": "train_answerable_2",
+  "started_unix": 1789321068.092175,
+  "elapsed_seconds": 204.46657490730286,
+  "manifest_sha256": "ba3372d72fd8944250232788e3c42d61b5343420bfaedd647b9a5879d4dde356",
+  "result": {
+    "metrics": {
+      "mse": [
+        0.24817484617233276,
+        0.43023425340652466,
+        0.6037985682487488,
+        0.8395317792892456
+      ],
+      "noop": [
+        0.26493632793426514,
+        0.5094357132911682,
+        0.8645968437194824,
+        1.446120262145996
+      ],
+      "zstd_med": 1.3626735210418701,
+      "zstd_max": 2.1014621257781982,
+      "zabs": 1.5609489679336548,
+      "auc": [
+        0.8239019996397046,
+        0.8244608499724844,
+        0.8236442687747035,
+        0.844803888799244
+      ],
+      "auc_by_world": {
+        "classic": 0.7213541666666666,
+        "dense": 0.9543010752688172,
+        "moving": 0.8066047471620227,
+        "room": 0.6921230030473728
+      },
+      "label_counts_by_world": {
+        "classic": {
+          "positive": 144,
+          "negative": 136,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "dense": {
+          "positive": 248,
+          "negative": 48,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "moving": {
+          "positive": 190,
+          "negative": 102,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "room": {
+          "positive": 170,
+          "negative": 637,
+          "ignored": 0,
+          "auc_defined": true
+        }
+      },
+      "label_counts_h": [
+        {
+          "positive": 455,
+          "negative": 1220,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 486,
+          "negative": 1189,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 575,
+          "negative": 1100,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 752,
+          "negative": 923,
+          "ignored": 0,
+          "auc_defined": true
+        }
+      ],
+      "now_label_counts": {
+        "positive": 1419,
+        "negative": 3021,
+        "ignored": 0,
+        "auc_defined": true
+      },
+      "now_auc": 0.7505379888350259,
+      "side": 1.0,
+      "n_side": 53,
+      "int8_kb": 81.2900390625,
+      "n_train": 6753,
+      "n_val": 1675,
+      "cf_hard_pool_frames": 2289,
+      "cf_hard_pool_fallback": false
+    },
+    "meta": {
+      "version": 2,
+      "D": 64,
+      "strips": 4,
+      "img_res": 64,
+      "A": 4,
+      "horizons": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "radii": [
+        0.7,
+        0.35
+      ],
+      "danger_r": 0.7,
+      "a_norm": [
+        1.600000023841858,
+        1.0,
+        0.800000011920929,
+        9.999999974752427e-07
+      ],
+      "action_names": [
+        "forward",
+        "slow",
+        "veer_left",
+        "veer_right",
+        "climb",
+        "hover"
+      ],
+      "action_vecs": [
+        [
+          0.800000011920929,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.30000001192092896,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          -0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.4000000059604645,
+          0.0,
+          0.4000000059604645,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "seed": 2,
+      "cf_hard_pool": "answerable",
+      "transit_schedule_layout": "world_balanced",
+      "in_frames": 1,
+      "frame_stride": 4,
+      "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/train_answerable_2/model.pth": "9ae534821bbf5650da8d455aaff41fa443957bb30904071dc790e5509a38228f"
+  }
+}

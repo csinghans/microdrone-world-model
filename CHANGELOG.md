@@ -2,13 +2,16 @@
 
 ## Unreleased
 
-- **CF sampler comparison registered:** an explicit `--cf-hard-pool` recipe
-  preserves `legacy_masked` by default and exposes `answerable` contrast as
-  one training knob. Six matched fits and a new confirmation exam are
-  registered before execution. Veer probe exports now retain rollout/time,
-  geometric truth and correctness for paired rollout-bootstrap intervals.
-  The sampler adds no deployed parameters or computation; a performance
-  benefit remains unmeasured. [Registration](experiments/cf_hard_pool_v1/journal.md).
+- **cf_hard_pool_v1 closes NO-GO:** six matched 80-epoch fits on one shared
+  corpus, scored on a new 186-course exam. Answerable-contrast sampling gives
+  veer deltas +0.0481 / −0.0913 / +0.1635; mean +0.0401 misses +0.0500,
+  seed 1 regresses in ranking, and seed 0 breaks classic/moving/room/now
+  guards. The 137.29 KB analytic bill is unchanged and `legacy_masked`
+  remains the default. A JSON-only report/figure generator verifies all
+  receipts, matched recipes, common support and frozen decisions. New veer
+  exports permit paired rollout-bootstrap intervals and support accounting
+  (208 frames / 23 courses, only two moving probe courses). No retry,
+  promotion or changed bar. [Report](experiments/cf_hard_pool_v1/summary.md).
 
 - **Supervision support audited:** the saved schedule-layout corpora gain
   moving action diversity while eligible executed windows fall 2,816→1,506.

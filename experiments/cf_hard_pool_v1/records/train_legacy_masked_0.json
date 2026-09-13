@@ -1,0 +1,182 @@
+{
+  "stage": "train_legacy_masked_0",
+  "started_unix": 1789320033.84081,
+  "elapsed_seconds": 208.27742409706116,
+  "manifest_sha256": "ba3372d72fd8944250232788e3c42d61b5343420bfaedd647b9a5879d4dde356",
+  "result": {
+    "metrics": {
+      "mse": [
+        0.18778680264949799,
+        0.2855798304080963,
+        0.36489883065223694,
+        0.468156099319458
+      ],
+      "noop": [
+        0.21954911947250366,
+        0.4127999544143677,
+        0.6499486565589905,
+        0.9217481017112732
+      ],
+      "zstd_med": 1.2521744966506958,
+      "zstd_max": 1.6969348192214966,
+      "zabs": 1.3446147441864014,
+      "auc": [
+        0.7676529597116253,
+        0.7837594822130904,
+        0.7878128206188202,
+        0.8006760922280218
+      ],
+      "auc_by_world": {
+        "classic": 0.7889681124975243,
+        "dense": 0.8652571428571428,
+        "moving": 0.7941236901582084,
+        "room": 0.6432026422331132
+      },
+      "label_counts_by_world": {
+        "classic": {
+          "positive": 132,
+          "negative": 153,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "dense": {
+          "positive": 250,
+          "negative": 35,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "moving": {
+          "positive": 124,
+          "negative": 157,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "room": {
+          "positive": 190,
+          "negative": 494,
+          "ignored": 0,
+          "auc_defined": true
+        }
+      },
+      "label_counts_h": [
+        {
+          "positive": 438,
+          "negative": 1097,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 468,
+          "negative": 1067,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 529,
+          "negative": 1006,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 696,
+          "negative": 839,
+          "ignored": 0,
+          "auc_defined": true
+        }
+      ],
+      "now_label_counts": {
+        "positive": 1372,
+        "negative": 3068,
+        "ignored": 0,
+        "auc_defined": true
+      },
+      "now_auc": 0.7431350753190082,
+      "side": 1.0,
+      "n_side": 53,
+      "int8_kb": 81.2900390625,
+      "n_train": 6893,
+      "n_val": 1535,
+      "cf_hard_pool_frames": 2562,
+      "cf_hard_pool_fallback": false
+    },
+    "meta": {
+      "version": 2,
+      "D": 64,
+      "strips": 4,
+      "img_res": 64,
+      "A": 4,
+      "horizons": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "radii": [
+        0.7,
+        0.35
+      ],
+      "danger_r": 0.7,
+      "a_norm": [
+        1.600000023841858,
+        1.0,
+        0.800000011920929,
+        9.999999974752427e-07
+      ],
+      "action_names": [
+        "forward",
+        "slow",
+        "veer_left",
+        "veer_right",
+        "climb",
+        "hover"
+      ],
+      "action_vecs": [
+        [
+          0.800000011920929,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.30000001192092896,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          -0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.4000000059604645,
+          0.0,
+          0.4000000059604645,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "seed": 0,
+      "cf_hard_pool": "legacy_masked",
+      "transit_schedule_layout": "world_balanced",
+      "in_frames": 1,
+      "frame_stride": 4,
+      "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/train_legacy_masked_0/model.pth": "5e8cc05d0ea8b757d3a59a1fd548130a38095eb36b07b23e536344a26077a0de"
+  }
+}

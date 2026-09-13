@@ -42,12 +42,14 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
   findings, not causal explanations for the learning NO-GO.
   [Audit](../experiments/schedule_support_v1/journal.md).
 
-The active [cf_hard_pool_v1 comparison](../experiments/cf_hard_pool_v1/journal.md)
-tests only that sampler choice on one shared training corpus. Three paired
-seeds score a new independent exam; mean action-ranking improvement must
-reach +.05 with no seed regressing, and every world/now AUC guard must hold.
-The deployed architecture bill stays fixed. This offline test can motivate
-a later registered flight study; it cannot promote a champion.
+The [cf_hard_pool_v1 comparison](../experiments/cf_hard_pool_v1/summary.md)
+is also **closed NO-GO**. On a shared corpus and a new independent exam,
+ranking deltas are +0.0481 / −0.0913 / +0.1635 (mean +0.0401; required +.05).
+Seed 1 ranking and seed 0 classic/moving/room/now guards fail; the 137.29 KB
+bill stays fixed. Default sampling remains `legacy_masked`. The pooled
+ranking probe meets its registered support bar (208 frames / 23 courses),
+but only two courses are moving and none are room; retain that scope limit.
+Do not expand this exam or use the favorable seed 2 as a promotion gate.
 
 Other closed research arcs:
 

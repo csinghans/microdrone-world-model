@@ -116,8 +116,10 @@ upgrade. Freeze the layout explicitly in every training recipe.
 Training also exposes `--cf-hard-pool legacy_masked|answerable`. The default
 preserves the existing sampler; `answerable` selects frames whose visible
 candidate actions have different collision labels at the same horizon/ring.
-The registered [CF sampler comparison](experiments/cf_hard_pool_v1/journal.md)
-uses matched fresh fits and a new exam; its benefit is not yet measured.
+The registered [CF sampler comparison](experiments/cf_hard_pool_v1/summary.md)
+closed **NO-GO**: mean ranking delta +0.0401 missed +0.0500, seed 1's
+ranking regressed, and seed 0 broke collision guards. The default stays
+`legacy_masked`; the candidate is not a validated upgrade.
 
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.

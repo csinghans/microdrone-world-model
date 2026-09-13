@@ -1,0 +1,66 @@
+{
+  "verified_unix": 1789323855.682358,
+  "manifest_sha256": "ba3372d72fd8944250232788e3c42d61b5343420bfaedd647b9a5879d4dde356",
+  "original_source_revision": "19106b2fb27ba462ed3378c181733cf200539bd4",
+  "all_source_runtime_training_input_and_protected_hashes_match": true,
+  "all_stage_files_match": true,
+  "stage_count": 17,
+  "receipt_hashes": {
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/vision.json": "6ceb4dfbc0760647342a94ec7613f20e225b01341ecf1ff9b74a25ea83e63d09",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/training_data.json": "49ff5ed4a96507b770ddb12e3be44a3bb7750548287393a32b46bc6e04d7f68b",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/indoor_holdout.json": "d937bf87bbdb26eb2793f72bae2524b9162103216aee29d5d942c2552b560c4e",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/holdout.json": "3c56f1deeab06c8b043f9feea8291003ba9a9cc495a3e886856af99da3a6de14",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/train_legacy_masked_0.json": "3c96fad9cdb11d502673fb21cd60b3a34d9c1f8b28c523cb63efa458a68adf01",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/train_answerable_0.json": "caa7c1591aa14dcaeebb92b76637b7427b621b5308d53e9bef78feed69b3870a",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/train_answerable_1.json": "d04b72ae3300564668b61c4a8d892436f2dd9d79f30b591f45a628d93f4ce428",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/train_legacy_masked_1.json": "0da21d4aa9b3045c9c2fcfe9fa2917c7e823424fb41ea02fba3f511841546e02",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/train_legacy_masked_2.json": "18b5b4a651d514f6a6d4ded765a106dacf2d0cea5f514c590f651113f097db1b",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/train_answerable_2.json": "814f634c7ad1d2fe75507606d365195d17504adc8cf75c390b62b0cc807c8bea",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/score_legacy_masked_0.json": "ef49f1923d85c617b6467df020178d525f1f5594393ecad3b72f58fef38bc501",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/score_answerable_0.json": "8be4ac38ed501c47c336d587771929fe8d3c77316b5e053f1dc5db5c9fa5ef29",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/score_legacy_masked_1.json": "6597adee719e8638299dba86c4df2bc5696c06e545dec0ac7dd76c73d385bc81",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/score_answerable_1.json": "e8fd4ffe8ba5f4d8242b52241e481f135eeef0607904f0d7a6fff3d7e0a06cf5",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/score_legacy_masked_2.json": "c7644f20f73e04f2d7ad2c0fa130ceaab30d2a93b46bda0cd4711f9796950325",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/score_answerable_2.json": "c6f88762fb5d021b67107a338a5fce157b2956a9c2b27f78f4758b4249523fb0",
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_hard_pool_v1/records/report.json": "73addf094f93e539fb005145bfc5a78aa71f168783604de4c1f063e4adc273ad"
+  },
+  "decision_recomputed_from_original_bars": {
+    "verdict": "NO-GO",
+    "checks": {
+      "seed0/veer_nonnegative": true,
+      "seed0/classic_guard": false,
+      "seed0/dense_guard": true,
+      "seed0/moving_guard": false,
+      "seed0/room_guard": false,
+      "seed0/now_auc_guard": false,
+      "seed0/budget": true,
+      "seed1/veer_nonnegative": false,
+      "seed1/classic_guard": true,
+      "seed1/dense_guard": true,
+      "seed1/moving_guard": true,
+      "seed1/room_guard": true,
+      "seed1/now_auc_guard": true,
+      "seed1/budget": true,
+      "seed2/veer_nonnegative": true,
+      "seed2/classic_guard": true,
+      "seed2/dense_guard": true,
+      "seed2/moving_guard": true,
+      "seed2/room_guard": true,
+      "seed2/now_auc_guard": true,
+      "seed2/budget": true,
+      "veer_mean": false
+    },
+    "veer_deltas": [
+      0.04807686805725098,
+      -0.0913461446762085,
+      0.16346150636672974
+    ],
+    "veer_mean": 0.04006407658259074,
+    "veer_range": [
+      -0.0913461446762085,
+      0.16346150636672974
+    ],
+    "scope": "Offline comparison of one training-sampler knob on a new confirmation exam. All six fits are unconditional after instrument checks; no replacement draws, optional rechecks, sample expansion, or changed bars. GO only permits registering a later flight study, never promotion. Paired rollout-bootstrap intervals condition on fixed checkpoints, not training randomness."
+  },
+  "scope": "Post-completion read-only verification before adding report code. No fitting, scoring or bootstrap resampling."
+}

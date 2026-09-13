@@ -1,0 +1,182 @@
+{
+  "stage": "train_answerable_1",
+  "started_unix": 1789320451.166794,
+  "elapsed_seconds": 205.66915488243103,
+  "manifest_sha256": "ba3372d72fd8944250232788e3c42d61b5343420bfaedd647b9a5879d4dde356",
+  "result": {
+    "metrics": {
+      "mse": [
+        0.2991184592247009,
+        0.4969021677970886,
+        0.737076997756958,
+        0.9313400387763977
+      ],
+      "noop": [
+        0.31953608989715576,
+        0.6013776659965515,
+        0.9999949336051941,
+        1.4974918365478516
+      ],
+      "zstd_med": 1.3434549570083618,
+      "zstd_max": 2.3045873641967773,
+      "zabs": 1.6448030471801758,
+      "auc": [
+        0.7736112425053236,
+        0.785549252905368,
+        0.7693932738953717,
+        0.7832465244678986
+      ],
+      "auc_by_world": {
+        "classic": 0.7566568047337278,
+        "dense": 0.998639455782313,
+        "moving": 0.9241129435282359,
+        "room": 0.4694163763066202
+      },
+      "label_counts_by_world": {
+        "classic": {
+          "positive": 130,
+          "negative": 156,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "dense": {
+          "positive": 240,
+          "negative": 49,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "moving": {
+          "positive": 145,
+          "negative": 138,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "room": {
+          "positive": 200,
+          "negative": 574,
+          "ignored": 0,
+          "auc_defined": true
+        }
+      },
+      "label_counts_h": [
+        {
+          "positive": 491,
+          "negative": 1141,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 520,
+          "negative": 1112,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 580,
+          "negative": 1052,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 715,
+          "negative": 917,
+          "ignored": 0,
+          "auc_defined": true
+        }
+      ],
+      "now_label_counts": {
+        "positive": 1229,
+        "negative": 3211,
+        "ignored": 0,
+        "auc_defined": true
+      },
+      "now_auc": 0.7016738890089727,
+      "side": 0.8636363744735718,
+      "n_side": 22,
+      "int8_kb": 81.2900390625,
+      "n_train": 6796,
+      "n_val": 1632,
+      "cf_hard_pool_frames": 2253,
+      "cf_hard_pool_fallback": false
+    },
+    "meta": {
+      "version": 2,
+      "D": 64,
+      "strips": 4,
+      "img_res": 64,
+      "A": 4,
+      "horizons": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "radii": [
+        0.7,
+        0.35
+      ],
+      "danger_r": 0.7,
+      "a_norm": [
+        1.600000023841858,
+        1.0,
+        0.800000011920929,
+        9.999999974752427e-07
+      ],
+      "action_names": [
+        "forward",
+        "slow",
+        "veer_left",
+        "veer_right",
+        "climb",
+        "hover"
+      ],
+      "action_vecs": [
+        [
+          0.800000011920929,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.30000001192092896,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          -0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.4000000059604645,
+          0.0,
+          0.4000000059604645,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "seed": 1,
+      "cf_hard_pool": "answerable",
+      "transit_schedule_layout": "world_balanced",
+      "in_frames": 1,
+      "frame_stride": 4,
+      "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/train_answerable_1/model.pth": "10479a3fa8594a0ac4f809712adf69d7b1f10ceb4d5babc707fe7842c820a026"
+  }
+}

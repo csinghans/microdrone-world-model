@@ -84,39 +84,37 @@ raw data is under its campaign directory; no experiment worker is active.
 Original manifest source hashes describe the historical training revision;
 the new class-support logging was added only after both studies completed.
 
-The next registered study is [cf_hard_pool_v1](../experiments/cf_hard_pool_v1/journal.md):
-the current zero-masked-vector rule versus disagreement between answerable
-candidate labels. The explicit recipe flag preserves `legacy_masked` by
-default. The audit measured masked-only contrast in 11.83–13.01% of balanced
-training hard frames; both implemented masks reconcile with that audit.
-Two-epoch integration tests pass for both recipes using selftest artifacts.
-Veer exports now retain individual course/time/truth/correctness for paired
-rollout-bootstrap intervals; frame and independent-course counts are separate.
+The [cf_hard_pool_v1 study](../experiments/cf_hard_pool_v1/summary.md) is
+**complete: NO-GO**. Six new 80-epoch fits share the same balanced corpus;
+the sole knob selects zero-masked-vector versus answerable-label contrast.
+On the fresh 186-course / 12,147-window exam, veer deltas are
++0.0481 / −0.0913 / +0.1635, mean +0.0401 versus required +0.0500.
+Seed 1 ranking regresses, and seed 0 fails classic/moving/room/now guards.
+All six analytic bills remain 137.29 KB; default sampling stays `legacy_masked`.
+There is no promotion, retry, exam expansion or change to any earlier NO-GO.
 
-Six new 80-epoch fits reuse the identical hashed balanced training corpus.
-A fresh 186-course confirmation exam uses new generation seeds. The frozen
-bar is mean veer improvement ≥+.05 with every seed nondecreasing; each
-world AUC and danger-now guard is ≥−.02 at every seed, with identical ≤512 KB
-analytic bills. All six draws run after instrument checks, with no optional
-rechecks or replacement draws. The historical schedule-layout NO-GO stays
-closed. The CF loss already masks labels correctly; benefit from changing
-the sampling allocation is still unmeasured. Danger-now consumes the same
-sample pool, so its downstream effect belongs to this one knob.
-
-Run `bash experiments/cf_hard_pool_v1/run.sh` only after checking existing
-processes and receipts. A background launch receipt, when present, is
-`output/cf_hard_pool_v1/queue.json`; the full queue log is in the campaign's
-`run.log`. Sources, runtime, corpus SHA and protected WMs freeze at launch.
-Do not edit Python sources while this queue is active. Incomplete stage
-directories require inspection and cannot be silently retried. Expected
-completion markers are `CF-HARD-POOL-DONE` and `CF-HARD-POOL-EXIT=0`.
-
-The queue has now launched from `19106b2` (initial shell PID 63607). All four
-preflight stages passed and their receipts/files were verified. New exam:
-186 courses, 12,147 valid windows; every world has both classes. Exam SHA:
+All 17 stages and files, frozen sources/runtime/corpus and protected WMs
+were verified at completion before adding report code; see the campaign's
+`verification.json`. Original sources are pinned at `19106b2`. Full logs
+end in `CF-HARD-POOL-DONE` and `CF-HARD-POOL-EXIT=0`. No worker remained at
+the completion check. `output/cf_hard_pool_v1/queue.json` is a historical
+launch receipt, not an active-work indicator. Recheck processes on wakeup.
+The closed exam SHA is
 `16986ffa08f24bac9ca3f5775ed8f8fa419aa5eb54851f123b1dd7f0416ebf53`.
-The first control fit was active at this snapshot; inspect current state
-before acting. Results are pending, and Python sources must remain frozen.
+
+`python -m eval.eval_cf_sampler_report` rebuilds the summary/figure from
+committed JSON alone; its selftest checks individual receipts, single-knob
+metadata, matched support and frozen decisions. The optional
+`--audit-probe-support` reads six hashed NPZ exports without running models
+and compares an existing support record rather than replacing it. Probe
+support: 208 frames / 23 courses; classic 39/6, dense 145/15, moving 24/2,
+room 0/0. This passes the frozen pooled support bar but does not establish
+per-world ranking gains. No retrospective support expansion is authorized.
+
+Both sampler recipes passed the two-epoch integration selftest. The CF
+loss already masks unknown labels correctly; changing allocation also
+changes the danger-now samples. The study failed the registered joint
+improvement test, not an assertion that every contrast curriculum must fail.
 
 Restoring moving executed-window exposure is a separate possible knob;
 do not change it together with the hard pool. Do not infer the cause from

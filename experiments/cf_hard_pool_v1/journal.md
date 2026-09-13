@@ -126,3 +126,61 @@ The four preflight receipts and their files have been hash-verified.
 The first control fit has started; this entry contains no research-model
 evaluation or verdict. All six draws and their common-exam evaluations
 remain required before the study is interpreted.
+
+## Final result — 2026-09-14: NO-GO
+
+All 17 stages completed once. The full queue log ends with
+`CF-HARD-POOL-STUDY COMPLETE`, `CF-HARD-POOL-DONE` and
+`CF-HARD-POOL-EXIT=0`; no worker remained at the completion check. Before
+adding report code, all frozen source/runtime/input/protected hashes and
+every stage output were verified. [Verification receipt](verification.json).
+All nine locked artifacts still match their lock hashes.
+
+| Training seed | Control veer | Answerable veer | Delta |
+|---|---:|---:|---:|
+| 0 | 0.8510 | 0.8990 | +0.0481 |
+| 1 | 0.8606 | 0.7692 | −0.0913 |
+| 2 | 0.5817 | 0.7452 | +0.1635 |
+
+Mean delta +0.0401 misses the immutable +0.0500 primary bar, and seed 1
+violates the per-seed nondecrease requirement. Seed 0 fails classic AUC
+(−0.0428), moving (−0.0742), room (−0.0787) and danger-now (−0.0475), each
+against −0.0200. Other per-seed AUC guards pass. Every model has the same
+137.290039 KB analytic int8 bill and 3,856,768 MACs/decision; estimated
+7.713536 ms assumes 0.5 GMAC/s, with no hardware or flight certification.
+
+All six ranking readings use 208 eligible frames from 23 independent
+courses. The [paired intervals and all guards](summary.md) condition on
+the fixed checkpoints; the three training draws do not provide a
+training-population confidence interval. No mean or favorable seed can
+erase a failed guard. This tested recipe does not establish the joint
+improvement claimed in registration, and the default stays `legacy_masked`.
+
+Post-hoc support accounting (no new scoring or changed eligibility) checks
+all six hashed exports: classic 39 frames / six courses; dense 145 / 15;
+moving 24 / two; room zero. The pooled probe meets its frozen support bar,
+but its dense-heavy composition limits broader interpretation. The room
+oracle is unanswerable for pillar-kinematic CF/veer labels, while room's
+executed collision AUC remains separately guarded on 60 exam courses.
+Reproduce with `python -m eval.eval_cf_sampler_report --audit-probe-support`;
+an existing support record is compared, never overwritten.
+
+The fit receipts confirm identical executed-window counts and splits within
+each pair, plus the intended hard-pool membership. Every model beats its own
+no-op latent MSE@32, yet this is insufficient to certify ranking or collision
+quality across the exam. Large endpoint latent magnitude is an association,
+not an established cause of failure. No historical result was edited, no
+research draw repeated, no exam expanded and no model promoted.
+
+The completed-study summary and figure are generated solely from saved JSON
+by `python -m eval.eval_cf_sampler_report`. Its selftest verifies receipt
+hashes, individual score/fit identity, one-knob metadata, equal support and
+all original decisions; malformed course counts and summaries are rejected.
+This reporting code was added after the frozen training queue completed.
+
+Validation: whole-repository Black/Ruff passed for 158 Python files, along
+with CF report, historical schedule report, paired-runner and support-export
+checks. The report selftest also passed in an isolated directory containing
+only its Python modules and JSON receipts, with no `output/` directory.
+The six-panel figure was visually inspected. These are local checks;
+no remote push, CI dispatch or release tagging was performed.
