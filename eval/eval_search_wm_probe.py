@@ -25,6 +25,7 @@ from planner.latent_mpc import DECIDE_EVERY, _frame_tensor
 from planner.nav_action_set import NAV_ACTION_VECS, nav_menu
 from sim.envs import START, VelCommander, grab_frame, make_ctrl
 from sim.search_scenario import remove_bodies
+from world_model.metrics import roc_auc
 
 WARN_HORIZON_ANY = True  # use the max warn prob over horizons (any-horizon threat)
 LOOKAHEAD_K = 4  # a "true near" decision = clearance dips below the ring within K
@@ -35,16 +36,12 @@ DANGER_CLEAR = 0.7
 
 
 def _auc(scores, labels):
-    """Rank-based AUC (Mann-Whitney); 0.5 if degenerate."""
+    """Tie-aware rank AUC; preserve NaN for a missing class."""
     s, y = np.asarray(scores, float), np.asarray(labels, int)
     pos, neg = s[y == 1], s[y == 0]
     if len(pos) == 0 or len(neg) == 0:
         return float("nan")
-    order = np.argsort(s)
-    ranks = np.empty(len(s), float)
-    ranks[order] = np.arange(1, len(s) + 1)
-    r_pos = ranks[y == 1].sum()
-    return float((r_pos - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg)))
+    return roc_auc(s, y)
 
 
 def probe(
@@ -149,7 +146,9 @@ def selftest() -> None:
     # AUC math: a perfect separator scores 1.0, a random one ~0.5
     assert abs(_auc([0.1, 0.2, 0.8, 0.9], [0, 0, 1, 1]) - 1.0) < 1e-9
     assert abs(_auc([0.9, 0.8, 0.2, 0.1], [0, 0, 1, 1]) - 0.0) < 1e-9
-    assert np.isnan(_auc([0.5, 0.6], [0, 0]))
+    assert _auc([0.5] * 4, [1, 1, 0, 0]) == 0.5
+    assert _auc([0.9, 0.5, 0.5, 0.1], [1, 1, 0, 0]) == 0.875
+    assert np.isnan(_auc([0.5, 0.6], [0, 0])) and np.isnan(_auc([], []))
     print("SEARCH-WM-PROBE OK: AUC math (perfect 1.0, inverted 0.0, degenerate nan)")
 
 

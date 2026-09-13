@@ -11,16 +11,21 @@ what remains. Everything reruns from
 ---
 
 > **The simple version.** Give a near-sighted pilot their first real
-> pair of glasses and the cluttered street snaps into focus — that was
-> our 96-pixel camera. Hand them binoculars instead and they walk into
-> a lamppost: too much image for the brain behind it — that was 128.
-> Give the stronger glasses AND a bigger visual memory and almost
-> everything comes back: the clutter stays sharp, the left-right
-> instinct returns, the panic fades. Almost. One thing never comes
-> back with sharper glasses: things that MOVE. Because seeing motion
-> was never about resolution — it is about remembering the previous
-> glance. Our model has no previous glance. That, at the end of
-> fifteen retrains, is the residue's name.
+> pair of glasses and a cluttered street may come into focus. Our first
+> camera sweep looked like that: sharper pictures helped, until the
+> next setting made things worse. We suspected that remembering the
+> previous glance would repair what remained. The follow-up did not
+> meet its improvement bar, and repeating the recipe exposed large
+> differences between runs. Before declaring which glasses work best,
+> we need to give every pilot the same eye chart.
+
+*Evidence update, 2026-09-13.* The original July article named temporal
+input as the residual hypothesis. The August temporal and stability
+campaigns did not validate that explanation. This revision keeps the
+recorded results and narrows the conclusions; it does not change any
+campaign's bars or verdict. The
+[evidence audit](../../docs/RESEARCH-AUDIT-2026-09-13.md) identifies
+the remaining comparison and provenance limits.
 
 ## Where article 15 left us
 
@@ -43,7 +48,7 @@ certifies.** Every claim below is an offline claim, and says so.
 
 `perception_v1` changed pixels and nothing else — same seeds, same
 courses, same recipe, the camera dialed from 64 to 96 to 128. The
-dense ranking wrote an inverted U with a cliff:
+recorded seed-0 dense rankings formed an inverted U:
 
 | camera (pixels : latent dims) | dense AUC@32 |
 |---|---|
@@ -53,15 +58,16 @@ dense ranking wrote an inverted U with a cliff:
 
 At 96, dense separation — the number nothing in nine prior arms could
 move — jumped +0.077 to near-perfect, and every dense-side calibration
-metric moved with it. The sensor was the bottleneck. **The wall eats
-pixels.**
+metric moved with it. This was evidence worth pursuing for the sensor
+resolution hypothesis, on this particular training draw.
 
 At 128 the same architecture drowned. And the failure had structure:
 the veer-ranking probe (a relative, left-vs-right judgment) snapped
 back to perfect exactly where dense ranking (an absolute,
-close-vs-colliding judgment) collapsed. The 64-d latent triages, and
-what it keeps rotates with the dose. The governing variable is the
-compression ratio — how many pixels each latent dimension must carry.
+close-vs-colliding judgment) collapsed. Limited representation capacity
+is a plausible explanation for that trade. Compression ratio alone was
+not isolated as its cause, and this resolution curve has not been
+replicated across training draws.
 
 ## The pincer
 
@@ -75,10 +81,10 @@ and pre-registered three recoveries.
 All three landed. Veer: 0.375 back to double-perfect. Dense: held at
 0.9965. Saturation: 0.62 → 0.52 → **0.31**, through the bar. The
 first arm in the program required to pass everything at once came
-within 0.013 of its classic guard — the closest full pass in fifteen
-retrains — and still closed NO-GO, because the deficit had rotated
-once more: the moving world (stuck at ~0.89 in every 96-res arm), the
-open-space over-warn, the all-row.
+within 0.013 of its classic guard. That margin was only one failed
+criterion: moving, open-space calibration and overall AUC also failed.
+The arm passed one of three primary bars and closed NO-GO; the classic
+margin does not measure its distance from a full pass.
 
 ## Two cheap deaths, and a mechanism each
 
@@ -87,12 +93,14 @@ residue, one knob per arm.
 
 *Maybe the bigger net is under-trained at the frozen 80 epochs.*
 Doubling to 160 did not under-deliver — it **destabilized**: the
-target latent's scale exploded ~13x, because the variance guard bounds
-the latent's spread only from BELOW while the EMA target chases the
-inflating online encoder. A one-sided guard plus a chase dynamic,
-compounding with duration. The model it produced was not worse-trained
-but internally inconsistent. Banked: any future long-memory recipe
-must close that guard first.
+no-op latent MSE rose from 7.563 to 99.4, about 13x. That is a squared
+error ratio, not a measured 13x increase in latent standard deviation.
+The later `stability_v3` run with a two-sided variance penalty failed
+too: no-op MSE 275.9, maximum latent std 15.85, mean absolute latent
+value 42.15. A variance penalty cannot constrain a uniform translation
+of the latent, so a drifting center is a plausible contributor. Neither
+a ceiling nor any proposed center/EMA fix has stabilized this recipe
+in the recorded 160-epoch tests.
 
 *Maybe the open-space over-warn is bearing aliasing — pool finer.*
 Finer horizontal pooling has now been refuted at two operating points
@@ -103,45 +111,66 @@ sizes, so the registered strips-8 arm was impossible at a 12-column
 feature map — the tool now fails loud with the valid divisors, and the
 deviation to strips 6 was registered with its rationale.)
 
-## The residue's name
+## The residue's hypothesis, tested
 
-What survives every knob this program owns is one cluster with one
-plausible cause:
+The July hypothesis was that temporal input could repair moving-world
+ranking and open-space over-warning. Two August campaigns tested
+specific forms of that idea:
 
-* the moving world sits at ~0.89 in every 96-res arm, down from 0.956
-  at 64 — **motion was traded for detail**;
-* a single-frame latent cannot rank what it cannot see move;
-* the open-space over-warn fits the same shape — without temporal
-  context, sharp detail everywhere reads as threat everywhere.
+| campaign | recorded moving AUC comparison | verdict |
+|---|---|---|
+| frozen-latent probe | single-frame control 0.8986; difference 0.8810; GRU 0.9015 | NO-GO: neither gains the required 0.03 |
+| pixel input, three reported seeds | single-frame mean 0.8164; two-frame mean 0.7899 | NO-GO: primary and veer guard fail |
 
-The residue's name is **time**. Not more pixels, not wider latents,
-not finer pooling: the previous glance. And the program already owns
-the two facts any temporal attempt must respect — the v0.2/trilogy
-finding that memory without rich input bought nothing, and this
-campaign's finding that the training dynamic destabilizes at duration
-unless the variance guard is closed.
+These negatives apply to the tested heads, frame spacing and recipes.
+They do not establish that a frozen latent destroys all motion
+information, or that time is either the cause or an impossible remedy.
+
+The pixel campaign also exposed a comparison problem. Its single-frame
+rows span 0.143 on moving and 0.228 on dense, but each checkpoint seed
+selects a different subset of an independently generated holdout. Those
+spans mix training variation with evaluation-set variation. In addition,
+the reused seed-0 control came from the old one-sided variance recipe,
+whereas the fresh controls and two-frame arms used the new band.
+The original NO-GO stands; attributing the spread requires another
+instrument. A range from three rows is not a confidence interval or
+evidence that every affordable experiment is underpowered.
+
+The next useful comparison fixes an independent holdout across all
+checkpoints and records recipe provenance and uncertainty by rollout.
+That can distinguish evaluation variation from model variation before
+spending on a larger training diet. The 96-px closed-loop gate is a
+separate missing measurement.
 
 ## The standing state
 
-`wm_96d128` is the offline dense apex: 0.9965 dense, double-perfect
-veer, saturation 0.31, at 264 KB and ~17 ms — comfortably inside the
-512 KB / 83 ms envelope. It is NOT deployed and NOT certified: the
-full bars are unmet, no closed-loop row exists, and this series has
-twice measured what offline records are worth in the air. It stands as
-the map's highest surveyed point, with the flag planted one ridge
-short of the summit and the remaining ridge named.
+`wm_96d128` is the recorded offline dense apex: 0.9965 dense,
+double-perfect veer, saturation 0.31, at 264 KB and an estimated 17 ms.
+That estimate fits the campaign's 83 ms decision-period bar while
+exceeding the project's approximately 8 ms baseline compute target;
+it is not a hardware timing measurement. It is not deployed or
+certified: the full bars are unmet and no closed-loop row exists.
+Nor does its selected seed-0 row establish the recipe's expected
+performance.
+
+Sources: [perception_v1](../../experiments/perception_v1/journal.md),
+[perception_v2](../../experiments/perception_v2/journal.md),
+[perception_v3](../../experiments/perception_v3/journal.md),
+[stability_v3](../../experiments/stability_v3/journal.md),
+[temporal probe results](../../experiments/temporal_probe_v1/probe_results.json),
+[temporal pixel journal](../../experiments/temporal_v1_pixel/journal.md).
+The pixel and stability model rows are committed journal tables; their
+checkpoint files and raw training logs are not tracked in Git.
 
 ## The lessons
 
-1. **When reallocation is exhausted, add information.** Nine arms
-   moved nothing; the first information-adding knob moved everything.
-2. **Dose matters.** The same knob that produced the breakthrough at
-   96 produced a collapse at 128. Sweep before you conclude.
-3. **The latent triages.** Watch WHICH skills die as you push a
-   bottleneck — the rotation pattern (relative vs absolute judgments)
-   is the diagnosis.
-4. **Match capacity to input** — in both directions.
-5. **Guards must bound both sides.** A variance floor without a
-   ceiling is a slow explosion with a fuse measured in epochs.
-6. **Name your residue.** A campaign that ends in NO-GO but converts
-   "the wall" into "the previous glance" has moved the program.
+1. **Test added information as well as capacity.** The resolution sweep
+   produced a useful candidate, with measured tradeoffs.
+2. **Keep checkpoint results separate from recipe claims.** A sweep on
+   one training seed does not establish a reproducible optimum.
+3. **Give comparisons the same exam.** Report rollout uncertainty and
+   training variation separately.
+4. **Measure the failure a guard actually controls.** A soft std penalty
+   is neither a hard bound nor a constraint on the latent center.
+5. **Keep a hypothesis revisable.** The temporal NO-GOs narrow the
+   tested options; they do not name the residual cause.

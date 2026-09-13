@@ -23,27 +23,25 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
-- **The Perception Tier (three campaigns + one refusal): the wall eats
-  pixels, the pincer lands three-for-three, and the residue is named
-  TIME.** general_wm_v2 first re-measured v0.5's law one level down
+- **The Perception Tier (three campaigns + one refusal): a promising
+  offline checkpoint, with its explanation still open.**
+  general_wm_v2 first re-measured v0.5's law one level down
   (the record offline generalist wm_3x flies catastrophically —
   false-evasion 100 %: instruments predict, only the closed loop
-  certifies). Then pixels-only sweeps drew the tier's governing curve
+  certifies). Then the recorded seed-0 pixels-only sweep drew a curve
   — dense 0.9177 / **0.9947** / 0.6999 at 64/96/128, an inverted U
-  ruled by the compression ratio, with the latent TRIAGING (veer
-  returns exactly where dense drowns) — and the capacity pincer at the
+  whose proposed compression-ratio mechanism remains unproven (veer
+  returns where dense falls) — and the capacity pincer at the
   sweet spot (96 x D128) landed all three pre-registered recoveries
-  (veer double-perfect, dense 0.9965, saturation 0.31) while missing
-  classic by 0.013: the closest full pass in fifteen retrains. The
-  last two cheap hypotheses died with mechanisms attached (160 epochs
-  destabilizes — the one-sided variance guard is a slow explosion;
-  finer lateral pooling refuted at a second operating point). The
-  surviving residue has one name: the moving world and the open-space
-  over-warn are single-frame symptoms — **the previous glance**, i.e.
-  temporal input (2026-08-31 postscript: the latent-level reading died
-  in `temporal_probe_v1`; the live form is pixel-level two-frame input,
-  and the variance-guard prerequisite was re-scoped by the stability
-  arc — see "Open" below). wm_96d128
+  (veer double-perfect, dense 0.9965, saturation 0.31). It passed one
+  of three primary bars; classic's 0.013 shortfall was one of several
+  failed criteria. Longer training and finer pooling also closed NO-GO.
+  Temporal input was the follow-up hypothesis; neither the frozen-latent
+  probes nor the tested pixel-input recipe met its registered moving
+  improvement bar. Their negatives do not establish the residual cause.
+  The September evidence audit separates these checkpoint observations
+  from claims still needing common holdouts and matching controls.
+  wm_96d128
   stands as the offline dense apex (264 KB / 17 ms), not deployed,
   not certified. Article #16; journals:
   `experiments/{general_wm_v2,perception_v1,perception_v2,perception_v3}/`.
@@ -115,40 +113,44 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Open, in order of pull
 
-1. **Time — closed at this generation's diet; what remains is the
-   instrument.** Both readings of "the previous glance" are measured
-   dead (2026-08-31): from the frozen latent (`temporal_probe_v1` — a
+1. **Improve the instrument before another temporal training run.**
+   Both tested forms closed NO-GO (2026-08-31): from the frozen latent
+   (`temporal_probe_v1` — a
    Δz head reads moving BELOW the single-frame control, a GRU gains
    +0.003 vs a +0.03 bar) and fed to the eyes (`temporal_v1_pixel` —
    the two-frame arm's 3-draw moving mean lands 0.027 below the
    single-frame mean, one draw breaks the veer guard). The pixel
-   campaign's 3-draw design produced the tier's re-framing finding:
-   per-world draw spreads run 0.14–0.23 at this diet, the apex row of
-   record is the TOP of its own draw distribution, and +0.03-scale
-   offline questions are measurably unanswerable here. The honest ways
-   forward, each its own campaign: a BIGGER diet/holdout (data is the
-   binding resource), or the 96-px closed-loop flight gate the
-   "instruments predict, never certify" law always pointed at.
+   campaign's three reported seeds show per-world single-frame ranges
+   of 0.14–0.23. But the checkpoint seed also selects a different
+   evaluation subset, and the reused apex control predates the new
+   variance guard. These ranges combine several sources of variation;
+   they do not establish that +0.03 effects are unanswerable or that
+   a larger training diet is the cure. First compare checkpoints on
+   a common, independently held-out dataset, record recipe provenance
+   and report uncertainty by rollout. Keep all historical verdicts.
+   A larger diet and the missing 96-px closed-loop gate remain separate
+   possible campaigns, informed by that diagnostic.
    Post-hoc lead, recorded without claim: two-frame input lifts the
    dense FLOOR (min 0.949 vs 0.769) — a regularizer-shaped question
    for whoever returns with a resolving instrument.
    Separately, the stability arc (stability_v1/v2/v3, three honest
-   negatives) closed the variance-guard route and named the real
-   160-epoch runaway: CENTER drift (|z| 42 vs std ~5.5) — a std hinge
-   cannot constrain it; the open levers are a center hinge,
-   target-side normalization, or an EMA momentum schedule. The guard
-   ships two-sided [1, 8] (free at healthy points). Instrument laws,
-   measured: dead ops reshuffle the seed-0 draw (recipe identity
-   includes the op graph); model-axis certification needs ≥3 draws or
-   flight gates — and at this diet, even 3 draws resolve only large
-   effects.
+   negatives) showed that the tested two-sided penalty did not stop
+   the 160-epoch failure. The large latent offset (mean |z| 42) motivates
+   a center hinge, target normalization or an EMA schedule, each a
+   separate hypothesis. A std hinge cannot constrain a uniform offset.
+   The shipped band is [1, 8], with zero penalty when batch std lies
+   inside it; it is a soft penalty, not a bound. The old-code C0
+   reproduction established tensor identity, but did not exclude
+   transient upper-hinge activation in the changed-code run, so the
+   claimed dead-op/MPS causal mechanism remains unverified. Details and
+   source limitations: [research audit](RESEARCH-AUDIT-2026-09-13.md).
 2. **The dense frontier — the cheap tier is CLOSED by exhaustion**
    (kept here so nobody re-digs): not metric grounding at λ∈{0.1, 0.5}
    (v0.5 M2), not a global calibration error (head_calibration C0),
    not architecture / data scale / composition / organization
    (representation_v1-v3 + specialist_v1 — v0.16, "contrast is the
-   curriculum"), not pixels alone (perception_v1-v3: resolution is an
-   inverted U peaking at 96, and the pincer's residue is temporal).
+   curriculum"), not pixels alone (perception_v1-v3: the recorded seed-0
+   resolution sweep peaks at 96; its generality and residual cause remain open).
    What remains is item 1 above, and a closed-loop pricing of
    wm_96d128 (the offline dense apex is surveyed, NOT deployed — the
    instruments predict, never certify).

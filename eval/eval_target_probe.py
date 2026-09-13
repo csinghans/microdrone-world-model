@@ -30,18 +30,15 @@ import sys
 
 import numpy as np
 
+from world_model.metrics import roc_auc
+
 
 def _auc(scores, labels):
     s, y = np.asarray(scores, float), np.asarray(labels, int)
     pos, neg = s[y == 1], s[y == 0]
     if len(pos) == 0 or len(neg) == 0:
         return float("nan")
-    order = np.argsort(s, kind="mergesort")
-    ranks = np.empty(len(s), float)
-    ranks[order] = np.arange(1, len(s) + 1)
-    return float(
-        (ranks[y == 1].sum() - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg))
-    )
+    return roc_auc(s, y)
 
 
 def _in_fov(pos, target, half_deg, max_range=2.5):
@@ -170,6 +167,9 @@ def probe(n_rooms=6, seed0=600000, grid=0.35, half_deg=None, ckpt=None):
 
 def selftest() -> None:
     assert abs(_auc([0.1, 0.2, 0.8, 0.9], [0, 0, 1, 1]) - 1.0) < 1e-9
+    assert _auc([0.5] * 4, [1, 1, 0, 0]) == 0.5
+    assert _auc([0.9, 0.5, 0.5, 0.1], [1, 1, 0, 0]) == 0.875
+    assert np.isnan(_auc([0.5, 0.6], [0, 0])) and np.isnan(_auc([], []))
     assert _in_fov((0, 0), (1, 0), 28) and not _in_fov((0, 0), (-1, 0), 28)
     assert not _in_fov((0, 0), (0, 3), 28)  # 90 deg off-axis, unseeable
     print("EVAL-TARGET-PROBE OK: AUC + FOV-label logic")

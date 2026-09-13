@@ -28,6 +28,7 @@ import numpy as np
 
 from search.doorway import doorway_score, max_wall_run, passage_score
 from sim.scenarios import COLLISION_R
+from world_model.metrics import roc_auc
 
 FIRE_THR = 1.0  # passage_score above this = the naive counter fires a crossing
 
@@ -43,12 +44,7 @@ def _auc(scores, labels) -> float:
     pos, neg = s[y == 1], s[y == 0]
     if len(pos) == 0 or len(neg) == 0:
         return float("nan")
-    order = np.argsort(s, kind="mergesort")
-    ranks = np.empty(len(s), float)
-    ranks[order] = np.arange(1, len(s) + 1)
-    return float(
-        (ranks[y == 1].sum() - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg))
-    )
+    return roc_auc(s, y)
 
 
 def _doorway_centres(scenario):
@@ -172,6 +168,9 @@ def discriminate(n=12, n_rooms=4, seed0=210000, clutter=2, n_beams=16):
 def selftest() -> None:
     assert abs(_auc([0.1, 0.2, 0.8, 0.9], [0, 0, 1, 1]) - 1.0) < 1e-9
     assert abs(_auc([0.9, 0.8, 0.2, 0.1], [0, 0, 1, 1]) - 0.0) < 1e-9
+    assert _auc([0.5] * 4, [1, 1, 0, 0]) == 0.5
+    assert _auc([0.9, 0.5, 0.5, 0.1], [1, 1, 0, 0]) == 0.875
+    assert np.isnan(_auc([0.5, 0.6], [0, 0])) and np.isnan(_auc([], []))
     assert COLLISION_R < MIN_CLEAR < R_DOOR
     print("EVAL-DOORWAY OK: AUC math + probe constants sane")
 

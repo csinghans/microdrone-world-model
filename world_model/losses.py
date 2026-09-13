@@ -19,9 +19,11 @@ Plus `roc_auc`, the rank metric every collision claim in this repo is
 validated with (0.5 = chance).
 """
 
-import numpy as np
 import torch
 import torch.nn as nn
+
+from world_model.metrics import roc_auc as roc_auc  # preserve the public import
+from world_model.metrics import selftest as metrics_selftest
 
 EMA_M = 0.99  # target-encoder momentum
 
@@ -62,18 +64,6 @@ def augment_torch(x: torch.Tensor) -> torch.Tensor:
     return x.clamp(0.0, 1.0)
 
 
-def roc_auc(scores: np.ndarray, labels: np.ndarray) -> float:
-    """Rank-based AUC (Mann-Whitney U); 0.5 = chance."""
-    pos, neg = scores[labels > 0.5], scores[labels < 0.5]
-    if len(pos) == 0 or len(neg) == 0:
-        return 0.5
-    order = np.concatenate([pos, neg]).argsort()
-    ranks = np.empty(len(order), dtype=np.float64)
-    ranks[order] = np.arange(1, len(order) + 1)
-    r_pos = ranks[: len(pos)].sum()
-    return float((r_pos - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg)))
-
-
 def selftest() -> None:
     a, b = nn.Linear(4, 4), nn.Linear(4, 4)
     w0 = a.weight.detach().clone()
@@ -88,9 +78,8 @@ def selftest() -> None:
     assert float(variance_guard(z_big)) > 0.0, "inflation must cost too"
     x = augment_torch(torch.full((4, 3, 8, 8), 0.5))
     assert x.shape == (4, 3, 8, 8) and 0.0 <= float(x.min()) <= float(x.max()) <= 1.0
-    auc = roc_auc(np.array([0.9, 0.8, 0.2, 0.1]), np.array([1, 1, 0, 0]))
-    assert auc == 1.0, "AUC of a perfect ranking must be 1.0"
-    print("LOSSES OK: EMA, two-sided variance hinge, torch jitter, rank AUC assert")
+    metrics_selftest()
+    print("LOSSES OK: EMA, two-sided variance hinge, torch jitter, tie-aware rank AUC")
 
 
 if __name__ == "__main__":

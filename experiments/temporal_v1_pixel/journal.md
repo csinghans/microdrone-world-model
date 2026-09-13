@@ -160,3 +160,16 @@ chase — with a diet or gate that can actually resolve it.
   harness exists yet; building one is its own campaign).
 - Sensor axes (frame rate, stride) inherit the same instrument problem
   and stay parked behind it.
+
+### Evidence interpretation audit — 2026-09-13 (no remeasurement)
+
+The registered bars, table and NO-GO above are retained. The later
+[research audit](../../docs/RESEARCH-AUDIT-2026-09-13.md) corrects three
+interpretations: the ranges combine training draws with seed-dependent
+evaluation subsets; the reused apex/C0 used the old one-sided recipe;
+and the quoted +0.077 and -0.19 changes do not exceed the dense range
+0.228. The ranges are not confidence intervals or a power calculation.
+Neither NO-GO proves all temporal information is absent. Endpoint z-std
+does not establish that the upper hinge stayed inactive during training.
+Use a common independent holdout and record matching control provenance
+before attributing the spread or opening a new training campaign.

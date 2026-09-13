@@ -188,3 +188,13 @@ by its own registration). It goes to stability_v3 with STABILITY-level
 bars only, since apex-preservation at n=1 is now measured to be
 un-gradable. stability_v2 closes NO-GO with the instrument re-scope as its
 finding.
+
+### Evidence interpretation audit — 2026-09-13 (no remeasurement)
+
+The C0 tensor comparison and original NO-GO above remain recorded. C0
+reproduced the old one-sided recipe; it did not observe upper-hinge
+activation along g3's changed-code trajectory. The current logger measures
+validation statistics after training, so this control cannot distinguish
+the two proposed mechanisms or establish that the added term was always
+dead. The MPS scheduling explanation and treatment of g3 as a pure redraw
+remain hypotheses. See the [research audit](../../docs/RESEARCH-AUDIT-2026-09-13.md).

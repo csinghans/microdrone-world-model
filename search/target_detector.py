@@ -19,6 +19,8 @@ Run:
 
 import numpy as np
 
+from world_model.metrics import roc_auc
+
 
 class DetectionHead:
     """MLP (64 -> 32 -> 1) on the frozen WM latent. Plain torch; trained by
@@ -70,12 +72,7 @@ def _auc(scores, labels):
     pos, neg = s[y == 1], s[y == 0]
     if len(pos) == 0 or len(neg) == 0:
         return float("nan")
-    order = np.argsort(s, kind="mergesort")
-    ranks = np.empty(len(s), float)
-    ranks[order] = np.arange(1, len(s) + 1)
-    return float(
-        (ranks[y == 1].sum() - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg))
-    )
+    return roc_auc(s, y)
 
 
 def _score(head, te, thr):
@@ -210,6 +207,9 @@ def train_and_gate_alt(
 
 
 def selftest() -> None:
+    assert _auc([0.5] * 4, [1, 1, 0, 0]) == 0.5
+    assert _auc([0.9, 0.5, 0.5, 0.1], [1, 1, 0, 0]) == 0.875
+    assert np.isnan(_auc([0.5, 0.6], [0, 0])) and np.isnan(_auc([], []))
     # env-free: the head learns a linearly-separable toy latent
     rng = np.random.default_rng(0)
     X = rng.normal(size=(400, 64)).astype(np.float32)

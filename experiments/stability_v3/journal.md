@@ -108,3 +108,13 @@ normalization, or an EMA momentum schedule.
 - v3 [1,8] @ 160: the explosion is center-drift dominated (|z| 42), the
   std hinge is overpowered and orthogonal to the main mode. The lever for
   "duration stability" lives on the MEAN / the EMA target, not the spread.
+
+### Evidence interpretation audit — 2026-09-13 (no remeasurement)
+
+The table and NO-GO above remain recorded. A std penalty cannot constrain
+a uniform latent offset, and the large absolute latent value motivates
+center/target diagnostics. Endpoint statistics alone do not establish
+that center drift caused the failure, that the hinge was active throughout
+training, or that a proposed mean/EMA intervention will cure it. Those
+claims need trajectory instrumentation and a separately registered test.
+See the [research audit](../../docs/RESEARCH-AUDIT-2026-09-13.md).

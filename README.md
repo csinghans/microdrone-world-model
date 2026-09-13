@@ -4,32 +4,35 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.17.0 — the wall eats pixels. The perception tier's
-offline program moved the number nothing else could: pixels alone
-(64→96, same seeds, same recipe) took dense separation from 0.918 to
-**0.9947**, drew the tier's governing curve (an inverted U ruled by
-the compression ratio — 128 px drowns the same net), and the
-capacity pincer at the sweet spot (96×D128) landed all three
-pre-registered recoveries (veer double-perfect, dense 0.9965,
-saturation 0.31), missing a full pass by 0.013 on classic — the
-closest in fifteen retrains. The residue is NAMED: the moving world
-and the open-space over-warn are single-frame symptoms; the previous
-glance (temporal input) was then measured dead at BOTH levels — a
-frozen latent carries no readable motion (temporal_probe_v1), and a
-second glance at the pixels buys nothing the draw noise can't explain
-(temporal_v1_pixel, the tier's first 3-draw gate: per-world spreads
-0.14-0.23 dwarf +0.03 questions at this diet, and the apex row is the
-top of its own draw distribution). The 160-epoch instability was
-mapped by the stability arc to CENTER drift, which no variance hinge
-constrains. What remains for time: a bigger diet, or the 96-px
-closed-loop gate. Also banked: v0.5's law one level down — the record offline
-generalist (wm_3x) flies catastrophically (false-evasion 100 %);
-instruments predict, only the closed loop certifies, so wm_96d128
-stands as the offline dense apex (264 KB / ~17 ms) — surveyed, not
-deployed. Articles #15-#16 tell the arc. Gates unchanged and GREEN —
-transit 85/100, indoor 91/100; int8 configs in the lock (v0.11.0);
-sacred checkpoints untouched through fifteen retrains (sha-bracketed
-queues).** The baseline shipped as
+**Status: v0.17.0 — the wall eats pixels, with a narrower claim after
+the follow-up measurements.** The perception sweep's recorded seed-0
+dense AUC rose from 0.9177 at 64 px to **0.9947** at 96 px, then fell
+to 0.6999 at 128 px. Widening the 96-px latent produced the offline
+record `wm_96d128` (dense 0.9965, veer 1.00/1.00, saturation 0.3080),
+but the overall AUC, calibration and classic/moving guards still failed.
+These are checkpoint results; the resolution curve and its proposed
+compression mechanism have not been established across training draws.
+
+Two subsequent temporal campaigns also closed **NO-GO**: neither the
+frozen-latent probes nor the tested two-frame input met their registered
+moving-world improvement bar. That does not prove the latent contains no
+motion or that temporal input cannot help. The pixel campaign's three
+reported seeds span 0.14–0.23 on the single-frame per-world rows, while
+both the training draw and evaluation split vary; its reused seed-0
+control also predates the new variance guard. The next instrument needs
+a common, independently held-out evaluation set and matching recipe
+provenance before attributing that spread to training or data size.
+The stability arc separately showed that the two-sided variance penalty
+did not prevent the 160-epoch failure; the large latent offset motivates
+center/target diagnostics, without yet identifying a causal cure.
+
+`wm_96d128` remains an offline candidate (264 KB / estimated 17 ms),
+with no closed-loop certification. The earlier `wm_3x` refusal
+(false-evasion 100 %) is the reason that distinction matters.
+[Article #16](writing/16-the-wall-eats-pixels/en.md) includes the
+follow-up and evidence limits. **Gates of record remain GREEN — transit
+85/100, indoor 91/100**; these are the recorded certified stack's
+results, not results for the perception candidates. The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what

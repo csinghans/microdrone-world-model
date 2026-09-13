@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- **Research integrity audit (2026-09-13):** tie-aware AUC shared across
+  collision and indoor probes; pooled criteria judged consistently;
+  append-only campaign resume, atomic results, scoped commits and protected
+  WM provenance. New independent-holdout score export and paired rollout
+  uncertainty report. README, roadmap and article #16 distinguish measured
+  checkpoint rows from causal/recipe claims. Historical bars, measurements
+  and verdicts are preserved. See
+  [the evidence audit](docs/RESEARCH-AUDIT-2026-09-13.md).
+
 - **slalom-v2 champion enters the lock** (the 2026-08-20 review's YELLOW):
   `ppo_anchor_sched_edge.zip` uploaded to the `champions-2026-07` release
   (download-back bit-identical, sha256 `8d3acad0…e443ba` recorded in the
@@ -18,57 +27,55 @@
   - `gate(stability_v2)`: band [1,8] **NO-GO on the bar — and the C0
     control turns it into an instrument finding**: same-code seed-0
     training is bit-deterministic at the TENSOR level (file-sha was the
-    wrong instrument — torch's zip container drifted), but a provably
-    dead op reshuffles the draw on MPS (recipe identity includes the op
-    graph). First measured 96-res draw spread: ~0.02 dense / ~0.07
-    classic between two fair draws — single-draw apex-preservation bars
-    are un-gradable, and the apex row itself sits inside that noise.
+    wrong instrument — torch's zip container drifted). The changed-code
+    endpoint differed by ~0.02 dense / ~0.07 classic. C0 did not rule out
+    transient upper-hinge activation, so the proposed dead-op/MPS kernel
+    mechanism and interpretation as pure draw noise remain unverified.
   - `gate(stability_v3)`: 160 epochs under [1,8] **NO-GO** — no-op 275.9
     (worse than the one-sided 99.4), the hinge overpowered (std max
     15.85), and the runaway finally shows its face: **|z| = 42 against
-    std ~5.5 — the explosion is CENTER drift**, which no std hinge
-    constrains by construction. The temporal-training prerequisite stays
-    OPEN; named next levers: a center hinge, target-side normalization,
-    an EMA momentum schedule.
+    std ~5.5**. A std hinge cannot constrain a uniform offset; these
+    endpoints motivate center/target diagnostics without isolating a causal
+    cure. Long-training stability remains OPEN; candidate levers are a
+    center hinge, target normalization or an EMA momentum schedule.
   The two-sided guard ships at [`VAR_LO`=1.0, `VAR_HI`=8.0] (zero
-  loss-level cost at healthy points, strictly safer than one-sided).
-  Instruments shipped: per-epoch val z-std med/max + |z| in the train
+  loss-level cost while batch std is inside the band; a soft penalty).
+  Instruments shipped: end-of-training val z-std med/max + |z| in the train
   print (the ×13 was only ever inferred from no-op MSE — no std logger
   existed), and `eval_latency_budget --ckpt/--img-res` replaces the
   uncommitted budget heredoc. Harness lessons banked: bar-gates parse
   logs (in-process reloads OOM), queues are bash script files (zsh does
   not word-split `$PY`), bit-identity compares tensors (not file shas).
 
-- **gate(temporal_probe_v1): NO-GO — the previous glance is not IN the
-  latent.** Probe heads on the frozen wm_96d128 (3 head seeds, reference
+- **gate(temporal_probe_v1): NO-GO — the tested probes miss the moving
+  improvement bar.** Probe heads on the frozen wm_96d128 (3 head seeds, reference
   fit power; the registered validity bar caught an under-powered first
   fit and the control then landed 0.0095 from the frozen heads): the
   two-frame diff arm reads moving 0.8810 (below the control 0.8986), the
-  GRU arm 0.9015 (+0.003, needed +0.03). Latent-level motion at 96 px is
-  refuted — the single-frame encoder destroys motion before any probe
-  can read it; the GRU's broad small gains are head stabilization, not
-  velocity. The hypothesis moves DOWN a level: two-frame PIXEL input to
+  GRU arm 0.9015 (+0.003, needed +0.03). This does not prove that all motion
+  information is absent from the latent or explain the GRU's small gains.
+  The follow-up tested two-frame PIXEL input to
   the encoder (`temporal_v1_pixel`, an 80-epoch knob the stability arc's
   open 160-epoch problem does not gate, subject to the measured ~0.02
   draw-noise discipline).
 
-- **gate(temporal_v1_pixel): NO-GO — the temporal hypothesis dies at both
-  levels, and the tier's first 3-draw gate re-frames the instrument.**
+- **gate(temporal_v1_pixel): NO-GO — the tested pixel recipe fails,
+  with comparison limits identified in the September audit.**
   The two-frame input knob (`--two-frame`: 6-channel stacked frames at
   the planner's ~83 ms stride, threaded end to end through encoder /
   training / meta / instruments / budget) flew the tier's first
   pre-registered ≥3-draw model-axis gate: 2f seeds {0,1,2} vs 1f seeds
   {1,2} + the apex row. Primary FAIL (2f moving mean 0.7899, 0.027 BELOW
   the 1f mean; one 2f draw breaks the veer guard at 0.267). The deeper
-  finding: honest 3-draw rows show per-world draw spreads of 0.14
-  (moving) to 0.23 (dense) — **the apex row of record is the top of its
-  own draw distribution**, and +0.03-scale offline questions are
-  measurably unanswerable at this diet. The tier's LARGE effects
-  (+0.077 pixels, −0.37 strips, −0.19 at 128) survive the re-read; its
-  fine-grained residue clauses do not. Post-hoc, recorded without claim:
+  reported single-frame rows span 0.14 (moving) to 0.23 (dense), but
+  evaluation subsets also vary and the reused apex predates the changed
+  variance recipe. These ranges neither isolate training variation nor
+  prove that +0.03 effects are unanswerable. The +0.077 and −0.19 examples
+  are smaller than the dense range, contrary to the original outside-range
+  claim. Post-hoc, recorded without claim:
   2f lifts the dense floor (min 0.949 vs 0.769). Budget honest:
-  319.3 KB / est 23 ms. What remains for "time": a bigger diet or a
-  96-px closed-loop gate — each its own campaign.
+  319.3 KB / est 23 ms. First fix the independent holdout and comparison
+  provenance; a bigger diet or 96-px closed-loop gate is a separate campaign.
 
 - **Docs de-drifted**: CI is manual `workflow_dispatch` (since `d9e8e85`) —
   CLAUDE/AGENTS/ONBOARDING/CONTRIBUTING now say so; ROADMAP's "Open, in
