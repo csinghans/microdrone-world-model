@@ -1,0 +1,18 @@
+{
+  "campaign": "schedule_layout_v1",
+  "version": 1,
+  "arms": ["legacy", "world_balanced"],
+  "seeds": [0, 1, 2],
+  "order": [["legacy", 0], ["world_balanced", 0], ["world_balanced", 1], ["legacy", 1], ["legacy", 2], ["world_balanced", 2]],
+  "train_data": {"n_transit": 96, "n_indoor": 96, "length": 120, "transit_seed": 2026091301, "indoor_seed": 2026091302},
+  "holdout": {"n_transit": 126, "n_indoor": 60, "length": 160, "transit_seed": 2026091303, "indoor_seed": 2026091304, "schedule_layout": "world_balanced"},
+  "worlds": ["classic", "dense", "moving"],
+  "img_res": 64,
+  "train": {"epochs": 80, "batch": 64, "latent_d": 64, "strips": 4, "in_frames": 1, "frame_stride": 4, "robust": false, "temporal": false, "ground": false, "ground_lambda": 0.5},
+  "training_device": "mps",
+  "evaluation_device": "cpu",
+  "bootstrap": {"n_boot": 2000, "seed": 0},
+  "instrument": {"fixture_seed": 2026091300, "minimum_frame_std": 1.0, "minimum_render_difference": 1.0, "minimum_labels_per_class_per_world": 20, "minimum_veer_samples": 20},
+  "bars": {"moving_mean_delta_min": 0.03, "moving_each_delta_min_exclusive": 0.0, "guard_worlds": ["classic", "dense", "room"], "guard_each_auc_delta_min": -0.02, "guard_each_now_auc_delta_min": -0.02, "guard_each_veer_delta_min": -0.05, "budget_kb_max": 512.0},
+  "interpretation": "Offline evidence only. GO permits registering a later closed-loop study, never promotion. Every seed must satisfy every guard; all six fits are unconditional. No optional rechecks, seed replacements, early stopping, or sample expansion. Bootstrap intervals describe fixed-model test-course uncertainty only."
+}
