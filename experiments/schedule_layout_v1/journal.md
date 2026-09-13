@@ -82,3 +82,21 @@ Large files live under `output/schedule_layout_v1/`; receipts and the final
 report live here. `SCHEDULE-LAYOUT-DONE` requires every stage and protection
 check to succeed; the shell records the real exit code. A valid NO-GO is a
 completed scientific result, not a process failure.
+
+## Harness correction 1 — before any corpus or fit
+
+The initial vision stage stopped with exit 1 at moving: two bodies existed,
+but the frame difference after removal was zero. The saved frame shows the
+floor because the crosser starts outside the camera cone. Classic and dense
+fixtures reached this check successfully. This is an observation-timing
+error in the new instrument, not a scientific NO-GO or a rendering failure.
+
+The corrected fixture holds the camera fixed and advances the moving
+scenario to its geometric centreline crossing (`round(abs(y/vy)/dt)`), then
+compares the image with the same scene removed. This event is defined from
+the fixture geometry, not from learned scores. All registered data seeds,
+training settings, sample counts, pixel thresholds and outcome bars remain
+unchanged. No research corpus or checkpoint existed at the failure. Preserve
+the first manifest/log/failure in `harness_attempt_1/`, and the original PNGs
+under `output/schedule_layout_v1/harness_attempt_1/vision/`; begin a fresh
+manifest for the corrected harness. No completed measurement is repeated.

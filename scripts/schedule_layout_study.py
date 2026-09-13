@@ -180,14 +180,25 @@ def vision(config, directory):
                 sc.spawn_bodies(
                     env, offset=(sc.start_xy[0] - START[0], sc.start_xy[1] - START[1])
                 )
+                fixture_steps = 0
             else:
-                get(name).spawn(
+                sc = get(name).spawn(
                     env,
                     np.random.default_rng(seed),
                     speed=0.6,
                     randomize=False,
                     in_path=True,
                 )
+                # The crosser starts outside the body-fixed camera cone.
+                # Observe its centreline crossing, with the camera unmoved;
+                # otherwise a correct renderer looks like an empty scene.
+                fixture_steps = (
+                    round(abs(sc.y / sc.vy) / env.CTRL_TIMESTEP)
+                    if name == "moving"
+                    else 0
+                )
+                for _ in range(fixture_steps):
+                    sc.step()
             frame = grab_frame(env)
             added = {
                 p.getBodyUniqueId(i, physicsClientId=env.CLIENT)
@@ -198,6 +209,8 @@ def vision(config, directory):
                 p.removeBody(body, physicsClientId=env.CLIENT)
             blank = grab_frame(env)
             row = {
+                "world": name,
+                "fixture_steps": fixture_steps,
                 "bodies": len(added),
                 "frame_std": float(frame.std()),
                 "render_difference": float(np.abs(frame.astype(float) - blank).mean()),
