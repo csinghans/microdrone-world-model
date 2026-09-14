@@ -1,0 +1,17 @@
+{
+  "scope": "Real CLI preflight rejection only; no data loaded or model fitted.",
+  "checks": [
+    {
+      "path": "output/world_model.pth",
+      "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+      "exit_code": 1,
+      "rejected_before_data_loading": true
+    },
+    {
+      "path": "output/world_model_unified.pth",
+      "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+      "exit_code": 1,
+      "rejected_before_data_loading": true
+    }
+  ]
+}

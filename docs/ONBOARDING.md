@@ -56,6 +56,14 @@ fly real campaigns yet. Pull them, hash-verified:
 python -m scripts.fetch_champions
 ```
 
+World-model experiments now save `output/world_model_candidate.pth` by
+default. Choose a fresh `--out` for each further run; training refuses locked
+destinations and existing research checkpoints before fitting. Evaluate a
+candidate explicitly with `eval.eval_wm_checkpoint --ckpt <candidate>`.
+The demo and deployment defaults continue to use the fetched champion.
+On artifactless selftests, tiny auto-trained stand-ins use separate
+`*_autotrained_selftest.pth` files and cannot fill a missing champion path.
+
 ## 3. Read one journal (15 min, the highest-value 15 min here)
 
 Read [`experiments/gap_flight/journal.md`](../experiments/gap_flight/journal.md)

@@ -9,7 +9,8 @@ Run:
   python -m scripts.train --policy --recurrent --edge-bias
   python -m scripts.train --policy --curriculum
   python -m scripts.train --selftest                  # tiny world model, asserts
-Saves output/world_model[.._robust].pth / output/ppo_wm_policy*.zip.
+Saves output/world_model_candidate.pth (or an explicit new --out).
+Variant/selftest suffixes remain supported. Policies use output/ppo_wm_policy*.zip.
 """
 
 import argparse
@@ -17,13 +18,13 @@ import os
 import sys
 
 import numpy as np
-import torch
 
 from datasets.generate_rollouts import OUT as DATA
 from datasets.generate_rollouts import gen
 from datasets.intervention_labels import HORIZONS
 from datasets.provenance import file_identity
 from world_model.cf_sampling import CF_HARD_POOLS
+from world_model.checkpoint_io import check_destination, save_checkpoint
 from world_model.training import GAP8_BUDGET_KB, MODEL, MODEL_GRU, train
 
 
@@ -46,7 +47,25 @@ def _load_or_make(selftest: bool, data_path: str = None, source_identity=None) -
     return gen(64, 120)
 
 
+def world_model_output(args):
+    """Choose the destination before loading data or fitting any model."""
+    base = MODEL_GRU if args.temporal else MODEL
+    out = base.replace(".pth", "_selftest.pth") if args.selftest else base
+    if args.robust and not args.selftest:
+        out = base.replace(".pth", "_robust.pth")
+    if args.ground and not args.selftest:
+        out = out.replace(".pth", "_ground.pth")
+    if args.two_frame and not args.selftest:
+        out = out.replace(".pth", "_2f.pth")
+    if args.out and not args.selftest:
+        out = args.out
+    elif not args.selftest and out == MODEL:
+        out = MODEL.replace(".pth", "_candidate.pth")
+    return check_destination(out, overwrite=args.selftest)
+
+
 def train_world_model(args) -> None:
+    out = world_model_output(args)
     # the temporal / grounded / two-frame smokes get a longer leash: a new
     # mapping moves the shared trunk while the EMA target chases it (GRU: a
     # new state; grounding: metric structure; two-frame: a 6-channel input
@@ -96,20 +115,7 @@ def train_world_model(args) -> None:
             )
         ckpt["meta"]["training_dataset_sha256"] = source["sha256"]
 
-    # a selftest must not clobber a real trained checkpoint with its toy one
-    # (robust / temporal / grounded experiments get their own files)
-    base = MODEL_GRU if args.temporal else MODEL
-    out = base.replace(".pth", "_selftest.pth") if args.selftest else base
-    if args.robust and not args.selftest:
-        out = base.replace(".pth", "_robust.pth")
-    if args.ground and not args.selftest:
-        out = out.replace(".pth", "_ground.pth")
-    if args.two_frame and not args.selftest:
-        out = out.replace(".pth", "_2f.pth")
-    if args.out and not args.selftest:  # gate runs park checkpoints elsewhere
-        out = args.out
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    torch.save(ckpt, out)
+    save_checkpoint(ckpt, out, overwrite=args.selftest)
     auc_str = "/".join(f"{a:.2f}" for a in m["auc"])
     h_str = "/".join(str(k) for k in HORIZONS)
     by_world = m.get("auc_by_world") or {}
@@ -204,7 +210,7 @@ def main() -> None:
     ap.add_argument("--ground-lambda", type=float, default=0.5)  # the N-knob
     ap.add_argument("--cf-hard-pool", choices=CF_HARD_POOLS, default="legacy_masked")
     ap.add_argument("--executed-moving-weight", type=float, default=1.0)
-    ap.add_argument("--out", default=None, help="world-model save path override")
+    ap.add_argument("--out", default=None, help="new world-model candidate path")
     ap.add_argument("--seed", type=int, default=0)  # borderline reruns use seed+1
     ap.add_argument("--data", default=None, help="dataset npz override (e.g. search)")
     # representation knobs (defaults = the deployed architecture)

@@ -24,21 +24,22 @@ pays a measured crash tail here; the learned policy erases it (see
 Run:
   python -m eval.eval_closed_loop --seeds 100
   python -m eval.eval_closed_loop --selftest   # 10 seeds, asserts
-Needs output/world_model.pth (auto-trains a tiny one if missing).
+Uses output/world_model.pth; a missing model gets a separate tiny selftest stand-in.
 """
 
 import argparse
 import os
 import sys
+from pathlib import Path
 
 import numpy as np
-import torch
 
 from planner.action_set import ACTION_VECS, FORWARD
 from planner.latent_mpc import DECIDE_EVERY, ReactivePolicy, WMPolicy
 from sim.domain_randomization import shift_appearance
 from sim.envs import CTRL_HZ, VelCommander, grab_frame, make_ctrl, make_env
 from sim.scenarios import COLLISION_R, GOAL_X, TMAX, nearest_planar, spawn_pillars
+from world_model.checkpoint_io import check_destination, save_checkpoint
 from world_model.training import MODEL, load_model, train
 
 
@@ -110,15 +111,35 @@ def load_or_train(device: str = "cpu"):
     provenance-stamped (`meta["autotrained_tiny"]`) so behavioral
     selftests can honestly scope themselves to wiring — a 12-rollout
     model's flight quality is a coin flip, not a claim."""
-    if not os.path.exists(MODEL):
-        print(f"[INFO] no model at {MODEL}; training a tiny one first ...")
+    if os.path.exists(MODEL):
+        return load_model(MODEL, device=device)
+    requested = Path(MODEL)
+    # The dry gate passes its own explicit *_selftest* path and hashes that
+    # file. Ordinary missing champion/candidate paths must stay unfilled.
+    standin = (
+        requested
+        if "_selftest" in requested.name
+        else requested.with_name(
+            f"{requested.stem}_autotrained_selftest{requested.suffix}"
+        )
+    )
+    if not standin.exists():
+        check_destination(standin)
+        print(f"[INFO] no model at {MODEL}; training tiny stand-in at {standin} ...")
         from datasets.generate_rollouts import gen
 
         ckpt, _ = train(gen(12, 100), epochs=40)
         ckpt["meta"]["autotrained_tiny"] = True
-        os.makedirs(os.path.dirname(MODEL), exist_ok=True)
-        torch.save(ckpt, MODEL)
-    return load_model(MODEL, device=device)
+        try:
+            save_checkpoint(ckpt, standin)
+        except FileExistsError:
+            pass  # another process published the cache first; validate/load it
+    loaded = load_model(str(standin), device=device)
+    if not loaded[-1].get("autotrained_tiny"):
+        raise ValueError(
+            f"unmarked tiny stand-in at {standin}; preserve and inspect it"
+        )
+    return loaded
 
 
 def evaluate(

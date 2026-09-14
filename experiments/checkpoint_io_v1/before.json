@@ -1,0 +1,9 @@
+{
+  "scope": "Synthetic reproduction only; real champion never written.",
+  "source": {
+    "path": "/Users/hans.chen/microdrone-world-model/scripts/train.py",
+    "sha256": "7375b0835bb636f3d7b09516765d9678f02bf78195aa4e05a684760faf34915c"
+  },
+  "default_training_replaced_existing_checkpoint": true,
+  "actual_training_performed": false
+}

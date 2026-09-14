@@ -90,14 +90,26 @@ conda activate microdrone-wm
 pip install --no-deps git+https://github.com/utiasDSL/gym-pybullet-drones.git
 pip install -e .
 
-python -m datasets.generate_rollouts --rollouts 64   # 1. fly the data
-python -m scripts.train --epochs 80                  # 2. train the world model
-python -m scripts.demo                               # 3. one-course demo + plot
-python -m eval.eval_closed_loop --seeds 100          # 4. the scoreboard
-python -m eval.eval_speed_sweep --seeds 30           # 5. crash rate vs speed
-python -m scripts.train --policy --timesteps 300000  # 6. learn the policy
-python -m scripts.evaluate --seeds 60                # 7. every policy, same courses
+python -m scripts.fetch_champions                   # restore measured models
+python -m scripts.demo                             # one-course demo + plot
+python -m eval.eval_closed_loop --seeds 100          # champion scoreboard
+python -m eval.eval_speed_sweep --seeds 30           # crash rate vs speed
+
+python -m datasets.generate_rollouts --rollouts 64   # a new training corpus
+python -m scripts.train --epochs 80                 # world_model_candidate.pth
+python -m eval.eval_wm_checkpoint \
+  --ckpt output/world_model_candidate.pth --data output/wm_dataset.npz
 ```
+
+World-model training saves a candidate; deployment defaults still load the
+fetched champion. Use a fresh `--out` filename for each additional run.
+Locked destinations (even missing ones), aliases of locked files and existing
+research checkpoints are rejected before data loading/fitting. Publication
+is atomic and cannot replace a concurrent writer's result. `--selftest`
+retains its replaceable selftest filenames. Artifactless evaluations cache
+their labelled tiny stand-in in a separate `_autotrained_selftest.pth` file.
+The protection here covers the world-model CLI and evaluation fallback;
+policy-training save paths have their own implementation.
 
 New rollout datasets use `world_balanced` scheduling: every world gets
 intervention and passive trials, and classic gets threatened and clear

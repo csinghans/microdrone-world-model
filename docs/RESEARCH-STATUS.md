@@ -176,6 +176,22 @@ preflight command; historical queues and gates were not changed. Do not
 repeat, expand or reinterpret a closed draw as a new instrument failure.
 No new training study is active.
 
+The [checkpoint_io_v1 repair](../experiments/checkpoint_io_v1/journal.md)
+is complete. The WM CLI previously replaced a temporary champion sentinel
+under its default path (synthetic reproduction, no real fit). Ordinary
+training now writes `world_model_candidate.pth`; locked paths and existing
+research outputs fail before data load, with atomic publication and race
+protection. Explicit selftest replacement remains supported.
+
+Artifactless evaluation now caches a labelled tiny model in a separate
+`*_autotrained_selftest.pth` file. The dry runner's explicit selftest path
+and hashed provenance still work. New synthetic persistence/entry tests,
+the source-identity tests and all 16 research regressions pass; the real CLI
+rejects both sacred destinations before nonexistent-data loading. Whole-repo
+Black/Ruff (167 Python files) and all nine locked hashes pass. No fit or
+model score was run for this repair. Scope is the WM CLI and eval fallback;
+policy training and historical standalone save paths need a separate audit.
+
 The tested loss weight changes objective allocation, not independent data
 support or measured gradient mass. It does not isolate prediction from
 collision loss. Do not infer a training cause from a large latent endpoint

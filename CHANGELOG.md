@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- **World-model training preserves champions and prior experiments:** the
+  default output is now `world_model_candidate.pth`; explicit locked paths
+  (including aliases or absent assets) and existing research outputs fail
+  before loading data or fitting. Completed serialization is published
+  atomically without replacing a concurrent writer. Artifactless evaluation
+  caches a labelled `*_autotrained_selftest.pth` stand-in while preserving
+  the dry runner's explicit selftest paths. Synthetic regressions cover
+  serialization failure, concurrent publication and dry-gate provenance. Training
+  recipes and historical measurements are unchanged.
+
 - **Veer support can be checked before training:** scoring and the new
   metadata-only `eval.eval_veer_support` share one geometric selector.
   The command reports pooled/per-world course counts and missing bootstrap
