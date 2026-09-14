@@ -1,0 +1,142 @@
+{
+  "scope": "Metadata-only support accounting on all rollouts, using the scorer's unchanged yaw-zero pillar geometry. No pixels, fitting, model scoring, bootstrap or promotion verdict. Does not verify rendering or prove that courses are independently generated.",
+  "available_rollouts": 186,
+  "n_frames": 208,
+  "n_rollouts": 23,
+  "by_world": {
+    "classic": {
+      "available_rollouts": 42,
+      "frames": 39,
+      "rollouts": 6,
+      "rollout_ids": [
+        24,
+        30,
+        36,
+        48,
+        66,
+        90
+      ],
+      "frames_per_rollout": [
+        8,
+        3,
+        7,
+        11,
+        5,
+        5
+      ]
+    },
+    "dense": {
+      "available_rollouts": 42,
+      "frames": 145,
+      "rollouts": 15,
+      "rollout_ids": [
+        7,
+        16,
+        19,
+        25,
+        34,
+        43,
+        49,
+        55,
+        73,
+        85,
+        94,
+        97,
+        109,
+        112,
+        118
+      ],
+      "frames_per_rollout": [
+        10,
+        14,
+        4,
+        14,
+        8,
+        7,
+        13,
+        21,
+        9,
+        15,
+        2,
+        10,
+        3,
+        9,
+        6
+      ]
+    },
+    "moving": {
+      "available_rollouts": 42,
+      "frames": 24,
+      "rollouts": 2,
+      "rollout_ids": [
+        5,
+        104
+      ],
+      "frames_per_rollout": [
+        9,
+        15
+      ]
+    },
+    "room": {
+      "available_rollouts": 60,
+      "frames": 0,
+      "rollouts": 0,
+      "rollout_ids": [],
+      "frames_per_rollout": []
+    }
+  },
+  "selection_sha256": "274ec3fe4873f9b84f411ad59251203c1aba40b7b4685036a9be213c99aec255",
+  "world_stratified_bootstrap_support": {
+    "supported": true,
+    "reason": null,
+    "singleton_worlds": [],
+    "zero_support_worlds": [
+      "room"
+    ],
+    "scope": "Matches compare_wm_scores' minimum of two courses in each observed stratum. Zero-support worlds are excluded, not validated. This is a structural minimum, not a power/precision guarantee."
+  },
+  "provenance": {
+    "dataset": {
+      "path": "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/holdout/data.npz",
+      "sha256": "16986ffa08f24bac9ca3f5775ed8f8fa419aa5eb54851f123b1dd7f0416ebf53"
+    },
+    "matched_exports": [
+      {
+        "path": "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_legacy_masked_0/scores.npz",
+        "sha256": "c29b64c3c025b96ca85b12f75850391e13606b900c8f59847db4fc5f3ab77b60"
+      },
+      {
+        "path": "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_legacy_masked_1/scores.npz",
+        "sha256": "02cc4541cff9478d65c634ed5de9c07d22727e74fff9e69375a8a19e0ccf7fd3"
+      },
+      {
+        "path": "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_legacy_masked_2/scores.npz",
+        "sha256": "66f62d2f0da0f2eb2d77ca7dd352f099161117108d22a165fe109330f3c5682d"
+      },
+      {
+        "path": "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_answerable_0/scores.npz",
+        "sha256": "808b8e293bcf856d51d6a4c21f65ce9f70ad350f294defa7efc8ae6f584e2599"
+      },
+      {
+        "path": "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_answerable_1/scores.npz",
+        "sha256": "14ea09b55e900a49a9b7e426633560e4748b3223dd7ba8bb8a9283f5f3158ee8"
+      },
+      {
+        "path": "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_answerable_2/scores.npz",
+        "sha256": "2c88008316e9db619cc1db472ae38cd687d28fd0445da86fe5ebf471a591a842"
+      }
+    ],
+    "sources": {
+      "eval/eval_veer_support.py": "cdd4eb6447d58e99a0ab26b969569be088601eb34963480cc9c1b99b0f2fb2fe",
+      "world_model/veer_probe.py": "76d5dfa6c6a736f56577b5468e891883135908de80eec85d9cc14b9f6e07662e",
+      "world_model/training.py": "32a3859617acb1b0872574d1b0ba3ef5ef0260f85a2af57f167ef7e4ee319004",
+      "datasets/intervention_labels.py": "bcf0b7508eef7c5c32181082b3e3598310f46f9659766549c574ce037d5dc803",
+      "planner/action_set.py": "3c794fd1eacf9b5c7a009b444a957cb6a9348f59cf6482361dc162b7f998bcb4",
+      "sim/envs.py": "b189e3e344f2842777277061ab2e5d1275b8fa0d2e3351ddbed34e60267c1024",
+      "sim/scenarios.py": "cd7383166e38017138e7e3ff6c5f64b054f30805189b90494c635bca48aa7f3a",
+      "datasets/provenance.py": "6d8c7986f2bc35d58bf191e70dd99747012c59b080da88362da069cbbe9b64e5",
+      "eval/compare_wm_scores.py": "5aba0175d70cafc05dba0997a4dcd18dd7e985cee8dbb83c65d858bafd42a027"
+    },
+    "numpy": "2.5.3"
+  }
+}

@@ -59,6 +59,9 @@ jobs:
           python -m world_model.metrics
           python -m world_model.cf_sampling
           python -m world_model.executed_weighting
+          python -m world_model.veer_probe
+          python -m scripts.veer_probe_selftest
+          python -m eval.eval_veer_support --selftest
           python -m eval.compare_wm_scores --selftest
           python -m eval.eval_auc_audit --selftest
           python -m scripts.research_selftest

@@ -134,6 +134,20 @@ normalizer and unchanged batch/CF recipes. It closed **NO-GO**: mean moving
 AUC improved +0.0598, but seed 0 regressed and seed 1 failed dense/veer
 guards. The default remains 1.0; the joint improvement bar was not met.
 
+Before a new comparison fits models, inspect its separately generated exam:
+
+```bash
+python -m eval.eval_veer_support --data path/to/exam.npz --out path/to/preflight.json
+```
+
+This uses the scorer's geometric selector without loading pixels or models.
+It reports pooled/per-world frame and course counts, including absent worlds
+and singleton strata that prevent the current paired bootstrap. Freeze the
+required worlds and support bars in the new registration; two courses per
+observed stratum is only a structural minimum. Rendering still needs its
+own check. [Compatibility evidence](experiments/veer_support_v1/journal.md)
+matches twelve archived exports without rescoring or changing old verdicts.
+
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
 

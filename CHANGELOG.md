@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- **Veer support can be checked before training:** scoring and the new
+  metadata-only `eval.eval_veer_support` share one geometric selector.
+  The command reports pooled/per-world course counts and missing bootstrap
+  support, without loading images or checkpoints. Original-source parity
+  holds on both closed exams and their shared training corpus; all twelve
+  archived probe exports match. Synthetic tests cover current/previous/GRU
+  inputs, actions, ties and empty probes; checkpoint integration passed.
+  Eligibility, loss recipes, deployment budget and closed verdicts stay
+  unchanged. [Evidence](experiments/veer_support_v1/journal.md).
+
 - **executed_weight_v1 closes NO-GO despite a mean moving gain:** six
   matched 80-epoch fits compare moving executed-loss weight 1.0 vs 2.25.
   Moving AUC deltas are −0.0184 / +0.1227 / +0.0752 (mean +0.0598, above

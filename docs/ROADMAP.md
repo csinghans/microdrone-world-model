@@ -62,6 +62,15 @@ uncertainty is unavailable because moving has only one eligible probe
 course, despite 20 total probe courses; future instruments must distinguish
 pooled support from support within bootstrap strata before fitting.
 
+That instrument is now available as `eval.eval_veer_support`: it shares
+the scorer's geometry and reads metadata only. The
+[compatibility audit](../experiments/veer_support_v1/journal.md) matched both
+closed exams, their common training corpus and twelve original exports.
+Use it before future fits, with required worlds and support bars frozen in
+the new registration. It reports insufficient support without generating
+replacement courses or inventing a retrospective gate. A structural
+bootstrap minimum does not establish useful precision or a per-world gain.
+
 Other closed research arcs:
 
 - **The Perception Tier (three campaigns + one refusal): a promising

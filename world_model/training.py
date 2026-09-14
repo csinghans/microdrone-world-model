@@ -33,9 +33,8 @@ import torch.nn as nn
 
 from datasets.intervention_labels import HORIZONS, counterfactual_labels, window_valid
 from datasets.metric_labels import polar_occupancy
-from planner.action_set import A_NORM, ACTION_NAMES, ACTION_VECS, FORWARD
-from sim.envs import CTRL_HZ
-from sim.scenarios import DANGER_R, FOV_HALF_DEG, RADII
+from planner.action_set import A_NORM, ACTION_NAMES, ACTION_VECS
+from sim.scenarios import DANGER_R, RADII
 from world_model.cf_sampling import CF_HARD_POOLS, hard_pool_mask
 from world_model.collision_head import CollisionHeads, DangerNowHead
 from world_model.encoder import LATENT_D, Encoder
@@ -46,6 +45,7 @@ from world_model.losses import augment_torch, ema_update, roc_auc, variance_guar
 from world_model.metrics import auc_support
 from world_model.predictor import MultiPredictor
 from world_model.temporal import K_WIN, TemporalEncoder
+from world_model.veer_probe import select as select_veer
 
 LAMBDA_VAR = 1.0  # anti-collapse (VICReg-style variance hinge)
 LAMBDA_COL = 1.0  # executed-action collision-head weight (real flown future)
@@ -133,61 +133,22 @@ def veer_ranking(
     radius and the other would stay clear (by a >0.12 m margin), *and* the
     threatening pillar sits inside the camera FOV. The model is correct when
     it ranks the truly-safer veer as safer. Chance = 0.5."""
-    tau1 = np.arange(HORIZONS[-1] + 1) / CTRL_HZ  # (k+1,)
+    selected = select_veer(data, rolls)
     i_l, i_r = ACTION_NAMES.index("veer_left"), ACTION_NAMES.index("veer_right")
-    cos_fov = np.cos(np.radians(FOV_HALF_DEG))
-    frames, gt_left_safer, svs, probe_pairs = [], [], [], []
-    L = data["frames"].shape[1]
-    all_vel = data["pillar_vel"] if "pillar_vel" in data else None
-    for r in rolls:
-        pil = data["pillars"][r]
-        mask = ~np.isnan(pil[:, 0])
-        pil = pil[mask]
-        if not len(pil):
-            continue
-        vp = np.asarray(all_vel[r])[mask] if all_vel is not None else np.zeros_like(pil)
-        sv = float(data["speed"][r])  # judge each rollout at its own pace
-        for t in range(L):
-            if data["act_id"][r, t] != FORWARD:
-                continue
-            p0 = data["pos"][r, t, :2]
-            pil_at = pil + (t / CTRL_HZ) * vp  # where the pillars are NOW
-            d_v, q_v = [], []
-            for i in (i_l, i_r):
-                rel_v = sv * ACTION_VECS[i][:2] - vp  # (P, 2) relative motion
-                diff = (p0 - pil_at)[None, :, :] + tau1[:, None, None] * rel_v[None]
-                dmat = np.linalg.norm(diff, axis=2)  # (k+1, P)
-                d_v.append(float(dmat.min()))
-                q_v.append(pil_at[dmat.min(axis=0).argmin()])
-            d_l, d_r = d_v
-            if not (
-                abs(d_l - d_r) > 0.12 and min(d_l, d_r) < DANGER_R <= max(d_l, d_r)
-            ):
-                continue
-            rel = (q_v[0] if d_l < d_r else q_v[1]) - p0  # the threatening pillar
-            if rel[0] <= float(np.linalg.norm(rel)) * cos_fov:
-                continue  # threat outside the camera FOV: unanswerable from vision
-            if tgru is None:
-                if int(in_frames) == 1:
-                    frames.append(data["frames"][r, t])
-                else:  # two-frame pixel input: current + clamped previous
-                    fp = data["frames"][r, max(t - int(frame_stride), 0)]
-                    frames.append(np.concatenate([data["frames"][r, t], fp], axis=-1))
-            else:  # the memory model judges from its K-frame window
-                ws = [
-                    data["frames"][r, max(t - K_WIN + 1 + j, 0)] for j in range(K_WIN)
-                ]
-                frames.append(np.stack(ws))
-            gt_left_safer.append(d_l > d_r)
-            svs.append(sv)
-            probe_pairs.append((r, t))
+    frames = []
+    for r, t in selected["veer_pairs"]:
+        if tgru is None:
+            if int(in_frames) == 1:
+                frames.append(data["frames"][r, t])
+            else:  # two-frame pixel input: current + clamped previous
+                fp = data["frames"][r, max(t - int(frame_stride), 0)]
+                frames.append(np.concatenate([data["frames"][r, t], fp], axis=-1))
+        else:  # the memory model judges from its K-frame window
+            ws = [data["frames"][r, max(t - K_WIN + 1 + j, 0)] for j in range(K_WIN)]
+            frames.append(np.stack(ws))
     if sample_output is not None:
-        pairs = np.asarray(probe_pairs, dtype=np.int64).reshape(-1, 2)
-        world_ids = np.asarray(data.get("world_id", np.zeros(len(data["frames"]))))
         sample_output.update(
-            veer_pairs=pairs,
-            veer_gt_left=np.asarray(gt_left_safer, dtype=bool),
-            veer_world_id=world_ids[pairs[:, 0]],
+            **{k: v for k, v in selected.items() if k != "speed"},
             veer_correct=np.empty(0, dtype=bool),
         )
     if not frames:
@@ -198,7 +159,7 @@ def veer_ranking(
     else:
         n_probe = x.shape[0]
         x = x.reshape(-1, *x.shape[2:]).permute(0, 3, 1, 2) / 255.0
-    sv_col = np.array(svs, dtype=np.float32)[:, None]
+    sv_col = selected["speed"][:, None]
     a_l = torch.tensor(sv_col * ACTION_VECS[i_l] / A_NORM, device=device)
     a_r = torch.tensor(sv_col * ACTION_VECS[i_r] / A_NORM, device=device)
     with torch.no_grad():
@@ -211,7 +172,7 @@ def veer_ranking(
             zb = z_seq[:, -1]  # residual base: the current frame
         p_l = torch.sigmoid(cheads(pred(z, a_l, base=zb))[:, -1, 0])  # warn @667ms
         p_r = torch.sigmoid(cheads(pred(z, a_r, base=zb))[:, -1, 0])
-    gt = torch.tensor(np.array(gt_left_safer), device=device)
+    gt = torch.tensor(selected["veer_gt_left"], device=device)
     correct = torch.where(gt, p_l < p_r, p_r < p_l)
     if sample_output is not None:
         sample_output["veer_correct"] = correct.cpu().numpy()

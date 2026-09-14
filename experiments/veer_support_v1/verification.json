@@ -1,0 +1,52 @@
+{
+  "scope": "Geometry/selection compatibility only; no pixels, model scoring, fitting, resampling, changed bars or overwritten evidence.",
+  "reference": "016dc94:world_model/training.py",
+  "reference_source_sha256": "7a14f22b8616e3076409e4fb1c078fc1f69caebf81aa5ca86acd5d40890dc1a7",
+  "cases": {
+    "cf_hard_pool_v1": {
+      "dataset": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/holdout/data.npz",
+        "sha256": "16986ffa08f24bac9ca3f5775ed8f8fa419aa5eb54851f123b1dd7f0416ebf53"
+      },
+      "n_frames": 208,
+      "n_rollouts": 23,
+      "selection_sha256": "274ec3fe4873f9b84f411ad59251203c1aba40b7b4685036a9be213c99aec255",
+      "exports": {
+        "output/cf_hard_pool_v1/score_legacy_masked_0/scores.npz": "c29b64c3c025b96ca85b12f75850391e13606b900c8f59847db4fc5f3ab77b60",
+        "output/cf_hard_pool_v1/score_legacy_masked_1/scores.npz": "02cc4541cff9478d65c634ed5de9c07d22727e74fff9e69375a8a19e0ccf7fd3",
+        "output/cf_hard_pool_v1/score_legacy_masked_2/scores.npz": "66f62d2f0da0f2eb2d77ca7dd352f099161117108d22a165fe109330f3c5682d",
+        "output/cf_hard_pool_v1/score_answerable_0/scores.npz": "808b8e293bcf856d51d6a4c21f65ce9f70ad350f294defa7efc8ae6f584e2599",
+        "output/cf_hard_pool_v1/score_answerable_1/scores.npz": "14ea09b55e900a49a9b7e426633560e4748b3223dd7ba8bb8a9283f5f3158ee8",
+        "output/cf_hard_pool_v1/score_answerable_2/scores.npz": "2c88008316e9db619cc1db472ae38cd687d28fd0445da86fe5ebf471a591a842"
+      }
+    },
+    "executed_weight_v1": {
+      "dataset": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+        "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+      },
+      "n_frames": 190,
+      "n_rollouts": 20,
+      "selection_sha256": "5c5dad20f8ca354b1e2b8981c4356fff9c975061224baf44fe2623427bebb0ee",
+      "exports": {
+        "output/executed_weight_v1/score_unit_0/scores.npz": "3bd4973b74c386fa32d6081fbac0871db6b9420ab2e6760e2c6618056ba147fe",
+        "output/executed_weight_v1/score_unit_1/scores.npz": "08c92975ced3eac70d050db0d2b988a69d98bf5b836a36b486819b58427e9a05",
+        "output/executed_weight_v1/score_unit_2/scores.npz": "354f2f22ff1c91f7c2a12ee1800590acb017af49bb9377338c5daa0a412ddfac",
+        "output/executed_weight_v1/score_moving_2p25_0/scores.npz": "c6eb4e6a76b840923847aff53ab60b8ff7455a387f33f91b31d9a8fe6b1f363a",
+        "output/executed_weight_v1/score_moving_2p25_1/scores.npz": "20b2e5c4ef7f16a5944b533bffc37379d0ec1adecb5cc1d8ac5c13ca281cab0d",
+        "output/executed_weight_v1/score_moving_2p25_2/scores.npz": "89c9a75bf04c1cf2513c7773e21a5a9570c679d2d5c1e125bd808f1037e671a7"
+      }
+    },
+    "shared_training": {
+      "dataset": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/world_balanced_train/data.npz",
+        "sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+      },
+      "n_frames": 53,
+      "n_rollouts": 10,
+      "selection_sha256": "391a2c615782b7e98b54d7681cf6f717c23c5989ea56e4ac73040dd95c43a06b",
+      "exports": {}
+    }
+  },
+  "status": "PASS"
+}

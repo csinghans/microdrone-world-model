@@ -154,12 +154,27 @@ moving 8/1, room 0/0. Pooled support passes its frozen bar, but the singleton
 moving stratum makes every veer bootstrap interval undefined. Preserve the
 missing intervals and reason; do not expand this exam or change its verdict.
 
-Next instrument work should move geometric veer support accounting before
-training, using the same eligibility implementation as the scorer. Report
-pooled and per-world course counts so future registrations can explicitly
-require support for their intended uncertainty calculation. Do not impose
-new bars retroactively on any closed study. This is an instrument task,
-not permission to repeat old draws. No new training study is active.
+The [veer_support_v1 instrument audit](../experiments/veer_support_v1/journal.md)
+is complete. `world_model.veer_probe.select` is now the common geometric
+selector for scoring and a model-free preflight, `eval.eval_veer_support`.
+It reads no pixels and exposes pooled/per-world course counts, absent worlds
+and singleton strata before future fits. It does not certify rendering,
+course independence or statistical power; it creates no new gate.
+
+Original `016dc94` geometry matches the new selector on both closed exams
+and the shared training corpus (208/23, 190/20 and 53/10 frames/courses).
+All twelve archived score exports match exact pairs, ground truth and world
+identity. `bash experiments/veer_support_v1/verify.sh` reruns only that
+accounting and checks existing receipts without overwriting them. The three
+new synthetic selftests and the two-epoch checkpoint integration passed.
+Whole-repository lint and locked-artifact checks are recorded in the journal.
+
+Next research should register a specific remaining failure and one mechanism,
+with required exam worlds, support bars and the response to insufficient
+support frozen before any fit. The support tool is available as a separate
+preflight command; historical queues and gates were not changed. Do not
+repeat, expand or reinterpret a closed draw as a new instrument failure.
+No new training study is active.
 
 The tested loss weight changes objective allocation, not independent data
 support or measured gradient mass. It does not isolate prediction from
