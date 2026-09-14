@@ -20,15 +20,15 @@ CAMPAIGN = ROOT / "experiments/cf_hard_pool_v1"
 ROLES = ("baseline", "candidate")
 
 
-def audit_probe_support():
+def audit_probe_support(campaign=CAMPAIGN):
     """Post-hoc support accounting from hashed exports, with no model calls."""
-    config = read(CAMPAIGN / "registration.json")
+    config = read(campaign / "registration.json")
     files, first = {}, None
     for arm in config["arms"]:
         for seed in config["seeds"]:
             stage = f"score_{arm}_{seed}"
-            path = ROOT / "output/cf_hard_pool_v1" / stage / "scores.npz"
-            receipt = read(CAMPAIGN / f"records/{stage}.json")
+            path = ROOT / "output" / config["campaign"] / stage / "scores.npz"
+            receipt = read(campaign / f"records/{stage}.json")
             expected = [
                 v for k, v in receipt["files"].items() if k.endswith("/scores.npz")
             ]
@@ -320,16 +320,34 @@ def summary(result, config, training, pools, support):
     return "\n".join(lines)
 
 
-def figure(result, config):
+def figure(
+    result,
+    config,
+    *,
+    primary="veer",
+    title_prefix="CF sampler",
+    subtitle=None,
+    xlim=(-0.22, 0.38),
+):
     import matplotlib
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     fig, axes = plt.subplots(2, 3, figsize=(12.5, 7.5), sharex=True, sharey=True)
-    keys = ("veer", "classic", "dense", "moving", "room", "now_auc")
+    keys = (primary,) + tuple(
+        k
+        for k in ("classic", "dense", "moving", "room", "veer", "now_auc")
+        if k != primary
+    )
     for ax, key in zip(axes.flat, keys):
-        threshold = 0 if key == "veer" else -0.02
+        threshold = (
+            0
+            if key == primary
+            else (
+                config["bars"]["guard_each_veer_delta_min"] if key == "veer" else -0.02
+            )
+        )
         ax.axvline(0, color="#bdc7cf", lw=1)
         ax.axvline(threshold, color="#a44642", lw=1, ls="--")
         for pair in result["pairs"]:
@@ -338,7 +356,11 @@ def figure(result, config):
             if key == "veer":
                 row = comp["veer"]
                 delta, interval = row["delta"], row["ci95"]
-                check = f"seed{seed}/veer_nonnegative"
+                check = (
+                    f"seed{seed}/veer_nonnegative"
+                    if primary == "veer"
+                    else f"seed{seed}/veer_guard"
+                )
             elif key == "now_auc":
                 delta = pair["candidate"][key] - pair["baseline"][key]
                 interval, check = None, f"seed{seed}/now_auc_guard"
@@ -346,6 +368,8 @@ def figure(result, config):
                 row = comp["worlds"][key]
                 delta, interval = row["delta"], row["ci95"]
                 check = f"seed{seed}/{key}_guard"
+                if key == primary:
+                    check = f"seed{seed}/moving_positive"
             color = "#267187" if result["decision"]["checks"][check] else "#b54540"
             if interval:
                 ax.plot(interval, [seed, seed], lw=2, color=color, alpha=0.7)
@@ -360,13 +384,16 @@ def figure(result, config):
                 color=color,
             )
         title = {
-            "veer": "Veer ranking · primary",
+            "veer": "Veer ranking"
+            + (" · primary" if primary == "veer" else " · points only"),
             "now_auc": "Danger-now · points only",
         }
+        if primary == "moving":
+            title["moving"] = "Moving · primary"
         ax.set_title(title.get(key, key.capitalize()), loc="left", fontsize=12)
-        ax.set_xlim(-0.22, 0.38)
+        ax.set_xlim(*xlim)
         ax.set_ylim(2.6, -0.6)
-        ax.set_xticks([-0.2, 0, 0.2])
+        ax.set_xticks([-0.2, 0, 0.2] if primary == "veer" else [-0.1, 0, 0.2, 0.4])
         ax.set_yticks([0, 1, 2], ["Seed 0", "Seed 1", "Seed 2"])
         ax.tick_params(length=0, pad=7, labelbottom=True)
         ax.spines[["top", "right", "left"]].set_visible(False)
@@ -374,7 +401,7 @@ def figure(result, config):
         ax.set_xlabel("Candidate − control " + ("accuracy" if key == "veer" else "AUC"))
     d = result["decision"]
     fig.suptitle(
-        f"CF sampler: {d['verdict']} across three paired seeds",
+        f"{title_prefix}: {d['verdict']} across three paired seeds",
         x=0.07,
         y=0.98,
         ha="left",
@@ -383,18 +410,30 @@ def figure(result, config):
     fig.text(
         0.07,
         0.91,
-        f"Mean ranking delta {d['veer_mean']:+.4f} < +0.0500 required. "
-        "Seed 1 ranking and seed 0 collision guards fail.",
+        subtitle
+        or (
+            f"Mean ranking delta {d['veer_mean']:+.4f} < +0.0500 required. "
+            "Seed 1 ranking and seed 0 collision guards fail."
+        ),
         fontsize=10.5,
         color="#475569",
+    )
+    first = result["pairs"][0]["baseline"]
+    interval_note = (
+        "Lines: paired rollout-bootstrap 95% intervals, conditional on fixed models. "
+        "Danger-now has no interval.\n"
+        if primary == "veer"
+        else "Lines: paired course-bootstrap 95% intervals, "
+        "conditional on fixed models. "
+        "Veer / danger-now: points only.\n"
     )
     fig.text(
         0.07,
         0.035,
-        "Lines: paired rollout-bootstrap 95% intervals, conditional on fixed models. "
-        "Danger-now has no interval.\n"
-        "Red points fail a per-seed bar (dashed). Common exam: 186 courses; "
-        "ranking probe: 208 frames from 23 courses.\n"
+        interval_note
+        + "Red points fail a per-seed bar (dashed). Common exam: 186 courses; "
+        f"ranking probe: {first['veer_all'][1]} frames from "
+        f"{first['veer_rollouts']} courses.\n"
         "All six analytic bills: 137.29 KB, 7.71 ms at assumed 0.5 GMAC/s. "
         "No hardware or flight certification.",
         fontsize=9,

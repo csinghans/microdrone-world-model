@@ -2,13 +2,17 @@
 
 ## Unreleased
 
-- **Executed-loss weighting registered:** `--executed-moving-weight`
-  defaults to 1.0, preserving the original reductions. A matched six-fit
-  study compares 1.0 with 2.25, normalized over eligible training windows,
-  for executed prediction/collision losses only. Batches, optimizer counts,
-  CF/now sampling, architecture and deployment cost remain fixed. This
-  tests objective allocation, not added independent data; benefit is pending.
-  [Registration](experiments/executed_weight_v1/journal.md).
+- **executed_weight_v1 closes NO-GO despite a mean moving gain:** six
+  matched 80-epoch fits compare moving executed-loss weight 1.0 vs 2.25.
+  Moving AUC deltas are −0.0184 / +0.1227 / +0.0752 (mean +0.0598, above
+  +0.0300), but seed 0 fails the positive-delta requirement and seed 1
+  breaks dense/veer guards. Default weight stays 1.0; the analytic bill
+  stays 137.29 KB. The 190-frame / 20-course veer probe includes only one
+  moving course, so its world-stratified intervals remain undefined with
+  the reason preserved. A JSON-only report verifies every seed, weight plan
+  and guard; the shared plotting helper handles either primary metric.
+  No replacement draw, exam expansion or promotion.
+  [Report](experiments/executed_weight_v1/summary.md).
 
 - **Reject a known training file passed as an independent exam:** checkpoint
   evaluation now passes the dataset SHA into the probe, and paired-score

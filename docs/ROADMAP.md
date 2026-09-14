@@ -51,13 +51,16 @@ ranking probe meets its registered support bar (208 frames / 23 courses),
 but only two courses are moving and none are room; retain that scope limit.
 Do not expand this exam or use the favorable seed 2 as a promotion gate.
 
-The active [executed_weight_v1 study](../experiments/executed_weight_v1/journal.md)
-tests the other identified allocation issue: moving executed-window share
-fell from about 33% to 18%. A normalized per-window loss weight of 2.25
-is compared with 1.0, leaving batches, epochs and CF/now recipes fixed.
-This changes objective weight mass, not independent data support. Six
-fresh fits and a new exam must meet moving improvement and every per-seed
-guard before any later flight study can be registered. Benefit is pending.
+The [executed_weight_v1 study](../experiments/executed_weight_v1/summary.md)
+is **closed NO-GO**. A normalized moving executed-loss weight of 2.25 vs
+1.0 yields moving AUC deltas −0.0184 / +0.1227 / +0.0752, mean +0.0598.
+The mean bar passes; seed 0's moving criterion and seed 1's dense/veer
+guards fail. Batches, epochs, CF/now recipes and the 137.29 KB bill stayed
+fixed. The weight-mass hypothesis remains limited by those failures;
+default 1.0 stays, and no later flight gate follows this NO-GO. Veer
+uncertainty is unavailable because moving has only one eligible probe
+course, despite 20 total probe courses; future instruments must distinguish
+pooled support from support within bootstrap strata before fitting.
 
 Other closed research arcs:
 

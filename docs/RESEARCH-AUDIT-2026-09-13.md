@@ -136,6 +136,16 @@ and seed 0 collision-guard failures. The default sampler remains unchanged.
 The pooled ranking probe's 208 frames span 23 courses, including only two
 moving courses and no rooms; it does not establish all-world ranking gains.
 
+The separate [executed_weight_v1 study](../experiments/executed_weight_v1/summary.md)
+then tested moving executed-loss weight 2.25 versus 1.0, with batches and
+CF/now recipes fixed. Mean moving AUC improved +0.0598, but seed 0 moving
+positivity and seed 1 dense/veer guards failed: NO-GO. It shifts objective
+weight mass, not independent data support, and does not isolate prediction
+from collision loss. Its pooled veer support passes the registered bar,
+but moving has only one probe course, so the existing world-stratified
+bootstrap returns no veer interval. Preserve that missing value and reason;
+future preflight checks should expose per-stratum support before training.
+
 ## Research explanations that needed narrowing
 
 ### Perception results are checkpoint observations

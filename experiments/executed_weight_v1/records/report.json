@@ -1,0 +1,4622 @@
+{
+  "stage": "report",
+  "started_unix": 1789343940.2135522,
+  "elapsed_seconds": 13.826688766479492,
+  "manifest_sha256": "9e20b5a431627afad157e5a09c70e16299bf4e0176feaf100457c10bc07dcdf4",
+  "result": {
+    "decision": {
+      "verdict": "NO-GO",
+      "checks": {
+        "seed0/classic_guard": true,
+        "seed0/dense_guard": true,
+        "seed0/moving_positive": false,
+        "seed0/room_guard": true,
+        "seed0/now_auc_guard": true,
+        "seed0/veer_guard": true,
+        "seed0/budget": true,
+        "seed1/classic_guard": true,
+        "seed1/dense_guard": false,
+        "seed1/moving_positive": true,
+        "seed1/room_guard": true,
+        "seed1/now_auc_guard": true,
+        "seed1/veer_guard": false,
+        "seed1/budget": true,
+        "seed2/classic_guard": true,
+        "seed2/dense_guard": true,
+        "seed2/moving_positive": true,
+        "seed2/room_guard": true,
+        "seed2/now_auc_guard": true,
+        "seed2/veer_guard": true,
+        "seed2/budget": true,
+        "moving_mean": true
+      },
+      "moving_deltas": [
+        -0.018402815671723194,
+        0.12269134926697955,
+        0.07518689293899383
+      ],
+      "moving_mean": 0.0598251421780834,
+      "moving_range": [
+        -0.018402815671723194,
+        0.12269134926697955
+      ],
+      "scope": "Offline single-scalar executed-loss weighting study, not restoration of missing independent data. All six fresh fits are unconditional after instrument checks. No replacement seeds, optional rechecks, early stopping or exam expansion. Every seed must pass every guard. GO only permits registering a later flight study, not champion promotion. Rollout-bootstrap intervals condition on each fixed checkpoint pair; the three-draw mean/range is not training-population uncertainty."
+    },
+    "paired_auc_summary": {
+      "classic": {
+        "paired_deltas": [
+          -0.019090543949527916,
+          0.02519581368052448,
+          0.0880964438933809
+        ],
+        "mean": 0.03140057120812582,
+        "range": [
+          -0.019090543949527916,
+          0.0880964438933809
+        ]
+      },
+      "dense": {
+        "paired_deltas": [
+          0.012327095496627805,
+          -0.02934596489176955,
+          0.07658095425992373
+        ],
+        "mean": 0.01985402828826066,
+        "range": [
+          -0.02934596489176955,
+          0.07658095425992373
+        ]
+      },
+      "moving": {
+        "paired_deltas": [
+          -0.018402815671723194,
+          0.12269134926697955,
+          0.07518689293899383
+        ],
+        "mean": 0.0598251421780834,
+        "range": [
+          -0.018402815671723194,
+          0.12269134926697955
+        ]
+      },
+      "room": {
+        "paired_deltas": [
+          -0.0012459857903716065,
+          0.13880129670978203,
+          0.17900697074801303
+        ],
+        "mean": 0.10552076055580782,
+        "range": [
+          -0.0012459857903716065,
+          0.17900697074801303
+        ]
+      },
+      "all": {
+        "paired_deltas": [
+          -0.006122770146601231,
+          0.06213336844818795,
+          0.08530023528701802
+        ],
+        "mean": 0.04710361119620158,
+        "range": [
+          -0.006122770146601231,
+          0.08530023528701802
+        ]
+      }
+    },
+    "pairs": [
+      {
+        "seed": 0,
+        "baseline": {
+          "auc_h": [
+            0.7998763180050851,
+            0.8016004248199222,
+            0.7959885121258398,
+            0.7767621901130475
+          ],
+          "auc_by_world": {
+            "classic": 0.8254338435258052,
+            "dense": 0.7809724059148624,
+            "moving": 0.7686529157117392,
+            "room": 0.6485689476568487
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.7539501685055586,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.8894736766815186,
+            190
+          ],
+          "veer_all": [
+            0.8894736766815186,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 0,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 0,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 1.0,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_unit_0/model.pth",
+              "sha256": "03d37eff69b15889e3633c3108d3afa0029b619af91ea39f35eaa7dfba32a600"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "candidate": {
+          "auc_h": [
+            0.7932139211526724,
+            0.7905001599406265,
+            0.7812234750554068,
+            0.7706394199664462
+          ],
+          "auc_by_world": {
+            "classic": 0.8063432995762773,
+            "dense": 0.7932995014114902,
+            "moving": 0.750250100040016,
+            "room": 0.6473229618664771
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.7374675101280327,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.9578947424888611,
+            190
+          ],
+          "veer_all": [
+            0.9578947424888611,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 0,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 0,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 2.25,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_moving_2p25_0/model.pth",
+              "sha256": "173e852d08e7ee5a8783e1b8bea69fa4e493c1fa469e2b78a42da644b388e8a8"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "baseline_budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "candidate_budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        }
+      },
+      {
+        "seed": 1,
+        "baseline": {
+          "auc_h": [
+            0.6995260930128543,
+            0.7034606223975237,
+            0.6982262450317369,
+            0.7055569284822358
+          ],
+          "auc_by_world": {
+            "classic": 0.7956774669136928,
+            "dense": 0.8005530264834043,
+            "moving": 0.6518111790170613,
+            "room": 0.5040719133518123
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.6585461581601251,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.8947368264198303,
+            190
+          ],
+          "veer_all": [
+            0.8947368264198303,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 1,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 1,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 1.0,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_unit_1/model.pth",
+              "sha256": "a2fcbcdfa3a8d9af0cfb47cf84b146860880ccfb7598fc74400b985fd3db04f2"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "candidate": {
+          "auc_h": [
+            0.7631302784981373,
+            0.7566962543061467,
+            0.762939977422043,
+            0.7676902969304238
+          ],
+          "auc_by_world": {
+            "classic": 0.8208732805942173,
+            "dense": 0.7712070615916348,
+            "moving": 0.7745025282840409,
+            "room": 0.6428732100615944
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.7102400099056185,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.821052610874176,
+            190
+          ],
+          "veer_all": [
+            0.821052610874176,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 1,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 1,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 2.25,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_moving_2p25_1/model.pth",
+              "sha256": "cb206996446374137a37be705bd1d558d52bbecd12e2913327abe7edd3b3259f"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "baseline_budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "candidate_budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        }
+      },
+      {
+        "seed": 2,
+        "baseline": {
+          "auc_h": [
+            0.6625637411047783,
+            0.6629439866453706,
+            0.6654521527421045,
+            0.6619063053247545
+          ],
+          "auc_by_world": {
+            "classic": 0.73552598086765,
+            "dense": 0.726282945934689,
+            "moving": 0.6517488813707301,
+            "room": 0.4001402511459545
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.6635350216136137,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.46315789222717285,
+            190
+          ],
+          "veer_all": [
+            0.46315789222717285,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 2,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 2,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 1.0,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_unit_2/model.pth",
+              "sha256": "68b1c743a4fe5cb5e2af8ae61a437697e51a2ce988454616c6ed03311f9525f0"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "candidate": {
+          "auc_h": [
+            0.7620225961180968,
+            0.7577697972635563,
+            0.745243435753759,
+            0.7472065406117725
+          ],
+          "auc_by_world": {
+            "classic": 0.8236224247610309,
+            "dense": 0.8028639001946127,
+            "moving": 0.7269357743097239,
+            "room": 0.5791472218939675
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.7106449585382294,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.942105233669281,
+            190
+          ],
+          "veer_all": [
+            0.942105233669281,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 2,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 2,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 2.25,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_moving_2p25_2/model.pth",
+              "sha256": "cf8af0d125dca243e0e7967b3065b38c807678ca582fe937728b022c158a625f"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "baseline_budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "candidate_budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        }
+      }
+    ],
+    "comparisons": {
+      "0": {
+        "method": "paired_world_stratified_rollout_percentile_bootstrap",
+        "auc_method": "mann_whitney_average_ranks_v2",
+        "seed": 0,
+        "n_boot": 2000,
+        "scope": "test-course uncertainty conditional on these fixed checkpoints; does not estimate training-draw variation or change frozen gates",
+        "baseline": {
+          "auc_h": [
+            0.7998763180050851,
+            0.8016004248199222,
+            0.7959885121258398,
+            0.7767621901130475
+          ],
+          "auc_by_world": {
+            "classic": 0.8254338435258052,
+            "dense": 0.7809724059148624,
+            "moving": 0.7686529157117392,
+            "room": 0.6485689476568487
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.7539501685055586,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.8894736766815186,
+            190
+          ],
+          "veer_all": [
+            0.8894736766815186,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 0,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 0,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 1.0,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_unit_0/model.pth",
+              "sha256": "03d37eff69b15889e3633c3108d3afa0029b619af91ea39f35eaa7dfba32a600"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "candidate": {
+          "auc_h": [
+            0.7932139211526724,
+            0.7905001599406265,
+            0.7812234750554068,
+            0.7706394199664462
+          ],
+          "auc_by_world": {
+            "classic": 0.8063432995762773,
+            "dense": 0.7932995014114902,
+            "moving": 0.750250100040016,
+            "room": 0.6473229618664771
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.7374675101280327,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.9578947424888611,
+            190
+          ],
+          "veer_all": [
+            0.9578947424888611,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 0,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 0,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 2.25,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_moving_2p25_0/model.pth",
+              "sha256": "173e852d08e7ee5a8783e1b8bea69fa4e493c1fa469e2b78a42da644b388e8a8"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "worlds": {
+          "all": {
+            "n_samples": 12179,
+            "n_rollouts": 186,
+            "n_positive": 6792,
+            "auc_baseline": 0.7767621901130475,
+            "auc_candidate": 0.7706394199664462,
+            "delta": -0.006122770146601231,
+            "ci95": [
+              -0.025601516470821456,
+              0.012395430101459387
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "classic": {
+            "n_samples": 2896,
+            "n_rollouts": 42,
+            "n_positive": 993,
+            "auc_baseline": 0.8254338435258052,
+            "auc_candidate": 0.8063432995762773,
+            "delta": -0.019090543949527916,
+            "ci95": [
+              -0.04656188180928601,
+              0.005588092325638729
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "dense": {
+            "n_samples": 2879,
+            "n_rollouts": 42,
+            "n_positive": 2558,
+            "auc_baseline": 0.7809724059148624,
+            "auc_candidate": 0.7932995014114902,
+            "delta": 0.012327095496627805,
+            "ci95": [
+              -0.038075766792788485,
+              0.07018778949774437
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "moving": {
+            "n_samples": 2989,
+            "n_rollouts": 42,
+            "n_positive": 1680,
+            "auc_baseline": 0.7686529157117392,
+            "auc_candidate": 0.750250100040016,
+            "delta": -0.018402815671723194,
+            "ci95": [
+              -0.042435828443587925,
+              0.0026876557215292996
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "room": {
+            "n_samples": 3415,
+            "n_rollouts": 60,
+            "n_positive": 1561,
+            "auc_baseline": 0.6485689476568487,
+            "auc_candidate": 0.6473229618664771,
+            "delta": -0.0012459857903716065,
+            "ci95": [
+              -0.07444266199038546,
+              0.0767108227875147
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          }
+        },
+        "veer": {
+          "n_samples": 190,
+          "n_rollouts": 20,
+          "ci95": null,
+          "accuracy_baseline": 0.8894736842105263,
+          "accuracy_candidate": 0.9578947368421052,
+          "delta": 0.06842105263157894,
+          "reason": "fewer than two probe rollouts in a world stratum"
+        }
+      },
+      "1": {
+        "method": "paired_world_stratified_rollout_percentile_bootstrap",
+        "auc_method": "mann_whitney_average_ranks_v2",
+        "seed": 0,
+        "n_boot": 2000,
+        "scope": "test-course uncertainty conditional on these fixed checkpoints; does not estimate training-draw variation or change frozen gates",
+        "baseline": {
+          "auc_h": [
+            0.6995260930128543,
+            0.7034606223975237,
+            0.6982262450317369,
+            0.7055569284822358
+          ],
+          "auc_by_world": {
+            "classic": 0.7956774669136928,
+            "dense": 0.8005530264834043,
+            "moving": 0.6518111790170613,
+            "room": 0.5040719133518123
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.6585461581601251,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.8947368264198303,
+            190
+          ],
+          "veer_all": [
+            0.8947368264198303,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 1,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 1,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 1.0,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_unit_1/model.pth",
+              "sha256": "a2fcbcdfa3a8d9af0cfb47cf84b146860880ccfb7598fc74400b985fd3db04f2"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "candidate": {
+          "auc_h": [
+            0.7631302784981373,
+            0.7566962543061467,
+            0.762939977422043,
+            0.7676902969304238
+          ],
+          "auc_by_world": {
+            "classic": 0.8208732805942173,
+            "dense": 0.7712070615916348,
+            "moving": 0.7745025282840409,
+            "room": 0.6428732100615944
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.7102400099056185,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.821052610874176,
+            190
+          ],
+          "veer_all": [
+            0.821052610874176,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 1,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 1,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 2.25,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_moving_2p25_1/model.pth",
+              "sha256": "cb206996446374137a37be705bd1d558d52bbecd12e2913327abe7edd3b3259f"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "worlds": {
+          "all": {
+            "n_samples": 12179,
+            "n_rollouts": 186,
+            "n_positive": 6792,
+            "auc_baseline": 0.7055569284822358,
+            "auc_candidate": 0.7676902969304238,
+            "delta": 0.06213336844818795,
+            "ci95": [
+              0.03918635103551962,
+              0.08679845927266121
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "classic": {
+            "n_samples": 2896,
+            "n_rollouts": 42,
+            "n_positive": 993,
+            "auc_baseline": 0.7956774669136928,
+            "auc_candidate": 0.8208732805942173,
+            "delta": 0.02519581368052448,
+            "ci95": [
+              -0.011129846893629305,
+              0.05595879059979845
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "dense": {
+            "n_samples": 2879,
+            "n_rollouts": 42,
+            "n_positive": 2558,
+            "auc_baseline": 0.8005530264834043,
+            "auc_candidate": 0.7712070615916348,
+            "delta": -0.02934596489176955,
+            "ci95": [
+              -0.07084091499139188,
+              0.005826723856556888
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "moving": {
+            "n_samples": 2989,
+            "n_rollouts": 42,
+            "n_positive": 1680,
+            "auc_baseline": 0.6518111790170613,
+            "auc_candidate": 0.7745025282840409,
+            "delta": 0.12269134926697955,
+            "ci95": [
+              0.0784635639213816,
+              0.16672886986398786
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "room": {
+            "n_samples": 3415,
+            "n_rollouts": 60,
+            "n_positive": 1561,
+            "auc_baseline": 0.5040719133518123,
+            "auc_candidate": 0.6428732100615944,
+            "delta": 0.13880129670978203,
+            "ci95": [
+              0.059030375629217154,
+              0.21779828882208285
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          }
+        },
+        "veer": {
+          "n_samples": 190,
+          "n_rollouts": 20,
+          "ci95": null,
+          "accuracy_baseline": 0.8947368421052632,
+          "accuracy_candidate": 0.8210526315789474,
+          "delta": -0.0736842105263158,
+          "reason": "fewer than two probe rollouts in a world stratum"
+        }
+      },
+      "2": {
+        "method": "paired_world_stratified_rollout_percentile_bootstrap",
+        "auc_method": "mann_whitney_average_ranks_v2",
+        "seed": 0,
+        "n_boot": 2000,
+        "scope": "test-course uncertainty conditional on these fixed checkpoints; does not estimate training-draw variation or change frozen gates",
+        "baseline": {
+          "auc_h": [
+            0.6625637411047783,
+            0.6629439866453706,
+            0.6654521527421045,
+            0.6619063053247545
+          ],
+          "auc_by_world": {
+            "classic": 0.73552598086765,
+            "dense": 0.726282945934689,
+            "moving": 0.6517488813707301,
+            "room": 0.4001402511459545
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.6635350216136137,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.46315789222717285,
+            190
+          ],
+          "veer_all": [
+            0.46315789222717285,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 2,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 2,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 1.0,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_unit_2/model.pth",
+              "sha256": "68b1c743a4fe5cb5e2af8ae61a437697e51a2ce988454616c6ed03311f9525f0"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "candidate": {
+          "auc_h": [
+            0.7620225961180968,
+            0.7577697972635563,
+            0.745243435753759,
+            0.7472065406117725
+          ],
+          "auc_by_world": {
+            "classic": 0.8236224247610309,
+            "dense": 0.8028639001946127,
+            "moving": 0.7269357743097239,
+            "room": 0.5791472218939675
+          },
+          "label_counts_by_world": {
+            "classic": {
+              "positive": 993,
+              "negative": 1903
+            },
+            "dense": {
+              "positive": 2558,
+              "negative": 321
+            },
+            "moving": {
+              "positive": 1680,
+              "negative": 1309
+            },
+            "room": {
+              "positive": 1561,
+              "negative": 1854
+            }
+          },
+          "label_counts_h": [
+            {
+              "positive": 4981,
+              "negative": 7198
+            },
+            {
+              "positive": 5220,
+              "negative": 6959
+            },
+            {
+              "positive": 5718,
+              "negative": 6461
+            },
+            {
+              "positive": 6792,
+              "negative": 5387
+            }
+          ],
+          "now_auc": 0.7106449585382294,
+          "now_label_counts": {
+            "positive": 11449,
+            "negative": 18311
+          },
+          "veer_val": [
+            0.942105233669281,
+            190
+          ],
+          "veer_all": [
+            0.942105233669281,
+            190
+          ],
+          "veer_rollouts": 20,
+          "n_val_samples": 12179,
+          "va_rolls": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ],
+          "split": "independent_holdout_all",
+          "split_seed": null,
+          "auc_method": "mann_whitney_average_ranks_v2",
+          "training_seed": 2,
+          "checkpoint_meta": {
+            "version": 2,
+            "D": 64,
+            "strips": 4,
+            "img_res": 64,
+            "A": 4,
+            "horizons": [
+              4,
+              8,
+              16,
+              32
+            ],
+            "radii": [
+              0.7,
+              0.35
+            ],
+            "danger_r": 0.7,
+            "a_norm": [
+              1.600000023841858,
+              1.0,
+              0.800000011920929,
+              9.999999974752427e-07
+            ],
+            "action_names": [
+              "forward",
+              "slow",
+              "veer_left",
+              "veer_right",
+              "climb",
+              "hover"
+            ],
+            "action_vecs": [
+              [
+                0.800000011920929,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.30000001192092896,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.0,
+                0.0
+              ],
+              [
+                0.4000000059604645,
+                0.0,
+                0.4000000059604645,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "seed": 2,
+            "cf_hard_pool": "legacy_masked",
+            "executed_moving_weight": 2.25,
+            "transit_schedule_layout": "world_balanced",
+            "in_frames": 1,
+            "frame_stride": 4,
+            "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+          },
+          "runtime": {
+            "device": "cpu",
+            "torch": "2.14.0",
+            "numpy": "2.5.3"
+          },
+          "provenance": {
+            "checkpoint": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_moving_2p25_2/model.pth",
+              "sha256": "cf8af0d125dca243e0e7967b3065b38c807678ca582fe937728b022c158a625f"
+            },
+            "dataset": {
+              "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+              "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+            }
+          }
+        },
+        "worlds": {
+          "all": {
+            "n_samples": 12179,
+            "n_rollouts": 186,
+            "n_positive": 6792,
+            "auc_baseline": 0.6619063053247545,
+            "auc_candidate": 0.7472065406117725,
+            "delta": 0.08530023528701802,
+            "ci95": [
+              0.052577735734189494,
+              0.11931782118273997
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "classic": {
+            "n_samples": 2896,
+            "n_rollouts": 42,
+            "n_positive": 993,
+            "auc_baseline": 0.73552598086765,
+            "auc_candidate": 0.8236224247610309,
+            "delta": 0.0880964438933809,
+            "ci95": [
+              0.040900055127323615,
+              0.14358558535249347
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "dense": {
+            "n_samples": 2879,
+            "n_rollouts": 42,
+            "n_positive": 2558,
+            "auc_baseline": 0.726282945934689,
+            "auc_candidate": 0.8028639001946127,
+            "delta": 0.07658095425992373,
+            "ci95": [
+              0.017769136077962336,
+              0.12603767388706955
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "moving": {
+            "n_samples": 2989,
+            "n_rollouts": 42,
+            "n_positive": 1680,
+            "auc_baseline": 0.6517488813707301,
+            "auc_candidate": 0.7269357743097239,
+            "delta": 0.07518689293899383,
+            "ci95": [
+              0.027858446011177585,
+              0.11998167297480133
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          },
+          "room": {
+            "n_samples": 3415,
+            "n_rollouts": 60,
+            "n_positive": 1561,
+            "auc_baseline": 0.4001402511459545,
+            "auc_candidate": 0.5791472218939675,
+            "delta": 0.17900697074801303,
+            "ci95": [
+              0.05154271404783605,
+              0.3008670626225887
+            ],
+            "valid_bootstraps": 2000,
+            "undefined_bootstraps": 0
+          }
+        },
+        "veer": {
+          "n_samples": 190,
+          "n_rollouts": 20,
+          "ci95": null,
+          "accuracy_baseline": 0.4631578947368421,
+          "accuracy_candidate": 0.9421052631578948,
+          "delta": 0.4789473684210527,
+          "reason": "fewer than two probe rollouts in a world stratum"
+        }
+      }
+    }
+  },
+  "files": {}
+}

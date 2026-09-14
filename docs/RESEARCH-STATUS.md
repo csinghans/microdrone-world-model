@@ -128,41 +128,43 @@ loss already masks unknown labels correctly; changing allocation also
 changes the danger-now samples. The study failed the registered joint
 improvement test, not an assertion that every contrast curriculum must fail.
 
-The next registered study is
-[executed_weight_v1](../experiments/executed_weight_v1/journal.md). It keeps
-the same balanced corpus, permutation batches, 80 epochs and CF/now/variance
-recipes, changing only a moving per-window coefficient from 1.0 to 2.25 in
-executed latent prediction MSE and collision BCE. A training-only global
-normalizer keeps mean coefficient one. This raises moving weight mass from
-about 18% to 33%; it does not add windows, courses or measured gradient mass.
-The default factor remains 1.0, with the exact original reductions.
+The [executed_weight_v1 study](../experiments/executed_weight_v1/summary.md)
+is **complete: NO-GO**. Six fresh 80-epoch fits compare moving executed-loss
+weight 1.0 vs 2.25 on a shared balanced corpus. A training-only normalizer
+raises moving weight mass from about 18% to 33%, with batches, CF/now recipes
+and the 137.29 KB analytic bill fixed. Moving AUC deltas are
+−0.0184 / +0.1227 / +0.0752 (mean +0.0598). The +.03 mean bar passes;
+seed 0 fails moving positivity and seed 1 fails dense (−0.0293) and veer
+(−0.0737) guards. Default weight remains 1.0. No promotion or repeat follows.
 
-Six fresh fits at seeds 0/1/2 and a fresh 186-course exam are registered.
-Primary moving AUC delta mean ≥+.03 and every seed >0; classic/dense/room
-and danger-now guards ≥−.02, pooled veer ≥−.05, unchanged ≤512 KB bill.
-Every veer reading needs 20 frames / six independent courses. No optional
-recheck, seed replacement or exam expansion. Both earlier NO-GOs stay closed.
-Pure weighting, short training integration, shared-runner and historical
-report tests passed before research execution. The profile is selected with
-`bash experiments/executed_weight_v1/run.sh`; inspect processes/receipts
-before starting. When launched, sources freeze and cannot be edited during
-the queue. Persistent launch receipt: `output/executed_weight_v1/queue.json`.
-Completion markers: `EXECUTED-WEIGHT-DONE` and `EXECUTED-WEIGHT-EXIT=0`.
-
-The executed-weight queue is now launched from `2362756` (initial shell
-PID 18400). All four preflight receipts and files are verified; the first
-unit-control fit is active at this snapshot. The new exam has 186 courses,
-12,179 valid windows and both classes in every world. SHA:
+All 17 stages and files, sources/runtime/corpus and protected WMs were
+verified before report changes; `verification.json` records this. Original
+training sources are pinned at `2362756`. Full logs end with
+`EXECUTED-WEIGHT-DONE` and `EXECUTED-WEIGHT-EXIT=0`. No worker remained at
+completion; the old queue PID is historical, not an active-work indication.
+The exam contains 186 courses / 12,179 windows; its SHA is
 `e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1`.
-Research results are pending. Do not edit Python sources until this queue
-finishes, and do not restart an existing/incomplete stage without inspection.
 
-Restoring moving executed-window exposure is a separate possible knob;
-do not change it together with the hard pool. Do not infer the cause from
-balanced seed 2's endpoint offset alone: seed 1 also loses without that
-symptom. Keep optimization exposure, latent scale, course uncertainty and
-training-draw spread distinct. Any next fit needs its own registration and
-frozen bars; this retrospective audit does not pass a flight or promotion gate.
+`python -m eval.eval_executed_weight_report` generates the summary/figure
+from committed JSON only. Its selftest verifies original decisions, fit
+and score identity, one-knob metadata and preflight weight plans; fabricated
+intervals fail. `--audit-probe-support` checks six hashed exports without
+model calls. Veer has 190 frames / 20 courses: classic 43/7, dense 139/12,
+moving 8/1, room 0/0. Pooled support passes its frozen bar, but the singleton
+moving stratum makes every veer bootstrap interval undefined. Preserve the
+missing intervals and reason; do not expand this exam or change its verdict.
+
+Next instrument work should move geometric veer support accounting before
+training, using the same eligibility implementation as the scorer. Report
+pooled and per-world course counts so future registrations can explicitly
+require support for their intended uncertainty calculation. Do not impose
+new bars retroactively on any closed study. This is an instrument task,
+not permission to repeat old draws. No new training study is active.
+
+The tested loss weight changes objective allocation, not independent data
+support or measured gradient mass. It does not isolate prediction from
+collision loss. Do not infer a training cause from a large latent endpoint
+alone. Any next fit requires a new one-knob registration and frozen guards.
 
 The coverage repair remains a structural data fix, **not a demonstrated
 performance upgrade**. README, roadmap, changelog and the evidence audit

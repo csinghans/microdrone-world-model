@@ -1,0 +1,370 @@
+{
+  "stage": "score_unit_0",
+  "started_unix": 1789343879.126404,
+  "elapsed_seconds": 9.993168830871582,
+  "manifest_sha256": "9e20b5a431627afad157e5a09c70e16299bf4e0176feaf100457c10bc07dcdf4",
+  "result": {
+    "scores": {
+      "auc_h": [
+        0.7998763180050851,
+        0.8016004248199222,
+        0.7959885121258398,
+        0.7767621901130475
+      ],
+      "auc_by_world": {
+        "classic": 0.8254338435258052,
+        "dense": 0.7809724059148624,
+        "moving": 0.7686529157117392,
+        "room": 0.6485689476568487
+      },
+      "label_counts_by_world": {
+        "classic": {
+          "positive": 993,
+          "negative": 1903
+        },
+        "dense": {
+          "positive": 2558,
+          "negative": 321
+        },
+        "moving": {
+          "positive": 1680,
+          "negative": 1309
+        },
+        "room": {
+          "positive": 1561,
+          "negative": 1854
+        }
+      },
+      "label_counts_h": [
+        {
+          "positive": 4981,
+          "negative": 7198
+        },
+        {
+          "positive": 5220,
+          "negative": 6959
+        },
+        {
+          "positive": 5718,
+          "negative": 6461
+        },
+        {
+          "positive": 6792,
+          "negative": 5387
+        }
+      ],
+      "now_auc": 0.7539501685055586,
+      "now_label_counts": {
+        "positive": 11449,
+        "negative": 18311
+      },
+      "veer_val": [
+        0.8894736766815186,
+        190
+      ],
+      "veer_all": [
+        0.8894736766815186,
+        190
+      ],
+      "veer_rollouts": 20,
+      "n_val_samples": 12179,
+      "va_rolls": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ],
+      "split": "independent_holdout_all",
+      "split_seed": null,
+      "auc_method": "mann_whitney_average_ranks_v2",
+      "training_seed": 0,
+      "checkpoint_meta": {
+        "version": 2,
+        "D": 64,
+        "strips": 4,
+        "img_res": 64,
+        "A": 4,
+        "horizons": [
+          4,
+          8,
+          16,
+          32
+        ],
+        "radii": [
+          0.7,
+          0.35
+        ],
+        "danger_r": 0.7,
+        "a_norm": [
+          1.600000023841858,
+          1.0,
+          0.800000011920929,
+          9.999999974752427e-07
+        ],
+        "action_names": [
+          "forward",
+          "slow",
+          "veer_left",
+          "veer_right",
+          "climb",
+          "hover"
+        ],
+        "action_vecs": [
+          [
+            0.800000011920929,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.30000001192092896,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.5,
+            0.5,
+            0.0,
+            0.0
+          ],
+          [
+            0.5,
+            -0.5,
+            0.0,
+            0.0
+          ],
+          [
+            0.4000000059604645,
+            0.0,
+            0.4000000059604645,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "seed": 0,
+        "cf_hard_pool": "legacy_masked",
+        "executed_moving_weight": 1.0,
+        "transit_schedule_layout": "world_balanced",
+        "in_frames": 1,
+        "frame_stride": 4,
+        "training_dataset_sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+      },
+      "runtime": {
+        "device": "cpu",
+        "torch": "2.14.0",
+        "numpy": "2.5.3"
+      },
+      "provenance": {
+        "checkpoint": {
+          "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/train_unit_0/model.pth",
+          "sha256": "03d37eff69b15889e3633c3108d3afa0029b619af91ea39f35eaa7dfba32a600"
+        },
+        "dataset": {
+          "path": "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/holdout/data.npz",
+          "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+        }
+      }
+    },
+    "budget": {
+      "weights_kb": 81.2900390625,
+      "peak_act_kb": 28.0,
+      "workspace_kb": 28.0,
+      "total_kb": 137.2900390625,
+      "macs_frame": 3646528,
+      "macs_decision": 3856768
+    },
+    "estimated_gap8_ms": 7.713536
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/score_unit_0/scores.json": "1db4bf1f6b33cc6c6ef2db657b398a5d74536b077e81f1063c55ba8ba2da253b",
+    "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/score_unit_0/scores.npz": "3bd4973b74c386fa32d6081fbac0871db6b9420ab2e6760e2c6618056ba147fe"
+  }
+}

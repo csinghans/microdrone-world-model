@@ -1,0 +1,66 @@
+{
+  "verified_unix": 1789345743.758903,
+  "manifest_sha256": "9e20b5a431627afad157e5a09c70e16299bf4e0176feaf100457c10bc07dcdf4",
+  "original_source_revision": "23627568a51a912fa05db93a5b157e64f88bae57",
+  "all_source_runtime_training_input_and_protected_hashes_match": true,
+  "all_stage_files_match": true,
+  "stage_count": 17,
+  "receipt_hashes": {
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/vision.json": "6548bb363aff632175c73a099a70958730ce8ffd43f5ea1fc54a405edb349678",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/training_data.json": "ef79cdbf8b01e2ca536b55701f07e852e184771683802909eb461947acb08985",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/indoor_holdout.json": "bc8bf636f2d730d009fd3260b5acf8847354df90f1777ff8fc67788d3c06eff6",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/holdout.json": "a85e080106f8bb9bd810d80c2cffa08730cb2fb8703d27231d348ab7889e7f18",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/train_unit_0.json": "357c031f05c755a0cb7f2ae7583607fe5e813b81cc273bf03a4e3fe3c625acbb",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/train_moving_2p25_0.json": "80a02448d6973231c3f7839516a11fb7af398f21ac4954ce6c60cbce03d1f12c",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/train_moving_2p25_1.json": "294d05fe5f6694b970694d443a560cd2e5ce2f0a6fd33b4b13656ccf31e543c6",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/train_unit_1.json": "c8b131c28dd8bec801f6c1264839e50a5ad9ca37c588524aaa5f197808ceedf5",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/train_unit_2.json": "b9fabff2d80a0ef37581ae7cbeb10bdca4269349cbb4e54e9499b80a66789b67",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/train_moving_2p25_2.json": "2b87ac877d7e4974346886ebef381931f26b2b129214c5f9c8335b8f2701b270",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/score_unit_0.json": "d549bcbd4b20be6e47df49f687ab2a21630065b72ea2d8304dc265040535d8f8",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/score_moving_2p25_0.json": "6a14f789e9860c00acac308d990fc410add0a20b4817566505df2cddd32306d3",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/score_unit_1.json": "4614695ae2c1c7fd838c901faf6f1e10a8117a2ccb142971809a597358ccf1ec",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/score_moving_2p25_1.json": "7832d9dfc3e90ce38f72c3e43bcef6d5d068029e81996e215ee516fda6a44348",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/score_unit_2.json": "a4aa73180d8539f86b89ca60eed9dc2170ab8a69d24c55c9db9088db110b91c0",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/score_moving_2p25_2.json": "c8ee9a547dcf6d55f0716738ff837f7845707847161bc61cb59652b158ea266f",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_weight_v1/records/report.json": "f50cf58aeb52b07a9581ab01feba8b147d9b5b36238d02b10c8ee6e2806fff4c"
+  },
+  "decision_recomputed_from_original_bars": {
+    "verdict": "NO-GO",
+    "checks": {
+      "seed0/classic_guard": true,
+      "seed0/dense_guard": true,
+      "seed0/moving_positive": false,
+      "seed0/room_guard": true,
+      "seed0/now_auc_guard": true,
+      "seed0/veer_guard": true,
+      "seed0/budget": true,
+      "seed1/classic_guard": true,
+      "seed1/dense_guard": false,
+      "seed1/moving_positive": true,
+      "seed1/room_guard": true,
+      "seed1/now_auc_guard": true,
+      "seed1/veer_guard": false,
+      "seed1/budget": true,
+      "seed2/classic_guard": true,
+      "seed2/dense_guard": true,
+      "seed2/moving_positive": true,
+      "seed2/room_guard": true,
+      "seed2/now_auc_guard": true,
+      "seed2/veer_guard": true,
+      "seed2/budget": true,
+      "moving_mean": true
+    },
+    "moving_deltas": [
+      -0.018402815671723194,
+      0.12269134926697955,
+      0.07518689293899383
+    ],
+    "moving_mean": 0.0598251421780834,
+    "moving_range": [
+      -0.018402815671723194,
+      0.12269134926697955
+    ],
+    "scope": "Offline single-scalar executed-loss weighting study, not restoration of missing independent data. All six fresh fits are unconditional after instrument checks. No replacement seeds, optional rechecks, early stopping or exam expansion. Every seed must pass every guard. GO only permits registering a later flight study, not champion promotion. Rollout-bootstrap intervals condition on each fixed checkpoint pair; the three-draw mean/range is not training-population uncertainty."
+  },
+  "scope": "Post-completion read-only verification before report changes. No fitting, scoring or bootstrap resampling."
+}

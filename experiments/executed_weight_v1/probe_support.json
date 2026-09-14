@@ -1,0 +1,35 @@
+{
+  "scope": "Post-hoc support accounting only; no fitting, model scoring, bootstrap, alternative gate or changed eligibility.",
+  "source_exports": {
+    "output/executed_weight_v1/score_unit_0/scores.npz": "3bd4973b74c386fa32d6081fbac0871db6b9420ab2e6760e2c6618056ba147fe",
+    "output/executed_weight_v1/score_unit_1/scores.npz": "08c92975ced3eac70d050db0d2b988a69d98bf5b836a36b486819b58427e9a05",
+    "output/executed_weight_v1/score_unit_2/scores.npz": "354f2f22ff1c91f7c2a12ee1800590acb017af49bb9377338c5daa0a412ddfac",
+    "output/executed_weight_v1/score_moving_2p25_0/scores.npz": "c6eb4e6a76b840923847aff53ab60b8ff7455a387f33f91b31d9a8fe6b1f363a",
+    "output/executed_weight_v1/score_moving_2p25_1/scores.npz": "20b2e5c4ef7f16a5944b533bffc37379d0ec1adecb5cc1d8ac5c13ca281cab0d",
+    "output/executed_weight_v1/score_moving_2p25_2/scores.npz": "89c9a75bf04c1cf2513c7773e21a5a9570c679d2d5c1e125bd808f1037e671a7"
+  },
+  "n_frames": 190,
+  "n_rollouts": 20,
+  "by_world": {
+    "classic": {
+      "frames": 43,
+      "rollouts": 7
+    },
+    "dense": {
+      "frames": 139,
+      "rollouts": 12
+    },
+    "moving": {
+      "frames": 8,
+      "rollouts": 1
+    },
+    "room": {
+      "frames": 0,
+      "rollouts": 0
+    }
+  },
+  "frames_per_rollout_range": [
+    1,
+    18
+  ]
+}

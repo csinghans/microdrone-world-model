@@ -126,3 +126,70 @@ courses. [Exam SHA](records/holdout.json):
 All class-support requirements pass. The first unit-control fit has
 started; no research-model verdict is available at this entry. All six
 fits and scores remain required before interpretation.
+
+## Final result — 2026-09-14: NO-GO
+
+All 17 stages completed once. The full log ends in
+`EXECUTED-WEIGHT-STUDY COMPLETE`, `EXECUTED-WEIGHT-DONE` and
+`EXECUTED-WEIGHT-EXIT=0`; no study worker remained at inspection. All frozen
+sources/runtime/input/protected hashes and every stage output were verified
+before adding report code. [Verification receipt](verification.json).
+All nine locked artifacts remain valid.
+
+| Seed | Control moving AUC | Weight-2.25 AUC | Delta |
+|---|---:|---:|---:|
+| 0 | 0.7687 | 0.7503 | −0.0184 |
+| 1 | 0.6518 | 0.7745 | +0.1227 |
+| 2 | 0.6517 | 0.7269 | +0.0752 |
+
+Mean moving delta **+0.0598** passes +0.0300, but seed 0 fails the required
+strictly-positive moving delta. Seed 1 also fails dense AUC (−0.0293 against
+−0.0200) and pooled veer (−0.0737 against −0.0500). Every other per-seed
+guard passes. This is NO-GO even though the mean target improves.
+All models retain the identical 137.290039 KB analytic int8 bill and
+3,856,768 MACs/decision, estimated 7.713536 ms at assumed 0.5 GMAC/s.
+There was no hardware timing, int8 parity or closed-loop flight gate.
+
+The 42-course moving AUC intervals are [−0.0424, +0.0027],
+[+0.0785, +0.1667] and [+0.0279, +0.1200], conditional on their fixed
+checkpoint pairs. They do not change the frozen per-seed rule or provide
+training-population confidence. Full results and guards are in the
+[generated summary](summary.md) and [raw report](records/report.json).
+
+Post-hoc support accounting from the six unchanged score exports finds
+190 veer frames / 20 independent courses: classic 43/7, dense 139/12,
+moving 8/1, room 0/0. The frozen pooled support requirement passes. The
+already implemented world-stratified bootstrap refuses intervals with a
+singleton stratum, so all three veer intervals stay undefined and preserve
+the reason. No fabricated interval or expanded exam replaces that gap.
+This limits ranking uncertainty, not the separate 42-course moving AUC.
+
+Fit receipts match the preflight weight plans exactly, with identical
+executed-window counts, splits and CF hard-pool sizes within pairs. All
+six models beat their own no-op latent MSE@32; that endpoint diagnostic
+does not certify decision quality across the new exam. Control seed 2's
+large absolute latent value is associated with weaker scores, not proof
+of a failure mechanism. Weight mass is not gradient contribution, and the
+single coefficient does not isolate prediction loss from collision loss.
+
+The tested coefficient raises mean moving AUC but fails consistency and
+regression protection. Default weight stays 1.0. Preserve all three draws;
+no seed selection, retry, extra exam, moved bar or champion promotion.
+The previous schedule-layout and CF-sampler NO-GOs remain closed.
+
+`python -m eval.eval_executed_weight_report` rebuilds this study's summary
+and six-panel figure from JSON alone. Its selftest verifies receipt hashes,
+score/fit identity, one-knob metadata, preflight weighting plans, common
+support and original guards; an invented veer interval is rejected.
+`--audit-probe-support` reads only hashed exports and compares an existing
+support record rather than overwriting it. Shared plotting/support helpers
+were extended after the frozen queue completed; no research source was
+edited during training or evaluation.
+
+Final validation: whole-repository Black/Ruff passed for 162 Python files;
+all three completed-study report selftests and the shared runner selftest
+pass. The executed report selftest also passes in a directory containing
+only its Python modules and JSON receipts, without `output/` or model files.
+The extended plotting helper reproduces the previous CF figure pixel for
+pixel; the new figure was visually inspected. These are local checks, with
+no remote push, CI dispatch or release tag.

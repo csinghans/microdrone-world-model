@@ -128,10 +128,11 @@ identity. A different file hash does not establish disjoint rollouts
 (subsets and repacked corpora can still overlap).
 
 `--executed-moving-weight` defaults to 1.0. The registered
-[weighting study](experiments/executed_weight_v1/journal.md) tests 2.25 on
+[weighting study](experiments/executed_weight_v1/summary.md) tested 2.25 on
 moving executed prediction/collision losses, with a fixed training-only
-normalizer and unchanged batch/CF recipes. This is an experimental option;
-it has not established a performance improvement.
+normalizer and unchanged batch/CF recipes. It closed **NO-GO**: mean moving
+AUC improved +0.0598, but seed 0 regressed and seed 1 failed dense/veer
+guards. The default remains 1.0; the joint improvement bar was not met.
 
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
