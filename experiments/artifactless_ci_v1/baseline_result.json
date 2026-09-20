@@ -1,0 +1,2200 @@
+{
+  "status": "passed",
+  "started": "2026-09-20T12:31:59.669249+00:00",
+  "worker_pid": 54807,
+  "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb",
+  "config_sha256": "73a1047866f7313e83a5eaaa1be078bb1c4e259d297758f30e041bdbc1d0160f",
+  "worker_sha256": "e6282393b71fa4f17700df01dfe426c5c2b7a1bb91d1204841347a80ec2b4f14",
+  "locked_artifacts_present_at_start": [],
+  "python": "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+  "python_version": "3.14.5",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "package_origins": {
+    "world_model": [
+      "/Users/hans.chen/.cache/microdrone-artifactless-ci-20260920/world_model"
+    ],
+    "planner": [
+      "/Users/hans.chen/.cache/microdrone-artifactless-ci-20260920/planner"
+    ],
+    "datasets": [
+      "/Users/hans.chen/.cache/microdrone-artifactless-ci-20260920/datasets"
+    ],
+    "eval": [
+      "/Users/hans.chen/.cache/microdrone-artifactless-ci-20260920/eval"
+    ],
+    "sim": [
+      "/Users/hans.chen/.cache/microdrone-artifactless-ci-20260920/sim"
+    ],
+    "skills": [
+      "/Users/hans.chen/.cache/microdrone-artifactless-ci-20260920/skills"
+    ],
+    "scripts": [
+      "/Users/hans.chen/.cache/microdrone-artifactless-ci-20260920/scripts"
+    ]
+  },
+  "versions": {
+    "torch": "2.14.0",
+    "numpy": "2.5.3",
+    "stable-baselines3": "2.9.0",
+    "sb3-contrib": "2.9.0",
+    "pybullet": "3.2.7"
+  },
+  "total": 116,
+  "completed": [
+    {
+      "index": 0,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "planner.action_set"
+        ]
+      },
+      "started": "2026-09-20T12:31:59.684712+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/000_planner_action_set.log",
+      "ended": "2026-09-20T12:31:59.770822+00:00",
+      "elapsed_seconds": 0.08590037492103875,
+      "exit_code": 0,
+      "log_sha256": "97152c375afdbd905bbb614aa6dc0586957314cf60b782eb9e60afce5b8534e9",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 1,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "planner.nav_action_set"
+        ]
+      },
+      "started": "2026-09-20T12:31:59.771410+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/001_planner_nav_action_set.log",
+      "ended": "2026-09-20T12:31:59.819548+00:00",
+      "elapsed_seconds": 0.047932625049725175,
+      "exit_code": 0,
+      "log_sha256": "868ca96e0f640e621213933c0d6931578c0fad9d4bc39afa0d509e91f5a7b660",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 2,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "planner.flight_mode",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:31:59.820100+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/002_planner_flight_mode.log",
+      "ended": "2026-09-20T12:32:00.614746+00:00",
+      "elapsed_seconds": 0.7944122089538723,
+      "exit_code": 0,
+      "log_sha256": "613bfec7d893c54729572d04dd29d0c9646c794f2bacac1b840f470d2c2049b6",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 3,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.fly",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:00.615436+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/003_scripts_fly.log",
+      "ended": "2026-09-20T12:32:01.125785+00:00",
+      "elapsed_seconds": 0.5100675420835614,
+      "exit_code": 0,
+      "log_sha256": "d160d79b7aa2377d27ef23182555c0a80ffa7785f576f564550a083ef95a1990",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 4,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "datasets.intervention_labels"
+        ]
+      },
+      "started": "2026-09-20T12:32:01.126591+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/004_datasets_intervention_labels.log",
+      "ended": "2026-09-20T12:32:01.174751+00:00",
+      "elapsed_seconds": 0.047851374838501215,
+      "exit_code": 0,
+      "log_sha256": "293e032f1a3c98777bf04e5cb79989279c8f7a5146651cbf70373d5361c30cd8",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 5,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "datasets.rollout_schedule"
+        ]
+      },
+      "started": "2026-09-20T12:32:01.175454+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/005_datasets_rollout_schedule.log",
+      "ended": "2026-09-20T12:32:01.199461+00:00",
+      "elapsed_seconds": 0.023738750023767352,
+      "exit_code": 0,
+      "log_sha256": "0cb0b769cce3c6126502cdd6c8dd4abbf0eb54edff3a84148e52f783099bfc57",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 6,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "datasets.provenance"
+        ]
+      },
+      "started": "2026-09-20T12:32:01.200108+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/006_datasets_provenance.log",
+      "ended": "2026-09-20T12:32:01.248198+00:00",
+      "elapsed_seconds": 0.04779245797544718,
+      "exit_code": 0,
+      "log_sha256": "bf22d5efbe42bfbd92969ee399301a139a3c866634671e8fba6ef330207acb67",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 7,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.dataset_identity_selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:01.248891+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/007_scripts_dataset_identity_selftest.log",
+      "ended": "2026-09-20T12:32:01.804251+00:00",
+      "elapsed_seconds": 0.5550014590844512,
+      "exit_code": 0,
+      "log_sha256": "ac4f3cbdd911e220b3cdc6d009f0b968526e017afa049fd9cebbeb02149bf6eb",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 8,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "datasets.combine_rollouts",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:01.805204+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/008_datasets_combine_rollouts.log",
+      "ended": "2026-09-20T12:32:01.887512+00:00",
+      "elapsed_seconds": 0.08191137504763901,
+      "exit_code": 0,
+      "log_sha256": "3348b44402407b070f5a539ea11d43dc3d497fbd1f771c15ca2fab49e0bea416",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 9,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "datasets.metric_labels"
+        ]
+      },
+      "started": "2026-09-20T12:32:01.888448+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/009_datasets_metric_labels.log",
+      "ended": "2026-09-20T12:32:01.936659+00:00",
+      "elapsed_seconds": 0.047836916986852884,
+      "exit_code": 0,
+      "log_sha256": "0369411677ba8e6bf1120d8b6dd72d4bb805510787239a337f54666a573744cd",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 10,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.grounding"
+        ]
+      },
+      "started": "2026-09-20T12:32:01.937381+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/010_world_model_grounding.log",
+      "ended": "2026-09-20T12:32:02.440973+00:00",
+      "elapsed_seconds": 0.5033184171188623,
+      "exit_code": 0,
+      "log_sha256": "9997d4155dc58adaec2f18711d4007b5ec514c3d567f4137c53ae16139625f91",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 11,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.encoder"
+        ]
+      },
+      "started": "2026-09-20T12:32:02.441702+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/011_world_model_encoder.log",
+      "ended": "2026-09-20T12:32:03.003374+00:00",
+      "elapsed_seconds": 0.561345333000645,
+      "exit_code": 0,
+      "log_sha256": "9e85ddcd67463d38f393db897735c0992cd4ab4fcee163baafc9d380968080fa",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 12,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.predictor"
+        ]
+      },
+      "started": "2026-09-20T12:32:03.004379+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/012_world_model_predictor.log",
+      "ended": "2026-09-20T12:32:03.507634+00:00",
+      "elapsed_seconds": 0.5028203749097884,
+      "exit_code": 0,
+      "log_sha256": "c4c218d841fe339c0f0d043a1158fe3a3ae4eb8e62f831524f21af91f8dea5ea",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 13,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.collision_head"
+        ]
+      },
+      "started": "2026-09-20T12:32:03.508522+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/013_world_model_collision_head.log",
+      "ended": "2026-09-20T12:32:04.018874+00:00",
+      "elapsed_seconds": 0.5099867079406977,
+      "exit_code": 0,
+      "log_sha256": "a8ff8ada13b918f59b7e831914bf6541161779012cffd2284e7bde44c6be02c6",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 14,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.losses"
+        ]
+      },
+      "started": "2026-09-20T12:32:04.019900+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/014_world_model_losses.log",
+      "ended": "2026-09-20T12:32:04.558380+00:00",
+      "elapsed_seconds": 0.538063625106588,
+      "exit_code": 0,
+      "log_sha256": "8aea65868129c6cd66d25baf737007af0967b7010b0f212bf8dddb3c0af86fdc",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 15,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.metrics"
+        ]
+      },
+      "started": "2026-09-20T12:32:04.559224+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/015_world_model_metrics.log",
+      "ended": "2026-09-20T12:32:04.649559+00:00",
+      "elapsed_seconds": 0.08993500005453825,
+      "exit_code": 0,
+      "log_sha256": "616843ed02abb6a5a5299ef1dd75ef750c4161e9ec2626902d9a2ab526b4f87b",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 16,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_action_auc_audit",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:04.650540+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/016_eval_eval_action_auc_audit.log",
+      "ended": "2026-09-20T12:32:04.740912+00:00",
+      "elapsed_seconds": 0.08997495914809406,
+      "exit_code": 0,
+      "log_sha256": "d1effde537c3d7482c2066e16efa7956c874eea436b77b37a8c70b03aca8b56f",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 17,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.cf_sampling"
+        ]
+      },
+      "started": "2026-09-20T12:32:04.741735+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/017_world_model_cf_sampling.log",
+      "ended": "2026-09-20T12:32:04.822995+00:00",
+      "elapsed_seconds": 0.08088008291088045,
+      "exit_code": 0,
+      "log_sha256": "cdc473e9a10df5f61a5bdffa2581a75f33648c95fedb34df5a4654636d9c2704",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 18,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.executed_weighting"
+        ]
+      },
+      "started": "2026-09-20T12:32:04.823911+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/018_world_model_executed_weighting.log",
+      "ended": "2026-09-20T12:32:05.631322+00:00",
+      "elapsed_seconds": 0.8069906658492982,
+      "exit_code": 0,
+      "log_sha256": "4bb1f92907695fb8f7c1eda9152e246b3b6b98526097cc1bf91ac92692df2bfb",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 19,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.checkpoint_io"
+        ]
+      },
+      "started": "2026-09-20T12:32:05.632247+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/019_world_model_checkpoint_io.log",
+      "ended": "2026-09-20T12:32:06.137561+00:00",
+      "elapsed_seconds": 0.5048859589733183,
+      "exit_code": 0,
+      "log_sha256": "be78dee1b019c25af0fe253ad6a704a98f818844611d6704897e3cceb055405f",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 20,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.checkpoint_io_selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:06.138479+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/020_scripts_checkpoint_io_selftest.log",
+      "ended": "2026-09-20T12:32:06.693918+00:00",
+      "elapsed_seconds": 0.555042790947482,
+      "exit_code": 0,
+      "log_sha256": "ac86c99a35c924b166607c956436edc91601c2373c760a544f9f49e34f5cd699",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 21,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.policy_checkpoint_selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:06.695053+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/021_scripts_policy_checkpoint_selftest.log",
+      "ended": "2026-09-20T12:32:07.797585+00:00",
+      "elapsed_seconds": 1.1019936669617891,
+      "exit_code": 0,
+      "log_sha256": "a85a72bdfac54092169a176a54760779022a8d55c3061b748a6a43a9b93a2af0",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 22,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.policy_recipe_selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:07.798720+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/022_scripts_policy_recipe_selftest.log",
+      "ended": "2026-09-20T12:32:08.362582+00:00",
+      "elapsed_seconds": 0.5633203329052776,
+      "exit_code": 0,
+      "log_sha256": "e298706be67770a95b0b7bd24d9fb1f0b3790ca2c17aac337bfcd2bdd3c59b64",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 23,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "world_model.veer_probe"
+        ]
+      },
+      "started": "2026-09-20T12:32:08.363510+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/023_world_model_veer_probe.log",
+      "ended": "2026-09-20T12:32:08.437550+00:00",
+      "elapsed_seconds": 0.07358641712926328,
+      "exit_code": 0,
+      "log_sha256": "b1b315e391cf378574e9354b9dec0d00d397e4670e66ee1bcc5114bec975f3bb",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 24,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.veer_probe_selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:08.438548+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/024_scripts_veer_probe_selftest.log",
+      "ended": "2026-09-20T12:32:08.929947+00:00",
+      "elapsed_seconds": 0.4909394590649754,
+      "exit_code": 0,
+      "log_sha256": "15edf4d15ce95c42fe5c7848defbe770963eec3da28ff3da21c4d80485b21f8f",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 25,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_veer_support",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:08.930865+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/025_eval_eval_veer_support.log",
+      "ended": "2026-09-20T12:32:09.021119+00:00",
+      "elapsed_seconds": 0.08983733295463026,
+      "exit_code": 0,
+      "log_sha256": "a649595e241038267d45f56ac49d7cb82fbb802b42be6a1e2f5033b17164277f",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 26,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.compare_wm_scores",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:09.022065+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/026_eval_compare_wm_scores.log",
+      "ended": "2026-09-20T12:32:09.170905+00:00",
+      "elapsed_seconds": 0.1483241249807179,
+      "exit_code": 0,
+      "log_sha256": "db1f83469de640ada4c379a9cb90962a648f9aa1d85127e0ba61b2c975862c0a",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 27,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_auc_audit",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:09.172060+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/027_eval_eval_auc_audit.log",
+      "ended": "2026-09-20T12:32:09.262608+00:00",
+      "elapsed_seconds": 0.09000116703100502,
+      "exit_code": 0,
+      "log_sha256": "b6227e87d67099220bb8e64c3518a17d3dd6a8a134a1d62f37058b4a3f41f256",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 28,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.research_selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:09.263746+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/028_scripts_research_selftest.log",
+      "ended": "2026-09-20T12:32:09.515927+00:00",
+      "elapsed_seconds": 0.2516269579064101,
+      "exit_code": 0,
+      "log_sha256": "3fd2c4cc7fb602f4c3a2b77e0e835b074beaec9fccc581d752ebb2766228e34f",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 29,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.schedule_layout_study",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:09.516916+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/029_scripts_schedule_layout_study.log",
+      "ended": "2026-09-20T12:32:09.607256+00:00",
+      "elapsed_seconds": 0.08980674995109439,
+      "exit_code": 0,
+      "log_sha256": "9db66f0a5f9c9c0695ae8996bd0a7c3cb1beb3a817dc3f25b02345ee452dd6d9",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 30,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_schedule_report",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:09.608299+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/030_eval_eval_schedule_report.log",
+      "ended": "2026-09-20T12:32:09.697930+00:00",
+      "elapsed_seconds": 0.08914904086850584,
+      "exit_code": 0,
+      "log_sha256": "b2f50eeb7c854df74ac12223d7f2604b46fd7ebd349a849ebfb212b06de6c546",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 31,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_cf_sampler_report",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:09.698943+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/031_eval_eval_cf_sampler_report.log",
+      "ended": "2026-09-20T12:32:09.789378+00:00",
+      "elapsed_seconds": 0.08987570879980922,
+      "exit_code": 0,
+      "log_sha256": "c505883034653883a12e91cda31c6fcd9cc255acc6476bca51fc4848e423af17",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 32,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_executed_weight_report",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:09.790345+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/032_eval_eval_executed_weight_report.log",
+      "ended": "2026-09-20T12:32:09.880792+00:00",
+      "elapsed_seconds": 0.08985970797948539,
+      "exit_code": 0,
+      "log_sha256": "50dcbb534f234c228e7b32531a142397d272dcb40b956a43d9d7d957bd23f3c0",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 33,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_dataset_support",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:09.881785+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/033_eval_eval_dataset_support.log",
+      "ended": "2026-09-20T12:32:10.420875+00:00",
+      "elapsed_seconds": 0.5385502080898732,
+      "exit_code": 0,
+      "log_sha256": "7f7f24fad3cd3ad11739dd17cdd355a5f397ae6470a6a90ffa30c6081b5bb62c",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 34,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "sim.domain_randomization"
+        ]
+      },
+      "started": "2026-09-20T12:32:10.422148+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/034_sim_domain_randomization.log",
+      "ended": "2026-09-20T12:32:10.504922+00:00",
+      "elapsed_seconds": 0.08214016701094806,
+      "exit_code": 0,
+      "log_sha256": "9cd82b239fef23fc5eb2f72a40610097cc70dccacbf9f8c88710288a87f0a641",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 35,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "planner.safety_filter"
+        ]
+      },
+      "started": "2026-09-20T12:32:10.505973+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/035_planner_safety_filter.log",
+      "ended": "2026-09-20T12:32:10.554477+00:00",
+      "elapsed_seconds": 0.04788520815782249,
+      "exit_code": 0,
+      "log_sha256": "ede9af1a253ef15c0efb5a4c762d9452ac1d711af6e9279cdd141c010401633c",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 36,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "sim.scenario_registry"
+        ]
+      },
+      "started": "2026-09-20T12:32:10.555429+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/036_sim_scenario_registry.log",
+      "ended": "2026-09-20T12:32:10.603207+00:00",
+      "elapsed_seconds": 0.047224999871104956,
+      "exit_code": 0,
+      "log_sha256": "a9f1f1f2bbbeb39fa8949093b4d15b3c2029fd626c81d7a8216b2baee8a46971",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 37,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.base"
+        ]
+      },
+      "started": "2026-09-20T12:32:10.604138+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/037_skills_base.log",
+      "ended": "2026-09-20T12:32:10.652504+00:00",
+      "elapsed_seconds": 0.04781708400696516,
+      "exit_code": 0,
+      "log_sha256": "cec542a4f7ed63e06a7c7880213e874526321eb0cb245efca765dc88589631e1",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 38,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.gap_flight.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:10.653444+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/038_skills_gap_flight_skill.log",
+      "ended": "2026-09-20T12:32:10.743950+00:00",
+      "elapsed_seconds": 0.08995162486098707,
+      "exit_code": 0,
+      "log_sha256": "2b0e280b66d051868b3ba93174e6fac0fcdacac77cc469a5fce5995394f8cac5",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 39,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.moving_gap.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:10.745060+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/039_skills_moving_gap_skill.log",
+      "ended": "2026-09-20T12:32:10.937464+00:00",
+      "elapsed_seconds": 0.1918483329936862,
+      "exit_code": 0,
+      "log_sha256": "d99e1388eb30a058e7b0eda42901121fdfcd4ba475cb5eca8f03791ef524a20c",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 40,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.closing_door.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:10.939126+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/040_skills_closing_door_skill.log",
+      "ended": "2026-09-20T12:32:11.029457+00:00",
+      "elapsed_seconds": 0.08922604098916054,
+      "exit_code": 0,
+      "log_sha256": "865d4961d2de30f34f8fed803d3a30e8c3f9d6e0a6c5e15ee70768c804219fb2",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 41,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.opening_door.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:11.030566+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/041_skills_opening_door_skill.log",
+      "ended": "2026-09-20T12:32:11.113319+00:00",
+      "elapsed_seconds": 0.08209808287210763,
+      "exit_code": 0,
+      "log_sha256": "2993526e4b236ea75f1d301877d8cb900229cd0ee70a1d1d270bcbc170cab32f",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 42,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.corridor_slalom.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:11.114436+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/042_skills_corridor_slalom_skill.log",
+      "ended": "2026-09-20T12:32:11.204946+00:00",
+      "elapsed_seconds": 0.08985445811413229,
+      "exit_code": 0,
+      "log_sha256": "8b56531bf59e5fe1246d54387a1d7442a75d18f7c5393edc884835412b6304a9",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 43,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.corridor_slalom_v2.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:11.206249+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/043_skills_corridor_slalom_v2_skill.log",
+      "ended": "2026-09-20T12:32:11.296945+00:00",
+      "elapsed_seconds": 0.08999845804646611,
+      "exit_code": 0,
+      "log_sha256": "c6b6749ed2a71984c90f2c0af3317b67c9f7fe5b4940a06c155168435e1cd618",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 44,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.corridor_slalom_v2.stop_observe",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:11.298198+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/044_skills_corridor_slalom_v2_stop_observe.log",
+      "ended": "2026-09-20T12:32:11.869003+00:00",
+      "elapsed_seconds": 0.5701144160702825,
+      "exit_code": 0,
+      "log_sha256": "595287d9960fb33e62ea6e36aba7642b9fc3e0ec43b38c0bba2d75f538ca69bf",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 45,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.chain_learning.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:11.870434+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/045_skills_chain_learning_skill.log",
+      "ended": "2026-09-20T12:32:12.426127+00:00",
+      "elapsed_seconds": 0.5548650408163667,
+      "exit_code": 0,
+      "log_sha256": "785c8a13b21de180b83e09c58cb95e66e3d597b9bebd683a83c0d3c31a8d36fe",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 46,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.dodgeball.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:12.427471+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/046_skills_dodgeball_skill.log",
+      "ended": "2026-09-20T12:32:12.515094+00:00",
+      "elapsed_seconds": 0.08688924997113645,
+      "exit_code": 0,
+      "log_sha256": "f7204de487bce480365d71b8dcf9cd2cc2768ac1738ff892f461ddf9291fe65c",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 47,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.dodgeball_v2.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:12.516195+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/047_skills_dodgeball_v2_skill.log",
+      "ended": "2026-09-20T12:32:12.606662+00:00",
+      "elapsed_seconds": 0.08973862486891448,
+      "exit_code": 0,
+      "log_sha256": "5cf50305b2a32d9203f60be87dde123786526aaa3ceb9e83bddbb7f59cfbcabe",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 48,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.wm48_defense.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:12.607689+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/048_skills_wm48_defense_skill.log",
+      "ended": "2026-09-20T12:32:12.697842+00:00",
+      "elapsed_seconds": 0.089457250200212,
+      "exit_code": 0,
+      "log_sha256": "27f90cba41d00810463fc9c05ca84000453f00a9c7e186bac621682424a8449c",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 49,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.chain_distill.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:12.699021+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/049_skills_chain_distill_skill.log",
+      "ended": "2026-09-20T12:32:12.787504+00:00",
+      "elapsed_seconds": 0.08783816592767835,
+      "exit_code": 0,
+      "log_sha256": "4762c950ba40323c3dd55d995a5046bb3218527e5e28bfc740b283705f7878d3",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 50,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.distill_generalist.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:12.788725+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/050_skills_distill_generalist_skill.log",
+      "ended": "2026-09-20T12:32:12.869753+00:00",
+      "elapsed_seconds": 0.08023912506178021,
+      "exit_code": 0,
+      "log_sha256": "5dd0fc7b158d57e9376a669611364b4dbe42298f5e1c55e80b82f5d283ec203b",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 51,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.bcft_generalist.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:12.870899+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/051_skills_bcft_generalist_skill.log",
+      "ended": "2026-09-20T12:32:12.961519+00:00",
+      "elapsed_seconds": 0.08986670803278685,
+      "exit_code": 0,
+      "log_sha256": "be612a3a6d014d12bc2032f9cc1ab6cafea195db0b2277049d36e236b447172c",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 52,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "skills.dodge_distill.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:12.962887+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/052_skills_dodge_distill_skill.log",
+      "ended": "2026-09-20T12:32:13.053788+00:00",
+      "elapsed_seconds": 0.09008975001052022,
+      "exit_code": 0,
+      "log_sha256": "0067fd9acf232e9d4a28833e4ffce10a10e3a73432d3f962eaaa970f44fe8935",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 53,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_arena_ceiling",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:13.055339+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/053_eval_eval_arena_ceiling.log",
+      "ended": "2026-09-20T12:32:13.146260+00:00",
+      "elapsed_seconds": 0.08997395890764892,
+      "exit_code": 0,
+      "log_sha256": "b3229a343750de5f684d64e15ef769ce39b8257bbc557dd3d68ded2cacda39ea",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 54,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_dodge_ceiling",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:13.147605+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/054_eval_eval_dodge_ceiling.log",
+      "ended": "2026-09-20T12:32:13.652540+00:00",
+      "elapsed_seconds": 0.504144832957536,
+      "exit_code": 0,
+      "log_sha256": "ac3dfa452503e15e582bfb764ae17bb2d43b9616a29db73a6885f4944a0e48d5",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 55,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_dense_probe",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:13.653867+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/055_eval_eval_dense_probe.log",
+      "ended": "2026-09-20T12:32:14.156271+00:00",
+      "elapsed_seconds": 0.5016077079344541,
+      "exit_code": 0,
+      "log_sha256": "b803f5eac655a353b136f8c0b2dd97f4dfec52fb9bcbd728dffc5ef220f8d265",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 56,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "sim.search_scenario"
+        ]
+      },
+      "started": "2026-09-20T12:32:14.157603+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/056_sim_search_scenario.log",
+      "ended": "2026-09-20T12:32:14.238690+00:00",
+      "elapsed_seconds": 0.08032079203985631,
+      "exit_code": 0,
+      "log_sha256": "2d79e2f05855150c5abaef15bb0d8e7dcdb95613280d724aa946cb7e3c4fb25c",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 57,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "sim.indoor.rooms"
+        ]
+      },
+      "started": "2026-09-20T12:32:14.240058+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/057_sim_indoor_rooms.log",
+      "ended": "2026-09-20T12:32:14.330904+00:00",
+      "elapsed_seconds": 0.09002883289940655,
+      "exit_code": 0,
+      "log_sha256": "b8723f6fdbf8a3cdcc2c4db44fb0278028fe94ccba46b9d42eb8f440f6263a91",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 58,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "search.strategies"
+        ]
+      },
+      "started": "2026-09-20T12:32:14.332251+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/058_search_strategies.log",
+      "ended": "2026-09-20T12:32:14.418834+00:00",
+      "elapsed_seconds": 0.0857471670024097,
+      "exit_code": 0,
+      "log_sha256": "11d919528304c7e7aba9debf791e0bd935ce6fc827454d1040c592c9fa697581",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 59,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "search.doorway"
+        ]
+      },
+      "started": "2026-09-20T12:32:14.420165+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/059_search_doorway.log",
+      "ended": "2026-09-20T12:32:14.509776+00:00",
+      "elapsed_seconds": 0.088748374953866,
+      "exit_code": 0,
+      "log_sha256": "1d388b55a01265051c2b3d5859c05456c5aa90b52afdfff58aa10c3591b278f8",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 60,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "search.room_graph"
+        ]
+      },
+      "started": "2026-09-20T12:32:14.511127+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/060_search_room_graph.log",
+      "ended": "2026-09-20T12:32:14.601980+00:00",
+      "elapsed_seconds": 0.08996037510223687,
+      "exit_code": 0,
+      "log_sha256": "4ec37000e567644de79b37b937f4661ca4ae16e75034cb089da27d2095c0c2f1",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 61,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.search_episode"
+        ]
+      },
+      "started": "2026-09-20T12:32:14.603331+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/061_eval_search_episode.log",
+      "ended": "2026-09-20T12:32:15.104218+00:00",
+      "elapsed_seconds": 0.5000137500464916,
+      "exit_code": 0,
+      "log_sha256": "17fd4ae33c346a5b94379ab17ddf49a283b58176c4ac1f6f416a5e553d70a625",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 62,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_search_gallery",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:15.105520+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/062_eval_eval_search_gallery.log",
+      "ended": "2026-09-20T12:32:15.427712+00:00",
+      "elapsed_seconds": 0.3214275420177728,
+      "exit_code": 0,
+      "log_sha256": "528fa8bcfdb7d66c7d345d23ecfabafc8310c4aec209578be6682629d3cbcbaa",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 63,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_search_wm_probe",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:15.429088+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/063_eval_eval_search_wm_probe.log",
+      "ended": "2026-09-20T12:32:15.924281+00:00",
+      "elapsed_seconds": 0.4943016660399735,
+      "exit_code": 0,
+      "log_sha256": "0ecd5964efa01c2deaa20055ec5af39fa3b55c64e520e311b093a35ebee1ce50",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 64,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.diagnose_v3_collisions",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:15.925685+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/064_eval_diagnose_v3_collisions.log",
+      "ended": "2026-09-20T12:32:16.425381+00:00",
+      "elapsed_seconds": 0.4988625419791788,
+      "exit_code": 0,
+      "log_sha256": "d86a49695799d0ac4fb7b7d5a175886461eae10570e2565e6b77e817bcb6df5b",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 65,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.diagnose_nroom_doorway",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:16.426816+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/065_eval_diagnose_nroom_doorway.log",
+      "ended": "2026-09-20T12:32:16.516428+00:00",
+      "elapsed_seconds": 0.0887358330655843,
+      "exit_code": 0,
+      "log_sha256": "dbfc1b7066a2602ce61d022d572d092b014e14c4f7a7917148de676678d5543b",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 66,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_doorway_detect",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:16.517882+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/066_eval_eval_doorway_detect.log",
+      "ended": "2026-09-20T12:32:16.604231+00:00",
+      "elapsed_seconds": 0.08546270802617073,
+      "exit_code": 0,
+      "log_sha256": "c8a696d5a28987887e370f45862c081fe45a63bbc9876dd1d9651739271d38a9",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 67,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_room_graph",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:16.605758+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/067_eval_eval_room_graph.log",
+      "ended": "2026-09-20T12:32:16.687556+00:00",
+      "elapsed_seconds": 0.0808538340497762,
+      "exit_code": 0,
+      "log_sha256": "38ed04659bf4088c2059deb458944588f10fc36f197c1e3e474946482deb3b2b",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 68,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_target_probe",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:16.688951+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/068_eval_eval_target_probe.log",
+      "ended": "2026-09-20T12:32:16.779564+00:00",
+      "elapsed_seconds": 0.08976408396847546,
+      "exit_code": 0,
+      "log_sha256": "41d7c65dd2ba855bc66a4e2d4b60ad32e6c83047b3508c9bf8876440909dbeca",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 69,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_yaw_detect",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:16.781157+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/069_eval_eval_yaw_detect.log",
+      "ended": "2026-09-20T12:32:17.286048+00:00",
+      "elapsed_seconds": 0.5039462500717491,
+      "exit_code": 0,
+      "log_sha256": "3285e5430368ffc4985fc70f64c3706360c13f973231d8e72198a447d6e5f5de",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 70,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_height",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:17.287460+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/070_eval_eval_height.log",
+      "ended": "2026-09-20T12:32:17.376263+00:00",
+      "elapsed_seconds": 0.08786870795302093,
+      "exit_code": 0,
+      "log_sha256": "ad5220669f27cb93aac3a5a0821dc261a2f15e40a485e4a45e48cba1485a3811",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 71,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_alt_detect",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:17.377759+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/071_eval_eval_alt_detect.log",
+      "ended": "2026-09-20T12:32:17.870983+00:00",
+      "elapsed_seconds": 0.4922384999226779,
+      "exit_code": 0,
+      "log_sha256": "5e5fa267b7a9f875d01162f3bc9cbe3812fe28028e99ad2a4cacb18c0a3a8c1e",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 72,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_person_detect",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:17.872421+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/072_eval_eval_person_detect.log",
+      "ended": "2026-09-20T12:32:18.368271+00:00",
+      "elapsed_seconds": 0.494920166907832,
+      "exit_code": 0,
+      "log_sha256": "c6dafb21e38a3bfe924b452e8aa36f2f70484cfacac6a2e03effb7f0da456306",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 73,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_alt_search",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:18.369655+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/073_eval_eval_alt_search.log",
+      "ended": "2026-09-20T12:32:18.460446+00:00",
+      "elapsed_seconds": 0.08986870781518519,
+      "exit_code": 0,
+      "log_sha256": "a886262dedff616cf460a76c5b398becf9acf65befa92f070f4c5cb14cca5588",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 74,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_low_hover",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:18.462148+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/074_eval_eval_low_hover.log",
+      "ended": "2026-09-20T12:32:18.553240+00:00",
+      "elapsed_seconds": 0.08998991595581174,
+      "exit_code": 0,
+      "log_sha256": "94edffa7f2f3645fad4e5772ab3edea106b521ca5f68bcdb2fc3eb14d097b035",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 75,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_unified_wm_gate",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:18.554858+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/075_eval_eval_unified_wm_gate.log",
+      "ended": "2026-09-20T12:32:19.057422+00:00",
+      "elapsed_seconds": 0.5015551671385765,
+      "exit_code": 0,
+      "log_sha256": "7695016248216ed3a9023ab31523cc2f5acad757d12644177f688b291e2c3c88",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 76,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_slalom_stopobserve",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:19.059281+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/076_eval_eval_slalom_stopobserve.log",
+      "ended": "2026-09-20T12:32:19.614903+00:00",
+      "elapsed_seconds": 0.5546012909617275,
+      "exit_code": 0,
+      "log_sha256": "61a1a52529bbe7b075de5605537e363b6b6e8163a221d5eb6cafb4d52869f5b9",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 77,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "search.target_detector",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:19.616560+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/077_search_target_detector.log",
+      "ended": "2026-09-20T12:32:20.597876+00:00",
+      "elapsed_seconds": 0.980197916040197,
+      "exit_code": 0,
+      "log_sha256": "53de1f5dd4a2bfc388e2d79b28bad235ed01cfd793c4d255ffbfe1a5072287f2",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 78,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_vision_search",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:20.599560+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/078_eval_eval_vision_search.log",
+      "ended": "2026-09-20T12:32:20.690509+00:00",
+      "elapsed_seconds": 0.08992074988782406,
+      "exit_code": 0,
+      "log_sha256": "5f616f7342fe2983faa69ea29c05310a2ee9da389c5069e12a54e6b096a57d2d",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 79,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_results_figures",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:20.692028+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/079_eval_eval_results_figures.log",
+      "ended": "2026-09-20T12:32:21.197473+00:00",
+      "elapsed_seconds": 0.5043332499917597,
+      "exit_code": 0,
+      "log_sha256": "ffe2cdfe75625839fea4f2fa3f24fababbef408cf14ab64388c03057ad609109",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 80,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_skill_gallery",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:21.198904+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/080_eval_eval_skill_gallery.log",
+      "ended": "2026-09-20T12:32:21.526957+00:00",
+      "elapsed_seconds": 0.3271258750464767,
+      "exit_code": 0,
+      "log_sha256": "7c41355559d1853041ab447d1fc5c789533182b436e515f3326b1bbc92307d13",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 81,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "planner.dispatch",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:21.528892+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/081_planner_dispatch.log",
+      "ended": "2026-09-20T12:32:22.490943+00:00",
+      "elapsed_seconds": 0.9607559589203447,
+      "exit_code": 0,
+      "log_sha256": "526c8a64d36097a2f87a11249849e876e2d9e66dc315d6228b052ff70d0fd664",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 82,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "sim.composite"
+        ]
+      },
+      "started": "2026-09-20T12:32:22.492673+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/082_sim_composite.log",
+      "ended": "2026-09-20T12:32:22.583672+00:00",
+      "elapsed_seconds": 0.08984979102388024,
+      "exit_code": 0,
+      "log_sha256": "685098e980593b42f6ec5b288a5a69346898037fd8389147d2447facdbbcb641",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 83,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_policy_cells",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:22.585253+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/083_eval_eval_policy_cells.log",
+      "ended": "2026-09-20T12:32:23.143871+00:00",
+      "elapsed_seconds": 0.5575502079445869,
+      "exit_code": 0,
+      "log_sha256": "72c6a836ae2ec08291cbd10264bd62a090c2882025906a4331d7a805b25f5ee4",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 84,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.calibrate_heads",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:23.145372+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/084_eval_calibrate_heads.log",
+      "ended": "2026-09-20T12:32:24.277571+00:00",
+      "elapsed_seconds": 1.1312372079119086,
+      "exit_code": 0,
+      "log_sha256": "6357582c7ac8a9ea7d938b58fa02f0d945e01f30cfc626ede85375e5796aa793",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 85,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_duel_plots",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:24.279548+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/085_eval_eval_duel_plots.log",
+      "ended": "2026-09-20T12:32:24.610960+00:00",
+      "elapsed_seconds": 0.3300932911224663,
+      "exit_code": 0,
+      "log_sha256": "45ad51383d2e4c6445d27f6488012e88d199b19023662779012b9e1756dbe7b6",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 86,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.new_skill",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:24.612491+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/086_scripts_new_skill.log",
+      "ended": "2026-09-20T12:32:24.661353+00:00",
+      "elapsed_seconds": 0.04777941689826548,
+      "exit_code": 0,
+      "log_sha256": "f5a9e6e3def9a8d2b3b296a7cbf1795a0bce096f691703fdcfdf4c9da94178c4",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 87,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.fetch_champions",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:24.662832+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/087_scripts_fetch_champions.log",
+      "ended": "2026-09-20T12:32:24.711707+00:00",
+      "elapsed_seconds": 0.047821874963119626,
+      "exit_code": 0,
+      "log_sha256": "090c3b721a89a8e2326803f15e5626d28cb3ddb61e266fea8da5cf14998e82e8",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 88,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.train_stopaware_slalom",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:24.713141+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/088_scripts_train_stopaware_slalom.log",
+      "ended": "2026-09-20T12:32:24.758511+00:00",
+      "elapsed_seconds": 0.04436562513001263,
+      "exit_code": 0,
+      "log_sha256": "114277488d2c0b1f171786fd0bd8c6df3355c4d795a0071d825c54d913dfa092",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 89,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.demo_two_mode",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:24.760019+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/089_scripts_demo_two_mode.log",
+      "ended": "2026-09-20T12:32:25.260479+00:00",
+      "elapsed_seconds": 0.49938350007869303,
+      "exit_code": 0,
+      "log_sha256": "8c96143a67a460c288755406d7e5f746318eba6dc1df7c5338d4a957197b3702",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 90,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.demo_vertical",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:25.262182+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/090_scripts_demo_vertical.log",
+      "ended": "2026-09-20T12:32:25.771730+00:00",
+      "elapsed_seconds": 0.5084511660970747,
+      "exit_code": 0,
+      "log_sha256": "a35bd4d5a0500759d4720dccc8b64437b4c4673e0d609393a23b34c438b5b22c",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 91,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.demo_person",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:25.773536+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/091_scripts_demo_person.log",
+      "ended": "2026-09-20T12:32:26.267625+00:00",
+      "elapsed_seconds": 0.49289437499828637,
+      "exit_code": 0,
+      "log_sha256": "84db188c2889d3856e16d7abd9522978e7f8977f5273d5ab3b8563ee1780d184",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 92,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "planner.authority"
+        ]
+      },
+      "started": "2026-09-20T12:32:26.269372+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/092_planner_authority.log",
+      "ended": "2026-09-20T12:32:26.774466+00:00",
+      "elapsed_seconds": 0.5039475839585066,
+      "exit_code": 0,
+      "log_sha256": "6e004091698d677fc794a1ee9a2ac670e5d2226d14655c6db7b33ea4506093eb",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 93,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "assist.pilot"
+        ]
+      },
+      "started": "2026-09-20T12:32:26.776141+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/093_assist_pilot.log",
+      "ended": "2026-09-20T12:32:27.324563+00:00",
+      "elapsed_seconds": 0.5473063332028687,
+      "exit_code": 0,
+      "log_sha256": "4ea108781e428befed98e6f9c8eb2d42d9324f5ad3a0ac6d95d3775e0cd8305c",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 94,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.assist_episode"
+        ]
+      },
+      "started": "2026-09-20T12:32:27.326602+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/094_eval_assist_episode.log",
+      "ended": "2026-09-20T12:32:27.830951+00:00",
+      "elapsed_seconds": 0.5029565410222858,
+      "exit_code": 0,
+      "log_sha256": "211cd86daef821ebfbf3bcb0ecf441571e14bdc32963d1361fe62dc566275893",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 95,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_assist_gate",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:27.832735+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/095_eval_eval_assist_gate.log",
+      "ended": "2026-09-20T12:32:28.337472+00:00",
+      "elapsed_seconds": 0.5035535418428481,
+      "exit_code": 0,
+      "log_sha256": "e4db152da4443a7520690d022e68c89df395413f09ee81e7c6b35e0ece010b16",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 96,
+      "command": {
+        "group": "Pure-math selftests",
+        "argv": [
+          "python",
+          "-m",
+          "eval.safety_selftest",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:28.339159+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/096_eval_safety_selftest.log",
+      "ended": "2026-09-20T12:32:28.429570+00:00",
+      "elapsed_seconds": 0.08918224996887147,
+      "exit_code": 0,
+      "log_sha256": "ec3381fbee3c8bdad53e3765d84216609c59267a0305c4942532edd9179f4ce4",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 97,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "sim.envs"
+        ]
+      },
+      "started": "2026-09-20T12:32:28.431397+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/097_sim_envs.log",
+      "ended": "2026-09-20T12:32:28.997579+00:00",
+      "elapsed_seconds": 0.5649017079267651,
+      "exit_code": 0,
+      "log_sha256": "24b3c15b5f4050e0f4bb9e52f32586fa89fefd46e56ffaf368f65240f6f01376",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 98,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "sim.scenarios"
+        ]
+      },
+      "started": "2026-09-20T12:32:28.999645+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/098_sim_scenarios.log",
+      "ended": "2026-09-20T12:32:29.267512+00:00",
+      "elapsed_seconds": 0.26623112498782575,
+      "exit_code": 0,
+      "log_sha256": "8c910c1325bd52bbcdc29afd759993cac4677ef361b38046b08e5330935f2933",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 99,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "skills.moving_gap_v2.skill"
+        ]
+      },
+      "started": "2026-09-20T12:32:29.269400+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/099_skills_moving_gap_v2_skill.log",
+      "ended": "2026-09-20T12:32:29.531843+00:00",
+      "elapsed_seconds": 0.26115300017409027,
+      "exit_code": 0,
+      "log_sha256": "5ce823adf6acf05eb36e8f1dd7f04e090d0345e18bc3bcfe7768e7c9a2e60afd",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 100,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_reactive_vs_wm",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:29.533941+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/100_eval_eval_reactive_vs_wm.log",
+      "ended": "2026-09-20T12:32:29.854264+00:00",
+      "elapsed_seconds": 0.31890533305704594,
+      "exit_code": 0,
+      "log_sha256": "df9ee470f83e545e997b47694da4421dfdd3a6d7b80c7a2a3acf56b99e55cd43",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 101,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "planner.latent_mpc"
+        ]
+      },
+      "started": "2026-09-20T12:32:29.856390+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/101_planner_latent_mpc.log",
+      "ended": "2026-09-20T12:32:30.347196+00:00",
+      "elapsed_seconds": 0.4893871669191867,
+      "exit_code": 0,
+      "log_sha256": "64e5c6f85d782131af34405f3a836d502602eae33f76f0b15a4ba35bf7f51147",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 102,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "datasets.generate_rollouts",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:30.348891+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/102_datasets_generate_rollouts.log",
+      "ended": "2026-09-20T12:32:32.682223+00:00",
+      "elapsed_seconds": 2.3321969998069108,
+      "exit_code": 0,
+      "log_sha256": "a6f895cf75c843d17151eb3fab55f0decdce09a085ffc8882f7bb39f0703e224",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 103,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "datasets.search_rollouts",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:32.684166+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/103_datasets_search_rollouts.log",
+      "ended": "2026-09-20T12:32:33.365063+00:00",
+      "elapsed_seconds": 0.6795791250187904,
+      "exit_code": 0,
+      "log_sha256": "afcb6b77153d3516e7befe3faa0f26e36fff7d0a5db53b630c1d13e3e947a078",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 104,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_wm_checkpoint",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:33.366864+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/104_eval_eval_wm_checkpoint.log",
+      "ended": "2026-09-20T12:32:37.196832+00:00",
+      "elapsed_seconds": 3.8287153330165893,
+      "exit_code": 0,
+      "log_sha256": "5b65c4bea87481e51c200d9a1b4011dad869e04baa71cb13478f8211a658f4d1",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 105,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_head_calibration",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:37.198775+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/105_eval_eval_head_calibration.log",
+      "ended": "2026-09-20T12:32:39.445557+00:00",
+      "elapsed_seconds": 2.2455567908473313,
+      "exit_code": 0,
+      "log_sha256": "8ab1a1c8f664967ee5e0e42005892b304e50cf9b0e2fd70b4b29859988bc5117",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 106,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.distill",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:39.447379+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/106_scripts_distill.log",
+      "ended": "2026-09-20T12:32:48.731467+00:00",
+      "elapsed_seconds": 9.28269762499258,
+      "exit_code": 0,
+      "log_sha256": "e32f543485dc45bbdf8fa654dee36bd6e93e3e97bb7e5ad899fa1133fb12b13a",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 107,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_integration",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:48.733334+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/107_eval_eval_integration.log",
+      "ended": "2026-09-20T12:32:52.324843+00:00",
+      "elapsed_seconds": 3.590305124875158,
+      "exit_code": 0,
+      "log_sha256": "6a377718de2ec39eadfd6ebe6f6d6004108238092eb475b3d5dee7a168fc3658",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 108,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "eval.search_episode",
+          "--sim"
+        ]
+      },
+      "started": "2026-09-20T12:32:52.326674+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/108_eval_search_episode.log",
+      "ended": "2026-09-20T12:32:53.048418+00:00",
+      "elapsed_seconds": 0.7204797919839621,
+      "exit_code": 0,
+      "log_sha256": "557fb65ed33c812f8164a46caf0b18b65b2eb4251604bdabb39a3484c78c751f",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 109,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "eval.assist_episode",
+          "--sim"
+        ]
+      },
+      "started": "2026-09-20T12:32:53.050438+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/109_eval_assist_episode.log",
+      "ended": "2026-09-20T12:32:54.132515+00:00",
+      "elapsed_seconds": 1.0806053748819977,
+      "exit_code": 0,
+      "log_sha256": "2e542248898baebca48283ee255a0a23aa577ef86802e71a0aa072ecf76741b2",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 110,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_search",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:54.134330+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/110_eval_eval_search.log",
+      "ended": "2026-09-20T12:32:54.802663+00:00",
+      "elapsed_seconds": 0.6670418330468237,
+      "exit_code": 0,
+      "log_sha256": "c24a6bebecdac19a1c8ddb1925c3adb2403d178d1e6813e94f711e3334f1ca69",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 111,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_beam_ablation",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:54.804441+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/111_eval_eval_beam_ablation.log",
+      "ended": "2026-09-20T12:32:55.481019+00:00",
+      "elapsed_seconds": 0.6753580830991268,
+      "exit_code": 0,
+      "log_sha256": "ae89aff22527889e075bccc489f6cf36c1148d8682005471457c2e75c31d82b2",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 112,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "search.coverage_policy"
+        ]
+      },
+      "started": "2026-09-20T12:32:55.482804+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/112_search_coverage_policy.log",
+      "ended": "2026-09-20T12:32:56.212834+00:00",
+      "elapsed_seconds": 0.7288055000826716,
+      "exit_code": 0,
+      "log_sha256": "ca66593994653891f5dce3dc84ef25518baaae831a5d14e19aa85ad7d0e8173d",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 113,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "eval.eval_coverage",
+          "--selftest"
+        ]
+      },
+      "started": "2026-09-20T12:32:56.214799+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/113_eval_eval_coverage.log",
+      "ended": "2026-09-20T12:32:56.956678+00:00",
+      "elapsed_seconds": 0.7404775419272482,
+      "exit_code": 0,
+      "log_sha256": "1c03deb6b310f4a25297814c8368306504312bb6e34bd8f9ea9e8dffb0c3c440",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 114,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.fetch_champions"
+        ]
+      },
+      "started": "2026-09-20T12:32:56.958974+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/114_scripts_fetch_champions.log",
+      "ended": "2026-09-20T12:33:29.555116+00:00",
+      "elapsed_seconds": 32.594336833804846,
+      "exit_code": 0,
+      "log_sha256": "bdcb3e7ef36b2991da67ed622995ef87168fff0942afc1b5ab78aae5e7a75416",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    },
+    {
+      "index": 115,
+      "command": {
+        "group": "Sim-in-the-loop selftests (headless)",
+        "argv": [
+          "python",
+          "-m",
+          "scripts.research",
+          "doctor",
+          "skills/gap_flight",
+          "--json"
+        ]
+      },
+      "started": "2026-09-20T12:33:29.560408+00:00",
+      "log": "/Users/hans.chen/microdrone-world-model/output/artifactless_ci_v1/baseline/115_scripts_research.log",
+      "ended": "2026-09-20T12:33:30.420991+00:00",
+      "elapsed_seconds": 0.85743383388035,
+      "exit_code": 0,
+      "log_sha256": "3b92e19628b60db73362c8089d80e47d38d6530fad946283c440ca7a348f6eb5",
+      "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb"
+    }
+  ],
+  "active": null,
+  "ended": "2026-09-20T12:33:30.428828+00:00",
+  "exit_code": 0,
+  "primary_artifacts_intact": true,
+  "tracked_changes": []
+}

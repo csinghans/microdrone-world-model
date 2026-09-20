@@ -280,3 +280,13 @@ The repo's declared conda/CI Python is 3.12; it was not replaced. New
 statistical records include their actual evaluation runtime. Full audit
 logs are in the campaign folder; local selftest logs are under
 `output/research_integrity_selftest/` and the task's cache directory.
+
+The [artifactless_ci_v1 audit](../experiments/artifactless_ci_v1/journal.md)
+ran the exact two fast selftest groups from source `d845f79` in a detached
+checkout with no locked artifacts initially present. All 116 commands
+exited 0 on the first attempt, including the final champion download and
+doctor. Import origins, command/log hashes and runtime are saved; tracked
+files remained clean and the primary workspace's nine artifact hashes are
+unchanged. This is a macOS/Python 3.14 local run, not Linux/Python 3.12 CI or
+the optional training-smoke job. The doctor's existing sample-size warning
+remains; no frozen skill or research verdict was changed.
