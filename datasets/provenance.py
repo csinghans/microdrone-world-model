@@ -1,10 +1,12 @@
-"""File identity checks, not proof of rollout-level dataset independence.
+"""Corpus identity and publication, not proof of rollout-level independence.
 
 python -m datasets.provenance
 """
 
 import hashlib
 from pathlib import Path
+
+from world_model.checkpoint_io import check_destination, publish_checkpoint
 
 
 def file_identity(path):
@@ -13,6 +15,28 @@ def file_identity(path):
         for chunk in iter(lambda: stream.read(1 << 20), b""):
             hasher.update(chunk)
     return {"path": str(Path(path).resolve()), "sha256": hasher.hexdigest()}
+
+
+def dataset_destination(path, *, selftest=False):
+    """Resolve an explicit NPZ path before simulation; protect existing corpora."""
+    path = Path(path)
+    if path.suffix != ".npz":
+        raise ValueError("dataset output must end in .npz; use an explicit filename")
+    if selftest and "_selftest" not in path.stem:
+        raise ValueError("replaceable dataset output must have a _selftest filename")
+    return check_destination(path, overwrite=selftest)
+
+
+def save_dataset(data, path, *, selftest=False):
+    """Publish a complete corpus without overwriting an ordinary destination."""
+    import numpy as np
+
+    destination = dataset_destination(path, selftest=selftest)
+    return publish_checkpoint(
+        destination,
+        lambda stream: np.savez_compressed(stream, **data),
+        overwrite=selftest,
+    )
 
 
 def reject_training_file(training_sha256, evaluation_sha256):

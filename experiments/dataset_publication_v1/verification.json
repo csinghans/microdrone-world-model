@@ -1,0 +1,146 @@
+{
+  "completed_at": "2026-09-20T22:40:16.188244+00:00",
+  "baseline_commit": "ecb167e",
+  "scope": "Publication regressions and existing simulator smokes; no fitting or model inference.",
+  "runtime": {
+    "python": "3.14.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+  },
+  "tests": [
+    {
+      "command": "python -m scripts.dataset_publication_selftest",
+      "log": "output/research_integrity_selftest/dataset_publication_v1_final.log",
+      "log_sha256": "24ec1366f533cd493982a6716697a7e36f49902b499b2ca44dab9a46ad035fb6",
+      "exit_code": 0,
+      "completion_marker": "DATASET-PUBLICATION OK: 9"
+    },
+    {
+      "command": "python -m scripts.dataset_identity_selftest",
+      "log": "output/research_integrity_selftest/dataset_publication_identity_v1.log",
+      "log_sha256": "dd4312fbb6f3f2614bc40185c7fc1b5503a78653f687dcd182fdfa8af205cdbb",
+      "exit_code": 0,
+      "completion_marker": "DATASET-IDENTITY OK:"
+    },
+    {
+      "command": "python -m datasets.generate_rollouts --selftest",
+      "log": "output/research_integrity_selftest/dataset_publication_transit_smoke_v1.log",
+      "log_sha256": "3e4ba55ba8deabaabf12d98975b739897db5ce9666bcd57ef681db1be2af83c3",
+      "exit_code": 0,
+      "completion_marker": "WM-DATA OK:"
+    },
+    {
+      "command": "python -m datasets.search_rollouts --selftest",
+      "log": "output/research_integrity_selftest/dataset_publication_search_smoke_v1.log",
+      "log_sha256": "c23d4c054f7a83a45766c6cec858defaa9255c8281d4de8dead2aa62a6f57a49",
+      "exit_code": 0,
+      "completion_marker": "SEARCH-ROLLOUTS OK:"
+    }
+  ],
+  "additional_checks": [
+    {
+      "command": "python -m datasets.provenance",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m datasets.combine_rollouts --selftest",
+      "exit_code": 0
+    },
+    {
+      "command": "bash experiments/dataset_publication_v1/verify_before.sh",
+      "exit_code": 0
+    }
+  ],
+  "non_cli_functions_unchanged": [
+    {
+      "source": "datasets/generate_rollouts.py",
+      "unchanged_functions": [
+        "_schedule",
+        "gen",
+        "as_pairs"
+      ]
+    },
+    {
+      "source": "datasets/search_rollouts.py",
+      "unchanged_functions": [
+        "_nav_schedule",
+        "_safe_start",
+        "gen",
+        "selftest"
+      ]
+    },
+    {
+      "source": "datasets/combine_rollouts.py",
+      "unchanged_functions": [
+        "combine",
+        "build",
+        "_synth",
+        "selftest"
+      ]
+    }
+  ],
+  "source_sha256": {
+    "datasets/provenance.py": "8527eb282f8497ccdabd714311e90ef8a4801c31ea4c8aa3f713fc5553a36d65",
+    "datasets/generate_rollouts.py": "c90214b7a8d6fd9fe9bdd7c6c85c01c7d6b3e1e3a56a4b1085642a294974483f",
+    "datasets/search_rollouts.py": "4d36f0bb3f17a7a27983b38349b53d6174a95536ec3bc9e589a4b63cecb8e57c",
+    "datasets/combine_rollouts.py": "6a5d24bf856d032764e22109799b166c1423bb08a70daf33b84c072d9de2557e",
+    "scripts/dataset_publication_selftest.py": "22dbfe4d8bcba24992c0d66cb2467db2b6f739ac0d02033c197027741d27ef0b",
+    "world_model/checkpoint_io.py": "934be3b36b8494a0017025dcd3615fadae0dbd5f941277e0dc52f2947576f56a",
+    ".github/workflows/ci.yml": "c08f2af1ba0f033f8bd15bcf0dface89ba6e03efd953b1f540fb5217bc5c8b3a",
+    "experiments/dataset_publication_v1/verify_before.sh": "e5b528e82edd9bd4f0a6ec5ae9c1e675b913b0d0cca464ce219edc11b85e0c5b"
+  },
+  "checks": {
+    "black --check .": {
+      "exit_code": 0,
+      "python_files": 176
+    },
+    "ruff check .": {
+      "exit_code": 0
+    },
+    "git diff --check": {
+      "exit_code": 0
+    }
+  },
+  "selftest_output": {
+    "path": "output/wm_dataset_selftest.npz",
+    "sha256": "70d742b897be7676ef25722a1a9b2cf9e3fd45bc44b497222df366e23176bd43"
+  },
+  "locked_artifacts": [
+    {
+      "path": "output/world_model.pth",
+      "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf"
+    },
+    {
+      "path": "output/world_model_unified.pth",
+      "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4"
+    },
+    {
+      "path": "output/ppo_wm_policy_edge_hard_xp.zip",
+      "sha256": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1"
+    },
+    {
+      "path": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
+      "sha256": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49"
+    },
+    {
+      "path": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+      "sha256": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383"
+    },
+    {
+      "path": "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip",
+      "sha256": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba"
+    },
+    {
+      "path": "output/target_head_yaw.pt",
+      "sha256": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c"
+    },
+    {
+      "path": "output/target_head_low.pt",
+      "sha256": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7"
+    },
+    {
+      "path": "output/target_head_person.pt",
+      "sha256": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+    }
+  ],
+  "remote_ci_dispatched": false
+}

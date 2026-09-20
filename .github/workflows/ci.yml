@@ -49,6 +49,7 @@ jobs:
           python -m datasets.rollout_schedule
           python -m datasets.provenance
           python -m scripts.dataset_identity_selftest
+          python -m scripts.dataset_publication_selftest
           python -m scripts.wm_publication_selftest
           python -m datasets.combine_rollouts --selftest
           python -m datasets.metric_labels

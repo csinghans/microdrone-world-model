@@ -29,6 +29,7 @@ import sys
 
 import numpy as np
 
+from datasets.provenance import dataset_destination, save_dataset
 from datasets.rollout_schedule import LAYOUTS
 
 ROOM_ID = 3  # transit uses 0/1/2 (classic/dense/moving); rooms get 3
@@ -147,7 +148,9 @@ def main() -> None:
     ap.add_argument("--n-indoor", type=int, default=96)
     ap.add_argument("--len", type=int, default=120)
     ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--out", default=OUT)
+    ap.add_argument(
+        "--out", default=OUT, help="new .npz path; existing corpora are preserved"
+    )
     ap.add_argument(
         "--worlds",
         default="classic,dense,moving",
@@ -162,6 +165,7 @@ def main() -> None:
     if args.selftest:
         selftest()
         return
+    out = dataset_destination(args.out)
     worlds = tuple(w for w in args.worlds.split(",") if w)
     data = build(
         args.n_transit,
@@ -172,12 +176,11 @@ def main() -> None:
         img_res=args.img_res,
         schedule_layout=args.schedule_layout,
     )
-    os.makedirs(os.path.dirname(args.out), exist_ok=True)
-    np.savez_compressed(args.out, **data)
     wid = data["world_id"]
+    save_dataset(data, out)
     print(
         f"COMBINED OK: {len(wid)} rollouts x {args.len} steps "
-        f"(transit {(wid < 3).sum()}, room {(wid == 3).sum()}), saved {args.out}"
+        f"(transit {(wid < 3).sum()}, room {(wid == 3).sum()}), saved {out}"
     )
 
 

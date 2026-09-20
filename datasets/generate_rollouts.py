@@ -38,6 +38,7 @@ import sys
 import numpy as np
 
 from datasets.intervention_labels import H_MAX, HORIZONS, window_valid
+from datasets.provenance import dataset_destination, save_dataset
 from datasets.rollout_schedule import LAYOUTS, plan
 from planner.action_set import A_NORM, ACTION_NAMES, ACTION_VECS, FORWARD, SPEED_RANGE
 from sim.envs import (
@@ -228,7 +229,9 @@ def main() -> None:
         default="classic",
         help="'classic' | 'hard' | comma-list of registered worlds",
     )
-    ap.add_argument("--out", default=OUT, help="npz save path override")
+    ap.add_argument(
+        "--out", default=OUT, help="new .npz path; existing corpora are preserved"
+    )
     ap.add_argument("--img-res", type=int, default=IMG_RES, help="camera res")
     ap.add_argument(
         "--schedule-layout",
@@ -243,6 +246,9 @@ def main() -> None:
     if args.selftest:
         worlds = ("classic", "dense", "moving")  # smoke every scene kind
 
+    out = OUT.replace(".npz", "_selftest.npz") if args.selftest else args.out
+    out = dataset_destination(out, selftest=args.selftest)
+
     tag = (" (randomized)" if args.randomize else "") + f" [{args.worlds}]"
     print(f"[INFO] flying {n_roll} intervention rollouts x {length} steps{tag} ...")
     data = gen(
@@ -254,10 +260,6 @@ def main() -> None:
         img_res=IMG_RES if args.selftest else args.img_res,
         schedule_layout="world_balanced" if args.selftest else args.schedule_layout,
     )
-    out = OUT.replace(".npz", "_selftest.npz") if args.selftest else args.out
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    np.savez_compressed(out, **data)
-
     rates = {}
     for k in HORIZONS:
         pairs = as_pairs(data, k)
@@ -296,6 +298,7 @@ def main() -> None:
             assert passive.any() and (~passive).any(), f"world {wid} role aliasing"
         assert np.std(data["frames"]) > 1, "blank camera frames"
 
+    save_dataset(data, out, selftest=args.selftest)
     print(
         f"WM-DATA OK: {n_roll} rollouts x {length} steps @ {CTRL_HZ} Hz, "
         f"{n_seg} held intervention segments, labels [{rate_str}], saved {out}"

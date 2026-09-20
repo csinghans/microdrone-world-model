@@ -1,0 +1,47 @@
+{
+  "reference_commit": "ecb167e",
+  "scope": "Synthetic CLI publication only; no simulator or training.",
+  "clis": [
+    {
+      "module": "datasets.generate_rollouts",
+      "source": "datasets/generate_rollouts.py",
+      "source_sha256": "bfca90417d034a3db4164f1fbaa9caf393c012c1930121eb47ffe3d19c8fb2eb",
+      "factory": "gen",
+      "flags": [
+        "--rollouts",
+        "1",
+        "--len",
+        "40"
+      ],
+      "existing_output_overwritten": true
+    },
+    {
+      "module": "datasets.search_rollouts",
+      "source": "datasets/search_rollouts.py",
+      "source_sha256": "b6e80e7ad1c6df4ebd9afba8d7649652058192021b075b12d3d29119968c09c5",
+      "factory": "gen",
+      "flags": [
+        "--rollouts",
+        "1",
+        "--len",
+        "40"
+      ],
+      "existing_output_overwritten": true
+    },
+    {
+      "module": "datasets.combine_rollouts",
+      "source": "datasets/combine_rollouts.py",
+      "source_sha256": "05f5ef571a106b8c01800ec21ea6860d6f194727dd1fcee7c9473b4d856b6679",
+      "factory": "build",
+      "flags": [
+        "--n-transit",
+        "1",
+        "--n-indoor",
+        "1",
+        "--len",
+        "40"
+      ],
+      "existing_output_overwritten": true
+    }
+  ]
+}

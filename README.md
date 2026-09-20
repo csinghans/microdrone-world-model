@@ -101,6 +101,16 @@ python -m eval.eval_wm_checkpoint \
   --ckpt output/world_model_candidate.pth --data output/wm_dataset.npz
 ```
 
+The transit, indoor and combined dataset CLIs require a fresh `.npz` output
+and reject existing files before simulation. Choose a new `--out` for each
+registered corpus; filename-only paths such as `--out new_corpus.npz` work.
+Publication is atomic and preserves a file created by another writer during
+generation. Transit `--selftest` only replaces its own `_selftest.npz` after
+all smoke assertions pass. Programmatic generators still return dictionaries;
+use `datasets.provenance.save_dataset` for the same publication protection.
+[Regression evidence](experiments/dataset_publication_v1/journal.md) covers
+all three CLIs and the unchanged generator recipes.
+
 World-model training saves a candidate; deployment defaults still load the
 fetched champion. Use a fresh `--out` filename for each additional run.
 Locked destinations (even missing ones), aliases of locked files and existing
