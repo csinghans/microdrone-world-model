@@ -178,6 +178,12 @@ publications are not a single transaction. A complete first file is retained
 if the second publication fails. [Fault-injection evidence](experiments/wm_publication_v1/journal.md)
 covers those failure paths without scoring a model.
 
+The paired-score comparator also checks integer indices, horizons, unique
+world names and AUC/veer world consistency before calculating intervals.
+The pooled name `all` is reserved so a world cannot overwrite the total.
+[Compatibility evidence](experiments/score_schema_v1/journal.md) validates
+18 archived exports without recalculating their scores or intervals.
+
 `--executed-moving-weight` defaults to 1.0. The registered
 [weighting study](experiments/executed_weight_v1/summary.md) tested 2.25 on
 moving executed prediction/collision losses, with a fixed training-only

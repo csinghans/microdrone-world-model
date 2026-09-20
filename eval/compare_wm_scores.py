@@ -9,6 +9,10 @@ Resample whole rollouts, paired across models and stratified by world;
 overlapping future windows are not independent experimental units. These
 percentile intervals describe test-course uncertainty conditional on two
 fixed checkpoints, NOT variation across training draws or a promotion gate.
+Sample indices, world catalogs, horizons and optional veer fields are checked
+before metric calculation or resampling. The pooled key `all` is reserved.
+Without the source corpus these checks cannot establish frame upper bounds,
+rendered vision, independent courses or that an export contains the full exam.
 """
 
 import argparse
@@ -28,6 +32,26 @@ def _load(path):
     return out
 
 
+def _indices(value, name, ndim):
+    if (
+        not isinstance(value, np.ndarray)
+        or value.ndim != ndim
+        or not np.issubdtype(value.dtype, np.integer)
+        or (value < 0).any()
+    ):
+        raise ValueError(f"{name}: expected {ndim}D nonnegative integer indices")
+
+
+def _rollout_worlds(pairs, worlds, name):
+    mapping = {}
+    for rollout in np.unique(pairs[:, 0]):
+        ids = np.unique(worlds[pairs[:, 0] == rollout])
+        if len(ids) != 1:
+            raise ValueError(f"{name}: a rollout belongs to multiple worlds")
+        mapping[rollout] = ids[0]
+    return mapping
+
+
 def _validate(a, b):
     for name, arm in (("baseline", a), ("candidate", b)):
         meta = arm["metadata"]
@@ -40,8 +64,34 @@ def _validate(a, b):
             meta["provenance"]["dataset"]["sha256"],
         )
         scores, labels, pairs = arm["scores"], arm["labels"], arm["pairs"]
+        _indices(pairs, f"{name} pairs", 2)
+        _indices(arm["world_id"], f"{name} world_id", 1)
+        horizons, names = arm["horizons"], arm["world_names"]
+        _indices(horizons, f"{name} horizons", 1)
         if (
-            scores.ndim != 2
+            len(horizons) == 0
+            or (horizons == 0).any()
+            or (horizons[1:] <= horizons[:-1]).any()
+            or horizons[-1] != 32
+        ):
+            raise ValueError(f"{name}: horizons must increase strictly and end at 32")
+        if (
+            not isinstance(names, np.ndarray)
+            or names.ndim != 1
+            or names.dtype.kind != "U"
+            or len(names) == 0
+            or any(not n.strip() or n != n.strip() or n == "all" for n in names)
+            or len(np.unique(names)) != len(names)
+        ):
+            raise ValueError(
+                f"{name}: world names must be unique nonempty strings, not all"
+            )
+        if (arm["world_id"] >= len(names)).any():
+            raise ValueError(f"{name}: world_id outside world catalog")
+        if (
+            not isinstance(scores, np.ndarray)
+            or not isinstance(labels, np.ndarray)
+            or scores.ndim != 2
             or scores.shape != labels.shape
             or scores.shape != (len(pairs), len(arm["horizons"]))
             or pairs.shape != (len(pairs), 2)
@@ -49,43 +99,61 @@ def _validate(a, b):
             or arm["world_id"].shape != (len(pairs),)
         ):
             raise ValueError(f"{name}: inconsistent sample shapes")
-        if not np.isfinite(scores).all() or not np.isin(labels, [0, 1]).all():
+        if (
+            scores.dtype.kind not in "biuf"
+            or labels.dtype.kind not in "biuf"
+            or not np.isfinite(scores).all()
+            or not np.isin(labels, [0, 1]).all()
+        ):
             raise ValueError(f"{name}: nonfinite scores or nonbinary labels")
         if len(np.unique(pairs, axis=0)) != len(pairs):
             raise ValueError(f"{name}: duplicate (rollout, time) pairs")
-        for r in np.unique(pairs[:, 0]):
-            if len(np.unique(arm["world_id"][pairs[:, 0] == r])) != 1:
-                raise ValueError(f"{name}: a rollout belongs to multiple worlds")
+        _rollout_worlds(pairs, arm["world_id"], name)
     for key in ("pairs", "labels", "world_id", "world_names", "horizons"):
         if not np.array_equal(a[key], b[key]):
             raise ValueError(f"paired exam mismatch: {key}")
     hashes = [arm["metadata"]["provenance"]["dataset"]["sha256"] for arm in (a, b)]
     if not hashes[0] or hashes[0] != hashes[1]:
         raise ValueError("paired exam mismatch: dataset sha256")
-    if int(a["horizons"][-1]) != 32:
-        raise ValueError("comparison requires horizon 32 as the final score column")
+    _validate_veer(a, b)
 
 
-def _compare_veer(a, b, n_boot, seed):
-    """Conditional accuracy uncertainty; correlated probe frames stay together."""
+def _validate_veer(a, b):
+    keys = {"veer_pairs", "veer_gt_left", "veer_world_id", "veer_correct"}
+    if not (keys.intersection(a) or keys.intersection(b)):
+        return
+    for name, arm in (("baseline", a), ("candidate", b)):
+        if not keys <= arm.keys():
+            raise ValueError(f"{name}: incomplete veer sample fields")
+        pairs, worlds = arm["veer_pairs"], arm["veer_world_id"]
+        _indices(pairs, f"{name} veer_pairs", 2)
+        _indices(worlds, f"{name} veer_world_id", 1)
+        n = len(pairs)
+        if pairs.shape != (n, 2) or len(np.unique(pairs, axis=0)) != n:
+            raise ValueError(f"{name}: invalid or duplicate veer pairs")
+        for key in ("veer_correct", "veer_gt_left", "veer_world_id"):
+            if not isinstance(arm[key], np.ndarray) or arm[key].shape != (n,):
+                raise ValueError(f"{name}: inconsistent veer sample shape")
+        for key in ("veer_correct", "veer_gt_left"):
+            if arm[key].dtype.kind not in "biuf" or not np.isin(arm[key], [0, 1]).all():
+                raise ValueError(f"{name}: {key} must be binary")
+        if (worlds >= len(arm["world_names"])).any():
+            raise ValueError(f"{name}: veer_world_id outside world catalog")
+        auc_worlds = _rollout_worlds(arm["pairs"], arm["world_id"], name)
+        veer_worlds = _rollout_worlds(pairs, worlds, f"{name} veer")
+        for rollout in auc_worlds.keys() & veer_worlds.keys():
+            if auc_worlds[rollout] != veer_worlds[rollout]:
+                raise ValueError(f"{name}: AUC and veer disagree on rollout world")
     for key in ("veer_pairs", "veer_gt_left", "veer_world_id"):
         if not np.array_equal(a[key], b[key]):
             raise ValueError(f"paired veer exam mismatch: {key}")
+
+
+def _compare_veer(a, b, n_boot, seed):
+    """Conditional accuracy uncertainty on inputs already checked by _validate."""
     pairs, worlds = a["veer_pairs"], a["veer_world_id"]
     n = len(pairs)
-    if pairs.shape != (n, 2) or len(np.unique(pairs, axis=0)) != n:
-        raise ValueError("invalid or duplicate veer pairs")
-    if not np.issubdtype(pairs.dtype, np.integer) or (pairs < 0).any():
-        raise ValueError("veer pairs must be nonnegative integer indices")
-    for arm in (a, b):
-        for key in ("veer_correct", "veer_gt_left", "veer_world_id"):
-            if arm[key].shape != (n,):
-                raise ValueError("inconsistent veer sample shape")
-        if not np.isin(arm["veer_correct"], [0, 1]).all():
-            raise ValueError("veer correctness must be binary")
     rows = {r: np.flatnonzero(pairs[:, 0] == r) for r in np.unique(pairs[:, 0])}
-    if any(len(np.unique(worlds[ix])) != 1 for ix in rows.values()):
-        raise ValueError("veer rollout belongs to multiple worlds")
     out = {"n_samples": n, "n_rollouts": len(rows), "ci95": None}
     if not n:
         return dict(out, delta=None, reason="no eligible veer probe frames")
@@ -288,8 +356,105 @@ def selftest():
         dense["veer_pairs"][:, 1] = np.tile(np.arange(4), 8)
         doubled.append(dense)
     assert compare(*doubled, n_boot=40, seed=3)["veer"]["ci95"] == coarse_veer["ci95"]
+    _schema_selftest(a)
     print(
         "WM-COMPARISON OK: paired course bootstrap, identity, alignment, undefined AUC"
+    )
+
+
+def _schema_selftest(base):
+    from copy import deepcopy
+    from unittest.mock import patch
+
+    fields = {
+        "pairs": [
+            base["pairs"].astype(float) + 0.5,
+            -base["pairs"] - 1,
+            base["pairs"].astype(bool),
+            np.array(0),
+        ],
+        "world_id": [
+            base["world_id"].astype(float) + 0.5,
+            -base["world_id"] - 1,
+            base["world_id"] + 2,
+            base["world_id"][:, None],
+        ],
+        "world_names": [
+            np.array(["same", "same"]),
+            np.array(["all", "dense"]),
+            np.array(["", "dense"]),
+            np.array([" classic", "dense"]),
+            np.array([0, 1]),
+            np.array([["classic", "dense"]]),
+        ],
+        "horizons": [
+            np.array([32.5]),
+            np.array([0, 32]),
+            np.array([32, 32]),
+            np.array([16, 8, 32], dtype=np.uint16),
+            np.array([], dtype=int),
+        ],
+        "scores": [base["scores"].astype(complex) + 1j],
+    }
+    valid = deepcopy(base)
+    valid.update(
+        veer_pairs=base["pairs"].copy(),
+        veer_world_id=base["world_id"].copy(),
+        veer_gt_left=np.zeros(len(base["pairs"]), dtype=bool),
+        veer_correct=np.zeros(len(base["pairs"]), dtype=bool),
+    )
+    fields.update(
+        veer_pairs=[valid["veer_pairs"].astype(float), -valid["veer_pairs"] - 1],
+        veer_world_id=[
+            valid["veer_world_id"].astype(float) + 0.5,
+            valid["veer_world_id"] + 2,
+            1 - valid["veer_world_id"],
+        ],
+        veer_gt_left=[np.full(len(valid["veer_pairs"]), 2)],
+        veer_correct=[np.full(len(valid["veer_pairs"]), 0.5)],
+    )
+    rejected = 0
+    for key, values in fields.items():
+        for value in values:
+            bad = deepcopy(valid)
+            bad[key] = value
+            for a, b in ((bad, valid), (valid, bad), (bad, bad)):
+                with (
+                    patch(
+                        __name__ + ".roc_auc", side_effect=AssertionError("metric ran")
+                    ),
+                    patch.object(
+                        np.random, "default_rng", side_effect=AssertionError("RNG ran")
+                    ),
+                ):
+                    try:
+                        compare(a, b, n_boot=1)
+                    except ValueError:
+                        rejected += 1
+                    else:
+                        raise AssertionError(f"invalid {key} accepted")
+    for key in ("veer_pairs", "veer_gt_left", "veer_correct", "veer_world_id"):
+        bad = deepcopy(valid)
+        del bad[key]
+        try:
+            _validate(bad, valid)
+        except ValueError as exc:
+            assert "incomplete veer" in str(exc)
+        else:
+            raise AssertionError(f"partial veer fields accepted: missing {key}")
+    empty = deepcopy(valid)
+    for key in ("veer_pairs", "veer_gt_left", "veer_correct", "veer_world_id"):
+        empty[key] = empty[key][:0]
+    assert compare(empty, empty, n_boot=2)["veer"]["n_samples"] == 0
+    assert compare(empty, empty, n_boot=2)["veer"]["ci95"] is None
+    # Veer can see a course with no held-command AUC windows. Only IDs
+    # present in both sample sets have a cross-signal world to reconcile.
+    extra = deepcopy(valid)
+    extra["veer_pairs"][:, 0] += 100
+    _validate(extra, extra)
+    print(
+        f"SCORE-SCHEMA OK: {rejected} malformed-arm checks before metrics/RNG; "
+        "partial/empty/additional-course veer support"
     )
 
 
