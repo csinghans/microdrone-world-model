@@ -1,0 +1,141 @@
+{
+  "scope": "Read-only legacy result/skill schema check; no training or evaluation.",
+  "n_records": 15,
+  "records": [
+    {
+      "path": "experiments/bcft_generalist/results.json",
+      "sha256": "4348049a219ea0292535d8355df391a55e8d58958d48d8491603a444153b2674",
+      "skill": "bcft-generalist",
+      "status": "running",
+      "knobs": 2,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/chain_distill/results.json",
+      "sha256": "0fdecd5b8c710eceb5f1a3a9d75ac8a0a36104ce35b494b2cdb142586d150156",
+      "skill": "chain-distill",
+      "status": "running",
+      "knobs": 1,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/chain_learning/results.json",
+      "sha256": "a192c19b7131fa1852e13df044fb4159f21acdf663939b7d04625f7b1b46b5ac",
+      "skill": "chain-learning",
+      "status": "budget_exhausted",
+      "knobs": 3,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/closing_door/results.json",
+      "sha256": "22a9528cea866ba05820ab076fbb8514a2e97f6ce6ba0e7b4bd21cabdd85c3b0",
+      "skill": "closing-door",
+      "status": "passed",
+      "knobs": 4,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/corridor_slalom/results.json",
+      "sha256": "ce28f02845e832bd07e2f4e7b9d0bf0058841205c420156fbb981cecbcd27a61",
+      "skill": "corridor-slalom",
+      "status": "budget_exhausted",
+      "knobs": 4,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/corridor_slalom_v2/results.json",
+      "sha256": "a76e2525f9e06040df0c6cfea795fb9595a2ab6fd46874f5e692160a9fedbe71",
+      "skill": "corridor-slalom-v2",
+      "status": "budget_exhausted",
+      "knobs": 3,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/distill_generalist/results.json",
+      "sha256": "dcc6b5f50e2ca37d9e6614be5c8a957ba3b7a954337c0755d7bfaad8b9139e06",
+      "skill": "distill-generalist",
+      "status": "running",
+      "knobs": 2,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/dodge_distill/results.json",
+      "sha256": "8ae5d59c58d67f978349dc6f92db9e0e8ff57d6ed9adcc80d8437a476d3b74a3",
+      "skill": "dodge-distill",
+      "status": "running",
+      "knobs": 2,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/dodgeball/results.json",
+      "sha256": "7c575eeb9802e03126f8be2b7c068d539d4a3719e456e9bf5e909e016be71ec5",
+      "skill": "dodgeball",
+      "status": "budget_exhausted",
+      "knobs": 4,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/dodgeball_v2/results.json",
+      "sha256": "73b6e4a6de0b0e52eb06e3742bb903f61f1de20dd9ac3ea272106b99737d20e6",
+      "skill": "dodgeball-v2",
+      "status": "running",
+      "knobs": 1,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/gap_flight/results.json",
+      "sha256": "e1424dcc030f615ae728eab0473d8aec42c8a4a31a70f91a428652971041ee0c",
+      "skill": "gap-flight",
+      "status": "passed",
+      "knobs": 3,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/moving_gap/results.json",
+      "sha256": "0ea637903b4620f92bdc93535fed00a51186bb1a65e2c4fb2129b51ac4c6e550",
+      "skill": "moving-gap",
+      "status": "budget_exhausted",
+      "knobs": 5,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/moving_gap_v2/results.json",
+      "sha256": "42688d22f2d6d1de3e7e052c5a613899f5aff3b56533d7de744456d2ebd36353",
+      "skill": "moving-gap-v2",
+      "status": "passed",
+      "knobs": 4,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/opening_door/results.json",
+      "sha256": "9b47f6e63639facbb3968f764b6630bbcb890d5eec717cbccab2fb63b962e260",
+      "skill": "opening-door",
+      "status": "running",
+      "knobs": 4,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    },
+    {
+      "path": "experiments/wm48_defense/results.json",
+      "sha256": "51b7370316eb58b68426af0714b2d312af9a61ed374dad5859134693f711c9ea",
+      "skill": "wm48-defense",
+      "status": "running",
+      "knobs": 1,
+      "evaluation_identity": "legacy_unrecorded",
+      "loader_outcome": "readable"
+    }
+  ]
+}

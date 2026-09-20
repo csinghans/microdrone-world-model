@@ -30,6 +30,11 @@ gates:
 1. Parse `$ARGUMENTS` → skill path (e.g. `skills/gap_flight`).
 2. `python -m scripts.research status <skill>` — resume-aware: skip knobs
    already gated.
+   New campaigns persist cell/recheck settings before their first knob and
+   reject drift on resumption. `evaluation_identity: legacy_unrecorded`
+   means an older record lacks that evidence: it stays readable, but a new
+   measurement requires a migration grounded in the original pre-registration.
+   Never backfill today's settings or rerun a negative to recreate provenance.
 3. Verify prerequisites exist: the skill's zero-shot policy zip and
    `output/world_model.pth`. Verify `git status` is clean enough that
    path-scoped gate commits won't tangle with unrelated work.

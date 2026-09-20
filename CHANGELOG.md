@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- **Campaign resumes freeze the exam too:** new runner records persist full
+  ordered cell settings and borderline-recheck settings before the first
+  fit/flight. Resumes reject changes, including after an interrupted first
+  knob. Legacy records remain readable and keep their verdicts, but cannot
+  gain new measurements until their original pre-registration is recovered;
+  current settings are never backfilled as historical evidence. Twenty-three
+  isolated regressions pass, and all 15 legacy records read unchanged.
+
 - **Policy evaluation preserves input and result identity:** explicit `--wm`
   selection avoids checkpoint swaps, requires an existing WM and rejects
   marked auto-trained stand-ins. Results retain `zip`/`cells` and add file

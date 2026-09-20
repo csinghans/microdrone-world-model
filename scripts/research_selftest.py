@@ -14,7 +14,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from contextlib import redirect_stdout
+from contextlib import nullcontext, redirect_stdout
 from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
@@ -156,6 +156,149 @@ class SavedCampaignIntegrity(unittest.TestCase):
         before = Path(self.path, "results.json").read_bytes()
         self.assertEqual(research._load_results(self.path, self.skill), original)
         self.assertEqual(Path(self.path, "results.json").read_bytes(), before)
+
+    def test_frozen_cells_and_recheck_settings_cannot_change(self):
+        skill = replace(self.skill, cells=self.skill.cells + (EvalCell("b", "dense"),))
+        original = research._load_results(self.path, skill)
+        research._write_results(self.path, original)
+        before = Path(self.path, "results.json").read_bytes()
+        changes = [
+            replace(skill, cells=(replace(skill.cells[0], **fields), skill.cells[1]))
+            for fields in (
+                {"id": "other"},
+                {"world": "moving"},
+                {"speed": 0.6},
+                {"n_seeds": 60},
+                {"seed0": 12345},
+                {"kwargs": {"solo": True}},
+                {"role": "guard"},
+            )
+        ] + [
+            replace(skill, recheck_n=120),
+            replace(skill, recheck_margin=0.01),
+            replace(skill, cells=skill.cells[::-1]),
+            replace(skill, cells=skill.cells[:1]),
+            replace(skill, cells=skill.cells + (EvalCell("c", None),)),
+        ]
+        for changed in changes:
+            with (
+                self.subTest(changed=changed),
+                self.assertRaisesRegex(ValueError, "evaluation differs"),
+            ):
+                research._load_results(self.path, changed)
+        self.assertEqual(Path(self.path, "results.json").read_bytes(), before)
+        # Evaluation is frozen; adding a justified knob is still permitted.
+        extended = replace(
+            skill,
+            max_knobs=3,
+            knobs=skill.knobs
+            + (Knob("KD1", "policy", "deviation", "fixture", {"timesteps": 1}),),
+        )
+        self.assertEqual(research._load_results(self.path, extended), original)
+
+    def test_snapshot_is_detached_and_gate_rejects_mutation(self):
+        kwargs = {"nested_fixture": [1, 2]}
+        skill = replace(
+            self.skill, cells=(replace(self.skill.cells[0], kwargs=kwargs),)
+        )
+        results = research._load_results(self.path, skill)
+        research._prepare_measurement(self.path, results, skill)
+        before = Path(self.path, "results.json").read_bytes()
+        kwargs["nested_fixture"].append(3)
+        self.assertEqual(
+            results["evaluation_frozen"]["cells"][0]["kwargs"],
+            {"nested_fixture": [1, 2]},
+        )
+        with self.assertRaisesRegex(ValueError, "evaluation differs"):
+            research._record_gate(
+                skill, skill.knobs[0], _block(), self.path, results, True
+            )
+        self.assertFalse(results["knobs"])
+        self.assertEqual(Path(self.path, "results.json").read_bytes(), before)
+
+    def test_first_measurement_freezes_before_interruption_in_both_routes(self):
+        for cmd in ("step", "run"):
+            path = Path(self.path, cmd)
+            path.mkdir()
+            results = research._load_results(str(path), self.skill)
+
+            def interrupted(*args):
+                saved = json.loads((path / "results.json").read_text())
+                self.assertEqual(
+                    saved["evaluation_frozen"], research._frozen_evaluation(self.skill)
+                )
+                self.assertEqual(saved["knobs"], [])
+                raise RuntimeError("synthetic interrupted first fit")
+
+            with patch.object(research, "run_knob", side_effect=interrupted) as run:
+                with self.assertRaisesRegex(RuntimeError, "interrupted first fit"):
+                    research._execute_campaign(
+                        _args(cmd, knob=0), self.skill, str(path), results
+                    )
+            run.assert_called_once()
+            self.assertEqual(research._load_results(str(path), self.skill), results)
+            changed = replace(self.skill, recheck_n=120)
+            with self.assertRaisesRegex(ValueError, "evaluation differs"):
+                research._load_results(str(path), changed)
+
+    def test_failed_initial_snapshot_prevents_training(self):
+        results = research._load_results(self.path, self.skill)
+        with (
+            patch.object(research, "_write_results", side_effect=OSError("disk error")),
+            patch.object(research, "run_knob") as run,
+            self.assertRaisesRegex(OSError, "disk error"),
+        ):
+            research._execute_campaign(
+                _args("step", knob=0), self.skill, self.path, results
+            )
+        run.assert_not_called()
+
+    def test_legacy_records_are_readable_but_cannot_gain_new_measurements(self):
+        legacy = research._load_results(self.path, self.skill)
+        legacy.pop("evaluation_frozen")
+        legacy["knobs"].append(_block())
+        research._write_results(self.path, legacy)
+        before = Path(self.path, "results.json").read_bytes()
+        self.assertEqual(research._load_results(self.path, self.skill), legacy)
+        for args in (_args(), _args("step", knob=1)):
+            with patch.object(research, "run_knob") as run:
+                with self.assertRaisesRegex(ValueError, "legacy campaign"):
+                    research._execute_campaign(args, self.skill, self.path, legacy)
+            run.assert_not_called()
+        self.assertEqual(Path(self.path, "results.json").read_bytes(), before)
+
+    def test_closed_legacy_campaign_remains_a_noop(self):
+        legacy = research._load_results(self.path, self.skill)
+        legacy.pop("evaluation_frozen")
+        legacy["status"] = "passed"
+        with patch.object(research, "run_knob") as run:
+            with redirect_stdout(io.StringIO()), self.assertRaises(SystemExit) as exit:
+                research._execute_campaign(_args(), self.skill, self.path, legacy)
+        self.assertEqual(exit.exception.code, 0)
+        run.assert_not_called()
+
+    def test_status_distinguishes_unsaved_frozen_and_legacy_settings(self):
+        results = research._load_results(self.path, self.skill)
+        for state in ("not_started", "frozen", "legacy_unrecorded"):
+            if state == "frozen":
+                research._write_results(self.path, results)
+            elif state == "legacy_unrecorded":
+                results.pop("evaluation_frozen")
+                research._write_results(self.path, results)
+            output = io.StringIO()
+            with (
+                patch.object(sys, "argv", ["research", "status", "fixture", "--json"]),
+                patch("skills.base.load_skill", return_value=self.skill),
+                patch.object(research, "_exp_dir", return_value=self.path),
+                patch.object(research, "_quiet", return_value=nullcontext()),
+                redirect_stdout(output),
+                self.assertRaises(SystemExit) as exit,
+            ):
+                research._main()
+            self.assertEqual(exit.exception.code, 0)
+            self.assertEqual(
+                json.loads(output.getvalue())["evaluation_identity"], state
+            )
 
     def test_resume_skips_recorded_negative_and_retains_original_block(self):
         results = research._load_results(self.path, self.skill)

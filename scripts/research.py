@@ -28,6 +28,7 @@ import subprocess
 import sys
 import tempfile
 from contextlib import contextmanager
+from dataclasses import asdict
 from datetime import datetime, timezone
 
 import numpy as np
@@ -67,6 +68,40 @@ def _frozen_criteria(skill) -> list:
     ]
 
 
+def _frozen_evaluation(skill) -> dict:
+    """Detached JSON snapshot; nested cell kwargs must not alias the live skill."""
+    return json.loads(
+        json.dumps(
+            {
+                "cells": [asdict(cell) for cell in skill.cells],
+                "recheck_n": skill.recheck_n,
+                "recheck_margin": skill.recheck_margin,
+            },
+            allow_nan=False,
+        )
+    )
+
+
+def _require_frozen_evaluation(results, skill):
+    if "evaluation_frozen" not in results:
+        raise ValueError(
+            "legacy campaign has no frozen evaluation specification; status remains "
+            "readable, but new measurements require recovering the original "
+            "pre-registration in a reviewed migration; do not pin today's settings "
+            "as historical evidence"
+        )
+    if results["evaluation_frozen"] != _frozen_evaluation(skill):
+        raise ValueError("campaign evaluation differs from the frozen specification")
+
+
+def _prepare_measurement(exp_dir, results, skill):
+    _require_frozen_evaluation(results, skill)
+    if not os.path.exists(os.path.join(exp_dir, "results.json")):
+        # Persist before the first fit/flight, so an interrupted first knob
+        # cannot silently acquire a new exam on resumption.
+        _write_results(exp_dir, results)
+
+
 def _load_results(exp_dir: str, skill) -> dict:
     p = os.path.join(exp_dir, "results.json")
     if os.path.exists(p):
@@ -81,6 +116,8 @@ def _load_results(exp_dir: str, skill) -> dict:
         comparable = [{k: c[k] for k in old} for old, c in zip(frozen, current)]
         if len(frozen) != len(current) or frozen != comparable:
             raise ValueError("campaign criteria differ from the frozen record")
+        if "evaluation_frozen" in results:
+            _require_frozen_evaluation(results, skill)
         ids = [b["id"] for b in results["knobs"]]
         if len(ids) != len(set(ids)):
             raise ValueError("campaign contains duplicate recorded knob ids")
@@ -90,6 +127,7 @@ def _load_results(exp_dir: str, skill) -> dict:
         "skill_version": skill.version,
         "status": "running",
         "targets_frozen": _frozen_criteria(skill),
+        "evaluation_frozen": _frozen_evaluation(skill),
         "knobs": [],
     }
 
@@ -424,6 +462,7 @@ def run_knob(skill, knob, exp_dir: str, dry: bool) -> dict:
 
 
 def _record_gate(skill, knob, block, exp_dir, results, no_commit):
+    _require_frozen_evaluation(results, skill)
     if any(b["id"] == block["id"] for b in results["knobs"]):
         raise ValueError(f"{block['id']} already has a recorded measurement")
     results["knobs"].append(block)
@@ -708,6 +747,11 @@ def _main() -> None:
         sys.exit(doctor(skill, args.json))
 
     if args.cmd == "status":
+        evaluation_identity = (
+            "not_started"
+            if not os.path.exists(os.path.join(exp_dir, "results.json"))
+            else "frozen" if "evaluation_frozen" in results else "legacy_unrecorded"
+        )
         done = {kb["id"] for kb in results["knobs"]}
         nxt = next(
             (
@@ -725,6 +769,7 @@ def _main() -> None:
                     {
                         "skill": results["skill"],
                         "status": results["status"],
+                        "evaluation_identity": evaluation_identity,
                         "knobs": [
                             {"id": kb["id"], "verdict": kb["gate"]["verdict"]}
                             for kb in results["knobs"]
@@ -736,6 +781,8 @@ def _main() -> None:
             )
             sys.exit(0)
         print(json.dumps({k: results[k] for k in ("skill", "status")}, indent=1))
+        if "evaluation_frozen" not in results:
+            print("  evaluation: legacy_unrecorded; new measurements require recovery")
         for kb in results["knobs"]:
             print(f"  {kb['id']}: {kb['gate']['verdict']}")
         if nxt:
@@ -774,6 +821,7 @@ def _execute_campaign(args, skill, exp_dir, results):
                 f"{knob.id} already has a recorded measurement; "
                 "negative results cannot be retried or replaced"
             )
+        _prepare_measurement(exp_dir, results, skill)
         block = run_knob(skill, knob, exp_dir, args.dry)
         commit = _record_gate(skill, knob, block, exp_dir, results, args.no_commit)
         print(f"RESEARCH-GATE {knob.id}: {block['gate']['verdict']}")
@@ -788,6 +836,7 @@ def _execute_campaign(args, skill, exp_dir, results):
     for i, knob in enumerate(skill.knobs[: skill.max_knobs]):
         if i < args.from_knob or knob.id in done:
             continue
+        _prepare_measurement(exp_dir, results, skill)
         block = run_knob(skill, knob, exp_dir, args.dry)
         commit = _record_gate(skill, knob, block, exp_dir, results, args.no_commit)
         print(f"RESEARCH-GATE {knob.id}: {block['gate']['verdict']}")

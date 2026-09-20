@@ -76,3 +76,7 @@ pip install -e . && python -m scripts.fetch_champions
   骨架，所有慣例已填好、要你決定的地方都標了 `TODO(researcher)`。
 - **跑之前不確定會不會爆？** `python -m scripts.research doctor
   skills/我的技能`——預飛檢查會把帳單先算給你看。
+- **研究中斷後怎麼續跑？** 新 campaign 會在第一個 knob 前保存完整 cells
+  與重測設定；更改後無法沿用同一紀錄。舊紀錄仍可查閱，但若 status 顯示
+  `legacy_unrecorded`，新增測量前須從歷史證據恢復原始預登記設定，不能把
+  今天的 skill 設定當成舊實驗的證明。

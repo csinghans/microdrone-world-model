@@ -1,0 +1,15 @@
+{
+  "scope": "Synthetic frozen-source loader; no model, fit or flight.",
+  "reference_commit": "23277c2",
+  "source_sha256": "f1317d6396e4b470f8d7ad7db976a11f397307a99364faa77bd31639175ad7c0",
+  "accepted_changed_fields": [
+    "world",
+    "speed",
+    "seed0",
+    "n_seeds",
+    "kwargs",
+    "cell_role",
+    "recheck_n",
+    "recheck_margin"
+  ]
+}

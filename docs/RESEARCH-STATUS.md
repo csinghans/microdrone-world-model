@@ -230,6 +230,17 @@ the shared publication selftest pass. All nine archived cell-list files
 (52 cells) parse unchanged in a metadata-only compatibility audit. No policy
 was fitted or flown, and historical results and gates are unchanged.
 
+The [frozen_evaluation_v1 repair](../experiments/frozen_evaluation_v1/journal.md)
+extends new campaign snapshots to complete ordered cells and recheck settings,
+saved before the first knob. Previously the loader accepted eight kinds of
+exam-setting changes under unchanged bars in a synthetic reproduction.
+Twenty-three research regressions now pass, including interruption recovery
+and refusal before training. All 15 legacy result files remain readable and
+byte-identical; status labels their missing evidence `legacy_unrecorded`.
+They cannot gain new measurements until original pre-registration evidence
+is recovered; current settings were not retroactively pinned. No experiment
+was trained, flown or rejudged for this repair.
+
 The tested loss weight changes objective allocation, not independent data
 support or measured gradient mass. It does not isolate prediction from
 collision loss. Do not infer a training cause from a large latent endpoint
