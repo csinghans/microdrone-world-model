@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- **Closed-exam action AUC audit:** exact positive/negative action-pair
+  decomposition reproduces transit AUCs from all six executed-weight exports.
+  Moving's mean gain includes both within- and across-action contributions, while
+  seed 0 loses in both. Within-action comparisons are dominated by forward
+  windows; dense steering subgroups expose missing or single-course negative
+  support. The NO-GO is unchanged. Complete matrices, support tables and a
+  figure are in `experiments/action_auc_audit_v1/`; no new inference or fit.
+
 - **Campaign resumes freeze the exam too:** new runner records persist full
   ordered cell settings and borderline-recheck settings before the first
   fit/flight. Resumes reject changes, including after an interrupted first

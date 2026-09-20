@@ -1,0 +1,22 @@
+{
+  "instrument_commit": "04c01f1",
+  "definition_commit": "2dac82a",
+  "source_verdict": "NO-GO",
+  "models": 6,
+  "worlds": 3,
+  "max_auc_reconstruction_error": 1.1102230246251565e-16,
+  "max_delta_reconstruction_error": 1.1102230246251565e-16,
+  "forward_share_of_within_action_pairs": {
+    "classic": 0.9643995427241843,
+    "dense": 0.982063438264665,
+    "moving": 0.9710286326687426
+  },
+  "files": {
+    "experiments/action_auc_audit_v1/definition.md": "15b539ad35be2832b4fd4315cea02dfcf922a4fc04bf407f6ba2c2ae165ef0bd",
+    "experiments/action_auc_audit_v1/registration.json": "def0ebc71f98d6e62173cea63af5f2550065cc667209fb166dea346e13c56ee4",
+    "experiments/action_auc_audit_v1/report.json": "54d592f830231bfaf6af13502a24cf455472849d3fb6d78ec465b764a7901da2",
+    "experiments/action_auc_audit_v1/summary.md": "f6d1ada9053587a02fb60df6352af9d5d277f4bf825fd11a0ee1aca5e457c975",
+    "experiments/action_auc_audit_v1/moving_contributions.png": "38d0d4d0dc0fe6b22e265d6e02073193da940a3f6538f8177c4c1b4f3ef1b80d"
+  },
+  "visual_review": "Moving figure inspected: both panels, all seeds, labels and legend readable."
+}

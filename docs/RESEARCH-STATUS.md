@@ -176,6 +176,17 @@ preflight command; historical queues and gates were not changed. Do not
 repeat, expand or reinterpret a closed draw as a new instrument failure.
 No new training study is active.
 
+The retrospective [action_auc_audit_v1](../experiments/action_auc_audit_v1/journal.md)
+decomposes the closed executed-weight exam's six saved exports by executed
+action category, without inference or new samples. All original AUCs and
+deltas reconcile. Moving's mean +0.059825 splits into +0.032170 within-action
+and +0.027656 across-action contributions; seed 0 loses in both. However,
+97.10% of moving's within-action score pairs are forward/forward, so this
+does not certify individual steering actions. Dense veer-left has no negative
+windows; several other dense actions have negatives from only one course.
+The original NO-GO remains. Future action-specific hypotheses need frozen
+per-action/class course support before fitting; do not expand this exam.
+
 The [checkpoint_io_v1 repair](../experiments/checkpoint_io_v1/journal.md)
 is complete. The WM CLI previously replaced a temporary champion sentinel
 under its default path (synthetic reproduction, no real fit). Ordinary
