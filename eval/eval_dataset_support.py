@@ -153,7 +153,9 @@ def analyze(data, seeds=(0, 1, 2), batch=64, epochs=80, holdout=False):
     cf, visible = counterfactual_labels(data)
     args = (data, pairs, labels, cf, visible)
     result = {
-        "scope": "Retrospective metadata/label audit, not a causal test or new gate. "
+        "schema_version": 1,
+        "target": f"executed_warn_at_{HORIZONS[-1]}",
+        "scope": "Metadata/label audit, not a causal test or pass/fail gate. "
         "Only train partitions describe recorded optimization. All/val step "
         "counts are hypothetical. CF frame expectations also describe now-head "
         "sampling; not observed draws or gradient weights (CF normalizes by "

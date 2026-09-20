@@ -184,6 +184,14 @@ observed stratum is only a structural minimum. Rendering still needs its
 own check. [Compatibility evidence](experiments/veer_support_v1/journal.md)
 matches twelve archived exports without rescoring or changing old verdicts.
 
+For a new study that depends on particular action categories, freeze their
+positive/negative window **and course** minima before fitting. The
+[action-support preflight](docs/SUPPORT-REQUIREMENTS.md) checks those explicit
+requirements against a saved metadata report and the exact dataset SHA.
+It retains every deficit and returns exit 10 for insufficient support, so a
+fail-fast queue stops before training. There are no default scientific bars;
+this does not reopen historical exams or establish statistical power.
+
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
 
