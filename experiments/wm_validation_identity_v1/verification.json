@@ -1,0 +1,90 @@
+{
+  "completed_at": "2026-09-20T14:36:49.035015+00:00",
+  "baseline_commit": "5b40dff",
+  "scope": "Synthetic regression checks; no real model fitting or inference.",
+  "runtime": {
+    "python": "3.14.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+  },
+  "before_receipt_sha256": "96f6885f544bb1dcf00c399fb7a44af98b4886157dcbc322a67d67706355b78d",
+  "tests": [
+    {
+      "command": "python -m scripts.dataset_identity_selftest",
+      "log": "output/research_integrity_selftest/wm_validation_identity_v1.log",
+      "log_sha256": "dd4312fbb6f3f2614bc40185c7fc1b5503a78653f687dcd182fdfa8af205cdbb",
+      "exit_code": 0,
+      "completion_marker": "DATASET-IDENTITY OK:"
+    },
+    {
+      "command": "python -m datasets.provenance",
+      "log": "output/research_integrity_selftest/wm_validation_provenance_v1.log",
+      "log_sha256": "0377002cfc82efe8679d4bd4116d74cabb6633960b38072464e7aa65479358ee",
+      "exit_code": 0,
+      "completion_marker": "DATASET-PROVENANCE OK:"
+    },
+    {
+      "command": "python -m eval.compare_wm_scores --selftest",
+      "log": "output/research_integrity_selftest/wm_validation_comparator_v1.log",
+      "log_sha256": "db1f83469de640ada4c379a9cb90962a648f9aa1d85127e0ba61b2c975862c0a",
+      "exit_code": 0,
+      "completion_marker": "WM-COMPARISON OK:"
+    }
+  ],
+  "source_sha256": {
+    "datasets/provenance.py": "9820b88385b16cf88681652765c7672266dcab9da9aac0eea7afc2ea976f5581",
+    "eval/eval_wm_checkpoint.py": "387798df34f18acf5f66ea33ab7a88a4e7397aeb1c669a4167a00547ce2505d8",
+    "scripts/dataset_identity_selftest.py": "d323c4115d53f33f3127a3e3c1b6880fc748a6721401d3489c28aa3da2ed921b",
+    "experiments/wm_validation_identity_v1/verify_before.sh": "7b6dcf4fa270d1ed4d11c17135c28780af13c553e47f533580c75605ffab97e9"
+  },
+  "checks": {
+    "black --check .": {
+      "exit_code": 0,
+      "python_files": 174
+    },
+    "ruff check .": {
+      "exit_code": 0
+    },
+    "git diff --check": {
+      "exit_code": 0
+    }
+  },
+  "locked_artifacts": [
+    {
+      "path": "output/world_model.pth",
+      "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf"
+    },
+    {
+      "path": "output/world_model_unified.pth",
+      "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4"
+    },
+    {
+      "path": "output/ppo_wm_policy_edge_hard_xp.zip",
+      "sha256": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1"
+    },
+    {
+      "path": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
+      "sha256": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49"
+    },
+    {
+      "path": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+      "sha256": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383"
+    },
+    {
+      "path": "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip",
+      "sha256": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba"
+    },
+    {
+      "path": "output/target_head_yaw.pt",
+      "sha256": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c"
+    },
+    {
+      "path": "output/target_head_low.pt",
+      "sha256": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7"
+    },
+    {
+      "path": "output/target_head_person.pt",
+      "sha256": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+    }
+  ],
+  "remote_ci_dispatched": false
+}

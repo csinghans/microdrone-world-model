@@ -162,6 +162,13 @@ generated exam. Known exact training-file reuse is rejected using the
 checkpoint's recorded SHA; file-backed `scripts.train` now saves this
 identity. A different file hash does not establish disjoint rollouts
 (subsets and repacked corpora can still overlap).
+In ordinary training-validation mode, known file hashes must **match** the
+original training corpus. Reusing the training seed on a different or
+reordered corpus does not restore its validation split. Legacy checkpoints
+or in-memory callers with missing hashes remain supported with an explicit
+warning and `dataset_file_relation: unverified` in the result.
+[Regression evidence](experiments/wm_validation_identity_v1/journal.md)
+includes the original mismatch and a reordered-course split fixture.
 
 `--executed-moving-weight` defaults to 1.0. The registered
 [weighting study](experiments/executed_weight_v1/summary.md) tested 2.25 on

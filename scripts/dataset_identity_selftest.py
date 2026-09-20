@@ -147,11 +147,56 @@ def selftest():
             score.assert_not_called()
             assert not out.exists() and not samples.exists()
 
-            evaluate(str(model), {}, dataset_sha256=current["sha256"], device="cpu")
+            # A known different file must also fail in original-validation
+            # mode. Even the same numerical seed does not establish the same
+            # split after a corpus is reordered. Recompression likewise lacks
+            # exact-file identity; it is not an independently generated exam.
+            repacked = directory / "repacked_training_selftest.npz"
+            np.savez_compressed(repacked, frames=values + 1)
+            repacked_sha = file_identity(repacked)["sha256"]
+            assert repacked_sha != current["sha256"]
+            try:
+                evaluate(
+                    str(model),
+                    {},
+                    dataset_sha256=repacked_sha,
+                    device="cpu",
+                )
+            except ValueError as exc:
+                assert "SHA-256 mismatch" in str(exc)
+            else:
+                raise AssertionError("different file scored as original validation")
+            with patch(
+                "sys.argv",
+                [
+                    "eval.eval_wm_checkpoint",
+                    "--ckpt",
+                    str(model),
+                    "--data",
+                    str(repacked),
+                    "--out",
+                    str(out),
+                    "--scores-out",
+                    str(samples),
+                ],
+            ):
+                try:
+                    probe_main()
+                except SystemExit as exc:
+                    assert "SHA-256 mismatch" in str(exc)
+                else:
+                    raise AssertionError("CLI accepted wrong original-validation file")
+            score.assert_not_called()
+            assert not out.exists() and not samples.exists()
+
+            result = evaluate(
+                str(model), {}, dataset_sha256=current["sha256"], device="cpu"
+            )
+            assert result["dataset_file_relation"] == "same_as_training"
             assert (
                 score.call_count == 1
             ), "ordinary training-validation must remain valid"
-            evaluate(
+            result = evaluate(
                 str(model),
                 {},
                 independent_holdout=True,
@@ -159,8 +204,24 @@ def selftest():
                 device="cpu",
             )
             assert score.call_count == 2
+            assert result["dataset_file_relation"] == "different_from_training"
+            # The in-memory API does not acquire identity merely because its
+            # checkpoint has one. Legacy callers remain supported and visible.
+            warning = io.StringIO()
+            with contextlib.redirect_stderr(warning):
+                result = evaluate(str(model), {}, device="cpu")
+            assert result["dataset_file_relation"] == "unverified"
+            assert "file identity unverified" in warning.getvalue()
+            assert score.call_count == 3
             meta.pop("training_dataset_sha256")
-            evaluate(
+            warning = io.StringIO()
+            with contextlib.redirect_stderr(warning):
+                result = evaluate(
+                    str(model), {}, dataset_sha256=current["sha256"], device="cpu"
+                )
+            assert result["dataset_file_relation"] == "unverified"
+            assert "file identity unverified" in warning.getvalue()
+            result = evaluate(
                 str(model),
                 {},
                 independent_holdout=True,
@@ -168,11 +229,31 @@ def selftest():
                 device="cpu",
             )
             assert (
-                score.call_count == 3
+                score.call_count == 5
             ), "legacy caller assertion must remain supported"
+            assert result["dataset_file_relation"] == "unverified"
+    # Same index split on reordered data selects different physical courses.
+    # This is a split-only fixture: no training, pixels or scoring.
+    from world_model.training import _split_rollouts
+
+    rolls = {
+        "frames": np.zeros((12, 1, 0, 0, 3), dtype=np.uint8),
+        "world_id": np.zeros(12, dtype=np.int16),
+        "in_path": np.ones(12, dtype=bool),
+        "seg": np.zeros((12, 1), dtype=np.int16),
+    }
+    original = np.arange(12)
+    order = np.roll(original, 1)
+    _, val = _split_rollouts(rolls, np.random.default_rng(7))
+    _, val_reordered = _split_rollouts(
+        {key: value[order] for key, value in rolls.items()}, np.random.default_rng(7)
+    )
+    assert val == val_reordered
+    assert set(original[val]) != set(order[val_reordered])
     print(
         "DATASET-IDENTITY OK: training provenance, source mutation, API/CLI "
-        "reject before scoring/writing, original validation and legacy compatibility"
+        "reject holdout reuse and validation mismatch before scoring/writing, "
+        "known/unknown file relation, reordered-course split, legacy compatibility"
     )
 
 

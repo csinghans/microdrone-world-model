@@ -34,6 +34,26 @@ def reject_training_file(training_sha256, evaluation_sha256):
         )
 
 
+def require_training_file(training_sha256, evaluation_sha256):
+    """Reject a known different corpus in original training-validation mode.
+
+    Return whether both file hashes were supplied and matched. Missing hashes
+    remain compatible with legacy checkpoints/in-memory callers, but cannot
+    verify that reconstructing a split from its seed selects the original
+    validation rollouts. Recompression or reordering changes file identity.
+    """
+    if not training_sha256 or not evaluation_sha256:
+        return False
+    if training_sha256.lower() != evaluation_sha256.lower():
+        raise ValueError(
+            "training-validation dataset differs from the checkpoint's training "
+            "file (SHA-256 mismatch); restore the original corpus to reconstruct "
+            "its validation split. --independent-holdout is only for separately "
+            "generated exams, not repacked or reordered training data"
+        )
+    return True
+
+
 def selftest():
     import tempfile
 
@@ -54,7 +74,20 @@ def selftest():
         reject_training_file(ai["sha256"], file_identity(b)["sha256"])
         reject_training_file(None, ai["sha256"])
         reject_training_file(ai["sha256"], None)
-    print("DATASET-PROVENANCE OK: exact file reuse, rename, legacy unknown identity")
+        assert require_training_file(ai["sha256"], bi["sha256"])
+        assert require_training_file(ai["sha256"], bi["sha256"].upper())
+        assert not require_training_file(None, ai["sha256"])
+        assert not require_training_file(ai["sha256"], None)
+        try:
+            require_training_file(ai["sha256"], file_identity(b)["sha256"])
+        except ValueError as exc:
+            assert "SHA-256 mismatch" in str(exc)
+        else:
+            raise AssertionError("wrong training-validation file accepted")
+    print(
+        "DATASET-PROVENANCE OK: holdout reuse / validation mismatch, "
+        "rename, legacy unknown identity"
+    )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,11 @@
+{
+  "reference_commit": "5b40dff",
+  "source_sha256": "dc2d586397467b8ec2a18709eb3c93ca8416c0decf9430430e4444368306f36b",
+  "scope": "Synthetic API wiring reproduction; model loading and scoring mocked.",
+  "training_dataset_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "requested_dataset_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "training_seed": 7,
+  "independent_holdout": false,
+  "scorer_calls": 1,
+  "reported_split": "training_val"
+}

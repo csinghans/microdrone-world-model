@@ -7,7 +7,10 @@ can be tiny (n=20 on a 19-rollout val split). This probe recomputes the
 decision metrics from the *saved* checkpoint at four decimals, on exactly
 the split the training run used (same seed -> same rollout split —
 the CLI reads the seed from the checkpoint's meta, refuses a
-contradicting --seed, and warns on legacy checkpoints without one), and
+contradicting --seed, and warns on legacy checkpoints without one). When
+both file hashes are known, the original training corpus must match; the
+same seed on a different/reordered corpus does not restore the same split.
+Missing file identities remain supported with a warning. This probe
 scores veer-ranking both on the val rollouts and widened to every rollout
 (the probe never trains on labels, so widening stays meaningful — the
 same rule training.py itself applies when val is thin).
@@ -40,7 +43,7 @@ import torch
 from datasets.generate_rollouts import OUT as DATA
 from datasets.intervention_labels import HORIZONS
 from datasets.provenance import file_identity as _file_identity
-from datasets.provenance import reject_training_file
+from datasets.provenance import reject_training_file, require_training_file
 from planner.action_set import A_NORM
 from sim.scenarios import DANGER_R
 from world_model.losses import roc_auc
@@ -66,12 +69,21 @@ def evaluate(
     """Rebuild the seed-`seed` train/val split and score the checkpoint:
     per-world AUC@32, overall AUC per horizon, danger-now AUC (all at val),
     and veer-ranking on val rollouts + widened to all rollouts. File callers
-    should pass dataset_sha256 for the known-training-file rejection. An
-    in-memory dict alone carries no verifiable file identity."""
+    should pass dataset_sha256 for the known-file checks in both modes. An
+    in-memory dict alone carries no verifiable file identity; its validation
+    mode remains supported but explicitly unverified."""
     device = device or ("mps" if torch.backends.mps.is_available() else "cpu")
     enc, pred, cheads, nhead, meta = load_model(ckpt_path, device)
+    training_sha256 = meta.get("training_dataset_sha256")
     if independent_holdout:
-        reject_training_file(meta.get("training_dataset_sha256"), dataset_sha256)
+        reject_training_file(training_sha256, dataset_sha256)
+    elif not require_training_file(training_sha256, dataset_sha256):
+        print(
+            "[wm-probe] WARNING: training-validation file identity unverified "
+            "(checkpoint training hash or dataset hash missing). The caller "
+            "must supply the original training corpus to reconstruct its split.",
+            file=sys.stderr,
+        )
     seed = _evaluation_seed(meta.get("seed"), seed, independent_holdout)
     result = evaluate_components(
         enc,
@@ -86,6 +98,11 @@ def evaluate(
         sample_output=sample_output,
     )
     result["training_seed"] = meta.get("seed")
+    result["dataset_file_relation"] = (
+        ("different_from_training" if independent_holdout else "same_as_training")
+        if training_sha256 and dataset_sha256
+        else "unverified"
+    )
     result["checkpoint_meta"] = meta
     result["runtime"] = {
         "device": device,
