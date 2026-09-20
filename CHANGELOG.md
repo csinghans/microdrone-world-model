@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- **Policy evaluation preserves input and result identity:** explicit `--wm`
+  selection avoids checkpoint swaps, requires an existing WM and rejects
+  marked auto-trained stand-ins. Results retain `zip`/`cells` and add file
+  hashes, effective cells, judge and runtime. Duplicate IDs/invalid cells
+  fail early; changed inputs,
+  nonfinite metrics and existing outputs cannot publish a replacement.
+  Environment cleanup and atomic publication share tested paths. Twelve
+  synthetic regressions and metadata-only checks of nine historical spec
+  files pass; no flight scores were rerun.
+
 - **Policy CLI preserves the requested recipe:** `--seed` now reaches both
   ordinary and curriculum training; non-preset `--worlds` lists retain their
   order and multiplicity and require an explicit output path. Unknown/empty

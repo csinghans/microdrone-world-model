@@ -1,0 +1,122 @@
+{
+  "scope": "Metadata-only parsing of existing cell specs; no model loading or flight.",
+  "n_files": 9,
+  "n_cells": 52,
+  "specs": [
+    {
+      "path": "experiments/conservative_ft/index_cells.json",
+      "sha256": "c4f86bb5068c5137952c4399ae8fd151c61cc2c31bf4aae6300c9f0f52b31e97",
+      "n_cells": 3,
+      "ids": [
+        "slalom3@1.0",
+        "guard:gap@1.0",
+        "guard:mgap@1.0"
+      ]
+    },
+    {
+      "path": "experiments/dodge_crown/crown_gate_cells.json",
+      "sha256": "f75e459099874017f58b8b48f005146d6664bf89b5dcc95d69eccd8617573cc6",
+      "n_cells": 8,
+      "ids": [
+        "dodge@v0.6",
+        "dodge@v1.0",
+        "dodge@v1.4",
+        "dodge@v1.8",
+        "guard:gap@1.0",
+        "guard:mgap@1.0",
+        "guard:cluttered",
+        "guard:sweep@2.0"
+      ]
+    },
+    {
+      "path": "experiments/ft_bakeoff/floor_recheck_cells.json",
+      "sha256": "4f49acd53f48c49e6c2ed5f65e9ae7c7c43a8fa3e0ecec4b912bef33dda2128e",
+      "n_cells": 3,
+      "ids": [
+        "slalom3@1.0",
+        "guard:gap@1.0",
+        "guard:mgap@1.0"
+      ]
+    },
+    {
+      "path": "experiments/horizon/exam_cells.json",
+      "sha256": "8d8c24db84abc348b858c0d4401ce7ce4f40a853775596892d19bd7c3439e027",
+      "n_cells": 7,
+      "ids": [
+        "slalom3@1.0",
+        "diag:slalom2@1.0",
+        "diag:slalom3@1.25",
+        "guard:gap@1.0",
+        "guard:mgap@1.0",
+        "guard:cluttered",
+        "guard:sweep@2.0"
+      ]
+    },
+    {
+      "path": "experiments/metric_grounding/m2_cells.json",
+      "sha256": "429501aaa36323f84c52b2b0acd5179fe792ecfb585f476589c5bc853780bd7b",
+      "n_cells": 10,
+      "ids": [
+        "dense@0.8",
+        "dense@1.2",
+        "moving@0.8",
+        "moving@1.2",
+        "cluttered",
+        "sweep@0.8",
+        "sweep@1.0",
+        "sweep@1.2",
+        "sweep@1.4",
+        "sweep@1.6"
+      ]
+    },
+    {
+      "path": "experiments/opening_door/promotion_cells.json",
+      "sha256": "fbb3508668c301bbd220c31e8f3dbfaee7aaf8bcbf039d84048839ec152d81b7",
+      "n_cells": 6,
+      "ids": [
+        "odoor@1.0",
+        "odoor@1.5",
+        "guard:gap@1.0",
+        "guard:mgap@1.0",
+        "guard:cluttered",
+        "guard:sweep@2.0"
+      ]
+    },
+    {
+      "path": "experiments/slalom_v2_promotion/eleventh_sitting_cells.json",
+      "sha256": "49aaf8826dd6e0728069944ece9dcf017dbd26daab2e66ad811bd7a205da0069",
+      "n_cells": 7,
+      "ids": [
+        "slalom3@1.0",
+        "guard:gap@1.0",
+        "guard:mgap@1.0",
+        "guard:cluttered",
+        "guard:sweep@2.0",
+        "diag:slalom2@1.0",
+        "diag:slalom3@1.25"
+      ]
+    },
+    {
+      "path": "experiments/slalom_v2_promotion/tenth_sitting_cells.json",
+      "sha256": "7b2fcfd554ea8cf7439a63d35ebce936542e2ff9c644c05f7557ca905c0e0a04",
+      "n_cells": 7,
+      "ids": [
+        "slalom3@1.0#B",
+        "guard:gap@1.0#B",
+        "guard:mgap@1.0#B",
+        "guard:cluttered",
+        "guard:sweep@2.0",
+        "diag:slalom2@1.0",
+        "diag:slalom3@1.25"
+      ]
+    },
+    {
+      "path": "experiments/surpass_teacher/cells.json",
+      "sha256": "738cf0d615a879fcbeb84b11a225fc493793522c0cb516a777126fb2ee907f27",
+      "n_cells": 1,
+      "ids": [
+        "mgap@1.0"
+      ]
+    }
+  ]
+}

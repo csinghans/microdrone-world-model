@@ -70,6 +70,11 @@ recurrent models require `_recurrent` in the basename so `load_policy` can
 select the right class. Existing outputs and locked paths fail before any
 environment or optimizer is created. Evaluate a policy candidate explicitly
 with `eval.eval_policy_cells --zip <candidate.zip>` and pre-registered cells.
+Its optional `--wm <checkpoint.pth>` selects a WM directly; omitting it
+requires the champion file. Use a new `--out <results.json>` to preserve
+policy/WM/cell-spec SHA identities, effective cells and judge identity.
+The evaluator rejects existing outputs, duplicate cell IDs, changed inputs
+and marked auto-trained stand-ins; it does not apply promotion bars itself.
 
 Policy `--seed` reaches both the environment and optimizer. `--worlds hard`
 selects classic/dense/moving; an explicit list such as `moving,dense,moving`

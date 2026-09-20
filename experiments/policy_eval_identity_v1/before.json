@@ -1,0 +1,15 @@
+{
+  "scope": "Frozen CLI with mocked policy, simulation and flight; temporary sentinel only.",
+  "reference_commit": "5d2ad0e",
+  "source_sha256": "80dbf9a10c0653de74ee7cad554f0f9141d1e1bf105a77c88d40109bdc46dd1d",
+  "observed": {
+    "existing_result_replaced": true,
+    "cells_flown": 2,
+    "cells_saved": 1,
+    "surviving_seed0": 20,
+    "saved_top_level_keys": [
+      "cells",
+      "zip"
+    ]
+  }
+}

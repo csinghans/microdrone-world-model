@@ -17,17 +17,26 @@ skill campaigns use — no drift), with a minimal success shim
 (reached and not crashed). `--only/--n/--seed0` support the borderline
 recheck rule (n=60, fresh seeds) without editing the spec.
 
-The world model is whatever sits at output/world_model.pth — model swaps
-are the campaign's responsibility, and the results file records nothing
-about it, so journal the active checkpoint alongside the numbers.
+--wm selects a world-model file directly (default: output/world_model.pth).
+The file must exist and must not be an auto-trained tiny stand-in. No model
+is swapped or trained. Results retain the zip/cells fields and also record
+input SHA-256 identities, effective cell settings, judge and runtime.
+Outputs must be new and are published atomically after input rechecks.
 """
 
 import argparse
 import json
+import math
+import platform
 import sys
+from contextlib import closing
+from datetime import datetime, timezone
+from importlib.metadata import version
 from types import SimpleNamespace
 
-from skills.base import EvalCell
+from datasets.provenance import file_identity
+from skills.base import VALID_ROLES, EvalCell
+from world_model.checkpoint_io import check_destination, publish_checkpoint
 
 SHIM = SimpleNamespace(
     episode_metrics=None,
@@ -38,24 +47,52 @@ SHIM = SimpleNamespace(
 def load_cells(path: str) -> list:
     with open(path) as f:
         spec = json.load(f)
-    return [
-        EvalCell(
-            c["id"],
-            c.get("world"),
-            float(c["speed"]),
-            int(c["n"]),
-            int(c["seed0"]),
-            c.get("kwargs") or {},
-            c.get("role", "target"),
+    if not isinstance(spec, list) or not spec:
+        raise ValueError("cells must be a nonempty JSON list")
+    cells, ids = [], set()
+    for c in spec:
+        if not isinstance(c, dict) or not {"id", "speed", "n", "seed0"} <= c.keys():
+            raise ValueError("every cell needs id, speed, n and seed0")
+        if not isinstance(c["id"], str) or not c["id"].strip() or c["id"] in ids:
+            raise ValueError("cell ids must be nonempty and unique")
+        ids.add(c["id"])
+        if type(c["n"]) is not int or c["n"] <= 0:
+            raise ValueError("cell n must be a positive integer")
+        if type(c["seed0"]) is not int or c["seed0"] < 0:
+            raise ValueError("cell seed0 must be a nonnegative integer")
+        speed = c["speed"]
+        if type(speed) not in (int, float) or not math.isfinite(speed) or speed <= 0:
+            raise ValueError("cell speed must be finite and positive")
+        role = c.get("role", "target")
+        if role not in VALID_ROLES:
+            raise ValueError(f"invalid cell role: {role}")
+        world, kwargs = c.get("world"), c.get("kwargs", {})
+        if not isinstance(kwargs, dict):
+            raise ValueError("cell kwargs must be an object")
+        if world is not None and (not isinstance(world, str) or not world.strip()):
+            raise ValueError("cell world must be a registered name or null")
+        if world is not None and kwargs:
+            raise ValueError("registered-world cells do not support kwargs in run_cell")
+        if set(kwargs) - {"tmax", "in_path", "solo", "randomize"}:
+            raise ValueError("unsupported classic-cell kwargs")
+        for flag in ("in_path", "solo", "randomize"):
+            if flag in kwargs and type(kwargs[flag]) is not bool:
+                raise ValueError(f"cell {flag} must be a boolean")
+        if "tmax" in kwargs and (
+            type(kwargs["tmax"]) is not int or kwargs["tmax"] <= 0
+        ):
+            raise ValueError("cell tmax must be a positive integer")
+        cells.append(
+            EvalCell(c["id"], world, float(speed), c["n"], c["seed0"], kwargs, role)
         )
-        for c in spec
-    ]
+    return cells
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--zip", dest="zip_path")
     ap.add_argument("--cells")
+    ap.add_argument("--wm", default=None, help="explicit world-model checkpoint")
     ap.add_argument("--out", default=None)
     ap.add_argument("--only", default=None, help="run a single cell id")
     ap.add_argument("--n", type=int, default=None, help="override n (rechecks)")
@@ -71,32 +108,9 @@ def main() -> None:
     args = ap.parse_args()
 
     if args.selftest:
-        import tempfile
+        from scripts.policy_eval_selftest import selftest
 
-        spec = [
-            {"id": "a@1.0", "world": "dense", "speed": 1.0, "n": 30, "seed0": 7000},
-            {
-                "id": "guard:x",
-                "world": None,
-                "speed": 2.0,
-                "n": 30,
-                "seed0": 3000,
-                "kwargs": {"in_path": True, "solo": True},
-                "role": "guard",
-            },
-        ]
-        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
-            json.dump(spec, f)
-            path = f.name
-        cells = load_cells(path)
-        assert cells[0].world == "dense" and cells[0].n_seeds == 30
-        assert cells[1].world is None and cells[1].kwargs["solo"] is True
-        assert cells[1].role == "guard"
-        ok = {"reached": True, "crashed": False}
-        bad = {"reached": True, "crashed": True}
-        assert SHIM.success(ok) and not SHIM.success(bad)
-        print("PCELLS OK: spec -> EvalCell parsing + success shim (flying path is")
-        print("  scripts.research.run_cell, exercised by its own selftest)")
+        selftest()
         return
 
     if not (args.zip_path and args.cells):
@@ -104,31 +118,97 @@ def main() -> None:
 
     from scripts.research import _policy_factory, run_cell
     from sim.envs import make_env
+    from sim.scenario_registry import get as get_world
+    from world_model.training import MODEL
+
+    if args.n is not None and args.n <= 0:
+        raise ValueError("--n must be positive")
+    if args.seed0 is not None and args.seed0 < 0:
+        raise ValueError("--seed0 must be nonnegative")
+    destination = check_destination(args.out) if args.out else None
+    wm_path = args.wm or MODEL
+    sources = {"world_model": wm_path, "cell_spec": args.cells}
+    if args.zip_path.startswith("builtin:"):
+        if args.zip_path not in ("builtin:reactive", "builtin:wm_mpc"):
+            raise ValueError(f"unknown builtin policy: {args.zip_path}")
+    else:
+        sources["policy"] = args.zip_path
+    provenance = {name: file_identity(path) for name, path in sources.items()}
+
+    def verify_inputs():
+        if provenance != {name: file_identity(path) for name, path in sources.items()}:
+            raise ValueError("evaluation inputs changed; no result published")
 
     judge = SHIM
+    judge_identity = {"kind": "reached_and_clean_shim"}
     if args.skill:
         from skills.base import load_skill
 
         judge = load_skill(args.skill)  # registers its worlds as a side effect
+        judge_identity = {"kind": "skill", "name": judge.name, "version": judge.version}
     cells = load_cells(args.cells)
     if args.only:
         cells = [c for c in cells if c.id == args.only]
         if not cells:
             raise SystemExit(f"no cell id {args.only!r} in {args.cells}")
-    factory = _policy_factory(args.zip_path)
-    env = make_env()
-    results = {}
     for cell in cells:
-        r = run_cell(factory, cell, judge, env, n=args.n, seed0=args.seed0)
-        results[cell.id] = r
-        print(
-            f"  {cell.id}: crash {r['crash']:.3f}  success {r['success']:.3f}  "
-            f"clearance {r['clearance_mean']:.2f} m  (n={r['n']}, seed0 {r['seed0']})"
-        )
-    env.close()
-    if args.out:
-        with open(args.out, "w") as f:
-            json.dump({"zip": args.zip_path, "cells": results}, f, indent=1)
+        if cell.world is not None:
+            get_world(cell.world)
+    verify_inputs()
+    factory = _policy_factory(args.zip_path, wm_path=wm_path)
+    verify_inputs()
+    results = {}
+    with closing(make_env()) as env:
+        for cell in cells:
+            r = run_cell(factory, cell, judge, env, n=args.n, seed0=args.seed0)
+            results[cell.id] = r
+            print(
+                f"  {cell.id}: crash {r['crash']:.3f}  success {r['success']:.3f}  "
+                f"clearance {r['clearance_mean']:.2f} m  "
+                f"(n={r['n']}, seed0 {r['seed0']})"
+            )
+    verify_inputs()
+    record = {
+        "schema_version": 2,
+        "zip": args.zip_path,
+        "cells": results,
+        "provenance": provenance,
+        "judge": judge_identity,
+        "evaluation": {
+            "only": args.only,
+            "n_override": args.n,
+            "seed0_override": args.seed0,
+            "cells": [
+                dict(
+                    id=c.id,
+                    world=c.world,
+                    speed=c.speed,
+                    role=c.role,
+                    kwargs=c.kwargs,
+                    n=args.n if args.n is not None else c.n_seeds,
+                    seed0=args.seed0 if args.seed0 is not None else c.seed0,
+                )
+                for c in cells
+            ],
+        },
+        "runtime": {
+            "python": platform.python_version(),
+            **{
+                name: version(name)
+                for name in (
+                    "numpy",
+                    "torch",
+                    "stable-baselines3",
+                    "sb3-contrib",
+                    "pybullet",
+                )
+            },
+        },
+        "completed_at": datetime.now(timezone.utc).isoformat(),
+    }
+    serialized = (json.dumps(record, indent=2, allow_nan=False) + "\n").encode()
+    if destination:
+        publish_checkpoint(destination, lambda stream: stream.write(serialized))
     print(f"PCELLS OK: {len(cells)} cells flown with {args.zip_path}")
 
 

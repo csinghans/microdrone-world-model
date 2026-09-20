@@ -62,6 +62,8 @@ pip install -e . && python -m scripts.fetch_champions
   `_candidate.zip`，且都支援 `--out`。循環模型檔名須保留 `_recurrent`；
   檔案已存在或屬於鎖定路徑時，會在建立環境與訓練前停止。
   使用 `eval.eval_policy_cells --zip 候選檔` 搭配預先登記的 cells 評估。
+  可加 `--wm 世界模型檔` 直接選模；預設須有冠軍檔。新的 `--out 結果.json`
+  會記錄策略／世界模型／cells 的 SHA、實際設定與判定器，並拒絕覆寫。
 - **如何指定策略訓練設定？** `--seed` 會傳入環境與 PPO；
   `--worlds moving,dense,moving` 保留順序和重複權重，並須搭配新的 `--out`。
   curriculum 固定使用 classic 與既定速度課程，不支援其他世界、

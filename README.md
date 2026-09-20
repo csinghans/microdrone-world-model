@@ -126,7 +126,11 @@ fixed speed diet; it rejects other worlds, `--randomize`, `--edge-bias` and
 
 Score that path with `eval.eval_policy_cells --zip <candidate.zip>` using
 your pre-registered cells; historical scoreboards still read their original
-`zip_path()` filenames. `--policy --selftest` dispatches the module's three
+`zip_path()` filenames. Add `--wm <checkpoint.pth>` to select a WM directly;
+the default champion file must exist. A new `--out <results.json>` records
+policy/WM/cell-spec SHA identities, effective cells and the judge, and cannot
+replace an earlier result. Duplicate cell IDs and changed inputs are rejected.
+`--policy --selftest` dispatches the module's three
 smoke variants to selftest files. The shared save protection covers these
 training APIs and the WM fallback; standalone historical scripts retain
 their own save implementations.

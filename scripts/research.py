@@ -186,11 +186,18 @@ def train_knob(skill, knob, exp_dir: str, dry: bool) -> str:
     return out
 
 
-def _policy_factory(zip_path: str):
+def _policy_factory(zip_path: str, *, wm_path: str | None = None):
     from eval.eval_closed_loop import load_or_train
     from planner.learned_policy import LearnedPolicy, load_policy
 
-    enc, pred, cheads, nhead, meta = load_or_train(device="cpu")
+    if wm_path is None:
+        enc, pred, cheads, nhead, meta = load_or_train(device="cpu")
+    else:
+        from world_model.training import load_model
+
+        enc, pred, cheads, nhead, meta = load_model(wm_path, device="cpu")
+        if meta.get("autotrained_tiny"):
+            raise ValueError("a tiny selftest world model cannot support a real gate")
     if zip_path == "builtin:reactive":
         # the privileged-direction danger-now baseline: it can only lose
         # on timing (run_scenario_episode live-refreshes its .pillars)

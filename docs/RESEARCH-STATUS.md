@@ -220,6 +220,16 @@ environment using doubles. Existing publication tests and all 16 research
 regressions pass; no model was fitted or scored. The research runner's
 direct API routing and all frozen study records are unchanged.
 
+The [policy_eval_identity_v1 repair](../experiments/policy_eval_identity_v1/journal.md)
+adds explicit WM selection and policy/WM/cell-spec hashes to the generic
+policy probe. Its old writer replaced existing files and duplicate IDs
+collapsed measurements; a frozen-source synthetic reproduction records both.
+New results use atomic publication with input rechecks and explicit effective
+cell/judge metadata. Twelve isolated tests, the 16 research regressions and
+the shared publication selftest pass. All nine archived cell-list files
+(52 cells) parse unchanged in a metadata-only compatibility audit. No policy
+was fitted or flown, and historical results and gates are unchanged.
+
 The tested loss weight changes objective allocation, not independent data
 support or measured gradient mass. It does not isolate prediction from
 collision loss. Do not infer a training cause from a large latent endpoint
