@@ -1,0 +1,84 @@
+{
+  "completed_at": "2026-09-20T17:38:30.968787+00:00",
+  "baseline_commit": "3ec33ae",
+  "scope": "Synthetic fault injection and identity regressions; no fitting or inference.",
+  "runtime": {
+    "python": "3.14.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+  },
+  "before_receipt_sha256": "5976095de6e4d657317999d76d35df6d8bf9e94a5b5067335b57a9927cef9cb3",
+  "tests": [
+    {
+      "command": "python -m scripts.wm_publication_selftest",
+      "log": "output/research_integrity_selftest/wm_publication_v1.log",
+      "log_sha256": "e6f81ec32ac27864f35dbea9cc0f1a0170e0133aaf44478010a76265f05b6c23",
+      "exit_code": 0,
+      "completion_marker": "WM-PUBLICATION OK: 8 artifactless publication regressions"
+    },
+    {
+      "command": "python -m scripts.dataset_identity_selftest",
+      "log": "output/research_integrity_selftest/wm_publication_identity_v1.log",
+      "log_sha256": "dd4312fbb6f3f2614bc40185c7fc1b5503a78653f687dcd182fdfa8af205cdbb",
+      "exit_code": 0,
+      "completion_marker": "DATASET-IDENTITY OK:"
+    }
+  ],
+  "source_sha256": {
+    "eval/eval_wm_checkpoint.py": "01586c99717680bf3ab11fa9194c72a4c2cd2c18c8975d32eae6c715fe4fc638",
+    "scripts/wm_publication_selftest.py": "dc4ad7777cf6ec9cee5914cec54eee4af3810bae1f74b077793343b15b3fc312",
+    "world_model/checkpoint_io.py": "934be3b36b8494a0017025dcd3615fadae0dbd5f941277e0dc52f2947576f56a",
+    ".github/workflows/ci.yml": "fbc2c4c51c879458036ce40f7a2b88c0c6a261be1514c18dd063eb7fbd54111b",
+    "experiments/wm_publication_v1/verify_before.sh": "0364b318842505dd981d6a0fbcda8351975ed9df5b89c7618c7ae03791731227"
+  },
+  "checks": {
+    "black --check .": {
+      "exit_code": 0,
+      "python_files": 175
+    },
+    "ruff check .": {
+      "exit_code": 0
+    },
+    "git diff --check": {
+      "exit_code": 0
+    }
+  },
+  "locked_artifacts": [
+    {
+      "path": "output/world_model.pth",
+      "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf"
+    },
+    {
+      "path": "output/world_model_unified.pth",
+      "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4"
+    },
+    {
+      "path": "output/ppo_wm_policy_edge_hard_xp.zip",
+      "sha256": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1"
+    },
+    {
+      "path": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
+      "sha256": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49"
+    },
+    {
+      "path": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+      "sha256": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383"
+    },
+    {
+      "path": "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip",
+      "sha256": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba"
+    },
+    {
+      "path": "output/target_head_yaw.pt",
+      "sha256": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c"
+    },
+    {
+      "path": "output/target_head_low.pt",
+      "sha256": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7"
+    },
+    {
+      "path": "output/target_head_person.pt",
+      "sha256": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+    }
+  ],
+  "remote_ci_dispatched": false
+}

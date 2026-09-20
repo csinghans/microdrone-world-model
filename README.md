@@ -170,6 +170,14 @@ warning and `dataset_file_relation: unverified` in the result.
 [Regression evidence](experiments/wm_validation_identity_v1/journal.md)
 includes the original mismatch and a reordered-course split fixture.
 
+WM probe JSON and score-NPZ exports publish each completed file atomically
+to a fresh path. Serialization errors leave no partial final file, and
+locked artifact paths remain reserved even when absent. With both outputs
+requested, require exit 0 and matching metadata in **both** files: the two
+publications are not a single transaction. A complete first file is retained
+if the second publication fails. [Fault-injection evidence](experiments/wm_publication_v1/journal.md)
+covers those failure paths without scoring a model.
+
 `--executed-moving-weight` defaults to 1.0. The registered
 [weighting study](experiments/executed_weight_v1/summary.md) tested 2.25 on
 moving executed prediction/collision losses, with a fixed training-only

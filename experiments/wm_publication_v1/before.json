@@ -1,0 +1,9 @@
+{
+  "reference_commit": "3ec33ae",
+  "source_sha256": "387798df34f18acf5f66ea33ab7a88a4e7397aeb1c669a4167a00547ce2505d8",
+  "scope": "Synthetic serialization failures; evaluate mocked, no inference.",
+  "partial_final_files": {
+    "npz": true,
+    "json": true
+  }
+}

@@ -22,6 +22,9 @@ This flag still asserts independently generated rollouts: missing/different
 file hashes cannot exclude overlap from subsets or repacking.
 --out records provenance; --scores-out saves aligned per-sample scores
 for paired, rollout-level uncertainty analysis. Neither mode changes gates.
+Each output is published atomically to a new, unreserved path. The two files
+are separate publications: when both are requested, require exit 0 and both
+outputs with matching metadata before treating the export as complete.
 
 Honest limit: the latent-MSE-vs-no-op check is *not* recomputable here —
 the JEPA target is the EMA encoder, which checkpoints do not persist. That
@@ -35,7 +38,6 @@ Run:
 import argparse
 import json
 import sys
-from pathlib import Path
 
 import numpy as np
 import torch
@@ -46,6 +48,7 @@ from datasets.provenance import file_identity as _file_identity
 from datasets.provenance import reject_training_file, require_training_file
 from planner.action_set import A_NORM
 from sim.scenarios import DANGER_R
+from world_model.checkpoint_io import check_destination, publish_checkpoint
 from world_model.losses import roc_auc
 from world_model.metrics import AUC_METHOD
 from world_model.training import (
@@ -405,8 +408,11 @@ def main() -> None:
 
     if not args.ckpt:
         raise SystemExit("--ckpt required (or --selftest)")
-    outputs = [Path(p).resolve() for p in (args.out, args.scores_out) if p]
-    if len(set(outputs)) != len(outputs) or any(p.exists() for p in outputs):
+    try:
+        outputs = [check_destination(p) for p in (args.out, args.scores_out) if p]
+    except (OSError, ValueError) as exc:
+        raise SystemExit(str(exc)) from exc
+    if len(set(outputs)) != len(outputs):
         raise SystemExit("output paths must be distinct and new; preserve old records")
     sources = (("checkpoint", args.ckpt), ("dataset", args.data))
     provenance = {name: _file_identity(path) for name, path in sources}
@@ -431,17 +437,21 @@ def main() -> None:
         )
     r["provenance"] = provenance
     record = _json_ready(r)
-    for p in outputs:
-        p.parent.mkdir(parents=True, exist_ok=True)
+    # Serialize metadata before either publication. A JSON encoding failure
+    # must not leave a final-path prefix or an otherwise complete score file.
+    metadata = json.dumps(record, allow_nan=False) if outputs else None
+    json_bytes = (
+        (json.dumps(record, indent=2, allow_nan=False) + "\n").encode("utf-8")
+        if args.out
+        else None
+    )
     if args.scores_out:
-        with open(args.scores_out, "xb") as stream:
-            np.savez_compressed(
-                stream, **samples, metadata=json.dumps(record, allow_nan=False)
-            )
+        publish_checkpoint(
+            args.scores_out,
+            lambda stream: np.savez_compressed(stream, **samples, metadata=metadata),
+        )
     if args.out:
-        with open(args.out, "x") as stream:
-            json.dump(record, stream, indent=2, allow_nan=False)
-            stream.write("\n")
+        publish_checkpoint(args.out, lambda stream: stream.write(json_bytes))
     h_str = "/".join(str(k) for k in HORIZONS)
     w_str = " ".join(f"{k}={v:.4f}" for k, v in r["auc_by_world"].items())
     sv, nv = r["veer_val"]
