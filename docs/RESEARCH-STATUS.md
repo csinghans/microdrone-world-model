@@ -210,6 +210,16 @@ No research model was fitted, scored or promoted. Historical standalone
 save sites remain outside this repair; do not assume every `model.save`
 call is now guarded.
 
+The [policy_recipe_v1 repair](../experiments/policy_recipe_v1/journal.md)
+fixes another CLI-only defect: requested policy seeds and explicit world
+lists were silently ignored, and curriculum accepted settings it did not
+apply. The CLI now forwards seeds, preserves resolved world-list weights
+and rejects unsupported combinations before training. Real-parser tests
+trace seeds to both environment and PPO constructors and worlds to the
+environment using doubles. Existing publication tests and all 16 research
+regressions pass; no model was fitted or scored. The research runner's
+direct API routing and all frozen study records are unchanged.
+
 The tested loss weight changes objective allocation, not independent data
 support or measured gradient mass. It does not isolate prediction from
 collision loss. Do not infer a training cause from a large latent endpoint

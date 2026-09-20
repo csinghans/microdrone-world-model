@@ -62,6 +62,11 @@ pip install -e . && python -m scripts.fetch_champions
   `_candidate.zip`，且都支援 `--out`。循環模型檔名須保留 `_recurrent`；
   檔案已存在或屬於鎖定路徑時，會在建立環境與訓練前停止。
   使用 `eval.eval_policy_cells --zip 候選檔` 搭配預先登記的 cells 評估。
+- **如何指定策略訓練設定？** `--seed` 會傳入環境與 PPO；
+  `--worlds moving,dense,moving` 保留順序和重複權重，並須搭配新的 `--out`。
+  curriculum 固定使用 classic 與既定速度課程，不支援其他世界、
+  `--randomize`、`--edge-bias` 或 `--x-progress`，混用會直接報錯。
+  請將完整指令和啟動日誌中的 seed／worlds 一起保存。
 - **我的數字跟日誌對不上？** 正常。機制會重現、小數點不會（訓練有
   隨機性、Mac 的 MPS 尤其）。這裡發表的是範圍不是單次好運，詳見
   詞彙表的「two-tier claims」。

@@ -1,0 +1,34 @@
+{
+  "scope": "Frozen CLI function with mocked policy APIs and paths; no simulation, optimizer or checkpoint write.",
+  "reference_commit": "7e98802",
+  "source_sha256": "0a4b85c665779537f6d0e001376c1f3e1b0329edbc2c9ccb83862e8b74febeb5",
+  "observed": [
+    {
+      "requested_worlds": "moving,dense,moving",
+      "requested_seed": 17,
+      "curriculum": false,
+      "effective_seed": 0,
+      "forwarded_worlds": null,
+      "forwarded_hard": false,
+      "accepted": true
+    },
+    {
+      "requested_worlds": "unknown_world",
+      "requested_seed": 17,
+      "curriculum": false,
+      "effective_seed": 0,
+      "forwarded_worlds": null,
+      "forwarded_hard": false,
+      "accepted": true
+    },
+    {
+      "requested_worlds": "hard",
+      "requested_seed": 17,
+      "curriculum": true,
+      "effective_seed": 0,
+      "forwarded_worlds": null,
+      "forwarded_hard": false,
+      "accepted": true
+    }
+  ]
+}

@@ -71,6 +71,13 @@ select the right class. Existing outputs and locked paths fail before any
 environment or optimizer is created. Evaluate a policy candidate explicitly
 with `eval.eval_policy_cells --zip <candidate.zip>` and pre-registered cells.
 
+Policy `--seed` reaches both the environment and optimizer. `--worlds hard`
+selects classic/dense/moving; an explicit list such as `moving,dense,moving`
+keeps its order and weights and requires `--out`. Unknown or empty lists
+fail early. Curriculum remains classic-only with its fixed speed diet:
+other worlds, randomization, edge-bias and x-progress flags are rejected.
+Keep the command and resolved seed/world startup log with your recipe.
+
 ## 3. Read one journal (15 min, the highest-value 15 min here)
 
 Read [`experiments/gap_flight/journal.md`](../experiments/gap_flight/journal.md)

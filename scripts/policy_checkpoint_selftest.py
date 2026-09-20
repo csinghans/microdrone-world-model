@@ -163,6 +163,7 @@ def selftest():
                 curriculum=False,
                 out=str(root / "cli.zip"),
                 timesteps=9,
+                seed=0,
                 recurrent=False,
                 randomize=False,
                 edge_bias=True,
@@ -175,6 +176,7 @@ def selftest():
                 train_policy(args)
                 assert train.call_args.kwargs["out"] == args.out
             args.curriculum, args.out = True, str(root / "cli_recurrent.zip")
+            args.worlds, args.edge_bias, args.x_progress = "classic", False, False
             with patch.object(policy, "train_curriculum") as curriculum:
                 train_policy(args)
                 assert curriculum.call_args.kwargs["out"] == args.out

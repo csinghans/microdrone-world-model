@@ -117,6 +117,13 @@ python -m scripts.train --policy --worlds hard --edge-bias --x-progress \
   --out output/ppo_my_candidate.zip
 ```
 
+`--seed` sets the policy training seed as well as the world-model seed.
+For a policy world subset or weighted list, use e.g.
+`--worlds moving,dense,moving --out output/ppo_weighted_candidate.zip`;
+order and repeats are preserved. `--curriculum` uses classic worlds and its
+fixed speed diet; it rejects other worlds, `--randomize`, `--edge-bias` and
+`--x-progress`. Training logs print the resolved seed and world sequence.
+
 Score that path with `eval.eval_policy_cells --zip <candidate.zip>` using
 your pre-registered cells; historical scoreboards still read their original
 `zip_path()` filenames. `--policy --selftest` dispatches the module's three

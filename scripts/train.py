@@ -167,6 +167,7 @@ def train_world_model(args) -> None:
 def train_policy(args) -> None:
     from planner.learned_policy import train as train_ppo
     from planner.learned_policy import train_curriculum, training_path
+    from sim.scenario_registry import resolve_worlds
 
     if args.selftest:
         from planner.learned_policy import selftest
@@ -174,15 +175,36 @@ def train_policy(args) -> None:
         selftest()
         return
 
+    worlds = resolve_worlds(args.worlds)
+    if not worlds:
+        raise ValueError("--worlds must name at least one registered world")
     if args.curriculum:
-        print(f"[INFO] RecurrentPPO mixed-diet curriculum, {args.timesteps} steps")
+        unsupported = []
+        if worlds != ("classic",):
+            unsupported.append("--worlds (curriculum requires classic)")
+        for flag in ("randomize", "edge_bias", "x_progress"):
+            if getattr(args, flag):
+                unsupported.append("--" + flag.replace("_", "-"))
+        if unsupported:
+            raise ValueError("curriculum does not support: " + ", ".join(unsupported))
+        print(
+            f"[INFO] RecurrentPPO mixed-diet curriculum, {args.timesteps} steps, "
+            f"seed={args.seed}, worlds=classic"
+        )
         saved = training_path(args.out, recurrent=True, curriculum=True)
         train_curriculum(
-            args.timesteps, out=saved, n_steps=args.n_steps, lstm_size=args.lstm_size
+            args.timesteps,
+            seed0=args.seed,
+            out=saved,
+            n_steps=args.n_steps,
+            lstm_size=args.lstm_size,
         )
         print(f"[INFO] saved {saved}")
         return
     hard = args.worlds == "hard"
+    explicit_worlds = args.worlds not in ("classic", "hard")
+    if explicit_worlds and not args.out:
+        raise ValueError("custom --worlds requires --out with a new candidate filename")
     saved = training_path(
         args.out,
         recurrent=args.recurrent,
@@ -198,13 +220,18 @@ def train_policy(args) -> None:
         + (" + hard worlds" if hard else "")
         + (" + x-progress" if args.x_progress else "")
     )
-    print(f"[INFO] PPO over world-model outputs ({tag}), {args.timesteps} steps")
+    print(
+        f"[INFO] PPO over world-model outputs ({tag}), {args.timesteps} steps, "
+        f"seed={args.seed}, worlds={','.join(worlds)}"
+    )
     train_ppo(
         args.timesteps,
+        seed0=args.seed,
         recurrent=args.recurrent,
         randomize=args.randomize,
         edge_bias=args.edge_bias,
         hard=hard,
+        worlds=worlds if explicit_worlds else None,
         x_progress=args.x_progress,
         n_steps=args.n_steps,
         lstm_size=args.lstm_size,
@@ -228,7 +255,7 @@ def main() -> None:
     ap.add_argument(
         "--out", default=None, help="new candidate path (.pth WM / .zip policy)"
     )
-    ap.add_argument("--seed", type=int, default=0)  # borderline reruns use seed+1
+    ap.add_argument("--seed", type=int, default=0, help="WM or policy training seed")
     ap.add_argument("--data", default=None, help="dataset npz override (e.g. search)")
     # representation knobs (defaults = the deployed architecture)
     ap.add_argument("--latent-d", type=int, default=None, help="latent width")
@@ -241,14 +268,20 @@ def main() -> None:
     ap.add_argument("--timesteps", type=int, default=300_000)
     ap.add_argument("--recurrent", action="store_true")
     ap.add_argument("--edge-bias", action="store_true")
-    ap.add_argument("--curriculum", action="store_true")
+    ap.add_argument(
+        "--curriculum", action="store_true", help="recurrent classic-world speed diet"
+    )
     ap.add_argument("--randomize", action="store_true")
-    ap.add_argument("--n-steps", type=int, default=256)
-    ap.add_argument("--lstm-size", type=int, default=64)
+    ap.add_argument(
+        "--n-steps", type=int, default=256, help="recurrent PPO rollout length"
+    )
+    ap.add_argument(
+        "--lstm-size", type=int, default=64, help="recurrent PPO hidden size"
+    )
     ap.add_argument(
         "--worlds",
         default="classic",
-        help="'classic' | 'hard' | comma-list of registered worlds",
+        help="policy: 'classic' | 'hard' | registered comma-list (requires --out)",
     )
     ap.add_argument("--x-progress", action="store_true")  # odometry map pin in obs
     ap.add_argument("--selftest", action="store_true")

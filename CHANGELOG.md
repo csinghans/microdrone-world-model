@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- **Policy CLI preserves the requested recipe:** `--seed` now reaches both
+  ordinary and curriculum training; non-preset `--worlds` lists retain their
+  order and multiplicity and require an explicit output path. Unknown/empty
+  worlds and unsupported curriculum flags fail before training. Previously
+  nonzero seeds and world lists were silently ignored. Real-parser and
+  constructor-routing tests pass without fitting; historical results remain
+  unchanged. See `experiments/policy_recipe_v1/journal.md`.
+
 - **Policy training preserves champions too:** PPO, recurrent PPO and
   curriculum training now preflight fresh candidate zip paths and publish
   through the shared atomic writer. The CLI forwards `--out` in both paths;
