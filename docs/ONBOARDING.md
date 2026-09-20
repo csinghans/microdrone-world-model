@@ -64,6 +64,13 @@ The demo and deployment defaults continue to use the fetched champion.
 On artifactless selftests, tiny auto-trained stand-ins use separate
 `*_autotrained_selftest.pth` files and cannot fill a missing champion path.
 
+Policy training similarly adds `_candidate` to the preset filename and
+honors `--out`, including curriculum runs. Explicit outputs end in `.zip`;
+recurrent models require `_recurrent` in the basename so `load_policy` can
+select the right class. Existing outputs and locked paths fail before any
+environment or optimizer is created. Evaluate a policy candidate explicitly
+with `eval.eval_policy_cells --zip <candidate.zip>` and pre-registered cells.
+
 ## 3. Read one journal (15 min, the highest-value 15 min here)
 
 Read [`experiments/gap_flight/journal.md`](../experiments/gap_flight/journal.md)

@@ -190,7 +190,25 @@ the source-identity tests and all 16 research regressions pass; the real CLI
 rejects both sacred destinations before nonexistent-data loading. Whole-repo
 Black/Ruff (167 Python files) and all nine locked hashes pass. No fit or
 model score was run for this repair. Scope is the WM CLI and eval fallback;
-policy training and historical standalone save paths need a separate audit.
+policy training and historical standalone save paths needed a separate audit.
+
+The [policy_checkpoint_v1 repair](../experiments/policy_checkpoint_v1/journal.md)
+subsequently covers the standard policy APIs and CLI. An isolated
+reproduction at `2e6c22d` replaced a temporary sentinel at the default
+champion-shaped path and showed the policy CLI ignored `--out`. Both PPO
+variants and the curriculum now preflight candidate paths and publish
+atomically. Existing `zip_path()` readers and all learning recipes remain
+unchanged. Output filenames must preserve `_recurrent`; module selftests
+now follow that convention and opt into selftest-only replacement.
+
+The new selftest checks early refusal, both CLI output routes, constructor
+arguments, curriculum chunks, environment cleanup, and real PPO/LSTM
+serialization/parameter parity without learning. WM publication, source
+identity and all 16 research regressions also pass. Whole-repository
+Black/Ruff (168 Python files) and all nine locked-artifact hashes pass.
+No research model was fitted, scored or promoted. Historical standalone
+save sites remain outside this repair; do not assume every `model.save`
+call is now guarded.
 
 The tested loss weight changes objective allocation, not independent data
 support or measured gradient mass. It does not isolate prediction from

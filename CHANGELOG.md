@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- **Policy training preserves champions too:** PPO, recurrent PPO and
+  curriculum training now preflight fresh candidate zip paths and publish
+  through the shared atomic writer. The CLI forwards `--out` in both paths;
+  it previously ignored it. Historical `zip_path()` readers are unchanged,
+  and recurrent output names are checked against the loader convention.
+  Policy selftests use replaceable selftest filenames, with `_recurrent`
+  retained, and `--policy --selftest` invokes those smoke variants.
+  Environments close on constructor, learning or save failure. Synthetic
+  recipe/call-site checks and actual PPO/LSTM save-load roundtrips pass,
+  with no new training draw or changed scientific verdict.
+
 - **World-model training preserves champions and prior experiments:** the
   default output is now `world_model_candidate.pth`; explicit locked paths
   (including aliases or absent assets) and existing research outputs fail

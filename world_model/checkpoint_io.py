@@ -40,10 +40,8 @@ def check_destination(path, *, overwrite=False):
     return resolved
 
 
-def save_checkpoint(checkpoint, path, *, overwrite=False):
-    """Atomic visibility; failed saves preserve prior files and remove temporaries."""
-    import torch
-
+def publish_checkpoint(path, writer, *, overwrite=False):
+    """Atomically publish bytes supplied by writer(open_binary_file)."""
     destination = check_destination(path, overwrite=overwrite)
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
@@ -55,7 +53,7 @@ def save_checkpoint(checkpoint, path, *, overwrite=False):
             delete=False,
         ) as stream:
             temporary = Path(stream.name)
-            torch.save(checkpoint, stream)
+            writer(stream.file)
             stream.flush()
             os.fsync(stream.fileno())
         check_destination(destination, overwrite=overwrite)
@@ -67,6 +65,15 @@ def save_checkpoint(checkpoint, path, *, overwrite=False):
         if temporary is not None:
             temporary.unlink(missing_ok=True)
     return destination
+
+
+def save_checkpoint(checkpoint, path, *, overwrite=False):
+    """Atomic visibility; failed saves preserve prior files and remove temporaries."""
+    import torch
+
+    return publish_checkpoint(
+        path, lambda stream: torch.save(checkpoint, stream), overwrite=overwrite
+    )
 
 
 def selftest():

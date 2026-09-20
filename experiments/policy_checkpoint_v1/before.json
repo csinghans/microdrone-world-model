@@ -1,0 +1,13 @@
+{
+  "scope": "Synthetic reproduction; no simulator or optimizer ran.",
+  "policy_source": {
+    "path": "/Users/hans.chen/microdrone-world-model/planner/learned_policy.py",
+    "sha256": "81ebfd13fb4e45065744587bcbbd3721714941aaca41ad981e23afeb58cb21aa"
+  },
+  "cli_source": {
+    "path": "/Users/hans.chen/microdrone-world-model/scripts/train.py",
+    "sha256": "8092d493291267e2c6b6363853f89cbcb21d2e7e4b394ba1187daf3b3f9a029e"
+  },
+  "default_replaced_temporary_sentinel": true,
+  "cli_ignored_out": true
+}

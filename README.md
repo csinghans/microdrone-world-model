@@ -108,8 +108,21 @@ research checkpoints are rejected before data loading/fitting. Publication
 is atomic and cannot replace a concurrent writer's result. `--selftest`
 retains its replaceable selftest filenames. Artifactless evaluations cache
 their labelled tiny stand-in in a separate `_autotrained_selftest.pth` file.
-The protection here covers the world-model CLI and evaluation fallback;
-policy-training save paths have their own implementation.
+Policy training also uses candidate paths and honors `--out` for PPO,
+recurrent PPO and curriculum runs. Explicit policy outputs must end in `.zip`
+and include `_recurrent` for recurrent models, matching the loader. For example:
+
+```bash
+python -m scripts.train --policy --worlds hard --edge-bias --x-progress \
+  --out output/ppo_my_candidate.zip
+```
+
+Score that path with `eval.eval_policy_cells --zip <candidate.zip>` using
+your pre-registered cells; historical scoreboards still read their original
+`zip_path()` filenames. `--policy --selftest` dispatches the module's three
+smoke variants to selftest files. The shared save protection covers these
+training APIs and the WM fallback; standalone historical scripts retain
+their own save implementations.
 
 New rollout datasets use `world_balanced` scheduling: every world gets
 intervention and passive trials, and classic gets threatened and clear

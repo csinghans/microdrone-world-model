@@ -58,6 +58,10 @@ pip install -e . && python -m scripts.fetch_champions
   CLI 會在載入資料與訓練前拒絕鎖定路徑或既有實驗檔。評估候選模型時，
   使用 `eval.eval_wm_checkpoint --ckpt 候選檔`；預設示範仍讀已下載的冠軍。
   沒有工件時，自檢用的小模型會另存 `_autotrained_selftest.pth`。
+- **策略模型存在哪裡？** PPO、循環 PPO 與 curriculum 訓練也會另存
+  `_candidate.zip`，且都支援 `--out`。循環模型檔名須保留 `_recurrent`；
+  檔案已存在或屬於鎖定路徑時，會在建立環境與訓練前停止。
+  使用 `eval.eval_policy_cells --zip 候選檔` 搭配預先登記的 cells 評估。
 - **我的數字跟日誌對不上？** 正常。機制會重現、小數點不會（訓練有
   隨機性、Mac 的 MPS 尤其）。這裡發表的是範圍不是單次好運，詳見
   詞彙表的「two-tier claims」。

@@ -10,7 +10,7 @@ Run:
   python -m scripts.train --policy --curriculum
   python -m scripts.train --selftest                  # tiny world model, asserts
 Saves output/world_model_candidate.pth (or an explicit new --out).
-Variant/selftest suffixes remain supported. Policies use output/ppo_wm_policy*.zip.
+Variant/selftest suffixes remain supported. Policy candidates also honor --out.
 """
 
 import argparse
@@ -166,14 +166,31 @@ def train_world_model(args) -> None:
 
 def train_policy(args) -> None:
     from planner.learned_policy import train as train_ppo
-    from planner.learned_policy import train_curriculum, zip_path
+    from planner.learned_policy import train_curriculum, training_path
+
+    if args.selftest:
+        from planner.learned_policy import selftest
+
+        selftest()
+        return
 
     if args.curriculum:
         print(f"[INFO] RecurrentPPO mixed-diet curriculum, {args.timesteps} steps")
-        train_curriculum(args.timesteps, n_steps=args.n_steps, lstm_size=args.lstm_size)
-        print(f"[INFO] saved {zip_path(recurrent=True, curr=True)}")
+        saved = training_path(args.out, recurrent=True, curriculum=True)
+        train_curriculum(
+            args.timesteps, out=saved, n_steps=args.n_steps, lstm_size=args.lstm_size
+        )
+        print(f"[INFO] saved {saved}")
         return
     hard = args.worlds == "hard"
+    saved = training_path(
+        args.out,
+        recurrent=args.recurrent,
+        randomize=args.randomize,
+        edge_bias=args.edge_bias,
+        hard=hard,
+        x_progress=args.x_progress,
+    )
     tag = (
         ("recurrent " if args.recurrent else "stacked ")
         + ("+ randomized" if args.randomize else "clean")
@@ -191,9 +208,7 @@ def train_policy(args) -> None:
         x_progress=args.x_progress,
         n_steps=args.n_steps,
         lstm_size=args.lstm_size,
-    )
-    saved = zip_path(
-        args.recurrent, args.randomize, args.edge_bias, hard=hard, xp=args.x_progress
+        out=saved,
     )
     print(f"[INFO] saved {saved}")
 
@@ -210,7 +225,9 @@ def main() -> None:
     ap.add_argument("--ground-lambda", type=float, default=0.5)  # the N-knob
     ap.add_argument("--cf-hard-pool", choices=CF_HARD_POOLS, default="legacy_masked")
     ap.add_argument("--executed-moving-weight", type=float, default=1.0)
-    ap.add_argument("--out", default=None, help="new world-model candidate path")
+    ap.add_argument(
+        "--out", default=None, help="new candidate path (.pth WM / .zip policy)"
+    )
     ap.add_argument("--seed", type=int, default=0)  # borderline reruns use seed+1
     ap.add_argument("--data", default=None, help="dataset npz override (e.g. search)")
     # representation knobs (defaults = the deployed architecture)
