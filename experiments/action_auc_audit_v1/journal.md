@@ -59,3 +59,55 @@ Verification:
 - Whole-repository `black --check .` (172 Python files), `ruff check .`
   and `git diff --check` pass. All nine locked-artifact SHA checks pass.
   No remote push or CI dispatch was performed.
+
+## 2026-09-21 continuation check: values match, source identity changed
+
+At `b2b7c69`, the strict `--verify` command exits 1 because its full-report
+comparison includes instrument source hashes. The only differing field is
+`instrument_sha256["eval/compare_wm_scores.py"]`: the later
+[score-schema repair](../score_schema_v1/journal.md) changed that dependency.
+Every numerical field, action matrix, input identity and original verdict
+still matches exactly. The strict failure is retained in
+`output/research_integrity_selftest/research_state_20260921.log`; neither
+the archived report nor its original instrument identity was rewritten.
+
+For later source revisions, the following checks the original instrument
+hashes against its recorded Git revision, all archived output hashes, and
+current fixed-score accounting separately. It reports source changes
+explicitly; it does not assert reproduction with an identical instrument.
+Run from the repository root with the original local NPZ inputs available:
+
+```bash
+python - <<'PY'
+import hashlib
+import json
+import subprocess
+from pathlib import Path
+from eval.eval_action_auc_audit import analyze
+
+folder = Path('experiments/action_auc_audit_v1')
+receipt = json.loads((folder / 'verification.json').read_text())
+saved = json.loads((folder / 'report.json').read_text())
+current = analyze()  # Frozen input hashes are checked; no model inference.
+original_sources = saved.pop('instrument_sha256')
+current_sources = current.pop('instrument_sha256')
+assert original_sources.keys() == current_sources.keys()
+for path, digest in original_sources.items():
+    source = subprocess.check_output(
+        ['git', 'show', f"{receipt['instrument_commit']}:{path}"])
+    assert hashlib.sha256(source).hexdigest() == digest, path
+for path, digest in receipt['files'].items():
+    assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == digest, path
+assert saved == current, 'fixed-score accounting changed'
+print('ACTION ACCOUNTING UNCHANGED; original source/output hashes verified')
+print('Changed current sources:', {
+    path: {'original': digest, 'current': current_sources[path]}
+    for path, digest in original_sources.items()
+    if digest != current_sources[path]
+})
+PY
+```
+
+This check passed locally; its complete output is retained in
+`output/research_integrity_selftest/research_state_20260921_action.log`.
+No fitting, model inference, new samples, bootstrap or changed result.

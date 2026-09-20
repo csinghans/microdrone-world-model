@@ -71,6 +71,17 @@ the new registration. It reports insufficient support without generating
 replacement courses or inventing a retrospective gate. A structural
 bootstrap minimum does not establish useful precision or a per-world gain.
 
+The completed [action-pair audit](../experiments/action_auc_audit_v1/summary.md)
+reconstructs the executed-weight scores without inference or new samples.
+Moving's mean gain includes both within-action and across-action terms, but
+97.10% of its same-action score pairs are forward/forward. Dense veer-left
+has no negative windows; an overall AUC cannot certify those steering cases.
+For a new action-specific study, register required positive/negative course
+and window counts, then check them with `eval.eval_support_requirements`
+before fitting. The [support guide](SUPPORT-REQUIREMENTS.md) defines the
+workflow and explicit insufficiency response; it sets no scientific bars.
+Current implementation and validation scope: [continuation state](RESEARCH-STATUS.md).
+
 Other closed research arcs:
 
 - **The Perception Tier (three campaigns + one refusal): a promising

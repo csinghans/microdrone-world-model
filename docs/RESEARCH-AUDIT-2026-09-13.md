@@ -146,6 +146,22 @@ but moving has only one probe course, so the existing world-stratified
 bootstrap returns no veer interval. Preserve that missing value and reason;
 future preflight checks should expose per-stratum support before training.
 
+The subsequent [action-pair audit](../experiments/action_auc_audit_v1/summary.md)
+reconstructs every AUC/delta from that study's six unchanged score exports.
+Moving's mean +0.059825 splits into +0.032170 within-action and +0.027656
+across-action contributions, with seed 0 negative in both. Yet 97.10% of
+moving's same-action score pairs are forward/forward. Dense veer-left has
+zero negative windows, and several other dense actions have negatives from
+one course. Neither the aggregate nor this accounting proves a steering
+gain or a causal explanation; the original NO-GO stands.
+
+For a new study, the [prospective support checker](SUPPORT-REQUIREMENTS.md)
+now checks registered action/class window and course minima against the
+exact corpus and saved support report. The shared veer selector separately
+exposes per-world probe support. Freeze the requirements and the response
+to insufficiency before fitting; these instruments provide no default
+scientific thresholds and authorize no expansion of a closed exam.
+
 ## Research explanations that needed narrowing
 
 ### Perception results are checkpoint observations
@@ -219,8 +235,11 @@ Use `--independent-holdout` only with a dataset generated independently of
 **every** compared checkpoint's training data. This is a caller assertion:
 old checkpoint metadata cannot prove dataset disjointness. Known exact
 training-file reuse is now rejected when both hashes are available. The default
-training-validation mode still follows the checkpoint's own seed and
-rejects contradictory seeds, including through the Python API.
+training-validation mode follows the checkpoint's own seed and rejects
+contradictory seeds. The later [original-corpus identity repair](../experiments/wm_validation_identity_v1/journal.md)
+also rejects a known different training-file hash before scoring, including
+through the Python API. Missing identities remain explicitly unverified;
+a matching seed alone cannot restore the original validation courses.
 
 The 2026-09-14 identity regression reproduced a concrete contradiction:
 paired-score comparison accepted `independent_holdout_all` even when its
@@ -275,7 +294,10 @@ python -m eval.compare_wm_scores \
 All rollouts now remain common across models regardless of training seed.
 Exports preserve sample IDs, labels, world IDs, horizons, checkpoint/data
 hashes, checkpoint metadata and evaluation runtime. Existing output files
-are refused. Missing veer probes serialize as `null` with sample count zero.
+are refused. The later [publication repair](../experiments/wm_publication_v1/journal.md)
+makes each output atomic, though the JSON/NPZ pair is not a transaction:
+completion requires exit 0 and both requested outputs with matching metadata.
+Missing veer probes serialize as `null` with sample count zero.
 Class counts accompany the legacy AUC fields, so a 0.5 fallback from an
 absent class can be distinguished from a measured chance-level ranking.
 Since the CF sampler registration, exports also retain eligible veer probe
@@ -283,7 +305,11 @@ course/time pairs, geometric truth, world identity and per-frame correctness.
 The aggregate includes both probe-frame and independent-course counts.
 
 The comparison refuses mismatched datasets, sample order, labels, horizons
-or metric versions. It reports candidate-minus-control AUC@32 and paired
+or metric versions. The [score-schema repair](../experiments/score_schema_v1/journal.md)
+also validates integer course/time/world identities, unique world names and
+binary aligned veer labels before metrics or resampling; all 18 archived
+exports from the three studies remain accepted and unchanged.
+It reports candidate-minus-control AUC@32 and paired
 world-stratified rollout-bootstrap percentile intervals. Resampling whole
 rollouts preserves within-flight dependence. These intervals describe
 test-course uncertainty conditional on the two fixed models; they do not

@@ -1,292 +1,153 @@
-# Research continuation state — 2026-09-14
+# Research continuation state — 2026-09-21
 
-The ongoing objective is to improve this project's implementation, content
-and research with rerunnable evidence. An hourly follow-up is active in the
-existing Codex task. It does not bypass account limits; local scheduled work
-needs the computer and app available. Check current processes and Git state
-on resumption rather than assuming this snapshot is still current.
+The three matched training studies below are **closed NO-GO**. Their common
+exam machinery is implemented and exercised; no candidate earned promotion.
+The remaining research question is which action-specific failure a new
+single-knob study can resolve with adequate course support and the embedded
+budget intact. No new training study is registered or running at this review.
 
-## Completed and verified
+This is a living continuation index, reviewed against `b2b7c69`. Original
+registrations, stage receipts and journals are the evidence of record; this
+page neither replaces them nor changes a gate. Recheck Git and processes
+on resumption. Old queue files and PIDs do not establish active work.
 
-- Research runner: consistent pooled verdicts, preserved initial/recheck
-  evidence, append-only resume, concurrent-writer exclusion, atomic JSON
-  before journal/Git writes, scoped commits and protected WM hashes.
-  `python -m scripts.research_selftest` passes 16 isolated regressions;
-  `python -m scripts.research --selftest` passes a simulator-backed dry gate.
-- Metrics: shared tie-aware AUC, explicit rejection of nonfinite/mismatched
-  inputs, independent holdout export, paired rollout uncertainty and a
-  legacy-metric audit. Core, indoor-wrapper, checkpoint, head-calibration,
-  temporal-probe and int8-parity selftests passed locally. The real-checkpoint
-  CLI export/compare roundtrip also passed identity and no-overwrite checks.
-- Independent-exam identity: the probe API/CLI and paired comparison now
-  reject known exact training-file reuse. File-backed training records its
-  source SHA and rejects a file changed during load/fit before publishing
-  a checkpoint. Synthetic tests cover both comparison arms, renamed copies,
-  no scoring/writes on rejection and compatibility with original validation
-  and legacy metadata. This is not a proof of rollout independence: missing
-  or different file hashes cannot exclude overlap from repacking/subsets.
-  The two-epoch checkpoint integration test passed. A saved CF control
-  paired deliberately with its own training file was rejected by the real
-  CLI before result files appeared. All 160 Python files pass Black/Ruff;
-  both completed-study report selftests and all nine locked-artifact hashes
-  also pass. No research model was fitted or rescored for this repair.
-- Registered [metric_integrity_v1](../experiments/metric_integrity_v1/journal.md)
-  is complete: 60 rollouts, 4,083 valid samples, zero cross-class ties and
-  zero legacy-to-corrected AUC change for both locked float WMs. Do not
-  rerun this diagnostic looking for a different outcome.
-- The diagnostic exposed world/role schedule aliasing. New generation now
-  uses `world_balanced`; explicit `legacy` reproduces older recipes.
-  Pure schedule tests cover world permutations/weights; the simulator
-  selftest requires passive and intervention flights in every world.
-  A separate six-rollout replay matched every array against the old
-  `8de0e75` generator. New data/checkpoints carry layout provenance.
-- The [evidence audit](RESEARCH-AUDIT-2026-09-13.md), roadmap, README and
-  bilingual articles #15–#16 distinguish recorded rows from unproven
-  explanations. Historical journal corrections append dated notes.
-- Whole-repository Black/Ruff and diff-whitespace checks passed. These
-  are local validations, not a claim that remote CI was dispatched.
+## Closed scientific evidence
 
-All nine locked artifacts were restored from the existing release and
-verified. Both protected WM hashes remain those in `artifacts.lock.json`.
-No frozen skill declaration or existing results JSON was changed. No
-release was tagged or remote push performed.
+Each study used six fresh 80-epoch fits, paired seeds 0/1/2, and its own
+186-course independent exam shared by all six models. Exams differ between
+studies: compare arms within a study, not absolute scores across studies.
 
-## Next research work
+| Study / single knob | Primary deltas, seeds 0 / 1 / 2 | Why NO-GO |
+|---|---|---|
+| [schedule_layout_v1](../experiments/schedule_layout_v1/summary.md): legacy → world-balanced roles | Moving AUC +0.0133 / −0.0745 / −0.1042; mean −0.0551 | Mean misses +0.03; seed 1 room/now guards fail and seed 2 fails all behavioral guards |
+| [cf_hard_pool_v1](../experiments/cf_hard_pool_v1/summary.md): masked-vector → answerable-label contrast sampling | Veer accuracy +0.0481 / −0.0913 / +0.1635; mean +0.0401 | Mean misses +0.05; seed 1 ranking declines and seed 0 classic/moving/room/now guards fail |
+| [executed_weight_v1](../experiments/executed_weight_v1/summary.md): moving executed-loss weight 1.0 → 2.25 | Moving AUC −0.0184 / +0.1227 / +0.0752; mean +0.0598 | Mean passes +0.03, but seed 0 positivity and seed 1 dense/veer guards fail |
 
-The [schedule_layout_v1 study](../experiments/schedule_layout_v1/summary.md)
-is **complete: NO-GO**. Six 80-epoch fits, three paired training seeds, one
-186-course independent exam. Moving AUC deltas are +0.0133 / −0.0745 /
-−0.1042 (mean −0.0551; required +0.0300). Room/now guards fail at seed 1;
-all behavioral guards fail at seed 2. Budget is unchanged at 137.29 KB.
-No model was promoted or valid measurement repeated. Do not restart or
-expand this completed study and do not select its favorable seed 0 alone.
+Keep `world_balanced` as the structural role-coverage repair, without claiming
+a performance upgrade. CF sampling stays `legacy_masked`; executed-loss
+weight stays 1.0. Preserve all seeds and failed guards. These closed studies
+authorize no replacement draws, added exam courses, altered bars or flight
+gate. Recorded course-bootstrap intervals condition on fixed checkpoint
+pairs; three-seed means/ranges are not training-population uncertainty.
 
-All 19 stage receipts and artifacts were hash-verified before closing;
-the full log ends in `SCHEDULE-LAYOUT-DONE` and `SCHEDULE-LAYOUT-EXIT=0`.
-No experiment worker remained at the completion check. Recheck processes
-on every wakeup rather than assuming that remains true. Raw data, models
-and scores stay under `output/schedule_layout_v1/`; committed receipts are
-in `experiments/schedule_layout_v1/records/`, including `report.json`.
-`python -m eval.eval_schedule_report` regenerates the summary/figure from
-committed records alone, with no scoring, fitting or resampling. Its
-selftest rejects altered decisions or summaries. The original training
-sources are pinned in the manifest at `e4053e8`; new report code was added
-only after the training/evaluation queue completed.
+All three studies retain the same **137.29 KB analytic int8 bill** and
+3,856,768 MACs/decision: **7.71 ms at an assumed 0.5 GMAC/s**, against the
+project's 512 KB / approximately 8 ms target. These are estimates, without
+hardware timing, quantization-parity or flight certification for these fits.
 
-The first vision attempt stopped before data generation because the moving
-crosser starts outside the camera cone. The corrected instrument observes
-its geometric centreline crossing, with unchanged thresholds, seeds and
-training recipe. All four rendered-scene checks passed; the original
-failure and manifest remain in `harness_attempt_1/`.
+## What the support audits established
 
-The metadata-only [schedule_support_v1 audit](../experiments/schedule_support_v1/journal.md)
-is also complete. All six train/validation window counts and the common
-exam's class counts reconcile. Moving executed windows fall 2,816→1,506
-while non-forward categories appear. The legacy seed-0 dense internal
-validation AUC 0.5 was undefined: 158 positive / zero negative windows.
-Training now records class support and warns on such fallbacks; numeric
-values and all archived results remain unchanged. The two-epoch checkpoint
-selftest passed training/probe count agreement and exercised a warning.
+- [metric_integrity_v1](../experiments/metric_integrity_v1/journal.md): on
+  60 courses / 4,083 windows, both locked float WMs have zero cross-class
+  score ties and zero old-to-corrected AUC change. This covers those models
+  and that draw, not the historical 96-pixel or quantized candidates.
+- [schedule_support_v1](../experiments/schedule_support_v1/journal.md):
+  moving executed windows fall 2,816→1,506 as non-forward categories appear.
+  Legacy seed-0 dense validation has 158 positives and no negatives: its
+  numeric 0.5 is the compatibility fallback, not measured chance ranking.
+  Class-support logging exposes this without rewriting old results.
+- [veer_support_v1](../experiments/veer_support_v1/journal.md): the CF exam
+  has 208 eligible frames / 23 courses, including two moving courses; the
+  executed-weight exam has 190 / 20, including one moving course. Both
+  satisfy their frozen pooled bar. The latter's world-stratified veer
+  intervals remain undefined because the moving stratum is a singleton.
+  Keep the missing intervals and the original NO-GO; do not expand the exam.
+- [action_auc_audit_v1](../experiments/action_auc_audit_v1/summary.md): the
+  six saved executed-weight exports reconstruct every original AUC/delta
+  from action-pair contributions. Moving's mean +0.059825 comprises
+  +0.032170 within-action and +0.027656 across-action contributions; seed 0
+  loses in both. **97.10% of moving's same-action score pairs are
+  forward/forward.** Dense veer-left has zero negative windows; several
+  other dense actions have negative windows from only one course.
 
-`python -m eval.eval_dataset_support --selftest` checks exact window/split
-counts, room/transit action-id separation, classless labels and masked
-contrast. `bash experiments/schedule_support_v1/verify.sh` checks saved
-audit/fit/exam agreement without fitting or rewriting outputs. The audit's
-raw data is under its campaign directory; no experiment worker is active.
-Original manifest source hashes describe the historical training revision;
-the new class-support logging was added only after both studies completed.
+The decomposition is accounting on a fixed exam, not a causal explanation
+or a steering certificate. Within-action comparisons still mix scenes and
+speeds; across-action comparisons may contain useful information. Window
+pairs are not independent trials, and course counts can overlap across
+actions/classes. Objective weight mass is not measured gradient mass.
 
-The [cf_hard_pool_v1 study](../experiments/cf_hard_pool_v1/summary.md) is
-**complete: NO-GO**. Six new 80-epoch fits share the same balanced corpus;
-the sole knob selects zero-masked-vector versus answerable-label contrast.
-On the fresh 186-course / 12,147-window exam, veer deltas are
-+0.0481 / −0.0913 / +0.1635, mean +0.0401 versus required +0.0500.
-Seed 1 ranking regresses, and seed 0 fails classic/moving/room/now guards.
-All six analytic bills remain 137.29 KB; default sampling stays `legacy_masked`.
-There is no promotion, retry, exam expansion or change to any earlier NO-GO.
+## Next research decision
 
-All 17 stages and files, frozen sources/runtime/corpus and protected WMs
-were verified at completion before adding report code; see the campaign's
-`verification.json`. Original sources are pinned at `19106b2`. Full logs
-end in `CF-HARD-POOL-DONE` and `CF-HARD-POOL-EXIT=0`. No worker remained at
-the completion check. `output/cf_hard_pool_v1/queue.json` is a historical
-launch receipt, not an active-work indicator. Recheck processes on wakeup.
-The closed exam SHA is
-`16986ffa08f24bac9ca3f5775ed8f8fa419aa5eb54851f123b1dd7f0416ebf53`.
+Prioritize a specific steering/action failure with a falsifiable mechanism.
+The following is preparation for a new registration, **not** a registered
+study or a reason to reopen any closed experiment:
 
-`python -m eval.eval_cf_sampler_report` rebuilds the summary/figure from
-committed JSON alone; its selftest checks individual receipts, single-knob
-metadata, matched support and frozen decisions. The optional
-`--audit-probe-support` reads six hashed NPZ exports without running models
-and compares an existing support record rather than replacing it. Probe
-support: 208 frames / 23 courses; classic 39/6, dense 145/15, moving 24/2,
-room 0/0. This passes the frozen pooled support bar but does not establish
-per-world ranking gains. No retrospective support expansion is authorized.
+1. Name the endpoint, required worlds/actions and one training knob. Freeze
+   control/candidate recipes, all training seeds, guards, source revision,
+   embedded bill and the response to insufficient support before fitting.
+2. Verify rendered geometry is visible. For new corpora, explicitly freeze
+   `world_balanced`; use `legacy` only for an identified historical recipe.
+   Indoor Active Search uses its established robust speed 0.6.
+3. Use `eval.eval_dataset_support` for the actual corpus and seed partitions,
+   then `eval.eval_support_requirements` with registered positive/negative
+   window **and course** minima. The [support guide](SUPPORT-REQUIREMENTS.md)
+   explains exact fields and exit codes. It supplies no scientific defaults.
+   If veer ranking is an endpoint or guard, also run `eval.eval_veer_support`
+   and register required-world support, rather than relying on a pooled count.
+4. Retain the preflight receipt and obey its frozen insufficiency response.
+   These tools do not establish power, independence or rendered vision.
+   Do not redraw until passing or weaken bars after observing support.
+5. Score all registered matched seeds on one independent common exam.
+   Preserve complete logs, actual process exits and input/output identities.
+   Stop conditional stages with `research step` or a fail-fast persistent
+   queue. An offline improvement still needs its own later flight study.
 
-Both sampler recipes passed the two-epoch integration selftest. The CF
-loss already masks unknown labels correctly; changing allocation also
-changes the danger-now samples. The study failed the registered joint
-improvement test, not an assertion that every contrast curriculum must fail.
+The [evidence audit](RESEARCH-AUDIT-2026-09-13.md) separates earlier
+perception/temporal observations from explanations still unproved. Do not
+substitute the deployed 64-pixel WMs for unavailable historical candidates
+or reuse an old control whose recipe differs from a new treatment.
 
-The [executed_weight_v1 study](../experiments/executed_weight_v1/summary.md)
-is **complete: NO-GO**. Six fresh 80-epoch fits compare moving executed-loss
-weight 1.0 vs 2.25 on a shared balanced corpus. A training-only normalizer
-raises moving weight mass from about 18% to 33%, with batches, CF/now recipes
-and the 137.29 KB analytic bill fixed. Moving AUC deltas are
-−0.0184 / +0.1227 / +0.0752 (mean +0.0598). The +.03 mean bar passes;
-seed 0 fails moving positivity and seed 1 fails dense (−0.0293) and veer
-(−0.0737) guards. Default weight remains 1.0. No promotion or repeat follows.
+## Reliability now in place
 
-All 17 stages and files, sources/runtime/corpus and protected WMs were
-verified before report changes; `verification.json` records this. Original
-training sources are pinned at `2362756`. Full logs end with
-`EXECUTED-WEIGHT-DONE` and `EXECUTED-WEIGHT-EXIT=0`. No worker remained at
-completion; the old queue PID is historical, not an active-work indication.
-The exam contains 186 courses / 12,179 windows; its SHA is
-`e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1`.
+| Boundary | Implemented protection and evidence |
+|---|---|
+| Research continuation | [Frozen evaluation](../experiments/frozen_evaluation_v1/journal.md): ordered cells and recheck settings saved before the first knob; 23 runner regressions. Legacy records remain readable but require original registration evidence before new measurements. |
+| Dataset generation | [Corpus publication](../experiments/dataset_publication_v1/journal.md): all three CLIs reject existing/reserved outputs before simulation and publish complete NPZs atomically; selftest replacement is explicitly scoped. |
+| Model persistence | [WM](../experiments/checkpoint_io_v1/journal.md) and [policy](../experiments/policy_checkpoint_v1/journal.md): candidate defaults, protected locked paths and atomic fresh outputs; recurrent filenames retain `_recurrent`. Historical standalone save sites keep their own implementations. |
+| Policy recipe and evaluation | [CLI recipe](../experiments/policy_recipe_v1/journal.md) forwards seed/world lists; [policy evaluation](../experiments/policy_eval_identity_v1/journal.md) records policy/WM/cell identities and rejects duplicate cells. |
+| Training/validation identity | [Original-corpus validation](../experiments/wm_validation_identity_v1/journal.md) rejects known different training-file hashes; independent holdouts reject known exact reuse. Unknown legacy identities are explicit. Different bytes do not prove disjoint courses. |
+| WM score exports | [Publication](../experiments/wm_publication_v1/journal.md) is atomic per file; the JSON/NPZ pair is not a transaction. Completion requires exit 0 and all requested outputs with matching metadata. |
+| Paired comparison | [Score schema](../experiments/score_schema_v1/journal.md) rejects malformed course/action-probe identities before metrics/resampling; all 18 archived exports / nine pairs remain accepted and unchanged. |
+| Prospective support | [Requirements checker](../experiments/support_requirements_v1/journal.md) binds explicit action/class count bars to report/corpus hashes; insufficient support exits 10 and stops a fail-fast queue. |
 
-`python -m eval.eval_executed_weight_report` generates the summary/figure
-from committed JSON only. Its selftest verifies original decisions, fit
-and score identity, one-knob metadata and preflight weight plans; fabricated
-intervals fail. `--audit-probe-support` checks six hashed exports without
-model calls. Veer has 190 frames / 20 courses: classic 43/7, dense 139/12,
-moving 8/1, room 0/0. Pooled support passes its frozen bar, but the singleton
-moving stratum makes every veer bootstrap interval undefined. Preserve the
-missing intervals and reason; do not expand this exam or change its verdict.
+These are offline instrument repairs. They add no deployed parameters or
+inference work and establish no new performance result. Frozen scientific
+records remain unchanged. All nine artifacts match `artifacts.lock.json`;
+keep the transit and unified WM as separate protected artifacts.
 
-The [veer_support_v1 instrument audit](../experiments/veer_support_v1/journal.md)
-is complete. `world_model.veer_probe.select` is now the common geometric
-selector for scoring and a model-free preflight, `eval.eval_veer_support`.
-It reads no pixels and exposes pooled/per-world course counts, absent worlds
-and singleton strata before future fits. It does not certify rendering,
-course independence or statistical power; it creates no new gate.
+## Verification and resumption
 
-Original `016dc94` geometry matches the new selector on both closed exams
-and the shared training corpus (208/23, 190/20 and 53/10 frames/courses).
-All twelve archived score exports match exact pairs, ground truth and world
-identity. `bash experiments/veer_support_v1/verify.sh` reruns only that
-accounting and checks existing receipts without overwriting them. The three
-new synthetic selftests and the two-epoch checkpoint integration passed.
-Whole-repository lint and locked-artifact checks are recorded in the journal.
+The [artifactless audit](../experiments/artifactless_ci_v1/journal.md) ran
+all **116** fast workflow commands from frozen source `d845f79`, with no
+locked artifacts initially present; every command exited 0 on its first
+attempt. That is a local macOS/Python 3.14 run, not Linux/Python 3.12 CI or
+the optional training smoke. Later repairs have their own linked regression
+receipts; do not extend the frozen audit's coverage claim to newer commands.
+The [latest code receipt](../experiments/dataset_publication_v1/verification.json)
+records passing corpus/identity regressions, transit/indoor simulator smokes,
+whole-repo Black/Ruff (176 Python files), and all nine locked hashes.
 
-Next research should register a specific remaining failure and one mechanism,
-with required exam worlds, support bars and the response to insufficient
-support frozen before any fit. The support tool is available as a separate
-preflight command; historical queues and gates were not changed. Do not
-repeat, expand or reinterpret a closed draw as a new instrument failure.
-No new training study is active.
+Local Python: `/Users/hans.chen/.cache/microdrone-research-venv/bin/python`
+(3.14.5, torch 2.14.0, NumPy 2.5.3, pybullet 3.2.7). Declared conda/CI
+Python remains 3.12. Study outputs are under `output/<study>/`; committed
+receipts are under `experiments/<study>/`. Integrity-test logs are under
+`output/research_integrity_selftest/`. Report selftests validate saved
+decisions without refitting or rescoring:
 
-The retrospective [action_auc_audit_v1](../experiments/action_auc_audit_v1/journal.md)
-decomposes the closed executed-weight exam's six saved exports by executed
-action category, without inference or new samples. All original AUCs and
-deltas reconcile. Moving's mean +0.059825 splits into +0.032170 within-action
-and +0.027656 across-action contributions; seed 0 loses in both. However,
-97.10% of moving's within-action score pairs are forward/forward, so this
-does not certify individual steering actions. Dense veer-left has no negative
-windows; several other dense actions have negatives from only one course.
-The original NO-GO remains. Future action-specific hypotheses need frozen
-per-action/class course support before fitting; do not expand this exam.
+```bash
+python -m eval.eval_schedule_report --selftest
+python -m eval.eval_cf_sampler_report --selftest
+python -m eval.eval_executed_weight_report --selftest
+```
 
-The [checkpoint_io_v1 repair](../experiments/checkpoint_io_v1/journal.md)
-is complete. The WM CLI previously replaced a temporary champion sentinel
-under its default path (synthetic reproduction, no real fit). Ordinary
-training now writes `world_model_candidate.pth`; locked paths and existing
-research outputs fail before data load, with atomic publication and race
-protection. Explicit selftest replacement remains supported.
+All three report checks pass in this review. The action audit's strict
+`--verify` also compares instrument hashes and stops on the newer comparator
+source. Its [dated continuation check](../experiments/action_auc_audit_v1/journal.md#2026-09-21-continuation-check-values-match-source-identity-changed)
+verifies original source/output hashes separately and confirms unchanged
+accounting under the current code, without replacing historical records.
 
-Artifactless evaluation now caches a labelled tiny model in a separate
-`*_autotrained_selftest.pth` file. The dry runner's explicit selftest path
-and hashed provenance still work. New synthetic persistence/entry tests,
-the source-identity tests and all 16 research regressions pass; the real CLI
-rejects both sacred destinations before nonexistent-data loading. Whole-repo
-Black/Ruff (167 Python files) and all nine locked hashes pass. No fit or
-model score was run for this repair. Scope is the WM CLI and eval fallback;
-policy training and historical standalone save paths needed a separate audit.
-
-The [policy_checkpoint_v1 repair](../experiments/policy_checkpoint_v1/journal.md)
-subsequently covers the standard policy APIs and CLI. An isolated
-reproduction at `2e6c22d` replaced a temporary sentinel at the default
-champion-shaped path and showed the policy CLI ignored `--out`. Both PPO
-variants and the curriculum now preflight candidate paths and publish
-atomically. Existing `zip_path()` readers and all learning recipes remain
-unchanged. Output filenames must preserve `_recurrent`; module selftests
-now follow that convention and opt into selftest-only replacement.
-
-The new selftest checks early refusal, both CLI output routes, constructor
-arguments, curriculum chunks, environment cleanup, and real PPO/LSTM
-serialization/parameter parity without learning. WM publication, source
-identity and all 16 research regressions also pass. Whole-repository
-Black/Ruff (168 Python files) and all nine locked-artifact hashes pass.
-No research model was fitted, scored or promoted. Historical standalone
-save sites remain outside this repair; do not assume every `model.save`
-call is now guarded.
-
-The [policy_recipe_v1 repair](../experiments/policy_recipe_v1/journal.md)
-fixes another CLI-only defect: requested policy seeds and explicit world
-lists were silently ignored, and curriculum accepted settings it did not
-apply. The CLI now forwards seeds, preserves resolved world-list weights
-and rejects unsupported combinations before training. Real-parser tests
-trace seeds to both environment and PPO constructors and worlds to the
-environment using doubles. Existing publication tests and all 16 research
-regressions pass; no model was fitted or scored. The research runner's
-direct API routing and all frozen study records are unchanged.
-
-The [policy_eval_identity_v1 repair](../experiments/policy_eval_identity_v1/journal.md)
-adds explicit WM selection and policy/WM/cell-spec hashes to the generic
-policy probe. Its old writer replaced existing files and duplicate IDs
-collapsed measurements; a frozen-source synthetic reproduction records both.
-New results use atomic publication with input rechecks and explicit effective
-cell/judge metadata. Twelve isolated tests, the 16 research regressions and
-the shared publication selftest pass. All nine archived cell-list files
-(52 cells) parse unchanged in a metadata-only compatibility audit. No policy
-was fitted or flown, and historical results and gates are unchanged.
-
-The [frozen_evaluation_v1 repair](../experiments/frozen_evaluation_v1/journal.md)
-extends new campaign snapshots to complete ordered cells and recheck settings,
-saved before the first knob. Previously the loader accepted eight kinds of
-exam-setting changes under unchanged bars in a synthetic reproduction.
-Twenty-three research regressions now pass, including interruption recovery
-and refusal before training. All 15 legacy result files remain readable and
-byte-identical; status labels their missing evidence `legacy_unrecorded`.
-They cannot gain new measurements until original pre-registration evidence
-is recovered; current settings were not retroactively pinned. No experiment
-was trained, flown or rejudged for this repair.
-
-The tested loss weight changes objective allocation, not independent data
-support or measured gradient mass. It does not isolate prediction from
-collision loss. Do not infer a training cause from a large latent endpoint
-alone. Any next fit requires a new one-knob registration and frozen guards.
-
-The coverage repair remains a structural data fix, **not a demonstrated
-performance upgrade**. README, roadmap, changelog and the evidence audit
-now carry the measured negative. Any next training study needs a new
-registration and frozen bars; this NO-GO does not authorize a flight gate.
-
-The 96-pixel research models/corpora are absent from this checkout and
-are not assets in the inspected `champions-2026-07` release. Do not silently
-substitute the deployed 64-pixel models for those historical candidates.
-A reconstruction or new training study needs explicit recipe provenance
-and its own registration; preserve the earlier NO-GOs.
-
-The manual CI workflow includes the new fast integrity/metric/schedule
-tests. If a later step pushes this branch, run whole-repository lint and
-dispatch CI as required by AGENTS.md. Conditional training stages must
-remain gated with `research step` or a fail-fast persistent queue.
-
-Local validation environment for resumption:
-`/Users/hans.chen/.cache/microdrone-research-venv/bin/python`
-(Python 3.14.5, torch 2.14.0, NumPy 2.5.3, pybullet 3.2.7).
-The repo's declared conda/CI Python is 3.12; it was not replaced. New
-statistical records include their actual evaluation runtime. Full audit
-logs are in the campaign folder; local selftest logs are under
-`output/research_integrity_selftest/` and the task's cache directory.
-
-The [artifactless_ci_v1 audit](../experiments/artifactless_ci_v1/journal.md)
-ran the exact two fast selftest groups from source `d845f79` in a detached
-checkout with no locked artifacts initially present. All 116 commands
-exited 0 on the first attempt, including the final champion download and
-doctor. Import origins, command/log hashes and runtime are saved; tracked
-files remained clean and the primary workspace's nine artifact hashes are
-unchanged. This is a macOS/Python 3.14 local run, not Linux/Python 3.12 CI or
-the optional training-smoke job. The doctor's existing sample-size warning
-remains; no frozen skill or research verdict was changed.
+Check current processes before launching work; no worker was active at this
+review. The existing task owns the hourly follow-up. No remote push or
+release was performed in this research-integrity work. Before any later
+push, run whole-repository lint and dispatch manual CI as `AGENTS.md`
+requires. Release tags remain the user's decision.

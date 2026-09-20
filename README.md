@@ -19,9 +19,10 @@ moving-world improvement bar. That does not prove the latent contains no
 motion or that temporal input cannot help. The pixel campaign's three
 reported seeds span 0.14–0.23 on the single-frame per-world rows, while
 both the training draw and evaluation split vary; its reused seed-0
-control also predates the new variance guard. The next instrument needs
-a common, independently held-out evaluation set and matching recipe
-provenance before attributing that spread to training or data size.
+control also predates the new variance guard. Those historical ranges
+cannot isolate training variation or establish a data-size effect. Common
+independent exams and matched recipe provenance are now implemented and
+have been used in the three studies summarized below.
 The stability arc separately showed that the two-sided variance penalty
 did not prevent the 160-epoch failure; the large latent offset motivates
 center/target diagnostics, without yet identifying a causal cure.
@@ -37,8 +38,16 @@ results, not results for the perception candidates. The baseline shipped as
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what
 varies with the training draw. See the two-tier benchmark below: the
-*mechanisms* reproduce every time; the *point numbers* carry honest
+*mechanisms* held on the recorded draws; the *point numbers* carry honest
 run-to-run ranges.
+
+**Research update — 2026-09-21:** the role-schedule, CF sampler and executed
+loss-weight studies all closed **NO-GO**, each using three paired training
+seeds and its own common independent exam. An action-pair audit then found
+that 97.10% of moving's same-action score pairs were forward/forward;
+the overall AUC gain does not establish steering quality. The
+[current research state](docs/RESEARCH-STATUS.md) links the frozen results,
+instrument repairs and action/class support requirements for the next study.
 
 ## Why this exists
 
