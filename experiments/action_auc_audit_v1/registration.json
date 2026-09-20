@@ -1,0 +1,110 @@
+{
+  "campaign": "action_auc_audit_v1",
+  "source_study": "executed_weight_v1",
+  "reference_commit": "afa80fa",
+  "worlds": [
+    "classic",
+    "dense",
+    "moving"
+  ],
+  "horizon": 32,
+  "action_names": [
+    "forward",
+    "slow",
+    "veer_left",
+    "veer_right",
+    "climb",
+    "hover"
+  ],
+  "dataset": {
+    "path": "output/executed_weight_v1/holdout/data.npz",
+    "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+  },
+  "holdout_receipt": {
+    "path": "experiments/executed_weight_v1/records/holdout.json",
+    "sha256": "a85e080106f8bb9bd810d80c2cffa08730cb2fb8703d27231d348ab7889e7f18"
+  },
+  "report_receipt": {
+    "path": "experiments/executed_weight_v1/records/report.json",
+    "sha256": "f50cf58aeb52b07a9581ab01feba8b147d9b5b36238d02b10c8ee6e2806fff4c"
+  },
+  "models": [
+    {
+      "arm": "unit",
+      "seed": 0,
+      "scores": {
+        "path": "output/executed_weight_v1/score_unit_0/scores.npz",
+        "sha256": "3bd4973b74c386fa32d6081fbac0871db6b9420ab2e6760e2c6618056ba147fe"
+      },
+      "receipt": {
+        "path": "experiments/executed_weight_v1/records/score_unit_0.json",
+        "sha256": "d549bcbd4b20be6e47df49f687ab2a21630065b72ea2d8304dc265040535d8f8"
+      }
+    },
+    {
+      "arm": "moving_2p25",
+      "seed": 0,
+      "scores": {
+        "path": "output/executed_weight_v1/score_moving_2p25_0/scores.npz",
+        "sha256": "c6eb4e6a76b840923847aff53ab60b8ff7455a387f33f91b31d9a8fe6b1f363a"
+      },
+      "receipt": {
+        "path": "experiments/executed_weight_v1/records/score_moving_2p25_0.json",
+        "sha256": "6a14f789e9860c00acac308d990fc410add0a20b4817566505df2cddd32306d3"
+      }
+    },
+    {
+      "arm": "unit",
+      "seed": 1,
+      "scores": {
+        "path": "output/executed_weight_v1/score_unit_1/scores.npz",
+        "sha256": "08c92975ced3eac70d050db0d2b988a69d98bf5b836a36b486819b58427e9a05"
+      },
+      "receipt": {
+        "path": "experiments/executed_weight_v1/records/score_unit_1.json",
+        "sha256": "4614695ae2c1c7fd838c901faf6f1e10a8117a2ccb142971809a597358ccf1ec"
+      }
+    },
+    {
+      "arm": "moving_2p25",
+      "seed": 1,
+      "scores": {
+        "path": "output/executed_weight_v1/score_moving_2p25_1/scores.npz",
+        "sha256": "20b2e5c4ef7f16a5944b533bffc37379d0ec1adecb5cc1d8ac5c13ca281cab0d"
+      },
+      "receipt": {
+        "path": "experiments/executed_weight_v1/records/score_moving_2p25_1.json",
+        "sha256": "7832d9dfc3e90ce38f72c3e43bcef6d5d068029e81996e215ee516fda6a44348"
+      }
+    },
+    {
+      "arm": "unit",
+      "seed": 2,
+      "scores": {
+        "path": "output/executed_weight_v1/score_unit_2/scores.npz",
+        "sha256": "354f2f22ff1c91f7c2a12ee1800590acb017af49bb9377338c5daa0a412ddfac"
+      },
+      "receipt": {
+        "path": "experiments/executed_weight_v1/records/score_unit_2.json",
+        "sha256": "a4aa73180d8539f86b89ca60eed9dc2170ab8a69d24c55c9db9088db110b91c0"
+      }
+    },
+    {
+      "arm": "moving_2p25",
+      "seed": 2,
+      "scores": {
+        "path": "output/executed_weight_v1/score_moving_2p25_2/scores.npz",
+        "sha256": "89c9a75bf04c1cf2513c7773e21a5a9570c679d2d5c1e125bd808f1037e671a7"
+      },
+      "receipt": {
+        "path": "experiments/executed_weight_v1/records/score_moving_2p25_2.json",
+        "sha256": "c8ee9a547dcf6d55f0716738ff837f7845707847161bc61cb59652b158ea266f"
+      }
+    }
+  ],
+  "reconstruction_tolerance": 1e-12,
+  "new_training": false,
+  "new_inference": false,
+  "new_samples": false,
+  "changes_source_verdict": false
+}
