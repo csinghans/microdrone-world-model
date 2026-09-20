@@ -1,0 +1,1037 @@
+{
+  "source_commit": "d845f79e5f50661b18c47218af8d0e5a3b8c9dfb",
+  "workflow_sha256": "98214fd30d3c0eb861610925217f704ac51962e5125c919f405696525f64b816",
+  "worktree": "/Users/hans.chen/.cache/microdrone-artifactless-ci-20260920",
+  "output_dir": "output/artifactless_ci_v1/baseline",
+  "timeout_seconds": 1800,
+  "primary_artifacts": [
+    {
+      "path": "output/world_model.pth",
+      "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf"
+    },
+    {
+      "path": "output/world_model_unified.pth",
+      "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4"
+    },
+    {
+      "path": "output/ppo_wm_policy_edge_hard_xp.zip",
+      "sha256": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1"
+    },
+    {
+      "path": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
+      "sha256": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49"
+    },
+    {
+      "path": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+      "sha256": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383"
+    },
+    {
+      "path": "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip",
+      "sha256": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba"
+    },
+    {
+      "path": "output/target_head_yaw.pt",
+      "sha256": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c"
+    },
+    {
+      "path": "output/target_head_low.pt",
+      "sha256": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7"
+    },
+    {
+      "path": "output/target_head_person.pt",
+      "sha256": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+    }
+  ],
+  "commands": [
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "planner.action_set"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "planner.nav_action_set"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "planner.flight_mode",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.fly",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "datasets.intervention_labels"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "datasets.rollout_schedule"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "datasets.provenance"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.dataset_identity_selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "datasets.combine_rollouts",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "datasets.metric_labels"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.grounding"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.encoder"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.predictor"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.collision_head"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.losses"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.metrics"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_action_auc_audit",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.cf_sampling"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.executed_weighting"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.checkpoint_io"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.checkpoint_io_selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.policy_checkpoint_selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.policy_recipe_selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "world_model.veer_probe"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.veer_probe_selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_veer_support",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.compare_wm_scores",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_auc_audit",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.research_selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.schedule_layout_study",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_schedule_report",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_cf_sampler_report",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_executed_weight_report",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_dataset_support",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "sim.domain_randomization"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "planner.safety_filter"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "sim.scenario_registry"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.base"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.gap_flight.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.moving_gap.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.closing_door.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.opening_door.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.corridor_slalom.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.corridor_slalom_v2.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.corridor_slalom_v2.stop_observe",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.chain_learning.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.dodgeball.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.dodgeball_v2.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.wm48_defense.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.chain_distill.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.distill_generalist.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.bcft_generalist.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "skills.dodge_distill.skill"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_arena_ceiling",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_dodge_ceiling",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_dense_probe",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "sim.search_scenario"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "sim.indoor.rooms"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "search.strategies"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "search.doorway"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "search.room_graph"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.search_episode"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_search_gallery",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_search_wm_probe",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.diagnose_v3_collisions",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.diagnose_nroom_doorway",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_doorway_detect",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_room_graph",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_target_probe",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_yaw_detect",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_height",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_alt_detect",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_person_detect",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_alt_search",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_low_hover",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_unified_wm_gate",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_slalom_stopobserve",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "search.target_detector",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_vision_search",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_results_figures",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_skill_gallery",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "planner.dispatch",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "sim.composite"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_policy_cells",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.calibrate_heads",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_duel_plots",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.new_skill",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.fetch_champions",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.train_stopaware_slalom",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.demo_two_mode",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.demo_vertical",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.demo_person",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "planner.authority"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "assist.pilot"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.assist_episode"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_assist_gate",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Pure-math selftests",
+      "argv": [
+        "python",
+        "-m",
+        "eval.safety_selftest",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "sim.envs"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "sim.scenarios"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "skills.moving_gap_v2.skill"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_reactive_vs_wm",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "planner.latent_mpc"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "datasets.generate_rollouts",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "datasets.search_rollouts",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_wm_checkpoint",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_head_calibration",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.distill",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_integration",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "eval.search_episode",
+        "--sim"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "eval.assist_episode",
+        "--sim"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_search",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_beam_ablation",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "search.coverage_policy"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "eval.eval_coverage",
+        "--selftest"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.fetch_champions"
+      ]
+    },
+    {
+      "group": "Sim-in-the-loop selftests (headless)",
+      "argv": [
+        "python",
+        "-m",
+        "scripts.research",
+        "doctor",
+        "skills/gap_flight",
+        "--json"
+      ]
+    }
+  ]
+}
