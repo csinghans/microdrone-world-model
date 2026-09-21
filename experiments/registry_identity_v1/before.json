@@ -1,0 +1,35 @@
+{
+  "reference_commit": "18fe875",
+  "source": "sim/scenario_registry.py",
+  "source_sha256": "1d059051e61d2fa36dae6f8172a90f7766068d8b61cdd0b76a02df09879485c8",
+  "scope": "Isolated in-memory registry only; no scenarios spawned or artifacts modified.",
+  "builtin_collision": {
+    "classic_id": 0,
+    "catalog_at_classic_id": "custom"
+  },
+  "same_name_reassignment": [
+    3,
+    7
+  ],
+  "builtin_reassignment": {
+    "moving": 8
+  },
+  "accepted_invalid_ids": [
+    {
+      "requested": 3.9,
+      "stored": 3
+    },
+    {
+      "requested": -1,
+      "stored": -1
+    },
+    {
+      "requested": true,
+      "stored": 1
+    },
+    {
+      "requested": "6",
+      "stored": 6
+    }
+  ]
+}

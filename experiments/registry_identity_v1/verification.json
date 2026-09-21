@@ -1,0 +1,112 @@
+{
+  "completed_at": "2026-09-21T03:47:02.916650+00:00",
+  "baseline_commit": "18fe875",
+  "scope": "Registration, metadata compatibility and isolated selftests; no training or model scoring.",
+  "runtime": {
+    "python": "3.14.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+  },
+  "commands": [
+    {
+      "command": "python -m sim.scenario_registry",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m skills.base",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m sim.composite",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m scripts.policy_recipe_selftest",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m eval.eval_policy_cells --selftest",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m scripts.research_selftest",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m datasets.combine_rollouts --selftest",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m scripts.dataset_publication_selftest",
+      "exit_code": 0
+    },
+    {
+      "command": "bash experiments/registry_identity_v1/verify_before.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "bash experiments/registry_identity_v1/verify.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "black --check .",
+      "exit_code": 0
+    },
+    {
+      "command": "ruff check .",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "log": {
+    "path": "output/research_integrity_selftest/registry_identity_v1.log",
+    "sha256": "2788ebcc15dc16acd0c33beae14e53cd180b3f493a29a6ca6b4ef1c60ad7e79c"
+  },
+  "before_receipt_sha256": "a3728784efbf05bca2acbe296343e86efe7d2a0fd45f0ae3e4a470a5942b0e67",
+  "compatibility_receipt_sha256": "c3d3c0ae1b639fdf9c4653654d2c68c7fbb384fafc3f2220ce2b2adf8c232286",
+  "source_sha256": {
+    "sim/scenario_registry.py": "5c57d9f9f16f7779a447aa673d2922c04d63f72c242909e3591afa54ee3b3531",
+    "experiments/registry_identity_v1/verify_before.sh": "056e19313e56004d68f5851f561839e263f34b55bc392cdc82fed851d643526f",
+    "experiments/registry_identity_v1/verify.sh": "afee81b9e5419752b6d9cb032b71b435f262b6cab002b521fb5d50446a9cc94a"
+  },
+  "locked_artifacts": [
+    {
+      "path": "output/world_model.pth",
+      "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf"
+    },
+    {
+      "path": "output/world_model_unified.pth",
+      "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4"
+    },
+    {
+      "path": "output/ppo_wm_policy_edge_hard_xp.zip",
+      "sha256": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1"
+    },
+    {
+      "path": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
+      "sha256": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49"
+    },
+    {
+      "path": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+      "sha256": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383"
+    },
+    {
+      "path": "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip",
+      "sha256": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba"
+    },
+    {
+      "path": "output/target_head_yaw.pt",
+      "sha256": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c"
+    },
+    {
+      "path": "output/target_head_low.pt",
+      "sha256": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7"
+    },
+    {
+      "path": "output/target_head_person.pt",
+      "sha256": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+    }
+  ]
+}

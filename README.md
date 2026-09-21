@@ -126,6 +126,10 @@ Room is ID 3 only for the standard catalog. Invalid source IDs and non-room
 indoor rows are rejected, preventing a custom transit scene from becoming
 room silently. [Identity and compatibility evidence](experiments/combined_world_identity_v1/journal.md)
 includes byte-identical standard-catalog fixtures against the old combiner.
+Upstream registration also rejects ID collisions/reassignment and invalid
+IDs before changing the catalog; skill reloads keep their assigned IDs.
+[Registry compatibility](experiments/registry_identity_v1/journal.md) verifies
+all existing skill declarations against the previous implementation.
 
 World-model training saves a candidate; deployment defaults still load the
 fetched champion. Use a fresh `--out` filename for each additional run.
