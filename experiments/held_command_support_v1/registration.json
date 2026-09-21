@@ -1,0 +1,45 @@
+{
+  "campaign": "held_command_support_v1",
+  "reference_commit": "2c49530",
+  "scope": "Retrospective command/segment metadata support; no model performance gate.",
+  "horizon": 32,
+  "warn_radius": 0.7,
+  "worlds": [
+    "classic",
+    "dense",
+    "moving",
+    "room"
+  ],
+  "inputs": [
+    {
+      "name": "training",
+      "dataset": {
+        "path": "output/schedule_layout_v1/world_balanced_train/data.npz",
+        "sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+      },
+      "receipt": {
+        "path": "experiments/schedule_layout_v1/records/world_balanced_train.json",
+        "sha256": "d4773542954348a5b93e76a32939373edf07c123c791295ca2aeb3cd352835df"
+      }
+    },
+    {
+      "name": "executed_exam",
+      "dataset": {
+        "path": "output/executed_weight_v1/holdout/data.npz",
+        "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+      },
+      "receipt": {
+        "path": "experiments/executed_weight_v1/records/holdout.json",
+        "sha256": "a85e080106f8bb9bd810d80c2cffa08730cb2fb8703d27231d348ab7889e7f18"
+      }
+    }
+  ],
+  "reference_sources": {
+    "datasets/generate_rollouts.py": "c90214b7a8d6fd9fe9bdd7c6c85c01c7d6b3e1e3a56a4b1085642a294974483f",
+    "datasets/search_rollouts.py": "4d36f0bb3f17a7a27983b38349b53d6174a95536ec3bc9e589a4b63cecb8e57c",
+    "datasets/intervention_labels.py": "bcf0b7508eef7c5c32181082b3e3598310f46f9659766549c574ce037d5dc803",
+    "world_model/training.py": "32a3859617acb1b0872574d1b0ba3ef5ef0260f85a2af57f167ef7e4ee319004",
+    "planner/action_set.py": "3c794fd1eacf9b5c7a009b444a957cb6a9348f59cf6482361dc162b7f998bcb4",
+    "planner/nav_action_set.py": "6be74b3dd60cbdc344cc9578b3ac815cc605bc33e0ac7865585ab13ee716a120"
+  }
+}
