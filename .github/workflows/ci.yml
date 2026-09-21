@@ -77,6 +77,7 @@ jobs:
           python -m eval.eval_cf_sampler_report --selftest
           python -m eval.eval_executed_weight_report --selftest
           python -m eval.eval_dataset_support --selftest
+          python -m eval.eval_held_command_support --selftest
           python -m eval.eval_support_requirements --selftest
           python -m sim.domain_randomization
           python -m planner.safety_filter
