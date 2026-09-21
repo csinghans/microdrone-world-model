@@ -6,7 +6,7 @@ The remaining research question is which action-specific failure a new
 single-knob study can resolve with adequate course support and the embedded
 budget intact. No new training study is registered or running at this review.
 
-This is a living continuation index, continued from `18fe875`. Original
+This is a living continuation index, continued from `a4e343b`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -59,6 +59,12 @@ hardware timing, quantization-parity or flight certification for these fits.
   loses in both. **97.10% of moving's same-action score pairs are
   forward/forward.** Dense veer-left has zero negative windows; several
   other dense actions have negative windows from only one course.
+- [held_command_support_v1](../experiments/held_command_support_v1/journal.md):
+  repeated commands across segment boundaries make 1,681 additional training
+  windows available (8,428→10,109), but add no per-world/action positive or
+  negative course coverage. Moving gains only 83 windows and neither veer
+  gains any. The closed exam has 2,191 additional available windows; none
+  was added to a model score. The current index, split and NO-GOs remain.
 
 The decomposition is accounting on a fixed exam, not a causal explanation
 or a steering certificate. Within-action comparisons still mix scenes and
@@ -131,6 +137,9 @@ whole-repo Black/Ruff (176 Python files), and all nine locked hashes.
 The later [combined-identity receipt](../experiments/combined_world_identity_v1/verification.json)
 adds catalog/CLI/compatibility checks, with the same full-repo lint and
 artifact protection. It generates no new research corpus or model score.
+The [held-command audit receipt](../experiments/held_command_support_v1/verification.json)
+records its new metadata-only selftest, original-index/label agreement on
+both fixed corpora, exact report verification and passing lint (177 files).
 
 Local Python: `/Users/hans.chen/.cache/microdrone-research-venv/bin/python`
 (3.14.5, torch 2.14.0, NumPy 2.5.3, pybullet 3.2.7). Declared conda/CI

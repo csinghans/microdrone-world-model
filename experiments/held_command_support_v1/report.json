@@ -1,0 +1,1792 @@
+{
+  "scope": "Retrospective metadata support; no new independent courses, model inference, resampling, changed index or scientific gate.",
+  "registration_sha256": "8dfb3968528a2c9838af14649b5d3137271246f44f849acef7abac4a74709d22",
+  "inputs": {
+    "training": {
+      "dataset": {
+        "path": "output/schedule_layout_v1/world_balanced_train/data.npz",
+        "sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+      },
+      "rollouts": 192,
+      "length": 120,
+      "horizon": 32,
+      "warn_radius": 0.7,
+      "possible_windows": 16896,
+      "original": {
+        "windows": 8428,
+        "rollouts": 192,
+        "positive": 4011,
+        "negative": 4417,
+        "positive_rollouts": 118,
+        "negative_rollouts": 150
+      },
+      "recovered": {
+        "windows": 1681,
+        "rollouts": 53,
+        "positive": 885,
+        "negative": 796,
+        "positive_rollouts": 29,
+        "negative_rollouts": 30
+      },
+      "union": {
+        "windows": 10109,
+        "rollouts": 192,
+        "positive": 4896,
+        "negative": 5213,
+        "positive_rollouts": 118,
+        "negative_rollouts": 150
+      },
+      "worlds": {
+        "classic": {
+          "rollouts": 32,
+          "possible_windows": 2816,
+          "same_command_segment_boundaries": 11,
+          "true_command_changes": 35,
+          "original": {
+            "windows": 1470,
+            "rollouts": 32,
+            "positive": 590,
+            "negative": 880,
+            "positive_rollouts": 18,
+            "negative_rollouts": 29
+          },
+          "recovered": {
+            "windows": 341,
+            "rollouts": 9,
+            "positive": 142,
+            "negative": 199,
+            "positive_rollouts": 4,
+            "negative_rollouts": 7
+          },
+          "union": {
+            "windows": 1811,
+            "rollouts": 32,
+            "positive": 732,
+            "negative": 1079,
+            "positive_rollouts": 18,
+            "negative_rollouts": 29
+          },
+          "actions": {
+            "forward": {
+              "original": {
+                "windows": 1094,
+                "rollouts": 26,
+                "positive": 419,
+                "negative": 675,
+                "positive_rollouts": 10,
+                "negative_rollouts": 25
+              },
+              "recovered": {
+                "windows": 255,
+                "rollouts": 6,
+                "positive": 89,
+                "negative": 166,
+                "positive_rollouts": 2,
+                "negative_rollouts": 5
+              },
+              "union": {
+                "windows": 1349,
+                "rollouts": 26,
+                "positive": 508,
+                "negative": 841,
+                "positive_rollouts": 10,
+                "negative_rollouts": 25
+              }
+            },
+            "slow": {
+              "original": {
+                "windows": 106,
+                "rollouts": 7,
+                "positive": 52,
+                "negative": 54,
+                "positive_rollouts": 3,
+                "negative_rollouts": 4
+              },
+              "recovered": {
+                "windows": 22,
+                "rollouts": 1,
+                "positive": 22,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 128,
+                "rollouts": 7,
+                "positive": 74,
+                "negative": 54,
+                "positive_rollouts": 3,
+                "negative_rollouts": 4
+              }
+            },
+            "veer_left": {
+              "original": {
+                "windows": 106,
+                "rollouts": 9,
+                "positive": 35,
+                "negative": 71,
+                "positive_rollouts": 5,
+                "negative_rollouts": 6
+              },
+              "recovered": {
+                "windows": 32,
+                "rollouts": 1,
+                "positive": 31,
+                "negative": 1,
+                "positive_rollouts": 1,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 138,
+                "rollouts": 9,
+                "positive": 66,
+                "negative": 72,
+                "positive_rollouts": 5,
+                "negative_rollouts": 6
+              }
+            },
+            "veer_right": {
+              "original": {
+                "windows": 34,
+                "rollouts": 3,
+                "positive": 28,
+                "negative": 6,
+                "positive_rollouts": 2,
+                "negative_rollouts": 1
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 34,
+                "rollouts": 3,
+                "positive": 28,
+                "negative": 6,
+                "positive_rollouts": 2,
+                "negative_rollouts": 1
+              }
+            },
+            "climb": {
+              "original": {
+                "windows": 38,
+                "rollouts": 2,
+                "positive": 20,
+                "negative": 18,
+                "positive_rollouts": 1,
+                "negative_rollouts": 1
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 38,
+                "rollouts": 2,
+                "positive": 20,
+                "negative": 18,
+                "positive_rollouts": 1,
+                "negative_rollouts": 1
+              }
+            },
+            "hover": {
+              "original": {
+                "windows": 92,
+                "rollouts": 7,
+                "positive": 36,
+                "negative": 56,
+                "positive_rollouts": 2,
+                "negative_rollouts": 5
+              },
+              "recovered": {
+                "windows": 32,
+                "rollouts": 1,
+                "positive": 0,
+                "negative": 32,
+                "positive_rollouts": 0,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 124,
+                "rollouts": 7,
+                "positive": 36,
+                "negative": 88,
+                "positive_rollouts": 2,
+                "negative_rollouts": 5
+              }
+            }
+          }
+        },
+        "dense": {
+          "rollouts": 32,
+          "possible_windows": 2816,
+          "same_command_segment_boundaries": 13,
+          "true_command_changes": 33,
+          "original": {
+            "windows": 1490,
+            "rollouts": 32,
+            "positive": 1384,
+            "negative": 106,
+            "positive_rollouts": 31,
+            "negative_rollouts": 9
+          },
+          "recovered": {
+            "windows": 373,
+            "rollouts": 10,
+            "positive": 362,
+            "negative": 11,
+            "positive_rollouts": 10,
+            "negative_rollouts": 1
+          },
+          "union": {
+            "windows": 1863,
+            "rollouts": 32,
+            "positive": 1746,
+            "negative": 117,
+            "positive_rollouts": 31,
+            "negative_rollouts": 9
+          },
+          "actions": {
+            "forward": {
+              "original": {
+                "windows": 1113,
+                "rollouts": 26,
+                "positive": 1029,
+                "negative": 84,
+                "positive_rollouts": 24,
+                "negative_rollouts": 9
+              },
+              "recovered": {
+                "windows": 241,
+                "rollouts": 6,
+                "positive": 230,
+                "negative": 11,
+                "positive_rollouts": 6,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 1354,
+                "rollouts": 26,
+                "positive": 1259,
+                "negative": 95,
+                "positive_rollouts": 24,
+                "negative_rollouts": 9
+              }
+            },
+            "slow": {
+              "original": {
+                "windows": 67,
+                "rollouts": 4,
+                "positive": 67,
+                "negative": 0,
+                "positive_rollouts": 4,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 67,
+                "rollouts": 4,
+                "positive": 67,
+                "negative": 0,
+                "positive_rollouts": 4,
+                "negative_rollouts": 0
+              }
+            },
+            "veer_left": {
+              "original": {
+                "windows": 68,
+                "rollouts": 4,
+                "positive": 68,
+                "negative": 0,
+                "positive_rollouts": 4,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 32,
+                "rollouts": 1,
+                "positive": 32,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 100,
+                "rollouts": 4,
+                "positive": 100,
+                "negative": 0,
+                "positive_rollouts": 4,
+                "negative_rollouts": 0
+              }
+            },
+            "veer_right": {
+              "original": {
+                "windows": 69,
+                "rollouts": 7,
+                "positive": 69,
+                "negative": 0,
+                "positive_rollouts": 7,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 32,
+                "rollouts": 1,
+                "positive": 32,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 101,
+                "rollouts": 7,
+                "positive": 101,
+                "negative": 0,
+                "positive_rollouts": 7,
+                "negative_rollouts": 0
+              }
+            },
+            "climb": {
+              "original": {
+                "windows": 70,
+                "rollouts": 3,
+                "positive": 70,
+                "negative": 0,
+                "positive_rollouts": 3,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 32,
+                "rollouts": 1,
+                "positive": 32,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 102,
+                "rollouts": 3,
+                "positive": 102,
+                "negative": 0,
+                "positive_rollouts": 3,
+                "negative_rollouts": 0
+              }
+            },
+            "hover": {
+              "original": {
+                "windows": 103,
+                "rollouts": 7,
+                "positive": 81,
+                "negative": 22,
+                "positive_rollouts": 6,
+                "negative_rollouts": 1
+              },
+              "recovered": {
+                "windows": 36,
+                "rollouts": 2,
+                "positive": 36,
+                "negative": 0,
+                "positive_rollouts": 2,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 139,
+                "rollouts": 7,
+                "positive": 117,
+                "negative": 22,
+                "positive_rollouts": 6,
+                "negative_rollouts": 1
+              }
+            }
+          }
+        },
+        "moving": {
+          "rollouts": 32,
+          "possible_windows": 2816,
+          "same_command_segment_boundaries": 3,
+          "true_command_changes": 41,
+          "original": {
+            "windows": 1506,
+            "rollouts": 32,
+            "positive": 896,
+            "negative": 610,
+            "positive_rollouts": 28,
+            "negative_rollouts": 32
+          },
+          "recovered": {
+            "windows": 83,
+            "rollouts": 3,
+            "positive": 58,
+            "negative": 25,
+            "positive_rollouts": 3,
+            "negative_rollouts": 1
+          },
+          "union": {
+            "windows": 1589,
+            "rollouts": 32,
+            "positive": 954,
+            "negative": 635,
+            "positive_rollouts": 28,
+            "negative_rollouts": 32
+          },
+          "actions": {
+            "forward": {
+              "original": {
+                "windows": 1044,
+                "rollouts": 26,
+                "positive": 607,
+                "negative": 437,
+                "positive_rollouts": 13,
+                "negative_rollouts": 26
+              },
+              "recovered": {
+                "windows": 32,
+                "rollouts": 1,
+                "positive": 7,
+                "negative": 25,
+                "positive_rollouts": 1,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 1076,
+                "rollouts": 26,
+                "positive": 614,
+                "negative": 462,
+                "positive_rollouts": 13,
+                "negative_rollouts": 26
+              }
+            },
+            "slow": {
+              "original": {
+                "windows": 95,
+                "rollouts": 7,
+                "positive": 65,
+                "negative": 30,
+                "positive_rollouts": 5,
+                "negative_rollouts": 2
+              },
+              "recovered": {
+                "windows": 19,
+                "rollouts": 1,
+                "positive": 19,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 114,
+                "rollouts": 7,
+                "positive": 84,
+                "negative": 30,
+                "positive_rollouts": 5,
+                "negative_rollouts": 2
+              }
+            },
+            "veer_left": {
+              "original": {
+                "windows": 110,
+                "rollouts": 8,
+                "positive": 83,
+                "negative": 27,
+                "positive_rollouts": 6,
+                "negative_rollouts": 2
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 110,
+                "rollouts": 8,
+                "positive": 83,
+                "negative": 27,
+                "positive_rollouts": 6,
+                "negative_rollouts": 2
+              }
+            },
+            "veer_right": {
+              "original": {
+                "windows": 55,
+                "rollouts": 5,
+                "positive": 28,
+                "negative": 27,
+                "positive_rollouts": 3,
+                "negative_rollouts": 2
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 55,
+                "rollouts": 5,
+                "positive": 28,
+                "negative": 27,
+                "positive_rollouts": 3,
+                "negative_rollouts": 2
+              }
+            },
+            "climb": {
+              "original": {
+                "windows": 147,
+                "rollouts": 7,
+                "positive": 102,
+                "negative": 45,
+                "positive_rollouts": 5,
+                "negative_rollouts": 3
+              },
+              "recovered": {
+                "windows": 32,
+                "rollouts": 1,
+                "positive": 32,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 179,
+                "rollouts": 7,
+                "positive": 134,
+                "negative": 45,
+                "positive_rollouts": 5,
+                "negative_rollouts": 3
+              }
+            },
+            "hover": {
+              "original": {
+                "windows": 55,
+                "rollouts": 4,
+                "positive": 11,
+                "negative": 44,
+                "positive_rollouts": 1,
+                "negative_rollouts": 3
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 55,
+                "rollouts": 4,
+                "positive": 11,
+                "negative": 44,
+                "positive_rollouts": 1,
+                "negative_rollouts": 3
+              }
+            }
+          }
+        },
+        "room": {
+          "rollouts": 96,
+          "possible_windows": 8448,
+          "same_command_segment_boundaries": 33,
+          "true_command_changes": 152,
+          "original": {
+            "windows": 3962,
+            "rollouts": 96,
+            "positive": 1141,
+            "negative": 2821,
+            "positive_rollouts": 41,
+            "negative_rollouts": 80
+          },
+          "recovered": {
+            "windows": 884,
+            "rollouts": 31,
+            "positive": 323,
+            "negative": 561,
+            "positive_rollouts": 12,
+            "negative_rollouts": 21
+          },
+          "union": {
+            "windows": 4846,
+            "rollouts": 96,
+            "positive": 1464,
+            "negative": 3382,
+            "positive_rollouts": 41,
+            "negative_rollouts": 80
+          },
+          "actions": {
+            "forward": {
+              "original": {
+                "windows": 638,
+                "rollouts": 28,
+                "positive": 178,
+                "negative": 460,
+                "positive_rollouts": 9,
+                "negative_rollouts": 19
+              },
+              "recovered": {
+                "windows": 64,
+                "rollouts": 2,
+                "positive": 0,
+                "negative": 64,
+                "positive_rollouts": 0,
+                "negative_rollouts": 2
+              },
+              "union": {
+                "windows": 702,
+                "rollouts": 28,
+                "positive": 178,
+                "negative": 524,
+                "positive_rollouts": 9,
+                "negative_rollouts": 19
+              }
+            },
+            "reverse": {
+              "original": {
+                "windows": 729,
+                "rollouts": 33,
+                "positive": 366,
+                "negative": 363,
+                "positive_rollouts": 18,
+                "negative_rollouts": 19
+              },
+              "recovered": {
+                "windows": 140,
+                "rollouts": 5,
+                "positive": 116,
+                "negative": 24,
+                "positive_rollouts": 5,
+                "negative_rollouts": 2
+              },
+              "union": {
+                "windows": 869,
+                "rollouts": 33,
+                "positive": 482,
+                "negative": 387,
+                "positive_rollouts": 18,
+                "negative_rollouts": 19
+              }
+            },
+            "strafe_left": {
+              "original": {
+                "windows": 815,
+                "rollouts": 33,
+                "positive": 242,
+                "negative": 573,
+                "positive_rollouts": 12,
+                "negative_rollouts": 24
+              },
+              "recovered": {
+                "windows": 173,
+                "rollouts": 6,
+                "positive": 103,
+                "negative": 70,
+                "positive_rollouts": 3,
+                "negative_rollouts": 3
+              },
+              "union": {
+                "windows": 988,
+                "rollouts": 33,
+                "positive": 345,
+                "negative": 643,
+                "positive_rollouts": 12,
+                "negative_rollouts": 24
+              }
+            },
+            "strafe_right": {
+              "original": {
+                "windows": 537,
+                "rollouts": 24,
+                "positive": 177,
+                "negative": 360,
+                "positive_rollouts": 9,
+                "negative_rollouts": 18
+              },
+              "recovered": {
+                "windows": 96,
+                "rollouts": 3,
+                "positive": 0,
+                "negative": 96,
+                "positive_rollouts": 0,
+                "negative_rollouts": 3
+              },
+              "union": {
+                "windows": 633,
+                "rollouts": 24,
+                "positive": 177,
+                "negative": 456,
+                "positive_rollouts": 9,
+                "negative_rollouts": 18
+              }
+            },
+            "slow": {
+              "original": {
+                "windows": 597,
+                "rollouts": 25,
+                "positive": 149,
+                "negative": 448,
+                "positive_rollouts": 5,
+                "negative_rollouts": 21
+              },
+              "recovered": {
+                "windows": 206,
+                "rollouts": 7,
+                "positive": 96,
+                "negative": 110,
+                "positive_rollouts": 3,
+                "negative_rollouts": 4
+              },
+              "union": {
+                "windows": 803,
+                "rollouts": 25,
+                "positive": 245,
+                "negative": 558,
+                "positive_rollouts": 5,
+                "negative_rollouts": 21
+              }
+            },
+            "hover": {
+              "original": {
+                "windows": 646,
+                "rollouts": 28,
+                "positive": 29,
+                "negative": 617,
+                "positive_rollouts": 2,
+                "negative_rollouts": 26
+              },
+              "recovered": {
+                "windows": 205,
+                "rollouts": 8,
+                "positive": 8,
+                "negative": 197,
+                "positive_rollouts": 1,
+                "negative_rollouts": 7
+              },
+              "union": {
+                "windows": 851,
+                "rollouts": 28,
+                "positive": 37,
+                "negative": 814,
+                "positive_rollouts": 2,
+                "negative_rollouts": 26
+              }
+            },
+            "yaw_left": {
+              "original": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              }
+            },
+            "yaw_right": {
+              "original": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              }
+            },
+            "up": {
+              "original": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              }
+            },
+            "down": {
+              "original": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "executed_exam": {
+      "dataset": {
+        "path": "output/executed_weight_v1/holdout/data.npz",
+        "sha256": "e241adddb83d636fdaa9665643929b4e7cf1a45671b2fad4c8334455ec21aac1"
+      },
+      "rollouts": 186,
+      "length": 160,
+      "horizon": 32,
+      "warn_radius": 0.7,
+      "possible_windows": 23808,
+      "original": {
+        "windows": 12179,
+        "rollouts": 186,
+        "positive": 6792,
+        "negative": 5387,
+        "positive_rollouts": 142,
+        "negative_rollouts": 148
+      },
+      "recovered": {
+        "windows": 2191,
+        "rollouts": 62,
+        "positive": 1253,
+        "negative": 938,
+        "positive_rollouts": 42,
+        "negative_rollouts": 35
+      },
+      "union": {
+        "windows": 14370,
+        "rollouts": 186,
+        "positive": 8045,
+        "negative": 6325,
+        "positive_rollouts": 143,
+        "negative_rollouts": 151
+      },
+      "worlds": {
+        "classic": {
+          "rollouts": 42,
+          "possible_windows": 5376,
+          "same_command_segment_boundaries": 15,
+          "true_command_changes": 70,
+          "original": {
+            "windows": 2896,
+            "rollouts": 42,
+            "positive": 993,
+            "negative": 1903,
+            "positive_rollouts": 21,
+            "negative_rollouts": 41
+          },
+          "recovered": {
+            "windows": 384,
+            "rollouts": 13,
+            "positive": 158,
+            "negative": 226,
+            "positive_rollouts": 6,
+            "negative_rollouts": 10
+          },
+          "union": {
+            "windows": 3280,
+            "rollouts": 42,
+            "positive": 1151,
+            "negative": 2129,
+            "positive_rollouts": 22,
+            "negative_rollouts": 41
+          },
+          "actions": {
+            "forward": {
+              "original": {
+                "windows": 2072,
+                "rollouts": 36,
+                "positive": 692,
+                "negative": 1380,
+                "positive_rollouts": 13,
+                "negative_rollouts": 33
+              },
+              "recovered": {
+                "windows": 113,
+                "rollouts": 4,
+                "positive": 0,
+                "negative": 113,
+                "positive_rollouts": 0,
+                "negative_rollouts": 4
+              },
+              "union": {
+                "windows": 2185,
+                "rollouts": 36,
+                "positive": 692,
+                "negative": 1493,
+                "positive_rollouts": 13,
+                "negative_rollouts": 33
+              }
+            },
+            "slow": {
+              "original": {
+                "windows": 128,
+                "rollouts": 10,
+                "positive": 27,
+                "negative": 101,
+                "positive_rollouts": 3,
+                "negative_rollouts": 7
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 128,
+                "rollouts": 10,
+                "positive": 27,
+                "negative": 101,
+                "positive_rollouts": 3,
+                "negative_rollouts": 7
+              }
+            },
+            "veer_left": {
+              "original": {
+                "windows": 290,
+                "rollouts": 14,
+                "positive": 134,
+                "negative": 156,
+                "positive_rollouts": 8,
+                "negative_rollouts": 9
+              },
+              "recovered": {
+                "windows": 137,
+                "rollouts": 5,
+                "positive": 63,
+                "negative": 74,
+                "positive_rollouts": 2,
+                "negative_rollouts": 4
+              },
+              "union": {
+                "windows": 427,
+                "rollouts": 14,
+                "positive": 197,
+                "negative": 230,
+                "positive_rollouts": 8,
+                "negative_rollouts": 9
+              }
+            },
+            "veer_right": {
+              "original": {
+                "windows": 102,
+                "rollouts": 5,
+                "positive": 69,
+                "negative": 33,
+                "positive_rollouts": 3,
+                "negative_rollouts": 2
+              },
+              "recovered": {
+                "windows": 51,
+                "rollouts": 1,
+                "positive": 51,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 153,
+                "rollouts": 5,
+                "positive": 120,
+                "negative": 33,
+                "positive_rollouts": 3,
+                "negative_rollouts": 2
+              }
+            },
+            "climb": {
+              "original": {
+                "windows": 103,
+                "rollouts": 6,
+                "positive": 19,
+                "negative": 84,
+                "positive_rollouts": 2,
+                "negative_rollouts": 5
+              },
+              "recovered": {
+                "windows": 66,
+                "rollouts": 2,
+                "positive": 27,
+                "negative": 39,
+                "positive_rollouts": 2,
+                "negative_rollouts": 2
+              },
+              "union": {
+                "windows": 169,
+                "rollouts": 6,
+                "positive": 46,
+                "negative": 123,
+                "positive_rollouts": 3,
+                "negative_rollouts": 5
+              }
+            },
+            "hover": {
+              "original": {
+                "windows": 201,
+                "rollouts": 14,
+                "positive": 52,
+                "negative": 149,
+                "positive_rollouts": 3,
+                "negative_rollouts": 11
+              },
+              "recovered": {
+                "windows": 17,
+                "rollouts": 1,
+                "positive": 17,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 218,
+                "rollouts": 14,
+                "positive": 69,
+                "negative": 149,
+                "positive_rollouts": 3,
+                "negative_rollouts": 11
+              }
+            }
+          }
+        },
+        "dense": {
+          "rollouts": 42,
+          "possible_windows": 5376,
+          "same_command_segment_boundaries": 17,
+          "true_command_changes": 69,
+          "original": {
+            "windows": 2879,
+            "rollouts": 42,
+            "positive": 2558,
+            "negative": 321,
+            "positive_rollouts": 42,
+            "negative_rollouts": 20
+          },
+          "recovered": {
+            "windows": 495,
+            "rollouts": 14,
+            "positive": 447,
+            "negative": 48,
+            "positive_rollouts": 14,
+            "negative_rollouts": 3
+          },
+          "union": {
+            "windows": 3374,
+            "rollouts": 42,
+            "positive": 3005,
+            "negative": 369,
+            "positive_rollouts": 42,
+            "negative_rollouts": 22
+          },
+          "actions": {
+            "forward": {
+              "original": {
+                "windows": 2106,
+                "rollouts": 34,
+                "positive": 1849,
+                "negative": 257,
+                "positive_rollouts": 33,
+                "negative_rollouts": 16
+              },
+              "recovered": {
+                "windows": 278,
+                "rollouts": 7,
+                "positive": 265,
+                "negative": 13,
+                "positive_rollouts": 7,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 2384,
+                "rollouts": 34,
+                "positive": 2114,
+                "negative": 270,
+                "positive_rollouts": 33,
+                "negative_rollouts": 17
+              }
+            },
+            "slow": {
+              "original": {
+                "windows": 93,
+                "rollouts": 8,
+                "positive": 82,
+                "negative": 11,
+                "positive_rollouts": 7,
+                "negative_rollouts": 1
+              },
+              "recovered": {
+                "windows": 20,
+                "rollouts": 1,
+                "positive": 20,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 113,
+                "rollouts": 8,
+                "positive": 102,
+                "negative": 11,
+                "positive_rollouts": 7,
+                "negative_rollouts": 1
+              }
+            },
+            "veer_left": {
+              "original": {
+                "windows": 134,
+                "rollouts": 9,
+                "positive": 134,
+                "negative": 0,
+                "positive_rollouts": 9,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 134,
+                "rollouts": 9,
+                "positive": 134,
+                "negative": 0,
+                "positive_rollouts": 9,
+                "negative_rollouts": 0
+              }
+            },
+            "veer_right": {
+              "original": {
+                "windows": 234,
+                "rollouts": 12,
+                "positive": 227,
+                "negative": 7,
+                "positive_rollouts": 12,
+                "negative_rollouts": 1
+              },
+              "recovered": {
+                "windows": 110,
+                "rollouts": 4,
+                "positive": 98,
+                "negative": 12,
+                "positive_rollouts": 4,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 344,
+                "rollouts": 12,
+                "positive": 325,
+                "negative": 19,
+                "positive_rollouts": 12,
+                "negative_rollouts": 2
+              }
+            },
+            "climb": {
+              "original": {
+                "windows": 192,
+                "rollouts": 10,
+                "positive": 168,
+                "negative": 24,
+                "positive_rollouts": 9,
+                "negative_rollouts": 1
+              },
+              "recovered": {
+                "windows": 64,
+                "rollouts": 2,
+                "positive": 64,
+                "negative": 0,
+                "positive_rollouts": 2,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 256,
+                "rollouts": 10,
+                "positive": 232,
+                "negative": 24,
+                "positive_rollouts": 9,
+                "negative_rollouts": 1
+              }
+            },
+            "hover": {
+              "original": {
+                "windows": 120,
+                "rollouts": 8,
+                "positive": 98,
+                "negative": 22,
+                "positive_rollouts": 6,
+                "negative_rollouts": 2
+              },
+              "recovered": {
+                "windows": 23,
+                "rollouts": 1,
+                "positive": 0,
+                "negative": 23,
+                "positive_rollouts": 0,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 143,
+                "rollouts": 8,
+                "positive": 98,
+                "negative": 45,
+                "positive_rollouts": 6,
+                "negative_rollouts": 2
+              }
+            }
+          }
+        },
+        "moving": {
+          "rollouts": 42,
+          "possible_windows": 5376,
+          "same_command_segment_boundaries": 16,
+          "true_command_changes": 72,
+          "original": {
+            "windows": 2989,
+            "rollouts": 42,
+            "positive": 1680,
+            "negative": 1309,
+            "positive_rollouts": 38,
+            "negative_rollouts": 41
+          },
+          "recovered": {
+            "windows": 469,
+            "rollouts": 11,
+            "positive": 204,
+            "negative": 265,
+            "positive_rollouts": 8,
+            "negative_rollouts": 9
+          },
+          "union": {
+            "windows": 3458,
+            "rollouts": 42,
+            "positive": 1884,
+            "negative": 1574,
+            "positive_rollouts": 38,
+            "negative_rollouts": 42
+          },
+          "actions": {
+            "forward": {
+              "original": {
+                "windows": 2167,
+                "rollouts": 36,
+                "positive": 1230,
+                "negative": 937,
+                "positive_rollouts": 24,
+                "negative_rollouts": 33
+              },
+              "recovered": {
+                "windows": 336,
+                "rollouts": 8,
+                "positive": 120,
+                "negative": 216,
+                "positive_rollouts": 6,
+                "negative_rollouts": 8
+              },
+              "union": {
+                "windows": 2503,
+                "rollouts": 36,
+                "positive": 1350,
+                "negative": 1153,
+                "positive_rollouts": 24,
+                "negative_rollouts": 36
+              }
+            },
+            "slow": {
+              "original": {
+                "windows": 142,
+                "rollouts": 9,
+                "positive": 75,
+                "negative": 67,
+                "positive_rollouts": 6,
+                "negative_rollouts": 4
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 142,
+                "rollouts": 9,
+                "positive": 75,
+                "negative": 67,
+                "positive_rollouts": 6,
+                "negative_rollouts": 4
+              }
+            },
+            "veer_left": {
+              "original": {
+                "windows": 192,
+                "rollouts": 11,
+                "positive": 144,
+                "negative": 48,
+                "positive_rollouts": 8,
+                "negative_rollouts": 4
+              },
+              "recovered": {
+                "windows": 32,
+                "rollouts": 1,
+                "positive": 32,
+                "negative": 0,
+                "positive_rollouts": 1,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 224,
+                "rollouts": 11,
+                "positive": 176,
+                "negative": 48,
+                "positive_rollouts": 8,
+                "negative_rollouts": 4
+              }
+            },
+            "veer_right": {
+              "original": {
+                "windows": 66,
+                "rollouts": 6,
+                "positive": 20,
+                "negative": 46,
+                "positive_rollouts": 3,
+                "negative_rollouts": 4
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 66,
+                "rollouts": 6,
+                "positive": 20,
+                "negative": 46,
+                "positive_rollouts": 3,
+                "negative_rollouts": 4
+              }
+            },
+            "climb": {
+              "original": {
+                "windows": 182,
+                "rollouts": 9,
+                "positive": 115,
+                "negative": 67,
+                "positive_rollouts": 6,
+                "negative_rollouts": 5
+              },
+              "recovered": {
+                "windows": 64,
+                "rollouts": 2,
+                "positive": 32,
+                "negative": 32,
+                "positive_rollouts": 1,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 246,
+                "rollouts": 9,
+                "positive": 147,
+                "negative": 99,
+                "positive_rollouts": 6,
+                "negative_rollouts": 5
+              }
+            },
+            "hover": {
+              "original": {
+                "windows": 240,
+                "rollouts": 13,
+                "positive": 96,
+                "negative": 144,
+                "positive_rollouts": 5,
+                "negative_rollouts": 8
+              },
+              "recovered": {
+                "windows": 37,
+                "rollouts": 2,
+                "positive": 20,
+                "negative": 17,
+                "positive_rollouts": 1,
+                "negative_rollouts": 2
+              },
+              "union": {
+                "windows": 277,
+                "rollouts": 13,
+                "positive": 116,
+                "negative": 161,
+                "positive_rollouts": 5,
+                "negative_rollouts": 9
+              }
+            }
+          }
+        },
+        "room": {
+          "rollouts": 60,
+          "possible_windows": 7680,
+          "same_command_segment_boundaries": 28,
+          "true_command_changes": 128,
+          "original": {
+            "windows": 3415,
+            "rollouts": 60,
+            "positive": 1561,
+            "negative": 1854,
+            "positive_rollouts": 41,
+            "negative_rollouts": 46
+          },
+          "recovered": {
+            "windows": 843,
+            "rollouts": 24,
+            "positive": 444,
+            "negative": 399,
+            "positive_rollouts": 14,
+            "negative_rollouts": 13
+          },
+          "union": {
+            "windows": 4258,
+            "rollouts": 60,
+            "positive": 2005,
+            "negative": 2253,
+            "positive_rollouts": 41,
+            "negative_rollouts": 46
+          },
+          "actions": {
+            "forward": {
+              "original": {
+                "windows": 628,
+                "rollouts": 30,
+                "positive": 344,
+                "negative": 284,
+                "positive_rollouts": 18,
+                "negative_rollouts": 16
+              },
+              "recovered": {
+                "windows": 183,
+                "rollouts": 5,
+                "positive": 151,
+                "negative": 32,
+                "positive_rollouts": 4,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 811,
+                "rollouts": 30,
+                "positive": 495,
+                "negative": 316,
+                "positive_rollouts": 18,
+                "negative_rollouts": 16
+              }
+            },
+            "reverse": {
+              "original": {
+                "windows": 442,
+                "rollouts": 20,
+                "positive": 251,
+                "negative": 191,
+                "positive_rollouts": 12,
+                "negative_rollouts": 12
+              },
+              "recovered": {
+                "windows": 143,
+                "rollouts": 3,
+                "positive": 94,
+                "negative": 49,
+                "positive_rollouts": 3,
+                "negative_rollouts": 2
+              },
+              "union": {
+                "windows": 585,
+                "rollouts": 20,
+                "positive": 345,
+                "negative": 240,
+                "positive_rollouts": 12,
+                "negative_rollouts": 12
+              }
+            },
+            "strafe_left": {
+              "original": {
+                "windows": 487,
+                "rollouts": 21,
+                "positive": 182,
+                "negative": 305,
+                "positive_rollouts": 11,
+                "negative_rollouts": 15
+              },
+              "recovered": {
+                "windows": 160,
+                "rollouts": 5,
+                "positive": 32,
+                "negative": 128,
+                "positive_rollouts": 1,
+                "negative_rollouts": 4
+              },
+              "union": {
+                "windows": 647,
+                "rollouts": 21,
+                "positive": 214,
+                "negative": 433,
+                "positive_rollouts": 11,
+                "negative_rollouts": 15
+              }
+            },
+            "strafe_right": {
+              "original": {
+                "windows": 611,
+                "rollouts": 24,
+                "positive": 326,
+                "negative": 285,
+                "positive_rollouts": 16,
+                "negative_rollouts": 14
+              },
+              "recovered": {
+                "windows": 64,
+                "rollouts": 2,
+                "positive": 32,
+                "negative": 32,
+                "positive_rollouts": 1,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 675,
+                "rollouts": 24,
+                "positive": 358,
+                "negative": 317,
+                "positive_rollouts": 16,
+                "negative_rollouts": 14
+              }
+            },
+            "slow": {
+              "original": {
+                "windows": 660,
+                "rollouts": 30,
+                "positive": 183,
+                "negative": 477,
+                "positive_rollouts": 12,
+                "negative_rollouts": 23
+              },
+              "recovered": {
+                "windows": 133,
+                "rollouts": 5,
+                "positive": 7,
+                "negative": 126,
+                "positive_rollouts": 1,
+                "negative_rollouts": 5
+              },
+              "union": {
+                "windows": 793,
+                "rollouts": 30,
+                "positive": 190,
+                "negative": 603,
+                "positive_rollouts": 12,
+                "negative_rollouts": 23
+              }
+            },
+            "hover": {
+              "original": {
+                "windows": 587,
+                "rollouts": 26,
+                "positive": 275,
+                "negative": 312,
+                "positive_rollouts": 12,
+                "negative_rollouts": 14
+              },
+              "recovered": {
+                "windows": 160,
+                "rollouts": 5,
+                "positive": 128,
+                "negative": 32,
+                "positive_rollouts": 4,
+                "negative_rollouts": 1
+              },
+              "union": {
+                "windows": 747,
+                "rollouts": 26,
+                "positive": 403,
+                "negative": 344,
+                "positive_rollouts": 12,
+                "negative_rollouts": 14
+              }
+            },
+            "yaw_left": {
+              "original": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              }
+            },
+            "yaw_right": {
+              "original": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              }
+            },
+            "up": {
+              "original": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              }
+            },
+            "down": {
+              "original": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "recovered": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              },
+              "union": {
+                "windows": 0,
+                "rollouts": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -48,6 +48,10 @@ that 97.10% of moving's same-action score pairs were forward/forward;
 the overall AUC gain does not establish steering quality. The
 [current research state](docs/RESEARCH-STATUS.md) links the frozen results,
 instrument repairs and action/class support requirements for the next study.
+The [repeated-command audit](experiments/held_command_support_v1/journal.md)
+finds about 20% more available training windows across redundant segment
+boundaries, but no extra per-action positive/negative course coverage.
+It leaves the steering-support limitation and every closed model verdict intact.
 
 ## Why this exists
 

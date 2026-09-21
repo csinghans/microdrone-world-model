@@ -1,0 +1,102 @@
+{
+  "completed_at": "2026-09-21T04:54:33.914042+00:00",
+  "registration_commit": "b8887ec",
+  "instrument_commit": "a4e343b",
+  "scope": "Two fixed corpora; metadata accounting only. No model inference, new data, bootstrap or gate.",
+  "runtime": {
+    "python": "3.14.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "numpy": "2.5.3",
+    "torch": "2.14.0"
+  },
+  "logs": [
+    {
+      "path": "output/research_integrity_selftest/held_command_support_v1_instrument.log",
+      "sha256": "22d33c7300a91d9587c4c43cd102ffdef2bde627f458d7a07c9224495e672ff2",
+      "exit_codes": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "path": "output/research_integrity_selftest/held_command_support_v1_lint_fixed.log",
+      "sha256": "5ec530d0ab9d20eabce3c18faa310b8143c8acd81172bb42dd79d85955dbbe10",
+      "exit_codes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "path": "output/research_integrity_selftest/held_command_support_v1_run.log",
+      "sha256": "dca46e36cce188c086e18d3591299c20e841b5e28eefa87522f674ed0d7a08fc",
+      "exit_codes": [
+        0
+      ]
+    },
+    {
+      "path": "output/research_integrity_selftest/held_command_support_v1_verify.log",
+      "sha256": "068b25cc8ca950347fc0064d4a51aa171edc56963e57e6d4dbe8868a75e5a2ee",
+      "exit_codes": [
+        0
+      ]
+    }
+  ],
+  "frozen_files": {
+    "experiments/held_command_support_v1/definition.md": "ed6201688bc42f14a1edc4cd1fe1d20c57c3e54f1029a7bde0463251b5a0d706",
+    "experiments/held_command_support_v1/registration.json": "8dfb3968528a2c9838af14649b5d3137271246f44f849acef7abac4a74709d22",
+    "experiments/held_command_support_v1/report.json": "afcf0b4018a465f8a9e854e937b8e2d431640d59474bdfd1ccdf7c057cbaf5ee",
+    "experiments/held_command_support_v1/summary.md": "f73ed844ff30b04bd261a76d68a28773ce89864dd8689a9dd900dba622ef70a2"
+  },
+  "instrument_sources": {
+    "eval/eval_held_command_support.py": "419a4e107297f9ab081090ba204c9bc6a79f38337b1ea3a53808e4f16a5c5cc8",
+    ".github/workflows/ci.yml": "fbc15c5329475a46063cf030234fd568d41fbba623c0f1c8da955a61016b004d"
+  },
+  "locked_artifacts": [
+    {
+      "path": "output/world_model.pth",
+      "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf"
+    },
+    {
+      "path": "output/world_model_unified.pth",
+      "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4"
+    },
+    {
+      "path": "output/ppo_wm_policy_edge_hard_xp.zip",
+      "sha256": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1"
+    },
+    {
+      "path": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
+      "sha256": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49"
+    },
+    {
+      "path": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+      "sha256": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383"
+    },
+    {
+      "path": "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip",
+      "sha256": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba"
+    },
+    {
+      "path": "output/target_head_yaw.pt",
+      "sha256": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c"
+    },
+    {
+      "path": "output/target_head_low.pt",
+      "sha256": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7"
+    },
+    {
+      "path": "output/target_head_person.pt",
+      "sha256": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+    }
+  ],
+  "observations": {
+    "training_original_windows": 8428,
+    "training_recovered_windows": 1681,
+    "training_union_windows": 10109,
+    "training_action_class_course_count_changes": 0,
+    "moving_recovered_windows": 83,
+    "exam_recovered_windows": 2191
+  }
+}

@@ -82,6 +82,13 @@ before fitting. The [support guide](SUPPORT-REQUIREMENTS.md) defines the
 workflow and explicit insufficiency response; it sets no scientific bars.
 Current implementation and validation scope: [continuation state](RESEARCH-STATUS.md).
 
+The [repeated-command support audit](../experiments/held_command_support_v1/journal.md)
+is complete: 1,681 additional constant-command windows exist in the shared
+training corpus, but no action/class gains distinct-course coverage. Moving
+recovers only 83 windows, none for either veer. More overlapping windows
+alone do not fill this corpus's steering-support gap; no training knob was
+released and no closed exam was expanded or rescored.
+
 Other closed research arcs:
 
 - **The Perception Tier (three campaigns + one refusal): a promising
