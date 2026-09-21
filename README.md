@@ -120,6 +120,13 @@ use `datasets.provenance.save_dataset` for the same publication protection.
 [Regression evidence](experiments/dataset_publication_v1/journal.md) covers
 all three CLIs and the unchanged generator recipes.
 
+The combined corpus remaps worlds through each input's `world_names` table.
+Classic/dense/moving keep IDs 0/1/2; custom transit names follow, then room.
+Room is ID 3 only for the standard catalog. Invalid source IDs and non-room
+indoor rows are rejected, preventing a custom transit scene from becoming
+room silently. [Identity and compatibility evidence](experiments/combined_world_identity_v1/journal.md)
+includes byte-identical standard-catalog fixtures against the old combiner.
+
 World-model training saves a candidate; deployment defaults still load the
 fetched champion. Use a fresh `--out` filename for each additional run.
 Locked destinations (even missing ones), aliases of locked files and existing

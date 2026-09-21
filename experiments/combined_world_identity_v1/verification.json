@@ -1,0 +1,108 @@
+{
+  "completed_at": "2026-09-21T00:46:26.662170+00:00",
+  "baseline_commit": "47668fc",
+  "scope": "Synthetic identity/publication checks only; no generation, training or model inference.",
+  "runtime": {
+    "python": "3.14.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+  },
+  "commands": [
+    {
+      "command": "python -m datasets.combine_rollouts --selftest",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m scripts.dataset_publication_selftest",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m eval.eval_dataset_support --selftest",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m sim.scenario_registry",
+      "exit_code": 0
+    },
+    {
+      "command": "bash experiments/combined_world_identity_v1/verify_before.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "bash experiments/combined_world_identity_v1/verify.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "black --check .",
+      "exit_code": 0
+    },
+    {
+      "command": "ruff check .",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "log": {
+    "path": "output/research_integrity_selftest/combined_world_identity_v1.log",
+    "sha256": "1742140222d7315867c8d8acf9a3b39fc4b5ae55df93ffea534ccb1329c44e86"
+  },
+  "before_receipt_sha256": "650881dd0fe6686af6a29e8f29f355ae13a4b8a6fa9a33f59791b722f0d3b422",
+  "source_sha256": {
+    "datasets/combine_rollouts.py": "24b88f38e24803eedd62ee53a5b8b77b28f357fc32c38ff42b1ba9cf8e7d8d4a",
+    "scripts/dataset_publication_selftest.py": "02423feca4bd5557f03c1f03a1414a41d07eaa5a07eab895f52bfbbfecd18374",
+    "datasets/generate_rollouts.py": "c90214b7a8d6fd9fe9bdd7c6c85c01c7d6b3e1e3a56a4b1085642a294974483f",
+    "datasets/search_rollouts.py": "4d36f0bb3f17a7a27983b38349b53d6174a95536ec3bc9e589a4b63cecb8e57c",
+    "experiments/combined_world_identity_v1/verify_before.sh": "19ec87151e57e84e867286fcf8eaf7a9b2eedf87ed9e99b757ddcda41eb47188",
+    "experiments/combined_world_identity_v1/verify.sh": "a8d30fde43840e836c752e2cef04edb6b4920cbec63ef806769eee723a25ea9a"
+  },
+  "canonical_parity": {
+    "fixtures": 6,
+    "checks": [
+      "array shape/dtype/bytes",
+      "dictionary order",
+      "compressed NPZ bytes",
+      "unchanged builder AST",
+      "unchanged generator files"
+    ]
+  },
+  "locked_artifacts": [
+    {
+      "path": "output/world_model.pth",
+      "sha256": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf"
+    },
+    {
+      "path": "output/world_model_unified.pth",
+      "sha256": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4"
+    },
+    {
+      "path": "output/ppo_wm_policy_edge_hard_xp.zip",
+      "sha256": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1"
+    },
+    {
+      "path": "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip",
+      "sha256": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49"
+    },
+    {
+      "path": "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip",
+      "sha256": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383"
+    },
+    {
+      "path": "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip",
+      "sha256": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba"
+    },
+    {
+      "path": "output/target_head_yaw.pt",
+      "sha256": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c"
+    },
+    {
+      "path": "output/target_head_low.pt",
+      "sha256": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7"
+    },
+    {
+      "path": "output/target_head_person.pt",
+      "sha256": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+    }
+  ]
+}

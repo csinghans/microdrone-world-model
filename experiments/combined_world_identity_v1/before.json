@@ -1,0 +1,42 @@
+{
+  "reference_commit": "47668fc",
+  "source": "datasets/combine_rollouts.py",
+  "source_sha256": "6a5d24bf856d032764e22109799b166c1423bb08a70daf33b84c072d9de2557e",
+  "scope": "Synthetic corpus identity only; no generation, scoring or fitting.",
+  "cases": {
+    "dynamic_world_3": {
+      "input_worlds": [
+        "classic",
+        "gap",
+        "room"
+      ],
+      "combined_worlds": [
+        "classic",
+        "room",
+        "room"
+      ]
+    },
+    "reordered_catalog": {
+      "input_worlds": [
+        "dense",
+        "classic",
+        "room"
+      ],
+      "combined_worlds": [
+        "classic",
+        "dense",
+        "room"
+      ]
+    },
+    "wrong_indoor_source": {
+      "input_worlds": [
+        "classic",
+        "dense"
+      ],
+      "combined_worlds": [
+        "classic",
+        "room"
+      ]
+    }
+  }
+}

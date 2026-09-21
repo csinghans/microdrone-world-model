@@ -6,7 +6,7 @@ The remaining research question is which action-specific failure a new
 single-knob study can resolve with adequate course support and the embedded
 budget intact. No new training study is registered or running at this review.
 
-This is a living continuation index, reviewed against `b2b7c69`. Original
+This is a living continuation index, continued from `47668fc`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -103,6 +103,7 @@ or reuse an old control whose recipe differs from a new treatment.
 |---|---|
 | Research continuation | [Frozen evaluation](../experiments/frozen_evaluation_v1/journal.md): ordered cells and recheck settings saved before the first knob; 23 runner regressions. Legacy records remain readable but require original registration evidence before new measurements. |
 | Dataset generation | [Corpus publication](../experiments/dataset_publication_v1/journal.md): all three CLIs reject existing/reserved outputs before simulation and publish complete NPZs atomically; selftest replacement is explicitly scoped. |
+| Corpus world identity | [Combined catalogs](../experiments/combined_world_identity_v1/journal.md): remap by source names so dynamic transit ID 3 cannot become room; reject malformed identities. Six canonical fixtures and their serialized NPZs match the old combiner byte for byte. |
 | Model persistence | [WM](../experiments/checkpoint_io_v1/journal.md) and [policy](../experiments/policy_checkpoint_v1/journal.md): candidate defaults, protected locked paths and atomic fresh outputs; recurrent filenames retain `_recurrent`. Historical standalone save sites keep their own implementations. |
 | Policy recipe and evaluation | [CLI recipe](../experiments/policy_recipe_v1/journal.md) forwards seed/world lists; [policy evaluation](../experiments/policy_eval_identity_v1/journal.md) records policy/WM/cell identities and rejects duplicate cells. |
 | Training/validation identity | [Original-corpus validation](../experiments/wm_validation_identity_v1/journal.md) rejects known different training-file hashes; independent holdouts reject known exact reuse. Unknown legacy identities are explicit. Different bytes do not prove disjoint courses. |
@@ -123,9 +124,12 @@ locked artifacts initially present; every command exited 0 on its first
 attempt. That is a local macOS/Python 3.14 run, not Linux/Python 3.12 CI or
 the optional training smoke. Later repairs have their own linked regression
 receipts; do not extend the frozen audit's coverage claim to newer commands.
-The [latest code receipt](../experiments/dataset_publication_v1/verification.json)
+The [dataset-publication receipt](../experiments/dataset_publication_v1/verification.json)
 records passing corpus/identity regressions, transit/indoor simulator smokes,
 whole-repo Black/Ruff (176 Python files), and all nine locked hashes.
+The later [combined-identity receipt](../experiments/combined_world_identity_v1/verification.json)
+adds catalog/CLI/compatibility checks, with the same full-repo lint and
+artifact protection. It generates no new research corpus or model score.
 
 Local Python: `/Users/hans.chen/.cache/microdrone-research-venv/bin/python`
 (3.14.5, torch 2.14.0, NumPy 2.5.3, pybullet 3.2.7). Declared conda/CI

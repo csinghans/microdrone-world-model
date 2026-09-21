@@ -122,6 +122,46 @@ class DatasetPublicationTests(unittest.TestCase):
                 self.invoke(cli, output, Mock(return_value=self.data))
                 self.assertTrue(output.exists())
 
+    def test_combined_cli_keeps_custom_worlds_and_reports_room_by_name(self):
+        module = importlib.import_module("datasets.combine_rollouts")
+        transit = _synth([0, 3], length=40)
+        transit["world_names"] = np.array(["classic", "dense", "moving", "gap"])
+        indoor = _synth([0], length=40, nan_pillars=True)
+        indoor["world_names"] = np.array(["room"])
+        output = self.root / "custom_combined.npz"
+        stdout = io.StringIO()
+        with (
+            patch("datasets.generate_rollouts.gen", return_value=transit) as generated,
+            patch("datasets.search_rollouts.gen", return_value=indoor),
+            patch(
+                "sys.argv",
+                [
+                    "datasets.combine_rollouts",
+                    "--n-transit",
+                    "2",
+                    "--n-indoor",
+                    "1",
+                    "--len",
+                    "40",
+                    "--worlds",
+                    "classic,gap",
+                    "--out",
+                    str(output),
+                ],
+            ),
+            patch("world_model.checkpoint_io.ROOT", self.root),
+            contextlib.redirect_stdout(stdout),
+        ):
+            module.main()
+        self.assertEqual(generated.call_args.kwargs["worlds"], ("classic", "gap"))
+        self.assertIn("transit 2, room 1", stdout.getvalue())
+        with np.load(output, allow_pickle=False) as data:
+            self.assertEqual(
+                data["world_names"][data["world_id"]].tolist(),
+                ["classic", "gap", "room"],
+            )
+            self.assertEqual(data["world_id"].tolist(), [0, 3, 4])
+
     def test_serializer_failure_leaves_no_partial_output(self):
         from unittest.mock import Mock
 
