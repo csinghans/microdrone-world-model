@@ -146,7 +146,26 @@ def analyze(data, seeds=(0, 1, 2), batch=64, epochs=80, holdout=False):
         raise ValueError("positive batch/epochs and distinct seeds required")
     if list(data["horizons"]) != list(HORIZONS):
         raise ValueError("dataset horizons differ from active oracle")
-    if data["dists"].shape[1] <= HORIZONS[-1]:
+    distances = np.asarray(data["dists"])
+    if (
+        distances.ndim != 2
+        or distances.dtype.kind not in "fiu"
+        or not np.isfinite(distances).all()
+        or distances.shape != data["frames"].shape[:2]
+    ):
+        raise ValueError(
+            "dists must be a finite real matrix matching rollout dimensions"
+        )
+    radius = np.asarray(data["danger_r"])
+    if (
+        radius.ndim != 0
+        or radius.dtype.kind not in "fiu"
+        or not np.isfinite(radius)
+        or float(radius) <= 0
+    ):
+        raise ValueError("danger_r must be a finite positive real scalar")
+    # Signed indoor surface clearances are valid and may be negative.
+    if distances.shape[1] <= HORIZONS[-1]:
         raise ValueError("rollouts too short for horizon 32")
     pairs, labels = _index_samples(data)
     if len(pairs) == 0:
@@ -188,6 +207,8 @@ def load_metadata(path):
 
 
 def selftest():
+    from unittest.mock import patch
+
     from datasets.combine_rollouts import _synth
 
     cf = np.ones((1, 3, 6, 4, 2), dtype=np.uint8)
@@ -218,10 +239,42 @@ def selftest():
     assert set(rr["actions"]) == {"reverse"}
     assert rr["counterfactual"]["visible_frame_candidates"] == 0
     assert rr["counterfactual"]["current_hard_frames"] == 0
+    room["dists"][:, 0] = -0.2
+    signed = analyze(room, holdout=True)["all"]["worlds"]["room"]
+    assert signed["labels_at_32"]["positive"] == 3
+    assert signed["now_labels"]["positive"] == 3
+    bad_cases = []
+    for bad in (np.nan, np.inf, -np.inf):
+        distances = data["dists"].copy()
+        distances[0, 16] = bad
+        bad_cases.append(dict(data, dists=distances))
+    for distances in (
+        data["dists"].astype(complex),
+        data["dists"].astype(bool),
+        data["dists"].astype(str),
+        data["dists"][0],
+        data["dists"][:, :-1],
+    ):
+        bad_cases.append(dict(data, dists=distances))
+    for radius in (np.nan, np.inf, -np.inf, 0, -0.7, True, "0.7", 0.7 + 0j, [0.7]):
+        bad_cases.append(dict(data, danger_r=np.asarray(radius)))
+    for bad in bad_cases:
+        with (
+            patch(__name__ + "._index_samples") as index,
+            patch(__name__ + ".counterfactual_labels") as oracle,
+        ):
+            try:
+                analyze(bad, holdout=True)
+            except ValueError:
+                pass
+            else:
+                raise AssertionError("invalid distance/radius metadata accepted")
+            index.assert_not_called()
+            oracle.assert_not_called()
     json.dumps(result, allow_nan=False)
     print(
         "DATASET-SUPPORT OK: windows/splits, classless labels, "
-        "action catalogs, masked contrast"
+        "action catalogs, masked contrast, finite distances/radius, signed clearances"
     )
 
 

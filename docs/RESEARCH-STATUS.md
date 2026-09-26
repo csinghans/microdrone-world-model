@@ -147,6 +147,7 @@ or reuse an old control whose recipe differs from a new treatment.
 | Paired comparison | [Score schema](../experiments/score_schema_v1/journal.md) rejects malformed course/action-probe identities before metrics/resampling; all 18 archived exports / nine pairs remain accepted and unchanged. |
 | Prospective support | [Requirements checker](../experiments/support_requirements_v1/journal.md) binds explicit action/class count bars to report/corpus hashes; insufficient support exits 10 and stops a fail-fast queue. |
 | Support-report persistence | [Publication repair](../experiments/support_publication_v1/journal.md): both metadata producers protect reserved/existing destinations, atomically publish complete JSON and recheck input/source identities. Eleven artifactless regressions include abrupt writer termination; four archived support reports retain exactly the same values. |
+| Distance validity | [Finite-input repair](../experiments/support_distance_v1/journal.md): reject nonfinite distance matrices and invalid danger-now radii before indexing/oracle work; preserve signed room clearances. Seventeen malformed cases are rejected and four valid archived corpora retain all complete/split counts. |
 
 These are offline instrument repairs. They add no deployed parameters or
 inference work and establish no new performance result. Frozen scientific
@@ -211,6 +212,10 @@ audits. Their strict source replay uses the original snapshot; the explicit
 [compatibility receipt](../experiments/support_publication_v1/compatibility.json)
 confirms all saved timing-pilot support values under the unchanged analysis
 functions without rewriting the original records.
+The later distance validator deliberately changes `analyze`; the preceding
+publication-only AST verifier therefore uses its original source snapshot.
+The [distance compatibility receipt](../experiments/support_distance_v1/compatibility.json)
+confirms unchanged counts on four valid corpora, including signed indoor data.
 
 Check current processes before launching work; no worker was active at this
 review. The existing task owns the hourly follow-up. No remote push or

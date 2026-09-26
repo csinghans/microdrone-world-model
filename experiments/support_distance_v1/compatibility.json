@@ -1,0 +1,47 @@
+{
+  "reports": {
+    "approach_timing": {
+      "dataset": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/approach/data.npz",
+        "sha256": "41127362c754072fbe8be77ad20f46c5da6f3a931d6915f62f121819bd70f2ea"
+      },
+      "valid_windows": 12339,
+      "all_and_three_seed_splits_exactly_equal": true
+    },
+    "immediate_timing": {
+      "dataset": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/immediate/data.npz",
+        "sha256": "04cc0fca528985fdd722e586bcc4823b969dbfc2e5de21d2c70bc36c95d5ec04"
+      },
+      "valid_windows": 13331,
+      "all_and_three_seed_splits_exactly_equal": true
+    },
+    "legacy_schedule": {
+      "dataset": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/legacy_train/data.npz",
+        "sha256": "7af21a770889041354847de26f14a37a5151ac1fb9282bec7cad2093c720a5c6"
+      },
+      "valid_windows": 8533,
+      "all_and_three_seed_splits_exactly_equal": true
+    },
+    "world_balanced_schedule": {
+      "dataset": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/world_balanced_train/data.npz",
+        "sha256": "d3a55a38f294463dfc22c94bc13816a6511c78147b0d0c49f5f1e7f93c55ccc3"
+      },
+      "valid_windows": 8428,
+      "all_and_three_seed_splits_exactly_equal": true
+    }
+  },
+  "locked_artifacts": {
+    "output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  }
+}

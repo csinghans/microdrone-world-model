@@ -112,6 +112,11 @@ leave a hidden temporary file. Existing partial results still require
 inspection and are never silently overwritten. The
 [publication tests](../experiments/support_publication_v1/journal.md) cover
 these cases and verify unchanged historical support counts.
+The dataset producer also [validates distance inputs](../experiments/support_distance_v1/journal.md)
+before computing support: NaN/infinite distances and invalid danger-now
+radii are rejected rather than counted as negative labels. Finite negative
+room clearances remain valid. This is a targeted distance/radius check,
+not complete validation of every geometric metadata field.
 
 The [timing split audit](../experiments/early_intervention_split_v1/journal.md)
 provides a measured example: a candidate passed its full-corpus steering
