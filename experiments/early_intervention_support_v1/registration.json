@@ -1,0 +1,26 @@
+{
+  "campaign": "early_intervention_support_v1",
+  "reference_commit": "01de955",
+  "seed": 2026092701,
+  "n_rollouts": 180,
+  "length": 160,
+  "img_res": 64,
+  "worlds": ["classic", "dense", "moving"],
+  "randomize": false,
+  "schedule_layout": "world_balanced",
+  "rng_layout": "per_rollout",
+  "arms": ["approach", "immediate"],
+  "horizon": 32,
+  "warn_radius": 0.7,
+  "instrument": {
+    "fixture_seed": 2026092702,
+    "minimum_frame_std": 1.0,
+    "minimum_render_difference": 1.0,
+    "compatibility_seed": 2026092703,
+    "compatibility_rollouts": 9,
+    "compatibility_length": 64,
+    "compatibility_img_res": 16
+  },
+  "requirements": "experiments/early_intervention_support_v1/support_requirements.json",
+  "response_to_insufficiency": "close pilot; no new seed, extra rollout or training"
+}

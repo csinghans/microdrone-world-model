@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "target": "executed_warn_at_32",
+  "checks": [
+    {
+      "partition": "all",
+      "world": "dense",
+      "actions": ["veer_left", "veer_right"],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "all",
+      "world": "moving",
+      "actions": ["veer_left", "veer_right"],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    }
+  ]
+}
