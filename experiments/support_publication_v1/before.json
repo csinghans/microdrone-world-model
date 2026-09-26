@@ -1,0 +1,12 @@
+{
+  "eval_dataset_support": {
+    "failed_serialization_leaves_invalid_final_json": true,
+    "partial_report_blocks_new_attempt": true,
+    "absent_locked_destination_accepts_json": true
+  },
+  "eval_veer_support": {
+    "failed_serialization_leaves_invalid_final_json": true,
+    "partial_report_blocks_new_attempt": true,
+    "absent_locked_destination_accepts_json": true
+  }
+}
