@@ -1,0 +1,77 @@
+{
+  "completed_at": "2026-09-26T18:37:52.341248+00:00",
+  "registration_commit": "60e6a8d",
+  "instrument_commit": "eee839d",
+  "scope": "Fixed pilot metadata, split seeds 0/1/2, both arms and both partitions; no fitting, inference, new generation or bootstrap.",
+  "runtime": {
+    "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "numpy": "2.5.3",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+  },
+  "frozen_files": {
+    "experiments/early_intervention_split_v1/audit.py": "b342b3200a0b4311bc5203d9a79010b8873dfe99b34c923e63a333c10ad23460",
+    "experiments/early_intervention_split_v1/definition.md": "defd9d32d8c1cb74cabe249c5350cab2aa39b7ece426057328514faea1aae885",
+    "experiments/early_intervention_split_v1/manifest.json": "92084338962764b3dcd6befe10943505a525bdb8ba481c1a8464fd6d38f2db67",
+    "experiments/early_intervention_split_v1/registration.json": "4d00a5b12be1e345956c8b725d801ad5cc2ae6b7b19fe2edf6846eeb3ccbf0e8",
+    "experiments/early_intervention_split_v1/report.json": "7630fa5b7497880098b2d11fa72b9d4201b383e2a34d65d5df3016fa10afc5f4",
+    "experiments/early_intervention_split_v1/run.sh": "23afa6ff3963ce947654b36dcdd407e0ec7a18ef575ea4e91c72fd321723ed9c",
+    "experiments/early_intervention_split_v1/source_receipts.json": "2887d73bf165b9d82b53551b135cf71e888e76c16bdf3f74e0c672186d109e28",
+    "experiments/early_intervention_split_v1/summary.md": "dc066671bab077617c833cc3ed7d025a062797e050a0391c637ec2088fab0f36",
+    "experiments/early_intervention_split_v1/support_requirements.json": "521cd6a778b308a6ba82fef7deebc04e685ea5d33f0a4eb3765666fcd1fdbe0a",
+    "experiments/early_intervention_split_v1/verify.sh": "0afb576ab662221e4b6d376ca717ae013a96fc261b4ed8aadf4bcf7a8bd50aeb"
+  },
+  "logs": {
+    "output/research_integrity_selftest/early_intervention_split_v1_preflight.log": "b869eec8c4dd16873b17a803d8820e07ab6361e9de9b8ef0cd21a37e22b13968",
+    "output/research_integrity_selftest/early_intervention_split_v1_preflight_fixed.log": "bfea7aa54d5fef0a66bae206cae1d355a5a3e5451015c5a396704ba80497e539",
+    "output/research_integrity_selftest/early_intervention_split_v1_run.log": "f5999d9cd754e12d53e60dde4a1ecf305205bd4e88ba91188d6fca33c7288741",
+    "output/research_integrity_selftest/early_intervention_split_v1_verify.log": "662ad893a78c8d53fdab90f4c84c100dfafd0af410285ccf60989f5d3e09a21a"
+  },
+  "exit_codes": {
+    "initial_synthetic_preflight": [
+      1
+    ],
+    "fixed_preflight": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "audit": 0,
+    "exact_recomputation": 0
+  },
+  "locked_artifacts": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "observations": {
+    "same_split_membership_between_arms": true,
+    "train_rollouts": 144,
+    "val_rollouts": 36,
+    "approach_passed_train_val_cells": [
+      7,
+      0
+    ],
+    "immediate_passed_train_val_cells": [
+      12,
+      2
+    ],
+    "cells_per_partition_kind": 12,
+    "moving_val_probe_courses_each_arm": [
+      1,
+      0,
+      0
+    ]
+  },
+  "limits": "Structural count diagnostic, not a power calculation or model verdict. Original full-corpus pilot unchanged. No reseeding, resplitting, new draws or automatic training."
+}

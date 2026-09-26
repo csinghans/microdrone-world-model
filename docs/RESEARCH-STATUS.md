@@ -6,7 +6,7 @@ The remaining research question is which action-specific failure a new
 single-knob study can resolve with adequate course support and the embedded
 budget intact. No new training study is registered or running at this review.
 
-This is a living continuation index, continued from `1ebacca`. Original
+This is a living continuation index, continued from `eee839d`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -74,6 +74,14 @@ hardware timing, quantization-parity or flight certification for these fits.
   counts rise 3→7 and 1→7 in dense, 10→15 and 6→11 in moving (left/right).
   Forward negative-course coverage falls in all three worlds. This closes a
   data-feasibility pilot, not a model gate, and authorizes no automatic fit.
+- [early_intervention_split_v1](../experiments/early_intervention_split_v1/journal.md):
+  using the unchanged splitter at seeds 0/1/2, both arms have identical
+  144-course training / 36-course validation memberships. Under the same
+  pilot count minima, candidate training passes 12/12 action cells, versus
+  control 7/12; validation passes only 2/12 versus 0/12. Both arms have moving
+  validation veer-probe courses 1/0/0, despite candidate full-corpus support
+  of 71 frames / 5 courses. No seed was selected and no new data or fit ran.
+  This diagnostic is insufficient; the whole-corpus pilot remains sufficient.
 
 The decomposition is accounting on a fixed exam, not a causal explanation
 or a steering certificate. Within-action comparisons still mix scenes and
@@ -85,9 +93,14 @@ actions/classes. Objective weight mass is not measured gradient mass.
 
 Prioritize a specific steering/action failure with a falsifiable mechanism.
 Immediate intervention now has paired evidence of adequate full-corpus
-steering support under modest pilot bars. Before a model comparison, a new
-registration must address support within each training seed's partitions
-and protect forward behavior, alongside the existing room/now/veer guards.
+steering support under modest pilot bars, retained in all three training
+partitions. The fixed-seed audit shows the corresponding validation and
+per-world veer-probe limitations. Before a model comparison, a new
+registration must justify support for the actual endpoint and independent
+exam, and protect forward behavior alongside the existing room/now/veer
+guards. Do not search split seeds or expand a closed pilot to obtain a pass.
+The current internal validation partitions are not a complete
+action-specific or per-world veer exam.
 The pilot uses 180 scene pairs, not 360 independent courses; its two corpora
 are development data, never independent exams for one another. Defaults
 remain shared RNG and approach timing.
@@ -161,6 +174,11 @@ adds exact old-generator simulator parity in four settings, rendered fixtures,
 pair-identity checks, support recomputation and whole-repo lint (178 files).
 All six actual pilot stages exited 0; the control's insufficient support is
 retained as a scientific observation, not treated as a tool failure.
+The [split-audit receipt](../experiments/early_intervention_split_v1/verification.json)
+adds an artifactless probe/accounting selftest, exact partition membership
+and full-corpus reconciliation, deterministic metadata replay and whole-repo
+lint (179 files). Its first synthetic fixture failure is retained separately;
+the actual audit exited 0 and recorded both arms' insufficient split support.
 
 Local Python: `/Users/hans.chen/.cache/microdrone-research-venv/bin/python`
 (3.14.5, torch 2.14.0, NumPy 2.5.3, pybullet 3.2.7). Declared conda/CI

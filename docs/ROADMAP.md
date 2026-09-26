@@ -98,6 +98,12 @@ data feasibility rather than a model win. A future training study needs a
 new registration, support checks on each actual training split, and frozen
 forward/room/now/veer guards. Neither the default approach recipe nor the
 closed model verdicts change.
+The subsequent [split audit](../experiments/early_intervention_split_v1/journal.md)
+checks fixed seeds 0/1/2: immediate training passes 12/12 required action
+cells, but validation only 2/12. Moving validation veer probes contain
+1/0/0 courses in both arms. Retain the timing hypothesis's training-support
+evidence while treating these internal validation partitions as insufficient
+for the full action/per-world comparison; do not choose a more favorable seed.
 
 Other closed research arcs:
 

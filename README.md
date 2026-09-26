@@ -57,6 +57,11 @@ finds that immediate interventions meet the registered steering class/course
 minima on 180 paired scenes: dense right-veer negative courses rise from
 1 to 7. Forward coverage falls, so this is data feasibility evidence, with
 no new fitted model or adopted training recipe.
+The [fixed-seed split audit](experiments/early_intervention_split_v1/journal.md)
+then finds 12/12 candidate training cells retain those minima, but only 2/12
+validation cells do. Moving validation veer probes have 1/0/0 contributing
+courses across seeds 0/1/2, so the full-corpus result does not establish an
+adequately supported internal validation exam.
 
 ## Why this exists
 

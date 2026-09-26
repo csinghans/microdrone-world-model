@@ -103,6 +103,14 @@ streamed only for hashing; it is never decoded by this checker. Report
 counts are checked for internal consistency, not recomputed from the corpus.
 Preserve the trusted producer invocation, report and registration together.
 
+The [timing split audit](../experiments/early_intervention_split_v1/journal.md)
+provides a measured example: a candidate passed its full-corpus steering
+requirements, retained them in all 12 fixed-seed training action cells,
+but passed only 2 of 12 validation cells under the same minima. A separate
+geometric veer-probe inventory also found missing moving validation courses.
+Full-corpus counts cannot substitute for either partition support or a
+different endpoint's sample selection.
+
 New producer reports declare schema 1 and their target. Historical reports
 without these fields are not silently upgraded; historical records and
 verdicts remain unchanged. For a new study, generate a fresh metadata report
