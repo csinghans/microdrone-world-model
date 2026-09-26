@@ -62,16 +62,22 @@ OUT = os.path.join(
 MAX_PIL = 8  # meta arrays hold up to this many pillars (NaN-padded)
 # Back-compat re-export; the registry is the source of truth for ids.
 WORLD_IDS = {"classic": 0, "dense": 1, "moving": 2}
+RNG_LAYOUTS = ("shared", "per_rollout")
+INTERVENTION_STARTS = ("approach", "immediate")
 
 
-def _schedule(rng, length: int, passive: bool):
+def _schedule(rng, length: int, passive: bool, intervention_start="approach"):
     """Per-step (action-id, segment-id) arrays for one rollout: an all-forward
     approach, then ~1 s held segments each drawing a fresh random command."""
+    if intervention_start not in INTERVENTION_STARTS:
+        raise ValueError(f"unknown intervention start: {intervention_start}")
     ids = np.full(length, FORWARD, dtype=np.int16)
     seg = np.zeros(length, dtype=np.int16)
     if passive:
         return ids, seg
     t, s = int(rng.integers(24, 49)), 0
+    if intervention_start == "immediate":
+        t = 0  # still consume the approach draw, preserving subsequent draws
     while t < length:
         s += 1
         n = int(rng.integers(H_MAX + 8, H_MAX + 25))  # hold 40..56 steps (~1 s)
@@ -79,6 +85,18 @@ def _schedule(rng, length: int, passive: bool):
         seg[t : t + n] = s
         t += n
     return ids, seg
+
+
+def _streams(seed, rollout, layout, shared):
+    """Isolate scene, command and plant draws for paired schedule studies."""
+    if layout == "shared":
+        return shared, shared, shared
+    if layout != "per_rollout":
+        raise ValueError(f"unknown RNG layout: {layout}")
+    return tuple(
+        np.random.default_rng(child)
+        for child in np.random.SeedSequence([seed, rollout]).spawn(3)
+    )
 
 
 def gen(
@@ -89,6 +107,8 @@ def gen(
     worlds: tuple = ("classic",),
     img_res: int = IMG_RES,
     schedule_layout: str = "world_balanced",
+    rng_layout: str = "shared",
+    intervention_start: str = "approach",
 ) -> dict:
     """Fly `n_rollouts` fresh intervention trials and return the raw sequences:
     frames (uint8), held commands, nearest-pillar distances, drone positions,
@@ -107,11 +127,19 @@ def gen(
     global-index recipe, including its world/role aliasing; use it only when
     explicitly reproducing a historical dataset or registered comparison.
 
+    `rng_layout="per_rollout"` isolates scene/schedule/noise streams per
+    rollout, so schedule changes cannot change later scenes. This is a new
+    data recipe; the default shared stream preserves historical draws.
+    `intervention_start="immediate"` skips the forward approach on active
+    courses while retaining its RNG draw and subsequent command sequence.
+
     `randomize=True` randomizes the *plant* as well as the scene: random
     pillar shape/colour, 0-2 control steps of command latency, and ±8 %
     per-step actuation noise on the executed command. The RECORDED action
     stays the clean commanded one — the model conditions on intent, reality
     wobbles, and the labels come from where the drone really went."""
+    if rng_layout not in RNG_LAYOUTS or intervention_start not in INTERVENTION_STARTS:
+        raise ValueError("unknown RNG layout or intervention start")
     roles = plan(n_rollouts, worlds, schedule_layout)
     env = make_env(img_res=img_res)
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
@@ -131,16 +159,17 @@ def gen(
     speed = np.zeros(R, dtype=np.float32)
 
     for r, role in enumerate(roles):
-        obs, _ = env.reset(seed=int(rng.integers(2**31 - 1)))
+        scene_rng, schedule_rng, noise_rng = _streams(seed, r, rng_layout, rng)
+        obs, _ = env.reset(seed=int(scene_rng.integers(2**31 - 1)))
         cmd.reset(START)
         world = role.world
         spec = get_scenario(world)
         world_id[r] = spec.world_id
         in_path[r] = role.in_path
-        speed[r] = rng.uniform(*SPEED_RANGE)
+        speed[r] = scene_rng.uniform(*SPEED_RANGE)
         scenario = spec.spawn(
             env,
-            rng,
+            scene_rng,
             speed=float(speed[r]),
             randomize=randomize,
             in_path=bool(in_path[r]),
@@ -148,8 +177,10 @@ def gen(
         pillars = scenario.positions()
         pillar_vel[r, : len(pillars)] = scenario.velocities()
         pillars_meta[r, : len(pillars)] = pillars
-        act_id[r], seg[r] = _schedule(rng, L, passive=role.passive)
-        lat = int(rng.integers(0, 3)) if randomize else 0
+        act_id[r], seg[r] = _schedule(
+            schedule_rng, L, passive=role.passive, intervention_start=intervention_start
+        )
+        lat = int(noise_rng.integers(0, 3)) if randomize else 0
 
         state = obs[0]
         for t in range(L):
@@ -160,7 +191,7 @@ def gen(
             # ... while the *executed* command may lag and wobble (randomize)
             v_exec = speed[r] * ACTION_VECS[act_id[r, max(t - lat, 0)]]
             if randomize:
-                v_exec = v_exec * (1.0 + rng.normal(0.0, 0.08, size=4))
+                v_exec = v_exec * (1.0 + noise_rng.normal(0.0, 0.08, size=4))
             obs, _, _, _, _ = env.step(cmd.rpm(state, v_exec).reshape(1, 4))
             state = obs[0]
             scenario.step()  # static worlds: no-op
@@ -193,6 +224,9 @@ def gen(
     # Keep the legacy blob schema unchanged for exact historical replay.
     if schedule_layout != "legacy":
         data["schedule_layout"] = np.array(schedule_layout)
+    if rng_layout != "shared" or intervention_start != "approach":
+        data["rng_layout"] = np.array(rng_layout)
+        data["intervention_start"] = np.array(intervention_start)
     return data
 
 
@@ -240,6 +274,10 @@ def main() -> None:
         help="cross roles within each world; legacy reproduces the aliased old recipe",
     )
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--rng-layout", choices=RNG_LAYOUTS, default="shared")
+    ap.add_argument(
+        "--intervention-start", choices=INTERVENTION_STARTS, default="approach"
+    )
     args = ap.parse_args()
     n_roll, length = (12, 100) if args.selftest else (args.rollouts, args.length)
     worlds = resolve_worlds(args.worlds)
@@ -259,6 +297,8 @@ def main() -> None:
         worlds=worlds,
         img_res=IMG_RES if args.selftest else args.img_res,
         schedule_layout="world_balanced" if args.selftest else args.schedule_layout,
+        rng_layout="shared" if args.selftest else args.rng_layout,
+        intervention_start="approach" if args.selftest else args.intervention_start,
     )
     rates = {}
     for k in HORIZONS:
