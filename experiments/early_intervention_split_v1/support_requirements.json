@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "target": "executed_warn_at_32",
+  "checks": [
+    {
+      "partition": "splits/0/train",
+      "world": "dense",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/0/train",
+      "world": "moving",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/0/val",
+      "world": "dense",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/0/val",
+      "world": "moving",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/1/train",
+      "world": "dense",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/1/train",
+      "world": "moving",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/1/val",
+      "world": "dense",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/1/val",
+      "world": "moving",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/2/train",
+      "world": "dense",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/2/train",
+      "world": "moving",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/2/val",
+      "world": "dense",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    },
+    {
+      "partition": "splits/2/val",
+      "world": "moving",
+      "actions": [
+        "veer_left",
+        "veer_right"
+      ],
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      }
+    }
+  ]
+}

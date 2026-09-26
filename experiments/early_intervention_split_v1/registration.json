@@ -1,0 +1,23 @@
+{
+  "campaign": "early_intervention_split_v1",
+  "reference_commit": "ec891e3",
+  "seeds": [0, 1, 2],
+  "partitions": ["train", "val"],
+  "worlds": ["classic", "dense", "moving"],
+  "horizon": 32,
+  "warn_radius": 0.7,
+  "batch": 64,
+  "nominal_epochs": 1,
+  "inputs": {
+    "approach": {
+      "path": "output/early_intervention_support_v1/approach/data.npz",
+      "sha256": "41127362c754072fbe8be77ad20f46c5da6f3a931d6915f62f121819bd70f2ea"
+    },
+    "immediate": {
+      "path": "output/early_intervention_support_v1/immediate/data.npz",
+      "sha256": "04cc0fca528985fdd722e586bcc4823b969dbfc2e5de21d2c70bc36c95d5ec04"
+    }
+  },
+  "requirements": "experiments/early_intervention_split_v1/support_requirements.json",
+  "scope": "Retain full-pilot structural minima within every fixed split; no training release or power claim."
+}
