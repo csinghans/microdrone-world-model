@@ -1,0 +1,72 @@
+{
+  "completed_at": "2026-09-26T22:41:05.856789+00:00",
+  "before_commit": "3edeffe",
+  "instrument_commit": "fff1bde",
+  "scope": "Two metadata producer CLI publication/provenance boundaries; no changed analysis, split, label, model or scientific gate.",
+  "runtime": {
+    "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "numpy": "2.5.3"
+  },
+  "instrument_sources": {
+    "eval/eval_dataset_support.py": "0ba128685cdfbe5ad2d978ca538e63120c3fef02824c1efdae46c11112554677",
+    "eval/eval_veer_support.py": "91e83467afa7bb53c567c07bae2220f52515c73f6d45b52bfbcd80bc87d01af5",
+    "scripts/support_publication_selftest.py": "d9e56c06f79b1e1e9cedda57dd756ccc1ab960f251d4d05d200200b51d8b146c",
+    ".github/workflows/ci.yml": "61a9965ad6d8640ce4e2187ae148d785963a0cd1dc45e3213a3d4d28c9c39e4e",
+    "world_model/checkpoint_io.py": "934be3b36b8494a0017025dcd3615fadae0dbd5f941277e0dc52f2947576f56a"
+  },
+  "frozen_files": {
+    "experiments/support_publication_v1/before.json": "744b8edef857df394db39109d96872fdcf312ecf335744ef9f7bdf0e2b80f2c8",
+    "experiments/support_publication_v1/compatibility.json": "a9699179f09f56b1de3f0223377a61104f36093b4feee24d7a2d9ea93c5de148",
+    "experiments/support_publication_v1/verify_before.sh": "245a593201b36d8824f67837d99da0fc955e4dbc9255dab18d7d08b9f25b0fae",
+    "experiments/support_publication_v1/verify_compatibility.sh": "1b7b95b5592f69e71a82aaa39b0268752d644f8fa2d2542ca775f1be59d0d281",
+    "experiments/support_publication_v1/verify.sh": "ac4fa1ab342531d3e91c60fb27dbd9e7820687dff0bd35083b1c24eeb27fa102"
+  },
+  "logs": {
+    "output/research_integrity_selftest/support_publication_v1_before.log": "75ec396fa18eb0686bb6f4c2d3e18080cedf156362747c03bba919afaa7c3148",
+    "output/research_integrity_selftest/support_publication_v1_checks.log": "48d57affc91cd65dc0dd1576f3d1631868d9007c7bc5ce67132450f24a2ba3be",
+    "output/research_integrity_selftest/support_publication_v1_compatibility.log": "fa14e93e4f69a25c5117c52bdb90330536e196627b9ed5e59f87a16c27e5b24f",
+    "output/research_integrity_selftest/support_publication_v1_abrupt_checks.log": "16e87ee68ac9eb99d7cb8d1912c2c7d830218e32b8fb99516a57eb2947529c93"
+  },
+  "exit_codes": {
+    "before": 0,
+    "checks": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "compatibility": 0,
+    "abrupt_checks": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "expected_abrupt_child_exit_codes": [
+    37,
+    37
+  ],
+  "locked_artifacts": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "observations": {
+    "publication_regressions": 11,
+    "unchanged_archived_support_reports": 4,
+    "whole_repo_lint_python_files": 180
+  },
+  "limits": "Complete final-file visibility, not power-loss durability; abrupt worker exits can leave hidden temporaries. Existing partial outputs are preserved for inspection. Local macOS validation only."
+}
