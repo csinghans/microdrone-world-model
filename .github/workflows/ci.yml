@@ -81,6 +81,7 @@ jobs:
           python -m scripts.early_intervention_study --selftest
           python -m experiments.early_intervention_split_v1.audit --selftest
           python -m eval.eval_support_requirements --selftest
+          python -m scripts.support_publication_selftest
           python -m sim.domain_randomization
           python -m planner.safety_filter
           python -m sim.scenario_registry

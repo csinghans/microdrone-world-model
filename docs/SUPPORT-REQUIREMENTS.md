@@ -103,6 +103,16 @@ streamed only for hashing; it is never decoded by this checker. Report
 counts are checked for internal consistency, not recomputed from the corpus.
 Preserve the trusted producer invocation, report and registration together.
 
+Both metadata producers (`eval.eval_dataset_support` and `eval.eval_veer_support`)
+also publish complete JSON atomically to fresh destinations. They reject
+existing/reserved paths before loading data and recheck dataset/source
+hashes after analysis and encoding. Failed encoding or interrupted writes
+cannot expose a partial final report; an abruptly terminated worker can
+leave a hidden temporary file. Existing partial results still require
+inspection and are never silently overwritten. The
+[publication tests](../experiments/support_publication_v1/journal.md) cover
+these cases and verify unchanged historical support counts.
+
 The [timing split audit](../experiments/early_intervention_split_v1/journal.md)
 provides a measured example: a candidate passed its full-corpus steering
 requirements, retained them in all 12 fixed-seed training action cells,

@@ -146,6 +146,7 @@ or reuse an old control whose recipe differs from a new treatment.
 | WM score exports | [Publication](../experiments/wm_publication_v1/journal.md) is atomic per file; the JSON/NPZ pair is not a transaction. Completion requires exit 0 and all requested outputs with matching metadata. |
 | Paired comparison | [Score schema](../experiments/score_schema_v1/journal.md) rejects malformed course/action-probe identities before metrics/resampling; all 18 archived exports / nine pairs remain accepted and unchanged. |
 | Prospective support | [Requirements checker](../experiments/support_requirements_v1/journal.md) binds explicit action/class count bars to report/corpus hashes; insufficient support exits 10 and stops a fail-fast queue. |
+| Support-report persistence | [Publication repair](../experiments/support_publication_v1/journal.md): both metadata producers protect reserved/existing destinations, atomically publish complete JSON and recheck input/source identities. Eleven artifactless regressions include abrupt writer termination; four archived support reports retain exactly the same values. |
 
 These are offline instrument repairs. They add no deployed parameters or
 inference work and establish no new performance result. Frozen scientific
@@ -179,6 +180,10 @@ adds an artifactless probe/accounting selftest, exact partition membership
 and full-corpus reconciliation, deterministic metadata replay and whole-repo
 lint (179 files). Its first synthetic fixture failure is retained separately;
 the actual audit exited 0 and recorded both arms' insufficient split support.
+The [support-publication receipt](../experiments/support_publication_v1/verification.json)
+adds failure/race/source-drift tests, unchanged-core AST checks, four archived
+report comparisons and full lint (180 files). It changes report persistence
+and provenance, with no new model result.
 
 Local Python: `/Users/hans.chen/.cache/microdrone-research-venv/bin/python`
 (3.14.5, torch 2.14.0, NumPy 2.5.3, pybullet 3.2.7). Declared conda/CI
@@ -201,6 +206,11 @@ accounting under the current code, without replacing historical records.
 The timing options also change the generator source hash pinned by the
 held-command audit. Its strict replay requires the original source snapshot;
 the archived data, report and scientific conclusions remain unchanged.
+The support-publication repair likewise changes hashes pinned by the timing
+audits. Their strict source replay uses the original snapshot; the explicit
+[compatibility receipt](../experiments/support_publication_v1/compatibility.json)
+confirms all saved timing-pilot support values under the unchanged analysis
+functions without rewriting the original records.
 
 Check current processes before launching work; no worker was active at this
 review. The existing task owns the hourly follow-up. No remote push or

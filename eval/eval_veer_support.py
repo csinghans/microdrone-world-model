@@ -17,6 +17,7 @@ from pathlib import Path
 import numpy as np
 
 from datasets.provenance import file_identity
+from world_model.checkpoint_io import check_destination, publish_checkpoint
 from world_model.veer_probe import select
 
 METADATA = (
@@ -128,18 +129,10 @@ def main(argv=None):
         return
     if not args.data or not args.out:
         ap.error("--data and a new --out are required")
-    output = Path(args.out)
-    if output.exists():
-        ap.error("--out exists; preserve previous records")
-    source = file_identity(args.data)
-    data = load_metadata(args.data)
-    result, sample = analyze(data)
-    exports = [
-        check_export(path, sample, names_for(data), source["sha256"])
-        for path in args.check_export
-    ]
-    if file_identity(args.data) != source:
-        raise ValueError("dataset changed during audit")
+    try:
+        output = check_destination(args.out)
+    except (OSError, ValueError) as exc:
+        ap.error(str(exc))
     root = Path(__file__).resolve().parents[1]
     sources = (
         "eval/eval_veer_support.py",
@@ -151,17 +144,33 @@ def main(argv=None):
         "sim/scenarios.py",
         "datasets/provenance.py",
         "eval/compare_wm_scores.py",
+        "world_model/checkpoint_io.py",
     )
+    source_hashes = {p: file_identity(root / p)["sha256"] for p in sources}
+    source = file_identity(args.data)
+    data = load_metadata(args.data)
+    result, sample = analyze(data)
+    exports = [
+        check_export(path, sample, names_for(data), source["sha256"])
+        for path in args.check_export
+    ]
     result["provenance"] = {
         "dataset": source,
         "matched_exports": exports,
-        "sources": {p: file_identity(root / p)["sha256"] for p in sources},
+        "sources": source_hashes,
         "numpy": np.__version__,
     }
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("x") as stream:
-        json.dump(result, stream, indent=2, allow_nan=False)
-        stream.write("\n")
+    payload = (json.dumps(result, indent=2, allow_nan=False) + "\n").encode()
+    if file_identity(args.data) != source:
+        raise ValueError("dataset changed during audit")
+    if any(file_identity(row["path"]) != row for row in exports):
+        raise ValueError("checked export changed during audit")
+    if any(
+        file_identity(root / p)["sha256"] != digest
+        for p, digest in source_hashes.items()
+    ):
+        raise ValueError("source changed during audit")
+    publish_checkpoint(output, lambda stream: stream.write(payload))
     support = result["world_stratified_bootstrap_support"]
     print(
         f"VEER-SUPPORT OK: {result['n_frames']} frames / {result['n_rollouts']} "

@@ -19,6 +19,7 @@ import numpy as np
 from datasets.intervention_labels import HORIZONS, counterfactual_labels
 from planner.action_set import ACTION_NAMES, ACTION_VECS
 from planner.nav_action_set import NAV_ACTION_NAMES, NAV_ACTION_VECS
+from world_model.checkpoint_io import check_destination, publish_checkpoint
 from world_model.training import _index_samples, _split_rollouts
 
 
@@ -239,9 +240,22 @@ def main():
         return
     if not args.data or not args.out:
         ap.error("--data and a new --out are required")
-    output = Path(args.out)
-    if output.exists():
-        ap.error("--out exists; preserve previous records")
+    try:
+        output = check_destination(args.out)
+    except (OSError, ValueError) as exc:
+        ap.error(str(exc))
+    root = Path(__file__).resolve().parents[1]
+    sources = [
+        Path(__file__),
+        root / "world_model/training.py",
+        root / "datasets/intervention_labels.py",
+        root / "planner/action_set.py",
+        root / "planner/nav_action_set.py",
+        root / "sim/envs.py",
+        root / "sim/scenarios.py",
+        root / "world_model/checkpoint_io.py",
+    ]
+    source_hashes = {str(p): digest(p) for p in sources}
     identity = {"path": str(Path(args.data).resolve()), "sha256": digest(args.data)}
     result = analyze(
         load_metadata(args.data),
@@ -250,25 +264,17 @@ def main():
         epochs=args.epochs,
         holdout=args.independent_holdout,
     )
-    if digest(args.data) != identity["sha256"]:
-        raise RuntimeError("dataset changed during audit")
-    root = Path(__file__).resolve().parents[1]
-    sources = [
-        Path(__file__),
-        root / "world_model/training.py",
-        root / "datasets/intervention_labels.py",
-        root / "planner/action_set.py",
-        root / "planner/nav_action_set.py",
-    ]
     result["provenance"] = {
         "dataset": identity,
-        "sources": {str(p): digest(p) for p in sources},
+        "sources": source_hashes,
         "numpy": np.__version__,
     }
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("x") as stream:
-        json.dump(result, stream, indent=2, allow_nan=False)
-        stream.write("\n")
+    payload = (json.dumps(result, indent=2, allow_nan=False) + "\n").encode()
+    if digest(args.data) != identity["sha256"]:
+        raise RuntimeError("dataset changed during audit")
+    if any(digest(p) != expected for p, expected in source_hashes.items()):
+        raise RuntimeError("source changed during audit")
+    publish_checkpoint(output, lambda stream: stream.write(payload))
     print(f"DATASET-SUPPORT OK: {output}")
 
 
