@@ -1,0 +1,15 @@
+{
+  "stage": "immediate",
+  "exit_code": 0,
+  "started_unix": 1790444339.223657,
+  "elapsed_seconds": 46.554633140563965,
+  "manifest_sha256": "792e6dc617f8d77c81f3a07d9d793ef40da59ead3b60a7946b87e5ab6c536522",
+  "result": {
+    "arm": "immediate",
+    "rollouts": 180,
+    "length": 160
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/immediate/data.npz": "04cc0fca528985fdd722e586bcc4823b969dbfc2e5de21d2c70bc36c95d5ec04"
+  }
+}

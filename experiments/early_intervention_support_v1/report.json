@@ -1,0 +1,370 @@
+{
+  "scope": "Paired development-data support only; no training or model scores.",
+  "statuses": {
+    "approach": "insufficient",
+    "immediate": "satisfied"
+  },
+  "rows": [
+    {
+      "world": "classic",
+      "action": "forward",
+      "approach": {
+        "windows": 2929,
+        "positive": 1008,
+        "negative": 1921,
+        "positive_rollouts": 23,
+        "negative_rollouts": 45,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 2856,
+        "positive": 984,
+        "negative": 1872,
+        "positive_rollouts": 17,
+        "negative_rollouts": 33,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "classic",
+      "action": "slow",
+      "approach": {
+        "windows": 223,
+        "positive": 75,
+        "negative": 148,
+        "positive_rollouts": 5,
+        "negative_rollouts": 7,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 309,
+        "positive": 46,
+        "negative": 263,
+        "positive_rollouts": 3,
+        "negative_rollouts": 13,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "classic",
+      "action": "veer_left",
+      "approach": {
+        "windows": 220,
+        "positive": 94,
+        "negative": 126,
+        "positive_rollouts": 5,
+        "negative_rollouts": 8,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 367,
+        "positive": 127,
+        "negative": 240,
+        "positive_rollouts": 8,
+        "negative_rollouts": 13,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "classic",
+      "action": "veer_right",
+      "approach": {
+        "windows": 184,
+        "positive": 105,
+        "negative": 79,
+        "positive_rollouts": 7,
+        "negative_rollouts": 7,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 300,
+        "positive": 60,
+        "negative": 240,
+        "positive_rollouts": 5,
+        "negative_rollouts": 15,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "classic",
+      "action": "climb",
+      "approach": {
+        "windows": 316,
+        "positive": 163,
+        "negative": 153,
+        "positive_rollouts": 9,
+        "negative_rollouts": 8,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 372,
+        "positive": 84,
+        "negative": 288,
+        "positive_rollouts": 8,
+        "negative_rollouts": 18,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "classic",
+      "action": "hover",
+      "approach": {
+        "windows": 277,
+        "positive": 198,
+        "negative": 79,
+        "positive_rollouts": 10,
+        "negative_rollouts": 5,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 308,
+        "positive": 41,
+        "negative": 267,
+        "positive_rollouts": 2,
+        "negative_rollouts": 12,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "dense",
+      "action": "forward",
+      "approach": {
+        "windows": 3026,
+        "positive": 2519,
+        "negative": 507,
+        "positive_rollouts": 45,
+        "negative_rollouts": 32,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 2953,
+        "positive": 2493,
+        "negative": 460,
+        "positive_rollouts": 42,
+        "negative_rollouts": 24,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "dense",
+      "action": "slow",
+      "approach": {
+        "windows": 181,
+        "positive": 181,
+        "negative": 0,
+        "positive_rollouts": 14,
+        "negative_rollouts": 0,
+        "auc_defined": false
+      },
+      "immediate": {
+        "windows": 289,
+        "positive": 150,
+        "negative": 139,
+        "positive_rollouts": 11,
+        "negative_rollouts": 10,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "dense",
+      "action": "veer_left",
+      "approach": {
+        "windows": 148,
+        "positive": 121,
+        "negative": 27,
+        "positive_rollouts": 9,
+        "negative_rollouts": 3,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 178,
+        "positive": 93,
+        "negative": 85,
+        "positive_rollouts": 6,
+        "negative_rollouts": 7,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "dense",
+      "action": "veer_right",
+      "approach": {
+        "windows": 234,
+        "positive": 222,
+        "negative": 12,
+        "positive_rollouts": 13,
+        "negative_rollouts": 1,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 284,
+        "positive": 136,
+        "negative": 148,
+        "positive_rollouts": 12,
+        "negative_rollouts": 7,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "dense",
+      "action": "climb",
+      "approach": {
+        "windows": 315,
+        "positive": 303,
+        "negative": 12,
+        "positive_rollouts": 18,
+        "negative_rollouts": 2,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 448,
+        "positive": 237,
+        "negative": 211,
+        "positive_rollouts": 14,
+        "negative_rollouts": 12,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "dense",
+      "action": "hover",
+      "approach": {
+        "windows": 215,
+        "positive": 186,
+        "negative": 29,
+        "positive_rollouts": 11,
+        "negative_rollouts": 2,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 284,
+        "positive": 78,
+        "negative": 206,
+        "positive_rollouts": 5,
+        "negative_rollouts": 11,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "moving",
+      "action": "forward",
+      "approach": {
+        "windows": 2874,
+        "positive": 1556,
+        "negative": 1318,
+        "positive_rollouts": 27,
+        "negative_rollouts": 49,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 2833,
+        "positive": 1611,
+        "negative": 1222,
+        "positive_rollouts": 28,
+        "negative_rollouts": 28,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "moving",
+      "action": "slow",
+      "approach": {
+        "windows": 270,
+        "positive": 82,
+        "negative": 188,
+        "positive_rollouts": 7,
+        "negative_rollouts": 14,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 309,
+        "positive": 32,
+        "negative": 277,
+        "positive_rollouts": 3,
+        "negative_rollouts": 16,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "moving",
+      "action": "veer_left",
+      "approach": {
+        "windows": 299,
+        "positive": 127,
+        "negative": 172,
+        "positive_rollouts": 8,
+        "negative_rollouts": 10,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 346,
+        "positive": 129,
+        "negative": 217,
+        "positive_rollouts": 9,
+        "negative_rollouts": 15,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "moving",
+      "action": "veer_right",
+      "approach": {
+        "windows": 207,
+        "positive": 130,
+        "negative": 77,
+        "positive_rollouts": 9,
+        "negative_rollouts": 6,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 281,
+        "positive": 67,
+        "negative": 214,
+        "positive_rollouts": 6,
+        "negative_rollouts": 11,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "moving",
+      "action": "climb",
+      "approach": {
+        "windows": 207,
+        "positive": 158,
+        "negative": 49,
+        "positive_rollouts": 11,
+        "negative_rollouts": 6,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 316,
+        "positive": 37,
+        "negative": 279,
+        "positive_rollouts": 2,
+        "negative_rollouts": 16,
+        "auc_defined": true
+      }
+    },
+    {
+      "world": "moving",
+      "action": "hover",
+      "approach": {
+        "windows": 214,
+        "positive": 111,
+        "negative": 103,
+        "positive_rollouts": 10,
+        "negative_rollouts": 8,
+        "auc_defined": true
+      },
+      "immediate": {
+        "windows": 298,
+        "positive": 62,
+        "negative": 236,
+        "positive_rollouts": 4,
+        "negative_rollouts": 15,
+        "auc_defined": true
+      }
+    }
+  ],
+  "next": "Close pilot; no extra seed/rollouts or automatic training."
+}

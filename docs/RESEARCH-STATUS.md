@@ -1,4 +1,4 @@
-# Research continuation state — 2026-09-21
+# Research continuation state — 2026-09-27
 
 The three matched training studies below are **closed NO-GO**. Their common
 exam machinery is implemented and exercised; no candidate earned promotion.
@@ -6,7 +6,7 @@ The remaining research question is which action-specific failure a new
 single-knob study can resolve with adequate course support and the embedded
 budget intact. No new training study is registered or running at this review.
 
-This is a living continuation index, continued from `a4e343b`. Original
+This is a living continuation index, continued from `1ebacca`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -65,6 +65,15 @@ hardware timing, quantization-parity or flight certification for these fits.
   negative course coverage. Moving gains only 83 windows and neither veer
   gains any. The closed exam has 2,191 additional available windows; none
   was added to a model score. The current index, split and NO-GOs remain.
+- [early_intervention_support_v1](../experiments/early_intervention_support_v1/journal.md):
+  180 paired scenes, with the sole varied knob being approach versus immediate
+  intervention timing. Isolated scene/schedule/noise streams prevent timing
+  from changing later scenes. The candidate passes all frozen dense/moving
+  veer class/course minima; control fails dense veer-right, with 12 negative
+  windows / 1 course versus candidate 148 / 7. Required negative-course
+  counts rise 3→7 and 1→7 in dense, 10→15 and 6→11 in moving (left/right).
+  Forward negative-course coverage falls in all three worlds. This closes a
+  data-feasibility pilot, not a model gate, and authorizes no automatic fit.
 
 The decomposition is accounting on a fixed exam, not a causal explanation
 or a steering certificate. Within-action comparisons still mix scenes and
@@ -75,6 +84,13 @@ actions/classes. Objective weight mass is not measured gradient mass.
 ## Next research decision
 
 Prioritize a specific steering/action failure with a falsifiable mechanism.
+Immediate intervention now has paired evidence of adequate full-corpus
+steering support under modest pilot bars. Before a model comparison, a new
+registration must address support within each training seed's partitions
+and protect forward behavior, alongside the existing room/now/veer guards.
+The pilot uses 180 scene pairs, not 360 independent courses; its two corpora
+are development data, never independent exams for one another. Defaults
+remain shared RNG and approach timing.
 The following is preparation for a new registration, **not** a registered
 study or a reason to reopen any closed experiment:
 
@@ -140,6 +156,11 @@ artifact protection. It generates no new research corpus or model score.
 The [held-command audit receipt](../experiments/held_command_support_v1/verification.json)
 records its new metadata-only selftest, original-index/label agreement on
 both fixed corpora, exact report verification and passing lint (177 files).
+The [timing-pilot receipt](../experiments/early_intervention_support_v1/verification.json)
+adds exact old-generator simulator parity in four settings, rendered fixtures,
+pair-identity checks, support recomputation and whole-repo lint (178 files).
+All six actual pilot stages exited 0; the control's insufficient support is
+retained as a scientific observation, not treated as a tool failure.
 
 Local Python: `/Users/hans.chen/.cache/microdrone-research-venv/bin/python`
 (3.14.5, torch 2.14.0, NumPy 2.5.3, pybullet 3.2.7). Declared conda/CI
@@ -154,11 +175,14 @@ python -m eval.eval_cf_sampler_report --selftest
 python -m eval.eval_executed_weight_report --selftest
 ```
 
-All three report checks pass in this review. The action audit's strict
+All three report checks passed at the September 21 review. The action audit's strict
 `--verify` also compares instrument hashes and stops on the newer comparator
 source. Its [dated continuation check](../experiments/action_auc_audit_v1/journal.md#2026-09-21-continuation-check-values-match-source-identity-changed)
 verifies original source/output hashes separately and confirms unchanged
 accounting under the current code, without replacing historical records.
+The timing options also change the generator source hash pinned by the
+held-command audit. Its strict replay requires the original source snapshot;
+the archived data, report and scientific conclusions remain unchanged.
 
 Check current processes before launching work; no worker was active at this
 review. The existing task owns the hourly follow-up. No remote push or

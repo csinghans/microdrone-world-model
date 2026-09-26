@@ -41,7 +41,7 @@ varies with the training draw. See the two-tier benchmark below: the
 *mechanisms* held on the recorded draws; the *point numbers* carry honest
 run-to-run ranges.
 
-**Research update — 2026-09-21:** the role-schedule, CF sampler and executed
+**Research update — 2026-09-27:** the role-schedule, CF sampler and executed
 loss-weight studies all closed **NO-GO**, each using three paired training
 seeds and its own common independent exam. An action-pair audit then found
 that 97.10% of moving's same-action score pairs were forward/forward;
@@ -52,6 +52,11 @@ The [repeated-command audit](experiments/held_command_support_v1/journal.md)
 finds about 20% more available training windows across redundant segment
 boundaries, but no extra per-action positive/negative course coverage.
 It leaves the steering-support limitation and every closed model verdict intact.
+The subsequent [paired timing pilot](experiments/early_intervention_support_v1/journal.md)
+finds that immediate interventions meet the registered steering class/course
+minima on 180 paired scenes: dense right-veer negative courses rise from
+1 to 7. Forward coverage falls, so this is data feasibility evidence, with
+no new fitted model or adopted training recipe.
 
 ## Why this exists
 
@@ -182,6 +187,17 @@ closed **NO-GO**: across three paired training seeds on one independent
 common exam, moving AUC changed by −0.055 on average and guards failed.
 The new default fixes role coverage; it is not a validated performance
 upgrade. Freeze the layout explicitly in every training recipe.
+
+For paired transit-data studies, `datasets.generate_rollouts` also exposes
+`--rng-layout per_rollout` and `--intervention-start immediate`. The first
+isolates scene, schedule and plant-noise draws per course; the second starts
+held interventions at step zero on active courses. Both arms of a timing
+comparison must use `per_rollout`, the same seed and roles. Changing only
+timing with the old shared stream can change later scenes as it consumes
+more command draws. Defaults remain `shared` and `approach`; these options
+are explicit research recipes, not an adopted training upgrade. The
+[paired support pilot](experiments/early_intervention_support_v1/definition.md)
+freezes the comparison and its action/class course requirements.
 
 Training also exposes `--cf-hard-pool legacy_masked|answerable`. The default
 preserves the existing sampler; `answerable` selects frames whose visible

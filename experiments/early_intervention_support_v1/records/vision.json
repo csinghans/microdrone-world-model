@@ -1,0 +1,47 @@
+{
+  "stage": "vision",
+  "exit_code": 0,
+  "started_unix": 1790444288.68941,
+  "elapsed_seconds": 0.567039966583252,
+  "manifest_sha256": "792e6dc617f8d77c81f3a07d9d793ef40da59ead3b60a7946b87e5ab6c536522",
+  "result": {
+    "classic": {
+      "world": "classic",
+      "fixture_steps": 0,
+      "bodies": 2,
+      "frame_std": 68.50964014062679,
+      "render_difference": 23.193359375
+    },
+    "dense": {
+      "world": "dense",
+      "fixture_steps": 0,
+      "bodies": 5,
+      "frame_std": 80.85195466570413,
+      "render_difference": 48.5615234375
+    },
+    "moving": {
+      "world": "moving",
+      "fixture_steps": 269,
+      "bodies": 2,
+      "frame_std": 55.34114455333075,
+      "render_difference": 10.435872395833334
+    },
+    "room": {
+      "world": "room",
+      "fixture_steps": 0,
+      "bodies": 6,
+      "frame_std": 62.813449825867664,
+      "render_difference": 19.67919921875
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/vision/classic.png": "8f40916489844958eeca3e43024bd78ecc53036a448613372606e80360590abd",
+    "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/vision/classic_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed",
+    "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/vision/dense.png": "f27dffc84d405b7b4cbbe9eaea49a2f35c87c380d4b3278b1515a4233ecfdcc1",
+    "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/vision/dense_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed",
+    "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/vision/moving.png": "2ab4313106ceee500c6125afc72524090aedded39822e84150698bb1d590ae00",
+    "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/vision/moving_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed",
+    "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/vision/room.png": "bae938b0b0ceb1cfa10f4b636575c03566eb57fcbe13e521d28686e250731771",
+    "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/vision/room_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed"
+  }
+}

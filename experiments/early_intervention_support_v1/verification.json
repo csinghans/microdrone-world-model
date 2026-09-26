@@ -1,0 +1,99 @@
+{
+  "completed_at": "2026-09-26T17:43:04.924851+00:00",
+  "registration_commit": "b56e007",
+  "instrument_commit": "1ebacca",
+  "scope": "One paired support-only pilot: 180 scenes, 360 trajectories; no model fit, score, bootstrap or promotion.",
+  "runtime": {
+    "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "packages": {
+      "numpy": "2.5.3",
+      "torch": "2.14.0",
+      "pybullet": "3.2.7",
+      "gym-pybullet-drones": "2.2.0"
+    }
+  },
+  "frozen_files": {
+    "experiments/early_intervention_support_v1/approach_requirements.json": "6f7fa6647b57d70b987792e18d7e277644846cc1bff5ad394efc78281c449546",
+    "experiments/early_intervention_support_v1/approach_support.json": "fd7be401cbbf546b50a503399de365e4b400abab8984424fc5c6eccce6781105",
+    "experiments/early_intervention_support_v1/definition.md": "d842646b0906d9fcdb842adccbedbdcac84c422b5d63fcbb4531974f50db81c9",
+    "experiments/early_intervention_support_v1/immediate_requirements.json": "ea0b566f5b9447d145ff93ac2573f7003e5e8c51d11a8012e1c280ecb58cc305",
+    "experiments/early_intervention_support_v1/immediate_support.json": "d10f4c9967ecef4f6170c0854787fb836958f485f7ce650ff3d9915d4735fa20",
+    "experiments/early_intervention_support_v1/manifest.json": "792e6dc617f8d77c81f3a07d9d793ef40da59ead3b60a7946b87e5ab6c536522",
+    "experiments/early_intervention_support_v1/records/approach.json": "dd9c664257975ce0bd8af574b2d4e9012fd9ee7b98ad1a89acd25b33e5b93ba4",
+    "experiments/early_intervention_support_v1/records/compatibility.json": "ad2f010eb069dfd177f0b5e0a2d39d36587ab805c359499592cfdeeab5820ba4",
+    "experiments/early_intervention_support_v1/records/immediate.json": "7338a3fb359c27b4fbfecbd401c98c016e500f70c8ced20a186028315c55ea88",
+    "experiments/early_intervention_support_v1/records/pair.json": "e7e4804befbfda8b77ac48ed69f830889692afbea1f9589006e25020c6e79e91",
+    "experiments/early_intervention_support_v1/records/support.json": "074f5ade45ad27759c59bc37ddda555791cb9e318c359aef2e750f4e41e204d0",
+    "experiments/early_intervention_support_v1/records/vision.json": "5482babd6276325db33dfea8b7edd11ccd6054fd2962bc155682456ba99adbda",
+    "experiments/early_intervention_support_v1/registration.json": "484279d47a62aa43db240f73f018aaa350abfede387041fac3554e2c14007d2b",
+    "experiments/early_intervention_support_v1/report.json": "b626663df68087b2d0295445942778cc4018ad2d87fb90e3a43ca9ab17070c3c",
+    "experiments/early_intervention_support_v1/run.sh": "593437b94de42cee2bdfb7709c05a33232de7e6a1d60d9395f01cb68577137aa",
+    "experiments/early_intervention_support_v1/summary.md": "ffda0932753235761145bf587b1c62ac50e712171c0501c5adaf69df27de8bf2",
+    "experiments/early_intervention_support_v1/support_requirements.json": "cc9509cf53f130967b887c7acdf255cd4de04b5846a9c7b9b939c9622c67b161",
+    "experiments/early_intervention_support_v1/verify.sh": "6fd47758c0db4cc3e8d97995d40f98ff5c003a2bde11e943590dafdc336bf039"
+  },
+  "logs": {
+    "output/research_integrity_selftest/early_intervention_v1_preflight.log": "f52f68c3843f0e2cffa0faeb765e1df196adc1d5e2a93f9d30d3f126de4b37db",
+    "output/research_integrity_selftest/early_intervention_v1_cli.log": "93511fbb858d29a0a97f5831c9a22d8f4806d103002340b88110b997fcb196a2",
+    "output/research_integrity_selftest/early_intervention_v1_verify.log": "b466b4469e581989d37b678b451b9b3fa16b58565ae0290da4fad720ec892b9a",
+    "output/early_intervention_support_v1/run.log": "93cb106a1e048fd6f47f00499c1f341869232473002c7c8e0a4a005fe05761ff"
+  },
+  "exit_codes": {
+    "preflight": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "cli_forwarding": 0,
+    "pilot_queue": 0,
+    "metadata_and_pairing_recomputation": 0
+  },
+  "locked_artifacts": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "observations": {
+    "control": "insufficient",
+    "immediate": "satisfied",
+    "dense_right_negative_windows": [
+      12,
+      148
+    ],
+    "dense_right_negative_courses": [
+      1,
+      7
+    ],
+    "valid_windows": [
+      12339,
+      13331
+    ],
+    "forward_negative_courses": {
+      "classic": [
+        45,
+        33
+      ],
+      "dense": [
+        32,
+        24
+      ],
+      "moving": [
+        49,
+        28
+      ]
+    }
+  },
+  "limits": "One development draw; course counts overlap across labels/actions; modest minima do not establish power, split support, model performance or flight safety."
+}

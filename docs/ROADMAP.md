@@ -89,6 +89,16 @@ recovers only 83 windows, none for either veer. More overlapping windows
 alone do not fill this corpus's steering-support gap; no training knob was
 released and no closed exam was expanded or rescored.
 
+The [early-intervention pilot](../experiments/early_intervention_support_v1/journal.md)
+is now closed with sufficient candidate support: on 180 exactly paired
+scenes, step-zero intervention meets the frozen dense/moving veer minima;
+control dense right-veer has negative labels from 1 course versus 7 for the
+candidate. Forward negative-course coverage decreases, so this result is
+data feasibility rather than a model win. A future training study needs a
+new registration, support checks on each actual training split, and frozen
+forward/room/now/veer guards. Neither the default approach recipe nor the
+closed model verdicts change.
+
 Other closed research arcs:
 
 - **The Perception Tier (three campaigns + one refusal): a promising

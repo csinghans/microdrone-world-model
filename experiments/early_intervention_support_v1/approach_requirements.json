@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "target": "executed_warn_at_32",
+  "scope": "Prospective count requirements only. Windows are correlated; course counts mean distinct rollout IDs within each class/action and may overlap. Passing does not establish statistical power, independent courses, rendered vision, held-out provenance or model performance. Freeze requirements in a new registration; never apply them as new gates to closed studies.",
+  "status": "insufficient",
+  "checks": [
+    {
+      "partition": "all",
+      "world": "dense",
+      "action": "veer_left",
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      },
+      "observed": {
+        "positive": 121,
+        "negative": 27,
+        "positive_rollouts": 9,
+        "negative_rollouts": 3
+      },
+      "missing": null,
+      "deficits": {},
+      "satisfied": true
+    },
+    {
+      "partition": "all",
+      "world": "dense",
+      "action": "veer_right",
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      },
+      "observed": {
+        "positive": 222,
+        "negative": 12,
+        "positive_rollouts": 13,
+        "negative_rollouts": 1
+      },
+      "missing": null,
+      "deficits": {
+        "negative": 8,
+        "negative_rollouts": 2
+      },
+      "satisfied": false
+    },
+    {
+      "partition": "all",
+      "world": "moving",
+      "action": "veer_left",
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      },
+      "observed": {
+        "positive": 127,
+        "negative": 172,
+        "positive_rollouts": 8,
+        "negative_rollouts": 10
+      },
+      "missing": null,
+      "deficits": {},
+      "satisfied": true
+    },
+    {
+      "partition": "all",
+      "world": "moving",
+      "action": "veer_right",
+      "minimum": {
+        "positive": 20,
+        "negative": 20,
+        "positive_rollouts": 3,
+        "negative_rollouts": 3
+      },
+      "observed": {
+        "positive": 130,
+        "negative": 77,
+        "positive_rollouts": 9,
+        "negative_rollouts": 6
+      },
+      "missing": null,
+      "deficits": {},
+      "satisfied": true
+    }
+  ],
+  "provenance": {
+    "report": {
+      "path": "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/support/approach_support.json",
+      "sha256": "fd7be401cbbf546b50a503399de365e4b400abab8984424fc5c6eccce6781105"
+    },
+    "requirements": {
+      "path": "/Users/hans.chen/microdrone-world-model/experiments/early_intervention_support_v1/support_requirements.json",
+      "sha256": "cc9509cf53f130967b887c7acdf255cd4de04b5846a9c7b9b939c9622c67b161"
+    },
+    "dataset": {
+      "path": "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/approach/data.npz",
+      "sha256": "41127362c754072fbe8be77ad20f46c5da6f3a931d6915f62f121819bd70f2ea"
+    },
+    "report_provenance": {
+      "dataset": {
+        "path": "/Users/hans.chen/microdrone-world-model/output/early_intervention_support_v1/approach/data.npz",
+        "sha256": "41127362c754072fbe8be77ad20f46c5da6f3a931d6915f62f121819bd70f2ea"
+      },
+      "manifest": {
+        "path": "/Users/hans.chen/microdrone-world-model/experiments/early_intervention_support_v1/manifest.json",
+        "sha256": "792e6dc617f8d77c81f3a07d9d793ef40da59ead3b60a7946b87e5ab6c536522"
+      }
+    },
+    "sources": {
+      "/Users/hans.chen/microdrone-world-model/eval/eval_support_requirements.py": "736190078282b8ea54877e8075529381750d0d7a525206c21962d307618e42a8",
+      "/Users/hans.chen/microdrone-world-model/planner/action_set.py": "3c794fd1eacf9b5c7a009b444a957cb6a9348f59cf6482361dc162b7f998bcb4",
+      "/Users/hans.chen/microdrone-world-model/planner/nav_action_set.py": "6be74b3dd60cbdc344cc9578b3ac815cc605bc33e0ac7865585ab13ee716a120",
+      "/Users/hans.chen/microdrone-world-model/world_model/checkpoint_io.py": "934be3b36b8494a0017025dcd3615fadae0dbd5f941277e0dc52f2947576f56a"
+    }
+  }
+}

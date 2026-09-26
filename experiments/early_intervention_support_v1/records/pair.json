@@ -1,0 +1,28 @@
+{
+  "stage": "pair",
+  "exit_code": 0,
+  "started_unix": 1790444385.785482,
+  "elapsed_seconds": 0.298753023147583,
+  "manifest_sha256": "792e6dc617f8d77c81f3a07d9d793ef40da59ead3b60a7946b87e5ab6c536522",
+  "result": {
+    "exact_pairing": true,
+    "roles": {
+      "classic": {
+        "rollouts": 60,
+        "passive": 20,
+        "clear": 30
+      },
+      "dense": {
+        "rollouts": 60,
+        "passive": 20,
+        "clear": 0
+      },
+      "moving": {
+        "rollouts": 60,
+        "passive": 20,
+        "clear": 0
+      }
+    }
+  },
+  "files": {}
+}
