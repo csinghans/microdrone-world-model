@@ -1,0 +1,32 @@
+{
+  "baseline": {
+    "labels_at_32": {
+      "positive": 48,
+      "negative": 0
+    },
+    "now_labels": {
+      "positive": 240,
+      "negative": 0
+    }
+  },
+  "nan_in_each_held_window": {
+    "labels_at_32": {
+      "positive": 0,
+      "negative": 48
+    },
+    "now_labels": {
+      "positive": 234,
+      "negative": 6
+    }
+  },
+  "nan_danger_radius": {
+    "labels_at_32": {
+      "positive": 48,
+      "negative": 0
+    },
+    "now_labels": {
+      "positive": 0,
+      "negative": 240
+    }
+  }
+}
