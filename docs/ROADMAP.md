@@ -120,9 +120,14 @@ or releasing another fit.
 The [executed/CF agreement audit](../experiments/executed_cf_agreement_v1/summary.md)
 verifies the geometry instrument and records conflicting targets, but
 training conflicts are sparse and differ in direction from the problematic
-exam subset. The geometric probe also selects different frames. A declared
-join of saved scores to these target categories is the next diagnostic
-question; neither finding establishes a learned mechanism or a training fix.
+exam subset. The geometric probe also selects different frames. These
+findings motivated the declared score join below; neither established a
+learned mechanism or a training fix.
+The completed [score join](../experiments/cf_score_attribution_v1/summary.md)
+finds dense-right losses outside conflicting examples, including agreeing
+and masked comparisons in every seed. This narrows the diagnostic without
+isolating a training cause. Reused exam scores are development evidence;
+another model trial requires a new single-knob registration and exam.
 
 Other closed research arcs:
 

@@ -10,7 +10,7 @@ improves in all seeds but misses the mean bar; dense right-veer breaks its
 action guard in every seed. Other guards pass. No worker remains active at
 this closure, and no candidate is promoted.
 
-This is a living continuation index, continued from `1c00412`. Original
+This is a living continuation index, continued from `c3ed618`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -107,6 +107,14 @@ hardware timing, quantization-parity or flight certification for these fits.
   of its regression. CF truth matches every geometric-probe frame, while
   primary executed-action windows share no frames with that forward-frame
   probe. No predictions, new data or models were evaluated here.
+- [cf_score_attribution_v1](../experiments/cf_score_attribution_v1/summary.md):
+  the subsequent fixed-score join reconstructs all 36 action/block/seed
+  cells. Immediate-exam dense-right loses on comparisons without conflicting
+  windows in every seed (contributions −0.0709/−0.0399/−0.0317); conflict
+  comparisons contribute +0.0037/−0.0082/−0.0035. Agree/agree and masked/agree
+  pair rankings both decline. The regression is not confined to conflicting
+  exam examples, but this does not exclude training conflicts affecting
+  other examples through shared parameters. No new inference or fit ran.
 
 The decomposition is accounting on a fixed exam, not a causal explanation
 or a steering certificate. Within-action comparisons still mix scenes and
@@ -128,10 +136,13 @@ ranking alone does not account for it. Moving-left gains remain positive
 inside both blocks in every seed, while moving-right's pooled gains do not
 imply within-block gains for seed 0. The executed/CF audit now identifies
 target disagreement and disjoint frame-selection domains, but its training
-counts/directions do not establish the model-regression mechanism. A next
-declared diagnostic can join saved scores to the fixed agreeing/conflicting/
-masked target categories before another training registration. Do not alter
-the closed verdict or retrospectively add a performance gate.
+counts/directions do not establish the model-regression mechanism. The score
+join now finds losses in both agreeing and masked comparisons; simply
+locating contradictory exam labels is not an explanation of the whole
+regression. A next model experiment needs a falsifiable data/loss hypothesis,
+one varied knob and a new independent exam. The reused scores are development
+evidence, not that future exam. Further diagnostic slices require a declared
+scope; do not alter the closed verdict or retrospectively add a gate.
 
 The current internal validation partitions remain an incomplete
 action-specific/per-world veer exam; they were not used for model selection.

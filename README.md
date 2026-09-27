@@ -76,6 +76,9 @@ A [target-agreement audit](experiments/executed_cf_agreement_v1/summary.md)
 then finds differences between flown-trajectory and kinematic CF labels,
 and confirms the geometric turn probe selects different frames. These
 diagnostics clarify the metrics without establishing why the model regressed.
+The [saved-score join](experiments/cf_score_attribution_v1/summary.md) further
+finds dense-right losses in agreeing and masked comparisons, beyond the
+identified conflicting examples. It preserves the same NO-GO and models.
 
 ## Why this exists
 

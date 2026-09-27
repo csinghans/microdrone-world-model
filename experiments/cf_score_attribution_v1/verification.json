@@ -1,0 +1,48 @@
+{
+  "registration_commit": "638d675",
+  "instrument_commit": "c3ed618",
+  "status": "completed exploratory score join",
+  "original_verdict": "NO-GO",
+  "execution": {
+    "run": {
+      "exit_code": 0,
+      "log": "/Users/hans.chen/microdrone-world-model/output/cf_score_attribution_v1/run.log",
+      "sha256": "f947b2255bff7a5a58ab87c6a62d8f47f4f4c6b4904947f1c7db2a8f352c7b1e"
+    },
+    "verify": {
+      "exit_code": 0,
+      "log": "/Users/hans.chen/microdrone-world-model/output/cf_score_attribution_v1/verify.log",
+      "sha256": "f947b2255bff7a5a58ab87c6a62d8f47f4f4c6b4904947f1c7db2a8f352c7b1e"
+    }
+  },
+  "exact_rerun": true,
+  "reconstructed_cells": 36,
+  "maximum_reconstruction_error": 1.5265566588595902e-16,
+  "all_original_source_hashes_unchanged": true,
+  "original_inventory_additions": [
+    "/Users/hans.chen/microdrone-world-model/experiments/cf_score_attribution_v1/audit.py",
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_cf_agreement_v1/audit.py",
+    "/Users/hans.chen/microdrone-world-model/experiments/timing_mixture_audit_v1/audit.py"
+  ],
+  "protected": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "files": {
+    "experiments/cf_score_attribution_v1/audit.py": "02b2f2b0a0f451ba8f98a0894fd1306120dd86e94fba7c3df349d7c6a096d4ef",
+    "experiments/cf_score_attribution_v1/definition.md": "717b0543a3467845e139f94f4d50db8eb2dad04f8019eb5dd96c74a2eb35e833",
+    "experiments/cf_score_attribution_v1/journal.md": "c628cd58eae64f392908cd9a91f2eefac2a3c4a03257d16c510bfa7cba2674fc",
+    "experiments/cf_score_attribution_v1/manifest.json": "2832a345d91035361b7e4d5812bae4b6a8fcbd972a39afe01dcefb6768f8fba9",
+    "experiments/cf_score_attribution_v1/preflight_checks.json": "97b3b878281d1670954ae9daca547e261c815009443a7e30da3715197aa2c267",
+    "experiments/cf_score_attribution_v1/registration.json": "996f6f4087eaac3e92ee56f3e6275fb3a192a8960f802c31d5a85aa65c23e7ca",
+    "experiments/cf_score_attribution_v1/report.json": "546a6ec10fad11b8e3caa7d6c1cc0932a6207c1888ad08dcadc1cea53cf5f62a",
+    "experiments/cf_score_attribution_v1/summary.md": "688936422a2ba1f1ea5fcb9865fedb3c0fdbf3783848307794f2d91eb05aa883"
+  }
+}
