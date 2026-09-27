@@ -1,0 +1,60 @@
+{
+  "name": "executed_cf_agreement_v1",
+  "version": 1,
+  "parent_revision": "ac51fca",
+  "scope": "Exploratory metadata-only available-target agreement; no model, inference, generated data, bootstrap, new gate or promotion.",
+  "source_folder": "experiments/intervention_timing_v1",
+  "datasets": {
+    "approach": "output/intervention_timing_v1/approach_train/data.npz",
+    "immediate": "output/intervention_timing_v1/immediate_train/data.npz",
+    "exam": "output/intervention_timing_v1/holdout/data.npz"
+  },
+  "inputs": {
+    "output/intervention_timing_v1/approach_train/data.npz": "d2041571eb1522c7b2bd0b3ec18c8c05cfb9dc55a4ed8ce898ded22360bde671",
+    "experiments/intervention_timing_v1/records/approach_train.json": "d5f8cd7ece4f08965fab5319a94d2c4886fef1c738442a91c1751d30a5b4f00f",
+    "output/intervention_timing_v1/immediate_train/data.npz": "ac06ae4a499a5b9fe09e5a29345aa3a3a15c7672cdcb3e5293d7e4ad89413e56",
+    "experiments/intervention_timing_v1/records/immediate_train.json": "c958524d02cd2bd07882cc729abbf80e2db360aa4bde0d4e65e3e220c4d25e97",
+    "output/intervention_timing_v1/holdout/data.npz": "941fdc13c53f65bf4798b2cff4585b566e99909e6414899ed57b0c2c66722c9f",
+    "experiments/intervention_timing_v1/records/holdout.json": "a5e2ed09c387ac26e1fbcfe0e0a0e0191cb2e037e4faf148cfe65d0364cd89e6",
+    "experiments/intervention_timing_v1/registration.json": "049c61003b3e5dee92d41332fcd7f889df17404c5e4c6cd8160980ca78ca3394",
+    "experiments/intervention_timing_v1/manifest.json": "1c1c06babe0095009089bb6858182fec24461b3364acc0a7db307d6e9475be35",
+    "experiments/intervention_timing_v1/preflight.json": "28c8bc6f728da358222cbc357c2b8d75c7605d419eb0abe901bbd2e538fd58be",
+    "experiments/intervention_timing_v1/report.json": "b8c7e591458ecc970336a2788098d44babd5ba8001b07c17efacd9f8ef0b9e9b",
+    "experiments/intervention_timing_v1/support/approach_support.json": "352ffbec7b5e5a6d374006b7a98250ca902894bf14f690c3c4cd06a41fcda41a",
+    "experiments/intervention_timing_v1/support/immediate_support.json": "33ee0afd80d3507d2ae04c9e3dd7998ad0620aa8ca63336db172d3dd8b3b1c16"
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "cells": [
+    [
+      "dense",
+      "veer_left"
+    ],
+    [
+      "dense",
+      "veer_right"
+    ],
+    [
+      "moving",
+      "veer_left"
+    ],
+    [
+      "moving",
+      "veer_right"
+    ]
+  ],
+  "horizons": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "warn_radius": 0.7,
+  "control_hz": 48,
+  "clearance_absolute_tolerance_m": 0.0001,
+  "exam_transit_courses_per_block": 630,
+  "exam_room_courses": 180
+}
