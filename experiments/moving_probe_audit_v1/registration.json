@@ -1,0 +1,76 @@
+{
+  "name": "moving_probe_audit_v1",
+  "version": 1,
+  "parent_revision": "834828c",
+  "scope": "Unblinded exploratory accounting of fixed saved correctness flags; not a new gate, causal effect, or exact predicted-side/tie measurement.",
+  "source_study": "experiments/moving_timing_v1",
+  "data": "output/moving_timing_v1/holdout/data.npz",
+  "models": {
+    "approach/0": {
+      "scores": "output/moving_timing_v1/score_approach_0/scores.npz",
+      "receipt": "experiments/moving_timing_v1/records/score_approach_0.json"
+    },
+    "moving_immediate/0": {
+      "scores": "output/moving_timing_v1/score_moving_immediate_0/scores.npz",
+      "receipt": "experiments/moving_timing_v1/records/score_moving_immediate_0.json"
+    },
+    "approach/1": {
+      "scores": "output/moving_timing_v1/score_approach_1/scores.npz",
+      "receipt": "experiments/moving_timing_v1/records/score_approach_1.json"
+    },
+    "moving_immediate/1": {
+      "scores": "output/moving_timing_v1/score_moving_immediate_1/scores.npz",
+      "receipt": "experiments/moving_timing_v1/records/score_moving_immediate_1.json"
+    },
+    "approach/2": {
+      "scores": "output/moving_timing_v1/score_approach_2/scores.npz",
+      "receipt": "experiments/moving_timing_v1/records/score_approach_2.json"
+    },
+    "moving_immediate/2": {
+      "scores": "output/moving_timing_v1/score_moving_immediate_2/scores.npz",
+      "receipt": "experiments/moving_timing_v1/records/score_moving_immediate_2.json"
+    }
+  },
+  "inputs": {
+    "experiments/moving_timing_v1/registration.json": "e16f9c6ff924fadd6ebe9d9fa621c1b59f8eb8bb486006e3208c1f391ccb28e4",
+    "experiments/moving_timing_v1/manifest.json": "652b2b102b24a42c6c2649b298efd657d9b5173aab747ef9e7aa07dffb8f1c14",
+    "experiments/moving_timing_v1/report.json": "b02f646d51d09ec5f593009e841fabdc96f69a9d5dbc2bae366d48fb2c71b5e1",
+    "experiments/moving_timing_v1/preflight.json": "93cd327669aa9fbaaadbf40c35a6f2afea05c61e5ebd624ad65bd2d61f286034",
+    "experiments/moving_timing_v1/records/holdout.json": "084a4bb7023aac70b5980038ea6733e45d12b4ef8e696ca85186b2be5ffd566f",
+    "experiments/moving_timing_v1/records/report.json": "6e9c3e956816d436aed3d14e5ff7ce964770206bc0d83825e9dbcc635e6474c0",
+    "experiments/moving_timing_v1/verification.json": "4146063244d79eee4ce90c88304a1cddc4df1d1bd27776288a0de349d6a93d6e",
+    "output/moving_timing_v1/score_approach_0/scores.npz": "fbd85e0c59cb8580d552286c04022ee6c221318f4a924e85bfdbb8541e97f04a",
+    "experiments/moving_timing_v1/records/score_approach_0.json": "cc7114220895511aaa0c25483041cdcdebd979d5347a4b25a15fe19f6e55135b",
+    "output/moving_timing_v1/score_moving_immediate_0/scores.npz": "282b9c494b61a5abae7c5da75dd2662170dc66c0c8c220afe68cd5ad69e9389a",
+    "experiments/moving_timing_v1/records/score_moving_immediate_0.json": "fcda190c040f43abc3108a91f421d031f5bca9b8923ff75ed17470798b716888",
+    "output/moving_timing_v1/score_approach_1/scores.npz": "4778c0cb2b62a7d9ee4fa39e531abe31af97e75a82b04c628b05065f5f6c3133",
+    "experiments/moving_timing_v1/records/score_approach_1.json": "e8cb420f5fd835dbf80a702a590e312fde135afde78a6cf198614bd73324a80e",
+    "output/moving_timing_v1/score_moving_immediate_1/scores.npz": "90ba6b847dd295a9e9dab6ff5e8b15a39a9a3655f33dc0822c310dd551ecb011",
+    "experiments/moving_timing_v1/records/score_moving_immediate_1.json": "be7d6caef530b8a13cfe0081801160eadcf9c987e50613500a1a5661a69c3748",
+    "output/moving_timing_v1/score_approach_2/scores.npz": "096e15d3e777c1b62a217b56e5956b283b7e257271c92a93a1b7e77cde6ad777",
+    "experiments/moving_timing_v1/records/score_approach_2.json": "02424e3b58d9fc499b0f74326cbe113accd874da64bdc2d3a85c79e36ac29246",
+    "output/moving_timing_v1/score_moving_immediate_2/scores.npz": "d61c5fe452ba5eb75d715e80c05da97b82dae776bf15c785497f8aabe28ee1e4",
+    "experiments/moving_timing_v1/records/score_moving_immediate_2.json": "b5f2eae67be614620de27094f11d29eb7a686bdd72a65e5d5592c9777d8d77c7",
+    "output/moving_timing_v1/holdout/data.npz": "e22291eb3ee6b72a3e8bbeac28dc5bb976c3dc1c2d39dabc96dcb94e48bbb058"
+  },
+  "arms": [
+    "approach",
+    "moving_immediate"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "worlds": [
+    "classic",
+    "dense",
+    "moving"
+  ],
+  "blocks": [
+    "approach",
+    "immediate",
+    "all"
+  ],
+  "absolute_reconstruction_tolerance": 1e-12
+}
