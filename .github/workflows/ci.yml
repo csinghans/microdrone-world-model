@@ -80,6 +80,7 @@ jobs:
           python -m eval.eval_held_command_support --selftest
           python -m scripts.early_intervention_study --selftest
           python -m scripts.intervention_timing_study --selftest
+          python -m scripts.moving_timing_study --selftest
           python -m experiments.timing_mixture_audit_v1.audit --selftest
           python -m experiments.executed_cf_agreement_v1.audit --selftest
           python -m experiments.cf_score_attribution_v1.audit --selftest

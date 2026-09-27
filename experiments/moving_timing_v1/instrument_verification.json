@@ -1,0 +1,54 @@
+{
+  "checks": [
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "scripts.moving_timing_study",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.536888837814331,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/moving_timing_v1_instrument_final/00.log",
+      "sha256": "905300e2b4291b193c50293568601cd392db9d4ecf7518a11fd9038547e7b234"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/black",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.14489984512329102,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/moving_timing_v1_instrument_final/01.log",
+      "sha256": "258f74fbc75d0791c86d29867ac74f8fc0740290b52c612f97cdd6d6cd893e82"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/ruff",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.011332035064697266,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/moving_timing_v1_instrument_final/02.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.010164022445678711,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/moving_timing_v1_instrument_final/03.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_hashes": {
+    "/Users/hans.chen/microdrone-world-model/scripts/moving_timing_study.py": "8be2b273c45fbb267740090d613a1be8f4988c8b3b024e77c50bc56a2816ebdd",
+    "/Users/hans.chen/microdrone-world-model/eval/eval_moving_timing.py": "8612dbed075dc1f223d9bad1d70113e398d98bf9fef3b5a89921a93b6e3c7122",
+    "/Users/hans.chen/microdrone-world-model/.github/workflows/ci.yml": "9571bcd009355e59c44529a5a927b512fe62cdfd04ae888e692cc897b119cba2"
+  }
+}
