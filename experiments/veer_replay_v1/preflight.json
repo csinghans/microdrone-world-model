@@ -1,0 +1,67 @@
+[
+  {
+    "command": [
+      "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+      "-m",
+      "experiments.veer_replay_v1.replay",
+      "--selftest"
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_replay_v1/00.log",
+    "exit": 0
+  },
+  {
+    "command": [
+      "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+      "-m",
+      "scripts.veer_probe_selftest"
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_replay_v1/01.log",
+    "exit": 0
+  },
+  {
+    "command": [
+      "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+      "-m",
+      "eval.compare_wm_scores",
+      "--selftest"
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_replay_v1/02.log",
+    "exit": 0
+  },
+  {
+    "command": [
+      "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+      "-m",
+      "world_model.veer_probe"
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_replay_v1/03.log",
+    "exit": 0
+  },
+  {
+    "command": [
+      "/Users/hans.chen/.cache/microdrone-research-venv/bin/black",
+      "--check",
+      "."
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_replay_v1/04.log",
+    "exit": 0
+  },
+  {
+    "command": [
+      "/Users/hans.chen/.cache/microdrone-research-venv/bin/ruff",
+      "check",
+      "."
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_replay_v1/05.log",
+    "exit": 0
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_replay_v1/06.log",
+    "exit": 0
+  }
+]
