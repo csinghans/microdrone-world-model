@@ -1,0 +1,28 @@
+[
+  {
+    "command": [
+      "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+      "-u",
+      "-m",
+      "experiments.veer_replay_v1.replay",
+      "--run"
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/veer_replay_v1/run.log",
+    "exit": 0,
+    "start_unix": 1790553272.952655,
+    "finish_unix": 1790553291.418335
+  },
+  {
+    "command": [
+      "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+      "-u",
+      "-m",
+      "experiments.veer_replay_v1.replay",
+      "--verify"
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/veer_replay_v1/verify.log",
+    "exit": 0,
+    "start_unix": 1790553291.418435,
+    "finish_unix": 1790553295.36494
+  }
+]

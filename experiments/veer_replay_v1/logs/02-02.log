@@ -1,0 +1,5 @@
+VEER-SCORES OK: legacy/mixed parity, ties, empty, 24 malformed arms, roundtrip
+SCORE-SCHEMA OK: 81 malformed-arm checks before metrics/RNG; partial/empty/additional-course veer support
+WM-COMPARISON OK: paired course bootstrap, identity, alignment, undefined AUC
+
+EXIT=0

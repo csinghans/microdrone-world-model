@@ -52,8 +52,10 @@ illustrating why supported action-specific and per-world guards matter.
 The failure mechanism remains open; default timing and champions remain.
 The [probe diagnostic](experiments/moving_probe_audit_v1/summary.md) locates
 losses on safer-left examples, especially in the immediate exam block.
-It also identifies an export limitation: saved correctness flags cannot
-distinguish wrong direction rankings from tied scores.
+The subsequent [raw-score replay](experiments/veer_replay_v1/summary.md)
+reproduces every original probe flag on all six models and observes zero
+exact ties: incorrect flags here identify opposite-side rankings. Moving
+candidate right rankings rise in all seeds; the training cause remains open.
 
 The [current research state](docs/RESEARCH-STATUS.md) links every frozen
 result, diagnostic, instrument repair and continuation decision.

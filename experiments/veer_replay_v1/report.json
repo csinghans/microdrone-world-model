@@ -1,0 +1,1310 @@
+{
+  "status": "exact_probe_parity",
+  "cells": [
+    {
+      "model": "approach_0",
+      "world": "classic",
+      "block": "approach",
+      "courses": 30,
+      "frames": 164,
+      "strict_left": 119,
+      "strict_right": 45,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 91,
+          "strict_left": 90,
+          "strict_right": 1,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 73,
+          "strict_left": 29,
+          "strict_right": 44,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_0",
+      "world": "classic",
+      "block": "immediate",
+      "courses": 25,
+      "frames": 184,
+      "strict_left": 155,
+      "strict_right": 29,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 88,
+          "strict_left": 87,
+          "strict_right": 1,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 96,
+          "strict_left": 68,
+          "strict_right": 28,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_0",
+      "world": "classic",
+      "block": "all",
+      "courses": 55,
+      "frames": 348,
+      "strict_left": 274,
+      "strict_right": 74,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 179,
+          "strict_left": 177,
+          "strict_right": 2,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 169,
+          "strict_left": 97,
+          "strict_right": 72,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_0",
+      "world": "dense",
+      "block": "approach",
+      "courses": 55,
+      "frames": 515,
+      "strict_left": 277,
+      "strict_right": 238,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 243,
+          "strict_left": 205,
+          "strict_right": 38,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 272,
+          "strict_left": 72,
+          "strict_right": 200,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_0",
+      "world": "dense",
+      "block": "immediate",
+      "courses": 36,
+      "frames": 350,
+      "strict_left": 234,
+      "strict_right": 116,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 194,
+          "strict_left": 155,
+          "strict_right": 39,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 156,
+          "strict_left": 79,
+          "strict_right": 77,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_0",
+      "world": "dense",
+      "block": "all",
+      "courses": 91,
+      "frames": 865,
+      "strict_left": 511,
+      "strict_right": 354,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 437,
+          "strict_left": 360,
+          "strict_right": 77,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 428,
+          "strict_left": 151,
+          "strict_right": 277,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_0",
+      "world": "moving",
+      "block": "approach",
+      "courses": 5,
+      "frames": 32,
+      "strict_left": 25,
+      "strict_right": 7,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 22,
+          "strict_left": 15,
+          "strict_right": 7,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 10,
+          "strict_left": 10,
+          "strict_right": 0,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_0",
+      "world": "moving",
+      "block": "immediate",
+      "courses": 11,
+      "frames": 102,
+      "strict_left": 81,
+      "strict_right": 21,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 79,
+          "strict_left": 67,
+          "strict_right": 12,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 23,
+          "strict_left": 14,
+          "strict_right": 9,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_0",
+      "world": "moving",
+      "block": "all",
+      "courses": 16,
+      "frames": 134,
+      "strict_left": 106,
+      "strict_right": 28,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 101,
+          "strict_left": 82,
+          "strict_right": 19,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 33,
+          "strict_left": 24,
+          "strict_right": 9,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_0",
+      "world": "classic",
+      "block": "approach",
+      "courses": 30,
+      "frames": 164,
+      "strict_left": 12,
+      "strict_right": 152,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 91,
+          "strict_left": 12,
+          "strict_right": 79,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 73,
+          "strict_left": 0,
+          "strict_right": 73,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_0",
+      "world": "classic",
+      "block": "immediate",
+      "courses": 25,
+      "frames": 184,
+      "strict_left": 13,
+      "strict_right": 171,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 88,
+          "strict_left": 6,
+          "strict_right": 82,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 96,
+          "strict_left": 7,
+          "strict_right": 89,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_0",
+      "world": "classic",
+      "block": "all",
+      "courses": 55,
+      "frames": 348,
+      "strict_left": 25,
+      "strict_right": 323,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 179,
+          "strict_left": 18,
+          "strict_right": 161,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 169,
+          "strict_left": 7,
+          "strict_right": 162,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_0",
+      "world": "dense",
+      "block": "approach",
+      "courses": 55,
+      "frames": 515,
+      "strict_left": 216,
+      "strict_right": 299,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 243,
+          "strict_left": 202,
+          "strict_right": 41,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 272,
+          "strict_left": 14,
+          "strict_right": 258,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_0",
+      "world": "dense",
+      "block": "immediate",
+      "courses": 36,
+      "frames": 350,
+      "strict_left": 160,
+      "strict_right": 190,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 194,
+          "strict_left": 157,
+          "strict_right": 37,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 156,
+          "strict_left": 3,
+          "strict_right": 153,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_0",
+      "world": "dense",
+      "block": "all",
+      "courses": 91,
+      "frames": 865,
+      "strict_left": 376,
+      "strict_right": 489,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 437,
+          "strict_left": 359,
+          "strict_right": 78,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 428,
+          "strict_left": 17,
+          "strict_right": 411,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_0",
+      "world": "moving",
+      "block": "approach",
+      "courses": 5,
+      "frames": 32,
+      "strict_left": 13,
+      "strict_right": 19,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 22,
+          "strict_left": 10,
+          "strict_right": 12,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 10,
+          "strict_left": 3,
+          "strict_right": 7,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_0",
+      "world": "moving",
+      "block": "immediate",
+      "courses": 11,
+      "frames": 102,
+      "strict_left": 19,
+      "strict_right": 83,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 79,
+          "strict_left": 15,
+          "strict_right": 64,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 23,
+          "strict_left": 4,
+          "strict_right": 19,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_0",
+      "world": "moving",
+      "block": "all",
+      "courses": 16,
+      "frames": 134,
+      "strict_left": 32,
+      "strict_right": 102,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 101,
+          "strict_left": 25,
+          "strict_right": 76,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 33,
+          "strict_left": 7,
+          "strict_right": 26,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_1",
+      "world": "classic",
+      "block": "approach",
+      "courses": 30,
+      "frames": 164,
+      "strict_left": 77,
+      "strict_right": 87,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 91,
+          "strict_left": 74,
+          "strict_right": 17,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 73,
+          "strict_left": 3,
+          "strict_right": 70,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_1",
+      "world": "classic",
+      "block": "immediate",
+      "courses": 25,
+      "frames": 184,
+      "strict_left": 109,
+      "strict_right": 75,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 88,
+          "strict_left": 76,
+          "strict_right": 12,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 96,
+          "strict_left": 33,
+          "strict_right": 63,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_1",
+      "world": "classic",
+      "block": "all",
+      "courses": 55,
+      "frames": 348,
+      "strict_left": 186,
+      "strict_right": 162,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 179,
+          "strict_left": 150,
+          "strict_right": 29,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 169,
+          "strict_left": 36,
+          "strict_right": 133,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_1",
+      "world": "dense",
+      "block": "approach",
+      "courses": 55,
+      "frames": 515,
+      "strict_left": 299,
+      "strict_right": 216,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 243,
+          "strict_left": 232,
+          "strict_right": 11,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 272,
+          "strict_left": 67,
+          "strict_right": 205,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_1",
+      "world": "dense",
+      "block": "immediate",
+      "courses": 36,
+      "frames": 350,
+      "strict_left": 220,
+      "strict_right": 130,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 194,
+          "strict_left": 189,
+          "strict_right": 5,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 156,
+          "strict_left": 31,
+          "strict_right": 125,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_1",
+      "world": "dense",
+      "block": "all",
+      "courses": 91,
+      "frames": 865,
+      "strict_left": 519,
+      "strict_right": 346,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 437,
+          "strict_left": 421,
+          "strict_right": 16,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 428,
+          "strict_left": 98,
+          "strict_right": 330,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_1",
+      "world": "moving",
+      "block": "approach",
+      "courses": 5,
+      "frames": 32,
+      "strict_left": 14,
+      "strict_right": 18,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 22,
+          "strict_left": 12,
+          "strict_right": 10,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 10,
+          "strict_left": 2,
+          "strict_right": 8,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_1",
+      "world": "moving",
+      "block": "immediate",
+      "courses": 11,
+      "frames": 102,
+      "strict_left": 54,
+      "strict_right": 48,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 79,
+          "strict_left": 52,
+          "strict_right": 27,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 23,
+          "strict_left": 2,
+          "strict_right": 21,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_1",
+      "world": "moving",
+      "block": "all",
+      "courses": 16,
+      "frames": 134,
+      "strict_left": 68,
+      "strict_right": 66,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 101,
+          "strict_left": 64,
+          "strict_right": 37,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 33,
+          "strict_left": 4,
+          "strict_right": 29,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_1",
+      "world": "classic",
+      "block": "approach",
+      "courses": 30,
+      "frames": 164,
+      "strict_left": 54,
+      "strict_right": 110,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 91,
+          "strict_left": 54,
+          "strict_right": 37,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 73,
+          "strict_left": 0,
+          "strict_right": 73,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_1",
+      "world": "classic",
+      "block": "immediate",
+      "courses": 25,
+      "frames": 184,
+      "strict_left": 64,
+      "strict_right": 120,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 88,
+          "strict_left": 64,
+          "strict_right": 24,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 96,
+          "strict_left": 0,
+          "strict_right": 96,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_1",
+      "world": "classic",
+      "block": "all",
+      "courses": 55,
+      "frames": 348,
+      "strict_left": 118,
+      "strict_right": 230,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 179,
+          "strict_left": 118,
+          "strict_right": 61,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 169,
+          "strict_left": 0,
+          "strict_right": 169,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_1",
+      "world": "dense",
+      "block": "approach",
+      "courses": 55,
+      "frames": 515,
+      "strict_left": 182,
+      "strict_right": 333,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 243,
+          "strict_left": 175,
+          "strict_right": 68,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 272,
+          "strict_left": 7,
+          "strict_right": 265,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_1",
+      "world": "dense",
+      "block": "immediate",
+      "courses": 36,
+      "frames": 350,
+      "strict_left": 176,
+      "strict_right": 174,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 194,
+          "strict_left": 169,
+          "strict_right": 25,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 156,
+          "strict_left": 7,
+          "strict_right": 149,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_1",
+      "world": "dense",
+      "block": "all",
+      "courses": 91,
+      "frames": 865,
+      "strict_left": 358,
+      "strict_right": 507,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 437,
+          "strict_left": 344,
+          "strict_right": 93,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 428,
+          "strict_left": 14,
+          "strict_right": 414,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_1",
+      "world": "moving",
+      "block": "approach",
+      "courses": 5,
+      "frames": 32,
+      "strict_left": 13,
+      "strict_right": 19,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 22,
+          "strict_left": 10,
+          "strict_right": 12,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 10,
+          "strict_left": 3,
+          "strict_right": 7,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_1",
+      "world": "moving",
+      "block": "immediate",
+      "courses": 11,
+      "frames": 102,
+      "strict_left": 22,
+      "strict_right": 80,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 79,
+          "strict_left": 22,
+          "strict_right": 57,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 23,
+          "strict_left": 0,
+          "strict_right": 23,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_1",
+      "world": "moving",
+      "block": "all",
+      "courses": 16,
+      "frames": 134,
+      "strict_left": 35,
+      "strict_right": 99,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 101,
+          "strict_left": 32,
+          "strict_right": 69,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 33,
+          "strict_left": 3,
+          "strict_right": 30,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_2",
+      "world": "classic",
+      "block": "approach",
+      "courses": 30,
+      "frames": 164,
+      "strict_left": 51,
+      "strict_right": 113,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 91,
+          "strict_left": 45,
+          "strict_right": 46,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 73,
+          "strict_left": 6,
+          "strict_right": 67,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_2",
+      "world": "classic",
+      "block": "immediate",
+      "courses": 25,
+      "frames": 184,
+      "strict_left": 65,
+      "strict_right": 119,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 88,
+          "strict_left": 47,
+          "strict_right": 41,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 96,
+          "strict_left": 18,
+          "strict_right": 78,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_2",
+      "world": "classic",
+      "block": "all",
+      "courses": 55,
+      "frames": 348,
+      "strict_left": 116,
+      "strict_right": 232,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 179,
+          "strict_left": 92,
+          "strict_right": 87,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 169,
+          "strict_left": 24,
+          "strict_right": 145,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_2",
+      "world": "dense",
+      "block": "approach",
+      "courses": 55,
+      "frames": 515,
+      "strict_left": 208,
+      "strict_right": 307,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 243,
+          "strict_left": 162,
+          "strict_right": 81,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 272,
+          "strict_left": 46,
+          "strict_right": 226,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_2",
+      "world": "dense",
+      "block": "immediate",
+      "courses": 36,
+      "frames": 350,
+      "strict_left": 157,
+      "strict_right": 193,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 194,
+          "strict_left": 133,
+          "strict_right": 61,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 156,
+          "strict_left": 24,
+          "strict_right": 132,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_2",
+      "world": "dense",
+      "block": "all",
+      "courses": 91,
+      "frames": 865,
+      "strict_left": 365,
+      "strict_right": 500,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 437,
+          "strict_left": 295,
+          "strict_right": 142,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 428,
+          "strict_left": 70,
+          "strict_right": 358,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_2",
+      "world": "moving",
+      "block": "approach",
+      "courses": 5,
+      "frames": 32,
+      "strict_left": 17,
+      "strict_right": 15,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 22,
+          "strict_left": 13,
+          "strict_right": 9,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 10,
+          "strict_left": 4,
+          "strict_right": 6,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_2",
+      "world": "moving",
+      "block": "immediate",
+      "courses": 11,
+      "frames": 102,
+      "strict_left": 45,
+      "strict_right": 57,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 79,
+          "strict_left": 38,
+          "strict_right": 41,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 23,
+          "strict_left": 7,
+          "strict_right": 16,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "approach_2",
+      "world": "moving",
+      "block": "all",
+      "courses": 16,
+      "frames": 134,
+      "strict_left": 62,
+      "strict_right": 72,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 101,
+          "strict_left": 51,
+          "strict_right": 50,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 33,
+          "strict_left": 11,
+          "strict_right": 22,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_2",
+      "world": "classic",
+      "block": "approach",
+      "courses": 30,
+      "frames": 164,
+      "strict_left": 66,
+      "strict_right": 98,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 91,
+          "strict_left": 66,
+          "strict_right": 25,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 73,
+          "strict_left": 0,
+          "strict_right": 73,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_2",
+      "world": "classic",
+      "block": "immediate",
+      "courses": 25,
+      "frames": 184,
+      "strict_left": 61,
+      "strict_right": 123,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 88,
+          "strict_left": 61,
+          "strict_right": 27,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 96,
+          "strict_left": 0,
+          "strict_right": 96,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_2",
+      "world": "classic",
+      "block": "all",
+      "courses": 55,
+      "frames": 348,
+      "strict_left": 127,
+      "strict_right": 221,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 179,
+          "strict_left": 127,
+          "strict_right": 52,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 169,
+          "strict_left": 0,
+          "strict_right": 169,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_2",
+      "world": "dense",
+      "block": "approach",
+      "courses": 55,
+      "frames": 515,
+      "strict_left": 235,
+      "strict_right": 280,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 243,
+          "strict_left": 182,
+          "strict_right": 61,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 272,
+          "strict_left": 53,
+          "strict_right": 219,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_2",
+      "world": "dense",
+      "block": "immediate",
+      "courses": 36,
+      "frames": 350,
+      "strict_left": 197,
+      "strict_right": 153,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 194,
+          "strict_left": 172,
+          "strict_right": 22,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 156,
+          "strict_left": 25,
+          "strict_right": 131,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_2",
+      "world": "dense",
+      "block": "all",
+      "courses": 91,
+      "frames": 865,
+      "strict_left": 432,
+      "strict_right": 433,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 437,
+          "strict_left": 354,
+          "strict_right": 83,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 428,
+          "strict_left": 78,
+          "strict_right": 350,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_2",
+      "world": "moving",
+      "block": "approach",
+      "courses": 5,
+      "frames": 32,
+      "strict_left": 12,
+      "strict_right": 20,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 22,
+          "strict_left": 10,
+          "strict_right": 12,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 10,
+          "strict_left": 2,
+          "strict_right": 8,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_2",
+      "world": "moving",
+      "block": "immediate",
+      "courses": 11,
+      "frames": 102,
+      "strict_left": 23,
+      "strict_right": 79,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 79,
+          "strict_left": 23,
+          "strict_right": 56,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 23,
+          "strict_left": 0,
+          "strict_right": 23,
+          "exact_tie": 0
+        }
+      }
+    },
+    {
+      "model": "moving_immediate_2",
+      "world": "moving",
+      "block": "all",
+      "courses": 16,
+      "frames": 134,
+      "strict_left": 35,
+      "strict_right": 99,
+      "exact_tie": 0,
+      "truth_sides": {
+        "safer_left": {
+          "frames": 101,
+          "strict_left": 33,
+          "strict_right": 68,
+          "exact_tie": 0
+        },
+        "safer_right": {
+          "frames": 33,
+          "strict_left": 2,
+          "strict_right": 31,
+          "exact_tie": 0
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "/Users/hans.chen/microdrone-world-model/experiments/veer_replay_v1/artifacts/approach_0.npz": "6701bac666377503f433e2a9023b6bd805e6e9e5ebf36a499196a61846431209",
+    "/Users/hans.chen/microdrone-world-model/experiments/veer_replay_v1/artifacts/moving_immediate_0.npz": "a3f6214f89e11594e9622ea8c60e5ee43461158d1797ca11df87a9db3a57b286",
+    "/Users/hans.chen/microdrone-world-model/experiments/veer_replay_v1/artifacts/approach_1.npz": "4fd8a09cd2a730734f054cb872084c274bfc9b4a8a446dcc84505591a9e3b5da",
+    "/Users/hans.chen/microdrone-world-model/experiments/veer_replay_v1/artifacts/moving_immediate_1.npz": "7c25859dae7e4663b8a41b50b7c4297414b7fbac0a67ef74a95c190a416e7b1e",
+    "/Users/hans.chen/microdrone-world-model/experiments/veer_replay_v1/artifacts/approach_2.npz": "f1f5ccf61829c4ff2fdcf1e36d83c45619110ed7959914833f90f2049750fcb3",
+    "/Users/hans.chen/microdrone-world-model/experiments/veer_replay_v1/artifacts/moving_immediate_2.npz": "f87af40cb95d9fc4fde9e5f098eedcf9139499ea258a93ef402c79426b745cd1"
+  },
+  "frame_check_sha256": "4c69536110632c5ea33973ce6bd56a02070e85bb70e45fdd016187a39fc25ec6"
+}

@@ -25,8 +25,13 @@ preference bounds decrease in all seeds. Exact opposite-direction versus
 tie counts cannot be recovered from the saved correctness flags. Seed 2's
 equal-course accuracy improves while its registered frame-weighted accuracy
 declines; this alternative weighting does not change the NO-GO.
+The separately registered [raw-score replay](../experiments/veer_replay_v1/summary.md)
+now reproduces all original flags on all six models, with zero exact ties.
+Moving strict-right rankings rise from 28/66/72 to 102/99/99; the original
+incorrect flags on this exam therefore represent opposite-side rankings.
+All 54 descriptive cells pass saved-array verification without inference.
 
-This is a living continuation index, continued from `9ac59ae`. Original
+This is a living continuation index, continued from `6c4efa2`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -163,9 +168,14 @@ correctness. Artifactless tests cover strict ties, invalid probabilities,
 mixed legacy/new comparisons and NPZ roundtrip; all 30 legacy exports remain
 unchanged and accepted. A false flag includes ties under the current strict
 comparison, so treating it as an opposite-side prediction would fabricate
-evidence. Any rescoring of fixed checkpoints needs a new declared instrument
-study; neither this diagnostic nor the exporter change performed it. A separate
-metadata exposure audit could address sampling before another training knob.
+evidence. The separately registered `veer_replay_v1` now resolves this
+ambiguity for the six moving-timing checkpoints: all original flags match,
+and every raw score pair is unequal. Among moving's 101 safer-left frames,
+right-ranked errors rise 19→76, 37→69 and 50→68. These are hypothetical
+command rankings, not executed policy actions. Raw arrays and all 54 cells
+are archived; source/input/protected hashes and saved-only verification pass.
+A separately declared metadata exposure audit could address sampling before
+another training knob; the replay does not identify a training cause.
 Do not turn diagnostic slices or alternate course weighting into new gates.
 Any model comparison still needs one falsifiable knob, a fresh independent
 exam, immutable guards and the 512 KB / approximately 8 ms budget. No further
