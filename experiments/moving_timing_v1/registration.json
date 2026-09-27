@@ -1,0 +1,170 @@
+{
+  "campaign": "moving_timing_v1",
+  "version": 1,
+  "arms": [
+    "approach",
+    "moving_immediate"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "order": [
+    [
+      "approach",
+      0
+    ],
+    [
+      "moving_immediate",
+      0
+    ],
+    [
+      "moving_immediate",
+      1
+    ],
+    [
+      "approach",
+      1
+    ],
+    [
+      "approach",
+      2
+    ],
+    [
+      "moving_immediate",
+      2
+    ]
+  ],
+  "training_inputs": {
+    "approach": {
+      "path": "output/intervention_timing_v1/approach_train/data.npz",
+      "sha256": "d2041571eb1522c7b2bd0b3ec18c8c05cfb9dc55a4ed8ce898ded22360bde671"
+    },
+    "immediate": {
+      "path": "output/intervention_timing_v1/immediate_train/data.npz",
+      "sha256": "ac06ae4a499a5b9fe09e5a29345aa3a3a15c7672cdcb3e5293d7e4ad89413e56"
+    }
+  },
+  "source_records": {
+    "experiments/intervention_timing_v1/records/pilot_pair.json": "4c53d030ac185ac14dbde811cc850e57c3b0ef70e0099b71e754a4a88e6e3e7b",
+    "experiments/intervention_timing_v1/records/approach_train.json": "d5f8cd7ece4f08965fab5319a94d2c4886fef1c738442a91c1751d30a5b4f00f",
+    "experiments/intervention_timing_v1/records/immediate_train.json": "c958524d02cd2bd07882cc729abbf80e2db360aa4bde0d4e65e3e220c4d25e97",
+    "experiments/intervention_timing_v1/support/approach_support.json": "352ffbec7b5e5a6d374006b7a98250ca902894bf14f690c3c4cd06a41fcda41a",
+    "experiments/intervention_timing_v1/manifest.json": "1c1c06babe0095009089bb6858182fec24461b3364acc0a7db307d6e9475be35",
+    "output/intervention_timing_v1/holdout/course_identities.json": "d5f98695433803312918b16a92c388994644b2b9111456073143ba04aed558e4"
+  },
+  "closed_exam_identities": "output/intervention_timing_v1/holdout/course_identities.json",
+  "old_training_support": "experiments/intervention_timing_v1/support/approach_support.json",
+  "worlds": [
+    "classic",
+    "dense",
+    "moving"
+  ],
+  "img_res": 64,
+  "length": 160,
+  "exam_transit": {
+    "n_rollouts_per_timing": 630,
+    "seeds": {
+      "approach": 2026092709,
+      "immediate": 2026092710
+    },
+    "randomize": false,
+    "schedule_layout": "world_balanced",
+    "rng_layout": "per_rollout"
+  },
+  "indoor_exam": {
+    "n_rollouts": 180,
+    "seed": 2026092711,
+    "fov_honest": false
+  },
+  "train": {
+    "epochs": 80,
+    "batch": 64,
+    "latent_d": 64,
+    "strips": 4,
+    "in_frames": 1,
+    "frame_stride": 4,
+    "robust": false,
+    "temporal": false,
+    "ground": false,
+    "ground_lambda": 0.5,
+    "cf_hard_pool": "legacy_masked",
+    "executed_moving_weight": 1.0
+  },
+  "training_device": "mps",
+  "evaluation_device": "cpu",
+  "instrument": {
+    "fixture_seed": 2026092712,
+    "minimum_frame_std": 1.0,
+    "minimum_render_difference": 1.0
+  },
+  "support": {
+    "training_primary": {
+      "positive": 20,
+      "negative": 20,
+      "positive_rollouts": 3,
+      "negative_rollouts": 3
+    },
+    "training_worlds": {
+      "positive": 20,
+      "negative": 20,
+      "positive_rollouts": 3,
+      "negative_rollouts": 3
+    },
+    "exam_auc": {
+      "positive": 100,
+      "negative": 100,
+      "positive_rollouts": 10,
+      "negative_rollouts": 10
+    },
+    "exam_veer_each_world": {
+      "frames": 40,
+      "rollouts": 10
+    }
+  },
+  "primary_cells": [
+    [
+      "moving",
+      "veer_left"
+    ],
+    [
+      "moving",
+      "veer_right"
+    ]
+  ],
+  "extra_guard_cells": [
+    [
+      "dense",
+      "veer_left"
+    ],
+    [
+      "dense",
+      "veer_right"
+    ]
+  ],
+  "stratified_guard_blocks": [
+    "approach",
+    "immediate"
+  ],
+  "horizon": 32,
+  "warn_radius": 0.7,
+  "bars": {
+    "primary_mean_delta_min": 0.03,
+    "primary_each_delta_min_exclusive": 0.0,
+    "primary_cell_each_delta_min": -0.02,
+    "world_each_delta_min": -0.02,
+    "forward_each_delta_min": -0.02,
+    "now_each_delta_min": -0.02,
+    "veer_each_delta_min": -0.05,
+    "budget_kb_max": 512.0,
+    "estimated_ms_max": 8.0,
+    "extra_cell_each_delta_min": -0.02,
+    "stratified_each_delta_min": -0.02
+  },
+  "bootstrap": {
+    "n_boot": 2000,
+    "seed": 0
+  },
+  "interpretation": "Only moving-world nonpassive intervention onset varies. New moving-only primary, unchanged dense action guards and added moving timing-block guards. Fixed development data; fresh independent exam and six fresh fits. No optional recheck, sample selection, early stopping, old-exam rescoring, champion replacement or flight claim. Bootstrap conditions on fixed checkpoint pairs. GO permits only a separately registered flight study."
+}
