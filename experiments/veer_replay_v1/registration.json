@@ -1,0 +1,78 @@
+{
+  "name": "veer_replay_v1",
+  "parent_revision": "97479a3",
+  "models": [
+    {
+      "name": "approach_0",
+      "checkpoint": "output/moving_timing_v1/train_approach_0/model.pth",
+      "old_export": "output/moving_timing_v1/score_approach_0/scores.npz"
+    },
+    {
+      "name": "moving_immediate_0",
+      "checkpoint": "output/moving_timing_v1/train_moving_immediate_0/model.pth",
+      "old_export": "output/moving_timing_v1/score_moving_immediate_0/scores.npz"
+    },
+    {
+      "name": "approach_1",
+      "checkpoint": "output/moving_timing_v1/train_approach_1/model.pth",
+      "old_export": "output/moving_timing_v1/score_approach_1/scores.npz"
+    },
+    {
+      "name": "moving_immediate_1",
+      "checkpoint": "output/moving_timing_v1/train_moving_immediate_1/model.pth",
+      "old_export": "output/moving_timing_v1/score_moving_immediate_1/scores.npz"
+    },
+    {
+      "name": "approach_2",
+      "checkpoint": "output/moving_timing_v1/train_approach_2/model.pth",
+      "old_export": "output/moving_timing_v1/score_approach_2/scores.npz"
+    },
+    {
+      "name": "moving_immediate_2",
+      "checkpoint": "output/moving_timing_v1/train_moving_immediate_2/model.pth",
+      "old_export": "output/moving_timing_v1/score_moving_immediate_2/scores.npz"
+    }
+  ],
+  "inputs": {
+    "output/moving_timing_v1/train_approach_0/model.pth": "34ee2fe41f57c930a333447353aad58d1825e708d030f51acc9cf418803f64d2",
+    "output/moving_timing_v1/score_approach_0/scores.npz": "fbd85e0c59cb8580d552286c04022ee6c221318f4a924e85bfdbb8541e97f04a",
+    "output/moving_timing_v1/train_moving_immediate_0/model.pth": "1911697b6179a8c609d0f772e739105027dd4ba91af2b73427059512aa46dd5a",
+    "output/moving_timing_v1/score_moving_immediate_0/scores.npz": "282b9c494b61a5abae7c5da75dd2662170dc66c0c8c220afe68cd5ad69e9389a",
+    "output/moving_timing_v1/train_approach_1/model.pth": "5922d683b19b7a7ed98a01d2013528cf5afab1aadf2d3a32c967a0a7a870cc13",
+    "output/moving_timing_v1/score_approach_1/scores.npz": "4778c0cb2b62a7d9ee4fa39e531abe31af97e75a82b04c628b05065f5f6c3133",
+    "output/moving_timing_v1/train_moving_immediate_1/model.pth": "41f13e175fa8f51dae13ca15fbdabb59d244efceb0578889889c353bd242b04a",
+    "output/moving_timing_v1/score_moving_immediate_1/scores.npz": "90ba6b847dd295a9e9dab6ff5e8b15a39a9a3655f33dc0822c310dd551ecb011",
+    "output/moving_timing_v1/train_approach_2/model.pth": "036d2095bf13dd7fb975331141c7f634896a9c69240b68ef5f3065c3eb1a892f",
+    "output/moving_timing_v1/score_approach_2/scores.npz": "096e15d3e777c1b62a217b56e5956b283b7e257271c92a93a1b7e77cde6ad777",
+    "output/moving_timing_v1/train_moving_immediate_2/model.pth": "49de0cc72273786837a370751388cb0ee193e3fcb3afc6624eca17be9b077ef9",
+    "output/moving_timing_v1/score_moving_immediate_2/scores.npz": "d61c5fe452ba5eb75d715e80c05da97b82dae776bf15c785497f8aabe28ee1e4",
+    "output/moving_timing_v1/holdout/data.npz": "e22291eb3ee6b72a3e8bbeac28dc5bb976c3dc1c2d39dabc96dcb94e48bbb058",
+    "experiments/moving_timing_v1/report.json": "b02f646d51d09ec5f593009e841fabdc96f69a9d5dbc2bae366d48fb2c71b5e1",
+    "experiments/moving_timing_v1/registration.json": "e16f9c6ff924fadd6ebe9d9fa621c1b59f8eb8bb486006e3208c1f391ccb28e4",
+    "experiments/veer_score_export_v1/verification.json": "d664130a07156347150bdf1bb1a1f4d7972107302cf476d945751de758614544"
+  },
+  "data": "output/moving_timing_v1/holdout/data.npz",
+  "worlds": [
+    "classic",
+    "dense",
+    "moving"
+  ],
+  "blocks": [
+    "approach",
+    "immediate",
+    "all"
+  ],
+  "device": "cpu",
+  "minimum_frame_std": 1.0,
+  "protected": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  }
+}
