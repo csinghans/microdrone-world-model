@@ -41,20 +41,18 @@ varies with the training draw. See the two-tier benchmark below: the
 *mechanisms* held on the recorded draws; the *point numbers* carry honest
 run-to-run ranges.
 
-**Research update — 2026-09-27:** four matched model studies are closed
-**NO-GO**. The latest [all-world timing study](experiments/intervention_timing_v1/summary.md)
-improves its steering AUC macro by +0.0221 on average, below the +0.03 bar,
-and loses dense right-veer AUC in every seed. Subsequent audits show why
-pooled gains and geometric turn ranking cannot substitute for supported
-action-specific guards; they do not establish the regression's cause.
+**Research update — 2026-09-28:** five matched model studies are closed
+**NO-GO**. The latest [moving-only timing study](experiments/moving_timing_v1/summary.md)
+completes six fits on a new 1,440-course common exam after every support
+check passes. Moving left/right AUC improves by +0.0101 on average, below
+the +0.03 bar; seed 2 regresses. Moving geometric turn ranking breaks its
+guard in every seed, and dense-left AUC regresses in two seeds despite
+unchanged dense training data. Pooled-world and pooled-ranking guards pass,
+illustrating why supported action-specific and per-world guards matter.
+The failure mechanism remains open; default timing and champions remain.
 
-The new [moving-only timing study](experiments/moving_timing_v1/definition.md)
-has passed support checks on a fresh independent exam. It changes only moving-world
-intervention timing, preserves other worlds' data, and adds guards within
-each exam timing condition. Its six fixed-epoch fits are now running in
-the registered order. No performance result or champion change yet.
 The [current research state](docs/RESEARCH-STATUS.md) links every frozen
-result, diagnostic, instrument repair and active-study receipt.
+result, diagnostic, instrument repair and continuation decision.
 
 ## Why this exists
 

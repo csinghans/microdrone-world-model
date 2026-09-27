@@ -1,5 +1,8 @@
 # Moving-only timing — support preflight
 
+This is the archived pre-training checkpoint. The completed model study
+subsequently closed **NO-GO**; see [the final result](summary.md).
+
 **READY.** All nine prerequisite stages completed with actual exit 0.
 Every registered support requirement passed before any fitting. Six fresh
 80-epoch fits are released; this document contains no model-performance result.

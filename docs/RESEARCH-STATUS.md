@@ -1,27 +1,23 @@
-# Research continuation state — 2026-09-27
+# Research continuation state — 2026-09-28
 
-The new [moving-only timing study](../experiments/moving_timing_v1/definition.md)
-is in progress. Registration `0ea3f90` and tested instrument `92d2004` precede
-its new exam generation. Only moving-world rows change; classic, dense and
-room data stay fixed. Both 276-course development arms have been published
-after exact pairing checks, and all four rendering fixtures passed. The new
-1,440-course exam has 100,548 eligible windows and meets every frozen
-training/exam support floor. All nine prerequisite stages have actual exit 0;
-the six fresh 80-epoch fits are now running in the registered order. See the
-[preflight](../experiments/moving_timing_v1/preflight.md); there is no
-performance result yet.
-Read its [journal](../experiments/moving_timing_v1/journal.md) and stage receipts
-for progress, and inspect the live process before attempting to resume.
+All five matched model studies below are **closed NO-GO**. The latest
+[moving-only timing study](../experiments/moving_timing_v1/summary.md) completed
+all 22 stages, six fresh fits and six scorings after support passed. Its
+moving left/right primary deltas are +0.0450 / +0.0251 / −0.0397: mean
++0.0101 misses +0.03 and seed 2 fails positivity. Moving geometric ranking
+breaks its guard in every seed; dense-left action AUC fails seeds 1/2 despite
+identical nonmoving training data. Pooled-world, forward, now and pooled
+ranking guards all pass, illustrating the local failures they would miss.
 
-The four earlier matched training studies below are **closed NO-GO**. Their
-common exam machinery is implemented and exercised; no candidate earned
-promotion. The closed [intervention timing study](../experiments/intervention_timing_v1/summary.md)
-completed all 23 stages and six fits after support passed. Its primary macro
-improves in all seeds but misses the mean bar; dense right-veer breaks its
-action guard in every seed. Other guards pass. That study remains closed,
-and no candidate is promoted.
+The full source/input/runtime, 22 stage exits/log hashes, support reports,
+saved-score endpoints and bootstrap were verified without fitting or
+inference. All nine protected artifacts match their locked hashes. No
+experiment worker remains active at closure. No candidate is promoted and
+no further model or flight experiment has been released. See its
+[journal](../experiments/moving_timing_v1/journal.md) and
+[verification](../experiments/moving_timing_v1/verification.json).
 
-This is a living continuation index, continued from `92d2004`. Original
+This is a living continuation index, continued from `dfa9ad6`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -30,7 +26,7 @@ on resumption. Old queue files and PIDs do not establish active work.
 
 Each study used six fresh 80-epoch fits, paired seeds 0/1/2, and its own
 independent exam shared by all six models: 186 courses in the first three
-studies and 1,440 in intervention timing. Exams differ between studies:
+studies and 1,440 in each timing study. Exams differ between studies:
 compare arms within a study, not absolute scores across studies.
 
 | Study / single knob | Primary deltas, seeds 0 / 1 / 2 | Why NO-GO |
@@ -39,6 +35,7 @@ compare arms within a study, not absolute scores across studies.
 | [cf_hard_pool_v1](../experiments/cf_hard_pool_v1/summary.md): masked-vector → answerable-label contrast sampling | Veer accuracy +0.0481 / −0.0913 / +0.1635; mean +0.0401 | Mean misses +0.05; seed 1 ranking declines and seed 0 classic/moving/room/now guards fail |
 | [executed_weight_v1](../experiments/executed_weight_v1/summary.md): moving executed-loss weight 1.0 → 2.25 | Moving AUC −0.0184 / +0.1227 / +0.0752; mean +0.0598 | Mean passes +0.03, but seed 0 positivity and seed 1 dense/veer guards fail |
 | [intervention_timing_v1](../experiments/intervention_timing_v1/summary.md): approach → immediate nonpassive commands | Four-cell steering AUC macro +0.0191 / +0.0347 / +0.0126; mean +0.0221 | Mean misses +0.03; dense right action breaks −0.02 guard in all seeds, dense left also fails seed 0 |
+| [moving_timing_v1](../experiments/moving_timing_v1/summary.md): only moving rows use immediate commands | Moving left/right AUC macro +0.0450 / +0.0251 / −0.0397; mean +0.0101 | Mean and seed-2 positivity fail; moving ranking fails all seeds, dense-left fails seeds 1/2, plus classic-ranking and seed-2 action/block guards |
 
 Keep `world_balanced` as the structural role-coverage repair, without claiming
 a performance upgrade. CF sampling stays `legacy_masked`; executed-loss
@@ -48,7 +45,7 @@ authorize no replacement draws, added exam courses, altered bars or flight
 gate. Recorded course-bootstrap intervals condition on fixed checkpoint
 pairs; three-seed means/ranges are not training-population uncertainty.
 
-All four studies retain the same **137.29 KB analytic int8 bill** and
+All five studies retain the same **137.29 KB analytic int8 bill** and
 3,856,768 MACs/decision: **7.71 ms at an assumed 0.5 GMAC/s**, against the
 project's 512 KB / approximately 8 ms target. These are estimates, without
 hardware timing, quantization-parity or flight certification for these fits.
@@ -135,43 +132,39 @@ actions/classes. Objective weight mass is not measured gradient mass.
 
 ## Next research decision
 
-The registered `moving_timing_v1` now tests a narrower data intervention:
-replace only moving rows with their immediate counterparts, retain the
-approach rows in other worlds, and evaluate a moving left/right primary on
-a new exam. Dense left/right retain their −0.02 action guards; moving
-left/right also have −0.02 guards within each exam timing block. Both arms
-retain known sparse dense steering training coverage. This is not a repair
-claim for that coverage or a causal identification of the old regression.
-The support gate must pass before fitting; insufficient support closes the
-study without replacement courses. A performance GO would authorize only
-a separately registered flight study, within 512 KB / approximately 8 ms.
+The moving-only timing recipe did not retain a reliable steering gain while
+protecting the other metrics. Moving geometric ranking fell by
+0.2985 / 0.2313 / 0.0672 across seeds on 134 frames from 16 courses, even as
+executed moving-action AUC rose in seeds 0/1. Pooled ranking passed because
+it aggregates worlds; it does not establish preserved moving decisions.
+Identical nonmoving arrays also did not prevent dense-left/classic-ranking
+failures. The recipe changes eligible windows, optimizer steps and CF/now
+exposures under fixed epochs; these results do not isolate their mechanism.
 
-Prioritize the newly measured dense-right regression with a falsifiable
-mechanism. Immediate intervention improves moving left/right AUC and
-geometric ranking in all three registered seeds, yet loses dense-right AUC
-by 0.0259–0.0526. Pooled dense AUC improves in seeds 0/1 while that action
-declines, illustrating why the explicit action guard matters. The cause
-is not established; timing also changes windows, optimizer steps and CF/now
-exposures under fixed epochs. The timing-mixture diagnostic locates dense-right
-loss inside the sufficiently supported immediate exam block, so cross-block
-ranking alone does not account for it. Moving-left gains remain positive
-inside both blocks in every seed, while moving-right's pooled gains do not
-imply within-block gains for seed 0. The executed/CF audit now identifies
-target disagreement and disjoint frame-selection domains, but its training
-counts/directions do not establish the model-regression mechanism. The score
-join now finds losses in both agreeing and masked comparisons; simply
-locating contradictory exam labels is not an explanation of the whole
-regression. A next model experiment needs a falsifiable data/loss hypothesis,
-one varied knob and a new independent exam. The reused scores are development
-evidence, not that future exam. Further diagnostic slices require a declared
-scope; do not alter the closed verdict or retrospectively add a gate.
+The next useful work is a separately declared diagnostic of this moving
+ranking loss, using the fixed saved scores and development metadata. Trace
+the probe's contributing courses and the recipe's supervision exposures
+before proposing another training change. Do not treat a diagnostic as a
+new pass/fail gate or as permission to repeat the closed model study. Both
+arms retain sparse dense steering training coverage; unchanged data is not
+a repaired support claim. Any new model comparison needs one falsifiable
+knob, a new independent exam, immutable guards and the 512 KB / approximately
+8 ms budget. No such fit is released by this closure.
+
+The earlier all-world timing study remains a separate closed comparison.
+Its dense-right loss was found inside timing blocks and beyond conflicting
+CF/executed examples. That establishes a diagnostic location, not a cause.
+Different exams and fresh model draws mean the two timing studies are not
+a controlled three-arm ablation. Further diagnostic slices must declare
+their exploratory scope; reused scores become development evidence, never
+the independent exam for a later training trial.
 
 The current internal validation partitions remain an incomplete
 action-specific/per-world veer exam; they were not used for model selection.
 The pilot uses 180 scene pairs, not 360 independent courses; its two corpora
 are development data, never independent exams for one another. Defaults
 remain shared RNG and approach timing.
-The completed timing study used 276 development courses per arm and a
+The earlier all-world timing study used 276 development courses per arm and a
 separate 1,440-course exam. All registered support checks passed, including
 100 windows and ten courses per class in each required AUC cell. Its
 geometric probe has 1,404 frames / 173 courses, including 177 / 19 in moving.

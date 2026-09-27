@@ -1,0 +1,211 @@
+{
+  "stage": "train_approach_0",
+  "exit_code": 0,
+  "started_unix": 1790521410.2875671,
+  "elapsed_seconds": 426.6857018470764,
+  "manifest_sha256": "652b2b102b24a42c6c2649b298efd657d9b5173aab747ef9e7aa07dffb8f1c14",
+  "result": {
+    "metrics": {
+      "mse": [
+        0.3982888460159302,
+        0.6150766611099243,
+        0.8872234225273132,
+        0.8443533778190613
+      ],
+      "noop": [
+        0.5246261954307556,
+        0.8943711519241333,
+        1.4052294492721558,
+        1.965222954750061
+      ],
+      "zstd_med": 1.4688982963562012,
+      "zstd_max": 2.3222038745880127,
+      "zabs": 2.607313871383667,
+      "auc": [
+        0.8006483433687263,
+        0.79863822057985,
+        0.7799405646359584,
+        0.7780964052138593
+      ],
+      "auc_by_world": {
+        "classic": 0.7885092088497625,
+        "dense": 0.8828723986856517,
+        "moving": 0.6892938908302205,
+        "room": 0.6926029014844804
+      },
+      "label_counts_by_world": {
+        "classic": {
+          "positive": 356,
+          "negative": 485,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "dense": {
+          "positive": 664,
+          "negative": 176,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "moving": {
+          "positive": 386,
+          "negative": 430,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        "room": {
+          "positive": 456,
+          "negative": 676,
+          "ignored": 0,
+          "auc_defined": true
+        }
+      },
+      "label_counts_h": [
+        {
+          "positive": 1449,
+          "negative": 2180,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 1503,
+          "negative": 2126,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 1610,
+          "negative": 2019,
+          "ignored": 0,
+          "auc_defined": true
+        },
+        {
+          "positive": 1862,
+          "negative": 1767,
+          "ignored": 0,
+          "auc_defined": true
+        }
+      ],
+      "now_label_counts": {
+        "positive": 3248,
+        "negative": 5552,
+        "ignored": 0,
+        "auc_defined": true
+      },
+      "now_auc": 0.7945342500727559,
+      "side": 0.8627451062202454,
+      "n_side": 51,
+      "int8_kb": 81.2900390625,
+      "n_train": 14202,
+      "n_val": 3629,
+      "cf_hard_pool_frames": 5615,
+      "cf_hard_pool_fallback": false,
+      "executed_loss_weighting": {
+        "moving_weight": 1.0,
+        "normalizer": 1.0,
+        "train_windows": 14202,
+        "by_world": {
+          "classic": {
+            "windows": 3308,
+            "window_share": 0.23292494014927476,
+            "weight_mass_share": 0.23292494014927476
+          },
+          "dense": {
+            "windows": 3279,
+            "window_share": 0.23088297422898182,
+            "weight_mass_share": 0.23088297422898182
+          },
+          "moving": {
+            "windows": 3255,
+            "window_share": 0.2291930713983946,
+            "weight_mass_share": 0.2291930713983946
+          },
+          "room": {
+            "windows": 4360,
+            "window_share": 0.3069990142233488,
+            "weight_mass_share": 0.3069990142233488
+          }
+        }
+      }
+    },
+    "meta": {
+      "version": 2,
+      "D": 64,
+      "strips": 4,
+      "img_res": 64,
+      "A": 4,
+      "horizons": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "radii": [
+        0.7,
+        0.35
+      ],
+      "danger_r": 0.7,
+      "a_norm": [
+        1.600000023841858,
+        1.0,
+        0.800000011920929,
+        9.999999974752427e-07
+      ],
+      "action_names": [
+        "forward",
+        "slow",
+        "veer_left",
+        "veer_right",
+        "climb",
+        "hover"
+      ],
+      "action_vecs": [
+        [
+          0.800000011920929,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.30000001192092896,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          -0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.4000000059604645,
+          0.0,
+          0.4000000059604645,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "seed": 0,
+      "cf_hard_pool": "legacy_masked",
+      "executed_moving_weight": 1.0,
+      "transit_schedule_layout": "world_balanced",
+      "in_frames": 1,
+      "frame_stride": 4,
+      "training_dataset_sha256": "890fa92ee38ff064ec8524e0f168693781eb9c90f7f7c1f0a17b4c7255a415b3"
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/train_approach_0/model.pth": "34ee2fe41f57c930a333447353aad58d1825e708d030f51acc9cf418803f64d2"
+  }
+}

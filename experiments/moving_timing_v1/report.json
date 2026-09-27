@@ -1,0 +1,585 @@
+{
+  "decision": {
+    "verdict": "NO-GO",
+    "checks": {
+      "seed0/primary_cells/moving/veer_left": true,
+      "seed0/primary_cells/moving/veer_right": true,
+      "seed0/worlds/classic": true,
+      "seed0/worlds/dense": true,
+      "seed0/worlds/moving": true,
+      "seed0/worlds/room": true,
+      "seed0/forward/classic": true,
+      "seed0/forward/dense": true,
+      "seed0/forward/moving": true,
+      "seed0/veer/all": true,
+      "seed0/veer/classic": false,
+      "seed0/veer/dense": true,
+      "seed0/veer/moving": false,
+      "seed0/now/all": true,
+      "seed0/primary_positive": true,
+      "seed0/budget": true,
+      "seed1/primary_cells/moving/veer_left": true,
+      "seed1/primary_cells/moving/veer_right": true,
+      "seed1/worlds/classic": true,
+      "seed1/worlds/dense": true,
+      "seed1/worlds/moving": true,
+      "seed1/worlds/room": true,
+      "seed1/forward/classic": true,
+      "seed1/forward/dense": true,
+      "seed1/forward/moving": true,
+      "seed1/veer/all": true,
+      "seed1/veer/classic": true,
+      "seed1/veer/dense": true,
+      "seed1/veer/moving": false,
+      "seed1/now/all": true,
+      "seed1/primary_positive": true,
+      "seed1/budget": true,
+      "seed2/primary_cells/moving/veer_left": false,
+      "seed2/primary_cells/moving/veer_right": false,
+      "seed2/worlds/classic": true,
+      "seed2/worlds/dense": true,
+      "seed2/worlds/moving": true,
+      "seed2/worlds/room": true,
+      "seed2/forward/classic": true,
+      "seed2/forward/dense": true,
+      "seed2/forward/moving": true,
+      "seed2/veer/all": true,
+      "seed2/veer/classic": true,
+      "seed2/veer/dense": true,
+      "seed2/veer/moving": false,
+      "seed2/now/all": true,
+      "seed2/primary_positive": false,
+      "seed2/budget": true,
+      "primary_mean": false,
+      "seed0/extra_guards/dense/veer_left": true,
+      "seed0/extra_guards/dense/veer_right": true,
+      "seed0/stratified_guards/moving/veer_left/approach": true,
+      "seed0/stratified_guards/moving/veer_left/immediate": true,
+      "seed0/stratified_guards/moving/veer_right/approach": true,
+      "seed0/stratified_guards/moving/veer_right/immediate": true,
+      "seed1/extra_guards/dense/veer_left": false,
+      "seed1/extra_guards/dense/veer_right": true,
+      "seed1/stratified_guards/moving/veer_left/approach": true,
+      "seed1/stratified_guards/moving/veer_left/immediate": true,
+      "seed1/stratified_guards/moving/veer_right/approach": true,
+      "seed1/stratified_guards/moving/veer_right/immediate": true,
+      "seed2/extra_guards/dense/veer_left": false,
+      "seed2/extra_guards/dense/veer_right": true,
+      "seed2/stratified_guards/moving/veer_left/approach": false,
+      "seed2/stratified_guards/moving/veer_left/immediate": false,
+      "seed2/stratified_guards/moving/veer_right/approach": true,
+      "seed2/stratified_guards/moving/veer_right/immediate": false
+    },
+    "primary_deltas": [
+      0.044979342370162656,
+      0.02512747618233907,
+      -0.03971556722053182
+    ],
+    "primary_mean": 0.010130417110656634,
+    "primary_range": [
+      -0.03971556722053182,
+      0.044979342370162656
+    ],
+    "scope": "Only moving-world nonpassive intervention onset varies. New moving-only primary, unchanged dense action guards and added moving timing-block guards. Fixed development data; fresh independent exam and six fresh fits. No optional recheck, sample selection, early stopping, old-exam rescoring, champion replacement or flight claim. Bootstrap conditions on fixed checkpoint pairs. GO permits only a separately registered flight study."
+  },
+  "pairs": [
+    {
+      "seed": 0,
+      "readings": {
+        "primary_cells": {
+          "moving/veer_left": {
+            "baseline": 0.7130928639556057,
+            "candidate": 0.7461076909737275,
+            "delta": 0.03301482701812186
+          },
+          "moving/veer_right": {
+            "baseline": 0.7282813028050017,
+            "candidate": 0.7852251605272051,
+            "delta": 0.05694385772220345
+          }
+        },
+        "primary_delta": 0.044979342370162656,
+        "primary_baseline": 0.7206870833803036,
+        "primary_candidate": 0.7656664257504664,
+        "worlds": {
+          "classic": {
+            "baseline": 0.8199978976675831,
+            "candidate": 0.8655564091204423,
+            "delta": 0.04555851145285916
+          },
+          "dense": {
+            "baseline": 0.8741159409049295,
+            "candidate": 0.9144814052672934,
+            "delta": 0.04036546436236388
+          },
+          "moving": {
+            "baseline": 0.741039392851533,
+            "candidate": 0.8261100168798036,
+            "delta": 0.08507062402827059
+          },
+          "room": {
+            "baseline": 0.6416671252439174,
+            "candidate": 0.6833438478086427,
+            "delta": 0.04167672256472521
+          }
+        },
+        "forward": {
+          "classic": {
+            "baseline": 0.851420770440281,
+            "candidate": 0.9012315480511196,
+            "delta": 0.04981077761083863
+          },
+          "dense": {
+            "baseline": 0.8792216296175102,
+            "candidate": 0.930526481182105,
+            "delta": 0.051304851564594856
+          },
+          "moving": {
+            "baseline": 0.7532031623035075,
+            "candidate": 0.8485401557277509,
+            "delta": 0.0953369934242434
+          }
+        },
+        "now": {
+          "baseline": 0.7675475336501012,
+          "candidate": 0.816558995110283,
+          "delta": 0.04901146146018176
+        },
+        "veer": {
+          "all": {
+            "baseline": 0.7253155159613957,
+            "candidate": 0.7431328878990349,
+            "delta": 0.017817371937639215,
+            "frames": 1347,
+            "courses": 162
+          },
+          "classic": {
+            "baseline": 0.7155172413793104,
+            "candidate": 0.5172413793103449,
+            "delta": -0.19827586206896552,
+            "frames": 348,
+            "courses": 55
+          },
+          "dense": {
+            "baseline": 0.7364161849710983,
+            "candidate": 0.8901734104046243,
+            "delta": 0.153757225433526,
+            "frames": 865,
+            "courses": 91
+          },
+          "moving": {
+            "baseline": 0.6791044776119403,
+            "candidate": 0.3805970149253731,
+            "delta": -0.29850746268656714,
+            "frames": 134,
+            "courses": 16
+          }
+        },
+        "primary_bootstrap": {
+          "method": "paired_world_and_timing_stratified_whole_course_percentile",
+          "scope": "primary macro delta, conditional on this fixed checkpoint pair",
+          "n_boot": 2000,
+          "seed": 0,
+          "stratum_course_counts": [
+            210,
+            210
+          ],
+          "valid_bootstraps": 2000,
+          "undefined_bootstraps": 0,
+          "ci95": [
+            0.004744002008015791,
+            0.08478428731001472
+          ]
+        },
+        "extra_guards": {
+          "dense/veer_left": {
+            "baseline": 0.7797278543538599,
+            "candidate": 0.861869031377899,
+            "delta": 0.08214117702403911
+          },
+          "dense/veer_right": {
+            "baseline": 0.8106491942554099,
+            "candidate": 0.7916056003467133,
+            "delta": -0.019043593908696588
+          }
+        },
+        "stratified_guards": {
+          "moving/veer_left/approach": {
+            "baseline": 0.6675298525404713,
+            "candidate": 0.6911013383555057,
+            "delta": 0.023571485815034432
+          },
+          "moving/veer_left/immediate": {
+            "baseline": 0.7198399450974462,
+            "candidate": 0.7353714355505667,
+            "delta": 0.015531490453120522
+          },
+          "moving/veer_right/approach": {
+            "baseline": 0.6237718236819361,
+            "candidate": 0.7950769230769231,
+            "delta": 0.17130509939498706
+          },
+          "moving/veer_right/immediate": {
+            "baseline": 0.7930544714327257,
+            "candidate": 0.777773696374183,
+            "delta": -0.01528077505854264
+          }
+        }
+      },
+      "baseline_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      },
+      "candidate_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      }
+    },
+    {
+      "seed": 1,
+      "readings": {
+        "primary_cells": {
+          "moving/veer_left": {
+            "baseline": 0.7120259256047863,
+            "candidate": 0.7462672331570277,
+            "delta": 0.03424130755224142
+          },
+          "moving/veer_right": {
+            "baseline": 0.7603497803311929,
+            "candidate": 0.7763634251436297,
+            "delta": 0.016013644812436723
+          }
+        },
+        "primary_delta": 0.02512747618233907,
+        "primary_baseline": 0.7361878529679896,
+        "primary_candidate": 0.7613153291503287,
+        "worlds": {
+          "classic": {
+            "baseline": 0.8096783317967065,
+            "candidate": 0.8541619463968253,
+            "delta": 0.04448361460011885
+          },
+          "dense": {
+            "baseline": 0.8860897240398021,
+            "candidate": 0.9040282970353578,
+            "delta": 0.01793857299555568
+          },
+          "moving": {
+            "baseline": 0.7031394721414187,
+            "candidate": 0.8296370313398277,
+            "delta": 0.126497559198409
+          },
+          "room": {
+            "baseline": 0.5599501255755595,
+            "candidate": 0.6795411940394579,
+            "delta": 0.11959106846389844
+          }
+        },
+        "forward": {
+          "classic": {
+            "baseline": 0.8141688542861899,
+            "candidate": 0.8941944173572738,
+            "delta": 0.08002556307108388
+          },
+          "dense": {
+            "baseline": 0.8940427645983644,
+            "candidate": 0.930446332820477,
+            "delta": 0.03640356822211255
+          },
+          "moving": {
+            "baseline": 0.6901145352793663,
+            "candidate": 0.8609221662023409,
+            "delta": 0.17080763092297457
+          }
+        },
+        "now": {
+          "baseline": 0.7491455323645587,
+          "candidate": 0.797850023096352,
+          "delta": 0.04870449073179328
+        },
+        "veer": {
+          "all": {
+            "baseline": 0.8366740905716407,
+            "candidate": 0.821826280623608,
+            "delta": -0.014847809948032697,
+            "frames": 1347,
+            "courses": 162
+          },
+          "classic": {
+            "baseline": 0.8132183908045977,
+            "candidate": 0.8247126436781609,
+            "delta": 0.011494252873563204,
+            "frames": 348,
+            "courses": 55
+          },
+          "dense": {
+            "baseline": 0.8682080924855491,
+            "candidate": 0.8763005780346821,
+            "delta": 0.008092485549133,
+            "frames": 865,
+            "courses": 91
+          },
+          "moving": {
+            "baseline": 0.6940298507462687,
+            "candidate": 0.4626865671641791,
+            "delta": -0.23134328358208955,
+            "frames": 134,
+            "courses": 16
+          }
+        },
+        "primary_bootstrap": {
+          "method": "paired_world_and_timing_stratified_whole_course_percentile",
+          "scope": "primary macro delta, conditional on this fixed checkpoint pair",
+          "n_boot": 2000,
+          "seed": 0,
+          "stratum_course_counts": [
+            210,
+            210
+          ],
+          "valid_bootstraps": 2000,
+          "undefined_bootstraps": 0,
+          "ci95": [
+            -0.012608195971268438,
+            0.06221093000422666
+          ]
+        },
+        "extra_guards": {
+          "dense/veer_left": {
+            "baseline": 0.8565484311050477,
+            "candidate": 0.7777108717128476,
+            "delta": -0.07883755939220016
+          },
+          "dense/veer_right": {
+            "baseline": 0.8130452546920438,
+            "candidate": 0.8214790235123252,
+            "delta": 0.008433768820281351
+          }
+        },
+        "stratified_guards": {
+          "moving/veer_left/approach": {
+            "baseline": 0.6568836151626863,
+            "candidate": 0.6829770395896778,
+            "delta": 0.026093424426991474
+          },
+          "moving/veer_left/immediate": {
+            "baseline": 0.7075944655434131,
+            "candidate": 0.7432927573993404,
+            "delta": 0.03569829185592732
+          },
+          "moving/veer_right/approach": {
+            "baseline": 0.6918928262748487,
+            "candidate": 0.7222126188418323,
+            "delta": 0.030319792566983583
+          },
+          "moving/veer_right/immediate": {
+            "baseline": 0.8025621011065706,
+            "candidate": 0.7938840167133477,
+            "delta": -0.008678084393222818
+          }
+        }
+      },
+      "baseline_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      },
+      "candidate_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      }
+    },
+    {
+      "seed": 2,
+      "readings": {
+        "primary_cells": {
+          "moving/veer_left": {
+            "baseline": 0.7722665394953612,
+            "candidate": 0.7325283967744732,
+            "delta": -0.03973814272088794
+          },
+          "moving/veer_right": {
+            "baseline": 0.7943509209192294,
+            "candidate": 0.7546579291990537,
+            "delta": -0.03969299172017571
+          }
+        },
+        "primary_delta": -0.03971556722053182,
+        "primary_baseline": 0.7833087302072953,
+        "primary_candidate": 0.7435931629867635,
+        "worlds": {
+          "classic": {
+            "baseline": 0.8576099001203044,
+            "candidate": 0.8525567248484223,
+            "delta": -0.005053175271882093
+          },
+          "dense": {
+            "baseline": 0.9155943159140485,
+            "candidate": 0.9126169224123662,
+            "delta": -0.002977393501682246
+          },
+          "moving": {
+            "baseline": 0.8213378186182022,
+            "candidate": 0.8071005333864089,
+            "delta": -0.01423728523179335
+          },
+          "room": {
+            "baseline": 0.6617416949215856,
+            "candidate": 0.6596835770661774,
+            "delta": -0.0020581178554082147
+          }
+        },
+        "forward": {
+          "classic": {
+            "baseline": 0.8903627118694414,
+            "candidate": 0.8882346407132649,
+            "delta": -0.0021280711561765253
+          },
+          "dense": {
+            "baseline": 0.9328571429586479,
+            "candidate": 0.9350113078111802,
+            "delta": 0.002154164852532392
+          },
+          "moving": {
+            "baseline": 0.8332651507461172,
+            "candidate": 0.8257540266639597,
+            "delta": -0.007511124082157483
+          }
+        },
+        "now": {
+          "baseline": 0.79516545546117,
+          "candidate": 0.7871739539396168,
+          "delta": -0.007991501521553257
+        },
+        "veer": {
+          "all": {
+            "baseline": 0.7149220489977728,
+            "candidate": 0.7899034892353378,
+            "delta": 0.07498144023756503,
+            "frames": 1347,
+            "courses": 162
+          },
+          "classic": {
+            "baseline": 0.6810344827586207,
+            "candidate": 0.8505747126436781,
+            "delta": 0.16954022988505746,
+            "frames": 348,
+            "courses": 55
+          },
+          "dense": {
+            "baseline": 0.7549132947976879,
+            "candidate": 0.8138728323699422,
+            "delta": 0.05895953757225436,
+            "frames": 865,
+            "courses": 91
+          },
+          "moving": {
+            "baseline": 0.5447761194029851,
+            "candidate": 0.47761194029850745,
+            "delta": -0.06716417910447764,
+            "frames": 134,
+            "courses": 16
+          }
+        },
+        "primary_bootstrap": {
+          "method": "paired_world_and_timing_stratified_whole_course_percentile",
+          "scope": "primary macro delta, conditional on this fixed checkpoint pair",
+          "n_boot": 2000,
+          "seed": 0,
+          "stratum_course_counts": [
+            210,
+            210
+          ],
+          "valid_bootstraps": 2000,
+          "undefined_bootstraps": 0,
+          "ci95": [
+            -0.07227681236953501,
+            -0.008291391053356571
+          ]
+        },
+        "extra_guards": {
+          "dense/veer_left": {
+            "baseline": 0.8622665474902385,
+            "candidate": 0.8128051935832902,
+            "delta": -0.04946135390694828
+          },
+          "dense/veer_right": {
+            "baseline": 0.8138566234488052,
+            "candidate": 0.8370596194754968,
+            "delta": 0.023202996026691625
+          }
+        },
+        "stratified_guards": {
+          "moving/veer_left/approach": {
+            "baseline": 0.715664569642571,
+            "candidate": 0.6484612918736977,
+            "delta": -0.06720327776887325
+          },
+          "moving/veer_left/immediate": {
+            "baseline": 0.7736142048726017,
+            "candidate": 0.75037076671649,
+            "delta": -0.02324343815611174
+          },
+          "moving/veer_right/approach": {
+            "baseline": 0.7468694900605013,
+            "candidate": 0.7325289541918756,
+            "delta": -0.014340535868625714
+          },
+          "moving/veer_right/immediate": {
+            "baseline": 0.8136094402865145,
+            "candidate": 0.7559239022299769,
+            "delta": -0.057685538056537644
+          }
+        }
+      },
+      "baseline_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      },
+      "candidate_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      }
+    }
+  ]
+}

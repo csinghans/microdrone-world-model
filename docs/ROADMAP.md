@@ -21,21 +21,19 @@ research plan (advisory — it moves no bars): [REVIEW-2026-07.md](REVIEW-2026-0
 
 Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
-## Registered study in progress
-
-[moving_timing_v1](../experiments/moving_timing_v1/definition.md) isolates the
-timing change to moving-world development rows, leaving classic/dense/room
-data fixed. A new independent exam must meet all frozen support floors
-before six fresh fits run. The moving left/right primary has pooled dense
-action guards and moving guards within both exam timing blocks. This tests
-a domain-specific recipe; the earlier all-world timing NO-GO remains closed.
-Rendering, exact source pairing and every registered training/exam support
-floor have passed. The new 1,440-course exam is frozen and six fits are running.
-No performance result or model promotion yet. Current receipts and resume
-instructions are linked in [research state](RESEARCH-STATUS.md).
-
 ## Recently closed
 
+- **moving_timing_v1: moving-only timing recipe NO-GO.** All 22 stages,
+  six fresh fits and six scores completed after support passed on a new
+  1,440-course exam. Primary moving left/right AUC deltas are
+  +0.0450 / +0.0251 / −0.0397, mean +0.0101 against +0.03. Moving geometric
+  ranking breaks its −0.05 guard in all seeds; dense-left breaks −0.02 in
+  seeds 1/2 despite identical nonmoving training arrays. Pooled-world,
+  forward, now and pooled-ranking guards pass, but cannot cancel the local
+  failures. All 22 stages and numeric results were verified; the analytic
+  137.29 KB / estimated 7.71 ms bill and all champions remain unchanged.
+  No flight gate or replacement draw follows.
+  [Complete report](../experiments/moving_timing_v1/summary.md).
 - **schedule_layout_v1: role coverage repaired, learning recipe NO-GO.**
   Three paired training seeds on a common 186-course exam give moving AUC
   deltas +0.0133 / −0.0745 / −0.1042 (mean −0.0551; required +0.0300).

@@ -74,3 +74,48 @@ internal validation. `launch.json` records the launch, and
 support evidence. Recheck live processes before any resume; do not launch a
 duplicate or repeat a stage with an orphan output directory. No performance
 verdict, flight claim or promotion has been made at this checkpoint.
+
+## 2026-09-28 (Asia/Taipei) — closed NO-GO
+
+The background queue finished at 2026-09-27 15:54:18 UTC, after all 22
+registered stages completed on their first measurement attempt with actual
+exit 0. The six fits and six CPU scorings used the frozen instrument and
+inputs throughout. The outer queue records EXIT=0 and `moving-timing-DONE`.
+No worker remains active. After the assistant's quota pause, ordinary usage
+was available at the 18:42 UTC wakeup; no reset credit was redeemed.
+
+The first complete `--verify` invocation exited 0. It verified all original
+stage exits, complete-log/output hashes, protected artifacts and source/input/
+runtime identity, and exactly reproduced every support file and final score
+reading, including the registered bootstrap. It performed no new fit or
+model inference. All nine protected artifact hashes still match the lock.
+
+The moving left/right primary deltas at seeds 0/1/2 are
++0.044979342370162656 / +0.02512747618233907 / −0.03971556722053182;
+mean +0.010130417110656634 misses +0.03, and seed 2 fails positivity.
+Moving geometric veer deltas are −0.29850746268656714 /
+−0.23134328358208955 / −0.06716417910447764: all fail the −0.05 guard.
+Dense-left action deltas at seeds 1/2 are −0.07883755939220016 /
+−0.04946135390694828 despite identical dense training arrays. Dense-right
+guards pass in every seed; this does not cancel the other failures.
+
+Thirteen of 67 decision checks fail. Besides the primary and moving-ranking
+failures, classic ranking fails seed 0; both pooled moving actions and three
+of four moving timing-block cells fail seed 2. All pooled-world, forward,
+danger-now and pooled geometric-ranking guards pass. The latter would hide
+the moving ranking loss without per-world guards. No uncertainty interval
+changes these point-estimate gates: all three fixed pairs have 2,000 valid
+course-bootstrap replicates and zero undefined replicates.
+
+Every architecture bill is 137.290039 KB analytic int8, 3,856,768 MACs per
+decision and 7.713536 ms at the assumed 0.5 GMAC/s. Hardware timing,
+quantization parity and flight behavior were not evaluated. Full point
+estimates and every guard are in `report.json` and `summary.md`; original
+process outcomes are copied to `process_exits/` and bound by `verification.json`.
+
+This closes the moving-only recipe without a flight gate, recheck, changed
+bar, additional seed/course, champion replacement or release. The old
+all-world study used another exam and independent model draws, so the two
+studies do not form a direct three-arm ablation. The consistent moving
+ranking loss is a measured target for a separately declared diagnostic;
+its training cause is not established and no further fit is released here.

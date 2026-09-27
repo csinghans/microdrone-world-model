@@ -1,0 +1,179 @@
+{
+  "archive_verification": {
+    "command": "PYTHON=/Users/hans.chen/.cache/microdrone-research-venv/bin/python bash experiments/moving_timing_v1/verify.sh",
+    "exit_code": 0,
+    "elapsed_seconds": 15.307605028152466,
+    "log": "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/archive_verify.log",
+    "sha256": "44ea24a8e746e1a5be278507453461f640a9892ce669d5100bb426047987ebfe"
+  },
+  "stage_exit_codes": {
+    "vision": 0,
+    "paired_sources": 0,
+    "approach_train": 0,
+    "moving_immediate_train": 0,
+    "exam_approach": 0,
+    "exam_immediate": 0,
+    "indoor_exam": 0,
+    "holdout": 0,
+    "preflight": 0,
+    "train_approach_0": 0,
+    "train_moving_immediate_0": 0,
+    "train_moving_immediate_1": 0,
+    "train_approach_1": 0,
+    "train_approach_2": 0,
+    "train_moving_immediate_2": 0,
+    "score_approach_0": 0,
+    "score_moving_immediate_0": 0,
+    "score_approach_1": 0,
+    "score_moving_immediate_1": 0,
+    "score_approach_2": 0,
+    "score_moving_immediate_2": 0,
+    "report": 0
+  },
+  "queue_exit_code": 0,
+  "queue_done_marker": "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/DONE",
+  "queue_log": {
+    "path": "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/run.log",
+    "sha256": "a903a4de72c59833e8ce37d2d01767a0a859e79523637c6bbb50eba653d263ad"
+  },
+  "recomputed_support_and_metrics": {
+    "exit_code": 0,
+    "elapsed_seconds": 15.166946649551392,
+    "log_sha256": "85d841ddcbbc021faecafdf61addd46e1af18019b7d8bdb8e65e4db304e8573d",
+    "command": [
+      "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+      "-u",
+      "-m",
+      "scripts.moving_timing_study",
+      "--verify"
+    ],
+    "log": "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/verify.log",
+    "exact_numeric_parity": true,
+    "new_fits_or_inference": false
+  },
+  "closure_checks": [
+    {
+      "command": [
+        "bash",
+        "-n",
+        "/Users/hans.chen/microdrone-world-model/experiments/moving_timing_v1/run.sh",
+        "/Users/hans.chen/microdrone-world-model/experiments/moving_timing_v1/verify.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.0034532546997070312,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/moving_timing_v1_closure/00.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/black",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.16936492919921875,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/moving_timing_v1_closure/01.log",
+      "sha256": "258f74fbc75d0791c86d29867ac74f8fc0740290b52c612f97cdd6d6cd893e82"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/ruff",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.042328834533691406,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/moving_timing_v1_closure/02.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.01336216926574707,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/moving_timing_v1_closure/03.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "protected": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "files": {
+    "experiments/moving_timing_v1/definition.md": "f8f7424c0a6769e1bd35c84431163aa025b82f149520b00a8ddf91fa9843ffd8",
+    "experiments/moving_timing_v1/instrument_verification.json": "ec32f34a6f4de3b8719a7d4b89035d2195e3487e036acee58b73818eb849babe",
+    "experiments/moving_timing_v1/journal.md": "3c9969037dc58c2cf82bfd2a438ec71645ef15f4d75550875c5e0f228a094ea8",
+    "experiments/moving_timing_v1/launch.json": "4c6a252c7fdd637fb3ad551d4eb27f7aa63a549a46a97e97cd30b4f305aa2ed4",
+    "experiments/moving_timing_v1/manifest.json": "652b2b102b24a42c6c2649b298efd657d9b5173aab747ef9e7aa07dffb8f1c14",
+    "experiments/moving_timing_v1/preflight.json": "93cd327669aa9fbaaadbf40c35a6f2afea05c61e5ebd624ad65bd2d61f286034",
+    "experiments/moving_timing_v1/preflight.md": "7c2d6e78d2cf997d943efc4438714a3f906960c204e4e77d38d61838bfccc52a",
+    "experiments/moving_timing_v1/preflight_verification.json": "53576aec8e50e7bf078b00eec2bbe49e5a8e5c18eeec5065fecac67901784266",
+    "experiments/moving_timing_v1/prelaunch_verification.json": "9c7f2ab94437494e73ebff177bbd2c3ed35353d12c931e552910947ccf922e88",
+    "experiments/moving_timing_v1/process_exits/approach_train.json": "417f04b8be5ff92147b1984017342372806b8f4edfe9cbecd201dd8b654ee5c5",
+    "experiments/moving_timing_v1/process_exits/exam_approach.json": "6b1a2af59b0e4fb7c531ff18ef8a55f11be377ec3cd0649122b17866710a832a",
+    "experiments/moving_timing_v1/process_exits/exam_immediate.json": "39b795a7f2a5558d3e9b0a3aaa51a441975dc2772ff176b1a636da5abada1c68",
+    "experiments/moving_timing_v1/process_exits/holdout.json": "a3951586682d1a92e618cd8ce4f4bdbbd5c9534560c832728eb5a7cce2e367ce",
+    "experiments/moving_timing_v1/process_exits/indoor_exam.json": "6b7e8773dd9f3ce26eb685bdca4783df2b467dfc80f392fc0f6c394c4d82f970",
+    "experiments/moving_timing_v1/process_exits/moving_immediate_train.json": "844454c5984018e4b5ae18139e2dd7a8d4503f8ec436ca7f0d79b2728da8c3db",
+    "experiments/moving_timing_v1/process_exits/paired_sources.json": "bac0b5720fa5bcfdaedbf5b04093a568a2bd4276a15611a8e25584ae21557116",
+    "experiments/moving_timing_v1/process_exits/preflight.json": "789a9abe5f62872e5a6fe00a4ce08012cdb4bcc7e0160837e081ae8f220cde1a",
+    "experiments/moving_timing_v1/process_exits/report.json": "bf665ad2ce215c2fb4d1bf98dfa478070e0028a7fcfe3fbdb084faa223618fd2",
+    "experiments/moving_timing_v1/process_exits/score_approach_0.json": "de88dcba22737675f95387dbbeed68d13a92e5dd266d0f73eaac1a7a530beddb",
+    "experiments/moving_timing_v1/process_exits/score_approach_1.json": "036fb0a25f528c1d99ecadf488dc3dd324c579b1ad6c19c69aa64f975f284f2b",
+    "experiments/moving_timing_v1/process_exits/score_approach_2.json": "78c1dda41b35c61e144ff1a1b92b746d79a3dcb2e697dff299874a8dd310af65",
+    "experiments/moving_timing_v1/process_exits/score_moving_immediate_0.json": "678763ebd5fc2137ba77e65929c6cb8664e8a1321138e57c4939d734ade0698b",
+    "experiments/moving_timing_v1/process_exits/score_moving_immediate_1.json": "ac53eca498d5bc97191c3dc8b18e3c031e956cc26f29a1db0d5f8eaf92a9fb57",
+    "experiments/moving_timing_v1/process_exits/score_moving_immediate_2.json": "89c921eb2da7282b703304182538419009809ad65191ed2c38c44b87de835b0e",
+    "experiments/moving_timing_v1/process_exits/train_approach_0.json": "84c051bbd2a2163bcac22d7d8006a6eda1e9824ffbe686611d115b70bea45444",
+    "experiments/moving_timing_v1/process_exits/train_approach_1.json": "5d03490dedf9159ef592fc4f7d952bbfcb57d81e96776f334a096fdd4bf1452b",
+    "experiments/moving_timing_v1/process_exits/train_approach_2.json": "d3ec0b81956676df1935ae69ecbdae1e88297b50fb5ec612554b7023cf7edcfd",
+    "experiments/moving_timing_v1/process_exits/train_moving_immediate_0.json": "8238b9fc88ee919749d82990b7d9b0007abd89e84aa68df75d7a6725cf2bac3e",
+    "experiments/moving_timing_v1/process_exits/train_moving_immediate_1.json": "95cde24e101cbce4cb764633704173ede1dda8921a7eeefbc27e2471244826d5",
+    "experiments/moving_timing_v1/process_exits/train_moving_immediate_2.json": "75abea6a64f70f313160d82b2ff32b4e6a3e43597ce61c955c780856175be204",
+    "experiments/moving_timing_v1/process_exits/vision.json": "a39c21a0ff2f573e135d842c30605d6d6eafa1d324b57c04a137ac0c8f4e75b1",
+    "experiments/moving_timing_v1/records/approach_train.json": "ea1698395f1ecf0b7bdf87ab03fda2aa5476c4b37d13cd166ee86fa8b722611b",
+    "experiments/moving_timing_v1/records/exam_approach.json": "5301cd5de2ae14f491ec54eefcbd3eba6738bb8578b4e58435b5c357a1a415c7",
+    "experiments/moving_timing_v1/records/exam_immediate.json": "8fa6b9e8795cd5855532f87b083b7679dc53087ba549139b407f25f46cd9bf0b",
+    "experiments/moving_timing_v1/records/holdout.json": "084a4bb7023aac70b5980038ea6733e45d12b4ef8e696ca85186b2be5ffd566f",
+    "experiments/moving_timing_v1/records/indoor_exam.json": "94cfd797211b2fe372a8b29b7acee6c55830cf7b0a8d69e8a1850f7134236e90",
+    "experiments/moving_timing_v1/records/moving_immediate_train.json": "0dbb8f381d0b96fc9723a267249e1357637ecb7dc8e29561288d5070de365dc4",
+    "experiments/moving_timing_v1/records/paired_sources.json": "f083e27f38e6d1136827a45efb86e05f941d0249ba3007d5f2ca765e33f14f65",
+    "experiments/moving_timing_v1/records/preflight.json": "f1083e888b49676108da7daf718eae3fc0fb0682ab83e831990f83c1c635e8df",
+    "experiments/moving_timing_v1/records/report.json": "6e9c3e956816d436aed3d14e5ff7ce964770206bc0d83825e9dbcc635e6474c0",
+    "experiments/moving_timing_v1/records/score_approach_0.json": "cc7114220895511aaa0c25483041cdcdebd979d5347a4b25a15fe19f6e55135b",
+    "experiments/moving_timing_v1/records/score_approach_1.json": "e8cb420f5fd835dbf80a702a590e312fde135afde78a6cf198614bd73324a80e",
+    "experiments/moving_timing_v1/records/score_approach_2.json": "02424e3b58d9fc499b0f74326cbe113accd874da64bdc2d3a85c79e36ac29246",
+    "experiments/moving_timing_v1/records/score_moving_immediate_0.json": "fcda190c040f43abc3108a91f421d031f5bca9b8923ff75ed17470798b716888",
+    "experiments/moving_timing_v1/records/score_moving_immediate_1.json": "be7d6caef530b8a13cfe0081801160eadcf9c987e50613500a1a5661a69c3748",
+    "experiments/moving_timing_v1/records/score_moving_immediate_2.json": "b5f2eae67be614620de27094f11d29eb7a686bdd72a65e5d5592c9777d8d77c7",
+    "experiments/moving_timing_v1/records/train_approach_0.json": "eeaf41e621b018fab7335f3f85fedab88fbf03391c952b64d008b2929b64fc14",
+    "experiments/moving_timing_v1/records/train_approach_1.json": "3109fb2ef1a86c1c3318b4b2a7e639470b25c4a2ec2227bd577a6b38dfcc41c7",
+    "experiments/moving_timing_v1/records/train_approach_2.json": "090857f1663eb636c5fc6de163d5894dae48c508f04735350722cd553daee67b",
+    "experiments/moving_timing_v1/records/train_moving_immediate_0.json": "a3d4785bad8a9aee9844fd0b3ed5fa4ebe7468ae7c88fa991c2f6ade9ab09d47",
+    "experiments/moving_timing_v1/records/train_moving_immediate_1.json": "0b2b39c061c5bf86dad1bb5ae16ecf769ed22a8b43cfd5fb40695133b379d31e",
+    "experiments/moving_timing_v1/records/train_moving_immediate_2.json": "f64ea70682ebb18c5098b0d1987b814447f6769b436b81de85d5f0fc19febb18",
+    "experiments/moving_timing_v1/records/vision.json": "f165d1678a90d254819c92fb69226c4c41d1ace233d70bee922ad4ca24f89d5a",
+    "experiments/moving_timing_v1/registration.json": "e16f9c6ff924fadd6ebe9d9fa621c1b59f8eb8bb486006e3208c1f391ccb28e4",
+    "experiments/moving_timing_v1/report.json": "b02f646d51d09ec5f593009e841fabdc96f69a9d5dbc2bae366d48fb2c71b5e1",
+    "experiments/moving_timing_v1/run.sh": "c9717a8d26a5b648643d3c9337db7d0b60440305841f8054f04d078ad514a4ca",
+    "experiments/moving_timing_v1/summary.md": "de6d776fc4e6aef0c749c30efba62d48b42185776c636e0b20402059e2e42c9c",
+    "experiments/moving_timing_v1/support/approach_support.json": "69f78fb9c2dcf6036ab5142d9a62e1ef23b9c8ee3fbdc3d27e0520f7a972fe3c",
+    "experiments/moving_timing_v1/support/holdout_support.json": "cf412d56eeb9f9e33f3c82a12035178fa483a4f6585638a2c526ca7bf2c3f080",
+    "experiments/moving_timing_v1/support/moving_immediate_support.json": "0249da656b8a9ce1184c87d39a5fe88c9e12770f1ef4e034a8480186c8b0e882",
+    "experiments/moving_timing_v1/support/now_support.json": "9357bfb8e354cc410b04b5f6a3af15207527b8cf9beffe1e15684d22b846aa1c",
+    "experiments/moving_timing_v1/support/report.json": "93cd327669aa9fbaaadbf40c35a6f2afea05c61e5ebd624ad65bd2d61f286034",
+    "experiments/moving_timing_v1/support/stratified_support.json": "123af00a701468fec40b19025f347d59bfce52b6db8121a9a429b7bb018fe8da",
+    "experiments/moving_timing_v1/support/veer_support.json": "bfbb546ae1f6b5830afbf70a9371e94fe0c3227141ca899b73c08e17398a66f7",
+    "experiments/moving_timing_v1/verify.sh": "045615ad4de7a32203f03c5ff48a735f30b04a70c6651216a1971a3a3ba21a4c"
+  }
+}
