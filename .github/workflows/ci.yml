@@ -82,6 +82,7 @@ jobs:
           python -m scripts.intervention_timing_study --selftest
           python -m experiments.timing_mixture_audit_v1.audit --selftest
           python -m experiments.executed_cf_agreement_v1.audit --selftest
+          python -m experiments.cf_score_attribution_v1.audit --selftest
           python -m experiments.early_intervention_split_v1.audit --selftest
           python -m eval.eval_support_requirements --selftest
           python -m scripts.support_publication_selftest
