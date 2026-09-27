@@ -111,6 +111,12 @@ its mean +0.0221 misses +0.03. Dense right-veer breaks its action guard in
 all three seeds; all forward/world/now/geometric-ranking guards pass.
 This is another closed **NO-GO**, with a specific dense-right failure to
 diagnose before registering another training intervention.
+The [timing-mixture diagnostic](../experiments/timing_mixture_audit_v1/summary.md)
+finds this dense-right loss within the supported immediate exam block in
+all seeds. It also exposes a pooled moving-right gain at seed 0 despite
+declines in both timing blocks. These are fixed-score, exploratory findings;
+they narrow the next diagnostic without establishing a training mechanism
+or releasing another fit.
 
 Other closed research arcs:
 

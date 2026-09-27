@@ -10,7 +10,7 @@ improves in all seeds but misses the mean bar; dense right-veer breaks its
 action guard in every seed. Other guards pass. No worker remains active at
 this closure, and no candidate is promoted.
 
-This is a living continuation index, continued from `ecb5796`. Original
+This is a living continuation index, continued from `96a5544`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -89,6 +89,15 @@ hardware timing, quantization-parity or flight certification for these fits.
   validation veer-probe courses 1/0/0, despite candidate full-corpus support
   of 71 frames / 5 courses. No seed was selected and no new data or fit ran.
   This diagnostic is insufficient; the whole-corpus pilot remains sufficient.
+- [timing_mixture_audit_v1](../experiments/timing_mixture_audit_v1/summary.md):
+  exploratory accounting after the timing model study closed. Dense-right
+  AUC still falls within the immediate exam block in every seed
+  (−0.0671/−0.0481/−0.0351), with 45 positive / 25 negative courses; both
+  within-block and cross-block contributions are negative. Dense approach
+  negatives remain sparse (left five courses, right four). Moving-right
+  seed 0 loses AUC in both blocks while its pooled AUC rises. All 12 original
+  action-cell deltas reconstruct, maximum error 1.25e-16. No new inference,
+  training, exam, interval or performance gate was introduced.
 
 The decomposition is accounting on a fixed exam, not a causal explanation
 or a steering certificate. Within-action comparisons still mix scenes and
@@ -104,10 +113,14 @@ geometric ranking in all three registered seeds, yet loses dense-right AUC
 by 0.0259–0.0526. Pooled dense AUC improves in seeds 0/1 while that action
 declines, illustrating why the explicit action guard matters. The cause
 is not established; timing also changes windows, optimizer steps and CF/now
-exposures under fixed epochs. An exploratory diagnostic on fixed saved scores
-and development metadata can separate candidate explanations before another
-training registration. It must not alter this closed verdict or add a new
-performance endpoint retroactively.
+exposures under fixed epochs. The timing-mixture diagnostic locates dense-right
+loss inside the sufficiently supported immediate exam block, so cross-block
+ranking alone does not account for it. Moving-left gains remain positive
+inside both blocks in every seed, while moving-right's pooled gains do not
+imply within-block gains for seed 0. Next declare a bounded diagnostic of
+executed-action labels versus the geometric ranking probe before another
+training registration. Do not alter the closed verdict or retrospectively
+add a performance gate.
 
 The current internal validation partitions remain an incomplete
 action-specific/per-world veer exam; they were not used for model selection.
@@ -118,8 +131,12 @@ The completed timing study used 276 development courses per arm and a
 separate 1,440-course exam. All registered support checks passed, including
 100 windows and ten courses per class in each required AUC cell. Its
 geometric probe has 1,404 frames / 173 courses, including 177 / 19 in moving.
-All 23 stages, raw-score metrics, support counts and bootstrap results are
-recomputed/verified by its [evidence script](../experiments/intervention_timing_v1/verify.sh).
+At closure, all 23 stages, raw-score metrics, support counts and bootstrap
+results were recomputed/verified by its [evidence script](../experiments/intervention_timing_v1/verify.sh).
+That strict verifier freezes the complete tracked-Python inventory; the
+new additive timing-mixture module changes that inventory. The diagnostic
+verifies every original saved source/input hash and reconstructs all original
+primary-cell readings without editing the old manifest or results.
 Do not add seeds/courses or retry a failed performance guard. Any new model
 study needs its own registration and independent exam. The following
 discipline continues to apply:

@@ -1,0 +1,49 @@
+{
+  "registration_commit": "1b2d906",
+  "instrument_commit": "96a5544",
+  "status": "completed exploratory diagnostic",
+  "original_verdict": "NO-GO",
+  "execution": {
+    "run": {
+      "exit_code": 0,
+      "log": "output/timing_mixture_audit_v1/run.log",
+      "sha256": "2ad7e8ed03469b28f4a6d78f26e2d0e464e304aa495ed46461ab04598ef12f56"
+    },
+    "verify": {
+      "exit_code": 0,
+      "log": "output/timing_mixture_audit_v1/verify.log",
+      "sha256": "2ad7e8ed03469b28f4a6d78f26e2d0e464e304aa495ed46461ab04598ef12f56"
+    }
+  },
+  "exact_rerun": true,
+  "all_original_saved_source_hashes_unchanged": true,
+  "original_inventory_difference": {
+    "added": [
+      "/Users/hans.chen/microdrone-world-model/experiments/timing_mixture_audit_v1/audit.py"
+    ],
+    "removed": [],
+    "changed": []
+  },
+  "protected": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "files": {
+    "experiments/timing_mixture_audit_v1/audit.py": "85662f311e3636be1eed70dfb2eede0a36fa0db2edae63316f60fc70201b7fb3",
+    "experiments/timing_mixture_audit_v1/definition.md": "466ebb4a5935213071437ee27a5de171ac722b50c883951638c28905aecb24de",
+    "experiments/timing_mixture_audit_v1/journal.md": "5d428dc37a8d6207d0f81955dbe4c7ff9af22b3e025ba08791835393cab3ff63",
+    "experiments/timing_mixture_audit_v1/manifest.json": "1ade8175361ebe603676f650df2e9991281e2ddd37773f164bc4a3af7f1030e6",
+    "experiments/timing_mixture_audit_v1/preflight_checks.json": "6df86bd5b0792418dd31234966bcb806bc1adf3b4aa779295c3d05b50871e391",
+    "experiments/timing_mixture_audit_v1/registration.json": "194df9f016f2383d760772d2ccd0de93b84136e1da00853c36e05f63e0c36391",
+    "experiments/timing_mixture_audit_v1/report.json": "fdec4e2f342ebac25616049a254da5d5d12445f1a1a073e1e424908c94f8b651",
+    "experiments/timing_mixture_audit_v1/run.sh": "6d0dc3cd397060f544cf464d2012459671dfdb43f8491f84820614b800a78df3",
+    "experiments/timing_mixture_audit_v1/summary.md": "510d8f15cdfa9d8d4b572dc1a78838a66647eeea63b42553e09d8beaee467633"
+  }
+}

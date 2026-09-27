@@ -68,6 +68,10 @@ six fixed-epoch fits. Its action-specific macro gains +0.0221 on average,
 below the +0.03 bar, while dense right-veer breaks its guard in every seed.
 It closes **NO-GO** despite improving geometric turn ranking; approach
 timing and all champions remain unchanged.
+An [exploratory timing-mixture audit](experiments/timing_mixture_audit_v1/summary.md)
+locates dense-right loss inside the immediate exam block in all three seeds.
+It also finds that moving-right seed 0 improves pooled AUC while losing AUC
+inside both timing blocks; pooled gains do not imply gains in every condition.
 
 ## Why this exists
 
