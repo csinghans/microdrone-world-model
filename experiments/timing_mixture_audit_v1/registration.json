@@ -1,0 +1,98 @@
+{
+  "name": "timing_mixture_audit_v1",
+  "version": 1,
+  "source_commit": "eea0b2b",
+  "scope": "Exploratory unblinded accounting on fixed saved scores; no new gate, fit, inference, draw or promotion.",
+  "source_folder": "experiments/intervention_timing_v1",
+  "data": "output/intervention_timing_v1/holdout/data.npz",
+  "arms": [
+    "approach",
+    "immediate"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "cells": [
+    [
+      "dense",
+      "veer_left"
+    ],
+    [
+      "dense",
+      "veer_right"
+    ],
+    [
+      "moving",
+      "veer_left"
+    ],
+    [
+      "moving",
+      "veer_right"
+    ]
+  ],
+  "horizon": 32,
+  "blocks": [
+    "approach",
+    "immediate"
+  ],
+  "transit_courses_per_block": 630,
+  "per_world_courses_per_block": 210,
+  "room_courses": 180,
+  "support_annotation": {
+    "positive": 100,
+    "negative": 100,
+    "positive_rollouts": 10,
+    "negative_rollouts": 10
+  },
+  "absolute_reconstruction_tolerance": 1e-12,
+  "models": {
+    "approach/0": {
+      "scores": "output/intervention_timing_v1/score_approach_0/scores.npz",
+      "receipt": "experiments/intervention_timing_v1/records/score_approach_0.json"
+    },
+    "immediate/0": {
+      "scores": "output/intervention_timing_v1/score_immediate_0/scores.npz",
+      "receipt": "experiments/intervention_timing_v1/records/score_immediate_0.json"
+    },
+    "approach/1": {
+      "scores": "output/intervention_timing_v1/score_approach_1/scores.npz",
+      "receipt": "experiments/intervention_timing_v1/records/score_approach_1.json"
+    },
+    "immediate/1": {
+      "scores": "output/intervention_timing_v1/score_immediate_1/scores.npz",
+      "receipt": "experiments/intervention_timing_v1/records/score_immediate_1.json"
+    },
+    "approach/2": {
+      "scores": "output/intervention_timing_v1/score_approach_2/scores.npz",
+      "receipt": "experiments/intervention_timing_v1/records/score_approach_2.json"
+    },
+    "immediate/2": {
+      "scores": "output/intervention_timing_v1/score_immediate_2/scores.npz",
+      "receipt": "experiments/intervention_timing_v1/records/score_immediate_2.json"
+    }
+  },
+  "inputs": {
+    "experiments/intervention_timing_v1/registration.json": "049c61003b3e5dee92d41332fcd7f889df17404c5e4c6cd8160980ca78ca3394",
+    "experiments/intervention_timing_v1/manifest.json": "1c1c06babe0095009089bb6858182fec24461b3364acc0a7db307d6e9475be35",
+    "experiments/intervention_timing_v1/report.json": "b8c7e591458ecc970336a2788098d44babd5ba8001b07c17efacd9f8ef0b9e9b",
+    "experiments/intervention_timing_v1/preflight.json": "28c8bc6f728da358222cbc357c2b8d75c7605d419eb0abe901bbd2e538fd58be",
+    "experiments/intervention_timing_v1/records/holdout.json": "a5e2ed09c387ac26e1fbcfe0e0a0e0191cb2e037e4faf148cfe65d0364cd89e6",
+    "experiments/intervention_timing_v1/records/report.json": "f32117f3d23427d99b8cef98e2bd10984e1c095df07a736634621ab4d88d84b4",
+    "experiments/intervention_timing_v1/records/preflight.json": "937fbebf55e9f31c55ea17c4cd7c81dcf036c9f7303575ed3354911e29ccf085",
+    "experiments/intervention_timing_v1/records/score_approach_0.json": "3dabc20132267636056213c8d9e46f133d5341a0bd62341363b0d28a53b3c127",
+    "output/intervention_timing_v1/score_approach_0/scores.npz": "e9d368b05038bb15623db7dbc30c2d1752006909489d63d739dae13b07547e22",
+    "experiments/intervention_timing_v1/records/score_immediate_0.json": "376e403b6a6c9b259400c94223edf78238a5a4a681bbf5786e3b45697f0e27f6",
+    "output/intervention_timing_v1/score_immediate_0/scores.npz": "3637a581276a9970bc48a904bb688a2917dcd2799cae8304f68b872eb7c0908b",
+    "experiments/intervention_timing_v1/records/score_approach_1.json": "b8b7a58039574f910a8e5eb2aa55eee1a8febbad35b3745382f2d24b02e41450",
+    "output/intervention_timing_v1/score_approach_1/scores.npz": "44738bff7174f4a3875013aa0cdaef2ed43a5a1a4fe04ba40df58a1fbfc6603b",
+    "experiments/intervention_timing_v1/records/score_immediate_1.json": "95658ae42d35482a27fcdc66a9454188a6b829d10af167eb8728e3f66fcfc0ef",
+    "output/intervention_timing_v1/score_immediate_1/scores.npz": "2cd852b9cbfabc9ca0dd05e83e20e148fbefd3f7684ff25b8aea3c211ccb5458",
+    "experiments/intervention_timing_v1/records/score_approach_2.json": "25ae6f534fd4b9033336d05adce22f998d88f5c23e2c943e9b00e104b4d9b9f0",
+    "output/intervention_timing_v1/score_approach_2/scores.npz": "2a1b249d08394198f785208c21562f4bc14b7dcb638c54a9658297880dec8d55",
+    "experiments/intervention_timing_v1/records/score_immediate_2.json": "7984d7e23ea9d492ce3c2c5db8e298c68bc30cc373432f5c78041315194a4d9b",
+    "output/intervention_timing_v1/score_immediate_2/scores.npz": "bcbb78da7c34ec4214d233bbf69576433d7c7c52f3afc78739e60d3bc582c9c8",
+    "output/intervention_timing_v1/holdout/data.npz": "941fdc13c53f65bf4798b2cff4585b566e99909e6414899ed57b0c2c66722c9f"
+  }
+}
