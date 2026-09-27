@@ -10,7 +10,7 @@ improves in all seeds but misses the mean bar; dense right-veer breaks its
 action guard in every seed. Other guards pass. No worker remains active at
 this closure, and no candidate is promoted.
 
-This is a living continuation index, continued from `96a5544`. Original
+This is a living continuation index, continued from `1c00412`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -98,6 +98,15 @@ hardware timing, quantization-parity or flight certification for these fits.
   seed 0 loses AUC in both blocks while its pooled AUC rises. All 12 original
   action-cell deltas reconstruct, maximum error 1.25e-16. No new inference,
   training, exam, interval or performance gate was introduced.
+- [executed_cf_agreement_v1](../experiments/executed_cf_agreement_v1/summary.md):
+  metadata-only follow-up verifies instantaneous geometric clearances and
+  compares executed versus CF warn@32 targets. Immediate-exam dense-right
+  has 84 answerable disagreements / 690 windows from ten courses, all flown
+  dangerous / CF safe. Candidate training has only 5/6/6 conflicts across
+  seeds, mostly the opposite direction; this is not an established cause
+  of its regression. CF truth matches every geometric-probe frame, while
+  primary executed-action windows share no frames with that forward-frame
+  probe. No predictions, new data or models were evaluated here.
 
 The decomposition is accounting on a fixed exam, not a causal explanation
 or a steering certificate. Within-action comparisons still mix scenes and
@@ -117,10 +126,12 @@ exposures under fixed epochs. The timing-mixture diagnostic locates dense-right
 loss inside the sufficiently supported immediate exam block, so cross-block
 ranking alone does not account for it. Moving-left gains remain positive
 inside both blocks in every seed, while moving-right's pooled gains do not
-imply within-block gains for seed 0. Next declare a bounded diagnostic of
-executed-action labels versus the geometric ranking probe before another
-training registration. Do not alter the closed verdict or retrospectively
-add a performance gate.
+imply within-block gains for seed 0. The executed/CF audit now identifies
+target disagreement and disjoint frame-selection domains, but its training
+counts/directions do not establish the model-regression mechanism. A next
+declared diagnostic can join saved scores to the fixed agreeing/conflicting/
+masked target categories before another training registration. Do not alter
+the closed verdict or retrospectively add a performance gate.
 
 The current internal validation partitions remain an incomplete
 action-specific/per-world veer exam; they were not used for model selection.
@@ -134,7 +145,7 @@ geometric probe has 1,404 frames / 173 courses, including 177 / 19 in moving.
 At closure, all 23 stages, raw-score metrics, support counts and bootstrap
 results were recomputed/verified by its [evidence script](../experiments/intervention_timing_v1/verify.sh).
 That strict verifier freezes the complete tracked-Python inventory; the
-new additive timing-mixture module changes that inventory. The diagnostic
+new additive diagnostic modules change that inventory. The timing audit
 verifies every original saved source/input hash and reconstructs all original
 primary-cell readings without editing the old manifest or results.
 Do not add seeds/courses or retry a failed performance guard. Any new model

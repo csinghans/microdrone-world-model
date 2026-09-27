@@ -1,0 +1,3287 @@
+{
+  "scope": "Exploratory metadata-only available-target agreement; no model, inference, generated data, bootstrap, new gate or promotion.",
+  "instrument": {
+    "approach": {
+      "classic": {
+        "courses": 60,
+        "frames": 9600,
+        "maximum_absolute_error_m": 3.632966354416567e-07,
+        "worst_pair": [
+          123,
+          149
+        ],
+        "within_tolerance": true
+      },
+      "dense": {
+        "courses": 60,
+        "frames": 9600,
+        "maximum_absolute_error_m": 3.5582588431282147e-07,
+        "worst_pair": [
+          169,
+          142
+        ],
+        "within_tolerance": true
+      },
+      "moving": {
+        "courses": 60,
+        "frames": 9600,
+        "maximum_absolute_error_m": 3.6953717863497104e-07,
+        "worst_pair": [
+          62,
+          136
+        ],
+        "within_tolerance": true
+      }
+    },
+    "immediate": {
+      "classic": {
+        "courses": 60,
+        "frames": 9600,
+        "maximum_absolute_error_m": 3.632966354416567e-07,
+        "worst_pair": [
+          123,
+          149
+        ],
+        "within_tolerance": true
+      },
+      "dense": {
+        "courses": 60,
+        "frames": 9600,
+        "maximum_absolute_error_m": 3.5582588431282147e-07,
+        "worst_pair": [
+          169,
+          142
+        ],
+        "within_tolerance": true
+      },
+      "moving": {
+        "courses": 60,
+        "frames": 9600,
+        "maximum_absolute_error_m": 3.6953717863497104e-07,
+        "worst_pair": [
+          62,
+          136
+        ],
+        "within_tolerance": true
+      }
+    },
+    "exam": {
+      "classic": {
+        "courses": 420,
+        "frames": 67200,
+        "maximum_absolute_error_m": 3.872905192103815e-07,
+        "worst_pair": [
+          456,
+          148
+        ],
+        "within_tolerance": true
+      },
+      "dense": {
+        "courses": 420,
+        "frames": 67200,
+        "maximum_absolute_error_m": 4.3074745859073005e-07,
+        "worst_pair": [
+          43,
+          149
+        ],
+        "within_tolerance": true
+      },
+      "moving": {
+        "courses": 420,
+        "frames": 67200,
+        "maximum_absolute_error_m": 3.935709478319893e-07,
+        "worst_pair": [
+          917,
+          158
+        ],
+        "within_tolerance": true
+      }
+    }
+  },
+  "inputs": {
+    "approach": {
+      "partitions": {
+        "train_seed0": {
+          "dense/veer_left": {
+            "answerable": {
+              "windows": 62,
+              "courses": 6,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 11,
+                  "courses": 2,
+                  "course_ids": [
+                    55,
+                    130
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    130
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 49,
+                  "courses": 5,
+                  "course_ids": [
+                    37,
+                    46,
+                    64,
+                    76,
+                    130
+                  ]
+                }
+              },
+              "disagreement_windows": 2,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.03225806451612903
+            },
+            "masked": {
+              "windows": 52,
+              "courses": 5,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 52,
+                  "courses": 5,
+                  "course_ids": [
+                    13,
+                    46,
+                    64,
+                    76,
+                    166
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "dense/veer_right": {
+            "answerable": {
+              "windows": 100,
+              "courses": 8,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 100,
+                  "courses": 8,
+                  "course_ids": [
+                    1,
+                    46,
+                    58,
+                    85,
+                    103,
+                    121,
+                    127,
+                    172
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 89,
+              "courses": 7,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 89,
+                  "courses": 7,
+                  "course_ids": [
+                    1,
+                    28,
+                    46,
+                    58,
+                    82,
+                    85,
+                    130
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_left": {
+            "answerable": {
+              "windows": 104,
+              "courses": 7,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 95,
+                  "courses": 6,
+                  "course_ids": [
+                    11,
+                    20,
+                    104,
+                    137,
+                    158,
+                    176
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 9,
+                  "courses": 1,
+                  "course_ids": [
+                    146
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 87,
+              "courses": 5,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 87,
+                  "courses": 5,
+                  "course_ids": [
+                    14,
+                    20,
+                    41,
+                    83,
+                    113
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_right": {
+            "answerable": {
+              "windows": 104,
+              "courses": 8,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 62,
+                  "courses": 5,
+                  "course_ids": [
+                    32,
+                    38,
+                    59,
+                    65,
+                    140
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 42,
+                  "courses": 3,
+                  "course_ids": [
+                    11,
+                    50,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 85,
+              "courses": 8,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 14,
+                  "courses": 1,
+                  "course_ids": [
+                    38
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 71,
+                  "courses": 7,
+                  "course_ids": [
+                    11,
+                    56,
+                    59,
+                    65,
+                    74,
+                    167,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 14,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.16470588235294117
+            }
+          }
+        },
+        "train_seed1": {
+          "dense/veer_left": {
+            "answerable": {
+              "windows": 51,
+              "courses": 4,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 11,
+                  "courses": 2,
+                  "course_ids": [
+                    55,
+                    130
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    130
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 38,
+                  "courses": 3,
+                  "course_ids": [
+                    37,
+                    64,
+                    130
+                  ]
+                }
+              },
+              "disagreement_windows": 2,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.0392156862745098
+            },
+            "masked": {
+              "windows": 48,
+              "courses": 4,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 48,
+                  "courses": 4,
+                  "course_ids": [
+                    4,
+                    13,
+                    64,
+                    166
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "dense/veer_right": {
+            "answerable": {
+              "windows": 124,
+              "courses": 8,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 12,
+                  "courses": 1,
+                  "course_ids": [
+                    73
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 112,
+                  "courses": 7,
+                  "course_ids": [
+                    1,
+                    58,
+                    85,
+                    91,
+                    103,
+                    121,
+                    172
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 60,
+              "courses": 5,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 60,
+                  "courses": 5,
+                  "course_ids": [
+                    1,
+                    58,
+                    82,
+                    85,
+                    130
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_left": {
+            "answerable": {
+              "windows": 126,
+              "courses": 8,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 126,
+                  "courses": 8,
+                  "course_ids": [
+                    11,
+                    20,
+                    77,
+                    110,
+                    122,
+                    149,
+                    158,
+                    176
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 51,
+              "courses": 5,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    122
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 49,
+                  "courses": 4,
+                  "course_ids": [
+                    20,
+                    41,
+                    77,
+                    83
+                  ]
+                }
+              },
+              "disagreement_windows": 2,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.0392156862745098
+            }
+          },
+          "moving/veer_right": {
+            "answerable": {
+              "windows": 98,
+              "courses": 7,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 56,
+                  "courses": 4,
+                  "course_ids": [
+                    32,
+                    38,
+                    59,
+                    140
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 42,
+                  "courses": 3,
+                  "course_ids": [
+                    11,
+                    50,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 99,
+              "courses": 8,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 15,
+                  "courses": 2,
+                  "course_ids": [
+                    38,
+                    149
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 84,
+                  "courses": 7,
+                  "course_ids": [
+                    11,
+                    56,
+                    59,
+                    74,
+                    149,
+                    167,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 15,
+              "disagreement_courses": 2,
+              "disagreement_rate": 0.15151515151515152
+            }
+          }
+        },
+        "train_seed2": {
+          "dense/veer_left": {
+            "answerable": {
+              "windows": 59,
+              "courses": 5,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 27,
+                  "courses": 3,
+                  "course_ids": [
+                    55,
+                    130,
+                    148
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 5,
+                  "courses": 2,
+                  "course_ids": [
+                    130,
+                    148
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 27,
+                  "courses": 3,
+                  "course_ids": [
+                    37,
+                    76,
+                    130
+                  ]
+                }
+              },
+              "disagreement_windows": 5,
+              "disagreement_courses": 2,
+              "disagreement_rate": 0.0847457627118644
+            },
+            "masked": {
+              "windows": 50,
+              "courses": 4,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 50,
+                  "courses": 4,
+                  "course_ids": [
+                    4,
+                    13,
+                    76,
+                    166
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "dense/veer_right": {
+            "answerable": {
+              "windows": 111,
+              "courses": 9,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 12,
+                  "courses": 1,
+                  "course_ids": [
+                    73
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 99,
+                  "courses": 8,
+                  "course_ids": [
+                    1,
+                    58,
+                    85,
+                    91,
+                    121,
+                    127,
+                    172,
+                    175
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 91,
+              "courses": 7,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 91,
+                  "courses": 7,
+                  "course_ids": [
+                    1,
+                    28,
+                    58,
+                    82,
+                    85,
+                    130,
+                    175
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_left": {
+            "answerable": {
+              "windows": 146,
+              "courses": 10,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 124,
+                  "courses": 8,
+                  "course_ids": [
+                    11,
+                    20,
+                    77,
+                    104,
+                    110,
+                    122,
+                    137,
+                    176
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 22,
+                  "courses": 2,
+                  "course_ids": [
+                    29,
+                    146
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 73,
+              "courses": 6,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    122
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 71,
+                  "courses": 5,
+                  "course_ids": [
+                    20,
+                    29,
+                    77,
+                    83,
+                    113
+                  ]
+                }
+              },
+              "disagreement_windows": 2,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.0273972602739726
+            }
+          },
+          "moving/veer_right": {
+            "answerable": {
+              "windows": 79,
+              "courses": 7,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 37,
+                  "courses": 4,
+                  "course_ids": [
+                    38,
+                    59,
+                    65,
+                    140
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 42,
+                  "courses": 3,
+                  "course_ids": [
+                    11,
+                    50,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 85,
+              "courses": 8,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 14,
+                  "courses": 1,
+                  "course_ids": [
+                    38
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 71,
+                  "courses": 7,
+                  "course_ids": [
+                    11,
+                    56,
+                    59,
+                    65,
+                    74,
+                    167,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 14,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.16470588235294117
+            }
+          }
+        }
+      },
+      "probe": {
+        "worlds": {
+          "classic": {
+            "frames": 84,
+            "courses": 14,
+            "cf_truth_mismatch_frames": 0,
+            "both_cf_answerable_frames": 84
+          },
+          "dense": {
+            "frames": 111,
+            "courses": 15,
+            "cf_truth_mismatch_frames": 0,
+            "both_cf_answerable_frames": 111
+          },
+          "moving": {
+            "frames": 20,
+            "courses": 2,
+            "cf_truth_mismatch_frames": 0,
+            "both_cf_answerable_frames": 20
+          }
+        },
+        "domain_intersection": {
+          "dense/veer_left": {
+            "executed_windows": 148,
+            "executed_courses": 10,
+            "shared_frames": 0,
+            "shared_courses": 4
+          },
+          "dense/veer_right": {
+            "executed_windows": 234,
+            "executed_courses": 14,
+            "shared_frames": 0,
+            "shared_courses": 2
+          },
+          "moving/veer_left": {
+            "executed_windows": 299,
+            "executed_courses": 16,
+            "shared_frames": 0,
+            "shared_courses": 0
+          },
+          "moving/veer_right": {
+            "executed_windows": 207,
+            "executed_courses": 12,
+            "shared_frames": 0,
+            "shared_courses": 1
+          }
+        }
+      }
+    },
+    "immediate": {
+      "partitions": {
+        "train_seed0": {
+          "dense/veer_left": {
+            "answerable": {
+              "windows": 94,
+              "courses": 7,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 66,
+                  "courses": 6,
+                  "course_ids": [
+                    13,
+                    37,
+                    46,
+                    55,
+                    76,
+                    130
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 9,
+                  "courses": 1,
+                  "course_ids": [
+                    46
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 19,
+                  "courses": 1,
+                  "course_ids": [
+                    64
+                  ]
+                }
+              },
+              "disagreement_windows": 9,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.09574468085106383
+            },
+            "masked": {
+              "windows": 50,
+              "courses": 4,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 50,
+                  "courses": 4,
+                  "course_ids": [
+                    46,
+                    76,
+                    100,
+                    166
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "dense/veer_right": {
+            "answerable": {
+              "windows": 183,
+              "courses": 10,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 127,
+                  "courses": 6,
+                  "course_ids": [
+                    1,
+                    85,
+                    103,
+                    121,
+                    127,
+                    172
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 5,
+                  "courses": 1,
+                  "course_ids": [
+                    172
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 51,
+                  "courses": 4,
+                  "course_ids": [
+                    28,
+                    46,
+                    82,
+                    145
+                  ]
+                }
+              },
+              "disagreement_windows": 5,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.0273224043715847
+            },
+            "masked": {
+              "windows": 48,
+              "courses": 5,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 48,
+                  "courses": 5,
+                  "course_ids": [
+                    46,
+                    58,
+                    64,
+                    103,
+                    130
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_left": {
+            "answerable": {
+              "windows": 169,
+              "courses": 11,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 141,
+                  "courses": 10,
+                  "course_ids": [
+                    41,
+                    59,
+                    83,
+                    92,
+                    104,
+                    113,
+                    137,
+                    146,
+                    158,
+                    176
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 17,
+                  "courses": 4,
+                  "course_ids": [
+                    11,
+                    41,
+                    92,
+                    113
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 11,
+                  "courses": 2,
+                  "course_ids": [
+                    11,
+                    83
+                  ]
+                }
+              },
+              "disagreement_windows": 17,
+              "disagreement_courses": 4,
+              "disagreement_rate": 0.10059171597633136
+            },
+            "masked": {
+              "windows": 50,
+              "courses": 3,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 50,
+                  "courses": 3,
+                  "course_ids": [
+                    14,
+                    20,
+                    113
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_right": {
+            "answerable": {
+              "windows": 188,
+              "courses": 11,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 171,
+                  "courses": 9,
+                  "course_ids": [
+                    11,
+                    32,
+                    38,
+                    50,
+                    59,
+                    65,
+                    74,
+                    140,
+                    167
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    50
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    173
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 13,
+                  "courses": 3,
+                  "course_ids": [
+                    50,
+                    113,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 4,
+              "disagreement_courses": 2,
+              "disagreement_rate": 0.02127659574468085
+            },
+            "masked": {
+              "windows": 44,
+              "courses": 4,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 44,
+                  "courses": 4,
+                  "course_ids": [
+                    56,
+                    113,
+                    119,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          }
+        },
+        "train_seed1": {
+          "dense/veer_left": {
+            "answerable": {
+              "windows": 82,
+              "courses": 6,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 48,
+                  "courses": 4,
+                  "course_ids": [
+                    13,
+                    37,
+                    55,
+                    130
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 34,
+                  "courses": 2,
+                  "course_ids": [
+                    4,
+                    64
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 33,
+              "courses": 2,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 33,
+                  "courses": 2,
+                  "course_ids": [
+                    100,
+                    166
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "dense/veer_right": {
+            "answerable": {
+              "windows": 159,
+              "courses": 8,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 126,
+                  "courses": 6,
+                  "course_ids": [
+                    1,
+                    85,
+                    91,
+                    103,
+                    121,
+                    172
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 5,
+                  "courses": 1,
+                  "course_ids": [
+                    172
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 1,
+                  "courses": 1,
+                  "course_ids": [
+                    91
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 27,
+                  "courses": 2,
+                  "course_ids": [
+                    82,
+                    145
+                  ]
+                }
+              },
+              "disagreement_windows": 6,
+              "disagreement_courses": 2,
+              "disagreement_rate": 0.03773584905660377
+            },
+            "masked": {
+              "windows": 59,
+              "courses": 6,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 59,
+                  "courses": 6,
+                  "course_ids": [
+                    58,
+                    64,
+                    73,
+                    94,
+                    103,
+                    130
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_left": {
+            "answerable": {
+              "windows": 160,
+              "courses": 10,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 134,
+                  "courses": 9,
+                  "course_ids": [
+                    41,
+                    59,
+                    83,
+                    92,
+                    110,
+                    122,
+                    149,
+                    158,
+                    176
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 15,
+                  "courses": 3,
+                  "course_ids": [
+                    11,
+                    41,
+                    92
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 11,
+                  "courses": 2,
+                  "course_ids": [
+                    11,
+                    83
+                  ]
+                }
+              },
+              "disagreement_windows": 15,
+              "disagreement_courses": 3,
+              "disagreement_rate": 0.09375
+            },
+            "masked": {
+              "windows": 45,
+              "courses": 2,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 1,
+                  "courses": 1,
+                  "course_ids": [
+                    77
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 44,
+                  "courses": 2,
+                  "course_ids": [
+                    20,
+                    77
+                  ]
+                }
+              },
+              "disagreement_windows": 1,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.022222222222222223
+            }
+          },
+          "moving/veer_right": {
+            "answerable": {
+              "windows": 211,
+              "courses": 11,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 188,
+                  "courses": 10,
+                  "course_ids": [
+                    11,
+                    32,
+                    38,
+                    50,
+                    59,
+                    74,
+                    95,
+                    140,
+                    149,
+                    167
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    50
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 4,
+                  "courses": 2,
+                  "course_ids": [
+                    149,
+                    173
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 17,
+                  "courses": 3,
+                  "course_ids": [
+                    50,
+                    149,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 6,
+              "disagreement_courses": 3,
+              "disagreement_rate": 0.02843601895734597
+            },
+            "masked": {
+              "windows": 26,
+              "courses": 3,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 26,
+                  "courses": 3,
+                  "course_ids": [
+                    56,
+                    119,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          }
+        },
+        "train_seed2": {
+          "dense/veer_left": {
+            "answerable": {
+              "windows": 96,
+              "courses": 7,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 81,
+                  "courses": 6,
+                  "course_ids": [
+                    13,
+                    37,
+                    55,
+                    76,
+                    130,
+                    148
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 15,
+                  "courses": 1,
+                  "course_ids": [
+                    4
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            },
+            "masked": {
+              "windows": 43,
+              "courses": 3,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 43,
+                  "courses": 3,
+                  "course_ids": [
+                    76,
+                    100,
+                    166
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "dense/veer_right": {
+            "answerable": {
+              "windows": 193,
+              "courses": 10,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 125,
+                  "courses": 6,
+                  "course_ids": [
+                    1,
+                    85,
+                    91,
+                    121,
+                    127,
+                    172
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 5,
+                  "courses": 1,
+                  "course_ids": [
+                    172
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 1,
+                  "courses": 1,
+                  "course_ids": [
+                    91
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 62,
+                  "courses": 4,
+                  "course_ids": [
+                    28,
+                    82,
+                    145,
+                    175
+                  ]
+                }
+              },
+              "disagreement_windows": 6,
+              "disagreement_courses": 2,
+              "disagreement_rate": 0.031088082901554404
+            },
+            "masked": {
+              "windows": 41,
+              "courses": 4,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 41,
+                  "courses": 4,
+                  "course_ids": [
+                    58,
+                    73,
+                    94,
+                    130
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_left": {
+            "answerable": {
+              "windows": 171,
+              "courses": 11,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 150,
+                  "courses": 10,
+                  "course_ids": [
+                    29,
+                    59,
+                    83,
+                    104,
+                    110,
+                    113,
+                    122,
+                    137,
+                    146,
+                    176
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 10,
+                  "courses": 2,
+                  "course_ids": [
+                    11,
+                    113
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 11,
+                  "courses": 2,
+                  "course_ids": [
+                    11,
+                    83
+                  ]
+                }
+              },
+              "disagreement_windows": 10,
+              "disagreement_courses": 2,
+              "disagreement_rate": 0.05847953216374269
+            },
+            "masked": {
+              "windows": 78,
+              "courses": 4,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 1,
+                  "courses": 1,
+                  "course_ids": [
+                    77
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 77,
+                  "courses": 4,
+                  "course_ids": [
+                    20,
+                    29,
+                    77,
+                    113
+                  ]
+                }
+              },
+              "disagreement_windows": 1,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.01282051282051282
+            }
+          },
+          "moving/veer_right": {
+            "answerable": {
+              "windows": 186,
+              "courses": 11,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 169,
+                  "courses": 9,
+                  "course_ids": [
+                    11,
+                    38,
+                    50,
+                    59,
+                    65,
+                    74,
+                    95,
+                    140,
+                    167
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    50
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    173
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 13,
+                  "courses": 3,
+                  "course_ids": [
+                    50,
+                    113,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 4,
+              "disagreement_courses": 2,
+              "disagreement_rate": 0.021505376344086023
+            },
+            "masked": {
+              "windows": 35,
+              "courses": 3,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 35,
+                  "courses": 3,
+                  "course_ids": [
+                    56,
+                    113,
+                    173
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          }
+        }
+      },
+      "probe": {
+        "worlds": {
+          "classic": {
+            "frames": 52,
+            "courses": 9,
+            "cf_truth_mismatch_frames": 0,
+            "both_cf_answerable_frames": 52
+          },
+          "dense": {
+            "frames": 70,
+            "courses": 9,
+            "cf_truth_mismatch_frames": 0,
+            "both_cf_answerable_frames": 70
+          },
+          "moving": {
+            "frames": 71,
+            "courses": 5,
+            "cf_truth_mismatch_frames": 0,
+            "both_cf_answerable_frames": 71
+          }
+        },
+        "domain_intersection": {
+          "dense/veer_left": {
+            "executed_windows": 178,
+            "executed_courses": 11,
+            "shared_frames": 0,
+            "shared_courses": 1
+          },
+          "dense/veer_right": {
+            "executed_windows": 284,
+            "executed_courses": 17,
+            "shared_frames": 0,
+            "shared_courses": 2
+          },
+          "moving/veer_left": {
+            "executed_windows": 346,
+            "executed_courses": 18,
+            "shared_frames": 0,
+            "shared_courses": 0
+          },
+          "moving/veer_right": {
+            "executed_windows": 281,
+            "executed_courses": 15,
+            "shared_frames": 0,
+            "shared_courses": 1
+          }
+        }
+      }
+    },
+    "exam": {
+      "partitions": {
+        "approach": {
+          "dense/veer_left": {
+            "answerable": {
+              "windows": 276,
+              "courses": 25,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 58,
+                  "courses": 5,
+                  "course_ids": [
+                    82,
+                    235,
+                    262,
+                    478,
+                    532
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 5,
+                  "courses": 1,
+                  "course_ids": [
+                    271
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 213,
+                  "courses": 21,
+                  "course_ids": [
+                    22,
+                    49,
+                    55,
+                    67,
+                    85,
+                    127,
+                    145,
+                    154,
+                    190,
+                    202,
+                    271,
+                    292,
+                    325,
+                    328,
+                    427,
+                    472,
+                    478,
+                    481,
+                    514,
+                    544,
+                    598
+                  ]
+                }
+              },
+              "disagreement_windows": 5,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.018115942028985508
+            },
+            "masked": {
+              "windows": 532,
+              "courses": 36,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 532,
+                  "courses": 36,
+                  "course_ids": [
+                    22,
+                    28,
+                    31,
+                    49,
+                    82,
+                    85,
+                    94,
+                    109,
+                    112,
+                    118,
+                    127,
+                    130,
+                    136,
+                    154,
+                    166,
+                    172,
+                    190,
+                    226,
+                    262,
+                    265,
+                    271,
+                    274,
+                    292,
+                    325,
+                    328,
+                    346,
+                    415,
+                    427,
+                    478,
+                    541,
+                    544,
+                    559,
+                    568,
+                    580,
+                    589,
+                    625
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "dense/veer_right": {
+            "answerable": {
+              "windows": 432,
+              "courses": 31,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 49,
+                  "courses": 4,
+                  "course_ids": [
+                    193,
+                    202,
+                    310,
+                    352
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 12,
+                  "courses": 1,
+                  "course_ids": [
+                    193
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 371,
+                  "courses": 29,
+                  "course_ids": [
+                    40,
+                    76,
+                    91,
+                    103,
+                    121,
+                    148,
+                    172,
+                    181,
+                    184,
+                    193,
+                    217,
+                    229,
+                    235,
+                    247,
+                    283,
+                    289,
+                    298,
+                    301,
+                    337,
+                    352,
+                    361,
+                    364,
+                    445,
+                    499,
+                    505,
+                    562,
+                    571,
+                    577,
+                    625
+                  ]
+                }
+              },
+              "disagreement_windows": 12,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.027777777777777776
+            },
+            "masked": {
+              "windows": 455,
+              "courses": 34,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 455,
+                  "courses": 34,
+                  "course_ids": [
+                    40,
+                    49,
+                    55,
+                    76,
+                    91,
+                    103,
+                    112,
+                    121,
+                    130,
+                    166,
+                    184,
+                    217,
+                    229,
+                    238,
+                    247,
+                    289,
+                    298,
+                    337,
+                    352,
+                    373,
+                    379,
+                    382,
+                    397,
+                    400,
+                    409,
+                    418,
+                    436,
+                    445,
+                    481,
+                    496,
+                    499,
+                    562,
+                    571,
+                    625
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_left": {
+            "answerable": {
+              "windows": 416,
+              "courses": 31,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 315,
+                  "courses": 23,
+                  "course_ids": [
+                    20,
+                    47,
+                    74,
+                    122,
+                    131,
+                    221,
+                    257,
+                    272,
+                    293,
+                    308,
+                    329,
+                    401,
+                    416,
+                    425,
+                    443,
+                    452,
+                    461,
+                    491,
+                    509,
+                    527,
+                    536,
+                    554,
+                    590
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 28,
+                  "courses": 7,
+                  "course_ids": [
+                    47,
+                    59,
+                    191,
+                    308,
+                    425,
+                    461,
+                    590
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 73,
+                  "courses": 8,
+                  "course_ids": [
+                    2,
+                    59,
+                    191,
+                    209,
+                    263,
+                    344,
+                    455,
+                    572
+                  ]
+                }
+              },
+              "disagreement_windows": 28,
+              "disagreement_courses": 7,
+              "disagreement_rate": 0.0673076923076923
+            },
+            "masked": {
+              "windows": 407,
+              "courses": 28,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 13,
+                  "courses": 2,
+                  "course_ids": [
+                    122,
+                    416
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 394,
+                  "courses": 28,
+                  "course_ids": [
+                    2,
+                    20,
+                    38,
+                    47,
+                    59,
+                    65,
+                    122,
+                    146,
+                    155,
+                    194,
+                    212,
+                    218,
+                    263,
+                    290,
+                    302,
+                    326,
+                    344,
+                    380,
+                    416,
+                    425,
+                    437,
+                    455,
+                    461,
+                    578,
+                    590,
+                    596,
+                    599,
+                    623
+                  ]
+                }
+              },
+              "disagreement_windows": 13,
+              "disagreement_courses": 2,
+              "disagreement_rate": 0.03194103194103194
+            }
+          },
+          "moving/veer_right": {
+            "answerable": {
+              "windows": 480,
+              "courses": 39,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 345,
+                  "courses": 31,
+                  "course_ids": [
+                    11,
+                    29,
+                    41,
+                    83,
+                    101,
+                    119,
+                    128,
+                    137,
+                    140,
+                    173,
+                    191,
+                    194,
+                    200,
+                    236,
+                    254,
+                    293,
+                    311,
+                    326,
+                    365,
+                    380,
+                    389,
+                    398,
+                    401,
+                    470,
+                    488,
+                    497,
+                    506,
+                    515,
+                    524,
+                    563,
+                    587
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 18,
+                  "courses": 3,
+                  "course_ids": [
+                    50,
+                    293,
+                    443
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 117,
+                  "courses": 9,
+                  "course_ids": [
+                    5,
+                    23,
+                    50,
+                    113,
+                    311,
+                    335,
+                    443,
+                    551,
+                    617
+                  ]
+                }
+              },
+              "disagreement_windows": 18,
+              "disagreement_courses": 3,
+              "disagreement_rate": 0.0375
+            },
+            "masked": {
+              "windows": 332,
+              "courses": 24,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 22,
+                  "courses": 3,
+                  "course_ids": [
+                    128,
+                    236,
+                    311
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 310,
+                  "courses": 23,
+                  "course_ids": [
+                    5,
+                    11,
+                    14,
+                    47,
+                    50,
+                    92,
+                    149,
+                    230,
+                    236,
+                    266,
+                    275,
+                    293,
+                    311,
+                    329,
+                    389,
+                    392,
+                    437,
+                    464,
+                    488,
+                    500,
+                    506,
+                    515,
+                    542
+                  ]
+                }
+              },
+              "disagreement_windows": 22,
+              "disagreement_courses": 3,
+              "disagreement_rate": 0.06626506024096386
+            }
+          }
+        },
+        "immediate": {
+          "dense/veer_left": {
+            "answerable": {
+              "windows": 648,
+              "courses": 41,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 301,
+                  "courses": 24,
+                  "course_ids": [
+                    631,
+                    640,
+                    688,
+                    724,
+                    730,
+                    742,
+                    748,
+                    784,
+                    787,
+                    811,
+                    823,
+                    829,
+                    883,
+                    886,
+                    937,
+                    985,
+                    1000,
+                    1099,
+                    1117,
+                    1129,
+                    1225,
+                    1228,
+                    1234,
+                    1252
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 2,
+                  "courses": 1,
+                  "course_ids": [
+                    643
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 69,
+                  "courses": 9,
+                  "course_ids": [
+                    748,
+                    784,
+                    787,
+                    811,
+                    823,
+                    886,
+                    937,
+                    1129,
+                    1252
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 276,
+                  "courses": 23,
+                  "course_ids": [
+                    631,
+                    643,
+                    652,
+                    694,
+                    760,
+                    775,
+                    787,
+                    829,
+                    850,
+                    874,
+                    886,
+                    895,
+                    904,
+                    937,
+                    955,
+                    958,
+                    991,
+                    1000,
+                    1039,
+                    1090,
+                    1111,
+                    1162,
+                    1207
+                  ]
+                }
+              },
+              "disagreement_windows": 71,
+              "disagreement_courses": 10,
+              "disagreement_rate": 0.1095679012345679
+            },
+            "masked": {
+              "windows": 556,
+              "courses": 38,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 556,
+                  "courses": 38,
+                  "course_ids": [
+                    631,
+                    649,
+                    676,
+                    694,
+                    715,
+                    721,
+                    733,
+                    757,
+                    760,
+                    766,
+                    775,
+                    784,
+                    787,
+                    793,
+                    829,
+                    847,
+                    850,
+                    874,
+                    886,
+                    892,
+                    904,
+                    910,
+                    931,
+                    937,
+                    946,
+                    955,
+                    964,
+                    982,
+                    1000,
+                    1018,
+                    1045,
+                    1066,
+                    1081,
+                    1090,
+                    1111,
+                    1129,
+                    1138,
+                    1180
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "dense/veer_right": {
+            "answerable": {
+              "windows": 690,
+              "courses": 45,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 342,
+                  "courses": 25,
+                  "course_ids": [
+                    649,
+                    667,
+                    715,
+                    766,
+                    778,
+                    814,
+                    859,
+                    868,
+                    892,
+                    919,
+                    976,
+                    1027,
+                    1048,
+                    1054,
+                    1066,
+                    1090,
+                    1144,
+                    1156,
+                    1174,
+                    1180,
+                    1183,
+                    1192,
+                    1201,
+                    1219,
+                    1243
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 84,
+                  "courses": 10,
+                  "course_ids": [
+                    649,
+                    859,
+                    868,
+                    892,
+                    919,
+                    1027,
+                    1117,
+                    1144,
+                    1156,
+                    1180
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 264,
+                  "courses": 24,
+                  "course_ids": [
+                    739,
+                    757,
+                    766,
+                    796,
+                    820,
+                    859,
+                    865,
+                    892,
+                    922,
+                    931,
+                    949,
+                    964,
+                    1000,
+                    1057,
+                    1072,
+                    1084,
+                    1117,
+                    1129,
+                    1144,
+                    1147,
+                    1165,
+                    1171,
+                    1198,
+                    1252
+                  ]
+                }
+              },
+              "disagreement_windows": 84,
+              "disagreement_courses": 10,
+              "disagreement_rate": 0.12173913043478261
+            },
+            "masked": {
+              "windows": 464,
+              "courses": 32,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 464,
+                  "courses": 32,
+                  "course_ids": [
+                    703,
+                    712,
+                    739,
+                    742,
+                    757,
+                    766,
+                    778,
+                    820,
+                    823,
+                    832,
+                    838,
+                    859,
+                    874,
+                    922,
+                    931,
+                    949,
+                    964,
+                    991,
+                    1012,
+                    1027,
+                    1057,
+                    1063,
+                    1075,
+                    1117,
+                    1129,
+                    1144,
+                    1147,
+                    1153,
+                    1171,
+                    1183,
+                    1198,
+                    1234
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_left": {
+            "answerable": {
+              "windows": 828,
+              "courses": 51,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 641,
+                  "courses": 42,
+                  "course_ids": [
+                    635,
+                    659,
+                    662,
+                    668,
+                    680,
+                    686,
+                    698,
+                    704,
+                    707,
+                    713,
+                    722,
+                    731,
+                    752,
+                    788,
+                    815,
+                    824,
+                    830,
+                    848,
+                    875,
+                    884,
+                    893,
+                    896,
+                    923,
+                    938,
+                    947,
+                    959,
+                    965,
+                    977,
+                    983,
+                    1019,
+                    1040,
+                    1049,
+                    1067,
+                    1073,
+                    1082,
+                    1085,
+                    1118,
+                    1127,
+                    1157,
+                    1199,
+                    1220,
+                    1256
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 1,
+                  "courses": 1,
+                  "course_ids": [
+                    1049
+                  ]
+                },
+                "executed1_cf0": {
+                  "windows": 74,
+                  "courses": 10,
+                  "course_ids": [
+                    662,
+                    707,
+                    713,
+                    830,
+                    875,
+                    896,
+                    938,
+                    947,
+                    965,
+                    1253
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 112,
+                  "courses": 11,
+                  "course_ids": [
+                    653,
+                    671,
+                    698,
+                    833,
+                    860,
+                    911,
+                    956,
+                    1049,
+                    1130,
+                    1247,
+                    1256
+                  ]
+                }
+              },
+              "disagreement_windows": 75,
+              "disagreement_courses": 11,
+              "disagreement_rate": 0.09057971014492754
+            },
+            "masked": {
+              "windows": 217,
+              "courses": 19,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 217,
+                  "courses": 19,
+                  "course_ids": [
+                    641,
+                    653,
+                    671,
+                    707,
+                    713,
+                    716,
+                    833,
+                    860,
+                    896,
+                    911,
+                    941,
+                    947,
+                    956,
+                    1076,
+                    1136,
+                    1175,
+                    1235,
+                    1253,
+                    1256
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          },
+          "moving/veer_right": {
+            "answerable": {
+              "windows": 1051,
+              "courses": 56,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 946,
+                  "courses": 45,
+                  "course_ids": [
+                    635,
+                    641,
+                    662,
+                    686,
+                    689,
+                    695,
+                    698,
+                    707,
+                    713,
+                    716,
+                    749,
+                    761,
+                    767,
+                    779,
+                    794,
+                    815,
+                    824,
+                    839,
+                    851,
+                    857,
+                    866,
+                    905,
+                    920,
+                    959,
+                    968,
+                    974,
+                    1001,
+                    1013,
+                    1022,
+                    1049,
+                    1064,
+                    1073,
+                    1094,
+                    1100,
+                    1109,
+                    1118,
+                    1121,
+                    1127,
+                    1148,
+                    1190,
+                    1202,
+                    1208,
+                    1229,
+                    1238,
+                    1247
+                  ]
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 1,
+                  "courses": 1,
+                  "course_ids": [
+                    752
+                  ]
+                },
+                "executed1_cf1": {
+                  "windows": 104,
+                  "courses": 10,
+                  "course_ids": [
+                    632,
+                    650,
+                    740,
+                    788,
+                    797,
+                    875,
+                    902,
+                    932,
+                    1193,
+                    1256
+                  ]
+                }
+              },
+              "disagreement_windows": 1,
+              "disagreement_courses": 1,
+              "disagreement_rate": 0.0009514747859181732
+            },
+            "masked": {
+              "windows": 95,
+              "courses": 12,
+              "matrix": {
+                "executed0_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed0_cf1": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf0": {
+                  "windows": 0,
+                  "courses": 0,
+                  "course_ids": []
+                },
+                "executed1_cf1": {
+                  "windows": 95,
+                  "courses": 12,
+                  "course_ids": [
+                    632,
+                    662,
+                    686,
+                    740,
+                    752,
+                    788,
+                    797,
+                    821,
+                    875,
+                    932,
+                    1184,
+                    1253
+                  ]
+                }
+              },
+              "disagreement_windows": 0,
+              "disagreement_courses": 0,
+              "disagreement_rate": 0.0
+            }
+          }
+        }
+      },
+      "probe": {
+        "worlds": {
+          "classic": {
+            "frames": 425,
+            "courses": 72,
+            "cf_truth_mismatch_frames": 0,
+            "both_cf_answerable_frames": 425
+          },
+          "dense": {
+            "frames": 802,
+            "courses": 82,
+            "cf_truth_mismatch_frames": 0,
+            "both_cf_answerable_frames": 802
+          },
+          "moving": {
+            "frames": 177,
+            "courses": 19,
+            "cf_truth_mismatch_frames": 0,
+            "both_cf_answerable_frames": 177
+          }
+        },
+        "domain_intersection": {
+          "dense/veer_left": {
+            "executed_windows": 2012,
+            "executed_courses": 108,
+            "shared_frames": 0,
+            "shared_courses": 17
+          },
+          "dense/veer_right": {
+            "executed_windows": 2041,
+            "executed_courses": 105,
+            "shared_frames": 0,
+            "shared_courses": 6
+          },
+          "moving/veer_left": {
+            "executed_windows": 1868,
+            "executed_courses": 105,
+            "shared_frames": 0,
+            "shared_courses": 4
+          },
+          "moving/veer_right": {
+            "executed_windows": 1958,
+            "executed_courses": 111,
+            "shared_frames": 0,
+            "shared_courses": 8
+          }
+        }
+      }
+    }
+  },
+  "original_verdict": "NO-GO",
+  "status": "COMPLETE"
+}

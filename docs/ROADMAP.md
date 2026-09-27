@@ -117,6 +117,12 @@ all seeds. It also exposes a pooled moving-right gain at seed 0 despite
 declines in both timing blocks. These are fixed-score, exploratory findings;
 they narrow the next diagnostic without establishing a training mechanism
 or releasing another fit.
+The [executed/CF agreement audit](../experiments/executed_cf_agreement_v1/summary.md)
+verifies the geometry instrument and records conflicting targets, but
+training conflicts are sparse and differ in direction from the problematic
+exam subset. The geometric probe also selects different frames. A declared
+join of saved scores to these target categories is the next diagnostic
+question; neither finding establishes a learned mechanism or a training fix.
 
 Other closed research arcs:
 

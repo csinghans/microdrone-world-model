@@ -1,0 +1,47 @@
+{
+  "registration_commit": "e04b52b",
+  "instrument_commit": "1c00412",
+  "status": "complete exploratory metadata diagnostic",
+  "original_verdict": "NO-GO",
+  "execution": {
+    "run": {
+      "exit_code": 0,
+      "log": "output/executed_cf_agreement_v1/run.log",
+      "sha256": "4a9718154ae138835c4adf8c09bfbcaee7b848f75fca6b0eb8e695e8c88be84a"
+    },
+    "verify": {
+      "exit_code": 0,
+      "log": "output/executed_cf_agreement_v1/verify.log",
+      "sha256": "4a9718154ae138835c4adf8c09bfbcaee7b848f75fca6b0eb8e695e8c88be84a"
+    }
+  },
+  "exact_rerun": true,
+  "geometry_maximum_absolute_error_m": 4.3074745859073005e-07,
+  "geometry_world_input_checks": 9,
+  "all_original_source_hashes_unchanged": true,
+  "original_inventory_additions": [
+    "/Users/hans.chen/microdrone-world-model/experiments/executed_cf_agreement_v1/audit.py",
+    "/Users/hans.chen/microdrone-world-model/experiments/timing_mixture_audit_v1/audit.py"
+  ],
+  "protected": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "files": {
+    "experiments/executed_cf_agreement_v1/audit.py": "9bb30a8098f1a448cc28c8430405cb78f4ebb664c1e5a76e0a9ee24a1ac0ae6b",
+    "experiments/executed_cf_agreement_v1/definition.md": "0e1cc6c21e81bd64816b5cac051be017f19930847d521fff75431691fe68876f",
+    "experiments/executed_cf_agreement_v1/journal.md": "78d2ea07f2ccf1bb4572f60c1c88d43b87d7a9735b42a83d8f68a323a8970581",
+    "experiments/executed_cf_agreement_v1/manifest.json": "d36afc5bea8464e5e1280459faf725fa81f8cf237a076a70fa3d571fe84b682a",
+    "experiments/executed_cf_agreement_v1/preflight_checks.json": "6a5ea0246020ad6d7f40674bd861a51728c4bb71497c2f461e6c4db1459ab067",
+    "experiments/executed_cf_agreement_v1/registration.json": "89c40a52545ae90eaa40dc6349ed86b83a4be9a6505cf982672aa931fd7d8c48",
+    "experiments/executed_cf_agreement_v1/report.json": "6c519f8567f810264145c090376b039d10d5d8d4101d79ee0da36999b349d8a0",
+    "experiments/executed_cf_agreement_v1/summary.md": "c47b9502bd6435966da4c45a38634af4cdc8d8fcaeebcd1726fc85fe3a8f10a5"
+  }
+}

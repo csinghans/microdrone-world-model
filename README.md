@@ -72,6 +72,10 @@ An [exploratory timing-mixture audit](experiments/timing_mixture_audit_v1/summar
 locates dense-right loss inside the immediate exam block in all three seeds.
 It also finds that moving-right seed 0 improves pooled AUC while losing AUC
 inside both timing blocks; pooled gains do not imply gains in every condition.
+A [target-agreement audit](experiments/executed_cf_agreement_v1/summary.md)
+then finds differences between flown-trajectory and kinematic CF labels,
+and confirms the geometric turn probe selects different frames. These
+diagnostics clarify the metrics without establishing why the model regressed.
 
 ## Why this exists
 
