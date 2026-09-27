@@ -1,0 +1,133 @@
+{
+  "checks": [
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "scripts.veer_probe_selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.617110013961792,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_score_export_v1/00.log",
+      "sha256": "15edf4d15ce95c42fe5c7848defbe770963eec3da28ff3da21c4d80485b21f8f"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "eval.compare_wm_scores",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.16057682037353516,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_score_export_v1/01.log",
+      "sha256": "e200ba557981f7adedd1c9798a66338d337168ecdb380fb4e1d551821b9030d0"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "world_model.veer_probe"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.046578168869018555,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_score_export_v1/02.log",
+      "sha256": "b1b315e391cf378574e9354b9dec0d00d397e4670e66ee1bcc5114bec975f3bb"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "eval.eval_moving_timing",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.5159780979156494,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_score_export_v1/03.log",
+      "sha256": "b30d81c4004e8a20109dcda90de24743c632340c0fdde250d8080a7f6097eb84"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/black",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.1472930908203125,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_score_export_v1/04.log",
+      "sha256": "16dadcadea3f2766dfc86469520c38bc768084c2f2f2bbbe8da03f2ae35a094d"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/ruff",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.013286113739013672,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_score_export_v1/05.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.010551929473876953,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/veer_score_export_v1/06.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "protected": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "legacy_exports_unchanged": {
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/score_legacy_0/scores.npz": "c43b0c9801f947f4f94a4b41a589d73db1dd87e2ef08162c3dd72d4ef313af28",
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/score_world_balanced_0/scores.npz": "622c88854bfc61cd9455d6ac5ace63891b6ea93e10e3a95bb86abc55b4e680a3",
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/score_legacy_1/scores.npz": "a02458edfcf6ace9f11ae3d2613c1681754e2d0d6a0cf49da9da91d0c9c899e8",
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/score_world_balanced_1/scores.npz": "d7c9e527277cd0a8982a84d407a73837cb491bb4260d3a7fe36177ec2c57fafc",
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/score_legacy_2/scores.npz": "0518f8e6feec7cce136f5a4b39dab8c61770b8ed612fce476fb19e23055bbd14",
+    "/Users/hans.chen/microdrone-world-model/output/schedule_layout_v1/score_world_balanced_2/scores.npz": "b61a8f7d1df9a4f475168e4c747302866ac7d7607d56a193c1c517bcef965b82",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_legacy_masked_0/scores.npz": "c29b64c3c025b96ca85b12f75850391e13606b900c8f59847db4fc5f3ab77b60",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_answerable_0/scores.npz": "808b8e293bcf856d51d6a4c21f65ce9f70ad350f294defa7efc8ae6f584e2599",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_legacy_masked_1/scores.npz": "02cc4541cff9478d65c634ed5de9c07d22727e74fff9e69375a8a19e0ccf7fd3",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_answerable_1/scores.npz": "14ea09b55e900a49a9b7e426633560e4748b3223dd7ba8bb8a9283f5f3158ee8",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_legacy_masked_2/scores.npz": "66f62d2f0da0f2eb2d77ca7dd352f099161117108d22a165fe109330f3c5682d",
+    "/Users/hans.chen/microdrone-world-model/output/cf_hard_pool_v1/score_answerable_2/scores.npz": "2c88008316e9db619cc1db472ae38cd687d28fd0445da86fe5ebf471a591a842",
+    "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/score_unit_0/scores.npz": "3bd4973b74c386fa32d6081fbac0871db6b9420ab2e6760e2c6618056ba147fe",
+    "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/score_moving_2p25_0/scores.npz": "c6eb4e6a76b840923847aff53ab60b8ff7455a387f33f91b31d9a8fe6b1f363a",
+    "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/score_unit_1/scores.npz": "08c92975ced3eac70d050db0d2b988a69d98bf5b836a36b486819b58427e9a05",
+    "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/score_moving_2p25_1/scores.npz": "20b2e5c4ef7f16a5944b533bffc37379d0ec1adecb5cc1d8ac5c13ca281cab0d",
+    "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/score_unit_2/scores.npz": "354f2f22ff1c91f7c2a12ee1800590acb017af49bb9377338c5daa0a412ddfac",
+    "/Users/hans.chen/microdrone-world-model/output/executed_weight_v1/score_moving_2p25_2/scores.npz": "89c9a75bf04c1cf2513c7773e21a5a9570c679d2d5c1e125bd808f1037e671a7",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/score_approach_0/scores.npz": "e9d368b05038bb15623db7dbc30c2d1752006909489d63d739dae13b07547e22",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/score_immediate_0/scores.npz": "3637a581276a9970bc48a904bb688a2917dcd2799cae8304f68b872eb7c0908b",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/score_approach_1/scores.npz": "44738bff7174f4a3875013aa0cdaef2ed43a5a1a4fe04ba40df58a1fbfc6603b",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/score_immediate_1/scores.npz": "2cd852b9cbfabc9ca0dd05e83e20e148fbefd3f7684ff25b8aea3c211ccb5458",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/score_approach_2/scores.npz": "2a1b249d08394198f785208c21562f4bc14b7dcb638c54a9658297880dec8d55",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/score_immediate_2/scores.npz": "bcbb78da7c34ec4214d233bbf69576433d7c7c52f3afc78739e60d3bc582c9c8",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/score_approach_0/scores.npz": "fbd85e0c59cb8580d552286c04022ee6c221318f4a924e85bfdbb8541e97f04a",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/score_moving_immediate_0/scores.npz": "282b9c494b61a5abae7c5da75dd2662170dc66c0c8c220afe68cd5ad69e9389a",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/score_approach_1/scores.npz": "4778c0cb2b62a7d9ee4fa39e531abe31af97e75a82b04c628b05065f5f6c3133",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/score_moving_immediate_1/scores.npz": "90ba6b847dd295a9e9dab6ff5e8b15a39a9a3655f33dc0822c310dd551ecb011",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/score_approach_2/scores.npz": "096e15d3e777c1b62a217b56e5956b283b7e257271c92a93a1b7e77cde6ad777",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/score_moving_immediate_2/scores.npz": "d61c5fe452ba5eb75d715e80c05da97b82dae776bf15c785497f8aabe28ee1e4"
+  },
+  "validated_pairs": 15,
+  "sources_after": {
+    "/Users/hans.chen/microdrone-world-model/world_model/training.py": "48bac646962f78c006f194f83c11fed372761f9c5ff20613615f1ef5c325d520",
+    "/Users/hans.chen/microdrone-world-model/eval/compare_wm_scores.py": "bf1fb125b7720be4ff563c0c7a3758899633ff9e6e1606761b2dd3bee21a635f",
+    "/Users/hans.chen/microdrone-world-model/scripts/veer_probe_selftest.py": "e35d8001c3f1a875c39b72b8ddbac7a5f369e888caf7cb3d9d2778a7ac3351d5"
+  },
+  "scope": "Instrument compatibility and artifactless tests only; no existing checkpoint rescoring or fitting."
+}

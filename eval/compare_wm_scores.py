@@ -120,7 +120,8 @@ def _validate(a, b):
 
 def _validate_veer(a, b):
     keys = {"veer_pairs", "veer_gt_left", "veer_world_id", "veer_correct"}
-    if not (keys.intersection(a) or keys.intersection(b)):
+    score_keys = {"veer_score_left", "veer_score_right"}
+    if not ((keys | score_keys).intersection(a) or (keys | score_keys).intersection(b)):
         return
     for name, arm in (("baseline", a), ("candidate", b)):
         if not keys <= arm.keys():
@@ -137,6 +138,29 @@ def _validate_veer(a, b):
         for key in ("veer_correct", "veer_gt_left"):
             if arm[key].dtype.kind not in "biuf" or not np.isin(arm[key], [0, 1]).all():
                 raise ValueError(f"{name}: {key} must be binary")
+        # Optional per arm: old exports remain valid, including old/new pairs.
+        # When present, both probabilities must reproduce the strict score.
+        if score_keys.intersection(arm):
+            if not score_keys <= arm.keys():
+                raise ValueError(f"{name}: incomplete veer score fields")
+            for key in score_keys:
+                value = arm[key]
+                if (
+                    not isinstance(value, np.ndarray)
+                    or value.shape != (n,)
+                    or value.dtype.kind not in "fiu"
+                    or not np.isfinite(value).all()
+                    or ((value < 0) | (value > 1)).any()
+                ):
+                    raise ValueError(f"{name}: invalid veer probabilities: {key}")
+            left, right = arm["veer_score_left"], arm["veer_score_right"]
+            correct = np.where(
+                arm["veer_gt_left"].astype(bool), left < right, right < left
+            )
+            if not np.array_equal(correct, arm["veer_correct"]):
+                raise ValueError(
+                    f"{name}: veer scores disagree with strict correctness"
+                )
         if (worlds >= len(arm["world_names"])).any():
             raise ValueError(f"{name}: veer_world_id outside world catalog")
         auc_worlds = _rollout_worlds(arm["pairs"], arm["world_id"], name)
@@ -452,6 +476,75 @@ def _schema_selftest(base):
     extra = deepcopy(valid)
     extra["veer_pairs"][:, 0] += 100
     _validate(extra, extra)
+    # Raw probabilities are additive, including mixed old/new comparisons.
+    raw = deepcopy(valid)
+    n = len(raw["veer_pairs"])
+    raw["veer_score_left"] = np.zeros(n, dtype=np.float32)
+    raw["veer_score_right"] = np.ones(n, dtype=np.float32)
+    reference = compare(valid, valid, n_boot=2)
+    for arms in ((raw, raw), (valid, raw), (raw, valid)):
+        assert compare(*arms, n_boot=2) == reference
+    tied = deepcopy(raw)
+    tied["veer_score_right"][:] = 0
+    assert compare(tied, raw, n_boot=2) == reference
+    empty_raw = deepcopy(empty)
+    for key in ("veer_score_left", "veer_score_right"):
+        empty_raw[key] = np.empty(0, dtype=np.float32)
+    _validate(empty_raw, empty)
+    malformed = []
+    for value in (
+        [0.0] * n,
+        np.zeros((n, 1)),
+        np.zeros(n + 1),
+        np.zeros(n, complex),
+        np.full(n, np.nan),
+        np.full(n, np.inf),
+        np.full(n, -0.1),
+        np.full(n, 1.1),
+    ):
+        bad = deepcopy(raw)
+        bad["veer_score_left"] = value
+        malformed.append(bad)
+    for key in ("veer_score_left", "veer_score_right"):
+        bad = deepcopy(raw)
+        del bad[key]
+        malformed.append(bad)
+    bad = deepcopy(raw)
+    bad["veer_correct"][0] = True
+    malformed.append(bad)
+    orphan = deepcopy(base)
+    orphan["veer_score_left"] = np.zeros(n)
+    malformed.append(orphan)
+    for bad in malformed:
+        for arms in ((bad, valid), (valid, bad)):
+            with (
+                patch(__name__ + ".roc_auc", side_effect=AssertionError("metric ran")),
+                patch.object(
+                    np.random, "default_rng", side_effect=AssertionError("RNG ran")
+                ),
+            ):
+                try:
+                    compare(*arms, n_boot=2)
+                except ValueError:
+                    pass
+                else:
+                    raise AssertionError("invalid raw veer scores accepted")
+    import tempfile
+
+    with tempfile.TemporaryDirectory(prefix="veer_scores_selftest_") as tmp:
+        path = f"{tmp}/veer_export_selftest.npz"
+        np.savez_compressed(
+            path,
+            **{k: v for k, v in raw.items() if k != "metadata"},
+            metadata=json.dumps(raw["metadata"]),
+        )
+        restored = _load(path)
+        assert compare(restored, valid, n_boot=2) == reference
+        for key in ("veer_score_left", "veer_score_right"):
+            assert np.array_equal(restored[key], raw[key])
+    print(
+        "VEER-SCORES OK: legacy/mixed parity, ties, empty, 24 malformed arms, roundtrip"
+    )
     print(
         f"SCORE-SCHEMA OK: {rejected} malformed-arm checks before metrics/RNG; "
         "partial/empty/additional-course veer support"

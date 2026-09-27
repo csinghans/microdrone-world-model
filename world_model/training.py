@@ -150,6 +150,8 @@ def veer_ranking(
         sample_output.update(
             **{k: v for k, v in selected.items() if k != "speed"},
             veer_correct=np.empty(0, dtype=bool),
+            veer_score_left=np.empty(0, dtype=np.float32),
+            veer_score_right=np.empty(0, dtype=np.float32),
         )
     if not frames:
         return float("nan"), 0
@@ -175,7 +177,11 @@ def veer_ranking(
     gt = torch.tensor(selected["veer_gt_left"], device=device)
     correct = torch.where(gt, p_l < p_r, p_r < p_l)
     if sample_output is not None:
+        if not (torch.isfinite(p_l).all() and torch.isfinite(p_r).all()):
+            raise ValueError("nonfinite veer probabilities cannot be exported")
         sample_output["veer_correct"] = correct.cpu().numpy()
+        sample_output["veer_score_left"] = p_l.cpu().numpy()
+        sample_output["veer_score_right"] = p_r.cpu().numpy()
     return float(correct.float().mean()), len(frames)
 
 

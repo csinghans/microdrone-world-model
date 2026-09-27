@@ -157,12 +157,14 @@ Across moving, correct counts on 101 left-safer frames fall 82→25, 64→32,
 51→33, while those on 33 right-safer frames rise 9→26, 29→30, 22→31.
 Losses occur across 9/8/7 of 16 courses. The exact cause is still open.
 
-The instrument's next useful improvement is to retain both raw veer scores
-alongside correctness, with artifactless schema/parity tests and backward
-compatibility for existing exports. A false flag includes ties under the
-current strict comparison, so treating it as an opposite-side prediction
-would fabricate evidence. Any rescoring of fixed checkpoints needs a new
-declared instrument study; this diagnostic did not run inference. A separate
+The [raw-score exporter improvement](../experiments/veer_score_export_v1/journal.md)
+is now implemented: future exports retain both veer probabilities alongside
+correctness. Artifactless tests cover strict ties, invalid probabilities,
+mixed legacy/new comparisons and NPZ roundtrip; all 30 legacy exports remain
+unchanged and accepted. A false flag includes ties under the current strict
+comparison, so treating it as an opposite-side prediction would fabricate
+evidence. Any rescoring of fixed checkpoints needs a new declared instrument
+study; neither this diagnostic nor the exporter change performed it. A separate
 metadata exposure audit could address sampling before another training knob.
 Do not turn diagnostic slices or alternate course weighting into new gates.
 Any model comparison still needs one falsifiable knob, a fresh independent
@@ -173,7 +175,10 @@ Adding this diagnostic module intentionally changes the model study's strict
 tracked-Python inventory. Its 192 original saved source hashes and inputs
 were verified unchanged, with all nine protected artifacts intact. Use its
 original source snapshot to run the old strict verifier; do not edit the
-manifest to admit subsequent modules.
+manifest to admit subsequent modules. The later raw-score exporter changes
+three shared source files as well; historical strict verifiers now need their
+original revisions for both source bytes and inventory. Their manifests and
+recorded scientific results remain intact.
 
 The earlier all-world timing study remains a separate closed comparison.
 Its dense-right loss was found inside timing blocks and beyond conflicting

@@ -53,6 +53,10 @@ def selftest():
         for key in ("veer_pairs", "veer_gt_left", "veer_world_id"):
             assert np.array_equal(sample[key], expected[key])
         assert sample["veer_correct"].tolist() == [True, True, False, False]
+        expected_left = torch.sigmoid(torch.full((4,), 0.5)).numpy()
+        expected_right = torch.sigmoid(torch.full((4,), -0.5)).numpy()
+        assert np.array_equal(sample["veer_score_left"], expected_left)
+        assert np.array_equal(sample["veer_score_right"], expected_right)
         if mode == "memory":
             frames = [
                 data["frames"][r, max(t - K_WIN + 1 + j, 0)]
@@ -85,10 +89,35 @@ def selftest():
             else:
                 assert torch.equal(z, base)
         # Equal danger scores are never silently credited as a correct rank.
+        tied = {}
         score, _ = veer_ranking(
-            data, range(5), encoder, predictor, lambda z: z * 0, "cpu"
+            data,
+            range(5),
+            encoder,
+            predictor,
+            lambda z: z * 0,
+            "cpu",
+            sample_output=tied,
         )
         assert score == 0
+        assert (tied["veer_score_left"] == 0.5).all()
+        assert np.array_equal(tied["veer_score_left"], tied["veer_score_right"])
+        assert not tied["veer_correct"].any()
+
+    try:
+        veer_ranking(
+            data,
+            range(5),
+            encoder,
+            predictor,
+            lambda z: z * float("nan"),
+            "cpu",
+            sample_output={},
+        )
+    except ValueError as exc:
+        assert "nonfinite" in str(exc)
+    else:
+        raise AssertionError("nonfinite probe probabilities exported")
 
     def forbidden(*args, **kwargs):
         raise AssertionError("empty probe called a model")
@@ -100,6 +129,7 @@ def selftest():
     assert np.isnan(score) and count == 0
     assert sample["veer_pairs"].shape == (0, 2)
     assert sample["veer_correct"].shape == (0,)
+    assert sample["veer_score_left"].shape == sample["veer_score_right"].shape == (0,)
     assert torch.equal(torch.get_rng_state(), rng_before)
     print("VEER-PROBE-WIRING OK: one/two/memory frames, actions, ties, empty, no RNG")
 

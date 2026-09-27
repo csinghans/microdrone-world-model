@@ -234,6 +234,14 @@ The pooled name `all` is reserved so a world cannot overwrite the total.
 [Compatibility evidence](experiments/score_schema_v1/journal.md) validates
 18 archived exports without recalculating their scores or intervals.
 
+New score exports also retain `veer_score_left` / `veer_score_right`, the
+warn probabilities behind each strict geometric-turn decision. Equal scores
+remain incorrect. The reader accepts legacy exports and mixed old/new pairs;
+new fields must be finite, complete and consistent with saved correctness.
+[Compatibility checks](experiments/veer_score_export_v1/journal.md) accept
+all 30 existing exports unchanged. Old files do not acquire invented margins
+or tie counts, and no closed checkpoint was rescored for this change.
+
 `--executed-moving-weight` defaults to 1.0. The registered
 [weighting study](experiments/executed_weight_v1/summary.md) tested 2.25 on
 moving executed prediction/collision losses, with a fixed training-only
