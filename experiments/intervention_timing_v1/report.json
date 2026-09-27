@@ -1,0 +1,507 @@
+{
+  "decision": {
+    "verdict": "NO-GO",
+    "checks": {
+      "seed0/primary_cells/dense/veer_left": false,
+      "seed0/primary_cells/dense/veer_right": false,
+      "seed0/primary_cells/moving/veer_left": true,
+      "seed0/primary_cells/moving/veer_right": true,
+      "seed0/worlds/classic": true,
+      "seed0/worlds/dense": true,
+      "seed0/worlds/moving": true,
+      "seed0/worlds/room": true,
+      "seed0/forward/classic": true,
+      "seed0/forward/dense": true,
+      "seed0/forward/moving": true,
+      "seed0/veer/all": true,
+      "seed0/veer/classic": true,
+      "seed0/veer/dense": true,
+      "seed0/veer/moving": true,
+      "seed0/now/all": true,
+      "seed0/primary_positive": true,
+      "seed0/budget": true,
+      "seed1/primary_cells/dense/veer_left": true,
+      "seed1/primary_cells/dense/veer_right": false,
+      "seed1/primary_cells/moving/veer_left": true,
+      "seed1/primary_cells/moving/veer_right": true,
+      "seed1/worlds/classic": true,
+      "seed1/worlds/dense": true,
+      "seed1/worlds/moving": true,
+      "seed1/worlds/room": true,
+      "seed1/forward/classic": true,
+      "seed1/forward/dense": true,
+      "seed1/forward/moving": true,
+      "seed1/veer/all": true,
+      "seed1/veer/classic": true,
+      "seed1/veer/dense": true,
+      "seed1/veer/moving": true,
+      "seed1/now/all": true,
+      "seed1/primary_positive": true,
+      "seed1/budget": true,
+      "seed2/primary_cells/dense/veer_left": true,
+      "seed2/primary_cells/dense/veer_right": false,
+      "seed2/primary_cells/moving/veer_left": true,
+      "seed2/primary_cells/moving/veer_right": true,
+      "seed2/worlds/classic": true,
+      "seed2/worlds/dense": true,
+      "seed2/worlds/moving": true,
+      "seed2/worlds/room": true,
+      "seed2/forward/classic": true,
+      "seed2/forward/dense": true,
+      "seed2/forward/moving": true,
+      "seed2/veer/all": true,
+      "seed2/veer/classic": true,
+      "seed2/veer/dense": true,
+      "seed2/veer/moving": true,
+      "seed2/now/all": true,
+      "seed2/primary_positive": true,
+      "seed2/budget": true,
+      "primary_mean": false
+    },
+    "primary_deltas": [
+      0.01908120923221765,
+      0.034712630322624255,
+      0.012579868007648903
+    ],
+    "primary_mean": 0.022124569187496935,
+    "primary_range": [
+      0.012579868007648903,
+      0.034712630322624255
+    ],
+    "scope": "One data-recipe knob: start nonpassive transit interventions immediately instead of after approach. Point-estimate gates require all registered seeds and guards. Primary course-bootstrap intervals condition on each fixed checkpoint pair; three seeds do not estimate training-population uncertainty. No optional recheck, replacement seed, extra course, early stopping, checkpoint selection, flight claim or champion promotion. GO only permits a separately registered flight study."
+  },
+  "pairs": [
+    {
+      "seed": 0,
+      "readings": {
+        "primary_cells": {
+          "dense/veer_left": {
+            "baseline": 0.7587125069839316,
+            "candidate": 0.7350518698480397,
+            "delta": -0.023660637135891838
+          },
+          "dense/veer_right": {
+            "baseline": 0.8016335057277986,
+            "candidate": 0.7490622831813899,
+            "delta": -0.05257122254640867
+          },
+          "moving/veer_left": {
+            "baseline": 0.6390696392900603,
+            "candidate": 0.781449039101784,
+            "delta": 0.14237939981172365
+          },
+          "moving/veer_right": {
+            "baseline": 0.7379219138371798,
+            "candidate": 0.7480992106366272,
+            "delta": 0.010177296799447455
+          }
+        },
+        "primary_delta": 0.01908120923221765,
+        "primary_baseline": 0.7343343914597426,
+        "primary_candidate": 0.7534156006919601,
+        "worlds": {
+          "classic": {
+            "baseline": 0.8105620289550982,
+            "candidate": 0.8302564733075934,
+            "delta": 0.019694444352495233
+          },
+          "dense": {
+            "baseline": 0.8689570244287382,
+            "candidate": 0.8876566802319596,
+            "delta": 0.018699655803221416
+          },
+          "moving": {
+            "baseline": 0.7459323223651759,
+            "candidate": 0.8120204551595832,
+            "delta": 0.06608813279440728
+          },
+          "room": {
+            "baseline": 0.6540679080524963,
+            "candidate": 0.6715488785175759,
+            "delta": 0.01748097046507968
+          }
+        },
+        "forward": {
+          "classic": {
+            "baseline": 0.8501892256222919,
+            "candidate": 0.8738337039340662,
+            "delta": 0.023644478311774297
+          },
+          "dense": {
+            "baseline": 0.8815029835684816,
+            "candidate": 0.9306276447485211,
+            "delta": 0.04912466118003955
+          },
+          "moving": {
+            "baseline": 0.7658957522043772,
+            "candidate": 0.814875192984544,
+            "delta": 0.048979440780166805
+          }
+        },
+        "now": {
+          "baseline": 0.7743519442856467,
+          "candidate": 0.7689971805809489,
+          "delta": -0.005354763704697785
+        },
+        "veer": {
+          "all": {
+            "baseline": 0.6901709401709402,
+            "candidate": 0.8148148148148148,
+            "delta": 0.12464387464387461,
+            "frames": 1404,
+            "courses": 173
+          },
+          "classic": {
+            "baseline": 0.7764705882352941,
+            "candidate": 0.8282352941176471,
+            "delta": 0.051764705882352935,
+            "frames": 425,
+            "courses": 72
+          },
+          "dense": {
+            "baseline": 0.6970074812967582,
+            "candidate": 0.8366583541147132,
+            "delta": 0.13965087281795507,
+            "frames": 802,
+            "courses": 82
+          },
+          "moving": {
+            "baseline": 0.4519774011299435,
+            "candidate": 0.6836158192090396,
+            "delta": 0.23163841807909608,
+            "frames": 177,
+            "courses": 19
+          }
+        },
+        "primary_bootstrap": {
+          "method": "paired_world_and_timing_stratified_whole_course_percentile",
+          "scope": "primary macro delta, conditional on this fixed checkpoint pair",
+          "n_boot": 2000,
+          "seed": 0,
+          "stratum_course_counts": [
+            210,
+            210,
+            210,
+            210
+          ],
+          "valid_bootstraps": 2000,
+          "undefined_bootstraps": 0,
+          "ci95": [
+            -0.014198626479489258,
+            0.05079083070853746
+          ]
+        }
+      },
+      "baseline_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      },
+      "candidate_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      }
+    },
+    {
+      "seed": 1,
+      "readings": {
+        "primary_cells": {
+          "dense/veer_left": {
+            "baseline": 0.8114598556066919,
+            "candidate": 0.8134833081939763,
+            "delta": 0.0020234525872844245
+          },
+          "dense/veer_right": {
+            "baseline": 0.7883562536167995,
+            "candidate": 0.7623327182880533,
+            "delta": -0.02602353532874624
+          },
+          "moving/veer_left": {
+            "baseline": 0.6634916079259753,
+            "candidate": 0.8087766629164467,
+            "delta": 0.1452850549904714
+          },
+          "moving/veer_right": {
+            "baseline": 0.7743601551568394,
+            "candidate": 0.7919257041983269,
+            "delta": 0.017565549041487438
+          }
+        },
+        "primary_delta": 0.034712630322624255,
+        "primary_baseline": 0.7594169680765765,
+        "primary_candidate": 0.7941295983992007,
+        "worlds": {
+          "classic": {
+            "baseline": 0.8048190966962852,
+            "candidate": 0.8565983104707505,
+            "delta": 0.05177921377446537
+          },
+          "dense": {
+            "baseline": 0.8808829508437592,
+            "candidate": 0.9051002105422087,
+            "delta": 0.024217259698449456
+          },
+          "moving": {
+            "baseline": 0.7220322377349803,
+            "candidate": 0.8378206235504118,
+            "delta": 0.1157883858154315
+          },
+          "room": {
+            "baseline": 0.514272209493887,
+            "candidate": 0.688407360315331,
+            "delta": 0.17413515082144404
+          }
+        },
+        "forward": {
+          "classic": {
+            "baseline": 0.808006637875395,
+            "candidate": 0.8810470966039313,
+            "delta": 0.07304045872853637
+          },
+          "dense": {
+            "baseline": 0.896373419466589,
+            "candidate": 0.9384567706879527,
+            "delta": 0.04208335122136375
+          },
+          "moving": {
+            "baseline": 0.7113440777976415,
+            "candidate": 0.8495835567859189,
+            "delta": 0.13823947898827738
+          }
+        },
+        "now": {
+          "baseline": 0.7518493227308456,
+          "candidate": 0.786505886972096,
+          "delta": 0.03465656424125041
+        },
+        "veer": {
+          "all": {
+            "baseline": 0.7642450142450142,
+            "candidate": 0.8746438746438746,
+            "delta": 0.11039886039886038,
+            "frames": 1404,
+            "courses": 173
+          },
+          "classic": {
+            "baseline": 0.88,
+            "candidate": 0.9811764705882353,
+            "delta": 0.10117647058823531,
+            "frames": 425,
+            "courses": 72
+          },
+          "dense": {
+            "baseline": 0.7817955112219451,
+            "candidate": 0.8528678304239401,
+            "delta": 0.07107231920199497,
+            "frames": 802,
+            "courses": 82
+          },
+          "moving": {
+            "baseline": 0.4067796610169492,
+            "candidate": 0.7175141242937854,
+            "delta": 0.3107344632768362,
+            "frames": 177,
+            "courses": 19
+          }
+        },
+        "primary_bootstrap": {
+          "method": "paired_world_and_timing_stratified_whole_course_percentile",
+          "scope": "primary macro delta, conditional on this fixed checkpoint pair",
+          "n_boot": 2000,
+          "seed": 0,
+          "stratum_course_counts": [
+            210,
+            210,
+            210,
+            210
+          ],
+          "valid_bootstraps": 2000,
+          "undefined_bootstraps": 0,
+          "ci95": [
+            0.0024593321141810247,
+            0.06649982934429136
+          ]
+        }
+      },
+      "baseline_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      },
+      "candidate_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      }
+    },
+    {
+      "seed": 2,
+      "readings": {
+        "primary_cells": {
+          "dense/veer_left": {
+            "baseline": 0.8177667861834764,
+            "candidate": 0.8118809887736971,
+            "delta": -0.0058857974097793475
+          },
+          "dense/veer_right": {
+            "baseline": 0.7971971507951657,
+            "candidate": 0.7713122278879103,
+            "delta": -0.025884922907255414
+          },
+          "moving/veer_left": {
+            "baseline": 0.7445239133928776,
+            "candidate": 0.812012949739398,
+            "delta": 0.06748903634652037
+          },
+          "moving/veer_right": {
+            "baseline": 0.8178507117259132,
+            "candidate": 0.8324518677270232,
+            "delta": 0.014601156001110005
+          }
+        },
+        "primary_delta": 0.012579868007648903,
+        "primary_baseline": 0.7943346405243582,
+        "primary_candidate": 0.8069145085320071,
+        "worlds": {
+          "classic": {
+            "baseline": 0.8559414811535544,
+            "candidate": 0.8485866856748162,
+            "delta": -0.007354795478738185
+          },
+          "dense": {
+            "baseline": 0.9134172439940298,
+            "candidate": 0.9117085804010234,
+            "delta": -0.0017086635930063654
+          },
+          "moving": {
+            "baseline": 0.8181473682791766,
+            "candidate": 0.850489918180666,
+            "delta": 0.03234254990148944
+          },
+          "room": {
+            "baseline": 0.6779799463419822,
+            "candidate": 0.6931624507683956,
+            "delta": 0.015182504426413335
+          }
+        },
+        "forward": {
+          "classic": {
+            "baseline": 0.890116503816541,
+            "candidate": 0.8708612546835325,
+            "delta": -0.019255249133008467
+          },
+          "dense": {
+            "baseline": 0.9485505600206318,
+            "candidate": 0.9427198402770663,
+            "delta": -0.005830719743565416
+          },
+          "moving": {
+            "baseline": 0.8302367626931716,
+            "candidate": 0.859183659406785,
+            "delta": 0.02894689671361339
+          }
+        },
+        "now": {
+          "baseline": 0.7977279791635346,
+          "candidate": 0.7910216242302092,
+          "delta": -0.006706354933325387
+        },
+        "veer": {
+          "all": {
+            "baseline": 0.6951566951566952,
+            "candidate": 0.8475783475783476,
+            "delta": 0.1524216524216524,
+            "frames": 1404,
+            "courses": 173
+          },
+          "classic": {
+            "baseline": 0.6423529411764706,
+            "candidate": 0.9929411764705882,
+            "delta": 0.35058823529411764,
+            "frames": 425,
+            "courses": 72
+          },
+          "dense": {
+            "baseline": 0.7481296758104738,
+            "candidate": 0.8104738154613467,
+            "delta": 0.06234413965087282,
+            "frames": 802,
+            "courses": 82
+          },
+          "moving": {
+            "baseline": 0.5819209039548022,
+            "candidate": 0.6666666666666666,
+            "delta": 0.0847457627118644,
+            "frames": 177,
+            "courses": 19
+          }
+        },
+        "primary_bootstrap": {
+          "method": "paired_world_and_timing_stratified_whole_course_percentile",
+          "scope": "primary macro delta, conditional on this fixed checkpoint pair",
+          "n_boot": 2000,
+          "seed": 0,
+          "stratum_course_counts": [
+            210,
+            210,
+            210,
+            210
+          ],
+          "valid_bootstraps": 2000,
+          "undefined_bootstraps": 0,
+          "ci95": [
+            -0.015966379958775395,
+            0.04343955672448959
+          ]
+        }
+      },
+      "baseline_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      },
+      "candidate_bill": {
+        "budget": {
+          "weights_kb": 81.2900390625,
+          "peak_act_kb": 28.0,
+          "workspace_kb": 28.0,
+          "total_kb": 137.2900390625,
+          "macs_frame": 3646528,
+          "macs_decision": 3856768
+        },
+        "estimated_gap8_ms": 7.713536
+      }
+    }
+  ]
+}

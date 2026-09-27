@@ -1,0 +1,22 @@
+{
+  "stage": "indoor_train",
+  "exit_code": 0,
+  "started_unix": 1790484855.216844,
+  "elapsed_seconds": 25.58852982521057,
+  "manifest_sha256": "1c1c06babe0095009089bb6858182fec24461b3364acc0a7db307d6e9475be35",
+  "result": {
+    "coverage": {
+      "room": {
+        "courses": 96,
+        "passive": 0,
+        "clear": 0,
+        "sampled_frame_std": 73.02729747930675
+      }
+    },
+    "courses": 96
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/indoor_train/course_identities.json": "4bd5da2b10a0c897f487bdd67e338a015282fc5a5bba5407f2413f337b29d29e",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/indoor_train/data.npz": "c5ca897c771920b7a10e844384e97f57bc307d47953c614566afc5e5b1a386ce"
+  }
+}

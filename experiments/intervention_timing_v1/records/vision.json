@@ -1,0 +1,47 @@
+{
+  "stage": "vision",
+  "exit_code": 0,
+  "started_unix": 1790484853.2062159,
+  "elapsed_seconds": 0.5145871639251709,
+  "manifest_sha256": "1c1c06babe0095009089bb6858182fec24461b3364acc0a7db307d6e9475be35",
+  "result": {
+    "classic": {
+      "world": "classic",
+      "fixture_steps": 0,
+      "bodies": 3,
+      "frame_std": 61.88786787793626,
+      "render_difference": 16.158284505208332
+    },
+    "dense": {
+      "world": "dense",
+      "fixture_steps": 0,
+      "bodies": 5,
+      "frame_std": 86.01590883841646,
+      "render_difference": 57.137369791666664
+    },
+    "moving": {
+      "world": "moving",
+      "fixture_steps": 215,
+      "bodies": 2,
+      "frame_std": 63.10831136888857,
+      "render_difference": 17.240804036458332
+    },
+    "room": {
+      "world": "room",
+      "fixture_steps": 0,
+      "bodies": 6,
+      "frame_std": 73.85932273621692,
+      "render_difference": 32.016438802083336
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/vision/classic.png": "68a7a98cd38f57915171db12c8ac235ad9bb2d16e968c78f2f2e30461b2ab619",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/vision/classic_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/vision/dense.png": "2fc4d96098ebac8bab5810bd16cf3bf86c5b895e3bf318911a81fe2544830974",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/vision/dense_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/vision/moving.png": "3bfa6e54961b0607ed69b1f83fc243a572065c38a49d09581d808313287b8aec",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/vision/moving_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/vision/room.png": "db55c81915e3b8e38cec96095351600878046a1ac67935f3282341eb10c4b6b8",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/vision/room_removed.png": "8d62fa2839caefa0869936515591457795a2e3f5e58c1fabca3616aa0e83b3ed"
+  }
+}

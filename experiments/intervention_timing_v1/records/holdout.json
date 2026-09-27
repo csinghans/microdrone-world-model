@@ -1,0 +1,40 @@
+{
+  "stage": "holdout",
+  "exit_code": 0,
+  "started_unix": 1790485269.81199,
+  "elapsed_seconds": 22.44757103919983,
+  "manifest_sha256": "1c1c06babe0095009089bb6858182fec24461b3364acc0a7db307d6e9475be35",
+  "result": {
+    "coverage": {
+      "classic": {
+        "courses": 420,
+        "passive": 140,
+        "clear": 210,
+        "sampled_frame_std": 57.52584195226051
+      },
+      "dense": {
+        "courses": 420,
+        "passive": 140,
+        "clear": 0,
+        "sampled_frame_std": 78.89328522398168
+      },
+      "moving": {
+        "courses": 420,
+        "passive": 140,
+        "clear": 0,
+        "sampled_frame_std": 50.709271753153295
+      },
+      "room": {
+        "courses": 180,
+        "passive": 0,
+        "clear": 0,
+        "sampled_frame_std": 72.40623968068196
+      }
+    },
+    "courses": 1440
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/holdout/course_identities.json": "d5f98695433803312918b16a92c388994644b2b9111456073143ba04aed558e4",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/holdout/data.npz": "941fdc13c53f65bf4798b2cff4585b566e99909e6414899ed57b0c2c66722c9f"
+  }
+}

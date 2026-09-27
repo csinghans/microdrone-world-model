@@ -1,0 +1,22 @@
+{
+  "stage": "indoor_exam",
+  "exit_code": 0,
+  "started_unix": 1790485220.0239449,
+  "elapsed_seconds": 49.12348914146423,
+  "manifest_sha256": "1c1c06babe0095009089bb6858182fec24461b3364acc0a7db307d6e9475be35",
+  "result": {
+    "coverage": {
+      "room": {
+        "courses": 180,
+        "passive": 0,
+        "clear": 0,
+        "sampled_frame_std": 72.40623968068196
+      }
+    },
+    "courses": 180
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/indoor_exam/course_identities.json": "f404368f01d062c43abc62e41835a928277e1d0108b24ffd37c29b1d06a3e819",
+    "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/indoor_exam/data.npz": "32d258bbe38319f3f8cff6a2174dfeb7a81dfefb5cf2d4a83103ebf363ab3461"
+  }
+}

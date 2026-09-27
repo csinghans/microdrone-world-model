@@ -1,0 +1,3784 @@
+{
+  "schema_version": 1,
+  "target": "executed_warn_at_32",
+  "scope": "Metadata/label audit, not a causal test or pass/fail gate. Only train partitions describe recorded optimization. All/val step counts are hypothetical. CF frame expectations also describe now-head sampling; not observed draws or gradient weights (CF normalizes by each batch's visible labels).",
+  "horizons": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "batch": 64,
+  "epochs": 80,
+  "all": {
+    "rollouts": 276,
+    "valid_windows": 18823,
+    "nominal_optimizer_steps_per_epoch": 295,
+    "nominal_optimizer_steps_total": 23600,
+    "nominal_executed_window_presentations_total": 1505840,
+    "cf_draws_per_half_per_epoch": 9411,
+    "hard_pool_falls_back_to_all_frames": false,
+    "worlds": {
+      "classic": {
+        "rollout_ids": [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          27,
+          30,
+          33,
+          36,
+          39,
+          42,
+          45,
+          48,
+          51,
+          54,
+          57,
+          60,
+          63,
+          66,
+          69,
+          72,
+          75,
+          78,
+          81,
+          84,
+          87,
+          90,
+          93,
+          96,
+          99,
+          102,
+          105,
+          108,
+          111,
+          114,
+          117,
+          120,
+          123,
+          126,
+          129,
+          132,
+          135,
+          138,
+          141,
+          144,
+          147,
+          150,
+          153,
+          156,
+          159,
+          162,
+          165,
+          168,
+          171,
+          174,
+          177
+        ],
+        "rollouts": 60,
+        "passive_rollouts": 20,
+        "rollouts_with_actual_action_changes": 40,
+        "frames": 9600,
+        "valid_windows": 4512,
+        "eligible_fraction": 0.5875,
+        "executed_window_share": 0.2397067417521118,
+        "labels_at_32": {
+          "positive": 1342,
+          "negative": 3170,
+          "positive_rollouts": 31,
+          "negative_rollouts": 60,
+          "auc_defined": true
+        },
+        "now_labels": {
+          "positive": 1884,
+          "negative": 7716,
+          "positive_rollouts": 31,
+          "negative_rollouts": 60,
+          "auc_defined": true
+        },
+        "actions": {
+          "forward": {
+            "windows": 2856,
+            "positive": 984,
+            "negative": 1872,
+            "positive_rollouts": 17,
+            "negative_rollouts": 33,
+            "auc_defined": true
+          },
+          "slow": {
+            "windows": 309,
+            "positive": 46,
+            "negative": 263,
+            "positive_rollouts": 3,
+            "negative_rollouts": 13,
+            "auc_defined": true
+          },
+          "veer_left": {
+            "windows": 367,
+            "positive": 127,
+            "negative": 240,
+            "positive_rollouts": 8,
+            "negative_rollouts": 13,
+            "auc_defined": true
+          },
+          "veer_right": {
+            "windows": 300,
+            "positive": 60,
+            "negative": 240,
+            "positive_rollouts": 5,
+            "negative_rollouts": 15,
+            "auc_defined": true
+          },
+          "climb": {
+            "windows": 372,
+            "positive": 84,
+            "negative": 288,
+            "positive_rollouts": 8,
+            "negative_rollouts": 18,
+            "auc_defined": true
+          },
+          "hover": {
+            "windows": 308,
+            "positive": 41,
+            "negative": 267,
+            "positive_rollouts": 2,
+            "negative_rollouts": 12,
+            "auc_defined": true
+          }
+        },
+        "counterfactual": {
+          "visible_frame_candidates": 47649,
+          "positive_at_32": 6720,
+          "negative_at_32": 40929,
+          "current_hard_frames": 2084,
+          "answerable_contrast_frames": 2063,
+          "hard_without_answerable_contrast": 21,
+          "expected_sampled_frames_per_epoch": 4512.853716160788
+        }
+      },
+      "dense": {
+        "rollout_ids": [
+          1,
+          4,
+          7,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          28,
+          31,
+          34,
+          37,
+          40,
+          43,
+          46,
+          49,
+          52,
+          55,
+          58,
+          61,
+          64,
+          67,
+          70,
+          73,
+          76,
+          79,
+          82,
+          85,
+          88,
+          91,
+          94,
+          97,
+          100,
+          103,
+          106,
+          109,
+          112,
+          115,
+          118,
+          121,
+          124,
+          127,
+          130,
+          133,
+          136,
+          139,
+          142,
+          145,
+          148,
+          151,
+          154,
+          157,
+          160,
+          163,
+          166,
+          169,
+          172,
+          175,
+          178
+        ],
+        "rollouts": 60,
+        "passive_rollouts": 20,
+        "rollouts_with_actual_action_changes": 40,
+        "frames": 9600,
+        "valid_windows": 4436,
+        "eligible_fraction": 0.5776041666666667,
+        "executed_window_share": 0.23566912819423047,
+        "labels_at_32": {
+          "positive": 3187,
+          "negative": 1249,
+          "positive_rollouts": 56,
+          "negative_rollouts": 52,
+          "auc_defined": true
+        },
+        "now_labels": {
+          "positive": 4646,
+          "negative": 4954,
+          "positive_rollouts": 57,
+          "negative_rollouts": 60,
+          "auc_defined": true
+        },
+        "actions": {
+          "forward": {
+            "windows": 2953,
+            "positive": 2493,
+            "negative": 460,
+            "positive_rollouts": 42,
+            "negative_rollouts": 24,
+            "auc_defined": true
+          },
+          "slow": {
+            "windows": 289,
+            "positive": 150,
+            "negative": 139,
+            "positive_rollouts": 11,
+            "negative_rollouts": 10,
+            "auc_defined": true
+          },
+          "veer_left": {
+            "windows": 178,
+            "positive": 93,
+            "negative": 85,
+            "positive_rollouts": 6,
+            "negative_rollouts": 7,
+            "auc_defined": true
+          },
+          "veer_right": {
+            "windows": 284,
+            "positive": 136,
+            "negative": 148,
+            "positive_rollouts": 12,
+            "negative_rollouts": 7,
+            "auc_defined": true
+          },
+          "climb": {
+            "windows": 448,
+            "positive": 237,
+            "negative": 211,
+            "positive_rollouts": 14,
+            "negative_rollouts": 12,
+            "auc_defined": true
+          },
+          "hover": {
+            "windows": 284,
+            "positive": 78,
+            "negative": 206,
+            "positive_rollouts": 5,
+            "negative_rollouts": 11,
+            "auc_defined": true
+          }
+        },
+        "counterfactual": {
+          "visible_frame_candidates": 37005,
+          "positive_at_32": 17046,
+          "negative_at_32": 19959,
+          "current_hard_frames": 4708,
+          "answerable_contrast_frames": 4144,
+          "hard_without_answerable_contrast": 564,
+          "expected_sampled_frames_per_epoch": 7619.07560295324
+        }
+      },
+      "moving": {
+        "rollout_ids": [
+          2,
+          5,
+          8,
+          11,
+          14,
+          17,
+          20,
+          23,
+          26,
+          29,
+          32,
+          35,
+          38,
+          41,
+          44,
+          47,
+          50,
+          53,
+          56,
+          59,
+          62,
+          65,
+          68,
+          71,
+          74,
+          77,
+          80,
+          83,
+          86,
+          89,
+          92,
+          95,
+          98,
+          101,
+          104,
+          107,
+          110,
+          113,
+          116,
+          119,
+          122,
+          125,
+          128,
+          131,
+          134,
+          137,
+          140,
+          143,
+          146,
+          149,
+          152,
+          155,
+          158,
+          161,
+          164,
+          167,
+          170,
+          173,
+          176,
+          179
+        ],
+        "rollouts": 60,
+        "passive_rollouts": 20,
+        "rollouts_with_actual_action_changes": 40,
+        "frames": 9600,
+        "valid_windows": 4383,
+        "eligible_fraction": 0.570703125,
+        "executed_window_share": 0.23285342400255007,
+        "labels_at_32": {
+          "positive": 1938,
+          "negative": 2445,
+          "positive_rollouts": 42,
+          "negative_rollouts": 60,
+          "auc_defined": true
+        },
+        "now_labels": {
+          "positive": 2084,
+          "negative": 7516,
+          "positive_rollouts": 43,
+          "negative_rollouts": 60,
+          "auc_defined": true
+        },
+        "actions": {
+          "forward": {
+            "windows": 2833,
+            "positive": 1611,
+            "negative": 1222,
+            "positive_rollouts": 28,
+            "negative_rollouts": 28,
+            "auc_defined": true
+          },
+          "slow": {
+            "windows": 309,
+            "positive": 32,
+            "negative": 277,
+            "positive_rollouts": 3,
+            "negative_rollouts": 16,
+            "auc_defined": true
+          },
+          "veer_left": {
+            "windows": 346,
+            "positive": 129,
+            "negative": 217,
+            "positive_rollouts": 9,
+            "negative_rollouts": 15,
+            "auc_defined": true
+          },
+          "veer_right": {
+            "windows": 281,
+            "positive": 67,
+            "negative": 214,
+            "positive_rollouts": 6,
+            "negative_rollouts": 11,
+            "auc_defined": true
+          },
+          "climb": {
+            "windows": 316,
+            "positive": 37,
+            "negative": 279,
+            "positive_rollouts": 2,
+            "negative_rollouts": 16,
+            "auc_defined": true
+          },
+          "hover": {
+            "windows": 298,
+            "positive": 62,
+            "negative": 236,
+            "positive_rollouts": 4,
+            "negative_rollouts": 15,
+            "auc_defined": true
+          }
+        },
+        "counterfactual": {
+          "visible_frame_candidates": 42474,
+          "positive_at_32": 3856,
+          "negative_at_32": 38618,
+          "current_hard_frames": 1158,
+          "answerable_contrast_frames": 1139,
+          "hard_without_answerable_contrast": 19,
+          "expected_sampled_frames_per_epoch": 3416.679376538146
+        }
+      },
+      "room": {
+        "rollout_ids": [
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275
+        ],
+        "rollouts": 96,
+        "passive_rollouts": 0,
+        "rollouts_with_actual_action_changes": 95,
+        "frames": 15360,
+        "valid_windows": 5492,
+        "eligible_fraction": 0.4469401041666667,
+        "executed_window_share": 0.29177070605110766,
+        "labels_at_32": {
+          "positive": 2802,
+          "negative": 2690,
+          "positive_rollouts": 65,
+          "negative_rollouts": 67,
+          "auc_defined": true
+        },
+        "now_labels": {
+          "positive": 6653,
+          "negative": 8707,
+          "positive_rollouts": 65,
+          "negative_rollouts": 78,
+          "auc_defined": true
+        },
+        "actions": {
+          "forward": {
+            "windows": 1155,
+            "positive": 630,
+            "negative": 525,
+            "positive_rollouts": 27,
+            "negative_rollouts": 24,
+            "auc_defined": true
+          },
+          "reverse": {
+            "windows": 623,
+            "positive": 278,
+            "negative": 345,
+            "positive_rollouts": 15,
+            "negative_rollouts": 18,
+            "auc_defined": true
+          },
+          "strafe_left": {
+            "windows": 972,
+            "positive": 496,
+            "negative": 476,
+            "positive_rollouts": 26,
+            "negative_rollouts": 30,
+            "auc_defined": true
+          },
+          "strafe_right": {
+            "windows": 998,
+            "positive": 457,
+            "negative": 541,
+            "positive_rollouts": 24,
+            "negative_rollouts": 27,
+            "auc_defined": true
+          },
+          "slow": {
+            "windows": 916,
+            "positive": 455,
+            "negative": 461,
+            "positive_rollouts": 18,
+            "negative_rollouts": 20,
+            "auc_defined": true
+          },
+          "hover": {
+            "windows": 828,
+            "positive": 486,
+            "negative": 342,
+            "positive_rollouts": 23,
+            "negative_rollouts": 18,
+            "auc_defined": true
+          },
+          "yaw_left": {
+            "windows": 0,
+            "positive": 0,
+            "negative": 0,
+            "positive_rollouts": 0,
+            "negative_rollouts": 0,
+            "auc_defined": false
+          },
+          "yaw_right": {
+            "windows": 0,
+            "positive": 0,
+            "negative": 0,
+            "positive_rollouts": 0,
+            "negative_rollouts": 0,
+            "auc_defined": false
+          },
+          "up": {
+            "windows": 0,
+            "positive": 0,
+            "negative": 0,
+            "positive_rollouts": 0,
+            "negative_rollouts": 0,
+            "auc_defined": false
+          },
+          "down": {
+            "windows": 0,
+            "positive": 0,
+            "negative": 0,
+            "positive_rollouts": 0,
+            "negative_rollouts": 0,
+            "auc_defined": false
+          }
+        },
+        "counterfactual": {
+          "visible_frame_candidates": 0,
+          "positive_at_32": 0,
+          "negative_at_32": 0,
+          "current_hard_frames": 0,
+          "answerable_contrast_frames": 0,
+          "hard_without_answerable_contrast": 0,
+          "expected_sampled_frames_per_epoch": 3273.391304347826
+        }
+      }
+    }
+  },
+  "splits": {
+    "0": {
+      "train": {
+        "rollouts": 221,
+        "valid_windows": 14997,
+        "nominal_optimizer_steps_per_epoch": 235,
+        "nominal_optimizer_steps_total": 18800,
+        "nominal_executed_window_presentations_total": 1199760,
+        "cf_draws_per_half_per_epoch": 7498,
+        "hard_pool_falls_back_to_all_frames": false,
+        "worlds": {
+          "classic": {
+            "rollout_ids": [
+              0,
+              3,
+              6,
+              9,
+              12,
+              15,
+              18,
+              21,
+              24,
+              27,
+              30,
+              33,
+              42,
+              45,
+              48,
+              51,
+              54,
+              57,
+              60,
+              66,
+              69,
+              72,
+              75,
+              81,
+              93,
+              96,
+              102,
+              108,
+              111,
+              117,
+              120,
+              123,
+              126,
+              129,
+              132,
+              135,
+              138,
+              141,
+              144,
+              147,
+              150,
+              156,
+              159,
+              165,
+              168,
+              171,
+              174,
+              177
+            ],
+            "rollouts": 48,
+            "passive_rollouts": 16,
+            "rollouts_with_actual_action_changes": 32,
+            "frames": 7680,
+            "valid_windows": 3605,
+            "eligible_fraction": 0.5867513020833334,
+            "executed_window_share": 0.2403814096152564,
+            "labels_at_32": {
+              "positive": 1037,
+              "negative": 2568,
+              "positive_rollouts": 25,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 1429,
+              "negative": 6251,
+              "positive_rollouts": 25,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 2296,
+                "positive": 782,
+                "negative": 1514,
+                "positive_rollouts": 14,
+                "negative_rollouts": 27,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 254,
+                "positive": 46,
+                "negative": 208,
+                "positive_rollouts": 3,
+                "negative_rollouts": 10,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 297,
+                "positive": 89,
+                "negative": 208,
+                "positive_rollouts": 6,
+                "negative_rollouts": 11,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 249,
+                "positive": 52,
+                "negative": 197,
+                "positive_rollouts": 3,
+                "negative_rollouts": 12,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 264,
+                "positive": 68,
+                "negative": 196,
+                "positive_rollouts": 7,
+                "negative_rollouts": 13,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 245,
+                "positive": 0,
+                "negative": 245,
+                "positive_rollouts": 0,
+                "negative_rollouts": 11,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 38363,
+              "positive_at_32": 5146,
+              "negative_at_32": 33217,
+              "current_hard_frames": 1631,
+              "answerable_contrast_frames": 1612,
+              "hard_without_answerable_contrast": 19,
+              "expected_sampled_frames_per_epoch": 3529.8367649872807
+            }
+          },
+          "dense": {
+            "rollout_ids": [
+              1,
+              10,
+              13,
+              16,
+              19,
+              25,
+              28,
+              31,
+              34,
+              37,
+              40,
+              43,
+              46,
+              49,
+              52,
+              55,
+              58,
+              64,
+              67,
+              70,
+              76,
+              82,
+              85,
+              88,
+              97,
+              100,
+              103,
+              106,
+              112,
+              115,
+              118,
+              121,
+              124,
+              127,
+              130,
+              133,
+              136,
+              139,
+              142,
+              145,
+              151,
+              154,
+              157,
+              160,
+              163,
+              166,
+              169,
+              172
+            ],
+            "rollouts": 48,
+            "passive_rollouts": 16,
+            "rollouts_with_actual_action_changes": 32,
+            "frames": 7680,
+            "valid_windows": 3547,
+            "eligible_fraction": 0.5773111979166666,
+            "executed_window_share": 0.23651396946055878,
+            "labels_at_32": {
+              "positive": 2588,
+              "negative": 959,
+              "positive_rollouts": 45,
+              "negative_rollouts": 41,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 3772,
+              "negative": 3908,
+              "positive_rollouts": 46,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 2393,
+                "positive": 2052,
+                "negative": 341,
+                "positive_rollouts": 35,
+                "negative_rollouts": 19,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 188,
+                "positive": 117,
+                "negative": 71,
+                "positive_rollouts": 8,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 144,
+                "positive": 78,
+                "negative": 66,
+                "positive_rollouts": 5,
+                "negative_rollouts": 6,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 231,
+                "positive": 99,
+                "negative": 132,
+                "positive_rollouts": 8,
+                "negative_rollouts": 6,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 330,
+                "positive": 179,
+                "negative": 151,
+                "positive_rollouts": 11,
+                "negative_rollouts": 9,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 261,
+                "positive": 63,
+                "negative": 198,
+                "positive_rollouts": 4,
+                "negative_rollouts": 10,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 29310,
+              "positive_at_32": 13765,
+              "negative_at_32": 15545,
+              "current_hard_frames": 3806,
+              "answerable_contrast_frames": 3356,
+              "hard_without_answerable_contrast": 450,
+              "expected_sampled_frames_per_epoch": 6065.307847076833
+            }
+          },
+          "moving": {
+            "rollout_ids": [
+              2,
+              5,
+              8,
+              11,
+              14,
+              17,
+              20,
+              23,
+              26,
+              32,
+              35,
+              38,
+              41,
+              47,
+              50,
+              53,
+              56,
+              59,
+              62,
+              65,
+              71,
+              74,
+              80,
+              83,
+              86,
+              92,
+              98,
+              101,
+              104,
+              107,
+              113,
+              116,
+              119,
+              125,
+              128,
+              131,
+              137,
+              140,
+              143,
+              146,
+              155,
+              158,
+              161,
+              167,
+              170,
+              173,
+              176,
+              179
+            ],
+            "rollouts": 48,
+            "passive_rollouts": 16,
+            "rollouts_with_actual_action_changes": 32,
+            "frames": 7680,
+            "valid_windows": 3485,
+            "eligible_fraction": 0.5672200520833334,
+            "executed_window_share": 0.23237980929519236,
+            "labels_at_32": {
+              "positive": 1579,
+              "negative": 1906,
+              "positive_rollouts": 34,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 1755,
+              "negative": 5925,
+              "positive_rollouts": 35,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 2292,
+                "positive": 1328,
+                "negative": 964,
+                "positive_rollouts": 23,
+                "negative_rollouts": 23,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 269,
+                "positive": 32,
+                "negative": 237,
+                "positive_rollouts": 3,
+                "negative_rollouts": 13,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 219,
+                "positive": 78,
+                "negative": 141,
+                "positive_rollouts": 7,
+                "negative_rollouts": 10,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 232,
+                "positive": 59,
+                "negative": 173,
+                "positive_rollouts": 5,
+                "negative_rollouts": 9,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 236,
+                "positive": 20,
+                "negative": 216,
+                "positive_rollouts": 1,
+                "negative_rollouts": 13,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 237,
+                "positive": 62,
+                "negative": 175,
+                "positive_rollouts": 4,
+                "negative_rollouts": 11,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 33596,
+              "positive_at_32": 3361,
+              "negative_at_32": 30235,
+              "current_hard_frames": 995,
+              "answerable_contrast_frames": 981,
+              "hard_without_answerable_contrast": 14,
+              "expected_sampled_frames_per_epoch": 2788.4300485693702
+            }
+          },
+          "room": {
+            "rollout_ids": [
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189,
+              190,
+              191,
+              192,
+              193,
+              195,
+              196,
+              197,
+              198,
+              199,
+              201,
+              203,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              217,
+              219,
+              220,
+              221,
+              224,
+              225,
+              226,
+              227,
+              228,
+              229,
+              230,
+              231,
+              232,
+              233,
+              234,
+              235,
+              236,
+              237,
+              238,
+              239,
+              240,
+              241,
+              242,
+              243,
+              246,
+              247,
+              248,
+              249,
+              250,
+              251,
+              252,
+              253,
+              254,
+              256,
+              257,
+              258,
+              259,
+              262,
+              265,
+              268,
+              269,
+              270,
+              271,
+              272,
+              273,
+              274
+            ],
+            "rollouts": 77,
+            "passive_rollouts": 0,
+            "rollouts_with_actual_action_changes": 76,
+            "frames": 12320,
+            "valid_windows": 4360,
+            "eligible_fraction": 0.44237012987012986,
+            "executed_window_share": 0.29072481162899244,
+            "labels_at_32": {
+              "positive": 2346,
+              "negative": 2014,
+              "positive_rollouts": 54,
+              "negative_rollouts": 54,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 5548,
+              "negative": 6772,
+              "positive_rollouts": 54,
+              "negative_rollouts": 64,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 915,
+                "positive": 470,
+                "negative": 445,
+                "positive_rollouts": 21,
+                "negative_rollouts": 21,
+                "auc_defined": true
+              },
+              "reverse": {
+                "windows": 436,
+                "positive": 246,
+                "negative": 190,
+                "positive_rollouts": 13,
+                "negative_rollouts": 11,
+                "auc_defined": true
+              },
+              "strafe_left": {
+                "windows": 805,
+                "positive": 467,
+                "negative": 338,
+                "positive_rollouts": 24,
+                "negative_rollouts": 23,
+                "auc_defined": true
+              },
+              "strafe_right": {
+                "windows": 752,
+                "positive": 327,
+                "negative": 425,
+                "positive_rollouts": 19,
+                "negative_rollouts": 21,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 741,
+                "positive": 404,
+                "negative": 337,
+                "positive_rollouts": 15,
+                "negative_rollouts": 16,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 711,
+                "positive": 432,
+                "negative": 279,
+                "positive_rollouts": 19,
+                "negative_rollouts": 15,
+                "auc_defined": true
+              },
+              "yaw_left": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "yaw_right": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "up": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "down": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 0,
+              "positive_at_32": 0,
+              "negative_at_32": 0,
+              "current_hard_frames": 0,
+              "answerable_contrast_frames": 0,
+              "hard_without_answerable_contrast": 0,
+              "expected_sampled_frames_per_epoch": 2612.425339366516
+            }
+          }
+        }
+      },
+      "val": {
+        "rollouts": 55,
+        "valid_windows": 3826,
+        "nominal_optimizer_steps_per_epoch": 60,
+        "nominal_optimizer_steps_total": 4800,
+        "nominal_executed_window_presentations_total": 306080,
+        "cf_draws_per_half_per_epoch": 1913,
+        "hard_pool_falls_back_to_all_frames": false,
+        "worlds": {
+          "classic": {
+            "rollout_ids": [
+              36,
+              39,
+              63,
+              78,
+              84,
+              87,
+              90,
+              99,
+              105,
+              114,
+              153,
+              162
+            ],
+            "rollouts": 12,
+            "passive_rollouts": 4,
+            "rollouts_with_actual_action_changes": 8,
+            "frames": 1920,
+            "valid_windows": 907,
+            "eligible_fraction": 0.5904947916666666,
+            "executed_window_share": 0.23706220595922634,
+            "labels_at_32": {
+              "positive": 305,
+              "negative": 602,
+              "positive_rollouts": 6,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 455,
+              "negative": 1465,
+              "positive_rollouts": 6,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 560,
+                "positive": 202,
+                "negative": 358,
+                "positive_rollouts": 3,
+                "negative_rollouts": 6,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 55,
+                "positive": 0,
+                "negative": 55,
+                "positive_rollouts": 0,
+                "negative_rollouts": 3,
+                "auc_defined": false
+              },
+              "veer_left": {
+                "windows": 70,
+                "positive": 38,
+                "negative": 32,
+                "positive_rollouts": 2,
+                "negative_rollouts": 2,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 51,
+                "positive": 8,
+                "negative": 43,
+                "positive_rollouts": 2,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 108,
+                "positive": 16,
+                "negative": 92,
+                "positive_rollouts": 1,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 63,
+                "positive": 41,
+                "negative": 22,
+                "positive_rollouts": 2,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 9286,
+              "positive_at_32": 1574,
+              "negative_at_32": 7712,
+              "current_hard_frames": 453,
+              "answerable_contrast_frames": 451,
+              "hard_without_answerable_contrast": 2,
+              "expected_sampled_frames_per_epoch": 988.2573122529644
+            }
+          },
+          "dense": {
+            "rollout_ids": [
+              4,
+              7,
+              22,
+              61,
+              73,
+              79,
+              91,
+              94,
+              109,
+              148,
+              175,
+              178
+            ],
+            "rollouts": 12,
+            "passive_rollouts": 4,
+            "rollouts_with_actual_action_changes": 8,
+            "frames": 1920,
+            "valid_windows": 889,
+            "eligible_fraction": 0.5787760416666666,
+            "executed_window_share": 0.2323575535807632,
+            "labels_at_32": {
+              "positive": 599,
+              "negative": 290,
+              "positive_rollouts": 11,
+              "negative_rollouts": 11,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 874,
+              "negative": 1046,
+              "positive_rollouts": 11,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 560,
+                "positive": 441,
+                "negative": 119,
+                "positive_rollouts": 7,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 101,
+                "positive": 33,
+                "negative": 68,
+                "positive_rollouts": 3,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 34,
+                "positive": 15,
+                "negative": 19,
+                "positive_rollouts": 1,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 53,
+                "positive": 37,
+                "negative": 16,
+                "positive_rollouts": 4,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 118,
+                "positive": 58,
+                "negative": 60,
+                "positive_rollouts": 3,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 23,
+                "positive": 15,
+                "negative": 8,
+                "positive_rollouts": 1,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 7695,
+              "positive_at_32": 3281,
+              "negative_at_32": 4414,
+              "current_hard_frames": 902,
+              "answerable_contrast_frames": 788,
+              "hard_without_answerable_contrast": 114,
+              "expected_sampled_frames_per_epoch": 1554.0919631093543
+            }
+          },
+          "moving": {
+            "rollout_ids": [
+              29,
+              44,
+              68,
+              77,
+              89,
+              95,
+              110,
+              122,
+              134,
+              149,
+              152,
+              164
+            ],
+            "rollouts": 12,
+            "passive_rollouts": 4,
+            "rollouts_with_actual_action_changes": 8,
+            "frames": 1920,
+            "valid_windows": 898,
+            "eligible_fraction": 0.5846354166666666,
+            "executed_window_share": 0.23470987976999477,
+            "labels_at_32": {
+              "positive": 359,
+              "negative": 539,
+              "positive_rollouts": 8,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 329,
+              "negative": 1591,
+              "positive_rollouts": 8,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 541,
+                "positive": 283,
+                "negative": 258,
+                "positive_rollouts": 5,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 40,
+                "positive": 0,
+                "negative": 40,
+                "positive_rollouts": 0,
+                "negative_rollouts": 3,
+                "auc_defined": false
+              },
+              "veer_left": {
+                "windows": 127,
+                "positive": 51,
+                "negative": 76,
+                "positive_rollouts": 2,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 49,
+                "positive": 8,
+                "negative": 41,
+                "positive_rollouts": 1,
+                "negative_rollouts": 2,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 80,
+                "positive": 17,
+                "negative": 63,
+                "positive_rollouts": 1,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 61,
+                "positive": 0,
+                "negative": 61,
+                "positive_rollouts": 0,
+                "negative_rollouts": 4,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 8878,
+              "positive_at_32": 495,
+              "negative_at_32": 8383,
+              "current_hard_frames": 163,
+              "answerable_contrast_frames": 158,
+              "hard_without_answerable_contrast": 5,
+              "expected_sampled_frames_per_epoch": 622.7961791831357
+            }
+          },
+          "room": {
+            "rollout_ids": [
+              180,
+              187,
+              194,
+              200,
+              202,
+              216,
+              218,
+              222,
+              223,
+              244,
+              245,
+              255,
+              260,
+              261,
+              263,
+              264,
+              266,
+              267,
+              275
+            ],
+            "rollouts": 19,
+            "passive_rollouts": 0,
+            "rollouts_with_actual_action_changes": 19,
+            "frames": 3040,
+            "valid_windows": 1132,
+            "eligible_fraction": 0.4654605263157895,
+            "executed_window_share": 0.29587036069001565,
+            "labels_at_32": {
+              "positive": 456,
+              "negative": 676,
+              "positive_rollouts": 11,
+              "negative_rollouts": 13,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 1105,
+              "negative": 1935,
+              "positive_rollouts": 11,
+              "negative_rollouts": 14,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 240,
+                "positive": 160,
+                "negative": 80,
+                "positive_rollouts": 6,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "reverse": {
+                "windows": 187,
+                "positive": 32,
+                "negative": 155,
+                "positive_rollouts": 2,
+                "negative_rollouts": 7,
+                "auc_defined": true
+              },
+              "strafe_left": {
+                "windows": 167,
+                "positive": 29,
+                "negative": 138,
+                "positive_rollouts": 2,
+                "negative_rollouts": 7,
+                "auc_defined": true
+              },
+              "strafe_right": {
+                "windows": 246,
+                "positive": 130,
+                "negative": 116,
+                "positive_rollouts": 5,
+                "negative_rollouts": 6,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 175,
+                "positive": 51,
+                "negative": 124,
+                "positive_rollouts": 3,
+                "negative_rollouts": 4,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 117,
+                "positive": 54,
+                "negative": 63,
+                "positive_rollouts": 4,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "yaw_left": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "yaw_right": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "up": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "down": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 0,
+              "positive_at_32": 0,
+              "negative_at_32": 0,
+              "current_hard_frames": 0,
+              "answerable_contrast_frames": 0,
+              "hard_without_answerable_contrast": 0,
+              "expected_sampled_frames_per_epoch": 660.8545454545455
+            }
+          }
+        }
+      }
+    },
+    "1": {
+      "train": {
+        "rollouts": 221,
+        "valid_windows": 15058,
+        "nominal_optimizer_steps_per_epoch": 236,
+        "nominal_optimizer_steps_total": 18880,
+        "nominal_executed_window_presentations_total": 1204640,
+        "cf_draws_per_half_per_epoch": 7529,
+        "hard_pool_falls_back_to_all_frames": false,
+        "worlds": {
+          "classic": {
+            "rollout_ids": [
+              3,
+              6,
+              9,
+              18,
+              21,
+              24,
+              27,
+              30,
+              33,
+              36,
+              39,
+              42,
+              48,
+              51,
+              54,
+              60,
+              63,
+              69,
+              72,
+              75,
+              81,
+              84,
+              87,
+              90,
+              93,
+              96,
+              102,
+              105,
+              108,
+              111,
+              114,
+              117,
+              126,
+              129,
+              132,
+              138,
+              141,
+              144,
+              147,
+              153,
+              156,
+              159,
+              162,
+              165,
+              168,
+              171,
+              174,
+              177
+            ],
+            "rollouts": 48,
+            "passive_rollouts": 16,
+            "rollouts_with_actual_action_changes": 32,
+            "frames": 7680,
+            "valid_windows": 3623,
+            "eligible_fraction": 0.5896809895833334,
+            "executed_window_share": 0.24060300172665694,
+            "labels_at_32": {
+              "positive": 1121,
+              "negative": 2502,
+              "positive_rollouts": 26,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 1598,
+              "negative": 6082,
+              "positive_rollouts": 26,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 2314,
+                "positive": 812,
+                "negative": 1502,
+                "positive_rollouts": 14,
+                "negative_rollouts": 28,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 287,
+                "positive": 46,
+                "negative": 241,
+                "positive_rollouts": 3,
+                "negative_rollouts": 12,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 241,
+                "positive": 99,
+                "negative": 142,
+                "positive_rollouts": 6,
+                "negative_rollouts": 8,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 228,
+                "positive": 45,
+                "negative": 183,
+                "positive_rollouts": 4,
+                "negative_rollouts": 12,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 318,
+                "positive": 78,
+                "negative": 240,
+                "positive_rollouts": 7,
+                "negative_rollouts": 14,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 235,
+                "positive": 41,
+                "negative": 194,
+                "positive_rollouts": 2,
+                "negative_rollouts": 9,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 37871,
+              "positive_at_32": 5668,
+              "negative_at_32": 32203,
+              "current_hard_frames": 1633,
+              "answerable_contrast_frames": 1631,
+              "hard_without_answerable_contrast": 2,
+              "expected_sampled_frames_per_epoch": 3542.3243060190753
+            }
+          },
+          "dense": {
+            "rollout_ids": [
+              1,
+              4,
+              7,
+              10,
+              13,
+              16,
+              22,
+              25,
+              31,
+              34,
+              37,
+              43,
+              49,
+              55,
+              58,
+              64,
+              67,
+              70,
+              73,
+              79,
+              82,
+              85,
+              88,
+              91,
+              94,
+              97,
+              100,
+              103,
+              106,
+              109,
+              112,
+              115,
+              118,
+              121,
+              130,
+              133,
+              136,
+              139,
+              142,
+              145,
+              154,
+              157,
+              160,
+              163,
+              166,
+              169,
+              172,
+              178
+            ],
+            "rollouts": 48,
+            "passive_rollouts": 16,
+            "rollouts_with_actual_action_changes": 32,
+            "frames": 7680,
+            "valid_windows": 3539,
+            "eligible_fraction": 0.5760091145833334,
+            "executed_window_share": 0.23502457165626245,
+            "labels_at_32": {
+              "positive": 2548,
+              "negative": 991,
+              "positive_rollouts": 45,
+              "negative_rollouts": 41,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 3706,
+              "negative": 3974,
+              "positive_rollouts": 45,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 2363,
+                "positive": 2021,
+                "negative": 342,
+                "positive_rollouts": 33,
+                "negative_rollouts": 19,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 225,
+                "positive": 108,
+                "negative": 117,
+                "positive_rollouts": 8,
+                "negative_rollouts": 8,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 115,
+                "positive": 67,
+                "negative": 48,
+                "positive_rollouts": 4,
+                "negative_rollouts": 4,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 218,
+                "positive": 87,
+                "negative": 131,
+                "positive_rollouts": 9,
+                "negative_rollouts": 6,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 380,
+                "positive": 220,
+                "negative": 160,
+                "positive_rollouts": 13,
+                "negative_rollouts": 9,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 238,
+                "positive": 45,
+                "negative": 193,
+                "positive_rollouts": 3,
+                "negative_rollouts": 10,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 29813,
+              "positive_at_32": 14066,
+              "negative_at_32": 15747,
+              "current_hard_frames": 3821,
+              "answerable_contrast_frames": 3359,
+              "hard_without_answerable_contrast": 462,
+              "expected_sampled_frames_per_epoch": 6097.536342625248
+            }
+          },
+          "moving": {
+            "rollout_ids": [
+              2,
+              5,
+              8,
+              11,
+              17,
+              20,
+              23,
+              26,
+              32,
+              38,
+              41,
+              44,
+              47,
+              50,
+              53,
+              56,
+              59,
+              62,
+              68,
+              74,
+              77,
+              80,
+              83,
+              86,
+              89,
+              92,
+              95,
+              98,
+              101,
+              107,
+              110,
+              119,
+              122,
+              125,
+              128,
+              131,
+              134,
+              140,
+              149,
+              152,
+              155,
+              158,
+              161,
+              167,
+              170,
+              173,
+              176,
+              179
+            ],
+            "rollouts": 48,
+            "passive_rollouts": 16,
+            "rollouts_with_actual_action_changes": 32,
+            "frames": 7680,
+            "valid_windows": 3508,
+            "eligible_fraction": 0.5709635416666666,
+            "executed_window_share": 0.23296586532075972,
+            "labels_at_32": {
+              "positive": 1539,
+              "negative": 1969,
+              "positive_rollouts": 34,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 1623,
+              "negative": 6057,
+              "positive_rollouts": 35,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 2280,
+                "positive": 1299,
+                "negative": 981,
+                "positive_rollouts": 23,
+                "negative_rollouts": 23,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 267,
+                "positive": 24,
+                "negative": 243,
+                "positive_rollouts": 2,
+                "negative_rollouts": 13,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 205,
+                "positive": 70,
+                "negative": 135,
+                "positive_rollouts": 6,
+                "negative_rollouts": 10,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 237,
+                "positive": 47,
+                "negative": 190,
+                "positive_rollouts": 5,
+                "negative_rollouts": 10,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 262,
+                "positive": 37,
+                "negative": 225,
+                "positive_rollouts": 2,
+                "negative_rollouts": 12,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 257,
+                "positive": 62,
+                "negative": 195,
+                "positive_rollouts": 4,
+                "negative_rollouts": 13,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 34818,
+              "positive_at_32": 3425,
+              "negative_at_32": 31393,
+              "current_hard_frames": 993,
+              "answerable_contrast_frames": 979,
+              "hard_without_answerable_contrast": 14,
+              "expected_sampled_frames_per_epoch": 2794.913107011785
+            }
+          },
+          "room": {
+            "rollout_ids": [
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189,
+              190,
+              191,
+              192,
+              193,
+              194,
+              195,
+              198,
+              199,
+              200,
+              202,
+              204,
+              205,
+              206,
+              207,
+              209,
+              210,
+              212,
+              213,
+              214,
+              216,
+              218,
+              219,
+              220,
+              221,
+              222,
+              223,
+              224,
+              225,
+              226,
+              227,
+              228,
+              229,
+              231,
+              232,
+              233,
+              234,
+              235,
+              236,
+              238,
+              239,
+              240,
+              241,
+              242,
+              243,
+              246,
+              247,
+              248,
+              249,
+              250,
+              251,
+              252,
+              253,
+              254,
+              255,
+              256,
+              257,
+              258,
+              259,
+              261,
+              262,
+              264,
+              265,
+              266,
+              269,
+              270,
+              271,
+              272,
+              273
+            ],
+            "rollouts": 77,
+            "passive_rollouts": 0,
+            "rollouts_with_actual_action_changes": 76,
+            "frames": 12320,
+            "valid_windows": 4388,
+            "eligible_fraction": 0.445211038961039,
+            "executed_window_share": 0.29140656129632087,
+            "labels_at_32": {
+              "positive": 2202,
+              "negative": 2186,
+              "positive_rollouts": 52,
+              "negative_rollouts": 56,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 5233,
+              "negative": 7087,
+              "positive_rollouts": 52,
+              "negative_rollouts": 63,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 903,
+                "positive": 506,
+                "negative": 397,
+                "positive_rollouts": 21,
+                "negative_rollouts": 20,
+                "auc_defined": true
+              },
+              "reverse": {
+                "windows": 440,
+                "positive": 194,
+                "negative": 246,
+                "positive_rollouts": 9,
+                "negative_rollouts": 14,
+                "auc_defined": true
+              },
+              "strafe_left": {
+                "windows": 771,
+                "positive": 429,
+                "negative": 342,
+                "positive_rollouts": 23,
+                "negative_rollouts": 23,
+                "auc_defined": true
+              },
+              "strafe_right": {
+                "windows": 789,
+                "positive": 289,
+                "negative": 500,
+                "positive_rollouts": 18,
+                "negative_rollouts": 23,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 792,
+                "positive": 379,
+                "negative": 413,
+                "positive_rollouts": 14,
+                "negative_rollouts": 18,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 693,
+                "positive": 405,
+                "negative": 288,
+                "positive_rollouts": 19,
+                "negative_rollouts": 16,
+                "auc_defined": true
+              },
+              "yaw_left": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "yaw_right": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "up": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "down": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 0,
+              "positive_at_32": 0,
+              "negative_at_32": 0,
+              "current_hard_frames": 0,
+              "answerable_contrast_frames": 0,
+              "hard_without_answerable_contrast": 0,
+              "expected_sampled_frames_per_epoch": 2623.2262443438913
+            }
+          }
+        }
+      },
+      "val": {
+        "rollouts": 55,
+        "valid_windows": 3765,
+        "nominal_optimizer_steps_per_epoch": 59,
+        "nominal_optimizer_steps_total": 4720,
+        "nominal_executed_window_presentations_total": 301200,
+        "cf_draws_per_half_per_epoch": 1882,
+        "hard_pool_falls_back_to_all_frames": false,
+        "worlds": {
+          "classic": {
+            "rollout_ids": [
+              0,
+              12,
+              15,
+              45,
+              57,
+              66,
+              78,
+              99,
+              120,
+              123,
+              135,
+              150
+            ],
+            "rollouts": 12,
+            "passive_rollouts": 4,
+            "rollouts_with_actual_action_changes": 8,
+            "frames": 1920,
+            "valid_windows": 889,
+            "eligible_fraction": 0.5787760416666666,
+            "executed_window_share": 0.23612217795484727,
+            "labels_at_32": {
+              "positive": 221,
+              "negative": 668,
+              "positive_rollouts": 5,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 286,
+              "negative": 1634,
+              "positive_rollouts": 5,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 542,
+                "positive": 172,
+                "negative": 370,
+                "positive_rollouts": 3,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 22,
+                "positive": 0,
+                "negative": 22,
+                "positive_rollouts": 0,
+                "negative_rollouts": 1,
+                "auc_defined": false
+              },
+              "veer_left": {
+                "windows": 126,
+                "positive": 28,
+                "negative": 98,
+                "positive_rollouts": 2,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 72,
+                "positive": 15,
+                "negative": 57,
+                "positive_rollouts": 1,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 54,
+                "positive": 6,
+                "negative": 48,
+                "positive_rollouts": 1,
+                "negative_rollouts": 4,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 73,
+                "positive": 0,
+                "negative": 73,
+                "positive_rollouts": 0,
+                "negative_rollouts": 3,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 9778,
+              "positive_at_32": 1052,
+              "negative_at_32": 8726,
+              "current_hard_frames": 451,
+              "answerable_contrast_frames": 432,
+              "hard_without_answerable_contrast": 19,
+              "expected_sampled_frames_per_epoch": 975.34339805238
+            }
+          },
+          "dense": {
+            "rollout_ids": [
+              19,
+              28,
+              40,
+              46,
+              52,
+              61,
+              76,
+              124,
+              127,
+              148,
+              151,
+              175
+            ],
+            "rollouts": 12,
+            "passive_rollouts": 4,
+            "rollouts_with_actual_action_changes": 8,
+            "frames": 1920,
+            "valid_windows": 897,
+            "eligible_fraction": 0.583984375,
+            "executed_window_share": 0.23824701195219122,
+            "labels_at_32": {
+              "positive": 639,
+              "negative": 258,
+              "positive_rollouts": 11,
+              "negative_rollouts": 11,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 940,
+              "negative": 980,
+              "positive_rollouts": 12,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 590,
+                "positive": 472,
+                "negative": 118,
+                "positive_rollouts": 9,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 64,
+                "positive": 42,
+                "negative": 22,
+                "positive_rollouts": 3,
+                "negative_rollouts": 2,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 63,
+                "positive": 26,
+                "negative": 37,
+                "positive_rollouts": 2,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 66,
+                "positive": 49,
+                "negative": 17,
+                "positive_rollouts": 3,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 68,
+                "positive": 17,
+                "negative": 51,
+                "positive_rollouts": 1,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 46,
+                "positive": 33,
+                "negative": 13,
+                "positive_rollouts": 2,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 7192,
+              "positive_at_32": 2980,
+              "negative_at_32": 4212,
+              "current_hard_frames": 887,
+              "answerable_contrast_frames": 785,
+              "hard_without_answerable_contrast": 102,
+              "expected_sampled_frames_per_epoch": 1521.2861791568378
+            }
+          },
+          "moving": {
+            "rollout_ids": [
+              14,
+              29,
+              35,
+              65,
+              71,
+              104,
+              113,
+              116,
+              137,
+              143,
+              146,
+              164
+            ],
+            "rollouts": 12,
+            "passive_rollouts": 4,
+            "rollouts_with_actual_action_changes": 8,
+            "frames": 1920,
+            "valid_windows": 875,
+            "eligible_fraction": 0.5696614583333334,
+            "executed_window_share": 0.23240371845949534,
+            "labels_at_32": {
+              "positive": 399,
+              "negative": 476,
+              "positive_rollouts": 8,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 461,
+              "negative": 1459,
+              "positive_rollouts": 8,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 553,
+                "positive": 312,
+                "negative": 241,
+                "positive_rollouts": 5,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 42,
+                "positive": 8,
+                "negative": 34,
+                "positive_rollouts": 1,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 141,
+                "positive": 59,
+                "negative": 82,
+                "positive_rollouts": 3,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 44,
+                "positive": 20,
+                "negative": 24,
+                "positive_rollouts": 1,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 54,
+                "positive": 0,
+                "negative": 54,
+                "positive_rollouts": 0,
+                "negative_rollouts": 4,
+                "auc_defined": false
+              },
+              "hover": {
+                "windows": 41,
+                "positive": 0,
+                "negative": 41,
+                "positive_rollouts": 0,
+                "negative_rollouts": 2,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 7656,
+              "positive_at_32": 431,
+              "negative_at_32": 7225,
+              "current_hard_frames": 165,
+              "answerable_contrast_frames": 160,
+              "hard_without_answerable_contrast": 5,
+              "expected_sampled_frames_per_epoch": 617.2249682453274
+            }
+          },
+          "room": {
+            "rollout_ids": [
+              187,
+              196,
+              197,
+              201,
+              203,
+              208,
+              211,
+              215,
+              217,
+              230,
+              237,
+              244,
+              245,
+              260,
+              263,
+              267,
+              268,
+              274,
+              275
+            ],
+            "rollouts": 19,
+            "passive_rollouts": 0,
+            "rollouts_with_actual_action_changes": 19,
+            "frames": 3040,
+            "valid_windows": 1104,
+            "eligible_fraction": 0.45394736842105265,
+            "executed_window_share": 0.2932270916334661,
+            "labels_at_32": {
+              "positive": 600,
+              "negative": 504,
+              "positive_rollouts": 13,
+              "negative_rollouts": 11,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 1420,
+              "negative": 1620,
+              "positive_rollouts": 13,
+              "negative_rollouts": 15,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 252,
+                "positive": 124,
+                "negative": 128,
+                "positive_rollouts": 6,
+                "negative_rollouts": 4,
+                "auc_defined": true
+              },
+              "reverse": {
+                "windows": 183,
+                "positive": 84,
+                "negative": 99,
+                "positive_rollouts": 6,
+                "negative_rollouts": 4,
+                "auc_defined": true
+              },
+              "strafe_left": {
+                "windows": 201,
+                "positive": 67,
+                "negative": 134,
+                "positive_rollouts": 3,
+                "negative_rollouts": 7,
+                "auc_defined": true
+              },
+              "strafe_right": {
+                "windows": 209,
+                "positive": 168,
+                "negative": 41,
+                "positive_rollouts": 6,
+                "negative_rollouts": 4,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 124,
+                "positive": 76,
+                "negative": 48,
+                "positive_rollouts": 4,
+                "negative_rollouts": 2,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 135,
+                "positive": 81,
+                "negative": 54,
+                "positive_rollouts": 4,
+                "negative_rollouts": 2,
+                "auc_defined": true
+              },
+              "yaw_left": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "yaw_right": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "up": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "down": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 0,
+              "positive_at_32": 0,
+              "negative_at_32": 0,
+              "current_hard_frames": 0,
+              "answerable_contrast_frames": 0,
+              "hard_without_answerable_contrast": 0,
+              "expected_sampled_frames_per_epoch": 650.1454545454545
+            }
+          }
+        }
+      }
+    },
+    "2": {
+      "train": {
+        "rollouts": 221,
+        "valid_windows": 15122,
+        "nominal_optimizer_steps_per_epoch": 237,
+        "nominal_optimizer_steps_total": 18960,
+        "nominal_executed_window_presentations_total": 1209760,
+        "cf_draws_per_half_per_epoch": 7561,
+        "hard_pool_falls_back_to_all_frames": false,
+        "worlds": {
+          "classic": {
+            "rollout_ids": [
+              0,
+              9,
+              12,
+              15,
+              18,
+              21,
+              24,
+              36,
+              39,
+              45,
+              54,
+              57,
+              60,
+              63,
+              69,
+              72,
+              75,
+              78,
+              81,
+              84,
+              87,
+              90,
+              93,
+              96,
+              99,
+              102,
+              105,
+              108,
+              111,
+              114,
+              120,
+              123,
+              126,
+              132,
+              135,
+              141,
+              144,
+              147,
+              150,
+              153,
+              156,
+              159,
+              162,
+              165,
+              168,
+              171,
+              174,
+              177
+            ],
+            "rollouts": 48,
+            "passive_rollouts": 16,
+            "rollouts_with_actual_action_changes": 32,
+            "frames": 7680,
+            "valid_windows": 3625,
+            "eligible_fraction": 0.5900065104166666,
+            "executed_window_share": 0.23971696865493983,
+            "labels_at_32": {
+              "positive": 1098,
+              "negative": 2527,
+              "positive_rollouts": 25,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 1570,
+              "negative": 6110,
+              "positive_rollouts": 25,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 2302,
+                "positive": 771,
+                "negative": 1531,
+                "positive_rollouts": 14,
+                "negative_rollouts": 27,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 237,
+                "positive": 46,
+                "negative": 191,
+                "positive_rollouts": 3,
+                "negative_rollouts": 9,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 286,
+                "positive": 111,
+                "negative": 175,
+                "positive_rollouts": 7,
+                "negative_rollouts": 10,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 247,
+                "positive": 60,
+                "negative": 187,
+                "positive_rollouts": 5,
+                "negative_rollouts": 12,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 298,
+                "positive": 69,
+                "negative": 229,
+                "positive_rollouts": 6,
+                "negative_rollouts": 14,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 255,
+                "positive": 41,
+                "negative": 214,
+                "positive_rollouts": 2,
+                "negative_rollouts": 8,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 37698,
+              "positive_at_32": 4968,
+              "negative_at_32": 32730,
+              "current_hard_frames": 1607,
+              "answerable_contrast_frames": 1586,
+              "hard_without_answerable_contrast": 21,
+              "expected_sampled_frames_per_epoch": 3583.807217982702
+            }
+          },
+          "dense": {
+            "rollout_ids": [
+              1,
+              4,
+              7,
+              13,
+              16,
+              19,
+              22,
+              28,
+              34,
+              37,
+              40,
+              49,
+              52,
+              55,
+              58,
+              61,
+              67,
+              70,
+              73,
+              76,
+              79,
+              82,
+              85,
+              88,
+              91,
+              94,
+              97,
+              100,
+              109,
+              115,
+              118,
+              121,
+              124,
+              127,
+              130,
+              133,
+              142,
+              145,
+              148,
+              151,
+              154,
+              157,
+              160,
+              163,
+              166,
+              172,
+              175,
+              178
+            ],
+            "rollouts": 48,
+            "passive_rollouts": 16,
+            "rollouts_with_actual_action_changes": 32,
+            "frames": 7680,
+            "valid_windows": 3584,
+            "eligible_fraction": 0.5833333333333334,
+            "executed_window_share": 0.23700568707842878,
+            "labels_at_32": {
+              "positive": 2570,
+              "negative": 1014,
+              "positive_rollouts": 45,
+              "negative_rollouts": 41,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 3653,
+              "negative": 4027,
+              "positive_rollouts": 46,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 2380,
+                "positive": 2012,
+                "negative": 368,
+                "positive_rollouts": 33,
+                "negative_rollouts": 20,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 248,
+                "positive": 120,
+                "negative": 128,
+                "positive_rollouts": 9,
+                "negative_rollouts": 9,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 139,
+                "positive": 58,
+                "negative": 81,
+                "positive_rollouts": 4,
+                "negative_rollouts": 6,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 234,
+                "positive": 104,
+                "negative": 130,
+                "positive_rollouts": 9,
+                "negative_rollouts": 6,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 396,
+                "positive": 206,
+                "negative": 190,
+                "positive_rollouts": 12,
+                "negative_rollouts": 10,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 187,
+                "positive": 70,
+                "negative": 117,
+                "positive_rollouts": 4,
+                "negative_rollouts": 8,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 29846,
+              "positive_at_32": 13590,
+              "negative_at_32": 16256,
+              "current_hard_frames": 3729,
+              "answerable_contrast_frames": 3314,
+              "hard_without_answerable_contrast": 415,
+              "expected_sampled_frames_per_epoch": 6147.636236838566
+            }
+          },
+          "moving": {
+            "rollout_ids": [
+              2,
+              5,
+              11,
+              17,
+              20,
+              23,
+              26,
+              29,
+              35,
+              38,
+              44,
+              50,
+              53,
+              56,
+              59,
+              62,
+              65,
+              68,
+              71,
+              74,
+              77,
+              80,
+              83,
+              86,
+              89,
+              95,
+              98,
+              101,
+              104,
+              107,
+              110,
+              113,
+              116,
+              122,
+              128,
+              131,
+              134,
+              137,
+              140,
+              143,
+              146,
+              155,
+              161,
+              164,
+              167,
+              173,
+              176,
+              179
+            ],
+            "rollouts": 48,
+            "passive_rollouts": 16,
+            "rollouts_with_actual_action_changes": 32,
+            "frames": 7680,
+            "valid_windows": 3505,
+            "eligible_fraction": 0.5704752604166666,
+            "executed_window_share": 0.23178151038222458,
+            "labels_at_32": {
+              "positive": 1583,
+              "negative": 1922,
+              "positive_rollouts": 33,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 1645,
+              "negative": 6035,
+              "positive_rollouts": 33,
+              "negative_rollouts": 48,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 2291,
+                "positive": 1330,
+                "negative": 961,
+                "positive_rollouts": 23,
+                "negative_rollouts": 23,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 269,
+                "positive": 24,
+                "negative": 245,
+                "positive_rollouts": 2,
+                "negative_rollouts": 14,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 249,
+                "positive": 98,
+                "negative": 151,
+                "positive_rollouts": 6,
+                "negative_rollouts": 11,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 221,
+                "positive": 50,
+                "negative": 171,
+                "positive_rollouts": 4,
+                "negative_rollouts": 9,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 232,
+                "positive": 37,
+                "negative": 195,
+                "positive_rollouts": 2,
+                "negative_rollouts": 12,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 243,
+                "positive": 44,
+                "negative": 199,
+                "positive_rollouts": 3,
+                "negative_rollouts": 12,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 34262,
+              "positive_at_32": 2928,
+              "negative_at_32": 31334,
+              "current_hard_frames": 922,
+              "answerable_contrast_frames": 903,
+              "hard_without_answerable_contrast": 19,
+              "expected_sampled_frames_per_epoch": 2756.180979567873
+            }
+          },
+          "room": {
+            "rollout_ids": [
+              180,
+              181,
+              182,
+              185,
+              186,
+              188,
+              189,
+              190,
+              191,
+              192,
+              193,
+              194,
+              195,
+              196,
+              197,
+              198,
+              199,
+              200,
+              201,
+              202,
+              203,
+              204,
+              205,
+              207,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217,
+              219,
+              220,
+              221,
+              222,
+              223,
+              225,
+              227,
+              229,
+              230,
+              231,
+              234,
+              235,
+              236,
+              237,
+              238,
+              239,
+              240,
+              241,
+              242,
+              243,
+              244,
+              245,
+              246,
+              249,
+              250,
+              251,
+              252,
+              253,
+              254,
+              256,
+              257,
+              259,
+              261,
+              262,
+              264,
+              265,
+              266,
+              268,
+              269,
+              270,
+              271,
+              272,
+              273,
+              274,
+              275
+            ],
+            "rollouts": 77,
+            "passive_rollouts": 0,
+            "rollouts_with_actual_action_changes": 76,
+            "frames": 12320,
+            "valid_windows": 4408,
+            "eligible_fraction": 0.4472402597402597,
+            "executed_window_share": 0.2914958338844068,
+            "labels_at_32": {
+              "positive": 2347,
+              "negative": 2061,
+              "positive_rollouts": 54,
+              "negative_rollouts": 53,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 5571,
+              "negative": 6749,
+              "positive_rollouts": 54,
+              "negative_rollouts": 61,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 858,
+                "positive": 530,
+                "negative": 328,
+                "positive_rollouts": 22,
+                "negative_rollouts": 17,
+                "auc_defined": true
+              },
+              "reverse": {
+                "windows": 495,
+                "positive": 251,
+                "negative": 244,
+                "positive_rollouts": 13,
+                "negative_rollouts": 13,
+                "auc_defined": true
+              },
+              "strafe_left": {
+                "windows": 820,
+                "positive": 485,
+                "negative": 335,
+                "positive_rollouts": 25,
+                "negative_rollouts": 22,
+                "auc_defined": true
+              },
+              "strafe_right": {
+                "windows": 782,
+                "positive": 345,
+                "negative": 437,
+                "positive_rollouts": 18,
+                "negative_rollouts": 19,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 731,
+                "positive": 318,
+                "negative": 413,
+                "positive_rollouts": 14,
+                "negative_rollouts": 18,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 722,
+                "positive": 418,
+                "negative": 304,
+                "positive_rollouts": 20,
+                "negative_rollouts": 15,
+                "auc_defined": true
+              },
+              "yaw_left": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "yaw_right": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "up": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "down": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 0,
+              "positive_at_32": 0,
+              "negative_at_32": 0,
+              "current_hard_frames": 0,
+              "answerable_contrast_frames": 0,
+              "hard_without_answerable_contrast": 0,
+              "expected_sampled_frames_per_epoch": 2634.3755656108597
+            }
+          }
+        }
+      },
+      "val": {
+        "rollouts": 55,
+        "valid_windows": 3701,
+        "nominal_optimizer_steps_per_epoch": 58,
+        "nominal_optimizer_steps_total": 4640,
+        "nominal_executed_window_presentations_total": 296080,
+        "cf_draws_per_half_per_epoch": 1850,
+        "hard_pool_falls_back_to_all_frames": false,
+        "worlds": {
+          "classic": {
+            "rollout_ids": [
+              3,
+              6,
+              27,
+              30,
+              33,
+              42,
+              48,
+              51,
+              66,
+              117,
+              129,
+              138
+            ],
+            "rollouts": 12,
+            "passive_rollouts": 4,
+            "rollouts_with_actual_action_changes": 8,
+            "frames": 1920,
+            "valid_windows": 887,
+            "eligible_fraction": 0.5774739583333334,
+            "executed_window_share": 0.23966495541745475,
+            "labels_at_32": {
+              "positive": 244,
+              "negative": 643,
+              "positive_rollouts": 6,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 314,
+              "negative": 1606,
+              "positive_rollouts": 6,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 554,
+                "positive": 213,
+                "negative": 341,
+                "positive_rollouts": 3,
+                "negative_rollouts": 6,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 72,
+                "positive": 0,
+                "negative": 72,
+                "positive_rollouts": 0,
+                "negative_rollouts": 4,
+                "auc_defined": false
+              },
+              "veer_left": {
+                "windows": 81,
+                "positive": 16,
+                "negative": 65,
+                "positive_rollouts": 1,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 53,
+                "positive": 0,
+                "negative": 53,
+                "positive_rollouts": 0,
+                "negative_rollouts": 3,
+                "auc_defined": false
+              },
+              "climb": {
+                "windows": 74,
+                "positive": 15,
+                "negative": 59,
+                "positive_rollouts": 2,
+                "negative_rollouts": 4,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 53,
+                "positive": 0,
+                "negative": 53,
+                "positive_rollouts": 0,
+                "negative_rollouts": 4,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 9951,
+              "positive_at_32": 1752,
+              "negative_at_32": 8199,
+              "current_hard_frames": 477,
+              "answerable_contrast_frames": 477,
+              "hard_without_answerable_contrast": 0,
+              "expected_sampled_frames_per_epoch": 925.178916827853
+            }
+          },
+          "dense": {
+            "rollout_ids": [
+              10,
+              25,
+              31,
+              43,
+              46,
+              64,
+              103,
+              106,
+              112,
+              136,
+              139,
+              169
+            ],
+            "rollouts": 12,
+            "passive_rollouts": 4,
+            "rollouts_with_actual_action_changes": 8,
+            "frames": 1920,
+            "valid_windows": 852,
+            "eligible_fraction": 0.5546875,
+            "executed_window_share": 0.23020805187787086,
+            "labels_at_32": {
+              "positive": 617,
+              "negative": 235,
+              "positive_rollouts": 11,
+              "negative_rollouts": 11,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 993,
+              "negative": 927,
+              "positive_rollouts": 11,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 573,
+                "positive": 481,
+                "negative": 92,
+                "positive_rollouts": 9,
+                "negative_rollouts": 4,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 41,
+                "positive": 30,
+                "negative": 11,
+                "positive_rollouts": 2,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 39,
+                "positive": 35,
+                "negative": 4,
+                "positive_rollouts": 2,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 50,
+                "positive": 32,
+                "negative": 18,
+                "positive_rollouts": 3,
+                "negative_rollouts": 1,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 52,
+                "positive": 31,
+                "negative": 21,
+                "positive_rollouts": 2,
+                "negative_rollouts": 2,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 97,
+                "positive": 8,
+                "negative": 89,
+                "positive_rollouts": 1,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 7159,
+              "positive_at_32": 3456,
+              "negative_at_32": 3703,
+              "current_hard_frames": 979,
+              "answerable_contrast_frames": 830,
+              "hard_without_answerable_contrast": 149,
+              "expected_sampled_frames_per_epoch": 1474.0559853857726
+            }
+          },
+          "moving": {
+            "rollout_ids": [
+              8,
+              14,
+              32,
+              41,
+              47,
+              92,
+              119,
+              125,
+              149,
+              152,
+              158,
+              170
+            ],
+            "rollouts": 12,
+            "passive_rollouts": 4,
+            "rollouts_with_actual_action_changes": 8,
+            "frames": 1920,
+            "valid_windows": 878,
+            "eligible_fraction": 0.5716145833333334,
+            "executed_window_share": 0.23723318022156173,
+            "labels_at_32": {
+              "positive": 355,
+              "negative": 523,
+              "positive_rollouts": 9,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 439,
+              "negative": 1481,
+              "positive_rollouts": 10,
+              "negative_rollouts": 12,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 542,
+                "positive": 281,
+                "negative": 261,
+                "positive_rollouts": 5,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 40,
+                "positive": 8,
+                "negative": 32,
+                "positive_rollouts": 1,
+                "negative_rollouts": 2,
+                "auc_defined": true
+              },
+              "veer_left": {
+                "windows": 97,
+                "positive": 31,
+                "negative": 66,
+                "positive_rollouts": 3,
+                "negative_rollouts": 4,
+                "auc_defined": true
+              },
+              "veer_right": {
+                "windows": 60,
+                "positive": 17,
+                "negative": 43,
+                "positive_rollouts": 2,
+                "negative_rollouts": 2,
+                "auc_defined": true
+              },
+              "climb": {
+                "windows": 84,
+                "positive": 0,
+                "negative": 84,
+                "positive_rollouts": 0,
+                "negative_rollouts": 4,
+                "auc_defined": false
+              },
+              "hover": {
+                "windows": 55,
+                "positive": 18,
+                "negative": 37,
+                "positive_rollouts": 1,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 8212,
+              "positive_at_32": 928,
+              "negative_at_32": 7284,
+              "current_hard_frames": 236,
+              "answerable_contrast_frames": 236,
+              "hard_without_answerable_contrast": 0,
+              "expected_sampled_frames_per_epoch": 661.6741886954653
+            }
+          },
+          "room": {
+            "rollout_ids": [
+              183,
+              184,
+              187,
+              206,
+              208,
+              209,
+              218,
+              224,
+              226,
+              228,
+              232,
+              233,
+              247,
+              248,
+              255,
+              258,
+              260,
+              263,
+              267
+            ],
+            "rollouts": 19,
+            "passive_rollouts": 0,
+            "rollouts_with_actual_action_changes": 19,
+            "frames": 3040,
+            "valid_windows": 1084,
+            "eligible_fraction": 0.4457236842105263,
+            "executed_window_share": 0.2928938124831127,
+            "labels_at_32": {
+              "positive": 455,
+              "negative": 629,
+              "positive_rollouts": 11,
+              "negative_rollouts": 14,
+              "auc_defined": true
+            },
+            "now_labels": {
+              "positive": 1082,
+              "negative": 1958,
+              "positive_rollouts": 11,
+              "negative_rollouts": 17,
+              "auc_defined": true
+            },
+            "actions": {
+              "forward": {
+                "windows": 297,
+                "positive": 100,
+                "negative": 197,
+                "positive_rollouts": 5,
+                "negative_rollouts": 7,
+                "auc_defined": true
+              },
+              "reverse": {
+                "windows": 128,
+                "positive": 27,
+                "negative": 101,
+                "positive_rollouts": 2,
+                "negative_rollouts": 5,
+                "auc_defined": true
+              },
+              "strafe_left": {
+                "windows": 152,
+                "positive": 11,
+                "negative": 141,
+                "positive_rollouts": 1,
+                "negative_rollouts": 8,
+                "auc_defined": true
+              },
+              "strafe_right": {
+                "windows": 216,
+                "positive": 112,
+                "negative": 104,
+                "positive_rollouts": 6,
+                "negative_rollouts": 8,
+                "auc_defined": true
+              },
+              "slow": {
+                "windows": 185,
+                "positive": 137,
+                "negative": 48,
+                "positive_rollouts": 4,
+                "negative_rollouts": 2,
+                "auc_defined": true
+              },
+              "hover": {
+                "windows": 106,
+                "positive": 68,
+                "negative": 38,
+                "positive_rollouts": 3,
+                "negative_rollouts": 3,
+                "auc_defined": true
+              },
+              "yaw_left": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "yaw_right": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "up": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              },
+              "down": {
+                "windows": 0,
+                "positive": 0,
+                "negative": 0,
+                "positive_rollouts": 0,
+                "negative_rollouts": 0,
+                "auc_defined": false
+              }
+            },
+            "counterfactual": {
+              "visible_frame_candidates": 0,
+              "positive_at_32": 0,
+              "negative_at_32": 0,
+              "current_hard_frames": 0,
+              "answerable_contrast_frames": 0,
+              "hard_without_answerable_contrast": 0,
+              "expected_sampled_frames_per_epoch": 639.0909090909091
+            }
+          }
+        }
+      }
+    }
+  },
+  "provenance": {
+    "dataset": {
+      "path": "/Users/hans.chen/microdrone-world-model/output/intervention_timing_v1/immediate_train/data.npz",
+      "sha256": "ac06ae4a499a5b9fe09e5a29345aa3a3a15c7672cdcb3e5293d7e4ad89413e56"
+    }
+  }
+}

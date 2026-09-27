@@ -1,16 +1,16 @@
 # Research continuation state — 2026-09-27
 
-The three matched training studies below are **closed NO-GO**. Their common
+The four matched training studies below are **closed NO-GO**. Their common
 exam machinery is implemented and exercised; no candidate earned promotion.
 The remaining research question is which action-specific failure a new
 single-knob study can resolve with adequate course support and the embedded
-budget intact. A new [intervention timing study](../experiments/intervention_timing_v1/definition.md)
-is registered at `f8acc83`; its instrument and whole-repo lint passed before
-the first new corpus or fit. It uses four action-specific AUC cells, explicit
-forward guards and a fixed independent exam. Check its journal and stage
-receipts for current execution state; registration is not a performance result.
+budget intact. The latest [intervention timing study](../experiments/intervention_timing_v1/summary.md)
+completed all 23 stages and six fits after support passed. Its primary macro
+improves in all seeds but misses the mean bar; dense right-veer breaks its
+action guard in every seed. Other guards pass. No worker remains active at
+this closure, and no candidate is promoted.
 
-This is a living continuation index, continued from `f84af64`. Original
+This is a living continuation index, continued from `ecb5796`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -18,23 +18,26 @@ on resumption. Old queue files and PIDs do not establish active work.
 ## Closed scientific evidence
 
 Each study used six fresh 80-epoch fits, paired seeds 0/1/2, and its own
-186-course independent exam shared by all six models. Exams differ between
-studies: compare arms within a study, not absolute scores across studies.
+independent exam shared by all six models: 186 courses in the first three
+studies and 1,440 in intervention timing. Exams differ between studies:
+compare arms within a study, not absolute scores across studies.
 
 | Study / single knob | Primary deltas, seeds 0 / 1 / 2 | Why NO-GO |
 |---|---|---|
 | [schedule_layout_v1](../experiments/schedule_layout_v1/summary.md): legacy → world-balanced roles | Moving AUC +0.0133 / −0.0745 / −0.1042; mean −0.0551 | Mean misses +0.03; seed 1 room/now guards fail and seed 2 fails all behavioral guards |
 | [cf_hard_pool_v1](../experiments/cf_hard_pool_v1/summary.md): masked-vector → answerable-label contrast sampling | Veer accuracy +0.0481 / −0.0913 / +0.1635; mean +0.0401 | Mean misses +0.05; seed 1 ranking declines and seed 0 classic/moving/room/now guards fail |
 | [executed_weight_v1](../experiments/executed_weight_v1/summary.md): moving executed-loss weight 1.0 → 2.25 | Moving AUC −0.0184 / +0.1227 / +0.0752; mean +0.0598 | Mean passes +0.03, but seed 0 positivity and seed 1 dense/veer guards fail |
+| [intervention_timing_v1](../experiments/intervention_timing_v1/summary.md): approach → immediate nonpassive commands | Four-cell steering AUC macro +0.0191 / +0.0347 / +0.0126; mean +0.0221 | Mean misses +0.03; dense right action breaks −0.02 guard in all seeds, dense left also fails seed 0 |
 
 Keep `world_balanced` as the structural role-coverage repair, without claiming
 a performance upgrade. CF sampling stays `legacy_masked`; executed-loss
-weight stays 1.0. Preserve all seeds and failed guards. These closed studies
+weight stays 1.0; intervention timing stays `approach`. Preserve all seeds
+and failed guards. These closed studies
 authorize no replacement draws, added exam courses, altered bars or flight
 gate. Recorded course-bootstrap intervals condition on fixed checkpoint
 pairs; three-seed means/ranges are not training-population uncertainty.
 
-All three studies retain the same **137.29 KB analytic int8 bill** and
+All four studies retain the same **137.29 KB analytic int8 bill** and
 3,856,768 MACs/decision: **7.71 ms at an assumed 0.5 GMAC/s**, against the
 project's 512 KB / approximately 8 ms target. These are estimates, without
 hardware timing, quantization-parity or flight certification for these fits.
@@ -95,26 +98,31 @@ actions/classes. Objective weight mass is not measured gradient mass.
 
 ## Next research decision
 
-Prioritize a specific steering/action failure with a falsifiable mechanism.
-Immediate intervention now has paired evidence of adequate full-corpus
-steering support under modest pilot bars, retained in all three training
-partitions. The fixed-seed audit shows the corresponding validation and
-per-world veer-probe limitations. Before a model comparison, a new
-registration must justify support for the actual endpoint and independent
-exam, and protect forward behavior alongside the existing room/now/veer
-guards. Do not search split seeds or expand a closed pilot to obtain a pass.
-The current internal validation partitions are not a complete
-action-specific or per-world veer exam.
+Prioritize the newly measured dense-right regression with a falsifiable
+mechanism. Immediate intervention improves moving left/right AUC and
+geometric ranking in all three registered seeds, yet loses dense-right AUC
+by 0.0259–0.0526. Pooled dense AUC improves in seeds 0/1 while that action
+declines, illustrating why the explicit action guard matters. The cause
+is not established; timing also changes windows, optimizer steps and CF/now
+exposures under fixed epochs. An exploratory diagnostic on fixed saved scores
+and development metadata can separate candidate explanations before another
+training registration. It must not alter this closed verdict or add a new
+performance endpoint retroactively.
+
+The current internal validation partitions remain an incomplete
+action-specific/per-world veer exam; they were not used for model selection.
 The pilot uses 180 scene pairs, not 360 independent courses; its two corpora
 are development data, never independent exams for one another. Defaults
 remain shared RNG and approach timing.
-The new [registration](../experiments/intervention_timing_v1/registration.json)
-freezes 276 development courses per arm, a separate 1,440-course common exam,
-six final-epoch fits, action/forward/world/now/veer support and performance
-bars, and a no-fit response to insufficient support. Candidate training
-retains the pilot minima; control action deficits remain the studied
-condition. Internal validation cannot select models or decide the outcome.
-The following discipline continues to apply to this and future studies:
+The completed timing study used 276 development courses per arm and a
+separate 1,440-course exam. All registered support checks passed, including
+100 windows and ten courses per class in each required AUC cell. Its
+geometric probe has 1,404 frames / 173 courses, including 177 / 19 in moving.
+All 23 stages, raw-score metrics, support counts and bootstrap results are
+recomputed/verified by its [evidence script](../experiments/intervention_timing_v1/verify.sh).
+Do not add seeds/courses or retry a failed performance guard. Any new model
+study needs its own registration and independent exam. The following
+discipline continues to apply:
 
 1. Name the endpoint, required worlds/actions and one training knob. Freeze
    control/candidate recipes, all training seeds, guards, source revision,

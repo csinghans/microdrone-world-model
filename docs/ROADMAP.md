@@ -104,11 +104,13 @@ cells, but validation only 2/12. Moving validation veer probes contain
 1/0/0 courses in both arms. Retain the timing hypothesis's training-support
 evidence while treating these internal validation partitions as insufficient
 for the full action/per-world comparison; do not choose a more favorable seed.
-The new [intervention timing model study](../experiments/intervention_timing_v1/definition.md)
-registers six fixed-epoch fits and a separate 1,440-course common exam with
-explicit action, forward, world, now and per-world veer safeguards. Its
-instrument tests pass; all fitting remains conditional on the frozen
-support preflight. Follow its journal for execution and results.
+The completed [intervention timing model study](../experiments/intervention_timing_v1/summary.md)
+passes support preflight, then runs six fixed-epoch fits on a separate
+1,440-course common exam. The four-action macro improves in every seed but
+its mean +0.0221 misses +0.03. Dense right-veer breaks its action guard in
+all three seeds; all forward/world/now/geometric-ranking guards pass.
+This is another closed **NO-GO**, with a specific dense-right failure to
+diagnose before registering another training intervention.
 
 Other closed research arcs:
 
