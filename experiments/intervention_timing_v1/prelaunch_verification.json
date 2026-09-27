@@ -1,0 +1,133 @@
+{
+  "checks": [
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "scripts.intervention_timing_study",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.5784938335418701,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/00.log",
+      "sha256": "e8f6d1055bdf390bebfb5e9c11188d5d49b8f4685261a6c6845af418e4df05bd"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "eval.eval_dataset_support",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.5345232486724854,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/01.log",
+      "sha256": "98de26e1e5c3c8cfc6d8d8e90eaad4c5e986e427d57efcca9ee8be17b434838a"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "eval.eval_support_requirements",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.2265431880950928,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/02.log",
+      "sha256": "19b979a391e208f8102085b2e72eaf38bf1eb478ce84ad8a0dfed715925d1426"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "eval.eval_veer_support",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.06400203704833984,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/03.log",
+      "sha256": "1b6b912329a2225a1d4dbd1bc8ae21b54b186b07aaa9cfb278dce38a27e6aac4"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "eval.compare_wm_scores",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.1358931064605713,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/04.log",
+      "sha256": "9c4bcda17dc2bbd6f03bd08768da65dda87c55a4f4dcaf389ecc46e3c8a2e6fa"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "datasets.combine_rollouts",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.0657956600189209,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/05.log",
+      "sha256": "1a2f3d5510c98b9044f4598bae19a9aa603396d2da94875db5ea252d71663dce"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/python",
+        "-m",
+        "scripts.schedule_layout_study",
+        "--selftest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.07871603965759277,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/06.log",
+      "sha256": "9db66f0a5f9c9c0695ae8996bd0a7c3cb1beb3a817dc3f25b02345ee452dd6d9"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/black",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.13700008392333984,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/07.log",
+      "sha256": "906842757e671314cb79123de6f56d991e76f6b6b5e2fd8fabd90c41aabffed2"
+    },
+    {
+      "command": [
+        "/Users/hans.chen/.cache/microdrone-research-venv/bin/ruff",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.015511751174926758,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/08.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.011062145233154297,
+      "log": "/Users/hans.chen/microdrone-world-model/output/research_integrity_selftest/intervention_timing_v1_prelaunch/09.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "protected": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "registration_sha256": "049c61003b3e5dee92d41332fcd7f889df17404c5e4c6cd8160980ca78ca3394"
+}

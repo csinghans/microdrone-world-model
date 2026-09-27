@@ -62,6 +62,10 @@ then finds 12/12 candidate training cells retain those minima, but only 2/12
 validation cells do. Moving validation veer probes have 1/0/0 contributing
 courses across seeds 0/1/2, so the full-corpus result does not establish an
 adequately supported internal validation exam.
+The new [model study](experiments/intervention_timing_v1/definition.md) now
+registers a separate 1,440-course common exam, action-specific endpoints and
+forward/room/now/veer guards. Training is conditional on prospective support
+checks; registration and passing instrument tests are not a model result.
 
 ## Why this exists
 

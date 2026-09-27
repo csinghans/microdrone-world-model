@@ -104,6 +104,11 @@ cells, but validation only 2/12. Moving validation veer probes contain
 1/0/0 courses in both arms. Retain the timing hypothesis's training-support
 evidence while treating these internal validation partitions as insufficient
 for the full action/per-world comparison; do not choose a more favorable seed.
+The new [intervention timing model study](../experiments/intervention_timing_v1/definition.md)
+registers six fixed-epoch fits and a separate 1,440-course common exam with
+explicit action, forward, world, now and per-world veer safeguards. Its
+instrument tests pass; all fitting remains conditional on the frozen
+support preflight. Follow its journal for execution and results.
 
 Other closed research arcs:
 

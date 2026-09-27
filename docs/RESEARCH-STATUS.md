@@ -4,9 +4,13 @@ The three matched training studies below are **closed NO-GO**. Their common
 exam machinery is implemented and exercised; no candidate earned promotion.
 The remaining research question is which action-specific failure a new
 single-knob study can resolve with adequate course support and the embedded
-budget intact. No new training study is registered or running at this review.
+budget intact. A new [intervention timing study](../experiments/intervention_timing_v1/definition.md)
+is registered at `f8acc83`; its instrument and whole-repo lint passed before
+the first new corpus or fit. It uses four action-specific AUC cells, explicit
+forward guards and a fixed independent exam. Check its journal and stage
+receipts for current execution state; registration is not a performance result.
 
-This is a living continuation index, continued from `d0454ec`. Original
+This is a living continuation index, continued from `f84af64`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -104,8 +108,13 @@ action-specific or per-world veer exam.
 The pilot uses 180 scene pairs, not 360 independent courses; its two corpora
 are development data, never independent exams for one another. Defaults
 remain shared RNG and approach timing.
-The following is preparation for a new registration, **not** a registered
-study or a reason to reopen any closed experiment:
+The new [registration](../experiments/intervention_timing_v1/registration.json)
+freezes 276 development courses per arm, a separate 1,440-course common exam,
+six final-epoch fits, action/forward/world/now/veer support and performance
+bars, and a no-fit response to insufficient support. Candidate training
+retains the pilot minima; control action deficits remain the studied
+condition. Internal validation cannot select models or decide the outcome.
+The following discipline continues to apply to this and future studies:
 
 1. Name the endpoint, required worlds/actions and one training knob. Freeze
    control/candidate recipes, all training seeds, guards, source revision,
