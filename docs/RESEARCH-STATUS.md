@@ -17,7 +17,16 @@ no further model or flight experiment has been released. See its
 [journal](../experiments/moving_timing_v1/journal.md) and
 [verification](../experiments/moving_timing_v1/verification.json).
 
-This is a living continuation index, continued from `dfa9ad6`. Original
+The subsequent [probe diagnostic](../experiments/moving_probe_audit_v1/summary.md)
+is complete: all 27 cells reconstruct the twelve original probe aggregates.
+Immediate-block moving accuracy declines in every seed. Correctness on
+left-safer frames falls while right-safer correctness rises; strict-left
+preference bounds decrease in all seeds. Exact opposite-direction versus
+tie counts cannot be recovered from the saved correctness flags. Seed 2's
+equal-course accuracy improves while its registered frame-weighted accuracy
+declines; this alternative weighting does not change the NO-GO.
+
+This is a living continuation index, continued from `9ac59ae`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -141,15 +150,30 @@ Identical nonmoving arrays also did not prevent dense-left/classic-ranking
 failures. The recipe changes eligible windows, optimizer steps and CF/now
 exposures under fixed epochs; these results do not isolate their mechanism.
 
-The next useful work is a separately declared diagnostic of this moving
-ranking loss, using the fixed saved scores and development metadata. Trace
-the probe's contributing courses and the recipe's supervision exposures
-before proposing another training change. Do not treat a diagnostic as a
-new pass/fail gate or as permission to repeat the closed model study. Both
-arms retain sparse dense steering training coverage; unchanged data is not
-a repaired support claim. Any new model comparison needs one falsifiable
-knob, a new independent exam, immutable guards and the 512 KB / approximately
-8 ms budget. No such fit is released by this closure.
+The separately declared `moving_probe_audit_v1` now locates that loss.
+Moving's approach block contains 32 frames / five courses; its immediate
+block 102 / eleven. Immediate accuracy deltas are −0.4118 / −0.2745 / −0.0784.
+Across moving, correct counts on 101 left-safer frames fall 82→25, 64→32,
+51→33, while those on 33 right-safer frames rise 9→26, 29→30, 22→31.
+Losses occur across 9/8/7 of 16 courses. The exact cause is still open.
+
+The instrument's next useful improvement is to retain both raw veer scores
+alongside correctness, with artifactless schema/parity tests and backward
+compatibility for existing exports. A false flag includes ties under the
+current strict comparison, so treating it as an opposite-side prediction
+would fabricate evidence. Any rescoring of fixed checkpoints needs a new
+declared instrument study; this diagnostic did not run inference. A separate
+metadata exposure audit could address sampling before another training knob.
+Do not turn diagnostic slices or alternate course weighting into new gates.
+Any model comparison still needs one falsifiable knob, a fresh independent
+exam, immutable guards and the 512 KB / approximately 8 ms budget. No further
+fit or flight study is released here.
+
+Adding this diagnostic module intentionally changes the model study's strict
+tracked-Python inventory. Its 192 original saved source hashes and inputs
+were verified unchanged, with all nine protected artifacts intact. Use its
+original source snapshot to run the old strict verifier; do not edit the
+manifest to admit subsequent modules.
 
 The earlier all-world timing study remains a separate closed comparison.
 Its dense-right loss was found inside timing blocks and beyond conflicting

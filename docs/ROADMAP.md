@@ -23,6 +23,15 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
+- **moving_probe_audit_v1: course and safer-side accounting complete.**
+  All 27 world/timing/seed cells reconstruct the twelve original probe
+  aggregates. Moving losses are larger in the immediate block in all seeds;
+  left-truth correctness falls while right-truth correctness rises. Strict-left
+  preference bounds fall in every seed, but correctness-only exports cannot
+  identify wrong-side versus tied predictions. Seed 2 improves under equal
+  course weighting while failing the registered frame-weighted guard; this
+  alternative estimand changes no verdict. No fit or inference ran.
+  [Complete diagnostic](../experiments/moving_probe_audit_v1/summary.md).
 - **moving_timing_v1: moving-only timing recipe NO-GO.** All 22 stages,
   six fresh fits and six scores completed after support passed on a new
   1,440-course exam. Primary moving left/right AUC deltas are
