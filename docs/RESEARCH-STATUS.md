@@ -6,7 +6,7 @@ The remaining research question is which action-specific failure a new
 single-knob study can resolve with adequate course support and the embedded
 budget intact. No new training study is registered or running at this review.
 
-This is a living continuation index, continued from `fff1bde`. Original
+This is a living continuation index, continued from `d0454ec`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.

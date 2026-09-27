@@ -4,6 +4,8 @@ cd "$(dirname "$0")/../.."
 bash experiments/support_distance_v1/verify_before.sh
 "${PYTHON:-python}" - <<'PY'
 from pathlib import Path
+import hashlib
+import subprocess
 from eval.eval_dataset_support import analyze, load_metadata
 from experiments.early_intervention_split_v1.audit import complete_actions
 from scripts.schedule_layout_study import read, sha, verify_files, write_new
@@ -36,7 +38,11 @@ else:
     write_new(folder / 'compatibility.json', result)
 receipt = folder / 'verification.json'
 if receipt.exists():
+    saved = read(receipt)
     for key in ('frozen_files', 'logs', 'locked_artifacts'):
-        verify_files(read(receipt)[key])
+        verify_files(saved[key])
+    for path, digest in saved['instrument_sources'].items():
+        source = subprocess.check_output(['git', 'show', f"{saved['instrument_commit']}:{path}"])
+        assert hashlib.sha256(source).hexdigest() == digest, path
 print('SUPPORT-DISTANCE VERIFIED: four valid corpora retain all counts/splits; nine locked artifacts intact')
 PY

@@ -1,0 +1,61 @@
+{
+  "completed_at": "2026-09-27T03:33:29.202772+00:00",
+  "before_commit": "f94174e",
+  "instrument_commit": "d0454ec",
+  "scope": "Reject nonfinite distance/radius metadata before support accounting; preserve valid signed clearances and previous scientific results.",
+  "runtime": {
+    "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "numpy": "2.5.3"
+  },
+  "instrument_sources": {
+    "eval/eval_dataset_support.py": "9f80baf9f8d710e15fd4b9cd4150418e80bd41bbb071de9951dd440236f59bb9",
+    "scripts/support_publication_selftest.py": "d9e56c06f79b1e1e9cedda57dd756ccc1ab960f251d4d05d200200b51d8b146c",
+    "eval/eval_support_requirements.py": "736190078282b8ea54877e8075529381750d0d7a525206c21962d307618e42a8",
+    "experiments/early_intervention_split_v1/audit.py": "b342b3200a0b4311bc5203d9a79010b8873dfe99b34c923e63a333c10ad23460",
+    "world_model/training.py": "32a3859617acb1b0872574d1b0ba3ef5ef0260f85a2af57f167ef7e4ee319004",
+    "datasets/intervention_labels.py": "bcf0b7508eef7c5c32181082b3e3598310f46f9659766549c574ce037d5dc803"
+  },
+  "frozen_files": {
+    "experiments/support_distance_v1/before.json": "b5822703c15bb136716849e44cf54092b431e2696fcb7e42dbabbf2529c9db97",
+    "experiments/support_distance_v1/compatibility.json": "55c9e46cce383444af96dbf08ac218e5035adc4671ef2556f629a06318abed6a",
+    "experiments/support_distance_v1/verify_before.sh": "837f227f5404d84ce1b0f4db31a6853614410ea0a5c315f5b7505767f4002575",
+    "experiments/support_distance_v1/verify.sh": "24408d1a468c3e49530d4efc3e610e3af29cf45ffe7f9268c208fa0a403f026f"
+  },
+  "logs": {
+    "output/research_integrity_selftest/support_distance_v1_before.log": "846e5223a7b6f38e39278ee3862d1b217816a3471632494066d9a1b938ff2739",
+    "output/research_integrity_selftest/support_distance_v1_checks.log": "9ff4e92ba75dd0af5864aad7eecdf3cd916ba66258db3b1e74600e75f93cf049",
+    "output/research_integrity_selftest/support_distance_v1_compatibility.log": "1a3498d871ae69c4db28ce2b01bb95f1175410c7f43f78193f515d1cbf4ce6f7"
+  },
+  "exit_codes": {
+    "before": 0,
+    "checks": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "compatibility": 0
+  },
+  "locked_artifacts": {
+    "output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "observations": {
+    "invalid_metadata_cases_rejected_before_index_oracle": 17,
+    "signed_room_positive_windows": 3,
+    "unchanged_valid_corpora_with_all_and_three_seed_partitions": 4,
+    "whole_repo_lint_python_files": 180
+  },
+  "limits": "Targeted distance/radius validation, not complete geometry schema validation. No training, model scores, new data or on-device budget claim. Local macOS validation."
+}
