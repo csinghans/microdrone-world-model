@@ -1,0 +1,72 @@
+{
+  "stages": {
+    "vision": {
+      "exit_code": 0,
+      "log_sha256": "c6461420b040ac8e97861847aab4007968c016739132e71fe40a329126035b09",
+      "receipt_sha256": "f165d1678a90d254819c92fb69226c4c41d1ace233d70bee922ad4ca24f89d5a"
+    },
+    "paired_sources": {
+      "exit_code": 0,
+      "log_sha256": "ecb34c744c22183e849cbaa0044bb9fd0c60b797505eb94cd753cd32e155b7d4",
+      "receipt_sha256": "f083e27f38e6d1136827a45efb86e05f941d0249ba3007d5f2ca765e33f14f65"
+    },
+    "approach_train": {
+      "exit_code": 0,
+      "log_sha256": "a3ed1375cbb4718dcf1e99b481896bcae5aff7f3713d8ee45caa5dcd01aacd2a",
+      "receipt_sha256": "ea1698395f1ecf0b7bdf87ab03fda2aa5476c4b37d13cd166ee86fa8b722611b"
+    },
+    "moving_immediate_train": {
+      "exit_code": 0,
+      "log_sha256": "a9a2afe2d724f16c20c66d757848f614cdfc27c3a6c2be6d5eb6c6ed06f3445f",
+      "receipt_sha256": "0dbb8f381d0b96fc9723a267249e1357637ecb7dc8e29561288d5070de365dc4"
+    },
+    "exam_approach": {
+      "exit_code": 0,
+      "log_sha256": "54c21816330e04956418ffd3aa225583b6c10decb98ceb535b5b73f33673e582",
+      "receipt_sha256": "5301cd5de2ae14f491ec54eefcbd3eba6738bb8578b4e58435b5c357a1a415c7"
+    },
+    "exam_immediate": {
+      "exit_code": 0,
+      "log_sha256": "b90ed10b9952382f63e5eac83e90fb7048dd890814ab2b29b676764a0a327eb0",
+      "receipt_sha256": "8fa6b9e8795cd5855532f87b083b7679dc53087ba549139b407f25f46cd9bf0b"
+    },
+    "indoor_exam": {
+      "exit_code": 0,
+      "log_sha256": "f364e7f9f97e5cf6849bb15a8c721afc90cadafaa73155de554d5da743c2a826",
+      "receipt_sha256": "94cfd797211b2fe372a8b29b7acee6c55830cf7b0a8d69e8a1850f7134236e90"
+    },
+    "holdout": {
+      "exit_code": 0,
+      "log_sha256": "403bca575b2f5ffd6fcd6b0b232fc41b17916b5d596d0b59a3a7c1c553101e88",
+      "receipt_sha256": "084a4bb7023aac70b5980038ea6733e45d12b4ef8e696ca85186b2be5ffd566f"
+    },
+    "preflight": {
+      "exit_code": 0,
+      "log_sha256": "5820f16507c094824b0f1ab874f69d71c99f03a9cca5d31605942518b7bb3535",
+      "receipt_sha256": "f1083e888b49676108da7daf718eae3fc0fb0682ab83e831990f83c1c635e8df"
+    }
+  },
+  "manifest_sha256": "652b2b102b24a42c6c2649b298efd657d9b5173aab747ef9e7aa07dffb8f1c14",
+  "support_files": {
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_timing_v1/support/approach_support.json": "69f78fb9c2dcf6036ab5142d9a62e1ef23b9c8ee3fbdc3d27e0520f7a972fe3c",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_timing_v1/support/holdout_support.json": "cf412d56eeb9f9e33f3c82a12035178fa483a4f6585638a2c526ca7bf2c3f080",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_timing_v1/support/moving_immediate_support.json": "0249da656b8a9ce1184c87d39a5fe88c9e12770f1ef4e034a8480186c8b0e882",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_timing_v1/support/now_support.json": "9357bfb8e354cc410b04b5f6a3af15207527b8cf9beffe1e15684d22b846aa1c",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_timing_v1/support/report.json": "93cd327669aa9fbaaadbf40c35a6f2afea05c61e5ebd624ad65bd2d61f286034",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_timing_v1/support/stratified_support.json": "123af00a701468fec40b19025f347d59bfce52b6db8121a9a429b7bb018fe8da",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_timing_v1/support/veer_support.json": "bfbb546ae1f6b5830afbf70a9371e94fe0c3227141ca899b73c08e17398a66f7"
+  },
+  "protected": {
+    "/Users/hans.chen/microdrone-world-model/output/world_model.pth": "1fea88ad0659c502ce945a83fc1976187ab434a15869c1b5ad824279149f80cf",
+    "/Users/hans.chen/microdrone-world-model/output/world_model_unified.pth": "5162dcd24421c58b1195f2854ad79cd8951c5c0c1116e702a7c8d2df9d76fdf4",
+    "/Users/hans.chen/microdrone-world-model/output/ppo_wm_policy_edge_hard_xp.zip": "54ef8dcc5501de938c0969fb7c6edf422f6d861e8a9efa18beea53b1e544fee1",
+    "/Users/hans.chen/microdrone-world-model/experiments/gap_flight/artifacts/ppo_gap_flight_KD1.zip": "d5a50b85946d687c462bccb5265c1983fe78a8dcb1d138d988e3259ae8f22d49",
+    "/Users/hans.chen/microdrone-world-model/experiments/moving_gap_v2/artifacts/ppo_moving_gap_v2_K3.zip": "57bf831633ff7eac738809bf4465c724e2478df7dc3738f8fe3b658be2f14383",
+    "/Users/hans.chen/microdrone-world-model/experiments/slalom_v2_promotion/artifacts/ppo_anchor_sched_edge.zip": "8d3acad07ddebd35797dc91e67fee764a6781650d7185c65475d8e4df8e443ba",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_yaw.pt": "cd67b1852bcab5f082060bd831750787b3a11f070e8cae1f7af256febdb73b3c",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_low.pt": "9d6b2a8bb1a6b6be5fc906f74852add60ac6a67d0d647bc82dc4fe2fc9d355a7",
+    "/Users/hans.chen/microdrone-world-model/output/target_head_person.pt": "ae59ceba7ab8c60ec6f605333095c6328e29deecd6bed9908c88d34a75e82315"
+  },
+  "status": "READY",
+  "scope": "Preflight only; no performance result. All nine prerequisite stages have actual exit 0 and verified complete-log/output hashes."
+}

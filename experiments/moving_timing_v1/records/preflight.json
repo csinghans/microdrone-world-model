@@ -1,0 +1,919 @@
+{
+  "stage": "preflight",
+  "exit_code": 0,
+  "started_unix": 1790521404.3408651,
+  "elapsed_seconds": 5.256072759628296,
+  "manifest_sha256": "652b2b102b24a42c6c2649b298efd657d9b5173aab747ef9e7aa07dffb8f1c14",
+  "result": {
+    "status": "READY",
+    "training_primary": {
+      "approach": {
+        "schema_version": 1,
+        "target": "executed_warn_at_32",
+        "scope": "Prospective count requirements only. Windows are correlated; course counts mean distinct rollout IDs within each class/action and may overlap. Passing does not establish statistical power, independent courses, rendered vision, held-out provenance or model performance. Freeze requirements in a new registration; never apply them as new gates to closed studies.",
+        "status": "satisfied",
+        "checks": [
+          {
+            "partition": "splits/0/train",
+            "world": "moving",
+            "action": "veer_left",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 96,
+              "negative": 95,
+              "positive_rollouts": 6,
+              "negative_rollouts": 6
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/0/train",
+            "world": "moving",
+            "action": "veer_right",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 113,
+              "negative": 76,
+              "positive_rollouts": 8,
+              "negative_rollouts": 5
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/1/train",
+            "world": "moving",
+            "action": "veer_left",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 49,
+              "negative": 128,
+              "positive_rollouts": 4,
+              "negative_rollouts": 8
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/1/train",
+            "world": "moving",
+            "action": "veer_right",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 126,
+              "negative": 71,
+              "positive_rollouts": 8,
+              "negative_rollouts": 5
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/2/train",
+            "world": "moving",
+            "action": "veer_left",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 93,
+              "negative": 126,
+              "positive_rollouts": 6,
+              "negative_rollouts": 8
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/2/train",
+            "world": "moving",
+            "action": "veer_right",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 113,
+              "negative": 51,
+              "positive_rollouts": 8,
+              "negative_rollouts": 4
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          }
+        ]
+      },
+      "moving_immediate": {
+        "schema_version": 1,
+        "target": "executed_warn_at_32",
+        "scope": "Prospective count requirements only. Windows are correlated; course counts mean distinct rollout IDs within each class/action and may overlap. Passing does not establish statistical power, independent courses, rendered vision, held-out provenance or model performance. Freeze requirements in a new registration; never apply them as new gates to closed studies.",
+        "status": "satisfied",
+        "checks": [
+          {
+            "partition": "splits/0/train",
+            "world": "moving",
+            "action": "veer_left",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 78,
+              "negative": 141,
+              "positive_rollouts": 7,
+              "negative_rollouts": 10
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/0/train",
+            "world": "moving",
+            "action": "veer_right",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 59,
+              "negative": 173,
+              "positive_rollouts": 5,
+              "negative_rollouts": 9
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/1/train",
+            "world": "moving",
+            "action": "veer_left",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 70,
+              "negative": 135,
+              "positive_rollouts": 6,
+              "negative_rollouts": 10
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/1/train",
+            "world": "moving",
+            "action": "veer_right",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 47,
+              "negative": 190,
+              "positive_rollouts": 5,
+              "negative_rollouts": 10
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/2/train",
+            "world": "moving",
+            "action": "veer_left",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 98,
+              "negative": 151,
+              "positive_rollouts": 6,
+              "negative_rollouts": 11
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          },
+          {
+            "partition": "splits/2/train",
+            "world": "moving",
+            "action": "veer_right",
+            "minimum": {
+              "positive": 20,
+              "negative": 20,
+              "positive_rollouts": 3,
+              "negative_rollouts": 3
+            },
+            "observed": {
+              "positive": 50,
+              "negative": 171,
+              "positive_rollouts": 4,
+              "negative_rollouts": 9
+            },
+            "missing": null,
+            "deficits": {},
+            "satisfied": true
+          }
+        ]
+      }
+    },
+    "checks": {
+      "train/approach/0/classic": {
+        "actual": {
+          "positive": 1287,
+          "negative": 2021,
+          "positive_rollouts": 28,
+          "negative_rollouts": 44
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/0/dense": {
+        "actual": {
+          "positive": 2868,
+          "negative": 411,
+          "positive_rollouts": 48,
+          "negative_rollouts": 27
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/0/moving": {
+        "actual": {
+          "positive": 1778,
+          "negative": 1477,
+          "positive_rollouts": 44,
+          "negative_rollouts": 48
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/0/room": {
+        "actual": {
+          "positive": 2346,
+          "negative": 2014,
+          "positive_rollouts": 54,
+          "negative_rollouts": 54
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/1/classic": {
+        "actual": {
+          "positive": 1362,
+          "negative": 1964,
+          "positive_rollouts": 28,
+          "negative_rollouts": 42
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/1/dense": {
+        "actual": {
+          "positive": 2863,
+          "negative": 434,
+          "positive_rollouts": 48,
+          "negative_rollouts": 30
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/1/moving": {
+        "actual": {
+          "positive": 1708,
+          "negative": 1542,
+          "positive_rollouts": 43,
+          "negative_rollouts": 48
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/1/room": {
+        "actual": {
+          "positive": 2202,
+          "negative": 2186,
+          "positive_rollouts": 52,
+          "negative_rollouts": 56
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/2/classic": {
+        "actual": {
+          "positive": 1311,
+          "negative": 2016,
+          "positive_rollouts": 27,
+          "negative_rollouts": 43
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/2/dense": {
+        "actual": {
+          "positive": 2834,
+          "negative": 471,
+          "positive_rollouts": 48,
+          "negative_rollouts": 30
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/2/moving": {
+        "actual": {
+          "positive": 1742,
+          "negative": 1501,
+          "positive_rollouts": 43,
+          "negative_rollouts": 48
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/approach/2/room": {
+        "actual": {
+          "positive": 2347,
+          "negative": 2061,
+          "positive_rollouts": 54,
+          "negative_rollouts": 53
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/0/classic": {
+        "actual": {
+          "positive": 1287,
+          "negative": 2021,
+          "positive_rollouts": 28,
+          "negative_rollouts": 44
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/0/dense": {
+        "actual": {
+          "positive": 2868,
+          "negative": 411,
+          "positive_rollouts": 48,
+          "negative_rollouts": 27
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/0/moving": {
+        "actual": {
+          "positive": 1579,
+          "negative": 1906,
+          "positive_rollouts": 34,
+          "negative_rollouts": 48
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/0/room": {
+        "actual": {
+          "positive": 2346,
+          "negative": 2014,
+          "positive_rollouts": 54,
+          "negative_rollouts": 54
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/1/classic": {
+        "actual": {
+          "positive": 1362,
+          "negative": 1964,
+          "positive_rollouts": 28,
+          "negative_rollouts": 42
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/1/dense": {
+        "actual": {
+          "positive": 2863,
+          "negative": 434,
+          "positive_rollouts": 48,
+          "negative_rollouts": 30
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/1/moving": {
+        "actual": {
+          "positive": 1539,
+          "negative": 1969,
+          "positive_rollouts": 34,
+          "negative_rollouts": 48
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/1/room": {
+        "actual": {
+          "positive": 2202,
+          "negative": 2186,
+          "positive_rollouts": 52,
+          "negative_rollouts": 56
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/2/classic": {
+        "actual": {
+          "positive": 1311,
+          "negative": 2016,
+          "positive_rollouts": 27,
+          "negative_rollouts": 43
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/2/dense": {
+        "actual": {
+          "positive": 2834,
+          "negative": 471,
+          "positive_rollouts": 48,
+          "negative_rollouts": 30
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/2/moving": {
+        "actual": {
+          "positive": 1583,
+          "negative": 1922,
+          "positive_rollouts": 33,
+          "negative_rollouts": 48
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "train/moving_immediate/2/room": {
+        "actual": {
+          "positive": 2347,
+          "negative": 2061,
+          "positive_rollouts": 54,
+          "negative_rollouts": 53
+        },
+        "minimum": {
+          "positive": 20,
+          "negative": 20,
+          "positive_rollouts": 3,
+          "negative_rollouts": 3
+        },
+        "passed": true
+      },
+      "exam/classic": {
+        "actual": {
+          "positive": 9925,
+          "negative": 19985,
+          "positive_rollouts": 226,
+          "negative_rollouts": 410
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/dense": {
+        "actual": {
+          "positive": 25245,
+          "negative": 4857,
+          "positive_rollouts": 409,
+          "negative_rollouts": 281
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/moving": {
+        "actual": {
+          "positive": 14820,
+          "negative": 15439,
+          "positive_rollouts": 346,
+          "negative_rollouts": 413
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/room": {
+        "actual": {
+          "positive": 4438,
+          "negative": 5839,
+          "positive_rollouts": 107,
+          "negative_rollouts": 140
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/moving/veer_left": {
+        "actual": {
+          "positive": 950,
+          "negative": 1214,
+          "positive_rollouts": 62,
+          "negative_rollouts": 74
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/moving/veer_right": {
+        "actual": {
+          "positive": 880,
+          "negative": 1076,
+          "positive_rollouts": 58,
+          "negative_rollouts": 61
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/dense/veer_left": {
+        "actual": {
+          "positive": 1466,
+          "negative": 290,
+          "positive_rollouts": 93,
+          "negative_rollouts": 24
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/dense/veer_right": {
+        "actual": {
+          "positive": 1489,
+          "negative": 406,
+          "positive_rollouts": 88,
+          "negative_rollouts": 27
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/classic/forward": {
+        "actual": {
+          "positive": 6933,
+          "negative": 13402,
+          "positive_rollouts": 134,
+          "negative_rollouts": 276
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/dense/forward": {
+        "actual": {
+          "positive": 18707,
+          "negative": 2257,
+          "positive_rollouts": 304,
+          "negative_rollouts": 160
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/moving/forward": {
+        "actual": {
+          "positive": 10800,
+          "negative": 9851,
+          "positive_rollouts": 210,
+          "negative_rollouts": 280
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/moving/veer_left/approach": {
+        "actual": {
+          "positive": 544,
+          "negative": 367,
+          "positive_rollouts": 34,
+          "negative_rollouts": 22
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/moving/veer_left/immediate": {
+        "actual": {
+          "positive": 406,
+          "negative": 847,
+          "positive_rollouts": 28,
+          "negative_rollouts": 52
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/moving/veer_right/approach": {
+        "actual": {
+          "positive": 445,
+          "negative": 325,
+          "positive_rollouts": 30,
+          "negative_rollouts": 23
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/moving/veer_right/immediate": {
+        "actual": {
+          "positive": 435,
+          "negative": 751,
+          "positive_rollouts": 28,
+          "negative_rollouts": 38
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/now": {
+        "actual": {
+          "positive": 81647,
+          "negative": 148753,
+          "positive_rollouts": 1104,
+          "negative_rollouts": 1422
+        },
+        "minimum": {
+          "positive": 100,
+          "negative": 100,
+          "positive_rollouts": 10,
+          "negative_rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/veer/classic": {
+        "actual": {
+          "frames": 348,
+          "rollouts": 55
+        },
+        "minimum": {
+          "frames": 40,
+          "rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/veer/dense": {
+        "actual": {
+          "frames": 865,
+          "rollouts": 91
+        },
+        "minimum": {
+          "frames": 40,
+          "rollouts": 10
+        },
+        "passed": true
+      },
+      "exam/veer/moving": {
+        "actual": {
+          "frames": 134,
+          "rollouts": 16
+        },
+        "minimum": {
+          "frames": 40,
+          "rollouts": 10
+        },
+        "passed": true
+      }
+    },
+    "scope": "Coverage floors only; no precision/power or performance claim.",
+    "identities": {
+      "paired_training_scenes": 276,
+      "disjoint_exam_scenes": 1440,
+      "disjoint_closed_exam_scenes": 1440,
+      "original_approach_split_membership_preserved": true
+    }
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/preflight/approach_support.json": "69f78fb9c2dcf6036ab5142d9a62e1ef23b9c8ee3fbdc3d27e0520f7a972fe3c",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/preflight/holdout_support.json": "cf412d56eeb9f9e33f3c82a12035178fa483a4f6585638a2c526ca7bf2c3f080",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/preflight/moving_immediate_support.json": "0249da656b8a9ce1184c87d39a5fe88c9e12770f1ef4e034a8480186c8b0e882",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/preflight/now_support.json": "9357bfb8e354cc410b04b5f6a3af15207527b8cf9beffe1e15684d22b846aa1c",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/preflight/report.json": "93cd327669aa9fbaaadbf40c35a6f2afea05c61e5ebd624ad65bd2d61f286034",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/preflight/stratified_support.json": "123af00a701468fec40b19025f347d59bfce52b6db8121a9a429b7bb018fe8da",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/preflight/veer_support.json": "bfbb546ae1f6b5830afbf70a9371e94fe0c3227141ca899b73c08e17398a66f7"
+  }
+}

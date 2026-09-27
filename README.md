@@ -41,44 +41,20 @@ varies with the training draw. See the two-tier benchmark below: the
 *mechanisms* held on the recorded draws; the *point numbers* carry honest
 run-to-run ranges.
 
-**Research update — 2026-09-27:** the role-schedule, CF sampler and executed
-loss-weight studies all closed **NO-GO**, each using three paired training
-seeds and its own common independent exam. An action-pair audit then found
-that 97.10% of moving's same-action score pairs were forward/forward;
-the overall AUC gain does not establish steering quality. The
-[current research state](docs/RESEARCH-STATUS.md) links the frozen results,
-instrument repairs and action/class support requirements for the next study.
-The [repeated-command audit](experiments/held_command_support_v1/journal.md)
-finds about 20% more available training windows across redundant segment
-boundaries, but no extra per-action positive/negative course coverage.
-It leaves the steering-support limitation and every closed model verdict intact.
-The subsequent [paired timing pilot](experiments/early_intervention_support_v1/journal.md)
-finds that immediate interventions meet the registered steering class/course
-minima on 180 paired scenes: dense right-veer negative courses rise from
-1 to 7. Forward coverage falls, so this is data feasibility evidence, with
-no new fitted model or adopted training recipe.
-The [fixed-seed split audit](experiments/early_intervention_split_v1/journal.md)
-then finds 12/12 candidate training cells retain those minima, but only 2/12
-validation cells do. Moving validation veer probes have 1/0/0 contributing
-courses across seeds 0/1/2, so the full-corpus result does not establish an
-adequately supported internal validation exam.
-The completed [model study](experiments/intervention_timing_v1/summary.md)
-then passes prospective support on a separate 1,440-course exam and runs
-six fixed-epoch fits. Its action-specific macro gains +0.0221 on average,
-below the +0.03 bar, while dense right-veer breaks its guard in every seed.
-It closes **NO-GO** despite improving geometric turn ranking; approach
-timing and all champions remain unchanged.
-An [exploratory timing-mixture audit](experiments/timing_mixture_audit_v1/summary.md)
-locates dense-right loss inside the immediate exam block in all three seeds.
-It also finds that moving-right seed 0 improves pooled AUC while losing AUC
-inside both timing blocks; pooled gains do not imply gains in every condition.
-A [target-agreement audit](experiments/executed_cf_agreement_v1/summary.md)
-then finds differences between flown-trajectory and kinematic CF labels,
-and confirms the geometric turn probe selects different frames. These
-diagnostics clarify the metrics without establishing why the model regressed.
-The [saved-score join](experiments/cf_score_attribution_v1/summary.md) further
-finds dense-right losses in agreeing and masked comparisons, beyond the
-identified conflicting examples. It preserves the same NO-GO and models.
+**Research update — 2026-09-27:** four matched model studies are closed
+**NO-GO**. The latest [all-world timing study](experiments/intervention_timing_v1/summary.md)
+improves its steering AUC macro by +0.0221 on average, below the +0.03 bar,
+and loses dense right-veer AUC in every seed. Subsequent audits show why
+pooled gains and geometric turn ranking cannot substitute for supported
+action-specific guards; they do not establish the regression's cause.
+
+The new [moving-only timing study](experiments/moving_timing_v1/definition.md)
+has passed support checks on a fresh independent exam. It changes only moving-world
+intervention timing, preserves other worlds' data, and adds guards within
+each exam timing condition. Its six fixed-epoch fits are now running in
+the registered order. No performance result or champion change yet.
+The [current research state](docs/RESEARCH-STATUS.md) links every frozen
+result, diagnostic, instrument repair and active-study receipt.
 
 ## Why this exists
 

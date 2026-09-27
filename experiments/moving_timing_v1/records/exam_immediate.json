@@ -1,0 +1,34 @@
+{
+  "stage": "exam_immediate",
+  "exit_code": 0,
+  "started_unix": 1790521162.160299,
+  "elapsed_seconds": 167.9649109840393,
+  "manifest_sha256": "652b2b102b24a42c6c2649b298efd657d9b5173aab747ef9e7aa07dffb8f1c14",
+  "result": {
+    "coverage": {
+      "classic": {
+        "courses": 210,
+        "passive": 70,
+        "clear": 105,
+        "sampled_frame_std": 57.62276079012372
+      },
+      "dense": {
+        "courses": 210,
+        "passive": 70,
+        "clear": 0,
+        "sampled_frame_std": 79.70811301897048
+      },
+      "moving": {
+        "courses": 210,
+        "passive": 70,
+        "clear": 0,
+        "sampled_frame_std": 51.728229038640585
+      }
+    },
+    "courses": 630
+  },
+  "files": {
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/exam_immediate/course_identities.json": "e8684797b88c65d27010aeb5d834704b8fb0566adab86e72fe7984414fa8d223",
+    "/Users/hans.chen/microdrone-world-model/output/moving_timing_v1/exam_immediate/data.npz": "3c48a1f0f9f6e98ca975e979bb6a45f22e8e12d581fafc6804082de2cd04cd32"
+  }
+}

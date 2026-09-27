@@ -1,0 +1,30 @@
+{
+  "moving/veer_left/approach": {
+    "positive": 544,
+    "negative": 367,
+    "positive_rollouts": 34,
+    "negative_rollouts": 22,
+    "auc_defined": true
+  },
+  "moving/veer_left/immediate": {
+    "positive": 406,
+    "negative": 847,
+    "positive_rollouts": 28,
+    "negative_rollouts": 52,
+    "auc_defined": true
+  },
+  "moving/veer_right/approach": {
+    "positive": 445,
+    "negative": 325,
+    "positive_rollouts": 30,
+    "negative_rollouts": 23,
+    "auc_defined": true
+  },
+  "moving/veer_right/immediate": {
+    "positive": 435,
+    "negative": 751,
+    "positive_rollouts": 28,
+    "negative_rollouts": 38,
+    "auc_defined": true
+  }
+}

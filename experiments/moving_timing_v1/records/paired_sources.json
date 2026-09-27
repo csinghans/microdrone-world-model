@@ -1,0 +1,16 @@
+{
+  "stage": "paired_sources",
+  "exit_code": 0,
+  "started_unix": 1790520983.062936,
+  "elapsed_seconds": 0.6813089847564697,
+  "manifest_sha256": "652b2b102b24a42c6c2649b298efd657d9b5173aab747ef9e7aa07dffb8f1c14",
+  "result": {
+    "paired_courses": 276,
+    "moving_courses": 60,
+    "passive_moving_courses": 20,
+    "identical_room_courses": 96,
+    "initial_scenes_equal": true,
+    "held_command_prefixes_equal": true
+  },
+  "files": {}
+}

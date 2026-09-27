@@ -1,0 +1,7 @@
+{
+  "positive": 81647,
+  "negative": 148753,
+  "positive_rollouts": 1104,
+  "negative_rollouts": 1422,
+  "auc_defined": true
+}

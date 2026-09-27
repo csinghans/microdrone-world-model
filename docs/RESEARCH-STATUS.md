@@ -1,16 +1,27 @@
 # Research continuation state — 2026-09-27
 
-The four matched training studies below are **closed NO-GO**. Their common
-exam machinery is implemented and exercised; no candidate earned promotion.
-The remaining research question is which action-specific failure a new
-single-knob study can resolve with adequate course support and the embedded
-budget intact. The latest [intervention timing study](../experiments/intervention_timing_v1/summary.md)
+The new [moving-only timing study](../experiments/moving_timing_v1/definition.md)
+is in progress. Registration `0ea3f90` and tested instrument `92d2004` precede
+its new exam generation. Only moving-world rows change; classic, dense and
+room data stay fixed. Both 276-course development arms have been published
+after exact pairing checks, and all four rendering fixtures passed. The new
+1,440-course exam has 100,548 eligible windows and meets every frozen
+training/exam support floor. All nine prerequisite stages have actual exit 0;
+the six fresh 80-epoch fits are now running in the registered order. See the
+[preflight](../experiments/moving_timing_v1/preflight.md); there is no
+performance result yet.
+Read its [journal](../experiments/moving_timing_v1/journal.md) and stage receipts
+for progress, and inspect the live process before attempting to resume.
+
+The four earlier matched training studies below are **closed NO-GO**. Their
+common exam machinery is implemented and exercised; no candidate earned
+promotion. The closed [intervention timing study](../experiments/intervention_timing_v1/summary.md)
 completed all 23 stages and six fits after support passed. Its primary macro
 improves in all seeds but misses the mean bar; dense right-veer breaks its
-action guard in every seed. Other guards pass. No worker remains active at
-this closure, and no candidate is promoted.
+action guard in every seed. Other guards pass. That study remains closed,
+and no candidate is promoted.
 
-This is a living continuation index, continued from `c3ed618`. Original
+This is a living continuation index, continued from `92d2004`. Original
 registrations, stage receipts and journals are the evidence of record; this
 page neither replaces them nor changes a gate. Recheck Git and processes
 on resumption. Old queue files and PIDs do not establish active work.
@@ -123,6 +134,17 @@ pairs are not independent trials, and course counts can overlap across
 actions/classes. Objective weight mass is not measured gradient mass.
 
 ## Next research decision
+
+The registered `moving_timing_v1` now tests a narrower data intervention:
+replace only moving rows with their immediate counterparts, retain the
+approach rows in other worlds, and evaluate a moving left/right primary on
+a new exam. Dense left/right retain their −0.02 action guards; moving
+left/right also have −0.02 guards within each exam timing block. Both arms
+retain known sparse dense steering training coverage. This is not a repair
+claim for that coverage or a causal identification of the old regression.
+The support gate must pass before fitting; insufficient support closes the
+study without replacement courses. A performance GO would authorize only
+a separately registered flight study, within 512 KB / approximately 8 ms.
 
 Prioritize the newly measured dense-right regression with a falsifiable
 mechanism. Immediate intervention improves moving left/right AUC and
