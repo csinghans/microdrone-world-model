@@ -1,5 +1,14 @@
 # Research continuation state — 2026-09-28
 
+**Next priority: compare the deployed checkpoints on a common independent
+exam, then choose a study with a declared precision/power plan.** The
+existing 60-rollout audit measured unified WM at 0.818842 overall and
+0.773229 moving, below its historical validation readings; these are
+different exams. [Measured source](../experiments/metric_integrity_v1/journal.md).
+The 2026-09-29 review redirects work from further accounting slices toward
+small fix MRs and that checkpoint comparison. The author's original README,
+ROADMAP and article #16 are preserved with appended evidence notes.
+
 All five matched model studies below are **closed NO-GO**. The latest
 [moving-only timing study](../experiments/moving_timing_v1/summary.md) completed
 all 22 stages, six fresh fits and six scorings after support passed. Its

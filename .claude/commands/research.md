@@ -32,9 +32,15 @@ gates:
    already gated.
    New campaigns persist cell/recheck settings before their first knob and
    reject drift on resumption. `evaluation_identity: legacy_unrecorded`
-   means an older record lacks that evidence: it stays readable, but a new
-   measurement requires a migration grounded in the original pre-registration.
+   means an older record lacks that evidence: continuation warns and records
+   current settings only on the new measurement; old blocks remain unchanged.
    Never backfill today's settings or rerun a negative to recreate provenance.
+   If a recorded measurement is invalid because of a demonstrated harness
+   bug, use `research invalidate <skill> --knob-id K0 --reason '<fault>'`.
+   This retains the original block and file hash in `invalidated_measurements`.
+   Fix the harness, then `step` the same knob. An exception before a gate was
+   recorded needs no invalidation. A journal/Git write failure after a valid
+   measurement needs file repair, not another measurement.
 3. Verify prerequisites exist: the skill's zero-shot policy zip and
    `output/world_model.pth`. Verify `git status` is clean enough that
    path-scoped gate commits won't tangle with unrelated work.

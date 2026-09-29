@@ -100,21 +100,25 @@ figures).
 For new campaigns, the runner saves `evaluation_frozen` before the first
 knob: cells (including order, world, speed, seeds and kwargs) and recheck
 settings. Resumption must match it. `status --json` marks older records
-without this evidence as `legacy_unrecorded`; their verdicts remain readable,
-but a new measurement requires recovering the original pre-registration in
-a reviewed migration. Do not backfill the current skill as historical proof.
+without this evidence as `legacy_unrecorded`; continuation warns and records
+current settings only on the new gate. Do not backfill the current skill as
+historical proof. Valid recorded negatives cannot be repeated. For a proven
+harness fault, `research invalidate <skill> --knob-id K0 --reason '<fault>'`
+retains the original numbers and hash before a repaired `step` can run.
 For a new campaign with no saved record, status reports `not_started`;
 `frozen` means the snapshot is already on disk.
 
 ```bash
 python -m scripts.research doctor skills/gap_flight            # preflight
-python -m scripts.research step skills/gap_flight --knob 0 --dry --no-commit
+python -m scripts.research --selftest                         # repeatable dry K0
 ```
 
 `doctor` is your preflight for *everything*: schema, worlds actually
 fly, artifacts present, the cost estimate before you pay it. `--dry`
 runs the whole gate machinery at n=2 with tiny stand-ins — safe
-anywhere, including CI.
+anywhere, including CI. `--selftest` uses a fresh temporary campaign each
+time. A direct `step ... --dry` persists under `experiments/<skill>_selftest`
+and correctly refuses to measure an already recorded knob again.
 
 ## 5. Your first real measurement (5 min)
 

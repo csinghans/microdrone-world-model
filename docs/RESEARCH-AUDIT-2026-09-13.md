@@ -1,9 +1,13 @@
 # Research evidence audit — 2026-09-13
 
-This audit improves the measurement machinery and narrows unsupported
-explanations. It does not change a frozen bar, historical measurement,
-campaign verdict or deployed champion. Numerical examples in the regression
-tests are synthetic instrument checks, not flight results.
+**The actionable findings are measurement bugs and a generalization gap:
+fix the instruments, then compare deployed checkpoints on one independent
+exam.** Unified WM's recorded common-exam AUC@32 is 0.818842 overall and
+0.773229 moving, distinct from historical validation readings.
+[Measured source](../experiments/metric_integrity_v1/journal.md).
+Frozen bars, historical measurements and champions remain unchanged.
+The 2026-09-29 review restores the author's prose and places subsequent
+evidence in appendices; synthetic regression examples below are tool checks.
 
 ## Measurement fixes
 

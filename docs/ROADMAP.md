@@ -23,174 +23,46 @@ Full gate-by-gate numbers: `experiments/*/journal.md`, `CHANGELOG.md`.
 
 ## Recently closed
 
-- **moving_probe_audit_v1: course and safer-side accounting complete.**
-  All 27 world/timing/seed cells reconstruct the twelve original probe
-  aggregates. Moving losses are larger in the immediate block in all seeds;
-  left-truth correctness falls while right-truth correctness rises. Strict-left
-  preference bounds fall in every seed, but correctness-only exports cannot
-  identify wrong-side versus tied predictions. Seed 2 improves under equal
-  course weighting while failing the registered frame-weighted guard; this
-  alternative estimand changes no verdict. No fit or inference ran.
-  [Complete diagnostic](../experiments/moving_probe_audit_v1/summary.md).
-- **moving_timing_v1: moving-only timing recipe NO-GO.** All 22 stages,
-  six fresh fits and six scores completed after support passed on a new
-  1,440-course exam. Primary moving left/right AUC deltas are
-  +0.0450 / +0.0251 / −0.0397, mean +0.0101 against +0.03. Moving geometric
-  ranking breaks its −0.05 guard in all seeds; dense-left breaks −0.02 in
-  seeds 1/2 despite identical nonmoving training arrays. Pooled-world,
-  forward, now and pooled-ranking guards pass, but cannot cancel the local
-  failures. All 22 stages and numeric results were verified; the analytic
-  137.29 KB / estimated 7.71 ms bill and all champions remain unchanged.
-  No flight gate or replacement draw follows.
-  [Complete report](../experiments/moving_timing_v1/summary.md).
-- **schedule_layout_v1: role coverage repaired, learning recipe NO-GO.**
-  Three paired training seeds on a common 186-course exam give moving AUC
-  deltas +0.0133 / −0.0745 / −0.1042 (mean −0.0551; required +0.0300).
-  Room/now guards fail at seed 1; every behavioral guard fails at seed 2.
-  The latter also has a large absolute latent endpoint, but seed 1 loses
-  performance without that symptom, so a mean-offset explanation is not
-  established. The 137.29 KB architecture bill is unchanged. Keep the
-  coverage fix separate from a performance endorsement; no model promotion
-  or remeasurement follows. The follow-up support audit is complete below.
-  [Complete report](../experiments/schedule_layout_v1/summary.md).
-- **schedule_support_v1: supervision audit complete.** Moving executed
-  windows fell 2,816→1,506 while action diversity increased. All six fit
-  counts reconcile; a dense internal AUC 0.5 was classless, while the common
-  exam retained both classes. In the balanced training partitions,
-  11.83–13.01% of hard frames had contrast created solely by zero masking;
-  the CF loss itself still masks unknown labels correctly. These are support
-  findings, not causal explanations for the learning NO-GO.
-  [Audit](../experiments/schedule_support_v1/journal.md).
-
-The [cf_hard_pool_v1 comparison](../experiments/cf_hard_pool_v1/summary.md)
-is also **closed NO-GO**. On a shared corpus and a new independent exam,
-ranking deltas are +0.0481 / −0.0913 / +0.1635 (mean +0.0401; required +.05).
-Seed 1 ranking and seed 0 classic/moving/room/now guards fail; the 137.29 KB
-bill stays fixed. Default sampling remains `legacy_masked`. The pooled
-ranking probe meets its registered support bar (208 frames / 23 courses),
-but only two courses are moving and none are room; retain that scope limit.
-Do not expand this exam or use the favorable seed 2 as a promotion gate.
-
-The [executed_weight_v1 study](../experiments/executed_weight_v1/summary.md)
-is **closed NO-GO**. A normalized moving executed-loss weight of 2.25 vs
-1.0 yields moving AUC deltas −0.0184 / +0.1227 / +0.0752, mean +0.0598.
-The mean bar passes; seed 0's moving criterion and seed 1's dense/veer
-guards fail. Batches, epochs, CF/now recipes and the 137.29 KB bill stayed
-fixed. The weight-mass hypothesis remains limited by those failures;
-default 1.0 stays, and no later flight gate follows this NO-GO. Veer
-uncertainty is unavailable because moving has only one eligible probe
-course, despite 20 total probe courses; future instruments must distinguish
-pooled support from support within bootstrap strata before fitting.
-
-That instrument is now available as `eval.eval_veer_support`: it shares
-the scorer's geometry and reads metadata only. The
-[compatibility audit](../experiments/veer_support_v1/journal.md) matched both
-closed exams, their common training corpus and twelve original exports.
-Use it before future fits, with required worlds and support bars frozen in
-the new registration. It reports insufficient support without generating
-replacement courses or inventing a retrospective gate. A structural
-bootstrap minimum does not establish useful precision or a per-world gain.
-
-The completed [action-pair audit](../experiments/action_auc_audit_v1/summary.md)
-reconstructs the executed-weight scores without inference or new samples.
-Moving's mean gain includes both within-action and across-action terms, but
-97.10% of its same-action score pairs are forward/forward. Dense veer-left
-has no negative windows; an overall AUC cannot certify those steering cases.
-For a new action-specific study, register required positive/negative course
-and window counts, then check them with `eval.eval_support_requirements`
-before fitting. The [support guide](SUPPORT-REQUIREMENTS.md) defines the
-workflow and explicit insufficiency response; it sets no scientific bars.
-Current implementation and validation scope: [continuation state](RESEARCH-STATUS.md).
-
-The [repeated-command support audit](../experiments/held_command_support_v1/journal.md)
-is complete: 1,681 additional constant-command windows exist in the shared
-training corpus, but no action/class gains distinct-course coverage. Moving
-recovers only 83 windows, none for either veer. More overlapping windows
-alone do not fill this corpus's steering-support gap; no training knob was
-released and no closed exam was expanded or rescored.
-
-The [early-intervention pilot](../experiments/early_intervention_support_v1/journal.md)
-is now closed with sufficient candidate support: on 180 exactly paired
-scenes, step-zero intervention meets the frozen dense/moving veer minima;
-control dense right-veer has negative labels from 1 course versus 7 for the
-candidate. Forward negative-course coverage decreases, so this result is
-data feasibility rather than a model win. A future training study needs a
-new registration, support checks on each actual training split, and frozen
-forward/room/now/veer guards. Neither the default approach recipe nor the
-closed model verdicts change.
-The subsequent [split audit](../experiments/early_intervention_split_v1/journal.md)
-checks fixed seeds 0/1/2: immediate training passes 12/12 required action
-cells, but validation only 2/12. Moving validation veer probes contain
-1/0/0 courses in both arms. Retain the timing hypothesis's training-support
-evidence while treating these internal validation partitions as insufficient
-for the full action/per-world comparison; do not choose a more favorable seed.
-The completed [intervention timing model study](../experiments/intervention_timing_v1/summary.md)
-passes support preflight, then runs six fixed-epoch fits on a separate
-1,440-course common exam. The four-action macro improves in every seed but
-its mean +0.0221 misses +0.03. Dense right-veer breaks its action guard in
-all three seeds; all forward/world/now/geometric-ranking guards pass.
-This is another closed **NO-GO**, with a specific dense-right failure to
-diagnose before registering another training intervention.
-The [timing-mixture diagnostic](../experiments/timing_mixture_audit_v1/summary.md)
-finds this dense-right loss within the supported immediate exam block in
-all seeds. It also exposes a pooled moving-right gain at seed 0 despite
-declines in both timing blocks. These are fixed-score, exploratory findings;
-they narrow the next diagnostic without establishing a training mechanism
-or releasing another fit.
-The [executed/CF agreement audit](../experiments/executed_cf_agreement_v1/summary.md)
-verifies the geometry instrument and records conflicting targets, but
-training conflicts are sparse and differ in direction from the problematic
-exam subset. The geometric probe also selects different frames. These
-findings motivated the declared score join below; neither established a
-learned mechanism or a training fix.
-The completed [score join](../experiments/cf_score_attribution_v1/summary.md)
-finds dense-right losses outside conflicting examples, including agreeing
-and masked comparisons in every seed. This narrows the diagnostic without
-isolating a training cause. Reused exam scores are development evidence;
-another model trial requires a new single-knob registration and exam.
-
-Other closed research arcs:
-
-- **The Perception Tier (three campaigns + one refusal): a promising
-  offline checkpoint, with its explanation still open.**
-  general_wm_v2 first re-measured v0.5's law one level down
+- **The Perception Tier (three campaigns + one refusal): the wall eats
+  pixels, the pincer lands three-for-three, and the residue is named
+  TIME.** general_wm_v2 first re-measured v0.5's law one level down
   (the record offline generalist wm_3x flies catastrophically —
   false-evasion 100 %: instruments predict, only the closed loop
-  certifies). Then the recorded seed-0 pixels-only sweep drew a curve
+  certifies). Then pixels-only sweeps drew the tier's governing curve
   — dense 0.9177 / **0.9947** / 0.6999 at 64/96/128, an inverted U
-  whose proposed compression-ratio mechanism remains unproven (veer
-  returns where dense falls) — and the capacity pincer at the
+  ruled by the compression ratio, with the latent TRIAGING (veer
+  returns exactly where dense drowns) — and the capacity pincer at the
   sweet spot (96 x D128) landed all three pre-registered recoveries
-  (veer double-perfect, dense 0.9965, saturation 0.31). It passed one
-  of three primary bars; classic's 0.013 shortfall was one of several
-  failed criteria. Longer training and finer pooling also closed NO-GO.
-  Temporal input was the follow-up hypothesis; neither the frozen-latent
-  probes nor the tested pixel-input recipe met its registered moving
-  improvement bar. Their negatives do not establish the residual cause.
-  The September evidence audit separates these checkpoint observations
-  from claims still needing common holdouts and matching controls.
-  wm_96d128
+  (veer double-perfect, dense 0.9965, saturation 0.31) while missing
+  classic by 0.013: the closest full pass in fifteen retrains. The
+  last two cheap hypotheses died with mechanisms attached (160 epochs
+  destabilizes — the one-sided variance guard is a slow explosion;
+  finer lateral pooling refuted at a second operating point). The
+  surviving residue has one name: the moving world and the open-space
+  over-warn are single-frame symptoms — **the previous glance**, i.e.
+  temporal input (2026-08-31 postscript: the latent-level reading died
+  in `temporal_probe_v1`; the live form is pixel-level two-frame input,
+  and the variance-guard prerequisite was re-scoped by the stability
+  arc — see "Open" below). wm_96d128
   stands as the offline dense apex (264 KB / 17 ms), not deployed,
   not certified. Article #16; journals:
   `experiments/{general_wm_v2,perception_v1,perception_v2,perception_v3}/`.
-- **The Representation Program (four campaigns, one day): recorded
-  negatives and a curriculum hypothesis.** Both
+- **The Representation Program (four campaigns, one day): the cheap
+  tier closes by exhaustion, and the mechanism gets a name.** Both
   chapters' wall (dense separation) was attacked offline with every
   cheap knob under frozen bars: architecture (strips 8 / D 128 — both
   trade dense for classic; the coarse pooling was quietly a
   regularizer), uniform 3x data (best GENERAL model ever, all-world
-  0.951 — and dense FELL to 0.842),
+  0.951 — and dense FELL to 0.842: outcompeted, not starved),
   composition (dense share 50% recovers a third, breaks the veer
   guard), and the org chart (a dense-ONLY specialist collapses to
   0.644 with +0.56 open-space over-warn). The one figure: dense share
   22/33/50/100 % gives dense skill 0.918/0.842/0.865/0.644 — an
-  inverted U peaking at LOW share in the recorded rows. The proposed
-  contrast/curriculum explanation remains a hypothesis: the September
-  generator audit found that world mixtures also changed intervention and
-  classic threatened/clear coverage under the old index schedule.
-  New comparisons must hold those roles and the independent exam fixed.
-  The historical negatives stand; they do not prove all data-side options
-  exhausted. Article #15 carries the evidence update; journals:
+  inverted U peaking at LOW share. **The mixed diet was supplying the
+  negatives; dense discrimination is a CONTRASTIVE property of the
+  curriculum.** The perception tier (resolution/depth) is now the
+  proven-by-exhaustion remaining road, and it must carry the mixed
+  curriculum with it. Article #15 tells it; journals:
   `experiments/{representation_v1,representation_v2,representation_v3,specialist_v1}/`.
   Parked: wm_3x (the record general row) as a future general-WM
   upgrade candidate; the meta-driven dims plumbing (old checkpoints
@@ -243,44 +115,40 @@ Other closed research arcs:
 
 ## Open, in order of pull
 
-1. **Improve the instrument before another temporal training run.**
-   Both tested forms closed NO-GO (2026-08-31): from the frozen latent
-   (`temporal_probe_v1` — a
+1. **Time — closed at this generation's diet; what remains is the
+   instrument.** Both readings of "the previous glance" are measured
+   dead (2026-08-31): from the frozen latent (`temporal_probe_v1` — a
    Δz head reads moving BELOW the single-frame control, a GRU gains
    +0.003 vs a +0.03 bar) and fed to the eyes (`temporal_v1_pixel` —
    the two-frame arm's 3-draw moving mean lands 0.027 below the
    single-frame mean, one draw breaks the veer guard). The pixel
-   campaign's three reported seeds show per-world single-frame ranges
-   of 0.14–0.23. But the checkpoint seed also selects a different
-   evaluation subset, and the reused apex control predates the new
-   variance guard. These ranges combine several sources of variation;
-   they do not establish that +0.03 effects are unanswerable or that
-   a larger training diet is the cure. First compare checkpoints on
-   a common, independently held-out dataset, record recipe provenance
-   and report uncertainty by rollout. Keep all historical verdicts.
-   A larger diet and the missing 96-px closed-loop gate remain separate
-   possible campaigns, informed by that diagnostic.
+   campaign's 3-draw design produced the tier's re-framing finding:
+   per-world draw spreads run 0.14–0.23 at this diet, the apex row of
+   record is the TOP of its own draw distribution, and +0.03-scale
+   offline questions are measurably unanswerable here. The honest ways
+   forward, each its own campaign: a BIGGER diet/holdout (data is the
+   binding resource), or the 96-px closed-loop flight gate the
+   "instruments predict, never certify" law always pointed at.
    Post-hoc lead, recorded without claim: two-frame input lifts the
    dense FLOOR (min 0.949 vs 0.769) — a regularizer-shaped question
    for whoever returns with a resolving instrument.
    Separately, the stability arc (stability_v1/v2/v3, three honest
-   negatives) showed that the tested two-sided penalty did not stop
-   the 160-epoch failure. The large latent offset (mean |z| 42) motivates
-   a center hinge, target normalization or an EMA schedule, each a
-   separate hypothesis. A std hinge cannot constrain a uniform offset.
-   The shipped band is [1, 8], with zero penalty when batch std lies
-   inside it; it is a soft penalty, not a bound. The old-code C0
-   reproduction established tensor identity, but did not exclude
-   transient upper-hinge activation in the changed-code run, so the
-   claimed dead-op/MPS causal mechanism remains unverified. Details and
-   source limitations: [research audit](RESEARCH-AUDIT-2026-09-13.md).
-2. **The dense frontier — retain the tested negatives and fix data controls.**
-   Historical unsuccessful options include metric grounding at λ∈{0.1, 0.5}
-   (v0.5 M2), global calibration (head_calibration C0),
-   and the tested architecture / data scale / composition / organization knobs
+   negatives) closed the variance-guard route and named the real
+   160-epoch runaway: CENTER drift (|z| 42 vs std ~5.5) — a std hinge
+   cannot constrain it; the open levers are a center hinge,
+   target-side normalization, or an EMA momentum schedule. The guard
+   ships two-sided [1, 8] (free at healthy points). Instrument laws,
+   measured: dead ops reshuffle the seed-0 draw (recipe identity
+   includes the op graph); model-axis certification needs ≥3 draws or
+   flight gates — and at this diet, even 3 draws resolve only large
+   effects.
+2. **The dense frontier — the cheap tier is CLOSED by exhaustion**
+   (kept here so nobody re-digs): not metric grounding at λ∈{0.1, 0.5}
+   (v0.5 M2), not a global calibration error (head_calibration C0),
+   not architecture / data scale / composition / organization
    (representation_v1-v3 + specialist_v1 — v0.16, "contrast is the
-   curriculum"), plus pixels alone (perception_v1-v3: the recorded seed-0
-   resolution sweep peaks at 96; its generality and residual cause remain open).
+   curriculum"), not pixels alone (perception_v1-v3: resolution is an
+   inverted U peaking at 96, and the pincer's residue is temporal).
    What remains is item 1 above, and a closed-loop pricing of
    wm_96d128 (the offline dense apex is surveyed, NOT deployed — the
    instruments predict, never certify).
@@ -626,3 +494,27 @@ honest negatives, harness-error ≠ measurement). Agent-driven campaigns:
 `.claude/commands/research.md`. Writing: `writing/` (bilingual, every
 number traceable). The precedent that binds all of it: bars and
 interpretive rules are committed *before* the numbers exist.
+
+
+## Evidence update — 2026-09-29
+
+The original roadmap above, including Open item 1 and the proposed bigger
+diet, 96-pixel closed-loop gate and center-drift work, is preserved verbatim
+from main `6def4ea`. Five later matched studies closed NO-GO; the latest
+moving-only timing study finished all six fits and scorings, with mean
+moving-action improvement +0.0101 below +0.03 and failed moving ranking
+guards. See [research status](RESEARCH-STATUS.md) for recorded evidence.
+
+The first three common-exam studies still showed seed ranges of about
+0.117, 0.255 and 0.141, large relative to their +0.03/+0.05 bars. Those
+results support the practical concern about resolving small effects on this
+diet. They do not by themselves estimate power; the fourth study changed
+both the endpoint and exam, so its smaller range cannot be assigned to
+exam size alone. Future studies must state an estimand, training-seed and
+course uncertainty, and precision/power assumptions before committing fits.
+
+Next priority: a role-complete common independent exam for the champion,
+unified and `wm_96d128`, preserving each checkpoint's frame recipe. Follow
+with one of the original roadmap directions after that comparison. Existing
+bars and scientific negatives remain unchanged. No new training is released
+by this note.

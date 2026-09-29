@@ -253,19 +253,86 @@ class SavedCampaignIntegrity(unittest.TestCase):
             )
         run.assert_not_called()
 
-    def test_legacy_records_are_readable_but_cannot_gain_new_measurements(self):
+    def test_legacy_records_warn_and_new_measurements_capture_current_settings(self):
         legacy = research._load_results(self.path, self.skill)
         legacy.pop("evaluation_frozen")
         legacy["knobs"].append(_block())
         research._write_results(self.path, legacy)
-        before = Path(self.path, "results.json").read_bytes()
         self.assertEqual(research._load_results(self.path, self.skill), legacy)
-        for args in (_args(), _args("step", knob=1)):
-            with patch.object(research, "run_knob") as run:
-                with self.assertRaisesRegex(ValueError, "legacy campaign"):
-                    research._execute_campaign(args, self.skill, self.path, legacy)
-            run.assert_not_called()
-        self.assertEqual(Path(self.path, "results.json").read_bytes(), before)
+        original = copy.deepcopy(legacy["knobs"][0])
+        with (
+            patch.object(research, "run_knob", return_value=_block("K1")) as run,
+            patch("sys.stderr", new_callable=io.StringIO) as warning,
+            redirect_stdout(io.StringIO()),
+            self.assertRaises(SystemExit) as exit,
+        ):
+            research._execute_campaign(
+                _args("step", knob=1), self.skill, self.path, legacy
+            )
+        self.assertEqual(exit.exception.code, 10)
+        run.assert_called_once()
+        self.assertIn("legacy campaign", warning.getvalue())
+        saved = research._load_results(self.path, self.skill)
+        self.assertNotIn("evaluation_frozen", saved)
+        self.assertEqual(saved["knobs"][0], original)
+        self.assertEqual(
+            saved["knobs"][1]["evaluation_at_measurement"],
+            research._frozen_evaluation(self.skill),
+        )
+
+    def test_harness_fault_retains_original_and_releases_same_knob(self):
+        results = research._load_results(self.path, self.skill)
+        original = _block(verdict="passed")
+        results["knobs"].append(copy.deepcopy(original))
+        results["status"] = "passed"
+        research._write_results(self.path, results)
+        before = research._sha256(os.path.join(self.path, "results.json"))
+        for reason in (None, "  "):
+            with self.assertRaisesRegex(ValueError, "concrete --reason"):
+                research._invalidate_measurement(
+                    self.skill, self.path, results, "K0", reason, True
+                )
+            self.assertEqual(results["knobs"], [original])
+        research._invalidate_measurement(
+            self.skill, self.path, results, "K0", "fixture: camera rendered blank", True
+        )
+        entry = results["invalidated_measurements"][0]
+        self.assertEqual(entry["record"], original)
+        self.assertEqual(entry["previous_results_sha256"], before)
+        self.assertEqual(results["status"], "running")
+        with (
+            patch.object(research, "run_knob", return_value=_block()) as run,
+            redirect_stdout(io.StringIO()),
+            self.assertRaises(SystemExit),
+        ):
+            research._execute_campaign(
+                _args("step", knob=0), self.skill, self.path, results
+            )
+        run.assert_called_once()
+        saved = research._load_results(self.path, self.skill)
+        self.assertEqual(saved["invalidated_measurements"][0]["record"], original)
+        self.assertEqual(saved["knobs"], [_block()])
+
+    def test_unrecorded_harness_failure_can_retry_without_invalidation(self):
+        results = research._load_results(self.path, self.skill)
+        with (
+            patch.object(research, "run_knob", side_effect=RuntimeError("camera")),
+            self.assertRaisesRegex(RuntimeError, "camera"),
+        ):
+            research._execute_campaign(
+                _args("step", knob=0), self.skill, self.path, results
+            )
+        saved = research._load_results(self.path, self.skill)
+        self.assertEqual(saved["knobs"], [])
+        with (
+            patch.object(research, "run_knob", return_value=_block()) as run,
+            redirect_stdout(io.StringIO()),
+            self.assertRaises(SystemExit),
+        ):
+            research._execute_campaign(
+                _args("step", knob=0), self.skill, self.path, saved
+            )
+        run.assert_called_once()
 
     def test_closed_legacy_campaign_remains_a_noop(self):
         legacy = research._load_results(self.path, self.skill)

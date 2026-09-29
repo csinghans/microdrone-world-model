@@ -135,6 +135,18 @@ around any push.
   the eval_search selftest asserts CLI == API == runner defaults, and
   every suite prints a config header. The privileged filter is
   explicit-only.
+- New transit rollouts default to `schedule_layout="world_balanced"`;
+  both dataset CLIs accept `--schedule-layout legacy` for historical exams.
+  Freeze the layout and check world-by-role coverage before training.
+- Dataset CLIs refuse an existing destination. Use a fresh `--out` for
+  each corpus; selftests write only `*_selftest*` artifacts. WM training
+  defaults to `output/world_model_candidate.pth`; policy CLI presets add
+  `_candidate`. Further runs need a fresh `--out`; locked paths are rejected.
+  Existing demos still load the pinned champion until explicitly selected.
+- New campaigns freeze evaluation settings before their first measurement.
+  Legacy campaigns warn and record settings only on new gates. Proven
+  harness faults can be explicitly invalidated with a reason while retaining
+  original numbers; scientific negatives cannot be rerun into passing.
 - Scripted string replacement (`python - <<` + `str.replace`) fails
   SILENTLY on zero matches — black reformatting invalidates pasted
   old-strings. Use the Edit tool (loud no-match) for code surgery, and

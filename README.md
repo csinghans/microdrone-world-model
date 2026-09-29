@@ -4,61 +4,38 @@
 > prediction, proactive collision avoidance, and sim-to-real evaluation under
 > embedded constraints.**
 
-**Status: v0.17.0 — the wall eats pixels, with a narrower claim after
-the follow-up measurements.** The perception sweep's recorded seed-0
-dense AUC rose from 0.9177 at 64 px to **0.9947** at 96 px, then fell
-to 0.6999 at 128 px. Widening the 96-px latent produced the offline
-record `wm_96d128` (dense 0.9965, veer 1.00/1.00, saturation 0.3080),
-but the overall AUC, calibration and classic/moving guards still failed.
-These are checkpoint results; the resolution curve and its proposed
-compression mechanism have not been established across training draws.
-
-Two subsequent temporal campaigns also closed **NO-GO**: neither the
-frozen-latent probes nor the tested two-frame input met their registered
-moving-world improvement bar. That does not prove the latent contains no
-motion or that temporal input cannot help. The pixel campaign's three
-reported seeds span 0.14–0.23 on the single-frame per-world rows, while
-both the training draw and evaluation split vary; its reused seed-0
-control also predates the new variance guard. Those historical ranges
-cannot isolate training variation or establish a data-size effect. Common
-independent exams and matched recipe provenance are now implemented and
-have been used in the three studies summarized below.
-The stability arc separately showed that the two-sided variance penalty
-did not prevent the 160-epoch failure; the large latent offset motivates
-center/target diagnostics, without yet identifying a causal cure.
-
-`wm_96d128` remains an offline candidate (264 KB / estimated 17 ms),
-with no closed-loop certification. The earlier `wm_3x` refusal
-(false-evasion 100 %) is the reason that distinction matters.
-[Article #16](writing/16-the-wall-eats-pixels/en.md) includes the
-follow-up and evidence limits. **Gates of record remain GREEN — transit
-85/100, indoor 91/100**; these are the recorded certified stack's
-results, not results for the perception candidates. The baseline shipped as
+**Status: v0.17.0 — the wall eats pixels. The perception tier's
+offline program moved the number nothing else could: pixels alone
+(64→96, same seeds, same recipe) took dense separation from 0.918 to
+**0.9947**, drew the tier's governing curve (an inverted U ruled by
+the compression ratio — 128 px drowns the same net), and the
+capacity pincer at the sweet spot (96×D128) landed all three
+pre-registered recoveries (veer double-perfect, dense 0.9965,
+saturation 0.31), missing a full pass by 0.013 on classic — the
+closest in fifteen retrains. The residue is NAMED: the moving world
+and the open-space over-warn are single-frame symptoms; the previous
+glance (temporal input) was then measured dead at BOTH levels — a
+frozen latent carries no readable motion (temporal_probe_v1), and a
+second glance at the pixels buys nothing the draw noise can't explain
+(temporal_v1_pixel, the tier's first 3-draw gate: per-world spreads
+0.14-0.23 dwarf +0.03 questions at this diet, and the apex row is the
+top of its own draw distribution). The 160-epoch instability was
+mapped by the stability arc to CENTER drift, which no variance hinge
+constrains. What remains for time: a bigger diet, or the 96-px
+closed-loop gate. Also banked: v0.5's law one level down — the record offline
+generalist (wm_3x) flies catastrophically (false-evasion 100 %);
+instruments predict, only the closed loop certifies, so wm_96d128
+stands as the offline dense apex (264 KB / ~17 ms) — surveyed, not
+deployed. Articles #15-#16 tell the arc. Gates unchanged and GREEN —
+transit 85/100, indoor 91/100; int8 configs in the lock (v0.11.0);
+sacred checkpoints untouched through fifteen retrains (sha-bracketed
+queues).** The baseline shipped as
 [Lesson 29 of the nanodrone-ai course](https://github.com/csinghans/nanodrone-ai/tree/main/lessons/29_world_model);
 this repo re-homes it as a clean research package and re-ran the entire
 pipeline from scratch — twice — to separate what reproduces from what
 varies with the training draw. See the two-tier benchmark below: the
-*mechanisms* held on the recorded draws; the *point numbers* carry honest
+*mechanisms* reproduce every time; the *point numbers* carry honest
 run-to-run ranges.
-
-**Research update — 2026-09-28:** five matched model studies are closed
-**NO-GO**. The latest [moving-only timing study](experiments/moving_timing_v1/summary.md)
-completes six fits on a new 1,440-course common exam after every support
-check passes. Moving left/right AUC improves by +0.0101 on average, below
-the +0.03 bar; seed 2 regresses. Moving geometric turn ranking breaks its
-guard in every seed, and dense-left AUC regresses in two seeds despite
-unchanged dense training data. Pooled-world and pooled-ranking guards pass,
-illustrating why supported action-specific and per-world guards matter.
-The failure mechanism remains open; default timing and champions remain.
-The [probe diagnostic](experiments/moving_probe_audit_v1/summary.md) locates
-losses on safer-left examples, especially in the immediate exam block.
-The subsequent [raw-score replay](experiments/veer_replay_v1/summary.md)
-reproduces every original probe flag on all six models and observes zero
-exact ties: incorrect flags here identify opposite-side rankings. Moving
-candidate right rankings rise in all seeds; the training cause remains open.
-
-The [current research state](docs/RESEARCH-STATUS.md) links every frozen
-result, diagnostic, instrument repair and continuation decision.
 
 ## Why this exists
 
@@ -110,168 +87,14 @@ conda activate microdrone-wm
 pip install --no-deps git+https://github.com/utiasDSL/gym-pybullet-drones.git
 pip install -e .
 
-python -m scripts.fetch_champions                   # restore measured models
-python -m scripts.demo                             # one-course demo + plot
-python -m eval.eval_closed_loop --seeds 100          # champion scoreboard
-python -m eval.eval_speed_sweep --seeds 30           # crash rate vs speed
-
-python -m datasets.generate_rollouts --rollouts 64   # a new training corpus
-python -m scripts.train --epochs 80                 # world_model_candidate.pth
-python -m eval.eval_wm_checkpoint \
-  --ckpt output/world_model_candidate.pth --data output/wm_dataset.npz
+python -m datasets.generate_rollouts --rollouts 64   # 1. fly the data
+python -m scripts.train --epochs 80                  # 2. train the world model
+python -m scripts.demo                               # 3. one-course demo + plot
+python -m eval.eval_closed_loop --seeds 100          # 4. the scoreboard
+python -m eval.eval_speed_sweep --seeds 30           # 5. crash rate vs speed
+python -m scripts.train --policy --timesteps 300000  # 6. learn the policy
+python -m scripts.evaluate --seeds 60                # 7. every policy, same courses
 ```
-
-The transit, indoor and combined dataset CLIs require a fresh `.npz` output
-and reject existing files before simulation. Choose a new `--out` for each
-registered corpus; filename-only paths such as `--out new_corpus.npz` work.
-Publication is atomic and preserves a file created by another writer during
-generation. Transit `--selftest` only replaces its own `_selftest.npz` after
-all smoke assertions pass. Programmatic generators still return dictionaries;
-use `datasets.provenance.save_dataset` for the same publication protection.
-[Regression evidence](experiments/dataset_publication_v1/journal.md) covers
-all three CLIs and the unchanged generator recipes.
-
-The combined corpus remaps worlds through each input's `world_names` table.
-Classic/dense/moving keep IDs 0/1/2; custom transit names follow, then room.
-Room is ID 3 only for the standard catalog. Invalid source IDs and non-room
-indoor rows are rejected, preventing a custom transit scene from becoming
-room silently. [Identity and compatibility evidence](experiments/combined_world_identity_v1/journal.md)
-includes byte-identical standard-catalog fixtures against the old combiner.
-Upstream registration also rejects ID collisions/reassignment and invalid
-IDs before changing the catalog; skill reloads keep their assigned IDs.
-[Registry compatibility](experiments/registry_identity_v1/journal.md) verifies
-all existing skill declarations against the previous implementation.
-
-World-model training saves a candidate; deployment defaults still load the
-fetched champion. Use a fresh `--out` filename for each additional run.
-Locked destinations (even missing ones), aliases of locked files and existing
-research checkpoints are rejected before data loading/fitting. Publication
-is atomic and cannot replace a concurrent writer's result. `--selftest`
-retains its replaceable selftest filenames. Artifactless evaluations cache
-their labelled tiny stand-in in a separate `_autotrained_selftest.pth` file.
-Policy training also uses candidate paths and honors `--out` for PPO,
-recurrent PPO and curriculum runs. Explicit policy outputs must end in `.zip`
-and include `_recurrent` for recurrent models, matching the loader. For example:
-
-```bash
-python -m scripts.train --policy --worlds hard --edge-bias --x-progress \
-  --out output/ppo_my_candidate.zip
-```
-
-`--seed` sets the policy training seed as well as the world-model seed.
-For a policy world subset or weighted list, use e.g.
-`--worlds moving,dense,moving --out output/ppo_weighted_candidate.zip`;
-order and repeats are preserved. `--curriculum` uses classic worlds and its
-fixed speed diet; it rejects other worlds, `--randomize`, `--edge-bias` and
-`--x-progress`. Training logs print the resolved seed and world sequence.
-
-Score that path with `eval.eval_policy_cells --zip <candidate.zip>` using
-your pre-registered cells; historical scoreboards still read their original
-`zip_path()` filenames. Add `--wm <checkpoint.pth>` to select a WM directly;
-the default champion file must exist. A new `--out <results.json>` records
-policy/WM/cell-spec SHA identities, effective cells and the judge, and cannot
-replace an earlier result. Duplicate cell IDs and changed inputs are rejected.
-`--policy --selftest` dispatches the module's three
-smoke variants to selftest files. The shared save protection covers these
-training APIs and the WM fallback; standalone historical scripts retain
-their own save implementations.
-
-New rollout datasets use `world_balanced` scheduling: every world gets
-intervention and passive trials, and classic gets threatened and clear
-courses. To reproduce a historical corpus, explicitly use
-`--schedule-layout legacy` with `datasets.generate_rollouts` or
-`datasets.combine_rollouts` (Python: `schedule_layout="legacy"`). The old
-global-index schedule aliased moving with passive-only flight in the
-three-world diet. [Evidence and migration notes](docs/RESEARCH-AUDIT-2026-09-13.md)
-explain the fix; existing corpora and checkpoints are unchanged.
-The registered [schedule_layout_v1 comparison](experiments/schedule_layout_v1/summary.md)
-closed **NO-GO**: across three paired training seeds on one independent
-common exam, moving AUC changed by −0.055 on average and guards failed.
-The new default fixes role coverage; it is not a validated performance
-upgrade. Freeze the layout explicitly in every training recipe.
-
-For paired transit-data studies, `datasets.generate_rollouts` also exposes
-`--rng-layout per_rollout` and `--intervention-start immediate`. The first
-isolates scene, schedule and plant-noise draws per course; the second starts
-held interventions at step zero on active courses. Both arms of a timing
-comparison must use `per_rollout`, the same seed and roles. Changing only
-timing with the old shared stream can change later scenes as it consumes
-more command draws. Defaults remain `shared` and `approach`; these options
-are explicit research recipes, not an adopted training upgrade. The
-[paired support pilot](experiments/early_intervention_support_v1/definition.md)
-freezes the comparison and its action/class course requirements.
-
-Training also exposes `--cf-hard-pool legacy_masked|answerable`. The default
-preserves the existing sampler; `answerable` selects frames whose visible
-candidate actions have different collision labels at the same horizon/ring.
-The registered [CF sampler comparison](experiments/cf_hard_pool_v1/summary.md)
-closed **NO-GO**: mean ranking delta +0.0401 missed +0.0500, seed 1's
-ranking regressed, and seed 0 broke collision guards. The default stays
-`legacy_masked`; the candidate is not a validated upgrade.
-
-`eval.eval_wm_checkpoint --independent-holdout` requires a separately
-generated exam. Known exact training-file reuse is rejected using the
-checkpoint's recorded SHA; file-backed `scripts.train` now saves this
-identity. A different file hash does not establish disjoint rollouts
-(subsets and repacked corpora can still overlap).
-In ordinary training-validation mode, known file hashes must **match** the
-original training corpus. Reusing the training seed on a different or
-reordered corpus does not restore its validation split. Legacy checkpoints
-or in-memory callers with missing hashes remain supported with an explicit
-warning and `dataset_file_relation: unverified` in the result.
-[Regression evidence](experiments/wm_validation_identity_v1/journal.md)
-includes the original mismatch and a reordered-course split fixture.
-
-WM probe JSON and score-NPZ exports publish each completed file atomically
-to a fresh path. Serialization errors leave no partial final file, and
-locked artifact paths remain reserved even when absent. With both outputs
-requested, require exit 0 and matching metadata in **both** files: the two
-publications are not a single transaction. A complete first file is retained
-if the second publication fails. [Fault-injection evidence](experiments/wm_publication_v1/journal.md)
-covers those failure paths without scoring a model.
-
-The paired-score comparator also checks integer indices, horizons, unique
-world names and AUC/veer world consistency before calculating intervals.
-The pooled name `all` is reserved so a world cannot overwrite the total.
-[Compatibility evidence](experiments/score_schema_v1/journal.md) validates
-18 archived exports without recalculating their scores or intervals.
-
-New score exports also retain `veer_score_left` / `veer_score_right`, the
-warn probabilities behind each strict geometric-turn decision. Equal scores
-remain incorrect. The reader accepts legacy exports and mixed old/new pairs;
-new fields must be finite, complete and consistent with saved correctness.
-[Compatibility checks](experiments/veer_score_export_v1/journal.md) accept
-all 30 existing exports unchanged. Old files do not acquire invented margins
-or tie counts, and no closed checkpoint was rescored for this change.
-
-`--executed-moving-weight` defaults to 1.0. The registered
-[weighting study](experiments/executed_weight_v1/summary.md) tested 2.25 on
-moving executed prediction/collision losses, with a fixed training-only
-normalizer and unchanged batch/CF recipes. It closed **NO-GO**: mean moving
-AUC improved +0.0598, but seed 0 regressed and seed 1 failed dense/veer
-guards. The default remains 1.0; the joint improvement bar was not met.
-
-Before a new comparison fits models, inspect its separately generated exam:
-
-```bash
-python -m eval.eval_veer_support --data path/to/exam.npz --out path/to/preflight.json
-```
-
-This uses the scorer's geometric selector without loading pixels or models.
-It reports pooled/per-world frame and course counts, including absent worlds
-and singleton strata that prevent the current paired bootstrap. Freeze the
-required worlds and support bars in the new registration; two courses per
-observed stratum is only a structural minimum. Rendering still needs its
-own check. [Compatibility evidence](experiments/veer_support_v1/journal.md)
-matches twelve archived exports without rescoring or changing old verdicts.
-
-For a new study that depends on particular action categories, freeze their
-positive/negative window **and course** minima before fitting. The
-[action-support preflight](docs/SUPPORT-REQUIREMENTS.md) checks those explicit
-requirements against a saved metadata report and the exact dataset SHA.
-It retains every deficit and returns exit 10 for insufficient support, so a
-fail-fast queue stops before training. There are no default scientific bars;
-this does not reopen historical exams or establish statistical power.
 
 Every module has a `--selftest` (or `python -m <module>`) that prints an
 `XXX OK` line and asserts it.
@@ -589,3 +412,42 @@ Grew out of [nanodrone-ai](https://github.com/csinghans/nanodrone-ai) — a
 導讀請從課程的[從這裡開始](https://github.com/csinghans/nanodrone-ai/blob/main/docs/zh-TW/START-HERE.md)出發。
 
 Licensed under [Apache-2.0](LICENSE) (see [NOTICE](NOTICE) for provenance).
+
+
+## Evidence update — 2026-09-29
+
+**Independent evaluation is the next research priority.** On the recorded
+60-rollout common exam, unified WM AUC@32 is 0.818842 overall, 0.838850
+classic, 0.811430 dense and 0.773229 moving. These are independent-exam
+readings; the earlier 0.92/0.95 validation values are different evaluations.
+The AUC tie correction changes none of these four readings.
+[Source](experiments/metric_integrity_v1/journal.md). The original author
+status above is preserved; this note supplies subsequent evidence.
+
+Five matched training studies are now closed NO-GO. The moving-only timing
+study completed its six fits: mean moving-action delta +0.0101 missed the
++0.03 bar, with moving-ranking guards failing in all seeds. See
+[research status](docs/RESEARCH-STATUS.md) for results and continuation.
+The next comparison is champion/unified/`wm_96d128` on one role-complete
+independent exam; future training studies require a precision/power plan.
+
+Operational changes on this research branch:
+
+- New transit data uses `world_balanced`; historical reproduction specifies
+  `--schedule-layout legacy`. Each generation needs a fresh `--out` because
+  existing corpora are protected. For example:
+  `python -m datasets.generate_rollouts --rollouts 64 --out output/corpus_run01.npz`.
+  A second corpus must use another filename.
+- WM CLI training saves `output/world_model_candidate.pth` by default.
+  Subsequent runs need a fresh `--out`; demos still load the champion.
+- Policy CLI seed/world arguments now reach training; candidate filenames
+  and locked-path protection apply to policy outputs too.
+- `python -m scripts.research --selftest` is the repeatable onboarding dry
+  gate. Direct `step --dry` saves a campaign and rejects duplicate knobs.
+- New campaigns freeze evaluation settings; legacy campaigns warn and record
+  current settings only with the new measurement. See
+  [onboarding](docs/ONBOARDING.md) for explicit harness-error invalidation.
+
+Fixes are delivered through separate MRs with Python 3.12 checks and manual
+CI dispatch. New studies commit summaries and hashes; bulky receipts stay
+in persistent `output/`. The existing research archive retains old evidence.

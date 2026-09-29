@@ -72,6 +72,7 @@ jobs:
           python -m eval.compare_wm_scores --selftest
           python -m eval.eval_auc_audit --selftest
           python -m scripts.research_selftest
+          python -m scripts.check_legacy_training --selftest
           python -m scripts.schedule_layout_study --selftest
           python -m eval.eval_schedule_report --selftest
           python -m eval.eval_cf_sampler_report --selftest

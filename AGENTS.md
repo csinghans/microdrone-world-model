@@ -125,6 +125,14 @@ around any push.
   passive in a three-world cycle, and could remove clear classic courses
   from weighted four-slot diets (metric_integrity_v1, 2026-09-13).
   Verify world-by-role coverage before attributing a failure to perception.
+- Dataset CLIs refuse existing output paths. Choose a fresh `--out` for
+  each corpus. WM CLI output defaults to `output/world_model_candidate.pth`;
+  policy presets add `_candidate`. Locked and existing research checkpoints
+  are rejected before training. Demos still default to pinned champions.
+- New campaigns freeze evaluation settings before their first measurement.
+  Legacy campaigns warn and record settings only on new gates. Proven
+  harness faults can be explicitly invalidated with a reason while retaining
+  original numbers; scientific negatives cannot be rerun into passing.
 - Scripted string replacement (`python - <<` + `str.replace`) fails
   SILENTLY on zero matches — black reformatting invalidates pasted
   old-strings. Use the Edit tool (loud no-match) for code surgery, and

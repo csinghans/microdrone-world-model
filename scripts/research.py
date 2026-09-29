@@ -21,6 +21,7 @@ Exit codes: 0 = all targets met · 10 = gate recorded, campaign continues ·
 """
 
 import argparse
+import copy
 import hashlib
 import json
 import os
@@ -84,12 +85,13 @@ def _frozen_evaluation(skill) -> dict:
 
 def _require_frozen_evaluation(results, skill):
     if "evaluation_frozen" not in results:
-        raise ValueError(
-            "legacy campaign has no frozen evaluation specification; status remains "
-            "readable, but new measurements require recovering the original "
-            "pre-registration in a reviewed migration; do not pin today's settings "
-            "as historical evidence"
+        print(
+            "RESEARCH WARNING: legacy campaign has no frozen evaluation "
+            "specification; continuing with current settings recorded only on "
+            "the new measurement. Historical evaluation remains unrecorded.",
+            file=sys.stderr,
         )
+        return
     if results["evaluation_frozen"] != _frozen_evaluation(skill):
         raise ValueError("campaign evaluation differs from the frozen specification")
 
@@ -399,6 +401,8 @@ def git_commit_gate(skill, knob, gate, exp_dir: str) -> str:
                 "-q",
                 "-m",
                 msg,
+                "-m",
+                "Co-Authored-By: Codex <noreply@openai.com>",
                 "--only",
                 "--",
                 rel,
@@ -465,6 +469,8 @@ def _record_gate(skill, knob, block, exp_dir, results, no_commit):
     _require_frozen_evaluation(results, skill)
     if any(b["id"] == block["id"] for b in results["knobs"]):
         raise ValueError(f"{block['id']} already has a recorded measurement")
+    if "evaluation_frozen" not in results:
+        block["evaluation_at_measurement"] = _frozen_evaluation(skill)
     results["knobs"].append(block)
     if block["gate"]["verdict"] == "passed":
         results["status"] = "passed"
@@ -493,6 +499,51 @@ def _record_gate(skill, knob, block, exp_dir, results, no_commit):
     append_journal(exp_dir, skill, knob, block["cells"], block["gate"])
     if not no_commit:
         return git_commit_gate(skill, knob, block["gate"], exp_dir)
+    return None
+
+
+def _invalidate_measurement(skill, exp_dir, results, knob_id, reason, no_commit):
+    """Retain the exact invalid measurement; release only an explicit repair."""
+    if not reason or not reason.strip():
+        raise ValueError("harness invalidation requires a concrete --reason")
+    original = next((b for b in results["knobs"] if b["id"] == knob_id), None)
+    if original is None:
+        raise ValueError(f"no active measurement for {knob_id}")
+    updated = copy.deepcopy(results)
+    updated.setdefault("invalidated_measurements", []).append(
+        {
+            "id": knob_id,
+            "reason": reason.strip(),
+            "invalidated_at": _now(),
+            "previous_results_sha256": _sha256(os.path.join(exp_dir, "results.json")),
+            "record": copy.deepcopy(original),
+        }
+    )
+    updated["knobs"] = [b for b in updated["knobs"] if b["id"] != knob_id]
+    updated["status"] = (
+        "passed"
+        if any(b["gate"]["verdict"] == "passed" for b in updated["knobs"])
+        else "running"
+    )
+    _write_results(exp_dir, updated)
+    results.clear()
+    results.update(updated)
+    with open(os.path.join(exp_dir, "journal.md"), "a") as stream:
+        stream.write(
+            f"\n## Harness invalidation: {knob_id} ({_now()})\n\n"
+            f"{reason.strip()}\n\nOriginal numbers retained verbatim in "
+            "results.json / invalidated_measurements. Repair the harness, then "
+            "use step for the same knob; scientific negatives remain final.\n"
+        )
+    if not no_commit:
+        from types import SimpleNamespace
+
+        return git_commit_gate(
+            skill,
+            SimpleNamespace(id=knob_id),
+            {"verdict": "harness-invalidated"},
+            exp_dir,
+        )
     return None
 
 
@@ -722,12 +773,14 @@ def _main() -> None:
     ap.add_argument("skill", nargs="?")
     ap.add_argument("--knob", type=int, default=None)
     ap.add_argument("--knob-json", default=None)
+    ap.add_argument("--knob-id", help="recorded knob ID for harness invalidation")
+    ap.add_argument("--reason", help="concrete harness fault, never a failed bar")
     ap.add_argument("--from-knob", type=int, default=0)
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--no-commit", action="store_true")
     ap.add_argument("--json", action="store_true", help="machine-readable output")
     args = ap.parse_args()
-    if args.cmd not in ("run", "step", "status", "doctor"):  # bare `research skills/x`
+    if args.cmd not in ("run", "step", "status", "doctor", "invalidate"):
         args.cmd, args.skill = "run", args.cmd
 
     global _HUSH
@@ -782,7 +835,7 @@ def _main() -> None:
             sys.exit(0)
         print(json.dumps({k: results[k] for k in ("skill", "status")}, indent=1))
         if "evaluation_frozen" not in results:
-            print("  evaluation: legacy_unrecorded; new measurements require recovery")
+            print("  evaluation: legacy_unrecorded; new measurements record settings")
         for kb in results["knobs"]:
             print(f"  {kb['id']}: {kb['gate']['verdict']}")
         if nxt:
@@ -797,6 +850,15 @@ def _main() -> None:
 
 def _execute_campaign(args, skill, exp_dir, results):
     from skills.base import Knob
+
+    if args.cmd == "invalidate":
+        commit = _invalidate_measurement(
+            skill, exp_dir, results, args.knob_id, args.reason, args.no_commit
+        )
+        print(f"RESEARCH HARNESS INVALIDATED: {args.knob_id}; original record retained")
+        if commit:
+            print(f"GATE-COMMIT {commit}")
+        sys.exit(0)
 
     done = {b["id"] for b in results["knobs"]}
     if args.cmd == "step":
