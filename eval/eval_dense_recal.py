@@ -104,6 +104,7 @@ def run(
         seed=160,
         worlds=("classic", "dense", "moving"),
         img_res=int(img_res) if img_res else IMG_RES,
+        schedule_layout="legacy",  # frozen dense_recal_v1 exam recipe
     )
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     rng = np.random.default_rng(0)

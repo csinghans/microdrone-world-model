@@ -38,6 +38,7 @@ import sys
 import numpy as np
 
 from datasets.intervention_labels import H_MAX, HORIZONS
+from datasets.provenance import dataset_destination, save_dataset
 from planner.action_set import A_NORM
 from planner.nav_action_set import NAV_ACTION_NAMES, NAV_ACTION_VECS
 from sim.envs import IMG_RES, START, VelCommander, grab_frame, make_ctrl, make_env
@@ -199,19 +200,21 @@ def main() -> None:
     ap.add_argument("--len", type=int, default=150)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--fov-honest", action="store_true")
-    ap.add_argument("--out", default=OUT)
+    ap.add_argument(
+        "--out", default=OUT, help="new .npz path; existing corpora are preserved"
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
+    out = dataset_destination(args.out)
     data = gen(args.rollouts, args.len, args.seed, fov_honest=args.fov_honest)
-    os.makedirs(os.path.dirname(args.out), exist_ok=True)
-    np.savez_compressed(args.out, **data)
     near = float((data["dists"] < DANGER_R).mean())
+    save_dataset(data, out)
     print(
         f"SEARCH-DATA OK: {args.rollouts} rollouts x {args.len} steps, "
-        f"near-wall frac {near:.2f}, saved {args.out}"
+        f"near-wall frac {near:.2f}, saved {out}"
     )
 
 

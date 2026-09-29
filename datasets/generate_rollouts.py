@@ -38,6 +38,8 @@ import sys
 import numpy as np
 
 from datasets.intervention_labels import H_MAX, HORIZONS, window_valid
+from datasets.provenance import dataset_destination, save_dataset
+from datasets.rollout_schedule import LAYOUTS, plan
 from planner.action_set import A_NORM, ACTION_NAMES, ACTION_VECS, FORWARD, SPEED_RANGE
 from sim.envs import (
     CTRL_HZ,
@@ -86,6 +88,7 @@ def gen(
     randomize: bool = False,
     worlds: tuple = ("classic",),
     img_res: int = IMG_RES,
+    schedule_layout: str = "world_balanced",
 ) -> dict:
     """Fly `n_rollouts` fresh intervention trials and return the raw sequences:
     frames (uint8), held commands, nearest-pillar distances, drone positions,
@@ -99,11 +102,17 @@ def gen(
     positions + velocities so the label oracle can extrapolate pil(t)
     analytically.
 
+    Roles cycle on each world's own visits, so all worlds receive passive
+    and intervention trials. `schedule_layout="legacy"` reproduces the old
+    global-index recipe, including its world/role aliasing; use it only when
+    explicitly reproducing a historical dataset or registered comparison.
+
     `randomize=True` randomizes the *plant* as well as the scene: random
     pillar shape/colour, 0-2 control steps of command latency, and ±8 %
     per-step actuation noise on the executed command. The RECORDED action
     stays the clean commanded one — the model conditions on intent, reality
     wobbles, and the labels come from where the drone really went."""
+    roles = plan(n_rollouts, worlds, schedule_layout)
     env = make_env(img_res=img_res)
     cmd = VelCommander(make_ctrl(), env.CTRL_TIMESTEP)
     rng = np.random.default_rng(seed)
@@ -121,13 +130,13 @@ def gen(
     in_path = np.zeros(R, dtype=bool)
     speed = np.zeros(R, dtype=np.float32)
 
-    for r in range(R):
+    for r, role in enumerate(roles):
         obs, _ = env.reset(seed=int(rng.integers(2**31 - 1)))
         cmd.reset(START)
-        world = worlds[r % len(worlds)]
+        world = role.world
         spec = get_scenario(world)
         world_id[r] = spec.world_id
-        in_path[r] = True if world != "classic" else (r % 2 == 0)
+        in_path[r] = role.in_path
         speed[r] = rng.uniform(*SPEED_RANGE)
         scenario = spec.spawn(
             env,
@@ -139,7 +148,7 @@ def gen(
         pillars = scenario.positions()
         pillar_vel[r, : len(pillars)] = scenario.velocities()
         pillars_meta[r, : len(pillars)] = pillars
-        act_id[r], seg[r] = _schedule(rng, L, passive=(r % 3 == 2))
+        act_id[r], seg[r] = _schedule(rng, L, passive=role.passive)
         lat = int(rng.integers(0, 3)) if randomize else 0
 
         state = obs[0]
@@ -163,7 +172,7 @@ def gen(
         )
 
     env.close()
-    return {
+    data = {
         "frames": frames,
         "actions": actions,
         "act_id": act_id,
@@ -181,6 +190,10 @@ def gen(
         "danger_r": np.float32(DANGER_R),
         "world_names": world_names_array(),  # self-describing world ids
     }
+    # Keep the legacy blob schema unchanged for exact historical replay.
+    if schedule_layout != "legacy":
+        data["schedule_layout"] = np.array(schedule_layout)
+    return data
 
 
 def as_pairs(data: dict, k: int) -> dict:
@@ -216,14 +229,25 @@ def main() -> None:
         default="classic",
         help="'classic' | 'hard' | comma-list of registered worlds",
     )
-    ap.add_argument("--out", default=OUT, help="npz save path override")
+    ap.add_argument(
+        "--out", default=OUT, help="new .npz path; existing corpora are preserved"
+    )
     ap.add_argument("--img-res", type=int, default=IMG_RES, help="camera res")
+    ap.add_argument(
+        "--schedule-layout",
+        choices=LAYOUTS,
+        default="world_balanced",
+        help="cross roles within each world; legacy reproduces the aliased old recipe",
+    )
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     n_roll, length = (12, 100) if args.selftest else (args.rollouts, args.length)
     worlds = resolve_worlds(args.worlds)
     if args.selftest:
         worlds = ("classic", "dense", "moving")  # smoke every scene kind
+
+    out = OUT.replace(".npz", "_selftest.npz") if args.selftest else args.out
+    out = dataset_destination(out, selftest=args.selftest)
 
     tag = (" (randomized)" if args.randomize else "") + f" [{args.worlds}]"
     print(f"[INFO] flying {n_roll} intervention rollouts x {length} steps{tag} ...")
@@ -234,11 +258,8 @@ def main() -> None:
         randomize=args.randomize,
         worlds=worlds,
         img_res=IMG_RES if args.selftest else args.img_res,
+        schedule_layout="world_balanced" if args.selftest else args.schedule_layout,
     )
-    out = OUT if args.selftest else args.out  # a selftest never redirects
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    np.savez_compressed(out, **data)
-
     rates = {}
     for k in HORIZONS:
         pairs = as_pairs(data, k)
@@ -246,12 +267,6 @@ def main() -> None:
     rate_str = ", ".join(f"k={k}: n={n} pos={p:.2f}" for k, (n, p) in rates.items())
     n_seg = int(sum(data["seg"][r].max() for r in range(n_roll)))
     held = sorted({ACTION_NAMES[i] for r in range(n_roll) for i in data["act_id"][r]})
-    print(
-        f"WM-DATA OK: {n_roll} rollouts x {length} steps @ {CTRL_HZ} Hz, "
-        f"{n_seg} held intervention segments, labels [{rate_str}], saved {out}"
-    )
-    print(f"  commands held: {held}")
-
     if args.selftest:
         assert data["frames"].dtype == np.uint8, "frames must be uint8"
         assert data["frames"].shape[2:] == (IMG_RES, IMG_RES, 3), "bad frame shape"
@@ -278,6 +293,24 @@ def main() -> None:
         dn = data["world_id"] == 1
         n_dense = (~np.isnan(data["pillars"][dn][:, :, 0])).sum(axis=1)
         assert n_dense.min() >= 5, "dense rollouts thinner than promised"
+        for wid in (0, 1, 2):
+            passive = data["seg"][data["world_id"] == wid].max(axis=1) == 0
+            assert passive.any() and (~passive).any(), f"world {wid} role aliasing"
+        assert np.std(data["frames"]) > 1, "blank camera frames"
+
+    save_dataset(data, out, selftest=args.selftest)
+    print(
+        f"WM-DATA OK: {n_roll} rollouts x {length} steps @ {CTRL_HZ} Hz, "
+        f"{n_seg} held intervention segments, labels [{rate_str}], saved {out}"
+    )
+    print(f"  commands held: {held}")
+    for wid in sorted(set(data["world_id"])):
+        mask = data["world_id"] == wid
+        passive = int((data["seg"][mask].max(axis=1) == 0).sum())
+        print(
+            f"  {data['world_names'][wid]}: {int(mask.sum()) - passive} intervention, "
+            f"{passive} passive, {int((~data['in_path'][mask]).sum())} clear"
+        )
 
 
 if __name__ == "__main__":

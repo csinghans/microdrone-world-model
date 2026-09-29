@@ -412,3 +412,16 @@ Grew out of [nanodrone-ai](https://github.com/csinghans/nanodrone-ai) — a
 導讀請從課程的[從這裡開始](https://github.com/csinghans/nanodrone-ai/blob/main/docs/zh-TW/START-HERE.md)出發。
 
 Licensed under [Apache-2.0](LICENSE) (see [NOTICE](NOTICE) for provenance).
+
+
+## Dataset recipe update — 2026-09-29
+
+New transit corpora default to `world_balanced`, so each world receives both
+passive and intervention rollouts. Reproduce older corpora with explicit
+`--schedule-layout legacy`; the historical dense recalibration exam retains
+that layout. This fixes coverage and does not claim improved model scores.
+
+Dataset CLIs preserve existing files. For a new corpus use, for example,
+`python -m datasets.generate_rollouts --rollouts 64 --out output/corpus_run01.npz`.
+A second corpus requires another filename. Dataset selftests write only
+`*_selftest.npz` outputs, so they cannot clobber the real default dataset.
