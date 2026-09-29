@@ -30,6 +30,12 @@ gates:
 1. Parse `$ARGUMENTS` → skill path (e.g. `skills/gap_flight`).
 2. `python -m scripts.research status <skill>` — resume-aware: skip knobs
    already gated.
+   New campaigns freeze cells and recheck settings before the first fit.
+   Legacy campaigns warn and record settings only on each new measurement;
+   never backfill current settings into historical blocks. For a proven
+   harness fault, use `research invalidate <skill> --knob-id K0 --reason
+   '<fault>'`, repair the tool, then `step` the same knob. Invalidation retains
+   the original numbers and file hash. Valid scientific negatives are final.
 3. Verify prerequisites exist: the skill's zero-shot policy zip and
    `output/world_model.pth`. Verify `git status` is clean enough that
    path-scoped gate commits won't tangle with unrelated work.

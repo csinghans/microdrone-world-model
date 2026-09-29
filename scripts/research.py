@@ -21,11 +21,15 @@ Exit codes: 0 = all targets met · 10 = gate recorded, campaign continues ·
 """
 
 import argparse
+import copy
 import hashlib
 import json
 import os
 import subprocess
 import sys
+import tempfile
+from contextlib import contextmanager
+from dataclasses import asdict
 from datetime import datetime, timezone
 
 import numpy as np
@@ -49,29 +53,138 @@ def _sha256(path: str) -> str:
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
-    return h.hexdigest()[:16]
+    return h.hexdigest()
+
+
+def _frozen_criteria(skill) -> list:
+    return [
+        {
+            "cell": c.cell,
+            "metric": c.metric,
+            "op": c.op,
+            "bar": c.bar,
+            "kind": c.kind,
+        }
+        for c in skill.criteria
+    ]
+
+
+def _frozen_evaluation(skill) -> dict:
+    """Detached JSON snapshot; nested cell kwargs must not alias the live skill."""
+    return json.loads(
+        json.dumps(
+            {
+                "cells": [asdict(cell) for cell in skill.cells],
+                "recheck_n": skill.recheck_n,
+                "recheck_margin": skill.recheck_margin,
+            },
+            allow_nan=False,
+        )
+    )
+
+
+def _require_frozen_evaluation(results, skill):
+    if "evaluation_frozen" not in results:
+        print(
+            "RESEARCH WARNING: legacy campaign has no frozen evaluation "
+            "specification; continuing with current settings recorded only on "
+            "the new measurement. Historical evaluation remains unrecorded.",
+            file=sys.stderr,
+        )
+        return
+    if results["evaluation_frozen"] != _frozen_evaluation(skill):
+        raise ValueError("campaign evaluation differs from the frozen specification")
+
+
+def _prepare_measurement(exp_dir, results, skill):
+    _require_frozen_evaluation(results, skill)
+    if not os.path.exists(os.path.join(exp_dir, "results.json")):
+        # Persist before the first fit/flight, so an interrupted first knob
+        # cannot silently acquire a new exam on resumption.
+        _write_results(exp_dir, results)
 
 
 def _load_results(exp_dir: str, skill) -> dict:
     p = os.path.join(exp_dir, "results.json")
     if os.path.exists(p):
         with open(p) as f:
-            return json.load(f)
+            results = json.load(f)
+        if (results["skill"], results["skill_version"]) != (skill.name, skill.version):
+            raise ValueError("campaign skill/version differs from the saved record")
+        frozen = results["targets_frozen"]
+        current = _frozen_criteria(skill)
+        # Historical records omitted kind. Preserve those records, while
+        # checking every field they actually froze; new campaigns freeze it too.
+        comparable = [{k: c[k] for k in old} for old, c in zip(frozen, current)]
+        if len(frozen) != len(current) or frozen != comparable:
+            raise ValueError("campaign criteria differ from the frozen record")
+        if "evaluation_frozen" in results:
+            _require_frozen_evaluation(results, skill)
+        ids = [b["id"] for b in results["knobs"]]
+        if len(ids) != len(set(ids)):
+            raise ValueError("campaign contains duplicate recorded knob ids")
+        return results
     return {
         "skill": skill.name,
         "skill_version": skill.version,
         "status": "running",
-        "targets_frozen": [
-            {"cell": c.cell, "metric": c.metric, "op": c.op, "bar": c.bar}
-            for c in skill.criteria
-        ],
+        "targets_frozen": _frozen_criteria(skill),
+        "evaluation_frozen": _frozen_evaluation(skill),
         "knobs": [],
     }
 
 
 def _write_results(exp_dir: str, results: dict) -> None:
-    with open(os.path.join(exp_dir, "results.json"), "w") as f:
-        json.dump(results, f, indent=1)
+    """An interrupted write must not destroy earlier measurements."""
+    path = os.path.join(exp_dir, "results.json")
+    fd, temporary = tempfile.mkstemp(prefix=".results-", dir=exp_dir)
+    try:
+        with os.fdopen(fd, "w") as f:
+            json.dump(results, f, indent=1, allow_nan=False)
+            f.write("\n")
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+@contextmanager
+def _world_model_scope(exp_dir: str, dry: bool):
+    """Real gates require a real WM; dry stand-ins stay inside selftest paths."""
+    paths = [
+        os.path.join(ROOT, "output", name)
+        for name in ("world_model.pth", "world_model_unified.pth")
+    ]
+
+    def snapshot():
+        return {p: _sha256(p) if os.path.exists(p) else None for p in paths}
+
+    before = snapshot()
+    wm_path = paths[0]
+    if not dry and before[wm_path] is None:
+        raise FileNotFoundError(
+            f"world model missing: {wm_path}; fetch champions before a real gate"
+        )
+    from eval import eval_closed_loop
+
+    previous = eval_closed_loop.MODEL
+    if dry and before[wm_path] is None:
+        wm_path = os.path.join(exp_dir, "artifacts", "world_model_selftest.pth")
+    eval_closed_loop.MODEL = wm_path
+    try:
+        loaded = eval_closed_loop.load_or_train(device="cpu")
+        if not dry and loaded[-1].get("autotrained_tiny"):
+            raise ValueError("a tiny selftest world model cannot support a real gate")
+        wm_sha = _sha256(wm_path)
+        yield {"path": os.path.relpath(wm_path, ROOT), "sha256": wm_sha}
+        if _sha256(wm_path) != wm_sha:
+            raise RuntimeError("the evaluation world model changed during the gate")
+    finally:
+        eval_closed_loop.MODEL = previous
+        if snapshot() != before:
+            raise RuntimeError("a protected world model changed during the gate")
 
 
 def train_knob(skill, knob, exp_dir: str, dry: bool) -> str:
@@ -90,14 +203,14 @@ def train_knob(skill, knob, exp_dir: str, dry: bool) -> str:
             # must fail loudly, never silently substitute.
             from planner.learned_policy import train
 
-            path = os.path.join(exp_dir, "artifacts", "ppo_dry_standin.zip")
+            path = os.path.join(exp_dir, "artifacts", "ppo_dry_standin_selftest.zip")
             if not os.path.exists(path):
                 train(1024, out=path)
             return path
         assert os.path.exists(path), f"zero-shot policy missing: {path}"
         return path
     if knob.kind == "world_model":
-        raise SystemExit("world_model knobs are reserves — run them by hand for now")
+        raise ValueError("world_model knobs are reserves — run them by hand for now")
     from planner.learned_policy import train
 
     kwargs = dict(knob.train_kwargs)
@@ -113,11 +226,18 @@ def train_knob(skill, knob, exp_dir: str, dry: bool) -> str:
     return out
 
 
-def _policy_factory(zip_path: str):
+def _policy_factory(zip_path: str, *, wm_path: str | None = None):
     from eval.eval_closed_loop import load_or_train
     from planner.learned_policy import LearnedPolicy, load_policy
 
-    enc, pred, cheads, nhead, meta = load_or_train(device="cpu")
+    if wm_path is None:
+        enc, pred, cheads, nhead, meta = load_or_train(device="cpu")
+    else:
+        from world_model.training import load_model
+
+        enc, pred, cheads, nhead, meta = load_model(wm_path, device="cpu")
+        if meta.get("autotrained_tiny"):
+            raise ValueError("a tiny selftest world model cannot support a real gate")
     if zip_path == "builtin:reactive":
         # the privileged-direction danger-now baseline: it can only lose
         # on timing (run_scenario_episode live-refreshes its .pillars)
@@ -129,7 +249,7 @@ def _policy_factory(zip_path: str):
 
         return lambda speed: WMPolicy(enc, pred, cheads, meta, speed=speed)
     if zip_path.startswith("builtin:"):
-        raise SystemExit(f"unknown builtin policy: {zip_path}")
+        raise ValueError(f"unknown builtin policy: {zip_path}")
     model = load_policy(zip_path)
     return lambda speed: LearnedPolicy(model, enc, pred, cheads, meta, speed=speed)
 
@@ -178,29 +298,52 @@ def evaluate_gate(skill, cells_results: dict, factory, env, dry: bool) -> dict:
     replacement recheck just re-rolls the die — measured the hard way in
     experiments/sweep2_noise (a passing 6.7 % first read was replaced by
     the one 13.3 % block in ten). Semantics changed 2026-07-05, prospective."""
-    verdicts, rechecked = [], set()
-    for cr in skill.criteria:
+
+    def measurement(cr):
         res = cells_results[cr.cell]
-        measured = res["custom"].get(cr.metric, res.get(cr.metric))
-        if (
-            abs(float(measured) - cr.bar) < skill.recheck_margin
-            and cr.cell not in rechecked
-        ):
-            cell = next(c for c in skill.cells if c.id == cr.cell)
-            n2 = 3 if dry else skill.recheck_n
-            re = run_cell(factory, cell, skill, env, n=n2, seed0=cell.seed0 + 1000)
-            res["recheck"] = re  # the fresh block, kept for the record
-            n1, tot = res["n"], res["n"] + re["n"]
-            for key in ("crash", "reached", "success", "clearance_mean"):
-                res[key] = (res[key] * n1 + re[key] * re["n"]) / tot
-            res["custom"] = {
-                k: (res["custom"].get(k, 0.0) * n1 + v * re["n"]) / tot
-                for k, v in re["custom"].items()
-            }
-            res["n"] = tot
-            res["pooled"] = True
-            rechecked.add(cr.cell)
-            measured = res["custom"].get(cr.metric, res.get(cr.metric))
+        value = float(res["custom"].get(cr.metric, res.get(cr.metric)))
+        if not np.isfinite(value):
+            raise ValueError(f"non-finite metric: {cr.cell} {cr.metric}")
+        return value
+
+    # Choose rechecks from the ORIGINAL measurements, before any pooling.
+    # Otherwise a later criterion can pool a cell after an earlier criterion
+    # has already been judged, leaving a stale (even falsely passing) verdict.
+    rechecked = {
+        cr.cell
+        for cr in skill.criteria
+        if abs(measurement(cr) - cr.bar) < skill.recheck_margin
+    }
+    for cell in skill.cells:
+        if cell.id not in rechecked:
+            continue
+        res = cells_results[cell.id]
+        n2 = 3 if dry else skill.recheck_n
+        re = run_cell(
+            factory,
+            cell,
+            skill,
+            env,
+            n=n2,
+            seed0=res["seed0"] + max(1000, res["n"]),
+        )
+        if res["custom"].keys() != re["custom"].keys():
+            raise ValueError(f"custom metric keys changed in recheck: {cell.id}")
+        res["initial"] = dict(res)
+        res["recheck"] = re
+        n1, tot = res["n"], res["n"] + re["n"]
+        for key in ("crash", "reached", "success", "clearance_mean"):
+            res[key] = (res[key] * n1 + re[key] * re["n"]) / tot
+        res["custom"] = {
+            k: (res["custom"][k] * n1 + v * re["n"]) / tot
+            for k, v in re["custom"].items()
+        }
+        res["n"] = tot
+        res["pooled"] = True
+
+    verdicts = []
+    for cr in skill.criteria:
+        measured = measurement(cr)
         verdicts.append(
             {
                 "name": f"{cr.cell} {cr.metric}{cr.op}{cr.bar}",
@@ -246,7 +389,7 @@ def append_journal(exp_dir: str, skill, knob, cells: dict, gate: dict) -> None:
         f.write("\n".join(lines))
 
 
-def git_commit_gate(skill, knob, gate, exp_dir: str) -> str | None:
+def git_commit_gate(skill, knob, gate, exp_dir: str) -> str:
     rel = os.path.relpath(exp_dir, ROOT)
     msg = f"gate({skill.name}): {knob.id} — {gate['verdict']}"
     try:
@@ -257,7 +400,12 @@ def git_commit_gate(skill, knob, gate, exp_dir: str) -> str | None:
                 "commit",
                 "-q",
                 "-m",
-                msg + "\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>",
+                msg,
+                "-m",
+                "Co-Authored-By: Codex <noreply@openai.com>",
+                "--only",
+                "--",
+                rel,
             ],
             cwd=ROOT,
             check=True,
@@ -271,25 +419,30 @@ def git_commit_gate(skill, knob, gate, exp_dir: str) -> str | None:
             text=True,
         ).stdout.strip()
         return sha
-    except subprocess.CalledProcessError:
-        return None  # nothing staged (dry) or commit declined — recorded as None
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(
+            "gate files were saved, but their path-scoped commit failed; "
+            "repair and commit the saved files without rerunning the measurement"
+        ) from exc
 
 
-def run_knob(skill, knob, exp_dir: str, dry: bool, no_commit: bool) -> dict:
-    from sim.envs import make_env
-
+def run_knob(skill, knob, exp_dir: str, dry: bool) -> dict:
     started = _now()
-    zip_path = train_knob(skill, knob, exp_dir, dry)
-    factory = _policy_factory(zip_path)
-    env = make_env()
-    cells = {}
-    for cell in skill.cells:
-        n = 2 if dry else None
-        cells[cell.id] = run_cell(factory, cell, skill, env, n=n)
-        print(f"  [{knob.id}] {cell.id}: {cells[cell.id]}")
-    gate = evaluate_gate(skill, cells, factory, env, dry)
-    env.close()
-    append_journal(exp_dir, skill, knob, cells, gate)
+    with _world_model_scope(exp_dir, dry) as wm:
+        from sim.envs import make_env
+
+        zip_path = train_knob(skill, knob, exp_dir, dry)
+        factory = _policy_factory(zip_path)
+        env = make_env()
+        cells = {}
+        try:
+            for cell in skill.cells:
+                n = 2 if dry else None
+                cells[cell.id] = run_cell(factory, cell, skill, env, n=n)
+                print(f"  [{knob.id}] {cell.id}: {cells[cell.id]}")
+            gate = evaluate_gate(skill, cells, factory, env, dry)
+        finally:
+            env.close()
     block = {
         "id": knob.id,
         "kind": knob.kind,
@@ -306,11 +459,110 @@ def run_knob(skill, knob, exp_dir: str, dry: bool, no_commit: bool) -> dict:
         ),
         "cells": cells,
         "gate": gate,
+        "world_model": wm,
         "timing": {"started": started, "ended": _now()},
     }
-    if not no_commit:
-        block["git"] = {"commit": git_commit_gate(skill, knob, gate, exp_dir)}
     return block
+
+
+def _record_gate(skill, knob, block, exp_dir, results, no_commit):
+    _require_frozen_evaluation(results, skill)
+    if any(b["id"] == block["id"] for b in results["knobs"]):
+        raise ValueError(f"{block['id']} already has a recorded measurement")
+    if "evaluation_frozen" not in results:
+        block["evaluation_at_measurement"] = _frozen_evaluation(skill)
+    results["knobs"].append(block)
+    if block["gate"]["verdict"] == "passed":
+        results["status"] = "passed"
+    else:
+        done = {b["id"] for b in results["knobs"]}
+        results["status"] = (
+            "budget_exhausted"
+            if all(k.id in done for k in skill.knobs[: skill.max_knobs])
+            else "running"
+        )
+    if not no_commit:
+        # A commit cannot contain its own hash. Record its parent revision
+        # in JSON; emit the resulting gate commit only after saving the JSON.
+        block["git"] = {
+            "parent_commit": subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+        }
+    _write_results(exp_dir, results)
+    # Persist the measurement before ancillary journal/Git writes. If either
+    # fails, resuming must still see this knob as measured, never fly it again.
+    append_journal(exp_dir, skill, knob, block["cells"], block["gate"])
+    if not no_commit:
+        return git_commit_gate(skill, knob, block["gate"], exp_dir)
+    return None
+
+
+def _invalidate_measurement(skill, exp_dir, results, knob_id, reason, no_commit):
+    """Retain the exact invalid measurement; release only an explicit repair."""
+    if not reason or not reason.strip():
+        raise ValueError("harness invalidation requires a concrete --reason")
+    original = next((b for b in results["knobs"] if b["id"] == knob_id), None)
+    if original is None:
+        raise ValueError(f"no active measurement for {knob_id}")
+    updated = copy.deepcopy(results)
+    updated.setdefault("invalidated_measurements", []).append(
+        {
+            "id": knob_id,
+            "reason": reason.strip(),
+            "invalidated_at": _now(),
+            "previous_results_sha256": _sha256(os.path.join(exp_dir, "results.json")),
+            "record": copy.deepcopy(original),
+        }
+    )
+    updated["knobs"] = [b for b in updated["knobs"] if b["id"] != knob_id]
+    updated["status"] = (
+        "passed"
+        if any(b["gate"]["verdict"] == "passed" for b in updated["knobs"])
+        else "running"
+    )
+    _write_results(exp_dir, updated)
+    results.clear()
+    results.update(updated)
+    with open(os.path.join(exp_dir, "journal.md"), "a") as stream:
+        stream.write(
+            f"\n## Harness invalidation: {knob_id} ({_now()})\n\n"
+            f"{reason.strip()}\n\nOriginal numbers retained verbatim in "
+            "results.json / invalidated_measurements. Repair the harness, then "
+            "use step for the same knob; scientific negatives remain final.\n"
+        )
+    if not no_commit:
+        from types import SimpleNamespace
+
+        return git_commit_gate(
+            skill,
+            SimpleNamespace(id=knob_id),
+            {"verdict": "harness-invalidated"},
+            exp_dir,
+        )
+    return None
+
+
+@contextmanager
+def _campaign_lock(exp_dir):
+    """Prevent concurrent workers from replacing each other's saved gates."""
+    import fcntl
+
+    key = hashlib.sha256(os.path.realpath(exp_dir).encode()).hexdigest()
+    path = os.path.join(tempfile.gettempdir(), f"microdrone-research-{key}.lock")
+    with open(path, "a") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise RuntimeError("another worker is running this campaign") from exc
+        try:
+            yield
+        finally:
+            fcntl.flock(lock, fcntl.LOCK_UN)
 
 
 class _Forward:
@@ -430,15 +682,15 @@ def doctor(skill, as_json: bool) -> int:
                     )
                 )
 
-    # the world model the policies ride
+    # Missing WMs are a hard error for research; only --dry may make a stand-in.
     wm = os.path.join(ROOT, "output", "world_model.pth")
     checks.append(
-        ("world model checkpoint", "pass" if os.path.exists(wm) else "warn")
+        ("world model checkpoint", "pass" if os.path.exists(wm) else "fail")
         + (
             (wm,)
             if os.path.exists(wm)
             else (
-                "missing — evals auto-train a tiny stand-in (slow, weak); "
+                "missing — real research gates require the checkpoint; "
                 "run: python -m scripts.fetch_champions",
             )
         )
@@ -511,7 +763,7 @@ def doctor(skill, as_json: bool) -> int:
     return 0 if ok else 2
 
 
-def main() -> None:
+def _main() -> None:
     argv = sys.argv[1:]
     if "--selftest" in argv:
         rc = _selftest()
@@ -521,12 +773,14 @@ def main() -> None:
     ap.add_argument("skill", nargs="?")
     ap.add_argument("--knob", type=int, default=None)
     ap.add_argument("--knob-json", default=None)
+    ap.add_argument("--knob-id", help="recorded knob ID for harness invalidation")
+    ap.add_argument("--reason", help="concrete harness fault, never a failed bar")
     ap.add_argument("--from-knob", type=int, default=0)
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--no-commit", action="store_true")
     ap.add_argument("--json", action="store_true", help="machine-readable output")
     args = ap.parse_args()
-    if args.cmd not in ("run", "step", "status", "doctor"):  # bare `research skills/x`
+    if args.cmd not in ("run", "step", "status", "doctor", "invalidate"):
         args.cmd, args.skill = "run", args.cmd
 
     global _HUSH
@@ -534,8 +788,10 @@ def main() -> None:
         _HUSH = _quiet()
         _HUSH.__enter__()
 
-    from skills.base import Knob, load_skill
+    from skills.base import load_skill
 
+    if args.skill is None:
+        ap.error("a skill is required")
     skill = load_skill(args.skill)
     exp_dir = _exp_dir(skill.name, args.dry)
     results = _load_results(exp_dir, skill)
@@ -544,6 +800,11 @@ def main() -> None:
         sys.exit(doctor(skill, args.json))
 
     if args.cmd == "status":
+        evaluation_identity = (
+            "not_started"
+            if not os.path.exists(os.path.join(exp_dir, "results.json"))
+            else "frozen" if "evaluation_frozen" in results else "legacy_unrecorded"
+        )
         done = {kb["id"] for kb in results["knobs"]}
         nxt = next(
             (
@@ -561,6 +822,7 @@ def main() -> None:
                     {
                         "skill": results["skill"],
                         "status": results["status"],
+                        "evaluation_identity": evaluation_identity,
                         "knobs": [
                             {"id": kb["id"], "verdict": kb["gate"]["verdict"]}
                             for kb in results["knobs"]
@@ -572,12 +834,33 @@ def main() -> None:
             )
             sys.exit(0)
         print(json.dumps({k: results[k] for k in ("skill", "status")}, indent=1))
+        if "evaluation_frozen" not in results:
+            print("  evaluation: legacy_unrecorded; new measurements record settings")
         for kb in results["knobs"]:
             print(f"  {kb['id']}: {kb['gate']['verdict']}")
         if nxt:
             print(f"  next: --knob {nxt['index']} ({nxt['id']})")
         sys.exit(0)
 
+    with _campaign_lock(exp_dir):
+        # Read again under the lock: status/doctor are read-only, but a
+        # campaign must never train against another worker's stale record.
+        _execute_campaign(args, skill, exp_dir, _load_results(exp_dir, skill))
+
+
+def _execute_campaign(args, skill, exp_dir, results):
+    from skills.base import Knob
+
+    if args.cmd == "invalidate":
+        commit = _invalidate_measurement(
+            skill, exp_dir, results, args.knob_id, args.reason, args.no_commit
+        )
+        print(f"RESEARCH HARNESS INVALIDATED: {args.knob_id}; original record retained")
+        if commit:
+            print(f"GATE-COMMIT {commit}")
+        sys.exit(0)
+
+    done = {b["id"] for b in results["knobs"]}
     if args.cmd == "step":
         if args.knob_json:
             with open(args.knob_json) as f:
@@ -592,49 +875,72 @@ def main() -> None:
                 policy_path=spec.get("policy_path"),
             )
         else:
+            if args.knob is None or not 0 <= args.knob < len(skill.knobs):
+                raise ValueError("step requires --knob with a valid schedule index")
             knob = skill.knobs[args.knob]
-        block = run_knob(skill, knob, exp_dir, args.dry, args.no_commit)
-        results["knobs"] = [b for b in results["knobs"] if b["id"] != block["id"]]
-        results["knobs"].append(block)
-        if block["gate"]["verdict"] == "passed":
-            results["status"] = "passed"
-        _write_results(exp_dir, results)
+        if knob.id in done:
+            raise ValueError(
+                f"{knob.id} already has a recorded measurement; "
+                "negative results cannot be retried or replaced"
+            )
+        _prepare_measurement(exp_dir, results, skill)
+        block = run_knob(skill, knob, exp_dir, args.dry)
+        commit = _record_gate(skill, knob, block, exp_dir, results, args.no_commit)
         print(f"RESEARCH-GATE {knob.id}: {block['gate']['verdict']}")
+        if commit:
+            print(f"GATE-COMMIT {commit}")
         sys.exit(0 if block["gate"]["verdict"] == "passed" else 10)
 
     # run: the full loop
+    if results["status"] in ("passed", "budget_exhausted"):
+        print(f"RESEARCH OK: {skill.name} already {results['status']}")
+        sys.exit(0 if results["status"] == "passed" else 10)
     for i, knob in enumerate(skill.knobs[: skill.max_knobs]):
-        if i < args.from_knob:
+        if i < args.from_knob or knob.id in done:
             continue
-        block = run_knob(skill, knob, exp_dir, args.dry, args.no_commit)
-        results["knobs"] = [b for b in results["knobs"] if b["id"] != block["id"]]
-        results["knobs"].append(block)
-        _write_results(exp_dir, results)
+        _prepare_measurement(exp_dir, results, skill)
+        block = run_knob(skill, knob, exp_dir, args.dry)
+        commit = _record_gate(skill, knob, block, exp_dir, results, args.no_commit)
         print(f"RESEARCH-GATE {knob.id}: {block['gate']['verdict']}")
+        if commit:
+            print(f"GATE-COMMIT {commit}")
         if block["gate"]["verdict"] == "passed":
-            results["status"] = "passed"
-            _write_results(exp_dir, results)
             print(f"RESEARCH OK: {skill.name} targets met at {knob.id}")
             sys.exit(0)
-    results["status"] = "budget_exhausted"
-    _write_results(exp_dir, results)
-    print(f"RESEARCH OK: {skill.name} knob budget exhausted — see journal")
+    # --from-knob may intentionally leave earlier experiments unmeasured.
+    # Do not label the whole budget exhausted merely because the loop ended.
+    print(f"RESEARCH OK: {skill.name} {results['status']} — see journal")
     sys.exit(10)
+
+
+def main() -> None:
+    try:
+        _main()
+    except Exception as exc:
+        print(f"RESEARCH HARNESS ERROR: {exc}", file=sys.stderr)
+        sys.exit(2)
 
 
 def _selftest() -> int:
     """--dry K0 end-to-end on gap-flight: schema + plumbing asserts."""
-    sys.argv = ["research", "step", "gap-flight", "--knob", "0", "--dry", "--no-commit"]
-    try:
-        main()
-    except SystemExit as e:
-        assert e.code in (0, 10), f"unexpected exit {e.code}"
-    exp = os.path.join(ROOT, "experiments", "gap_flight_selftest")
-    with open(os.path.join(exp, "results.json")) as f:
-        res = json.load(f)
-    assert res["knobs"] and res["knobs"][-1]["id"] == "K0"
-    assert "gap@1.0" in res["knobs"][-1]["cells"]
-    assert os.path.exists(os.path.join(exp, "journal.md"))
+    from unittest.mock import patch
+
+    argv = ["research", "step", "gap-flight", "--knob", "0", "--dry", "--no-commit"]
+    with tempfile.TemporaryDirectory(prefix="research_selftest_") as exp:
+        os.makedirs(os.path.join(exp, "artifacts"))
+        with (
+            patch.object(sys, "argv", argv),
+            patch(__name__ + "._exp_dir", return_value=exp),
+        ):
+            try:
+                main()
+            except SystemExit as e:
+                assert e.code in (0, 10), f"unexpected exit {e.code}"
+        with open(os.path.join(exp, "results.json")) as f:
+            res = json.load(f)
+        assert res["knobs"] and res["knobs"][-1]["id"] == "K0"
+        assert "gap@1.0" in res["knobs"][-1]["cells"]
+        assert os.path.exists(os.path.join(exp, "journal.md"))
     print("RESEARCH OK: dry K0 gate end-to-end, journal + results schema assert")
     return 0
 
