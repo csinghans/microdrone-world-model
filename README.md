@@ -412,3 +412,16 @@ Grew out of [nanodrone-ai](https://github.com/csinghans/nanodrone-ai) — a
 導讀請從課程的[從這裡開始](https://github.com/csinghans/nanodrone-ai/blob/main/docs/zh-TW/START-HERE.md)出發。
 
 Licensed under [Apache-2.0](LICENSE) (see [NOTICE](NOTICE) for provenance).
+
+
+## World-model output update — 2026-09-29
+
+WM CLI training now defaults to `output/world_model_candidate.pth`.
+Use a fresh `--out` for each subsequent run; existing research files and
+locked artifacts are rejected before fitting. The demo/deployment default
+still loads the pinned champion. Atomic publication protects an existing
+checkpoint even if another process creates it during training.
+
+Artifactless selftests use separate `*_autotrained_selftest.pth` stand-ins
+and never fill a missing champion path. This change does not alter model
+architecture, objective, optimizer or deployment selection.

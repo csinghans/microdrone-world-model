@@ -139,3 +139,16 @@ with the same machinery every journal number came from.
   historical scoreboards may still need their own training runs.
 - The runner makes **path-scoped commits per gate** — keep your tree
   clean before launching (`doctor` warns about this).
+
+
+## World-model output update — 2026-09-29
+
+WM CLI training now defaults to `output/world_model_candidate.pth`.
+Use a fresh `--out` for each subsequent run; existing research files and
+locked artifacts are rejected before fitting. The demo/deployment default
+still loads the pinned champion. Atomic publication protects an existing
+checkpoint even if another process creates it during training.
+
+Artifactless selftests use separate `*_autotrained_selftest.pth` stand-ins
+and never fill a missing champion path. This change does not alter model
+architecture, objective, optimizer or deployment selection.

@@ -157,3 +157,16 @@ This repo grew out of the nanodrone-ai course (Lesson 29) and inherits its
 voice: state limits where they bite, prefer scoreboards to demos, and keep
 the embedded budget (512 KB, currently 137-163 KB) in every design
 conversation. The course is frozen at v1.0; new research lands here.
+
+
+## World-model output update — 2026-09-29
+
+WM CLI training now defaults to `output/world_model_candidate.pth`.
+Use a fresh `--out` for each subsequent run; existing research files and
+locked artifacts are rejected before fitting. The demo/deployment default
+still loads the pinned champion. Atomic publication protects an existing
+checkpoint even if another process creates it during training.
+
+Artifactless selftests use separate `*_autotrained_selftest.pth` stand-ins
+and never fill a missing champion path. This change does not alter model
+architecture, objective, optimizer or deployment selection.
