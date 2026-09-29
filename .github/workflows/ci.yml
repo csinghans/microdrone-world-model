@@ -41,6 +41,7 @@ jobs:
           pip install -e .
       - name: Pure-math selftests
         run: |
+          python -m scripts.check_legacy_training --selftest
           python -m planner.action_set
           python -m planner.nav_action_set
           python -m planner.flight_mode --selftest

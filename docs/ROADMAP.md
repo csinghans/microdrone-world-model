@@ -494,3 +494,27 @@ honest negatives, harness-error ≠ measurement). Agent-driven campaigns:
 `.claude/commands/research.md`. Writing: `writing/` (bilingual, every
 number traceable). The precedent that binds all of it: bars and
 interpretive rules are committed *before* the numbers exist.
+
+
+## Evidence update — 2026-09-29
+
+The original roadmap above, including Open item 1 and the proposed bigger
+diet, 96-pixel closed-loop gate and center-drift work, is preserved verbatim
+from main `6def4ea`. Five later matched studies closed NO-GO; the latest
+moving-only timing study finished all six fits and scorings, with mean
+moving-action improvement +0.0101 below +0.03 and failed moving ranking
+guards. See [research status](RESEARCH-STATUS.md) for recorded evidence.
+
+The first three common-exam studies still showed seed ranges of about
+0.117, 0.255 and 0.141, large relative to their +0.03/+0.05 bars. Those
+results support the practical concern about resolving small effects on this
+diet. They do not by themselves estimate power; the fourth study changed
+both the endpoint and exam, so its smaller range cannot be assigned to
+exam size alone. Future studies must state an estimand, training-seed and
+course uncertainty, and precision/power assumptions before committing fits.
+
+Next priority: a role-complete common independent exam for the champion,
+unified and `wm_96d128`, preserving each checkpoint's frame recipe. Follow
+with one of the original roadmap directions after that comparison. Existing
+bars and scientific negatives remain unchanged. No new training is released
+by this note.

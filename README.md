@@ -412,3 +412,25 @@ Grew out of [nanodrone-ai](https://github.com/csinghans/nanodrone-ai) — a
 導讀請從課程的[從這裡開始](https://github.com/csinghans/nanodrone-ai/blob/main/docs/zh-TW/START-HERE.md)出發。
 
 Licensed under [Apache-2.0](LICENSE) (see [NOTICE](NOTICE) for provenance).
+
+
+## Evidence update — 2026-09-29
+
+**Independent evaluation is the next research priority.** On the recorded
+60-rollout common exam, unified WM AUC@32 is 0.818842 overall, 0.838850
+classic, 0.811430 dense and 0.773229 moving. These are independent-exam
+readings; the earlier 0.92/0.95 validation values are different evaluations.
+The AUC tie correction changes none of these four readings.
+[Source](https://github.com/csinghans/microdrone-world-model/blob/888daaf8265f16f52e6dad2b05b8788eea56aec6/experiments/metric_integrity_v1/journal.md). The original author
+status above is preserved; this note supplies subsequent evidence.
+
+Five matched training studies are now closed NO-GO. The moving-only timing
+study completed its six fits: mean moving-action delta +0.0101 missed the
++0.03 bar, with moving-ranking guards failing in all seeds. See
+[research status](docs/RESEARCH-STATUS.md) for results and continuation.
+The next comparison is champion/unified/`wm_96d128` on one role-complete
+independent exam; future training studies require a precision/power plan.
+
+The [review response](docs/REVIEW-RESPONSE-2026-09-29.md) links the five
+separate fix MRs, their validation, and remaining research work. Operational
+changes take effect when the corresponding MR is merged.
