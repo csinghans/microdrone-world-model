@@ -55,6 +55,8 @@ jobs:
           python -m world_model.losses
           python -m world_model.checkpoint_io
           python -m scripts.checkpoint_io_selftest
+          python -m scripts.policy_checkpoint_selftest
+          python -m scripts.policy_recipe_selftest
           python -m sim.domain_randomization
           python -m planner.safety_filter
           python -m sim.scenario_registry
