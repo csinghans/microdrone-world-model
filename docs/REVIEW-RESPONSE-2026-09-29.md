@@ -13,8 +13,9 @@ research branch is an evidence archive, not the merge unit for the fix MRs.
 |---|---|
 | AUC ties | [MR #1](https://github.com/csinghans/microdrone-world-model/pull/1): isolated metric change, Python 3.12 tests and full CI passed |
 | Gate commit order / old campaigns | [MR #2](https://github.com/csinghans/microdrone-world-model/pull/2): current JSON in gate commit, legacy warning/continuation, explicit harness invalidation retaining original blocks; 25 isolated regressions pass |
-| Schedule coverage / dataset clobber | Separate MR in preparation; `legacy` retained and dense recalibration explicitly pinned to it |
-| Champion protection / policy seed and worlds | Separate extractions pending; retain observation-dimension inference and recurrent filename dispatch |
+| Schedule coverage / dataset clobber | [MR #3](https://github.com/csinghans/microdrone-world-model/pull/3): `legacy` retained and dense recalibration explicitly pinned to it; Python 3.12 checks and CI passed |
+| Champion protection | [MR #4](https://github.com/csinghans/microdrone-world-model/pull/4): candidate paths and isolated selftest writes; Python 3.12 checks and CI passed |
+| Policy seed and worlds | [MR #5](https://github.com/csinghans/microdrone-world-model/pull/5), based on #4: CLI arguments reach training, protected candidate policy paths; load-policy and observation-inference ASTs unchanged from main; Python 3.12 checks and CI passed |
 | Missing moving-timing results | Completed at `834828c`; mean +0.0101 misses +0.03 and moving-ranking guards fail all seeds |
 | Author prose | README, ROADMAP and both article #16 versions restored byte-for-byte from main, then evidence notes appended; six lessons preserved |
 | CLAUDE / onboarding | Defaults and fresh-output behavior documented; repeatable dry path uses `research --selftest` |
@@ -38,6 +39,20 @@ Reproduce with `python -m scripts.check_legacy_training --baseline
 be an extracted Git archive. Full logs and report are in
 `output/review_delivery/legacy_parity_v1/`; no inference or fits use champion
 output names. Initial string-format lint errors were fixed before training.
+
+The standalone [evidence MR #6](https://github.com/csinghans/microdrone-world-model/pull/6)
+contains the comparator, compact status/response pages and receipt hashes,
+without importing raw study receipts. Local checks passed; manual CI run
+`36538322880` tracks its branch. The five fix MRs all passed manual CI.
+The archive source `888daaf` also passed manual CI run `36537639894`.
+None of these MRs has been merged automatically.
+
+Report SHA256:
+`c8c97a7e8b94c7e0d1031ef60c86478c1ce8231f50a5bb75ea8c355c5cec2e33`.
+Source/recipe manifest SHA256:
+`cd7690ee0e0bffe7121bdd80d69c6923e88386192ecd28d3f5dde18f201a092b`.
+The exact candidate Python source is preserved at `888daaf`; a rerun must
+pass that checkout as `--candidate`, alongside main `6def4ea` as `--baseline`.
 
 ## Research interpretation and continuation
 
