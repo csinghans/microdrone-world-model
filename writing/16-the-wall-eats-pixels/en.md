@@ -145,3 +145,19 @@ short of the summit and the remaining ridge named.
    ceiling is a slow explosion with a fuse measured in epochs.
 6. **Name your residue.** A campaign that ends in NO-GO but converts
    "the wall" into "the previous glance" has moved the program.
+
+
+---
+
+## Evidence update — 2026-09-29
+
+The author's article above is preserved verbatim from main `6def4ea`.
+A numerical correction: gains of +0.077 and losses of −0.19 do not exceed
+the recorded dense range of 0.228. Later temporal and stability campaigns
+retain their recorded NO-GO verdicts. Their follow-up evidence is collected
+in [the research status](../../docs/RESEARCH-STATUS.md); it supplements this
+article rather than replacing its narrative or six lessons. The next
+research priority is a common independent exam of the deployed champion,
+unified WM and `wm_96d128`, followed by a study with a declared precision
+or power calculation before training. Changes to the article's conclusions
+remain the author's decision.

@@ -1,0 +1,56 @@
+{
+  "baseline_commit": "6def4ea75feefe43220fcf364f9cea0eda81203a",
+  "candidate_source_archive": "888daaf8265f16f52e6dad2b05b8788eea56aec6",
+  "scope": "Nine legacy rollouts and two CPU epochs; not long-run MPS parity or flight performance.",
+  "runtime": {
+    "python": "3.12.14 (main, Sep 24 2026, 17:46:32) [Clang 22.1.3 ]",
+    "torch": "2.12.1",
+    "numpy": "2.5.3",
+    "device": "cpu",
+    "threads": 1
+  },
+  "recipe": {
+    "rollouts": 9,
+    "length": 80,
+    "generation_seed": 29,
+    "worlds": [
+      "classic",
+      "dense",
+      "moving"
+    ],
+    "layout": "legacy",
+    "training_seed": 7,
+    "epochs": 2,
+    "batch": 64,
+    "device": "cpu",
+    "threads": 1
+  },
+  "result": {
+    "status": "bitwise_equal",
+    "legacy_arrays": 16,
+    "additional_metadata": [],
+    "state_tensors": 28,
+    "protected_unchanged": 9
+  },
+  "receipt_directory": "output/review_delivery/legacy_parity_v1",
+  "receipt_sha256": {
+    "manifest.json": "cd7690ee0e0bffe7121bdd80d69c6923e88386192ecd28d3f5dde18f201a092b",
+    "report.json": "c8c97a7e8b94c7e0d1031ef60c86478c1ce8231f50a5bb75ea8c355c5cec2e33"
+  },
+  "author_text_main_sha256": {
+    "README.md": "08bcfce5e3d9e5123094b9b454e653bd2a2bf5ba947fbfdccdcc3b43a0d2398c",
+    "docs/ROADMAP.md": "9a042ee9f6185453b7845ccbc22d4ff0961b63940a2f15e129a1cd1e98d5d96f",
+    "writing/16-the-wall-eats-pixels/en.md": "e586da2828f701bb26e13575fb606aa687b9c12a3b354c91e742225b732c79fb",
+    "writing/16-the-wall-eats-pixels/zh-TW.md": "fab7a26e2227b0065c9a22bd628dc2bb3c90679cdf8feb6849ef413e8af75e7b"
+  },
+  "research_source_sha256": {
+    "experiments/metric_integrity_v1/journal.md": "4d37e01324d28bb4ba516f691b81ff6c875d1bc8c08ff16b07d0af12522c86f7",
+    "experiments/moving_timing_v1/summary.md": "de6d776fc4e6aef0c749c30efba62d48b42185776c636e0b20402059e2e42c9c"
+  },
+  "local_fix_checks_sha256": {
+    "auc_checks.json": "47c1f2b1a83ce7eae36e9e1b1b20827b67ebcea503aa25879c39cc8541c01547",
+    "data_checks.json": "b09f1b4ce56d8adfb8eb42e5b105cd7034673ff286f0c5b2de521e5f8864cc75",
+    "wm_checks.json": "b3443575678e54e01c39aa8bd414eec12d3ce91c1bf2f7631b58351a5b698a46",
+    "policy_checks.json": "a7c2bdb7270b438930ebe35e6d207a1817e0102e0180ee6138899f7b950165bc"
+  }
+}
