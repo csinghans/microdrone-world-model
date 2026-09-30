@@ -72,7 +72,7 @@ figures).
 
 ```bash
 python -m scripts.research doctor skills/gap_flight            # preflight
-python -m scripts.research step skills/gap_flight --knob 0 --dry --no-commit
+python -m scripts.research --selftest                         # repeatable dry K0
 ```
 
 `doctor` is your preflight for *everything*: schema, worlds actually
@@ -81,6 +81,19 @@ runs the whole gate machinery at n=2 with tiny stand-ins — safe
 anywhere, including CI.
 
 ## 5. Your first real measurement (5 min)
+
+`--selftest` uses a fresh temporary campaign each time. A direct
+`step ... --dry` persists under `experiments/<skill>_selftest` and refuses
+an already recorded knob. New campaigns freeze their cells and recheck
+settings before training. Legacy campaigns lacking that snapshot warn and
+record settings only on new measurements; historical blocks are unchanged.
+
+If a demonstrated harness fault invalidates a recorded measurement, run
+`python -m scripts.research invalidate <skill> --knob-id K0 --reason '<fault>'`,
+repair the harness, then `step` the same knob. The original block and file
+hash remain in `invalidated_measurements`. A scientific negative is final.
+A failure before recording needs no invalidation; a journal/Git failure
+after valid measurement needs file repair, not another flight.
 
 ```bash
 python -m eval.eval_policy_cells \

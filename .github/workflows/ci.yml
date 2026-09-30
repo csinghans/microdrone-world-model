@@ -54,6 +54,7 @@ jobs:
           python -m world_model.collision_head
           python -m world_model.losses
           python -m world_model.metrics
+          python -m scripts.research_selftest
           python -m sim.domain_randomization
           python -m planner.safety_filter
           python -m sim.scenario_registry
