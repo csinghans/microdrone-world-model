@@ -26,11 +26,14 @@ budget: the edge diet closes the fast hole and reopens the cluttered one;
 the ordered curriculum loses both bands (on-policy learning has no
 yesterday). The stacked policy needed neither and has yet to lose anywhere.
 
-Saves output/ppo_wm_policy[_recurrent][_rand][_edge][_curr].zip (git-ignored).
+Training adds _candidate to the preset filename, or takes a fresh explicit out.
+zip_path() still resolves historical/deployed artifacts for readers.
 """
 
 import os
 from collections import deque
+from contextlib import closing
+from pathlib import Path
 
 import gymnasium as gym
 import numpy as np
@@ -44,6 +47,7 @@ from sim.envs import VelCommander, grab_frame, make_ctrl, make_env
 from sim.scenario_registry import get as get_scenario
 from sim.scenario_registry import resolve_worlds
 from sim.scenarios import COLLISION_R, GOAL_X, TMAX, nearest_planar
+from world_model.checkpoint_io import check_destination, publish_checkpoint
 
 HISTORY = 12  # stacked-memory depth (~1 s @ 12 Hz); recurrent uses 1 + LSTM
 # edge_bias: uniform sampling starves the envelope edge twice over — the top
@@ -74,6 +78,38 @@ def zip_path(
         + ("_xp" if xp else "")
     )
     return os.path.join(_ROOT, "output", f"ppo_wm_policy{suffix}.zip")
+
+
+def training_path(
+    out=None,
+    *,
+    recurrent=False,
+    randomize=False,
+    edge_bias=False,
+    hard=False,
+    x_progress=False,
+    curriculum=False,
+    selftest=False,
+):
+    """Resolve a new policy artifact without changing historical zip_path readers."""
+    if out is None:
+        original = Path(
+            zip_path(
+                recurrent, randomize, edge_bias, curriculum, hard=hard, xp=x_progress
+            )
+        )
+        suffix = "_selftest" if selftest else "_candidate"
+        out = original.with_name(original.stem + suffix + ".zip")
+    path = Path(out)
+    if path.suffix != ".zip":
+        raise ValueError("policy output must end in .zip; choose an explicit filename")
+    if ("_recurrent" in path.name) != recurrent:
+        raise ValueError(
+            "policy output must include _recurrent exactly for recurrent models"
+        )
+    if selftest and "_selftest" not in path.name:
+        raise ValueError("replaceable policy selftests require a _selftest filename")
+    return str(check_destination(path, overwrite=selftest))
 
 
 def _menu(meta):
@@ -604,6 +640,7 @@ def train(
     gate_bonus: float = 0.0,
     station_tick: float = 0.0,
     stop_hover: int = 0,
+    selftest: bool = False,
 ):
     from stable_baselines3.common.env_util import make_vec_env
 
@@ -617,46 +654,54 @@ def train(
         )
     else:
         worlds = ("classic", "dense", "moving") if hard else ("classic",)
-    env = make_vec_env(
-        lambda: WMPolicyEnv(
-            seed0=seed0,
-            history=history,
-            randomize=randomize,
-            edge_bias=edge_bias,
-            worlds=worlds,
-            x_progress=x_progress,
-            gate_bonus=gate_bonus,
-            station_tick=station_tick,
-            stop_hover=stop_hover,
-        ),
-        n_envs=1,
+    out = training_path(
+        out,
+        recurrent=recurrent,
+        randomize=randomize,
+        edge_bias=edge_bias,
+        hard=hard,
+        x_progress=x_progress,
+        selftest=selftest,
     )
-    if recurrent:
-        from sb3_contrib import RecurrentPPO
-
-        # A right-sized LSTM: the observation is 47 numbers, so the default
-        # 256-wide hidden state is mostly empty capacity that slows learning.
-        # n_steps=256 gives backprop-through-time a window longer than the
-        # stacked variant's 12 decisions.
-        model = RecurrentPPO(
-            "MlpLstmPolicy",
-            env,
-            ent_coef=0.01,
-            n_steps=n_steps,
-            policy_kwargs=dict(lstm_hidden_size=lstm_size),
-            seed=seed0,
-            verbose=0,
+    with closing(
+        make_vec_env(
+            lambda: WMPolicyEnv(
+                seed0=seed0,
+                history=history,
+                randomize=randomize,
+                edge_bias=edge_bias,
+                worlds=worlds,
+                x_progress=x_progress,
+                gate_bonus=gate_bonus,
+                station_tick=station_tick,
+                stop_hover=stop_hover,
+            ),
+            n_envs=1,
         )
-    else:
-        from stable_baselines3 import PPO
+    ) as env:
+        if recurrent:
+            from sb3_contrib import RecurrentPPO
 
-        model = PPO("MlpPolicy", env, ent_coef=0.01, seed=seed0, verbose=0)
-    model.learn(total_timesteps=timesteps)
-    out = out or zip_path(recurrent, randomize, edge_bias, hard=hard, xp=x_progress)
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    model.save(out)
-    env.close()
-    return model
+            # A right-sized LSTM: the observation is 47 numbers, so the default
+            # 256-wide hidden state is mostly empty capacity that slows learning.
+            # n_steps=256 gives backprop-through-time a window longer than the
+            # stacked variant's 12 decisions.
+            model = RecurrentPPO(
+                "MlpLstmPolicy",
+                env,
+                ent_coef=0.01,
+                n_steps=n_steps,
+                policy_kwargs=dict(lstm_hidden_size=lstm_size),
+                seed=seed0,
+                verbose=0,
+            )
+        else:
+            from stable_baselines3 import PPO
+
+            model = PPO("MlpPolicy", env, ent_coef=0.01, seed=seed0, verbose=0)
+        model.learn(total_timesteps=timesteps)
+        publish_checkpoint(out, model.save, overwrite=selftest)
+        return model
 
 
 def train_curriculum(
@@ -665,6 +710,7 @@ def train_curriculum(
     out: str = None,
     n_steps: int = 256,
     lstm_size: int = 64,
+    selftest: bool = False,
 ):
     """The mixed-diet curriculum (recurrent only — the stack never needed it):
     one model, one total budget, three diets in sequence per `CURRICULUM`.
@@ -674,29 +720,29 @@ def train_curriculum(
     from sb3_contrib import RecurrentPPO
     from stable_baselines3.common.env_util import make_vec_env
 
-    env = make_vec_env(lambda: WMPolicyEnv(seed0=seed0, history=1), n_envs=1)
-    model = RecurrentPPO(
-        "MlpLstmPolicy",
-        env,
-        ent_coef=0.01,
-        n_steps=n_steps,
-        policy_kwargs=dict(lstm_hidden_size=lstm_size),
-        seed=seed0,
-        verbose=0,
-    )
-    done = 0
-    for i, (edge_p, share) in enumerate(CURRICULUM):
-        last = i == len(CURRICULUM) - 1
-        chunk = timesteps - done if last else int(round(timesteps * share))
-        env.env_method("set_edge_p", edge_p)
-        print(f"[INFO] curriculum phase {i + 1}: edge_p={edge_p}, {chunk} steps")
-        model.learn(total_timesteps=chunk, reset_num_timesteps=False)
-        done += chunk
-    out = out or zip_path(recurrent=True, curr=True)
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    model.save(out)
-    env.close()
-    return model
+    out = training_path(out, recurrent=True, curriculum=True, selftest=selftest)
+    with closing(
+        make_vec_env(lambda: WMPolicyEnv(seed0=seed0, history=1), n_envs=1)
+    ) as env:
+        model = RecurrentPPO(
+            "MlpLstmPolicy",
+            env,
+            ent_coef=0.01,
+            n_steps=n_steps,
+            policy_kwargs=dict(lstm_hidden_size=lstm_size),
+            seed=seed0,
+            verbose=0,
+        )
+        done = 0
+        for i, (edge_p, share) in enumerate(CURRICULUM):
+            last = i == len(CURRICULUM) - 1
+            chunk = timesteps - done if last else int(round(timesteps * share))
+            env.env_method("set_edge_p", edge_p)
+            print(f"[INFO] curriculum phase {i + 1}: edge_p={edge_p}, {chunk} steps")
+            model.learn(total_timesteps=chunk, reset_num_timesteps=False)
+            done += chunk
+        publish_checkpoint(out, model.save, overwrite=selftest)
+        return model
 
 
 def selftest() -> None:
@@ -726,11 +772,11 @@ def selftest() -> None:
     # smoke-train all three flavours (wiring, not skill) — into _selftest zips,
     # so a real trained policy is never clobbered by a selftest
     st = os.path.join(_ROOT, "output", "ppo_wm_policy_selftest.zip")
-    st_r = os.path.join(_ROOT, "output", "ppo_wm_policy_selftest_rnn.zip")
-    st_c = os.path.join(_ROOT, "output", "ppo_wm_policy_selftest_curr.zip")
-    train(1500, seed0=7, out=st)
-    train(1024, seed0=7, recurrent=True, out=st_r)
-    train_curriculum(768, seed0=7, out=st_c)  # one 256-step rollout per diet
+    st_r = os.path.join(_ROOT, "output", "ppo_wm_policy_recurrent_selftest.zip")
+    st_c = os.path.join(_ROOT, "output", "ppo_wm_policy_recurrent_curr_selftest.zip")
+    train(1500, seed0=7, out=st, selftest=True)
+    train(1024, seed0=7, recurrent=True, out=st_r, selftest=True)
+    train_curriculum(768, seed0=7, out=st_c, selftest=True)  # 256-step rollouts
     assert os.path.exists(st) and os.path.exists(st_r) and os.path.exists(st_c)
     print(
         f"LEARNED-POLICY-MODULE OK: obs={HISTORY}x{per} stacked (or 1x{per} + "

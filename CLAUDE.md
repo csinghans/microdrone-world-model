@@ -177,3 +177,14 @@ checkpoint even if another process creates it during training.
 Artifactless selftests use separate `*_autotrained_selftest.pth` stand-ins
 and never fill a missing champion path. This change does not alter model
 architecture, objective, optimizer or deployment selection.
+
+
+## Policy CLI update — 2026-09-29
+
+`--seed` now reaches both policy environment and PPO. `--worlds hard`
+selects classic/dense/moving; comma-separated lists preserve order and
+weights and require an explicit `--out`. Unknown/empty worlds fail before
+training. Curriculum remains classic-only and rejects incompatible flags.
+Policy defaults add `_candidate`, honor `--out` including curriculum runs,
+and protect locked/existing outputs. Recurrent filenames retain `_recurrent`.
+The loaded-policy observation-depth/x-progress inference is unchanged.
