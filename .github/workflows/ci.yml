@@ -46,6 +46,10 @@ jobs:
           python -m planner.flight_mode --selftest
           python -m scripts.fly --selftest
           python -m datasets.intervention_labels
+          python -m datasets.rollout_schedule
+          python -m datasets.provenance
+          python -m scripts.dataset_publication_selftest
+          python -m world_model.checkpoint_io
           python -m datasets.combine_rollouts --selftest
           python -m datasets.metric_labels
           python -m world_model.grounding

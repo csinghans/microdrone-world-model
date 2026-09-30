@@ -29,6 +29,9 @@ import sys
 
 import numpy as np
 
+from datasets.provenance import dataset_destination, save_dataset
+from datasets.rollout_schedule import LAYOUTS
+
 ROOM_ID = 3  # transit uses 0/1/2 (classic/dense/moving); rooms get 3
 # per-rollout / per-frame keys present in BOTH npz's (concatenate along axis 0)
 _STACK = (
@@ -63,6 +66,8 @@ def combine(transit: dict, indoor: dict) -> dict:
     out["a_norm"] = np.asarray(transit["a_norm"])
     out["danger_r"] = np.asarray(transit["danger_r"])
     out["world_names"] = np.array(["classic", "dense", "moving", "room"])
+    if "schedule_layout" in transit:
+        out["transit_schedule_layout"] = np.asarray(transit["schedule_layout"])
     return out
 
 
@@ -73,6 +78,7 @@ def build(
     seed=0,
     worlds=("classic", "dense", "moving"),
     img_res=None,
+    schedule_layout="world_balanced",
 ):
     """`worlds` cycles per transit rollout; REPEATS are weights (the
     representation composition knob: ("dense","dense","classic","moving")
@@ -84,7 +90,12 @@ def build(
 
     res = int(img_res) if img_res else IMG_RES
     transit = gen_transit(
-        n_transit, length, seed=seed, worlds=tuple(worlds), img_res=res
+        n_transit,
+        length,
+        seed=seed,
+        worlds=tuple(worlds),
+        img_res=res,
+        schedule_layout=schedule_layout,
     )
     indoor = gen_indoor(n_indoor, length, seed=seed + 100000, img_res=res)
     return combine(transit, indoor)
@@ -123,6 +134,8 @@ def selftest() -> None:
     assert list(c["world_names"]) == ["classic", "dense", "moving", "room"]
     assert np.isnan(c["pillars"][3:, 0, 0]).all(), "room pillars stay NaN"
     assert c["frames"].shape[1:] == transit["frames"].shape[1:], "per-frame shape kept"
+    transit["schedule_layout"] = np.array("world_balanced")
+    assert str(combine(transit, indoor)["transit_schedule_layout"]) == "world_balanced"
     print(
         "COMBINE-ROLLOUTS OK: transit+indoor stack, room world_id->3, "
         "world_names reconciled, room pillars NaN preserved"
@@ -135,7 +148,9 @@ def main() -> None:
     ap.add_argument("--n-indoor", type=int, default=96)
     ap.add_argument("--len", type=int, default=120)
     ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--out", default=OUT)
+    ap.add_argument(
+        "--out", default=OUT, help="new .npz path; existing corpora are preserved"
+    )
     ap.add_argument(
         "--worlds",
         default="classic,dense,moving",
@@ -145,10 +160,12 @@ def main() -> None:
         "--img-res", type=int, default=None, help="camera res (perception knob)"
     )
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--schedule-layout", choices=LAYOUTS, default="world_balanced")
     args = ap.parse_args()
     if args.selftest:
         selftest()
         return
+    out = dataset_destination(args.out)
     worlds = tuple(w for w in args.worlds.split(",") if w)
     data = build(
         args.n_transit,
@@ -157,13 +174,13 @@ def main() -> None:
         args.seed,
         worlds=worlds,
         img_res=args.img_res,
+        schedule_layout=args.schedule_layout,
     )
-    os.makedirs(os.path.dirname(args.out), exist_ok=True)
-    np.savez_compressed(args.out, **data)
     wid = data["world_id"]
+    save_dataset(data, out)
     print(
         f"COMBINED OK: {len(wid)} rollouts x {args.len} steps "
-        f"(transit {(wid < 3).sum()}, room {(wid == 3).sum()}), saved {args.out}"
+        f"(transit {(wid < 3).sum()}, room {(wid == 3).sum()}), saved {out}"
     )
 
 

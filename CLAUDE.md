@@ -153,6 +153,13 @@ around any push.
 
 ## Relationship to nanodrone-ai
 
+New transit generation defaults to `world_balanced`, crossing passive and
+intervention roles within each world. Use `--schedule-layout legacy` for
+historical corpora; `eval_dense_recal` explicitly keeps that old exam recipe.
+The dataset CLIs refuse existing destinations; use a fresh `--out` for each
+corpus. Dataset selftests use replaceable `*_selftest.npz` outputs only.
+
+
 This repo grew out of the nanodrone-ai course (Lesson 29) and inherits its
 voice: state limits where they bite, prefer scoreboards to demos, and keep
 the embedded budget (512 KB, currently 137-163 KB) in every design
