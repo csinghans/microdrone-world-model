@@ -151,40 +151,33 @@ around any push.
   (measured: dodge_crown K3 flew a quarantined FT against its own
   pre-registration, 2026-07-07).
 
+- 2026-09-29 (PR #3): new transit generation defaults to
+  `--schedule-layout world_balanced` (passive/intervention crossed within
+  each world). The old global-index recipe made EVERY moving rollout passive
+  in a three-world diet; reproduce historical corpora with explicit
+  `legacy` (`eval_dense_recal` pins it). Dataset CLIs refuse existing
+  destinations — give each corpus a fresh `--out`; selftests write only
+  `*_selftest.npz`.
+- 2026-09-29 (PR #4): `python -m scripts.train` writes
+  `output/world_model_candidate.pth` by default and refuses locked or
+  existing destinations before fitting; demo/deployment still load the
+  pinned champion. Artifactless selftests use `*_autotrained_selftest.pth`
+  stand-ins and never fill a missing champion path. Objective, optimizer
+  and deployment selection are unchanged.
+- 2026-09-29 (PR #5): policy `--seed` now reaches env + PPO (it was silently
+  ignored before); `--worlds a,b,a` keeps order/weights and requires `--out`;
+  presets save `*_candidate.zip`; recurrent names keep `_recurrent`;
+  curriculum rejects incompatible flags. `LearnedPolicy`/`load_policy`
+  inference is byte-identical.
+- 2026-09-29 (PR #2): gate commits add a `Co-Authored-By` trailer only when
+  `RESEARCH_GATE_COAUTHOR` is set; legacy campaigns without a frozen
+  evaluation continue with a warning; a proven harness fault is released
+  with `research invalidate <skill> --knob-id K --reason "..."` (rule 6),
+  never by re-stepping a recorded knob.
+
 ## Relationship to nanodrone-ai
-
-New transit generation defaults to `world_balanced`, crossing passive and
-intervention roles within each world. Use `--schedule-layout legacy` for
-historical corpora; `eval_dense_recal` explicitly keeps that old exam recipe.
-The dataset CLIs refuse existing destinations; use a fresh `--out` for each
-corpus. Dataset selftests use replaceable `*_selftest.npz` outputs only.
-
 
 This repo grew out of the nanodrone-ai course (Lesson 29) and inherits its
 voice: state limits where they bite, prefer scoreboards to demos, and keep
 the embedded budget (512 KB, currently 137-163 KB) in every design
 conversation. The course is frozen at v1.0; new research lands here.
-
-
-## World-model output update — 2026-09-29
-
-WM CLI training now defaults to `output/world_model_candidate.pth`.
-Use a fresh `--out` for each subsequent run; existing research files and
-locked artifacts are rejected before fitting. The demo/deployment default
-still loads the pinned champion. Atomic publication protects an existing
-checkpoint even if another process creates it during training.
-
-Artifactless selftests use separate `*_autotrained_selftest.pth` stand-ins
-and never fill a missing champion path. This change does not alter model
-architecture, objective, optimizer or deployment selection.
-
-
-## Policy CLI update — 2026-09-29
-
-`--seed` now reaches both policy environment and PPO. `--worlds hard`
-selects classic/dense/moving; comma-separated lists preserve order and
-weights and require an explicit `--out`. Unknown/empty worlds fail before
-training. Curriculum remains classic-only and rejects incompatible flags.
-Policy defaults add `_candidate`, honor `--out` including curriculum runs,
-and protect locked/existing outputs. Recurrent filenames retain `_recurrent`.
-The loaded-policy observation-depth/x-progress inference is unchanged.

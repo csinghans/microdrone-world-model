@@ -394,19 +394,14 @@ def git_commit_gate(skill, knob, gate, exp_dir: str) -> str:
     msg = f"gate({skill.name}): {knob.id} — {gate['verdict']}"
     try:
         subprocess.run(["git", "add", rel], cwd=ROOT, check=True, capture_output=True)
+        command = ["git", "commit", "-q", "-m", msg]
+        # The runner is agent-agnostic: whoever drives the gate declares the
+        # trailer (e.g. RESEARCH_GATE_COAUTHOR="Codex <noreply@openai.com>").
+        coauthor = os.environ.get("RESEARCH_GATE_COAUTHOR", "").strip()
+        if coauthor:
+            command += ["-m", f"Co-Authored-By: {coauthor}"]
         subprocess.run(
-            [
-                "git",
-                "commit",
-                "-q",
-                "-m",
-                msg,
-                "-m",
-                "Co-Authored-By: Codex <noreply@openai.com>",
-                "--only",
-                "--",
-                rel,
-            ],
+            command + ["--only", "--", rel],
             cwd=ROOT,
             check=True,
             capture_output=True,
